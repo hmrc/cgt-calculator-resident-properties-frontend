@@ -1,0 +1,26 @@
+@import views.html.helpers._
+@import views.html.calculation.resident.properties._
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident.properties.WorthWhenBoughtForLessModel
+
+@(worthWhenBoughtForLessForm: Form[WorthWhenBoughtForLessModel])(implicit request: Request[_])
+
+@resident_properties_main_template(
+    title = Messages("calc.resident.properties.worthWhenBoughtForLess.question"),
+    backLink = Some(controllers.routes.GainController.boughtForLessThanWorth().url)
+    ) {
+
+    @errorSummary(worthWhenBoughtForLessForm, "amount")
+
+    <h1 class="heading-large">@Messages("calc.resident.properties.worthWhenBoughtForLess.question")</h1>
+
+    <p>@Messages("calc.resident.properties.worthWhenBoughtForLess.additionalContent")</p>
+
+    @form(action = controllers.routes.GainController.submitWorthWhenBoughtForLess()) {
+
+        @formInputMoney(worthWhenBoughtForLessForm, "amount", Messages("calc.resident.properties.worthWhenBoughtForLess.question"), hideLabel = true)
+
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+    }
+}

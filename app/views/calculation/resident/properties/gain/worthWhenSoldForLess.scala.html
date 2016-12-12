@@ -1,0 +1,25 @@
+@import models.resident.WorthWhenSoldForLessModel
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import views.html.helpers._
+@import views.html.helpers.resident._
+@import views.html.calculation.resident.properties._
+
+@(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_])
+
+@resident_properties_main_template(title = Messages("calc.resident.properties.worthWhenSoldForLess.question"),
+                                   backLink = Some(controllers.routes.GainController.sellForLess().toString())) {
+
+    @errorSummary(worthWhenSoldForLessForm, "amount")
+
+    <h1 class="heading-large">@Messages("calc.resident.properties.worthWhenSoldForLess.question")</h1>
+
+    <p id="additionalText">@Messages("calc.resident.properties.worthWhenSoldForLess.extraText")</p>
+
+    @form(action = controllers.routes.GainController.submitWorthWhenSoldForLess) {
+
+        @formInputMoney(worthWhenSoldForLessForm, "amount", Messages("calc.resident.properties.worthWhenSoldForLess.question"), hideLabel = true)
+
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+    }
+}

@@ -1,0 +1,41 @@
+@import models.resident.properties.PrivateResidenceReliefValueModel
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import views.html.helpers._
+@import views.html.calculation.resident._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
+
+@(privateResidenceReliefValueForm : Form[PrivateResidenceReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_])
+
+@resident_main_template(
+title = Messages("calc.resident.privateResidenceReliefValue.title"),
+backLink = Some(controllers.routes.DeductionsController.privateResidenceRelief().url),
+homeLink = navHomeLink,
+navTitle = Messages("calc.base.resident.properties.home")) {
+
+    @errorSummary(privateResidenceReliefValueForm, "reliefs-value")
+
+    <h1>@Messages("calc.resident.privateResidenceReliefValue.question")</h1>
+
+    @form(action = controllers.routes.DeductionsController.submitPrivateResidenceReliefValue) {
+
+        <div class="form-group">
+            <div id="helpText" class="indent">
+                <p>@Messages("calc.resident.privateResidenceReliefValue.help", MoneyPounds(totalGain, 0).quantity)</p>
+            </div>
+            <a id="privateResidenceReliefLink" class="external-link" rel="external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016"
+               target="_blank" data-journey-click="help:govUK:rtt-properties-privateResidenceReliefLink">
+                @Messages("calc.resident.privateResidenceReliefValue.link") @Messages("calc.base.externalLink")
+            </a>
+        </div>
+
+        @formInputMoney(
+            privateResidenceReliefValueForm,
+            "amount",
+            Messages("calc.resident.privateResidenceReliefValue.question",
+            MoneyPounds(totalGain, 0).quantity),
+            hideLabel = true
+        )
+
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
+}

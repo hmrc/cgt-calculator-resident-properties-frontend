@@ -1,0 +1,20 @@
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident.AcquisitionCostsModel
+@import views.html.helpers._
+@import views.html.calculation.resident.properties._
+
+@(acquisitionCostsForm: Form[AcquisitionCostsModel], backLink: Option[String])(implicit request: Request[_])
+
+@resident_properties_main_template(Messages("calc.resident.acquisitionCosts.title"), backLink = backLink) {
+
+    @errorSummary(acquisitionCostsForm, "amount")
+
+    <h1 class="heading-large">@Messages("calc.resident.acquisitionCosts.question")</h1>
+
+    @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
+
+        @formInputMoney(acquisitionCostsForm, "amount", Messages("calc.resident.acquisitionCosts.question"), Some(Messages("calc.resident.acquisitionCosts.helpText")), hideLabel = true)
+
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
+}
