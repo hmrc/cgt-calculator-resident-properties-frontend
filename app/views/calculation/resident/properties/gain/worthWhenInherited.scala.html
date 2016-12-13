@@ -1,0 +1,28 @@
+@import views.html.helpers._
+@import views.html.calculation.resident._
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident.WorthWhenInheritedModel
+
+@(worthWhenInheritedForm: Form[WorthWhenInheritedModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_])
+
+@resident_main_template(
+    title = Messages("calc.resident.properties.worthWhenInherited.question"),
+    backLink = backLink,
+    homeLink = homeLink,
+    navTitle = Messages("calc.base.resident.properties.home")
+    ) {
+
+    @errorSummary(worthWhenInheritedForm, "amount")
+
+    <h1 class="heading-large">@Messages("calc.resident.properties.worthWhenInherited.question")</h1>
+
+    <p>@Messages("calc.resident.properties.worthWhenInherited.additionalContent")</p>
+
+    @form(action = postAction) {
+
+        @formInputMoney(worthWhenInheritedForm, "amount", Messages("calc.resident.properties.worthWhenInherited.question"), hideLabel = true)
+
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+    }
+}

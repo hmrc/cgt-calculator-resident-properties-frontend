@@ -1,0 +1,29 @@
+@import models.resident.properties.LettingsReliefValueModel
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import views.html.helpers._
+@import views.html.calculation.resident._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
+
+@(lettingsReliefValueForm : Form[LettingsReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_])
+
+@additionalContent = {
+    <p>@Messages("calc.resident.lettingsReliefValue.additionalContent", MoneyPounds(totalGain, 0).quantity)</p>
+}
+
+@resident_main_template(
+    title = Messages("calc.resident.lettingsReliefValue.title"),
+    backLink = Some(controllers.routes.DeductionsController.lettingsRelief().toString),
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.properties.home")) {
+
+    @errorSummary(lettingsReliefValueForm, "lettings-relief-value")
+
+    <h1>@Messages("calc.resident.lettingsReliefValue.question")</h1>
+
+    @form(action = controllers.routes.DeductionsController.submitLettingsReliefValue) {
+
+    @formInputMoney(lettingsReliefValueForm, "amount", Messages("calc.resident.lettingsReliefValue.question"), additionalHTMLContent = Some(additionalContent.toString()), hideLabel = true)
+
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
+}

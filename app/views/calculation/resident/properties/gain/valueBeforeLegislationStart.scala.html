@@ -1,0 +1,25 @@
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident.properties._
+@import views.html.helpers._
+@import views.html.calculation.resident._
+@import views.html.calculation.resident.properties._
+
+@(valueBeforeLegislationStartForm: Form[ValueBeforeLegislationStartModel])(implicit request: Request[_])
+
+
+@resident_properties_main_template(
+title = Messages("calc.resident.properties.valueBeforeLegislationStart.question"),
+backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart.toString())){
+
+    @errorSummary(valueBeforeLegislationStartForm, "amount")
+
+    <h1 class="heading-large">@Messages("calc.resident.properties.valueBeforeLegislationStart.question")</h1>
+
+    @form(action = controllers.routes.GainController.submitValueBeforeLegislationStart){
+
+        @formInputMoney(valueBeforeLegislationStartForm, "amount", Messages("calc.resident.properties.valueBeforeLegislationStart.question"), hideLabel = true)
+
+        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
+
+    }
+}

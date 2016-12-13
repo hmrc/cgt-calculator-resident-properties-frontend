@@ -1,0 +1,29 @@
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident.properties._
+@import views.html.helpers._
+@import views.html.calculation.resident._
+
+@(worthWhenGaveAwayForm: Form[WorthWhenGaveAwayModel], navBackLink: Option[String], navHomeLink: String, postAction: Call)(implicit request: Request[_])
+
+
+@resident_main_template(
+title = Messages("calc.resident.properties.worthWhenGaveAway.title"),
+backLink = navBackLink,
+homeLink = navHomeLink,
+navTitle = Messages("calc.base.resident.properties.home")
+){
+
+@errorSummary(worthWhenGaveAwayForm, "amount")
+
+<h1 class="heading-large">@Messages("calc.resident.properties.worthWhenGaveAway.title")</h1>
+
+<p id="help">@Messages("calc.resident.properties.worthWhenGaveAway.help")</p>
+
+@form(action = postAction){
+
+@formInputMoney(worthWhenGaveAwayForm, "amount", Messages("calc.resident.properties.worthWhenGaveAway.title"), hideLabel = true)
+
+<button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
+
+}
+}

@@ -1,0 +1,37 @@
+@import views.html.helpers._
+@import views.html.calculation.resident.properties._
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident.properties.gain.OwnerBeforeLegislationStartModel
+
+@(ownerBeforeLegislationStartForm: Form[OwnerBeforeLegislationStartModel])(implicit request: Request[_])
+
+@resident_properties_main_template(
+    title = Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),
+    backLink = Some(controllers.routes.GainController.disposalCosts().toString)
+    ) {
+
+    @errorSummary(ownerBeforeLegislationStartForm, "ownedBeforeLegislationStart")
+
+    <h1 class="heading-large">@Messages("calc.resident.properties.ownedBeforeLegislationStart.title")</h1>
+
+    @form(action = controllers.routes.GainController.submitOwnerBeforeLegislationStart) {
+
+        @formInputRadioGroup(
+                field = ownerBeforeLegislationStartForm("ownedBeforeLegislationStart"),
+                Seq(
+                    "Yes"->Messages("calc.base.yes"),
+                    "No"->Messages("calc.base.no")),
+                '_legend -> Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),
+                '_legendID -> "ownedBeforeLegislationStart",
+                '_legendClass -> "visuallyhidden",
+                '_labelAfter -> true,
+                '_labelClass -> "block-label",
+                '_groupClass -> "form-group inline",
+                '_fieldsetAttributes -> "aria-details = help"
+            )
+
+        <input type="hidden" name="ownedBeforeLegislationStart" value="" />
+        <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+    }
+}

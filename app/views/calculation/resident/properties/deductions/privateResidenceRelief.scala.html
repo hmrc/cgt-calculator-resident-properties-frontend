@@ -1,0 +1,48 @@
+@import models.resident.PrivateResidenceReliefModel
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import views.html.helpers._
+@import views.html.calculation.resident.properties.resident_properties_main_template
+
+@(privateResidenceReliefForm : Form[PrivateResidenceReliefModel])(implicit request: Request[_])
+
+@helpText = {
+    @Messages("calc.resident.properties.privateResidenceRelief.helpText")
+    <a id="privateResidenceReliefLink" class="external-link" rel="external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016"
+       target="_blank" data-journey-click="help:govUK:rtt-properties-privateResidenceReliefHelp">
+        @Messages("calc.resident.properties.privateResidenceRelief.helpTextLink")
+        <span>@Messages("calc.base.externalLink")</span>
+    </a>
+}
+
+@resident_properties_main_template(
+    title = Messages("calc.resident.properties.privateResidenceRelief.title"),
+    backLink = Some(controllers.routes.DeductionsController.propertyLivedIn().url)) {
+
+    @errorSummary(privateResidenceReliefForm, "isClaiming")
+
+    <h1 class="heading-large">@Messages("calc.resident.properties.privateResidenceRelief.title")</h1>
+
+    @form(action = controllers.routes.DeductionsController.submitPrivateResidenceRelief) {
+
+        @formInputRadioGroup(
+            field = privateResidenceReliefForm("isClaiming"),
+            Seq(
+                "Yes"->Messages("calc.base.yes"),
+                "No"->Messages("calc.base.no")),
+                '_legend -> Messages("calc.resident.properties.privateResidenceRelief.title"),
+                '_legendID -> "option",
+                '_legendClass -> "visuallyhidden",
+                '_labelAfter -> true,
+                '_helpText -> helpText,
+                '_labelClass -> "block-label",
+                '_groupClass -> "inline form-group radio-list",
+                '_fieldsetAttributes -> "aria-details = help"
+            )
+
+
+    <input type="hidden" name="option" value="" />
+    <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+    }
+
+}

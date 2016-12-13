@@ -1,0 +1,41 @@
+@import views.html.helpers._
+@import views.html.calculation.resident._
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident.properties.HowBecameOwnerModel
+
+@(howBecameOwnerForm: Form[HowBecameOwnerModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_])
+
+@resident_main_template(
+    title = Messages("calc.resident.howBecameOwner.title"),
+    backLink = backLink,
+    homeLink = homeLink,
+    navTitle = Messages("calc.base.resident.properties.home")
+    ) {
+
+    @errorSummary(howBecameOwnerForm, "gainedBy")
+
+    <h1 class="heading-large">@Messages("calc.resident.howBecameOwner.title")</h1>
+
+    @form(action = postAction) {
+
+    @formInputRadioGroup(
+        field = howBecameOwnerForm("gainedBy"),
+        Seq(
+            "Bought" -> Messages("calc.resident.howBecameOwner.bought"),
+            "Inherited" -> Messages("calc.resident.howBecameOwner.inherited"),
+            "Gifted" -> Messages("calc.resident.howBecameOwner.gifted")
+        ),
+        '_legend -> Messages("calc.resident.howBecameOwner.title"),
+        '_legendID -> "gainedBy",
+        '_legendClass -> "visuallyhidden",
+        '_labelAfter -> true,
+        '_labelClass -> "block-label",
+        '_groupClass -> "form-group radio-list",
+        '_fieldsetAttributes -> "aria-details = help"
+    )
+
+    <input type="hidden" name="gainedBy" value="" />
+    <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+    }
+}

@@ -1,0 +1,162 @@
+# microservice specific routes
+
+#Assets routes
+GET         /assets/*file           controllers.Assets.at(path="/public", file)
+
+#Feedback routes
+GET         /feedback               controllers.FeedbackController.show
+POST        /feedback               controllers.FeedbackController.submit
+GET         /thankyou               controllers.FeedbackController.thankyou
+
+#Session Timeout route
+GET         /session-timeout        controllers.TimeoutController.timeout(restartUrl: String, homeLink: String)
+
+#Routes file for the resident routes.
+#Introduction
+GET     /                                  controllers.PropertiesController.introduction
+
+#Disposal Date Routes
+GET     /disposal-date                    controllers.GainController.disposalDate
+POST    /disposal-date                    controllers.GainController.submitDisposalDate
+
+#Outside Tax Years Routes
+GET     /outside-tax-years                controllers.GainController.outsideTaxYears
+
+#Sell or Give Away Routes
+GET     /sell-or-give-away                controllers.GainController.sellOrGiveAway
+POST    /sell-or-give-away                controllers.GainController.submitSellOrGiveAway
+
+#Who Did You Give It To Routes
+GET     /who-did-you-give-it-to           controllers.GainController.whoDidYouGiveItTo
+POST    /who-did-you-give-it-to           controllers.GainController.submitWhoDidYouGiveItTo
+
+#No Tax to Pay Routes
+GET     /no-tax-to-pay                    controllers.GainController.noTaxToPay
+
+#Worth When Gave Away Routes
+GET     /worth-when-gave-away             controllers.GainController.worthWhenGaveAway
+POST    /worth-when-gave-away             controllers.GainController.submitWorthWhenGaveAway
+
+#Worth When Bought For Less Routes
+GET     /worth-when-bought-for-less       controllers.GainController.worthWhenBoughtForLess
+POST    /worth-when-bought-for-less       controllers.GainController.submitWorthWhenBoughtForLess
+
+#Disposal Value or Market Value Routes
+GET     /disposal-value                   controllers.GainController.disposalValue
+POST    /disposal-value                   controllers.GainController.submitDisposalValue
+
+#Sell For Less Routes
+GET     /sell-for-less                    controllers.GainController.sellForLess
+POST    /sell-for-less                    controllers.GainController.submitSellForLess
+
+#Property Worth When Sold For LessRoutes
+GET     /worth-when-sold-for-less         controllers.GainController.worthWhenSoldForLess
+POST    /worth-when-sold-for-less         controllers.GainController.submitWorthWhenSoldForLess
+
+#Disposal Costs Routes
+GET     /disposal-costs                   controllers.GainController.disposalCosts
+POST    /disposal-costs                   controllers.GainController.submitDisposalCosts
+
+#Owner Before Legislation Start Routes
+GET     /owner-before-legislation-start   controllers.GainController.ownerBeforeLegislationStart
+POST    /owner-before-legislation-start   controllers.GainController.submitOwnerBeforeLegislationStart
+
+#How Became Owner Routes
+GET     /how-became-owner                 controllers.GainController.howBecameOwner
+POST    /how-became-owner                 controllers.GainController.submitHowBecameOwner
+
+#Value Before Legislation Start Routes
+GET     /value-before-legislation-start   controllers.GainController.valueBeforeLegislationStart
+POST    /value-before-legislation-start   controllers.GainController.submitValueBeforeLegislationStart
+
+#Bought For Less Than Worth Routes
+GET     /bought-for-less-than-worth       controllers.GainController.boughtForLessThanWorth
+POST    /bought-for-less-than-worth       controllers.GainController.submitBoughtForLessThanWorth
+
+#Worth When Inherited Routes
+GET     /worth-when-inherited             controllers.GainController.worthWhenInherited
+POST    /worth-when-inherited             controllers.GainController.submitWorthWhenInherited
+
+#Worth When Gifted Routes
+GET     /worth-when-gifted                controllers.GainController.worthWhenGifted
+POST    /worth-when-gifted                controllers.GainController.submitWorthWhenGifted
+
+#Acquisition Value or Market Value Routes
+GET     /acquisition-value                controllers.GainController.acquisitionValue
+POST    /acquisition-value                controllers.GainController.submitAcquisitionValue
+
+#Acquisition Costs Routes
+GET     /acquisition-costs                controllers.GainController.acquisitionCosts
+POST    /acquisition-costs                controllers.GainController.submitAcquisitionCosts
+
+#Improvements Routes
+GET     /improvements                     controllers.GainController.improvements
+POST    /improvements                     controllers.GainController.submitImprovements
+
+#Property Lived In Routes
+GET     /property-lived-in                controllers.DeductionsController.propertyLivedIn
+POST    /property-lived-in                controllers.DeductionsController.submitPropertyLivedIn
+
+#Private Residence Relief Routes
+GET     /private-residence-relief         controllers.DeductionsController.privateResidenceRelief
+POST    /private-residence-relief         controllers.DeductionsController.submitPrivateResidenceRelief
+
+#Private Residence Relief Value Routes
+GET     /private-residence-relief-value   controllers.DeductionsController.privateResidenceReliefValue
+POST    /private-residence-relief-value   controllers.DeductionsController.submitPrivateResidenceReliefValue
+
+#Lettings Relief Routes
+GET     /lettings-relief                  controllers.DeductionsController.lettingsRelief
+POST    /lettings-relief                  controllers.DeductionsController.submitLettingsRelief
+
+#Lettings Relief Value Routes
+GET     /lettings-relief-value            controllers.DeductionsController.lettingsReliefValue
+POST    /lettings-relief-value            controllers.DeductionsController.submitLettingsReliefValue
+
+#Other Properties Routes
+GET     /other-properties                 controllers.DeductionsController.otherProperties
+POST    /other-properties                 controllers.DeductionsController.submitOtherProperties
+
+#Allowable Losses Routes
+GET     /allowable-losses                 controllers.DeductionsController.allowableLosses
+POST    /allowable-losses                 controllers.DeductionsController.submitAllowableLosses
+
+#Allowable Losses Value Routes
+GET     /allowable-losses-value           controllers.DeductionsController.allowableLossesValue
+POST    /allowable-losses-value           controllers.DeductionsController.submitAllowableLossesValue
+
+#Losses Brought Forward Routes
+GET     /losses-brought-forward           controllers.DeductionsController.lossesBroughtForward
+POST    /losses-brought-forward           controllers.DeductionsController.submitLossesBroughtForward
+
+#Losses Brought Forward Value Routes
+GET     /losses-brought-forward-value     controllers.DeductionsController.lossesBroughtForwardValue
+POST    /losses-brought-forward-value     controllers.DeductionsController.submitLossesBroughtForwardValue
+
+#Annual Exempt Amount Routes
+GET     /annual-exempt-amount             controllers.DeductionsController.annualExemptAmount
+POST    /annual-exempt-amount             controllers.DeductionsController.submitAnnualExemptAmount
+
+#Previous Taxable Gains Routes
+GET     /previous-taxable-gains           controllers.IncomeController.previousTaxableGains
+POST    /previous-taxable-gains           controllers.IncomeController.submitPreviousTaxableGains
+
+#Current Income Routes
+GET     /current-income                   controllers.IncomeController.currentIncome
+POST    /current-income                   controllers.IncomeController.submitCurrentIncome
+
+#Personal Allowance Routes
+GET     /personal-allowance               controllers.IncomeController.personalAllowance
+POST    /personal-allowance               controllers.IncomeController.submitPersonalAllowance
+
+#Summary Routes
+GET     /summary                          controllers.SummaryController.summary
+
+#Gain Summary PDF Routes
+GET     /gain-report                      controllers.ReportController.gainSummaryReport
+
+#Deductions Summary PDF Routes
+GET     /deductions-report                controllers.ReportController.deductionsReport
+
+#Final Summary PDF Routes
+GET     /final-report                     controllers.ReportController.finalSummaryReport

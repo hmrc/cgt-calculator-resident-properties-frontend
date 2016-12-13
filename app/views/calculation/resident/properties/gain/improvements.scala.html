@@ -1,0 +1,35 @@
+@import models.resident.properties.ImprovementsModel
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import views.html.helpers._
+@import views.html.helpers.resident._
+@import views.html.calculation.resident.properties._
+
+@(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_])
+
+@hiddenHelpTextContent = {
+    <p>@Messages("calc.resident.properties.improvements.additionalContent.one")</p>
+    <p>@Messages("calc.resident.properties.improvements.additionalContent.two")</p>
+}
+
+@resident_properties_main_template(title = if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
+    else Messages("calc.resident.properties.improvements.question"),
+    backLink = Some(controllers.routes.GainController.acquisitionCosts().toString)) {
+
+    @errorSummary(improvementsForm, "improvements")
+
+    <h1 class="heading-large">@{if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
+        else Messages("calc.resident.properties.improvements.question")}</h1>
+
+    @form(action = controllers.routes.GainController.submitImprovements) {
+
+        @formInputMoney(improvementsForm, "amount",
+            if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
+            else Messages("calc.resident.properties.improvements.question"),
+            Some(Messages("calc.resident.properties.improvements.hint")), hideLabel = true)
+
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
+
+    @{if(!ownedBeforeAprilNineteenEightyTwo) expandableHelpTextHelper(Messages("calc.resident.properties.improvements.helpButton"), hiddenHelpTextContent)}
+
+}
