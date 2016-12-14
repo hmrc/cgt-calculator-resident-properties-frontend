@@ -24,6 +24,8 @@ import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{deductions => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class OtherPropertiesViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -31,7 +33,7 @@ class OtherPropertiesViewSpec extends UnitSpec with WithFakeApplication with Fak
 
     "using a disposal date 0f 2015/16" should {
 
-      lazy val view = views.otherProperties(otherPropertiesForm, "", TaxYearModel("2015/16", true, "2015/16"))(fakeRequest)
+      lazy val view = views.otherProperties(otherPropertiesForm, "", TaxYearModel("2015/16", true, "2015/16"))(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -111,7 +113,7 @@ class OtherPropertiesViewSpec extends UnitSpec with WithFakeApplication with Fak
       "Other Properties view with pre-selected values" should {
 
         lazy val form = otherPropertiesForm.bind(Map(("hasOtherProperties", "Yes")))
-        lazy val view = views.otherProperties(form, "", TaxYearModel("2015/16", true, "2015/16"))(fakeRequest)
+        lazy val view = views.otherProperties(form, "", TaxYearModel("2015/16", true, "2015/16"))(fakeRequest, applicationMessages)
         lazy val doc = Jsoup.parse(view.body)
 
         "have the option 'Yes' auto selected" in {
@@ -122,7 +124,7 @@ class OtherPropertiesViewSpec extends UnitSpec with WithFakeApplication with Fak
       "Other Properties view with errors" should {
 
         lazy val form = otherPropertiesForm.bind(Map(("hasOtherProperties", "")))
-        lazy val view = views.otherProperties(form, "", TaxYearModel("2015/16", true, "2015/16"))(fakeRequest)
+        lazy val view = views.otherProperties(form, "", TaxYearModel("2015/16", true, "2015/16"))(fakeRequest, applicationMessages)
         lazy val doc = Jsoup.parse(view.body)
 
         "display an error summary message for the amount" in {
@@ -136,7 +138,7 @@ class OtherPropertiesViewSpec extends UnitSpec with WithFakeApplication with Fak
     }
 
     "using a disposal date 0f 2013/14" should {
-      lazy val view = views.otherProperties(otherPropertiesForm, "", TaxYearModel("2013/14", false, "2015/16"))(fakeRequest)
+      lazy val view = views.otherProperties(otherPropertiesForm, "", TaxYearModel("2013/14", false, "2015/16"))(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title of ${messages.title("2013/14")}" in {

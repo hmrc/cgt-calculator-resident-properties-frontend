@@ -21,6 +21,8 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summaryDateRowHelper
 import assets.MessageLookup.{Resident => commonMessages}
 import common.Dates._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication {
 

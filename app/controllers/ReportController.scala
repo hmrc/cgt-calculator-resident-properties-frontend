@@ -28,6 +28,8 @@ import play.api.i18n.Messages
 import play.api.mvc.RequestHeader
 import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.resident.properties.{report => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.Future
 
@@ -38,6 +40,8 @@ object ReportController extends ReportController {
 trait ReportController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
+
+  val pdfGenerator = new PdfGenerator
 
   def host(implicit request: RequestHeader): String = {
     s"http://${request.host}/"
@@ -59,10 +63,9 @@ trait ReportController extends ValidActiveSession {
       answers <- calcConnector.getPropertyGainAnswers
       taxYear <- getTaxYear(answers.disposalDate)
       grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
-    } yield {PdfGenerator.ok(views.gainSummaryReport(answers, grossGain, taxYear.get), host).toScala
+    } yield {pdfGenerator.ok(views.gainSummaryReport(answers, grossGain, taxYear.get), host).asScala()
       .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
   }
-
 
   //#####Deductions summary actions#####\\
   val deductionsReport = ValidateSession.async { implicit request =>
@@ -74,7 +77,7 @@ trait ReportController extends ValidActiveSession {
       deductionAnswers <- calcConnector.getPropertyDeductionAnswers
       grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
       chargeableGain <- calcConnector.calculateRttPropertyChargeableGain(answers, deductionAnswers, maxAEA.get)
-    } yield {PdfGenerator.ok(views.deductionsSummaryReport(answers, deductionAnswers, chargeableGain.get, taxYear.get), host).toScala
+    } yield {pdfGenerator.ok(views.deductionsSummaryReport(answers, deductionAnswers, chargeableGain.get, taxYear.get), host).asScala()
       .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
   }
 
@@ -93,13 +96,13 @@ trait ReportController extends ValidActiveSession {
       currentTaxYear <- Dates.getCurrentTaxYear
       totalGain <- calcConnector.calculateRttPropertyTotalGainAndTax(answers, deductionAnswers, maxAEA.get, incomeAnswers)
     } yield {
-      PdfGenerator.ok(views.finalSummaryReport(answers,
+      pdfGenerator.ok(views.finalSummaryReport(answers,
         deductionAnswers,
         incomeAnswers,
         totalGain.get,
         taxYear.get,
         taxYear.get.taxYearSupplied == currentTaxYear),
-        host).toScala.withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
+        host).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
     }
   }
 }

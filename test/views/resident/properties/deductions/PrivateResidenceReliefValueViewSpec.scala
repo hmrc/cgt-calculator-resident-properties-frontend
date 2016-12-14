@@ -23,13 +23,15 @@ import forms.resident.properties.PrivateResidenceReliefValueForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{deductions => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class PrivateResidenceReliefValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Reliefs Value view" should {
 
     lazy val form = privateResidenceReliefValueForm(100000).bind(Map("amount" -> "10"))
-    lazy val view = views.privateResidenceReliefValue(form, "home-link", 1000)(fakeRequest)
+    lazy val view = views.privateResidenceReliefValue(form, "home-link", 1000)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -92,7 +94,7 @@ class PrivateResidenceReliefValueViewSpec extends UnitSpec with WithFakeApplicat
   "Reliefs Value View with form without errors" should {
 
     val form = privateResidenceReliefValueForm(100000).bind(Map("amount" -> "100"))
-    lazy val view = views.privateResidenceReliefValue(form, "home-link", 2000)(fakeRequest)
+    lazy val view = views.privateResidenceReliefValue(form, "home-link", 2000)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -123,7 +125,7 @@ class PrivateResidenceReliefValueViewSpec extends UnitSpec with WithFakeApplicat
   "Reliefs Value View with form with errors" should {
 
     val form = privateResidenceReliefValueForm(100000).bind(Map("amount" -> ""))
-    lazy val view = views.privateResidenceReliefValue(form, "home-link", 3000)(fakeRequest)
+    lazy val view = views.privateResidenceReliefValue(form, "home-link", 3000)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {

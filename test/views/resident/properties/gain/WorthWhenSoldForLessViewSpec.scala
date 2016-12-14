@@ -23,12 +23,14 @@ import forms.resident.WorthWhenSoldForLessForm._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{gain => views}
 import org.jsoup.Jsoup
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "The Property Worth When Sold View when supplied with an empty form" should {
 
-    lazy val view = views.worthWhenSoldForLess(worthWhenSoldForLessForm)(fakeRequest)
+    lazy val view = views.worthWhenSoldForLess(worthWhenSoldForLessForm)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -137,7 +139,7 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
   "The Property Worth When Sold View when supplied with a correct form" should {
 
     val form = worthWhenSoldForLessForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenSoldForLess(form)(fakeRequest)
+    lazy val view = views.worthWhenSoldForLess(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form in the input" in {
@@ -156,7 +158,7 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
   "The Property Worth When Sold View when supplied with an incorrect form" should {
 
     val form = worthWhenSoldForLessForm.bind(Map("amount" -> "adsa"))
-    lazy val view = views.worthWhenSoldForLess(form)(fakeRequest)
+    lazy val view = views.worthWhenSoldForLess(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

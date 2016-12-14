@@ -20,6 +20,8 @@ import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summaryOptionRowHelper
 import assets.MessageLookup.{Resident => commonMessages}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication {
 

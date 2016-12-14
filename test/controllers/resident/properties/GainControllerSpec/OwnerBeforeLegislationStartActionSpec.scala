@@ -24,7 +24,7 @@ import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
@@ -39,11 +39,12 @@ class OwnerBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplic
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](Matchers.eq(
-      keyStoreKeys.ownerBeforeLegislationStart))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(
+      keyStoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[OwnerBeforeLegislationStartModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

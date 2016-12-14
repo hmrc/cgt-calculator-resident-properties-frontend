@@ -27,7 +27,7 @@ import controllers.SummaryController
 import models.resident._
 import models.resident.income._
 import models.resident.properties._
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -52,28 +52,30 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
 
-    when(mockCalculatorConnector.getPropertyGainAnswers(Matchers.any()))
+    when(mockCalculatorConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
-    when(mockCalculatorConnector.calculateRttPropertyGrossGain(Matchers.any())(Matchers.any()))
+    when(mockCalculatorConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
 
-    when(mockCalculatorConnector.getPropertyDeductionAnswers(Matchers.any()))
+    when(mockCalculatorConnector.getPropertyDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
-    when(mockCalculatorConnector.calculateRttPropertyChargeableGain(Matchers.any(), Matchers.any(), Matchers.any())(Matchers.any()))
+    when(mockCalculatorConnector.calculateRttPropertyChargeableGain
+    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(chargeableGainResultModel)
 
-    when(mockCalculatorConnector.getPropertyIncomeAnswers(Matchers.any()))
+    when(mockCalculatorConnector.getPropertyIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswers))
 
-    when(mockCalculatorConnector.calculateRttPropertyTotalGainAndTax(Matchers.any(), Matchers.any(), Matchers.any(), Matchers.any())(Matchers.any()))
+    when(mockCalculatorConnector.calculateRttPropertyTotalGainAndTax
+    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGainAndTaxOwedModel))
 
-    when(mockCalculatorConnector.getTaxYear(Matchers.any())(Matchers.any()))
+    when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
-    when(mockCalculatorConnector.getFullAEA(Matchers.any())(Matchers.any()))
+    when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
     new SummaryController {

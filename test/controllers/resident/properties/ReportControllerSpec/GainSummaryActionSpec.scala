@@ -23,7 +23,7 @@ import controllers.helpers.FakeRequestHelper
 import controllers.ReportController
 import models.resident.properties.YourAnswersSummaryModel
 import models.resident.TaxYearModel
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.mvc.RequestHeader
@@ -43,13 +43,13 @@ class GainSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeR
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
 
-    when(mockCalculatorConnector.getPropertyGainAnswers(Matchers.any()))
+    when(mockCalculatorConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
-    when(mockCalculatorConnector.calculateRttPropertyGrossGain(Matchers.any())(Matchers.any()))
+    when(mockCalculatorConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
 
-    when(mockCalculatorConnector.getTaxYear(Matchers.any())(Matchers.any()))
+    when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
     new ReportController{

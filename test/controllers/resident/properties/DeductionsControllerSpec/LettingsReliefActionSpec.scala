@@ -24,7 +24,7 @@ import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
 import models.resident.properties.LettingsReliefModel
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
@@ -40,10 +40,11 @@ class LettingsReliefActionSpec extends UnitSpec with WithFakeApplication with Fa
     val mockCalcConnector = mock[CalculatorConnector]
     val mockAppConfig = mock[AppConfig]
 
-    when(mockCalcConnector.fetchAndGetFormData[LettingsReliefModel](Matchers.eq(keystoreKeys.lettingsRelief))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[LettingsReliefModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[LettingsReliefModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new DeductionsController {

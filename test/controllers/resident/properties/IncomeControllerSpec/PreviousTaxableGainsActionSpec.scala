@@ -26,7 +26,7 @@ import common.KeystoreKeys.{ResidentPropertyKeys => keystore}
 import connectors.CalculatorConnector
 import models.resident._
 import models.resident.income.PreviousTaxableGainsModel
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 
@@ -42,25 +42,31 @@ class PreviousTaxableGainsActionSpec extends UnitSpec with WithFakeApplication w
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[LossesBroughtForwardModel](Matchers.eq(keystore.lossesBroughtForward))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystore.lossesBroughtForward))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(LossesBroughtForwardModel(lossesBroughtForward))))
 
-    when(mockCalcConnector.fetchAndGetFormData[OtherPropertiesModel](Matchers.eq(keystore.otherProperties))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[OtherPropertiesModel](ArgumentMatchers.eq(keystore.otherProperties))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(OtherPropertiesModel(otherProperties))))
 
-    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesModel](Matchers.eq(keystore.allowableLosses))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesModel](ArgumentMatchers.eq(keystore.allowableLosses))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(allowableLossesModel))
 
-    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesValueModel](Matchers.eq(keystore.allowableLossesValue))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesValueModel](ArgumentMatchers.eq(keystore.allowableLossesValue))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(allowableLossesValueModel))
 
-    when(mockCalcConnector.fetchAndGetFormData[PreviousTaxableGainsModel](Matchers.eq(keystore.previousTaxableGains))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[PreviousTaxableGainsModel](ArgumentMatchers.eq(keystore.previousTaxableGains))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](Matchers.eq(keystore.disposalDate))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystore.disposalDate))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDateModel)))
 
-    when(mockCalcConnector.getTaxYear(Matchers.any())(Matchers.any()))
+    when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(taxYearModel)))
 
     new IncomeController {

@@ -5,7 +5,7 @@
 @import views.html.calculation.resident._
 @import play.api.mvc.Call
 
-@(allowableLossesForm: Form[AllowableLossesModel], taxYear: TaxYearModel, postAction: Call, backLink: Option[String], navHomeLink: String, navTitle: String)(implicit request: Request[_])
+@(allowableLossesForm: Form[AllowableLossesModel], taxYear: TaxYearModel, postAction: Call, backLink: Option[String], navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages)
 
 @hiddenHelpTextContent = {
     <div id="helpInfo">

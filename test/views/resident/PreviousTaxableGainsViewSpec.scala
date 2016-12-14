@@ -24,6 +24,8 @@ import forms.resident.income.PreviousTaxableGainsForm.previousTaxableGainsForm
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{resident => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class PreviousTaxableGainsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -31,7 +33,7 @@ class PreviousTaxableGainsViewSpec extends UnitSpec with WithFakeApplication wit
 
     lazy val postAction = controllers.routes.IncomeController.previousTaxableGains()
     lazy val homeLink = controllers.routes.GainController.disposalDate().url
-    lazy val view = views.previousTaxableGains(previousTaxableGainsForm, "#", postAction, homeLink, JourneyKeys.properties, "2016/17", "navTitle")(fakeRequest)
+    lazy val view = views.previousTaxableGains(previousTaxableGainsForm, "#", postAction, homeLink, JourneyKeys.properties, "2016/17", "navTitle")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -123,7 +125,7 @@ class PreviousTaxableGainsViewSpec extends UnitSpec with WithFakeApplication wit
     val form = previousTaxableGainsForm.bind(Map("amount" -> "100"))
     lazy val postAction = controllers.routes.IncomeController.previousTaxableGains()
     lazy val homeLink = controllers.routes.GainController.disposalDate().url
-    lazy val view = views.previousTaxableGains(form, "#", postAction, homeLink, JourneyKeys.properties, "2016/17", "navTitle")(fakeRequest)
+    lazy val view = views.previousTaxableGains(form, "#", postAction, homeLink, JourneyKeys.properties, "2016/17", "navTitle")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -148,7 +150,7 @@ class PreviousTaxableGainsViewSpec extends UnitSpec with WithFakeApplication wit
     val form = previousTaxableGainsForm.bind(Map("amount" -> ""))
     lazy val postAction = controllers.routes.IncomeController.previousTaxableGains()
     lazy val homeLink = controllers.routes.GainController.disposalDate().url
-    lazy val view = views.previousTaxableGains(form, "#", postAction, homeLink, JourneyKeys.properties, "2016/17", "navTitle")(fakeRequest)
+    lazy val view = views.previousTaxableGains(form, "#", postAction, homeLink, JourneyKeys.properties, "2016/17", "navTitle")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

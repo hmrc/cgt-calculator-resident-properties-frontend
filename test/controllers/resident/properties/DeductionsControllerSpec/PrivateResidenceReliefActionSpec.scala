@@ -25,7 +25,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import assets.MessageLookup.{PrivateResidenceRelief => messages}
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
@@ -39,10 +39,12 @@ class PrivateResidenceReliefActionSpec extends UnitSpec with WithFakeApplication
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](Matchers.eq(keyStoreKeys.privateResidenceRelief))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keyStoreKeys.privateResidenceRelief))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[PrivateResidenceReliefModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[PrivateResidenceReliefModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new DeductionsController {

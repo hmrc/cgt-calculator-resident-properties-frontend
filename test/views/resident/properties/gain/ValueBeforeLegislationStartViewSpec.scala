@@ -23,6 +23,8 @@ import forms.resident.properties.ValueBeforeLegislationStartForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{gain => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -30,14 +32,14 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
     lazy val request = fakeRequestToPOSTWithSession(("amount", value))
     lazy val form = valueBeforeLegislationStartForm.bind(Map(("amount", value)))
     lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString())
-    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest)
+    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
   }
 
   "Worth when gave away View" should {
 
     lazy val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().toString())
-    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest)
+    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -135,7 +137,7 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
 
     val form = valueBeforeLegislationStartForm.bind(Map("amount" -> "100"))
     lazy val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().toString())
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest)
+    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -155,7 +157,7 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
 
     val form = valueBeforeLegislationStartForm.bind(Map("amount" -> ""))
     lazy val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().toString())
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest)
+    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

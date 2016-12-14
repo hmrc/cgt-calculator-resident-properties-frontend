@@ -24,13 +24,15 @@ import views.html.calculation.resident.properties.{gain => views}
 import assets.MessageLookup.Resident.Properties.{OwnerBeforeLegislationStart => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import org.jsoup.Jsoup
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "The Owner Before Legislation Start view" should {
 
 
-    lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm)(fakeRequest)
+    lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -216,7 +218,7 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "ownedBeforeLegislationStart view with a filled form" which {
 
     "for the option 'Yes'" should {
-      lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(true)))(fakeRequest)
+      lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(true)))(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val YesRadioOption = doc.select(".block-label[for=ownedBeforeLegislationStart-yes]")
 
@@ -226,7 +228,7 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
     }
 
     "for the option 'No'" should {
-      lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(false)))(fakeRequest)
+      lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(false)))(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val NoRadioOption = doc.select(".block-label[for=ownedBeforeLegislationStart-no]")
 
@@ -239,7 +241,7 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "ownedBeforeLegislationStart view with form errors" should {
 
     lazy val form = ownerBeforeLegislationStartForm.bind(Map("ownedBeforeLegislationStart" -> ""))
-    lazy val view = views.ownerBeforeLegislationStart(form)(fakeRequest)
+    lazy val view = views.ownerBeforeLegislationStart(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

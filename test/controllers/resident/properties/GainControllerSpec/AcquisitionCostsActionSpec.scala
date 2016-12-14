@@ -26,7 +26,7 @@ import models.resident.AcquisitionCostsModel
 import models.resident.properties.{BoughtForLessThanWorthModel, HowBecameOwnerModel}
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
@@ -45,19 +45,23 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[AcquisitionCostsModel](Matchers.eq(keystoreKeys.acquisitionCosts))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[AcquisitionCostsModel](ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](Matchers.eq(keystoreKeys.ownerBeforeLegislationStart))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(ownerBefore))
 
-    when(mockCalcConnector.fetchAndGetFormData[HowBecameOwnerModel](Matchers.eq(keystoreKeys.howBecameOwner))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[HowBecameOwnerModel](ArgumentMatchers.eq(keystoreKeys.howBecameOwner))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(howBecameOwner))
 
-    when(mockCalcConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](Matchers.eq(keystoreKeys.boughtForLessThanWorth))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](ArgumentMatchers.eq(keystoreKeys.boughtForLessThanWorth))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(boughtForLess))
 
-    when(mockCalcConnector.saveFormData[AcquisitionCostsModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[AcquisitionCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

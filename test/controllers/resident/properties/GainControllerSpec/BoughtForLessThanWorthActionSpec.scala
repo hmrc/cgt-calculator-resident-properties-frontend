@@ -25,7 +25,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import assets.MessageLookup.{BoughtForLessThanWorth => messages}
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
@@ -39,10 +39,12 @@ class BoughtForLessThanWorthActionSpec extends UnitSpec with WithFakeApplication
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](Matchers.eq(keyStoreKeys.boughtForLessThanWorth))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](ArgumentMatchers.eq(keyStoreKeys.boughtForLessThanWorth))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[BoughtForLessThanWorthModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[BoughtForLessThanWorthModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

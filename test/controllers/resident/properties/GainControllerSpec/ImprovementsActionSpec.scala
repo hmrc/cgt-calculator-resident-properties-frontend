@@ -25,7 +25,7 @@ import controllers.GainController
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import models.resident.properties.{ImprovementsModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
@@ -47,20 +47,21 @@ class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with Fake
     val mockCalcConnector = mock[CalculatorConnector]
     val mockConfig = mock[AppConfig]
 
-    when(mockCalcConnector.fetchAndGetFormData[ImprovementsModel](Matchers.eq(keystoreKeys.improvements))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[ImprovementsModel](ArgumentMatchers.eq(keystoreKeys.improvements))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockCalcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
-      (Matchers.eq(keystoreKeys.ownerBeforeLegislationStart))(Matchers.any(), Matchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(OwnerBeforeLegislationStartModel(ownerBeforeAprilNineteenEightyTwo))))
 
-    when(mockCalcConnector.getPropertyGainAnswers(Matchers.any()))
+    when(mockCalcConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswers))
 
-    when(mockCalcConnector.calculateRttPropertyGrossGain(Matchers.any())(Matchers.any()))
+    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    when(mockCalcConnector.saveFormData[ImprovementsModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[ImprovementsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

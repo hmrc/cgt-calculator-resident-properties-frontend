@@ -21,7 +21,7 @@ import controllers.helpers.FakeRequestHelper
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import connectors.CalculatorConnector
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import config.AppConfig
 import controllers.GainController
 import models.resident.WorthWhenSoldForLessModel
@@ -41,10 +41,12 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](Matchers.eq(keystoreKeys.worthWhenSoldForLess))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[WorthWhenSoldForLessModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[WorthWhenSoldForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

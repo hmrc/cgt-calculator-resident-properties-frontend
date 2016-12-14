@@ -24,7 +24,7 @@ import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.properties.ValueBeforeLegislationStartModel
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import org.scalatest.mock.MockitoSugar
@@ -39,10 +39,12 @@ class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplic
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](Matchers.eq(keystoreKeys.valueBeforeLegislationStart))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[ValueBeforeLegislationStartModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

@@ -21,7 +21,7 @@ import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import models.resident.properties.HowBecameOwnerModel
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import uk.gov.hmrc.http.cache.client.CacheMap
@@ -36,10 +36,10 @@ class HowBecameOwnerActionSpec extends UnitSpec with WithFakeApplication with Fa
 
     val mockConnector = mock[CalculatorConnector]
 
-    when(mockConnector.fetchAndGetFormData[HowBecameOwnerModel](Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockConnector.fetchAndGetFormData[HowBecameOwnerModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(getData)
 
-    when(mockConnector.saveFormData[HowBecameOwnerModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockConnector.saveFormData[HowBecameOwnerModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(mock[CacheMap])
 
     new GainController {

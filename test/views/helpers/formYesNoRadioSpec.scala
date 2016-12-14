@@ -21,6 +21,8 @@ import forms.resident.OtherPropertiesForm._
 import org.jsoup.Jsoup
 import views.html.helpers._
 import assets.MessageLookup.{NonResident => messages}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class formYesNoRadioSpec extends UnitSpec with WithFakeApplication {
 

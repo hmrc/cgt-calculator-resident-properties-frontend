@@ -3,7 +3,7 @@
 @import views.html.calculation.resident._
 @import models.resident._
 
-@(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, navHomeLink: String, continueUrl: String, navTitle: String)(implicit request: Request[_])
+@(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, navHomeLink: String, continueUrl: String, navTitle: String)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(
     Messages("calc.resident.outsideTaxYears.title"),

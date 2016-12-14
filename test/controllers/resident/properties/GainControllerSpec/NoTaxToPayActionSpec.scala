@@ -20,7 +20,7 @@ import config.{AppConfig, ApplicationConfig}
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -38,7 +38,8 @@ class NoTaxToPayActionSpec extends UnitSpec with WithFakeApplication with FakeRe
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](Matchers.eq(ResidentPropertyKeys.whoDidYouGiveItTo))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(ResidentPropertyKeys.whoDidYouGiveItTo))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(WhoDidYouGiveItToModel(givenTo))))
 
     new GainController {

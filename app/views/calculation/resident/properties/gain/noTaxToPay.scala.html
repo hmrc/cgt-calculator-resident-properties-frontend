@@ -1,6 +1,6 @@
 @import views.html.calculation.resident._
 
-@(forCharity: Boolean)(implicit request: Request[_])
+@(forCharity: Boolean)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(title = Messages("calc.resident.noTaxToPay.title"),
                         backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().url),

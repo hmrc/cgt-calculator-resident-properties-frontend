@@ -6,7 +6,7 @@
 @import constructors.resident.properties.SummaryConstructor._
 @import controllers.routes.{GainController => routes}
 
-@(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_])
+@(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
 
 <!DOCTYPE html>
 <html>

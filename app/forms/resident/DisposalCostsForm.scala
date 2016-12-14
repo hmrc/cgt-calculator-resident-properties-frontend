@@ -24,6 +24,8 @@ import models.resident.DisposalCostsModel
 import play.api.i18n.Messages
 import common.Validation._
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object DisposalCostsForm {
 

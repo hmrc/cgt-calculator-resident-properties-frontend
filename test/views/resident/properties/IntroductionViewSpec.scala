@@ -23,12 +23,14 @@ import controllers.routes.{GainController => routes}
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.{properties => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class IntroductionViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Introduction view" should {
 
-    lazy val view = views.introduction()(fakeRequest)
+    lazy val view = views.introduction()(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body).select("article.content__body")
 
     "have the correct title" in {

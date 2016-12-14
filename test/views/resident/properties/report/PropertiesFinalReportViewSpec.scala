@@ -27,6 +27,8 @@ import models.resident._
 import models.resident.properties._
 import org.jsoup.Jsoup
 import views.html.calculation.resident.properties.{report => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -86,7 +88,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession)
+    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -484,7 +486,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       0
     )
 
-    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession)
+    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a numeric output row for the deductions" which {
@@ -716,7 +718,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       0
     )
 
-    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession)
+    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has an option output row for bought for less than worth" which {
@@ -800,7 +802,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       0
     )
 
-    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession)
+    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a numeric output row for the Disposal Value" which {
@@ -892,7 +894,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       0
     )
 
-    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession)
+    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has an output row for how became owner" which {
@@ -976,7 +978,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-      lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession)
+      lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession, applicationMessages)
 
 
     lazy val doc = Jsoup.parse(view.body)

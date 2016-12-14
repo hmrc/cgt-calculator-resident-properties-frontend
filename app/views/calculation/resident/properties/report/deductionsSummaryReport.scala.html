@@ -11,7 +11,7 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import config.ApplicationConfig
 
-@(gainAnswers: YourAnswersSummaryModel, deductionAnswers: ChargeableGainAnswers, result: ChargeableGainResultModel, taxYear: TaxYearModel)(implicit request: Request[_])
+@(gainAnswers: YourAnswersSummaryModel, deductionAnswers: ChargeableGainAnswers, result: ChargeableGainResultModel, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
 
 @allowableLossesHelpText() = {
     <span>

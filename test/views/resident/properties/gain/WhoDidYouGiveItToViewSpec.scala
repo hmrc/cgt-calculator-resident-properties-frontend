@@ -23,11 +23,13 @@ import forms.resident.properties.gain.WhoDidYouGiveItToForm._
 import org.jsoup.Jsoup
 import assets.MessageLookup.{WhoDidYouGiveItTo => messages}
 import assets.MessageLookup.{Resident => commonMessages}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class WhoDidYouGiveItToViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
   "Property Recipient view" should {
 
-  lazy val view = views.whoDidYouGiveItTo(whoDidYouGiveItToForm)(fakeRequest)
+  lazy val view = views.whoDidYouGiveItTo(whoDidYouGiveItToForm)(fakeRequest, applicationMessages)
   lazy val doc = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {
@@ -110,7 +112,7 @@ class WhoDidYouGiveItToViewSpec extends UnitSpec with WithFakeApplication with F
 
   "WhoDidYouGiveItToView with form with errors" should {
     val form = whoDidYouGiveItToForm.bind(Map("whoDidYouGiveItTo" -> ""))
-    lazy val view = views.whoDidYouGiveItTo(form)(fakeRequest)
+    lazy val view = views.whoDidYouGiveItTo(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message regarding incorrect value being inputted" in {

@@ -4,7 +4,7 @@
 @import views.html.helpers.resident._
 @import views.html.calculation.resident.properties._
 
-@(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_])
+@(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_], messages: Messages)
 
 @hiddenHelpTextContent = {
     <p>@Messages("calc.resident.properties.improvements.additionalContent.one")</p>

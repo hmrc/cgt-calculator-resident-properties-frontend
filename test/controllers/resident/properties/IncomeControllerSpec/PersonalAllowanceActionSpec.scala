@@ -22,7 +22,7 @@ import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.IncomeController
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import play.api.test.Helpers._
@@ -44,22 +44,24 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
                   taxYearModel: TaxYearModel): IncomeController = {
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[PersonalAllowanceModel](Matchers.eq(keystoreKeys.personalAllowance))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[PersonalAllowanceModel](ArgumentMatchers.eq(keystoreKeys.personalAllowance))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.getPA(Matchers.any(), Matchers.eq(true))(Matchers.any()))
+    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(true))(ArgumentMatchers.any()))
           .thenReturn(Future.successful(maxPersonalAllowance))
 
-    when(mockCalcConnector.getPA(Matchers.any(), Matchers.eq(false))(Matchers.any()))
+    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(false))(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxPersonalAllowance))
 
-    when(mockCalcConnector.saveFormData[PersonalAllowanceModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[PersonalAllowanceModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](Matchers.eq(keystoreKeys.disposalDate))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDateModel)))
 
-    when(mockCalcConnector.getTaxYear(Matchers.any())(Matchers.any()))
+    when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(taxYearModel)))
 
 

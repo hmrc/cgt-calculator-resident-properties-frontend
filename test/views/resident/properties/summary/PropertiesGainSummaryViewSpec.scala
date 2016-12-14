@@ -26,8 +26,11 @@ import controllers.routes
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
+import org.scalatestplus.play.OneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{summary => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -57,7 +60,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -394,7 +397,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       Some(false)
     )
 
-    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the what to do next section" in {
@@ -643,7 +646,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       Some("Bought"),
       Some(true)
     )
-    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has an option output row for bought for less than worth" which {
@@ -717,7 +720,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       None,
       None
     )
-    lazy val view = views.gainSummary(testModel, 0, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummary(testModel, 0, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the what to do next section" in {
@@ -789,7 +792,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       Some("Inherited"),
       None
     )
-    lazy val view = views.gainSummary(testModel,-2000, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummary(testModel,-2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not display the what to do next content" in {
@@ -878,7 +881,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
     lazy val taxYearModel = TaxYearModel("2013/14", false, "2015/16")
 
-    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {
@@ -971,7 +974,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       Some("Gifted"),
       None
     )
-    lazy val view = views.gainSummary(testModel,-2000, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummary(testModel,-2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has an output row for how became owner" which {
