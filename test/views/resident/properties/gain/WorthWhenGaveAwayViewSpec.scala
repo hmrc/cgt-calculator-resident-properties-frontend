@@ -144,7 +144,7 @@ class WorthWhenGaveAwayViewSpec extends UnitSpec with WithFakeApplication with F
 
   "Worth When Gave Away View with form without errors" should {
 
-    val form = worthWhenGaveAwayForm.bind(Map("amount" -> "100"))
+    lazy val form = worthWhenGaveAwayForm.bind(Map("amount" -> "100"))
     lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString())
     lazy val view = views.worthWhenGaveAway(form, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway())(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
@@ -164,7 +164,7 @@ class WorthWhenGaveAwayViewSpec extends UnitSpec with WithFakeApplication with F
 
   "Worth When Gave Away View with form with errors" should {
 
-    val form = worthWhenGaveAwayForm.bind(Map("amount" -> ""))
+    lazy val form = worthWhenGaveAwayForm.bind(Map("amount" -> ""))
     lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString())
     lazy val view = views.worthWhenGaveAway(form, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway())(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)

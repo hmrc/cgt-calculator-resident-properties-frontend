@@ -175,7 +175,7 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
     "is due to mandatory field error" should {
 
-      val form = currentIncomeForm.bind(Map("amount" -> ""))
+      lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = views.currentIncome(form, "", taxYearModel, false)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)

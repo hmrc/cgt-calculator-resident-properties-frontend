@@ -129,7 +129,7 @@ class ImprovementsViewSpec extends UnitSpec with WithFakeApplication with FakeRe
 
   "Improvements View with form without errors" should {
 
-    val form = improvementsForm.bind(Map("amount" -> "100"))
+    lazy val form = improvementsForm.bind(Map("amount" -> "100"))
     lazy val view = views.improvements(form, false)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -148,7 +148,7 @@ class ImprovementsViewSpec extends UnitSpec with WithFakeApplication with FakeRe
 
   "Improvements View with form with errors" should {
 
-    val form = improvementsForm.bind(Map("amount" -> ""))
+    lazy val form = improvementsForm.bind(Map("amount" -> ""))
     lazy val view = views.improvements(form, false)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

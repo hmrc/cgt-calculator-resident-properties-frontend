@@ -111,7 +111,7 @@ class WhoDidYouGiveItToViewSpec extends UnitSpec with WithFakeApplication with F
   }
 
   "WhoDidYouGiveItToView with form with errors" should {
-    val form = whoDidYouGiveItToForm.bind(Map("whoDidYouGiveItTo" -> ""))
+    lazy val form = whoDidYouGiveItToForm.bind(Map("whoDidYouGiveItTo" -> ""))
     lazy val view = views.whoDidYouGiveItTo(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

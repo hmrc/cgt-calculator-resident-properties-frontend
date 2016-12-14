@@ -154,7 +154,7 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
 
     "is due to mandatory field error" should {
 
-      val form = acquisitionCostsForm.bind(Map("amount" -> ""))
+      lazy val form = acquisitionCostsForm.bind(Map("amount" -> ""))
       lazy val view = views.acquisitionCosts(form, Some("back-link"))(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 

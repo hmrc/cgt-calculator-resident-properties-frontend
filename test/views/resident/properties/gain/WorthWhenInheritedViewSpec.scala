@@ -33,7 +33,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
     val backLink = Some("back-link")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = worthWhenInheritedForm
+    lazy val form = worthWhenInheritedForm
     lazy val view = views.worthWhenInherited(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -94,7 +94,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
     val backLink = Some("back-link")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
+    lazy val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
     lazy val view = views.worthWhenInherited(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -115,7 +115,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
     val backLink = Some("back-link")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
+    lazy val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
     lazy val view = views.worthWhenInherited(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

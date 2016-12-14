@@ -218,7 +218,7 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
 
     "is due to mandatory field error" should {
 
-      val form = privateResidenceReliefForm.bind(Map("amount" -> ""))
+      lazy val form = privateResidenceReliefForm.bind(Map("amount" -> ""))
       lazy val view = views.privateResidenceRelief(form)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 

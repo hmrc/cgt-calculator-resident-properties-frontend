@@ -81,7 +81,7 @@ class LettingsReliefValueViewSpec extends UnitSpec with WithFakeApplication with
 
   "Reliefs Value View with form without errors" should {
 
-    val form = lettingsReliefValueForm(1000,150).bind(Map("amount" -> "100"))
+    lazy val form = lettingsReliefValueForm(1000,150).bind(Map("amount" -> "100"))
     lazy val view = views.lettingsReliefValue(form, "home-link", 2000)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -112,7 +112,7 @@ class LettingsReliefValueViewSpec extends UnitSpec with WithFakeApplication with
 
   "Reliefs Value View with form with errors" should {
 
-    val form = lettingsReliefValueForm(1000,100).bind(Map("amount" -> ""))
+    lazy val form = lettingsReliefValueForm(1000,100).bind(Map("amount" -> ""))
     lazy val view = views.lettingsReliefValue(form, "home-link", 3000)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

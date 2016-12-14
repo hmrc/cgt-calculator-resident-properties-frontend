@@ -106,7 +106,7 @@ class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("back-link")
     val homeLink = "home-link"
     val postAction = new Call("POST", "post-action")
-    val form = howBecameOwnerForm.bind(Map(("gainedBy", "Bought")))
+    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "Bought")))
     lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -119,7 +119,7 @@ class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("back-link")
     val homeLink = "home-link"
     val postAction = new Call("POST", "post-action")
-    val form = howBecameOwnerForm.bind(Map(("gainedBy", "Inherited")))
+    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "Inherited")))
     lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -132,7 +132,7 @@ class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("back-link")
     val homeLink = "home-link"
     val postAction = new Call("POST", "post-action")
-    val form = howBecameOwnerForm.bind(Map(("gainedBy", "Gifted")))
+    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "Gifted")))
     lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -145,7 +145,7 @@ class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("back-link")
     val homeLink = "home-link"
     val postAction = new Call("POST", "post-action")
-    val form = howBecameOwnerForm.bind(Map(("gainedBy", "")))
+    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "")))
     lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

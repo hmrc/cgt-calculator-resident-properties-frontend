@@ -33,7 +33,7 @@ class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = sellOrGiveAwayForm
+    lazy val form = sellOrGiveAwayForm
     lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -98,7 +98,7 @@ class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Sold")))
+    lazy val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Sold")))
     lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -111,7 +111,7 @@ class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Given")))
+    lazy val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Given")))
     lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -126,7 +126,7 @@ class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with Fake
       val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
       val homeLink = "homeLink"
       val call = new Call("POST", "postAction")
-      val form = sellOrGiveAwayForm.bind(Map("givenAway" -> ""))
+      lazy val form = sellOrGiveAwayForm.bind(Map("givenAway" -> ""))
       lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 

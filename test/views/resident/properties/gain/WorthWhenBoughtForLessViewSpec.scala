@@ -29,7 +29,7 @@ import play.api.Play.current
 class WorthWhenBoughtForLessViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "worthWhenBought view" should {
-    val form = worthWhenBoughtForLessForm
+    lazy val form = worthWhenBoughtForLessForm
     lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -91,7 +91,7 @@ class WorthWhenBoughtForLessViewSpec extends UnitSpec with WithFakeApplication w
   }
 
   "Disposal Value View with form without errors" should {
-    val form = worthWhenBoughtForLessForm.bind(Map("amount" -> "100"))
+    lazy val form = worthWhenBoughtForLessForm.bind(Map("amount" -> "100"))
     lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -109,7 +109,7 @@ class WorthWhenBoughtForLessViewSpec extends UnitSpec with WithFakeApplication w
   }
 
   "Disposal Value View with form with errors" should {
-    val form = worthWhenBoughtForLessForm.bind(Map("amount" -> ""))
+    lazy val form = worthWhenBoughtForLessForm.bind(Map("amount" -> ""))
     lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

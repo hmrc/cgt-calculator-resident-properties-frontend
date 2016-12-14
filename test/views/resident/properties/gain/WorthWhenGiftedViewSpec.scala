@@ -33,7 +33,7 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
     val backLink = Some("back-link")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = worthWhenGiftedForm
+    lazy val form = worthWhenGiftedForm
     lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -94,7 +94,7 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
     val backLink = Some("back-link")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = worthWhenGiftedForm.bind(Map("amount" -> "100"))
+    lazy val form = worthWhenGiftedForm.bind(Map("amount" -> "100"))
     lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -115,7 +115,7 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
     val backLink = Some("back-link")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = worthWhenGiftedForm.bind(Map("amount" -> ""))
+    lazy val form = worthWhenGiftedForm.bind(Map("amount" -> ""))
     lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
