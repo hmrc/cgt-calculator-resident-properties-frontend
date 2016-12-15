@@ -24,12 +24,14 @@ import assets.MessageLookup.{PropertyLivedIn => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties.PropertyLivedInModel
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class PropertyLivedInViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Property lived in view with an empty form" should {
 
-    lazy val view = views.propertyLivedIn(propertyLivedInForm, "home-link", Some("back-link"))(fakeRequest)
+    lazy val view = views.propertyLivedIn(propertyLivedInForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -201,7 +203,7 @@ class PropertyLivedInViewSpec extends UnitSpec with WithFakeApplication with Fak
   }
 
   "Property lived in view with a filled form" which {
-    lazy val view = views.propertyLivedIn(propertyLivedInForm.fill(PropertyLivedInModel(true)), "home-link", Some("back-link"))(fakeRequest)
+    lazy val view = views.propertyLivedIn(propertyLivedInForm.fill(PropertyLivedInModel(true)), "home-link", Some("back-link"))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -217,7 +219,7 @@ class PropertyLivedInViewSpec extends UnitSpec with WithFakeApplication with Fak
   "Property Lived In view with form errors" should {
 
     lazy val form = propertyLivedInForm.bind(Map("livedInProperty" -> ""))
-    lazy val view = views.propertyLivedIn(form, "home", Some("back"))(fakeRequest)
+    lazy val view = views.propertyLivedIn(form, "home", Some("back"))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

@@ -4,7 +4,7 @@
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
-@(lettingsReliefValueForm : Form[LettingsReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_])
+@(lettingsReliefValueForm : Form[LettingsReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @additionalContent = {
     <p>@Messages("calc.resident.lettingsReliefValue.additionalContent", MoneyPounds(totalGain, 0).quantity)</p>

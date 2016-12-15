@@ -23,12 +23,14 @@ import forms.resident.DisposalCostsForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{gain => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Disposal Costs view" should {
 
-    lazy val view = views.disposalCosts(disposalCostsForm,"backlink")(fakeRequest)
+    lazy val view = views.disposalCosts(disposalCostsForm,"backlink")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -147,8 +149,8 @@ class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
     "is due to mandatory field error" should {
 
-      val form = disposalCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.disposalCosts(form, "backlink")(fakeRequest)
+      lazy val form = disposalCostsForm.bind(Map("amount" -> ""))
+      lazy val view = views.disposalCosts(form, "backlink")(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

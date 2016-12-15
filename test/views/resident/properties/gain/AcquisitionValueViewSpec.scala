@@ -23,12 +23,14 @@ import forms.resident.AcquisitionValueForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{gain => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Acquisition Value view" should {
 
-    lazy val view = views.acquisitionValue(acquisitionValueForm)(fakeRequest)
+    lazy val view = views.acquisitionValue(acquisitionValueForm)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -135,8 +137,8 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
   }
 
   "Acquisition Value View with form with errors" should {
-    val form = acquisitionValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.acquisitionValue(form)(fakeRequest)
+    lazy val form = acquisitionValueForm.bind(Map("amount" -> ""))
+    lazy val view = views.acquisitionValue(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

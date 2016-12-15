@@ -25,7 +25,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import assets.MessageLookup.{PropertyLivedIn => messages}
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
@@ -39,10 +39,11 @@ class PropertyLivedInActionSpec extends UnitSpec with WithFakeApplication with F
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[PropertyLivedInModel](Matchers.eq(keyStoreKeys.propertyLivedIn))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[PropertyLivedInModel](ArgumentMatchers.eq(keyStoreKeys.propertyLivedIn))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[PropertyLivedInModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[PropertyLivedInModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new DeductionsController {

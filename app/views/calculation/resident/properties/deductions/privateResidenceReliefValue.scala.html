@@ -4,7 +4,7 @@
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
-@(privateResidenceReliefValueForm : Form[PrivateResidenceReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_])
+@(privateResidenceReliefValueForm : Form[PrivateResidenceReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(
 title = Messages("calc.resident.privateResidenceReliefValue.title"),

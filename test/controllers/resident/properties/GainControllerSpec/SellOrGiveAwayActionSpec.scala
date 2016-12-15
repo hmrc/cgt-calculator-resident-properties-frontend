@@ -22,7 +22,7 @@ import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import models.resident.properties.SellOrGiveAwayModel
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import play.api.test.Helpers._
@@ -38,10 +38,10 @@ class SellOrGiveAwayActionSpec extends UnitSpec with WithFakeApplication with Fa
 
     val mockConnector = mock[CalculatorConnector]
 
-    when(mockConnector.fetchAndGetFormData[SellOrGiveAwayModel](Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockConnector.fetchAndGetFormData[SellOrGiveAwayModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockConnector.saveFormData[SellOrGiveAwayModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockConnector.saveFormData[SellOrGiveAwayModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

@@ -24,13 +24,15 @@ import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{income => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Current Income view" should {
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-    lazy val view = views.currentIncome(currentIncomeForm, "", taxYearModel, false)(fakeRequest)
+    lazy val view = views.currentIncome(currentIncomeForm, "", taxYearModel, false)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -173,9 +175,9 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
     "is due to mandatory field error" should {
 
-      val form = currentIncomeForm.bind(Map("amount" -> ""))
+      lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = views.currentIncome(form, "", taxYearModel, false)(fakeRequest)
+      lazy val view = views.currentIncome(form, "", taxYearModel, false)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

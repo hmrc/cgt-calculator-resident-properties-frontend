@@ -17,7 +17,7 @@
         backUrl: String,
         taxYear: TaxYearModel,
         prrUsed: Option[Boolean] = None,
-        lettingsReliefUsed: Option[Boolean] = None)(implicit request: Request[_])
+        lettingsReliefUsed: Option[Boolean] = None)(implicit request: Request[_], messages: Messages)
 
 @allowableLossesHelpText() = {
     <span>

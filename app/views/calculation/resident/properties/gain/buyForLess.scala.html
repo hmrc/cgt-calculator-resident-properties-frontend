@@ -4,7 +4,7 @@
 @import models.resident.properties._
 @import uk.gov.hmrc.play.views.html.helpers.form
 
-@(boughtForLessThanWorthForm: Form[BoughtForLessThanWorthModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_])
+@(boughtForLessThanWorthForm: Form[BoughtForLessThanWorthModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(title = Messages("calc.resident.properties.boughtForLessThanWorth.title"),
 backLink = navBackLink,

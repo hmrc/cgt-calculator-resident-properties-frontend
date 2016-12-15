@@ -23,12 +23,14 @@ import assets.MessageLookup.{Resident => commonMessages}
 import forms.resident.properties.PrivateResidenceReliefForm._
 import org.jsoup.Jsoup
 import views.html.calculation.resident.properties.{deductions => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Private Residence Relief view" should {
 
-    lazy val view = views.privateResidenceRelief(privateResidenceReliefForm)(fakeRequest)
+    lazy val view = views.privateResidenceRelief(privateResidenceReliefForm)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -216,8 +218,8 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
 
     "is due to mandatory field error" should {
 
-      val form = privateResidenceReliefForm.bind(Map("amount" -> ""))
-      lazy val view = views.privateResidenceRelief(form)(fakeRequest)
+      lazy val form = privateResidenceReliefForm.bind(Map("amount" -> ""))
+      lazy val view = views.privateResidenceRelief(form)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

@@ -26,7 +26,7 @@ import models.resident.PrivateResidenceReliefModel
 import models.resident.properties.{LettingsReliefModel, PropertyLivedInModel}
 import models.resident.{DisposalDateModel, OtherPropertiesModel, TaxYearModel}
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
@@ -47,22 +47,27 @@ class OtherPropertiesActionSpec extends UnitSpec with WithFakeApplication with F
     val mockCalcConnector = mock[CalculatorConnector]
     val mockAppConfig = mock[AppConfig]
 
-    when(mockCalcConnector.fetchAndGetFormData[OtherPropertiesModel](Matchers.eq(keystoreKeys.otherProperties))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[OtherPropertiesModel](ArgumentMatchers.eq(keystoreKeys.otherProperties))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
     .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](Matchers.eq(keystoreKeys.disposalDate))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDate)
 
-    when(mockCalcConnector.fetchAndGetFormData[PropertyLivedInModel](Matchers.eq(keystoreKeys.propertyLivedIn))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[PropertyLivedInModel](ArgumentMatchers.eq(keystoreKeys.propertyLivedIn))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(propertyLivedInModel)
 
-    when(mockCalcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](Matchers.eq(keystoreKeys.privateResidenceRelief))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keystoreKeys.privateResidenceRelief))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(privateResidenceReliefModel)
 
-    when(mockCalcConnector.fetchAndGetFormData[LettingsReliefModel](Matchers.eq(keystoreKeys.lettingsRelief))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(lettingsReliefModel)
 
-    when(mockCalcConnector.getTaxYear(Matchers.any())(Matchers.any()))
+    when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYear)
 
     new DeductionsController {

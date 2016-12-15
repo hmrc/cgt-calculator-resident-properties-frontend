@@ -12,7 +12,7 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import config.ApplicationConfig
 
-@(gainAnswers: YourAnswersSummaryModel, deductionAnswers: ChargeableGainAnswers, incomeAnswers: IncomeAnswersModel, result: TotalGainAndTaxOwedModel, taxYear: TaxYearModel, isCurrentTaxYear: Boolean)(implicit request: Request[_])
+@(gainAnswers: YourAnswersSummaryModel, deductionAnswers: ChargeableGainAnswers, incomeAnswers: IncomeAnswersModel, result: TotalGainAndTaxOwedModel, taxYear: TaxYearModel, isCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
 
 <!DOCTYPE html>
 <html>

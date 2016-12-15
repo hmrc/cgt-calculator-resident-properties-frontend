@@ -24,12 +24,14 @@ import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{gain => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Disposal Date view" should {
 
-    lazy val view = views.disposalDate(disposalDateForm)(fakeRequest)
+    lazy val view = views.disposalDate(disposalDateForm)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -76,7 +78,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
   "Disposal Date view with a pre-filled form" should {
 
     lazy val form = disposalDateForm.fill(DisposalDateModel(10, 6, 2016))
-    lazy val view = views.disposalDate(form)(fakeRequest)
+    lazy val view = views.disposalDate(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a value auto-filled in the day input" in {
@@ -99,7 +101,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
       ("disposalDateMonth", "10"),
       ("disposalDateYear", "2016")
     ))
-    lazy val view = views.disposalDate(form)(fakeRequest)
+    lazy val view = views.disposalDate(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the error summary message 'Enter a real date'" in {
@@ -118,7 +120,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
       ("disposalDateMonth", "10"),
       ("disposalDateYear", "2016")
     ))
-    lazy val view = views.disposalDate(form)(fakeRequest)
+    lazy val view = views.disposalDate(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${messages.invalidDayError}'" in {
@@ -137,7 +139,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
       ("disposalDateMonth", "b"),
       ("disposalDateYear", "c")
     ))
-    lazy val view = views.disposalDate(form)(fakeRequest)
+    lazy val view = views.disposalDate(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${messages.invalidDayError}'" in {

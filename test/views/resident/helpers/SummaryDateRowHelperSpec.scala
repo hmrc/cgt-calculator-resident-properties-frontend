@@ -21,17 +21,19 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summaryDateRowHelper
 import assets.MessageLookup.{Resident => commonMessages}
 import common.Dates._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication {
 
-  val row = summaryDateRowHelper("testID","testQ",constructDate(12,9,1990))
-  val doc = Jsoup.parse(row.body)
+  lazy val row = summaryDateRowHelper("testID","testQ",constructDate(12,9,1990))
+  lazy val doc = Jsoup.parse(row.body)
 
   "The Summary Date Row Helper" should {
 
     "have an outer div" which {
 
-      val outerDiv = doc.select("div#testID")
+      lazy val outerDiv = doc.select("div#testID")
 
       "has the id 'testID" in {
         outerDiv.attr("id") shouldBe "testID"
@@ -56,7 +58,7 @@ class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication {
 
     "have an inner question div" which {
 
-      val questionDiv = doc.select("div#testID-question")
+      lazy val questionDiv = doc.select("div#testID-question")
 
       "has the id 'testID-question" in {
         questionDiv.attr("id") shouldBe "testID-question"
@@ -78,7 +80,7 @@ class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication {
 
     "have an inner date div" which {
 
-      val amountDiv = doc.select("div#testID-date")
+      lazy val amountDiv = doc.select("div#testID-date")
 
       "has the id 'testID-date" in {
         amountDiv.attr("id") shouldBe "testID-date"

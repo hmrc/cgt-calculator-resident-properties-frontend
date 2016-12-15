@@ -24,6 +24,8 @@ import assets.MessageLookup.{PropertiesSellOrGiveAway => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import play.api.mvc.Call
 import forms.resident.properties.SellOrGiveAwayForm._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -31,8 +33,8 @@ class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = sellOrGiveAwayForm
-    lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest)
+    lazy val form = sellOrGiveAwayForm
+    lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -96,8 +98,8 @@ class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Sold")))
-    lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest)
+    lazy val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Sold")))
+    lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Sold' auto selected" in {
@@ -109,8 +111,8 @@ class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
-    val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Given")))
-    lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest)
+    lazy val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Given")))
+    lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Given' auto selected" in {
@@ -124,8 +126,8 @@ class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with Fake
       val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
       val homeLink = "homeLink"
       val call = new Call("POST", "postAction")
-      val form = sellOrGiveAwayForm.bind(Map("givenAway" -> ""))
-      lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest)
+      lazy val form = sellOrGiveAwayForm.bind(Map("givenAway" -> ""))
+      lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

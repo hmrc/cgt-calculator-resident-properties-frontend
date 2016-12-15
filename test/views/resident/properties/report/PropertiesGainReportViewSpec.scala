@@ -26,6 +26,8 @@ import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{report => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -54,7 +56,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -261,7 +263,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
       Some(false)
     )
 
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "should have the question text 'Total gain'" in {
@@ -389,7 +391,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
       Some("Bought"),
       Some(true)
     )
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has an option output row for bought for less than worth" which {
@@ -439,7 +441,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
       Some("Inherited"),
       None
     )
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has an output row for how became owner" which {
@@ -490,7 +492,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
       Some("Gifted"),
       None
     )
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has an output row for how became owner" which {
@@ -540,7 +542,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
       Some("Inherited"),
       None
     )
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
 

@@ -23,7 +23,7 @@ import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import models.resident.properties.WorthWhenBoughtForLessModel
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
@@ -39,10 +39,12 @@ class WorthWhenBoughtForLessActionSpec extends UnitSpec with WithFakeApplication
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[WorthWhenBoughtForLessModel](Matchers.eq(keyStoreKeys.worthWhenBoughtForLess))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[WorthWhenBoughtForLessModel](ArgumentMatchers.eq(keyStoreKeys.worthWhenBoughtForLess))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[WorthWhenBoughtForLessModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[WorthWhenBoughtForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

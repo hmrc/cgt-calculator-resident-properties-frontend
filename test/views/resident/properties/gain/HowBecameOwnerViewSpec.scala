@@ -24,6 +24,8 @@ import assets.MessageLookup.{HowBecameOwner => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import play.api.mvc.Call
 import forms.resident.properties.HowBecameOwnerForm._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -31,7 +33,7 @@ class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("back-link")
     val homeLink = "home-link"
     val postAction = new Call("POST", "post-action")
-    lazy val view = views.howBecameOwner(howBecameOwnerForm, backLink, homeLink, postAction)(fakeRequest)
+    lazy val view = views.howBecameOwner(howBecameOwnerForm, backLink, homeLink, postAction)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -104,8 +106,8 @@ class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("back-link")
     val homeLink = "home-link"
     val postAction = new Call("POST", "post-action")
-    val form = howBecameOwnerForm.bind(Map(("gainedBy", "Bought")))
-    lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest)
+    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "Bought")))
+    lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Bought' auto-selected" in {
@@ -117,8 +119,8 @@ class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("back-link")
     val homeLink = "home-link"
     val postAction = new Call("POST", "post-action")
-    val form = howBecameOwnerForm.bind(Map(("gainedBy", "Inherited")))
-    lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest)
+    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "Inherited")))
+    lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Inherited' auto-selected" in {
@@ -130,8 +132,8 @@ class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("back-link")
     val homeLink = "home-link"
     val postAction = new Call("POST", "post-action")
-    val form = howBecameOwnerForm.bind(Map(("gainedBy", "Gifted")))
-    lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest)
+    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "Gifted")))
+    lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Gifted' auto-selected" in {
@@ -143,8 +145,8 @@ class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with Fake
     val backLink = Some("back-link")
     val homeLink = "home-link"
     val postAction = new Call("POST", "post-action")
-    val form = howBecameOwnerForm.bind(Map(("gainedBy", "")))
-    lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest)
+    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "")))
+    lazy val view = views.howBecameOwner(form, backLink, homeLink, postAction)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

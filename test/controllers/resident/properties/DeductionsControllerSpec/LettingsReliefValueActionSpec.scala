@@ -24,7 +24,7 @@ import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
 import models.resident.properties.{LettingsReliefValueModel, PrivateResidenceReliefValueModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
@@ -44,19 +44,22 @@ class LettingsReliefValueActionSpec extends UnitSpec with WithFakeApplication wi
     val mockCalcConnector = mock[CalculatorConnector]
     val mockAppConfig = mock[AppConfig]
 
-    when(mockCalcConnector.fetchAndGetFormData[LettingsReliefValueModel](Matchers.eq(keystoreKeys.lettingsReliefValue))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[LettingsReliefValueModel](ArgumentMatchers.eq(keystoreKeys.lettingsReliefValue))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.fetchAndGetFormData[PrivateResidenceReliefValueModel](Matchers.eq(keystoreKeys.prrValue))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.eq(keystoreKeys.prrValue))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(prrValue))
 
-    when(mockCalcConnector.saveFormData[LettingsReliefValueModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[LettingsReliefValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    when(mockCalcConnector.getPropertyGainAnswers(Matchers.any()))
+    when(mockCalcConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[YourAnswersSummaryModel]))
 
-    when(mockCalcConnector.calculateRttPropertyGrossGain(Matchers.any())(Matchers.any()))
+    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
     new DeductionsController {

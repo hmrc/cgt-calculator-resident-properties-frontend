@@ -7,7 +7,7 @@
   scriptElem: Option[Html] = None,
   articleLayout: Boolean = true,
   backLink: Option[String] = None
-)(mainContent: Html)(implicit request : Request[_])
+)(mainContent: Html)(implicit request : Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html.layouts
 

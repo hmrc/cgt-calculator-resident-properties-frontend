@@ -23,12 +23,14 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{gain => views}
 import forms.resident.properties.WorthWhenBoughtForLessForm._
 import assets.MessageLookup.Resident.Properties.{WorthWhenBoughtForLess => messages}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class WorthWhenBoughtForLessViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "worthWhenBought view" should {
-    val form = worthWhenBoughtForLessForm
-    lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest)
+    lazy val form = worthWhenBoughtForLessForm
+    lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -89,8 +91,8 @@ class WorthWhenBoughtForLessViewSpec extends UnitSpec with WithFakeApplication w
   }
 
   "Disposal Value View with form without errors" should {
-    val form = worthWhenBoughtForLessForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest)
+    lazy val form = worthWhenBoughtForLessForm.bind(Map("amount" -> "100"))
+    lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -107,8 +109,8 @@ class WorthWhenBoughtForLessViewSpec extends UnitSpec with WithFakeApplication w
   }
 
   "Disposal Value View with form with errors" should {
-    val form = worthWhenBoughtForLessForm.bind(Map("amount" -> ""))
-    lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest)
+    lazy val form = worthWhenBoughtForLessForm.bind(Map("amount" -> ""))
+    lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

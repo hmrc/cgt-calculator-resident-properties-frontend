@@ -23,12 +23,14 @@ import forms.resident.properties.LettingsReliefForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{deductions => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Lettings Relief view" should {
 
-    lazy val view = views.lettingsRelief(lettingsReliefForm, "home-link", Some("back-link"))(fakeRequest)
+    lazy val view = views.lettingsRelief(lettingsReliefForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -131,7 +133,7 @@ class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "Lettings Relief view with pre-selected values" should {
     lazy val form = lettingsReliefForm.bind(Map(("isClaiming", "Yes")))
-    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest)
+    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
@@ -141,7 +143,7 @@ class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "Lettings Relief view with errors" should {
     lazy val form = lettingsReliefForm.bind(Map(("isClaiming", "")))
-    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest)
+    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

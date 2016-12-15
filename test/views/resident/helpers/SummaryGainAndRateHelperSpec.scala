@@ -19,6 +19,8 @@ package views.resident.helpers
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summaryGainAndRateHelper
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication {
 
@@ -32,7 +34,7 @@ class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication {
 
     "have an outer div" which {
 
-      val outerDiv = docSingle.select("div#testID")
+      lazy val outerDiv = docSingle.select("div#testID")
 
       "has the id 'testID" in {
         outerDiv.attr("id") shouldBe "testID"
@@ -57,7 +59,7 @@ class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication {
 
     "have an inner question div" which {
 
-      val questionDiv = docSingle.select("div#testID-question")
+      lazy val questionDiv = docSingle.select("div#testID-question")
 
       "has the id 'testID-question" in {
         questionDiv.attr("id") shouldBe "testID-question"
@@ -79,7 +81,7 @@ class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication {
 
     "have an inner result div" which {
 
-      val amountDiv = docSingle.select("div#testID-result")
+      lazy val amountDiv = docSingle.select("div#testID-result")
 
       "has the id 'testID-result" in {
         amountDiv.attr("id") shouldBe "testID-result"
@@ -103,7 +105,7 @@ class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication {
 
     "have an inner result div" which {
 
-      val amountDiv = docDouble.select("div#testID-result")
+      lazy val amountDiv = docDouble.select("div#testID-result")
 
       "has the id 'testID-result" in {
         amountDiv.attr("id") shouldBe "testID-result"

@@ -24,13 +24,15 @@ import forms.resident.AnnualExemptAmountForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{resident => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class AnnualExemptAmountViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
   "The Annual Exempt Amount view" should {
     lazy val postAction = controllers.routes.DeductionsController.submitAnnualExemptAmount()
     lazy val backLink = Some(controllers.routes.DeductionsController.lossesBroughtForward().toString)
     lazy val homeLink = controllers.routes.GainController.disposalDate().url
-    lazy val view = views.annualExemptAmount(annualExemptAmountForm(), backLink, postAction, homeLink, JourneyKeys.properties, "navTitle")(fakeRequest)
+    lazy val view = views.annualExemptAmount(annualExemptAmountForm(), backLink, postAction, homeLink, JourneyKeys.properties, "navTitle")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
     "have a charset of UTF-8" in {
       doc.charset().toString shouldBe "UTF-8"
@@ -140,7 +142,7 @@ class AnnualExemptAmountViewSpec extends UnitSpec with WithFakeApplication with 
     lazy val backLink = Some(controllers.routes.DeductionsController.lossesBroughtForwardValue().toString)
     lazy val form = annualExemptAmountForm().bind(Map(("amount", "1000")))
     lazy val homeLink = controllers.routes.GainController.disposalDate().url
-    lazy val view = views.annualExemptAmount(form, backLink, postAction, homeLink, JourneyKeys.properties, "navTitle")(fakeRequest)
+    lazy val view = views.annualExemptAmount(form, backLink, postAction, homeLink, JourneyKeys.properties, "navTitle")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the value of 1000 auto-filled in the input" in {
@@ -166,9 +168,9 @@ class AnnualExemptAmountViewSpec extends UnitSpec with WithFakeApplication with 
     "is due to mandatory field error" should {
       lazy val postAction = controllers.routes.DeductionsController.submitAnnualExemptAmount()
       lazy val backLink = Some(controllers.routes.DeductionsController.lossesBroughtForwardValue().toString)
-      val form = annualExemptAmountForm().bind(Map("amount" -> ""))
+      lazy val form = annualExemptAmountForm().bind(Map("amount" -> ""))
       lazy val homeLink = controllers.routes.GainController.disposalDate().url
-      lazy val view = views.annualExemptAmount(form, backLink, postAction, homeLink, JourneyKeys.properties, "navTitle")(fakeRequest)
+      lazy val view = views.annualExemptAmount(form, backLink, postAction, homeLink, JourneyKeys.properties, "navTitle")(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
       s"output an error summary with message '${commonMessages.mandatoryAmount}'" in {
         doc.body.getElementById("amount-error-summary").text should include(commonMessages.mandatoryAmount)

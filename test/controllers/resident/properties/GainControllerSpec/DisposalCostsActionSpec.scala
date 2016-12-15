@@ -26,7 +26,7 @@ import models.resident.DisposalCostsModel
 import models.resident.properties.SellOrGiveAwayModel
 import models.resident.SellForLessModel
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
@@ -45,16 +45,18 @@ class DisposalCostsActionSpec extends UnitSpec with WithFakeApplication with Fak
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[SellOrGiveAwayModel](Matchers.eq(keystoreKeys.sellOrGiveAway))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[SellOrGiveAwayModel](ArgumentMatchers.eq(keystoreKeys.sellOrGiveAway))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(sellOrGiveAwayData))
 
-    when(mockCalcConnector.fetchAndGetFormData[SellForLessModel](Matchers.eq(keystoreKeys.sellForLess))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keystoreKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(sellForLessData))
 
-    when(mockCalcConnector.fetchAndGetFormData[DisposalCostsModel](Matchers.eq(keystoreKeys.disposalCosts))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[DisposalCostsModel](ArgumentMatchers.eq(keystoreKeys.disposalCosts))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(disposalCostsData))
 
-    when(mockCalcConnector.saveFormData[DisposalCostsModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[DisposalCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

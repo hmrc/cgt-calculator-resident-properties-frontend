@@ -24,12 +24,14 @@ import assets.MessageLookup.Resident.Properties.{SellForLess => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import forms.resident.properties.SellForLessForm._
 import models.resident.SellForLessModel
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "Sell for less view with an empty form" should {
 
-    lazy val view = views.sellForLess(sellForLessForm, "home-link", Some("back-link"))(fakeRequest)
+    lazy val view = views.sellForLess(sellForLessForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -210,7 +212,7 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
   }
 
   "Sell for less view with a filled form" which {
-    lazy val view = views.sellForLess(sellForLessForm.fill(SellForLessModel(true)), "home-link", Some("back-link"))(fakeRequest)
+    lazy val view = views.sellForLess(sellForLessForm.fill(SellForLessModel(true)), "home-link", Some("back-link"))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -226,7 +228,7 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
   "Sell for less view with form errors" should {
 
     lazy val form = sellForLessForm.bind(Map("sellForLess" -> ""))
-    lazy val view = views.sellForLess(form, "home", Some("back"))(fakeRequest)
+    lazy val view = views.sellForLess(form, "home", Some("back"))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

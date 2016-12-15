@@ -50,6 +50,8 @@ import play.api.mvc.{Action, Result}
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{gain => views}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.Future
 

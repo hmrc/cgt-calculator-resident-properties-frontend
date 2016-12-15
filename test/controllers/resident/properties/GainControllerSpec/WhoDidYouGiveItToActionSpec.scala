@@ -20,7 +20,7 @@ import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import models.resident.properties.gain.WhoDidYouGiveItToModel
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.scalatest.mock.MockitoSugar
 
 import scala.concurrent.Future
@@ -38,10 +38,11 @@ class WhoDidYouGiveItToActionSpec extends UnitSpec with WithFakeApplication with
 
   def setupTarget(getData: Option[WhoDidYouGiveItToModel]) : GainController = {
     val mockCalcConnector = mock[CalculatorConnector]
-    when(mockCalcConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](Matchers.eq(keystoreKeys.whoDidYouGiveItTo))(Matchers.any(), Matchers.any())).
+    when(mockCalcConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(keystoreKeys.whoDidYouGiveItTo))
+      (ArgumentMatchers.any(), ArgumentMatchers.any())).
       thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[WhoDidYouGiveItToModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[WhoDidYouGiveItToModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

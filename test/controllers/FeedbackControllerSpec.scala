@@ -17,7 +17,7 @@
 package controllers
 
 import config.AppConfig
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status
@@ -89,29 +89,14 @@ class FeedbackControllerSpec extends UnitSpec with MockitoSugar with WithFakeApp
   "POST /feedback" should {
     val fakePostRequest = FakeRequest("POST", "/calculate-your-capital-gains/feedback").withFormUrlEncodedBody("test" -> "test")
     "return form with thank you for valid selections" in {
-      when(mockHttp.POSTForm[HttpResponse](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any())).thenReturn(
-        Future.successful(HttpResponse(Status.OK, responseString = Some("1234"))))
-
-      val result = target.submit(fakePostRequest)
-      redirectLocation(result) shouldBe Some(routes.FeedbackController.thankyou().url)
-    }
-
-    "return form with errors for invalid selections" in {
-      when(mockHttp.POSTForm[HttpResponse](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any())).thenReturn(
-        Future.successful(HttpResponse(Status.BAD_REQUEST, responseString = Some("<p>:^(</p>"))))
-      val result = target.submit(fakePostRequest)
-      status(result) shouldBe Status.BAD_REQUEST
-    }
-
-    "return error for other http code back from contact-frontend" in {
-      when(mockHttp.POSTForm[HttpResponse](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any())).thenReturn(
+      when(mockHttp.POSTForm[HttpResponse](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(
         Future.successful(HttpResponse(418))) // 418 - I'm a teapot
       val result = target.submit(fakePostRequest)
       status(result) shouldBe Status.INTERNAL_SERVER_ERROR
     }
 
     "return internal server error when there is an empty form" in {
-      when(mockHttp.POSTForm[HttpResponse](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any())).thenReturn(
+      when(mockHttp.POSTForm[HttpResponse](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(
         Future.successful(HttpResponse(Status.OK, responseString = Some("1234"))))
 
       val result = target.submit(fakeRequest)

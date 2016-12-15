@@ -3,7 +3,7 @@
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.properties.WorthWhenBoughtForLessModel
 
-@(worthWhenBoughtForLessForm: Form[WorthWhenBoughtForLessModel])(implicit request: Request[_])
+@(worthWhenBoughtForLessForm: Form[WorthWhenBoughtForLessModel])(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.properties.worthWhenBoughtForLess.question"),

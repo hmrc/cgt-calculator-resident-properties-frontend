@@ -21,7 +21,7 @@ import java.util.UUID
 import common.KeystoreKeys
 import models.resident
 import models.resident.properties.ChargeableGainAnswers
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.http.cache.client.SessionCache
@@ -47,38 +47,49 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
   def mockResidentPropertyFetchAndGetFormData(): Unit = {
 
-    when(mockSessionCache.fetchAndGetEntry[resident.OtherPropertiesModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.otherProperties))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.OtherPropertiesModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.otherProperties))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(resident.OtherPropertiesModel(false))))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.AllowableLossesModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.allowableLosses))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.AllowableLossesModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.allowableLosses))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.AllowableLossesModel])))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.AllowableLossesValueModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.allowableLossesValue))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.AllowableLossesValueModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.allowableLossesValue))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.AllowableLossesValueModel])))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForward))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForward))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardModel])))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardValueModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForwardValue))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardValueModel](ArgumentMatchers
+      .eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForwardValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardValueModel])))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.AnnualExemptAmountModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.annualExemptAmount))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.AnnualExemptAmountModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.annualExemptAmount))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.AnnualExemptAmountModel])))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.properties.PropertyLivedInModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.propertyLivedIn))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.properties.PropertyLivedInModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.propertyLivedIn))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(resident.properties.PropertyLivedInModel(false))))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.properties.LettingsReliefModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.lettingsRelief))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.properties.LettingsReliefModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.lettingsRelief))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.properties.LettingsReliefModel])))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.properties.LettingsReliefValueModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.lettingsReliefValue))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.properties.LettingsReliefValueModel](ArgumentMatchers
+      .eq(KeystoreKeys.ResidentPropertyKeys.lettingsReliefValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.properties.LettingsReliefValueModel])))
 
 
-    when(mockSessionCache.fetchAndGetEntry[resident.PrivateResidenceReliefModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.privateResidenceRelief))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.PrivateResidenceReliefModel](ArgumentMatchers
+      .eq(KeystoreKeys.ResidentPropertyKeys.privateResidenceRelief))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.PrivateResidenceReliefModel])))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.properties.PrivateResidenceReliefValueModel](Matchers.eq(KeystoreKeys.ResidentPropertyKeys.prrValue))(Matchers.any(), Matchers.any()))
+    when(mockSessionCache.fetchAndGetEntry[resident.properties.PrivateResidenceReliefValueModel](ArgumentMatchers
+      .eq(KeystoreKeys.ResidentPropertyKeys.prrValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.properties.PrivateResidenceReliefValueModel])))
   }
 

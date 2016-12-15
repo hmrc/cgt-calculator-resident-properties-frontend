@@ -22,7 +22,7 @@ import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
@@ -39,10 +39,12 @@ class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication wit
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[WorthWhenInheritedModel](Matchers.eq(keyStoreKeys.worthWhenInherited))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[WorthWhenInheritedModel](ArgumentMatchers.eq(keyStoreKeys.worthWhenInherited))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[WorthWhenInheritedModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[WorthWhenInheritedModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {

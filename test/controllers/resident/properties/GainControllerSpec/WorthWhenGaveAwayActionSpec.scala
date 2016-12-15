@@ -24,7 +24,7 @@ import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.properties.WorthWhenGaveAwayModel
 import org.jsoup.Jsoup
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import org.scalatest.mock.MockitoSugar
@@ -39,10 +39,11 @@ class WorthWhenGaveAwayActionSpec extends UnitSpec with WithFakeApplication with
 
     val mockCalcConnector = mock[CalculatorConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[WorthWhenGaveAwayModel](Matchers.eq(keystoreKeys.worthWhenGaveAway))(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.fetchAndGetFormData[WorthWhenGaveAwayModel](ArgumentMatchers.eq(keystoreKeys.worthWhenGaveAway))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[WorthWhenGaveAwayModel](Matchers.any(), Matchers.any())(Matchers.any(), Matchers.any()))
+    when(mockCalcConnector.saveFormData[WorthWhenGaveAwayModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {
