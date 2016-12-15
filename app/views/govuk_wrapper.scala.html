@@ -27,7 +27,6 @@
 
 @head = {
     @uiLayouts.head(
-      assetsPrefix = appConfig.assetsPrefix,
       linkElem = Some(linksElement),
       headScripts = None)
     <meta name="format-detection" content="telephone=no" />
@@ -50,7 +49,6 @@
 
 @bodyEnd = {
     @uiLayouts.footer(
-      assetsPrefix = appConfig.assetsPrefix,
       analyticsToken = Some(appConfig.analyticsToken),
       analyticsHost = appConfig.analyticsHost,
       ssoUrl = None,
