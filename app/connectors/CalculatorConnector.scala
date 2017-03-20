@@ -216,12 +216,8 @@ trait CalculatorConnector {
   //scalastyle:on
 
   def getPropertyDeductionAnswers(implicit hc: HeaderCarrier): Future[resident.properties.ChargeableGainAnswers] = {
-    val otherPropertiesModel = fetchAndGetFormData[resident.OtherPropertiesModel](ResidentPropertyKeys.otherProperties)
-    val allowableLossesModel = fetchAndGetFormData[resident.AllowableLossesModel](ResidentPropertyKeys.allowableLosses)
-    val allowableLossesValueModel = fetchAndGetFormData[resident.AllowableLossesValueModel](ResidentPropertyKeys.allowableLossesValue)
     val broughtForwardModel = fetchAndGetFormData[resident.LossesBroughtForwardModel](ResidentPropertyKeys.lossesBroughtForward)
     val broughtForwardValueModel = fetchAndGetFormData[resident.LossesBroughtForwardValueModel](ResidentPropertyKeys.lossesBroughtForwardValue)
-    val annualExemptAmountModel = fetchAndGetFormData[resident.AnnualExemptAmountModel](ResidentPropertyKeys.annualExemptAmount)
     val propertyLivedInModel = fetchAndGetFormData[resident.properties.PropertyLivedInModel](ResidentPropertyKeys.propertyLivedIn)
     val privateResidenceReliefModel = fetchAndGetFormData[resident.PrivateResidenceReliefModel](ResidentPropertyKeys.privateResidenceRelief)
     val privateResidenceReliefValueModel = fetchAndGetFormData[resident.properties.PrivateResidenceReliefValueModel](ResidentPropertyKeys.prrValue)
@@ -231,23 +227,15 @@ trait CalculatorConnector {
     for {
       propertyLivedIn <- propertyLivedInModel
       lettingsRelief <- lettingsReliefModel
-      otherProperties <- otherPropertiesModel
-      allowableLosses <- allowableLossesModel
-      allowableLossesValue <- allowableLossesValueModel
       broughtForward <- broughtForwardModel
       broughtForwardValue <- broughtForwardValueModel
-      annualExemptAmount <- annualExemptAmountModel
       privateResidenceRelief <- privateResidenceReliefModel
       lettingsReliefValue <- lettingsReliefValueModel
       privateResidenceReliefValue <- privateResidenceReliefValueModel
     } yield {
       resident.properties.ChargeableGainAnswers(
-        otherProperties,
-        allowableLosses,
-        allowableLossesValue,
         broughtForward,
         broughtForwardValue,
-        annualExemptAmount,
         propertyLivedIn,
         privateResidenceRelief,
         privateResidenceReliefValue,
@@ -259,16 +247,14 @@ trait CalculatorConnector {
   }
 
   def getPropertyIncomeAnswers(implicit hc: HeaderCarrier): Future[resident.IncomeAnswersModel] = {
-    val previousTaxableGainsModel = fetchAndGetFormData[resident.income.PreviousTaxableGainsModel](ResidentPropertyKeys.previousTaxableGains)
     val currentIncomeModel = fetchAndGetFormData[resident.income.CurrentIncomeModel](ResidentPropertyKeys.currentIncome)
     val personalAllowanceModel = fetchAndGetFormData[resident.income.PersonalAllowanceModel](ResidentPropertyKeys.personalAllowance)
 
     for {
-      previousGains <- previousTaxableGainsModel
       currentIncome <- currentIncomeModel
       personalAllowance <- personalAllowanceModel
     } yield {
-      resident.IncomeAnswersModel(previousGains, currentIncome, personalAllowance)
+      resident.IncomeAnswersModel(currentIncome, personalAllowance)
     }
   }
 }

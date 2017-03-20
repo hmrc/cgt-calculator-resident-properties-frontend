@@ -52,11 +52,7 @@ class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplicati
       None)
 
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(false)),
-      None,
-      None,
       Some(LossesBroughtForwardModel(false)),
-      None,
       None,
       Some(PropertyLivedInModel(false)),
       None,
@@ -371,12 +367,8 @@ class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplicati
     )
 
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
       Some(PropertyLivedInModel(true)),
       Some(PrivateResidenceReliefModel(true)),
       Some(PrivateResidenceReliefValueModel(1000)),
@@ -697,12 +689,8 @@ class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplicati
       Some(true)
     )
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
       Some(PropertyLivedInModel(true)),
       Some(PrivateResidenceReliefModel(true)),
       Some(PrivateResidenceReliefValueModel(1000)),
@@ -750,128 +738,6 @@ class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplicati
     }
   }
 
-  "Deductions Report view with AEA options selected" which {
-
-    lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
-      None,
-      None,
-      whoDidYouGiveItTo = Some("Other"),
-      worthWhenGaveAway = Some(10000),
-      BigDecimal(10000),
-      None,
-      worthWhenInherited = None,
-      worthWhenGifted = None,
-      worthWhenBoughtForLess = None,
-      BigDecimal(10000),
-      BigDecimal(30000),
-      true,
-      None,
-      true,
-      Some(BigDecimal(5000)),
-      None,
-      None
-    )
-
-    lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      Some(AllowableLossesValueModel(10000)),
-      Some(LossesBroughtForwardModel(true)),
-      Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
-      Some(PropertyLivedInModel(true)),
-      Some(PrivateResidenceReliefModel(true)),
-      Some(PrivateResidenceReliefValueModel(5000)),
-      Some(LettingsReliefModel(true)),
-      Some(LettingsReliefValueModel(6000))
-    )
-    lazy val results = ChargeableGainResultModel(BigDecimal(50000),
-      BigDecimal(-11000),
-      BigDecimal(0),
-      BigDecimal(11000),
-      BigDecimal(71000),
-      BigDecimal(1000),
-      BigDecimal(0),
-      Some(BigDecimal(30000)),
-      Some(BigDecimal(1500)),
-      10000,
-      10000
-    )
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "has a numeric output row for the deductions" which {
-
-      "should have the question text 'Deductions'" in {
-        doc.select("#deductions-question").text shouldBe messages.deductions
-      }
-
-      "has a breakdown that" should {
-
-        "include a value for PRR of £1,500" in {
-          doc.select("#deductions-amount").text should include("Private Residence Relief used £1,500")
-        }
-
-        "include a value for Reliefs of £30,000" in {
-          doc.select("#deductions-amount").text should include(s"${messages.lettingReliefsUsed} £30,000")
-        }
-      }
-    }
-
-    "has no numeric output row for brought forward losses remaining" in {
-      doc.select("#broughtForwardLossRemaining").isEmpty shouldBe true
-    }
-
-    "has an option output row for eligible for private residence relief in" which {
-
-      s"should have the question text '${commonMessages.PrivateResidenceRelief.title}'" in {
-        doc.select("#privateResidenceRelief-question").text shouldBe commonMessages.PrivateResidenceRelief.title
-      }
-
-      "should have the value 'Yes'" in {
-        doc.select("#privateResidenceRelief-option span.bold-medium").text shouldBe "Yes"
-      }
-    }
-
-    "has an option output row for private residence relief value in" which {
-
-      s"should have the question text '${commonMessages.PrivateResidenceReliefValue.title}'" in {
-        doc.select("#privateResidenceReliefValue-question").text shouldBe commonMessages.PrivateResidenceReliefValue.title
-      }
-
-      "should have the value '£5,000'" in {
-        doc.select("#privateResidenceReliefValue-amount span.bold-medium").text shouldBe "£5,000"
-      }
-    }
-
-    "has an option output row for eligible for lettings relief in" which {
-
-      s"should have the question text '${commonMessages.LettingsRelief.title}'" in {
-        doc.select("#lettingsRelief-question").text shouldBe commonMessages.LettingsRelief.title
-      }
-
-      "should have the value 'Yes'" in {
-        doc.select("#lettingsRelief-option span.bold-medium").text shouldBe "Yes"
-      }
-
-    }
-
-    "has an option output row for eligible for lettings relief value in" which {
-
-      s"should have the question text '${commonMessages.LettingsReliefValue.title}'" in {
-        doc.select("#lettingsReliefValue-question").text shouldBe commonMessages.LettingsReliefValue.title
-      }
-
-      "should have the value 'No'" in {
-        doc.select("#lettingsReliefValue-amount span.bold-medium").text shouldBe "£6,000"
-      }
-
-    }
-  }
-
-
   "Report when supplied with a date above the known tax years" should {
 
     lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2018),
@@ -895,12 +761,8 @@ class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplicati
     )
 
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
       Some(PropertyLivedInModel(false)),
       None,
       None,
@@ -1011,12 +873,8 @@ class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplicati
       None
     )
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
       Some(PropertyLivedInModel(false)),
       None,
       None,

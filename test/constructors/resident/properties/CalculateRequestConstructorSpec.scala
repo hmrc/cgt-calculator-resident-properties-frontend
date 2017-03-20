@@ -333,11 +333,7 @@ class CalculateRequestConstructorSpec extends UnitSpec {
 
       "return a valid url variable string" in {
         val answers = ChargeableGainAnswers(
-          Some(OtherPropertiesModel(false)),
-          None,
-          None,
           Some(LossesBroughtForwardModel(false)),
-          None,
           None,
           Some(PropertyLivedInModel(false)),
           None,
@@ -350,16 +346,12 @@ class CalculateRequestConstructorSpec extends UnitSpec {
       }
     }
 
-    "supplied with all optional values except allowable losses" should {
+    "supplied with all optional values" should {
 
       "return a valid url variable string" in {
         val answers = ChargeableGainAnswers(
-          Some(OtherPropertiesModel(true)),
-          Some(AllowableLossesModel(false)),
-          None,
           Some(LossesBroughtForwardModel(true)),
           Some(LossesBroughtForwardValueModel(BigDecimal(2000))),
-          Some(AnnualExemptAmountModel(BigDecimal(3000))),
           Some(PropertyLivedInModel(true)),
           Some(PrivateResidenceReliefModel(true)),
           Some(PrivateResidenceReliefValueModel(5000)),
@@ -368,59 +360,6 @@ class CalculateRequestConstructorSpec extends UnitSpec {
         )
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
         result shouldBe "&prrValue=5000&lettingReliefs=4000&broughtForwardLosses=2000&annualExemptAmount=11100"
-      }
-    }
-  }
-
-  "calling .isUsingAnnualExemptAmount" when {
-
-    "disposed other properties and claimed non-zero allowable losses" should {
-
-      "return a true" in {
-        val result = CalculateRequestConstructor.isUsingAnnualExemptAmount(Some(OtherPropertiesModel(true)),
-          Some(AllowableLossesModel(true)),
-          Some(AllowableLossesValueModel(BigDecimal(1000))))
-        result shouldBe false
-      }
-    }
-
-    "disposed other properties and claimed zero allowable losses" should {
-
-      "return a false" in {
-        val result = CalculateRequestConstructor.isUsingAnnualExemptAmount(Some(OtherPropertiesModel(true)),
-          Some(AllowableLossesModel(true)),
-          Some(AllowableLossesValueModel(BigDecimal(0))))
-        result shouldBe true
-      }
-    }
-
-    "disposed other properties and didn't claim allowable losses" should {
-
-      "return a true" in {
-        val result = CalculateRequestConstructor.isUsingAnnualExemptAmount(Some(OtherPropertiesModel(true)),
-          Some(AllowableLossesModel(false)),
-          Some(AllowableLossesValueModel(BigDecimal(0))))
-        result shouldBe true
-      }
-    }
-
-    "disposed no other properties or allowable losses" should {
-
-      "return a false" in {
-        val result = CalculateRequestConstructor.isUsingAnnualExemptAmount(Some(OtherPropertiesModel(false)),
-          Some(AllowableLossesModel(false)),
-          Some(AllowableLossesValueModel(BigDecimal(100))))
-        result shouldBe false
-      }
-    }
-
-    "disposed no other properties and but claimed allowable losses" should {
-
-      "return a false" in {
-        val result = CalculateRequestConstructor.isUsingAnnualExemptAmount(Some(OtherPropertiesModel(false)),
-          Some(AllowableLossesModel(true)),
-          Some(AllowableLossesValueModel(BigDecimal(100))))
-        result shouldBe false
       }
     }
   }
