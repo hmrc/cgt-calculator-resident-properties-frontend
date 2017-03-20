@@ -83,13 +83,6 @@ articleLayout = false
         case _ => ()
     }}
 
-        <!-- Other Disposal Stats -->
-    @if(deductionAnswers.otherPropertiesModel.fold(false)(_.hasOtherProperties)){
-        <span data-metrics="rtt-properties-summary:otherDisposals:yes"></span>
-    } else {
-        <span data-metrics="rtt-properties-summary:otherDisposals:no"></span>
-    }
-
     <!-- Claiming Brought Forward Losses Stats -->
     @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
         <span data-metrics="rtt-properties-summary:broughtForwardLosses:yes"></span>
@@ -234,14 +227,14 @@ articleLayout = false
                 <h2 id="whatToDoNextNoLossTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
                 <div id="whatToDoNextNoLossText" class="font-medium what-to-do-next-text">
                     @Messages("calc.resident.summary.whatNext.noLossOrGain")
-                    <a href=@{if (result.allowableLossesRemaining > 0 || result.broughtForwardLossesRemaining > 0) "https://www.gov.uk/capital-gains-tax/losses"
+                    <a href=@{if (result.broughtForwardLossesRemaining > 0) "https://www.gov.uk/capital-gains-tax/losses"
                         else "https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"}
                         target="_blank" rel="external"
                        data-journey-click="help:govUK:rtt-properties-whaToDoNext">
                         @Messages("calc.resident.summary.whatNext.noLossOrGainLinkProperties")
                         <span id="opensInANewTab">@Messages("calc.base.externalLink")</span>
                     </a>
-                    @{if (result.allowableLossesRemaining > 0 || result.broughtForwardLossesRemaining > 0) Messages("calc.resident.summary.whatNext.withLossRemaining")}.
+                    @{if (result.broughtForwardLossesRemaining > 0) Messages("calc.resident.summary.whatNext.withLossRemaining")}.
                 </div>
             </section>
     }
