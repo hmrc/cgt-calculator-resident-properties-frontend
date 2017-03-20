@@ -57,15 +57,10 @@ object CalculateRequestConstructor {
       answers.lettingsReliefModel.get.isClaiming)
       s"&lettingReliefs=${answers.lettingsReliefValueModel.get.amount}"
     else ""}" +
-    s"${if (answers.otherPropertiesModel.get.hasOtherProperties && answers.allowableLossesModel.get.isClaiming)
-      s"&allowableLosses=${answers.allowableLossesValueModel.get.amount}"
-    else ""}" +
     s"${if (answers.broughtForwardModel.get.option)
       s"&broughtForwardLosses=${answers.broughtForwardValueModel.get.amount}"
     else ""}" +
-    s"&annualExemptAmount=${if (isUsingAnnualExemptAmount(answers.otherPropertiesModel, answers.allowableLossesModel, answers.allowableLossesValueModel)) {
-      answers.annualExemptAmountModel.get.amount}
-    else maxAEA}"
+    s"&annualExemptAmount=$maxAEA"
   }
 
   def incomeAnswersRequestString (deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): String ={

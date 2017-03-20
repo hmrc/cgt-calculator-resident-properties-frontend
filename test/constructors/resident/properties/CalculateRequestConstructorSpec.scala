@@ -363,32 +363,11 @@ class CalculateRequestConstructorSpec extends UnitSpec {
           Some(PropertyLivedInModel(true)),
           Some(PrivateResidenceReliefModel(true)),
           Some(PrivateResidenceReliefValueModel(5000)),
-          Some(LettingsReliefModel(false)),
-          Some(LettingsReliefValueModel(4000))
-        )
-        val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&prrValue=5000&broughtForwardLosses=2000&annualExemptAmount=3000"
-      }
-    }
-
-    "supplied with all optional values including allowable losses" should {
-
-      "return a valid url variable string" in {
-        val answers = ChargeableGainAnswers(
-          Some(OtherPropertiesModel(true)),
-          Some(AllowableLossesModel(true)),
-          Some(AllowableLossesValueModel(BigDecimal(1000))),
-          Some(LossesBroughtForwardModel(true)),
-          Some(LossesBroughtForwardValueModel(BigDecimal(2000))),
-          Some(AnnualExemptAmountModel(BigDecimal(3000))),
-          Some(PropertyLivedInModel(true)),
-          Some(PrivateResidenceReliefModel(true)),
-          Some(PrivateResidenceReliefValueModel(5000)),
           Some(LettingsReliefModel(true)),
           Some(LettingsReliefValueModel(4000))
         )
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&prrValue=5000&lettingReliefs=4000&allowableLosses=1000&broughtForwardLosses=2000&annualExemptAmount=11100"
+        result shouldBe "&prrValue=5000&lettingReliefs=4000&broughtForwardLosses=2000&annualExemptAmount=11100"
       }
     }
   }
