@@ -17,20 +17,19 @@
 package views.resident.properties.summary
 
 import assets.MessageLookup.Resident.{Properties => propertiesMessages}
-import assets.MessageLookup.{Resident => residentMessages}
-import assets.MessageLookup.{SummaryPage => messages}
+import assets.MessageLookup.{Resident => residentMessages, SummaryPage => messages}
+import assets.{MessageLookup => commonMessages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
+import controllers.routes
 import models.resident._
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
+import models.resident.properties._
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{summary => views}
-import assets.{MessageLookup => commonMessages}
-import controllers.routes
-import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel, PreviousTaxableGainsModel}
-import models.resident.properties._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -64,7 +63,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       None,
       None
     )
-    lazy val incomeAnswers = IncomeAnswersModel(None, Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
       20000,
@@ -118,7 +117,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "includes an amount of tax due of £3,600.00" in {
-        doc.select("h1").text should include ("£3,600.00")
+        doc.select("h1").text should include("£3,600.00")
       }
     }
 
@@ -582,7 +581,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       None
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -685,7 +684,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       Some(LettingsReliefValueModel(5000))
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -911,7 +910,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       None
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(0)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       0,
@@ -1063,7 +1062,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       None
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -1144,7 +1143,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       None
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -1291,7 +1290,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       None,
       None)
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,

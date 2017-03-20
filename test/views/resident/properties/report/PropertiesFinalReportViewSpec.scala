@@ -64,7 +64,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       None
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -434,7 +434,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       Some(LettingsReliefValueModel(7000))
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -662,7 +662,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       Some(LettingsReliefValueModel(7000))
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -742,7 +742,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       Some(LettingsReliefValueModel(7000))
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -830,7 +830,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       Some(LettingsReliefValueModel(7000))
     )
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -923,7 +923,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
         0
       )
 
-      lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+      lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")

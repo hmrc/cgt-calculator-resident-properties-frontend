@@ -247,16 +247,14 @@ trait CalculatorConnector {
   }
 
   def getPropertyIncomeAnswers(implicit hc: HeaderCarrier): Future[resident.IncomeAnswersModel] = {
-    val previousTaxableGainsModel = fetchAndGetFormData[resident.income.PreviousTaxableGainsModel](ResidentPropertyKeys.previousTaxableGains)
     val currentIncomeModel = fetchAndGetFormData[resident.income.CurrentIncomeModel](ResidentPropertyKeys.currentIncome)
     val personalAllowanceModel = fetchAndGetFormData[resident.income.PersonalAllowanceModel](ResidentPropertyKeys.personalAllowance)
 
     for {
-      previousGains <- previousTaxableGainsModel
       currentIncome <- currentIncomeModel
       personalAllowance <- personalAllowanceModel
     } yield {
-      resident.IncomeAnswersModel(previousGains, currentIncome, personalAllowance)
+      resident.IncomeAnswersModel(currentIncome, personalAllowance)
     }
   }
 }
