@@ -61,13 +61,6 @@ trait IncomeController extends ValidActiveSession {
     }
   }
 
-  def annualExemptAmountEntered(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[AnnualExemptAmountModel](keystoreKeys.annualExemptAmount).map {
-      case Some(data) => data.amount == 0
-      case None => false
-    }
-  }
-
   def allowableLossesCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
     calcConnector.fetchAndGetFormData[AllowableLossesModel](keystoreKeys.allowableLosses).map {
       case Some(data) => data.isClaiming
@@ -160,19 +153,9 @@ trait IncomeController extends ValidActiveSession {
   //################################# Current Income Actions ##########################################
 
   def buildCurrentIncomeBackUrl(implicit hc: HeaderCarrier): Future[String] = {
-    for {
-      hasOtherProperties <- otherPropertiesResponse
-      hasAllowableLosses <- allowableLossesCheck
-      displayAnnualExemptAmount <- displayAnnualExemptAmountCheck(hasOtherProperties, hasAllowableLosses)
-      hasLossesBroughtForward <- lossesBroughtForwardResponse
-      enteredAnnualExemptAmount <- annualExemptAmountEntered
-    } yield (displayAnnualExemptAmount, hasLossesBroughtForward, enteredAnnualExemptAmount)
-
-    match {
-      case (true, _, true) => routes.IncomeController.previousTaxableGains().url
-      case (true, _, _) => routes.DeductionsController.annualExemptAmount().url
-      case (false, true, _) => routes.DeductionsController.lossesBroughtForwardValue().url
-      case (false, false, _) => routes.DeductionsController.lossesBroughtForward().url
+    lossesBroughtForwardResponse.map { response =>
+      if (response) controllers.routes.DeductionsController.lossesBroughtForwardValue().url
+      else controllers.routes.DeductionsController.lossesBroughtForward().url
     }
   }
 
