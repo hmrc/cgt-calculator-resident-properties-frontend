@@ -34,14 +34,14 @@ import forms.resident.properties.PrivateResidenceReliefValueForm._
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties._
 import models.resident.{AllowableLossesValueModel, _}
+import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{deductions => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
@@ -74,11 +74,11 @@ trait DeductionsController extends ValidActiveSession {
 
 
   //################# Property Lived In Actions #############################
-  val propertyLivedIn = ValidateSession.async {implicit request =>
+  val propertyLivedIn = ValidateSession.async { implicit request =>
 
     val backLink = Some(controllers.routes.GainController.improvements().toString)
 
-    calcConnector.fetchAndGetFormData[PropertyLivedInModel](keystoreKeys.propertyLivedIn).map{
+    calcConnector.fetchAndGetFormData[PropertyLivedInModel](keystoreKeys.propertyLivedIn).map {
       case Some(data) => Ok(commonViews.properties.deductions.propertyLivedIn(propertyLivedInForm.fill(data), homeLink, backLink))
       case _ => Ok(commonViews.properties.deductions.propertyLivedIn(propertyLivedInForm, homeLink, backLink))
     }
@@ -94,7 +94,7 @@ trait DeductionsController extends ValidActiveSession {
 
     def routeRequest(model: PropertyLivedInModel) = {
       if (model.livedInProperty) Future.successful(Redirect(routes.DeductionsController.privateResidenceRelief()))
-      else Future.successful(Redirect(routes.DeductionsController.otherProperties()))
+      else Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
     }
 
     def successAction(model: PropertyLivedInModel) = {
@@ -108,10 +108,9 @@ trait DeductionsController extends ValidActiveSession {
   }
 
 
-
   //########## Private Residence Relief Actions ##############
   val privateResidenceRelief = ValidateSession.async { implicit request =>
-    calcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](keystoreKeys.privateResidenceRelief).map{
+    calcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](keystoreKeys.privateResidenceRelief).map {
       case Some(data) => Ok(views.privateResidenceRelief(privateResidenceReliefForm.fill(data)))
       case _ => Ok(views.privateResidenceRelief(privateResidenceReliefForm))
     }
@@ -123,7 +122,7 @@ trait DeductionsController extends ValidActiveSession {
 
     def routeRequest(model: PrivateResidenceReliefModel) = {
       if (model.isClaiming) Future.successful(Redirect(routes.DeductionsController.privateResidenceReliefValue()))
-      else Future.successful(Redirect(routes.DeductionsController.otherProperties()))
+      else Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
     }
 
     def successAction(model: PrivateResidenceReliefModel) = {
@@ -135,7 +134,6 @@ trait DeductionsController extends ValidActiveSession {
 
     privateResidenceReliefForm.bindFromRequest().fold(errorAction, successAction)
   }
-
 
 
   //########## Private Residence Relief Value Actions ##############
@@ -194,7 +192,7 @@ trait DeductionsController extends ValidActiveSession {
     def routeRequest(model: LettingsReliefModel) = {
       model match {
         case LettingsReliefModel(true) => Future.successful(Redirect(routes.DeductionsController.lettingsReliefValue()))
-        case _ => Future.successful(Redirect(routes.DeductionsController.otherProperties()))
+        case _ => Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
       }
     }
 
@@ -210,7 +208,6 @@ trait DeductionsController extends ValidActiveSession {
       success => successAction(success)
     )
   }
-
 
 
   //################# Lettings Relief Value Input Actions ########################
@@ -238,7 +235,7 @@ trait DeductionsController extends ValidActiveSession {
         errors => Future.successful(BadRequest(views.lettingsReliefValue(errors, homeLink, totalGain))),
         success => {
           calcConnector.saveFormData[LettingsReliefValueModel](keystoreKeys.lettingsReliefValue, success)
-          Future.successful(Redirect(routes.DeductionsController.otherProperties()))
+          Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
         })
     }
 
@@ -315,7 +312,6 @@ trait DeductionsController extends ValidActiveSession {
   }
 
 
-
   //################# Allowable Losses Actions #########################
   val allowableLosses = ValidateSession.async { implicit request =>
 
@@ -364,7 +360,6 @@ trait DeductionsController extends ValidActiveSession {
   }
 
 
-
   //################# Allowable Losses Value Actions ############################
   private val allowableLossesValuePostAction = controllers.routes.DeductionsController.submitAllowableLossesValue()
   private val allowableLossesValueBackLink = Some(controllers.routes.DeductionsController.allowableLosses().toString)
@@ -379,11 +374,11 @@ trait DeductionsController extends ValidActiveSession {
     }
 
     def routeRequest(taxYear: TaxYearModel, formData: Form[AllowableLossesValueModel]): Future[Result] = {
-        Future.successful(Ok(commonViews.allowableLossesValue(formData, taxYear,
-          homeLink,
-          allowableLossesValuePostAction,
-          allowableLossesValueBackLink,
-          navTitle)))
+      Future.successful(Ok(commonViews.allowableLossesValue(formData, taxYear,
+        homeLink,
+        allowableLossesValuePostAction,
+        allowableLossesValueBackLink,
+        navTitle)))
     }
     for {
       disposalDate <- getDisposalDate
@@ -416,7 +411,6 @@ trait DeductionsController extends ValidActiveSession {
       route <- routeRequest(taxYear.get)
     } yield route
   }
-
 
 
   //################# Brought Forward Losses Actions ############################
@@ -512,14 +506,9 @@ trait DeductionsController extends ValidActiveSession {
 
           if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
           else {
-            displayAnnualExemptAmountCheck.flatMap { displayAnnualExemptAmount =>
-              if (displayAnnualExemptAmount) Future.successful(Redirect(routes.DeductionsController.annualExemptAmount()))
-              else {
-                positiveChargeableGainCheck.map { positiveChargeableGain =>
-                  if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-                  else Redirect(routes.SummaryController.summary())
-                }
-              }
+            positiveChargeableGainCheck.map { positiveChargeableGain =>
+              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+              else Redirect(routes.SummaryController.summary())
             }
           }
         }
@@ -538,9 +527,8 @@ trait DeductionsController extends ValidActiveSession {
   }
 
 
-
   //################# Brought Forward Losses Value Actions ##############################
-  private val lossesBroughtForwardValueBackLink   = routes.DeductionsController.lossesBroughtForward().url
+  private val lossesBroughtForwardValueBackLink = routes.DeductionsController.lossesBroughtForward().url
   private val lossesBroughtForwardValuePostAction = routes.DeductionsController.submitLossesBroughtForwardValue()
 
   val lossesBroughtForwardValue = ValidateSession.async { implicit request =>
@@ -575,7 +563,8 @@ trait DeductionsController extends ValidActiveSession {
   val submitLossesBroughtForwardValue = ValidateSession.async { implicit request =>
 
     lossesBroughtForwardValueForm.bindFromRequest.fold(
-      errors => { for {
+      errors => {
+        for {
           disposalDate <- getDisposalDate
           disposalDateString <- formatDisposalDate(disposalDate.get)
           taxYear <- calcConnector.getTaxYear(disposalDateString)
@@ -591,20 +580,13 @@ trait DeductionsController extends ValidActiveSession {
       },
       success => {
         calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
-
-        displayAnnualExemptAmountCheck.flatMap { displayAnnualExemptAmount =>
-          if (displayAnnualExemptAmount) Future.successful(Redirect(routes.DeductionsController.annualExemptAmount()))
-          else {
-            positiveChargeableGainCheck.map { positiveChargeableGain =>
-              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-              else Redirect(routes.SummaryController.summary())
-            }
-          }
+        positiveChargeableGainCheck.map { positiveChargeableGain =>
+          if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+          else Redirect(routes.SummaryController.summary())
         }
       }
     )
   }
-
 
 
   //################# Annual Exempt Amount Input Actions #############################
@@ -615,6 +597,7 @@ trait DeductionsController extends ValidActiveSession {
     case _ =>
       Some(controllers.routes.DeductionsController.lossesBroughtForward().toString)
   }
+
   private val annualExemptAmountPostAction = controllers.routes.DeductionsController.submitAnnualExemptAmount()
 
   val annualExemptAmount = ValidateSession.async { implicit request =>
@@ -640,7 +623,7 @@ trait DeductionsController extends ValidActiveSession {
 
   val submitAnnualExemptAmount = ValidateSession.async { implicit request =>
 
-    def taxYearStringToInteger (taxYear: String): Future[Int] = {
+    def taxYearStringToInteger(taxYear: String): Future[Int] = {
       Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
     }
 
