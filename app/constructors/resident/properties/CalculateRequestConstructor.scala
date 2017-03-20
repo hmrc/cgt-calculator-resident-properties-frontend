@@ -64,10 +64,6 @@ object CalculateRequestConstructor {
   }
 
   def incomeAnswersRequestString (deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): String ={
-    s"${if (deductionsAnswers.otherPropertiesModel.get.hasOtherProperties && deductionsAnswers.annualExemptAmountModel.isDefined &&
-            deductionsAnswers.annualExemptAmountModel.get.amount == 0)
-      s"&previousTaxableGain=${answers.previousTaxableGainsModel.get.amount}"
-      else ""}" +
     s"&previousIncome=${answers.currentIncomeModel.get.amount}" +
     s"&personalAllowance=${answers.personalAllowanceModel.get.amount}"
   }
