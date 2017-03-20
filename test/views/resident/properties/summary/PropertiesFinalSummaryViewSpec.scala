@@ -180,10 +180,6 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             doc.select("#deductions-amount").text should include(s"${messages.lettingReliefsUsed} £0")
           }
 
-          "include a value for Allowable Losses of £0" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2015/16")} £0")
-          }
-
           "include a value for Capital gains tax allowance used of £0" in {
             doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
           }
@@ -484,29 +480,6 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
         s"should not display" in {
           doc.select("#lettingsRelief-question").size() shouldBe 0
-        }
-      }
-
-      "has an option output row for other properties" which {
-
-        s"should have the question text '${commonMessages.OtherProperties.title("2015/16")}'" in {
-          doc.select("#otherProperties-question").text shouldBe commonMessages.OtherProperties.title("2015/16")
-        }
-
-        "should have the value 'No'" in {
-          doc.select("#otherProperties-option span.bold-medium").text shouldBe "No"
-        }
-
-        s"should have a change link to ${routes.DeductionsController.otherProperties().url}" in {
-          doc.select("#otherProperties-option a").attr("href") shouldBe routes.DeductionsController.otherProperties().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#otherProperties-option a").text shouldBe s"${residentMessages.change} ${commonMessages.OtherProperties.title("2015/16")}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#otherProperties-option a span.visuallyhidden").text shouldBe commonMessages.OtherProperties.title("2015/16")
         }
       }
 
@@ -939,21 +912,6 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "has the question component of the link as visuallyhidden" in {
         doc.select("#privateResidenceRelief-option a span.visuallyhidden").text shouldBe commonMessages.PrivateResidenceRelief.title
-      }
-    }
-
-    "has an option output row for previous taxable gains" which {
-
-      s"should have the question text '${commonMessages.PreviousTaxableGains.title("2013/14")}'" in {
-        doc.select("#previousTaxableGains-question").text shouldBe commonMessages.PreviousTaxableGains.title("2013/14")
-      }
-
-      "should have the value '£1,000'" in {
-        doc.select("#previousTaxableGains-amount span.bold-medium").text shouldBe "£1,000"
-      }
-
-      s"should have a change link to ${routes.IncomeController.previousTaxableGains().url}" in {
-        doc.select("#previousTaxableGains-amount a").attr("href") shouldBe routes.IncomeController.previousTaxableGains().url
       }
     }
 
