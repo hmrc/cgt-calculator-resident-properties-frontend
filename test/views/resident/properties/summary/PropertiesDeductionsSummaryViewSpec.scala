@@ -55,11 +55,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     )
 
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(false)),
-      None,
-      None,
       Some(LossesBroughtForwardModel(false)),
-      None,
       None,
       Some(PropertyLivedInModel(false)),
       None,
@@ -547,12 +543,8 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     )
 
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
       Some(PropertyLivedInModel(true)),
       Some(PrivateResidenceReliefModel(true)),
       Some(PrivateResidenceReliefValueModel(4000)),
@@ -1053,12 +1045,8 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       Some(true)
     )
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
       Some(PropertyLivedInModel(true)),
       Some(PrivateResidenceReliefModel(true)),
       Some(PrivateResidenceReliefValueModel(4000)),
@@ -1154,12 +1142,8 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     )
 
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
       Some(PropertyLivedInModel(true)),
       Some(PrivateResidenceReliefModel(true)),
       Some(PrivateResidenceReliefValueModel(5000)),
@@ -1319,12 +1303,8 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     )
 
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(0)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(0)),
-      Some(AnnualExemptAmountModel(0)),
       Some(PropertyLivedInModel(false)),
       None,
       None,
@@ -1477,12 +1457,8 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     )
 
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
       Some(PropertyLivedInModel(false)),
       None,
       None,
@@ -1592,12 +1568,8 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     )
 
     lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
       Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)),
       Some(PropertyLivedInModel(true)),
       Some(PrivateResidenceReliefModel(true)),
       Some(PrivateResidenceReliefValueModel(5000)),
