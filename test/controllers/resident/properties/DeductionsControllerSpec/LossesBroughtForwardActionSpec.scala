@@ -187,7 +187,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
   "Calling .submitLossesBroughtForward from the DeductionsController" when {
 
-    "a valid form 'No' and no other properties are claimed and chargeable gain is £1000" should {
+    "a valid form 'No' and chargeable gain is £1000" should {
 
       lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), Some(OtherPropertiesModel(false)), None, gainModel,
         summaryModel, ChargeableGainResultModel(1000, 1000, 0, 0, 0, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
@@ -204,7 +204,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       }
     }
 
-    "a valid form 'No' and no other properties are claimed and chargeable gain is zero" should {
+    "a valid form 'No' and chargeable gain is zero" should {
 
       lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), Some(OtherPropertiesModel(false)), None, gainModel,
         summaryModel, ChargeableGainResultModel(1000, 0, 0, 0, 1000, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
@@ -221,7 +221,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       }
     }
 
-    "a valid form 'No' and no other properties are claimed and has a positive chargeable gain of £1,000" should {
+    "a valid form 'No' and has a positive chargeable gain of £1,000" should {
 
       lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), Some(OtherPropertiesModel(false)), None, gainModel,
         summaryModel, ChargeableGainResultModel(1000, -1000, 0, 0, 2000, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
@@ -238,64 +238,11 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       }
     }
 
-    "a valid form 'No' is and other properties are claimed with non-zero allowable losses" should {
-
-      lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), Some(OtherPropertiesModel(true)),
-        Some(AllowableLossesModel(true)), gainModel, summaryModel, ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0),
-          BigDecimal(0), Some(BigDecimal(0)), Some(BigDecimal(0)), 0, 0), Some(AllowableLossesValueModel(1000)),
-        Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
-      lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
-      lazy val result = target.submitLossesBroughtForward(request)
-
-      "return a 303" in {
-        status(result) shouldBe 303
-      }
-
-      "redirect to the summary" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/summary")
-      }
-    }
-
-    "a valid form 'No' is and other properties are claimed with zero allowable losses" should {
-
-      lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), Some(OtherPropertiesModel(true)),
-        Some(AllowableLossesModel(true)), gainModel, summaryModel, ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0),
-          BigDecimal(0), Some(BigDecimal(0)), Some(BigDecimal(0)), 0, 0), Some(AllowableLossesValueModel(0)), Some(DisposalDateModel(10, 10, 2015)),
-        Some(TaxYearModel("2015/16", true, "2015/16")))
-      lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
-      lazy val result = target.submitLossesBroughtForward(request)
-
-      "return a 303" in {
-        status(result) shouldBe 303
-      }
-
-      "redirect to the annual exempt amount page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/annual-exempt-amount")
-      }
-    }
-
-    "a valid form 'Yes' is and other properties are not claimed" should {
+    "a valid form 'Yes'" should {
 
       lazy val target = setupTarget(Some(LossesBroughtForwardModel(true)), Some(OtherPropertiesModel(false)),
         None, gainModel, summaryModel, ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
           Some(BigDecimal(0)), 0, 0), None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
-      lazy val request = fakeRequestToPOSTWithSession(("option", "Yes"))
-      lazy val result = target.submitLossesBroughtForward(request)
-
-      "return a 303" in {
-        status(result) shouldBe 303
-      }
-
-      "redirect to the losses brought forward value page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/losses-brought-forward-value")
-      }
-    }
-
-    "a valid form 'Yes' is and other properties are claimed" should {
-
-      lazy val target = setupTarget(Some(LossesBroughtForwardModel(true)), Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(false)),
-        gainModel, summaryModel, ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)), Some(BigDecimal(0)), 0, 0),
-        None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", "Yes"))
       lazy val result = target.submitLossesBroughtForward(request)
 

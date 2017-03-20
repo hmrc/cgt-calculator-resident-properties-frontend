@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers.DeductionsControllerSpec
+package controllers.resident.properties.DeductionsControllerSpec
 
 import assets.MessageLookup.{LettingsRelief => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
@@ -121,8 +121,8 @@ class LettingsReliefActionSpec extends UnitSpec with WithFakeApplication with Fa
         status(result) shouldBe 303
       }
 
-      "redirect to the other properties page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/other-properties")
+      "redirect to the brought forward losses page" in {
+        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lossesBroughtForward().url)
       }
     }
 

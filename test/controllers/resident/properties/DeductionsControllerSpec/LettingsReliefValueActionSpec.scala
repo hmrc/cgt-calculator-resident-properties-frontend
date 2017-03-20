@@ -132,8 +132,8 @@ class LettingsReliefValueActionSpec extends UnitSpec with WithFakeApplication wi
         status(result) shouldBe 303
       }
 
-      "redirect to the other properties page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/other-properties")
+      "redirect to the brought forward losses page" in {
+        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lossesBroughtForward().url)
       }
     }
 
