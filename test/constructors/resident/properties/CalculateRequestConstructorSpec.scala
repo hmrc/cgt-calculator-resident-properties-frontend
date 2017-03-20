@@ -363,11 +363,11 @@ class CalculateRequestConstructorSpec extends UnitSpec {
           Some(PropertyLivedInModel(true)),
           Some(PrivateResidenceReliefModel(true)),
           Some(PrivateResidenceReliefValueModel(5000)),
-          Some(LettingsReliefModel(false)),
+          Some(LettingsReliefModel(true)),
           Some(LettingsReliefValueModel(4000))
         )
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&prrValue=5000&broughtForwardLosses=2000&annualExemptAmount=11100"
+        result shouldBe "&prrValue=5000&lettingReliefs=4000&broughtForwardLosses=2000&annualExemptAmount=11100"
       }
     }
   }
