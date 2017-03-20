@@ -162,10 +162,6 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
             doc.select("#deductions-amount").text should include(s"${messages.lettingReliefsUsed} £0")
           }
 
-          "include a value for Allowable Losses of £0" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2015/16")} £0")
-          }
-
           "include a value for Capital gains tax allowance used of £0" in {
             doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
           }
@@ -373,17 +369,6 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
         }
       }
 
-      "has an option output row for other properties" which {
-
-        s"should have the question text '${commonMessages.OtherProperties.title("2015/16")}'" in {
-          doc.select("#otherProperties-question").text shouldBe commonMessages.OtherProperties.title("2015/16")
-        }
-
-        "should have the value 'Yes'" in {
-          doc.select("#otherProperties-option span.bold-medium").text shouldBe "Yes"
-        }
-      }
-
       "has an option output row for brought forward losses" which {
 
         s"should have the question text '${commonMessages.LossesBroughtForward.title("2015/16")}'" in {
@@ -392,17 +377,6 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
 
         "should have the value 'No'" in {
           doc.select("#broughtForwardLosses-option span.bold-medium").text shouldBe "No"
-        }
-      }
-
-      "has an option output row for previous taxable gains" which {
-
-        s"should have the question text '${commonMessages.PreviousTaxableGains.title("2015/16")}'" in {
-          doc.select("#previousTaxableGains-question").text shouldBe commonMessages.PreviousTaxableGains.title("2015/16")
-        }
-
-        "should have the value '£1,000'" in {
-          doc.select("#previousTaxableGains-amount span.bold-medium").text shouldBe "£1,000"
         }
       }
 

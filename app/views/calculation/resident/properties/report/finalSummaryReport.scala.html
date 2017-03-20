@@ -56,7 +56,6 @@
         @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
             (Messages("calc.resident.summary.deductionsDetails.prrUsed"), MoneyPounds(result.prrUsed.get, 0).quantity),
             (Messages("calc.resident.summary.deductionsDetails.lettingReliefsUsed"), MoneyPounds(result.lettingReliefsUsed.get, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.allowableLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.allowableLossesUsed, 0).quantity),
             (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
             (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
         )))
@@ -167,31 +166,12 @@
             summaryNumericRowHelper("lettingsReliefValue", Messages("calc.resident.lettingsReliefValue.title"),
                 deductionAnswers.lettingsReliefValueModel.get.amount, None)}
 
-        @summaryOptionRowHelper("otherProperties",Messages("calc.resident.otherProperties.title",
-            taxYear.taxYearSupplied),deductionAnswers.otherPropertiesModel.get.hasOtherProperties,None)
-
-        @{if (deductionAnswers.otherPropertiesModel.get.hasOtherProperties)
-            summaryOptionRowHelper("allowableLosses",Messages("calc.resident.allowableLosses.title",
-                taxYear.taxYearSupplied),deductionAnswers.allowableLossesModel.get.isClaiming,None)}
-
-        @{if (deductionAnswers.displayAllowableLossesValue)
-            summaryNumericRowHelper("allowableLossesValue",Messages("calc.resident.allowableLossesValue.title",
-                taxYear.taxYearSupplied),deductionAnswers.allowableLossesValueModel.get.amount,None)}
-
         @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title",
             taxYear.taxYearSupplied),deductionAnswers.broughtForwardModel.get.option, None)
 
         @{if (deductionAnswers.broughtForwardModel.get.option)
             summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title",
                 taxYear.taxYearSupplied),deductionAnswers.broughtForwardValueModel.get.amount,None)}
-
-        @{if (deductionAnswers.displayAnnualExemptAmount)
-            summaryNumericRowHelper("annualExemptAmount",Messages("calc.resident.annualExemptAmount.title"),
-                deductionAnswers.annualExemptAmountModel.get.amount,None)}
-
-        @{if (deductionAnswers.displayPreviousTaxableGains)
-            summaryNumericRowHelper("previousTaxableGains", Messages("calc.resident.previousTaxableGains.title", taxYear.taxYearSupplied),
-                incomeAnswers.previousTaxableGainsModel.get.amount, None)}
 
         @summaryNumericRowHelper("currentIncome",
             if(isCurrentTaxYear){Messages("calc.resident.currentIncome.questionCurrentYear")}
