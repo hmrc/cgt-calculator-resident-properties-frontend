@@ -23,7 +23,7 @@ import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
 import models.resident._
-import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
+import models.resident.properties.{ChargeableGainAnswers, LettingsReliefModel, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
 import org.scalatest.mock.MockitoSugar
 import org.mockito.ArgumentMatchers
@@ -40,31 +40,21 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
   val chargeableGainModel = mock[ChargeableGainResultModel]
 
   def setupTarget(lossesBroughtForwardData: Option[LossesBroughtForwardModel],
-                  otherPropertiesData: Option[OtherPropertiesModel],
-                  allowableLossesData: Option[AllowableLossesModel],
                   gainAnswers: YourAnswersSummaryModel,
                   chargeableGainAnswers: ChargeableGainAnswers,
                   chargeableGain: ChargeableGainResultModel,
-                  allowableLossesValueModel: Option[AllowableLossesValueModel], disposalDate: Option[DisposalDateModel],
-                  taxYear: Option[TaxYearModel]): DeductionsController = {
+                  disposalDate: Option[DisposalDateModel],
+                  taxYear: Option[TaxYearModel],
+                  propertyLivedInModel: Option[PropertyLivedInModel] = Some(PropertyLivedInModel(false)),
+                  privateResidenceReliefModel: Option[PrivateResidenceReliefModel] = None,
+                  lettingsReliefModel: Option[LettingsReliefModel] = None
+                 ): DeductionsController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
 
     when(mockCalcConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(lossesBroughtForwardData))
-
-    when(mockCalcConnector.fetchAndGetFormData[OtherPropertiesModel](ArgumentMatchers.eq(keystoreKeys.otherProperties))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(otherPropertiesData))
-
-    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesModel](ArgumentMatchers.eq(keystoreKeys.allowableLosses))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(allowableLossesData))
-
-    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesValueModel](ArgumentMatchers.eq(keystoreKeys.allowableLossesValue))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(allowableLossesValueModel))
 
     when(mockCalcConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswers))
@@ -82,6 +72,18 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYear)
 
+    when(mockCalcConnector.fetchAndGetFormData[PropertyLivedInModel](ArgumentMatchers.eq(keystoreKeys.propertyLivedIn))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(propertyLivedInModel)
+
+    when(mockCalcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keystoreKeys.privateResidenceRelief))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(privateResidenceReliefModel)
+
+    when(mockCalcConnector.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(lettingsReliefModel)
+
     new DeductionsController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
       val config = mock[AppConfig]
@@ -92,8 +94,8 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
     "request has a valid session and no keystore value" should {
 
-      lazy val target = setupTarget(None, Some(OtherPropertiesModel(false)), None, gainModel,
-        summaryModel, chargeableGainModel, None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+      lazy val target = setupTarget(None, gainModel,
+        summaryModel, chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(bodyOf(result))
 
@@ -112,7 +114,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
     "request has no session" should {
 
-      lazy val target = setupTarget(None, None, None, gainModel, summaryModel, chargeableGainModel, None, None, None)
+      lazy val target = setupTarget(None, gainModel, summaryModel, chargeableGainModel, None, None)
       lazy val result = target.lossesBroughtForward(fakeRequest)
 
       "return a status of 303" in {
@@ -120,10 +122,9 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       }
     }
 
-    "no other properties have been selected" should {
-
-      lazy val target = setupTarget(None, Some(OtherPropertiesModel(false)), None, gainModel,
-        summaryModel, chargeableGainModel, None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+    "the property was not lived in" should {
+      lazy val target = setupTarget(None, gainModel,
+        summaryModel, chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(bodyOf(result))
 
@@ -131,15 +132,15 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
         status(result) shouldBe 200
       }
 
-      "have a back link with the address /calculate-your-capital-gains/resident/properties/other-properties" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/other-properties"
+      s"have a back link with the address ${controllers.routes.DeductionsController.propertyLivedIn().url}" in {
+        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.propertyLivedIn().url
       }
     }
 
-    "other properties have been selected" should {
-
-      lazy val target = setupTarget(None, Some(OtherPropertiesModel(true)), None, gainModel,
-        summaryModel, chargeableGainModel, None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+    "the property was lived in but reliefs were not claimed" should {
+      lazy val target = setupTarget(None, gainModel,
+        summaryModel, chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")),
+        Some(PropertyLivedInModel(true)), Some(PrivateResidenceReliefModel(false)))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(bodyOf(result))
 
@@ -147,15 +148,15 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
         status(result) shouldBe 200
       }
 
-      "have a back link with the address /calculate-your-capital-gains/resident/properties/allowable-losses" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/allowable-losses"
+      s"have a back link with the address ${controllers.routes.DeductionsController.privateResidenceRelief().url}" in {
+        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.privateResidenceRelief().url
       }
     }
 
-    "other properties have been selected but no allowable losses" should {
-
-      lazy val target = setupTarget(None, Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(false)), gainModel,
-        summaryModel, chargeableGainModel, None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+    "the property was lived in with PRR but lettings reliefs was not claimed" should {
+      lazy val target = setupTarget(None, gainModel,
+        summaryModel, chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")),
+        Some(PropertyLivedInModel(true)), Some(PrivateResidenceReliefModel(true)), Some(LettingsReliefModel(false)))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(bodyOf(result))
 
@@ -163,15 +164,15 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
         status(result) shouldBe 200
       }
 
-      "have a back link with the address /calculate-your-capital-gains/resident/properties/allowable-losses" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/allowable-losses"
+      s"have a back link with the address ${controllers.routes.DeductionsController.lettingsRelief().url}" in {
+        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.lettingsRelief().url
       }
     }
 
-    "other properties have been selected and allowable losses are claimed" should {
-
-      lazy val target = setupTarget(None, Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(true)), gainModel,
-        summaryModel, chargeableGainModel, None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+    "the property was lived in with PRR and lettings reliefs" should {
+      lazy val target = setupTarget(None, gainModel,
+        summaryModel, chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")),
+        Some(PropertyLivedInModel(true)), Some(PrivateResidenceReliefModel(true)), Some(LettingsReliefModel(true)))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(bodyOf(result))
 
@@ -179,8 +180,8 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
         status(result) shouldBe 200
       }
 
-      "have a back link with the address /calculate-your-capital-gains/resident/properties/allowable-losses-value" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/allowable-losses-value"
+      s"have a back link with the address ${controllers.routes.DeductionsController.lettingsReliefValue().url}" in {
+        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.lettingsReliefValue().url
       }
     }
   }
@@ -189,9 +190,9 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
     "a valid form 'No' and chargeable gain is £1000" should {
 
-      lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), Some(OtherPropertiesModel(false)), None, gainModel,
+      lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), gainModel,
         summaryModel, ChargeableGainResultModel(1000, 1000, 0, 0, 0, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
-          Some(BigDecimal(0)), 0, 0), None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+          Some(BigDecimal(0)), 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
       lazy val result = target.submitLossesBroughtForward(request)
 
@@ -206,9 +207,9 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
     "a valid form 'No' and chargeable gain is zero" should {
 
-      lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), Some(OtherPropertiesModel(false)), None, gainModel,
+      lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), gainModel,
         summaryModel, ChargeableGainResultModel(1000, 0, 0, 0, 1000, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
-          Some(BigDecimal(0)), 0, 0), None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+          Some(BigDecimal(0)), 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
       lazy val result = target.submitLossesBroughtForward(request)
 
@@ -223,9 +224,9 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
     "a valid form 'No' and has a positive chargeable gain of £1,000" should {
 
-      lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), Some(OtherPropertiesModel(false)), None, gainModel,
+      lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), gainModel,
         summaryModel, ChargeableGainResultModel(1000, -1000, 0, 0, 2000, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
-          Some(BigDecimal(0)), 0, 0), None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+          Some(BigDecimal(0)), 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
       lazy val result = target.submitLossesBroughtForward(request)
 
@@ -240,9 +241,9 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
     "a valid form 'Yes'" should {
 
-      lazy val target = setupTarget(Some(LossesBroughtForwardModel(true)), Some(OtherPropertiesModel(false)),
-        None, gainModel, summaryModel, ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
-          Some(BigDecimal(0)), 0, 0), None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+      lazy val target = setupTarget(Some(LossesBroughtForwardModel(true)), gainModel, summaryModel,
+        ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
+          Some(BigDecimal(0)), 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", "Yes"))
       lazy val result = target.submitLossesBroughtForward(request)
 
@@ -257,8 +258,8 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
     "an invalid form is submitted" should {
 
-      lazy val target = setupTarget(Some(LossesBroughtForwardModel(true)), Some(OtherPropertiesModel(false)), None, gainModel,
-        summaryModel, chargeableGainModel, None, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+      lazy val target = setupTarget(Some(LossesBroughtForwardModel(true)), gainModel,
+        summaryModel, chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", ""))
       lazy val result = target.submitLossesBroughtForward(request)
 

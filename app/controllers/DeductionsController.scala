@@ -416,58 +416,23 @@ trait DeductionsController extends ValidActiveSession {
   //################# Brought Forward Losses Actions ############################
   private val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
 
-  def otherPropertiesCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[OtherPropertiesModel](keystoreKeys.otherProperties).map {
-      case Some(data) => data.hasOtherProperties
-      case None => false
-    }
-  }
-
-  def allowableLossesCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[AllowableLossesModel](keystoreKeys.allowableLosses).map {
-      case Some(data) => data.isClaiming
-      case None => false
-    }
-  }
-
-  def displayAnnualExemptAmountCheck(claimedOtherProperties: Boolean, claimedAllowableLosses: Boolean)(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[AllowableLossesValueModel](keystoreKeys.allowableLossesValue).map {
-      case Some(result) if claimedAllowableLosses && claimedOtherProperties => result.amount == 0
-      case _ if claimedOtherProperties && !claimedAllowableLosses => true
-      case _ => false
-    }
-  }
-
-  def displayAnnualExemptAmountCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
-    for {
-      disposedOtherProperties <- otherPropertiesCheck
-      claimedAllowableLosses <- allowableLossesCheck
-      displayAnnualExemptAmount <- displayAnnualExemptAmountCheck(disposedOtherProperties, claimedAllowableLosses)
-    } yield displayAnnualExemptAmount
-  }
-
   def lossesBroughtForwardBackUrl(implicit hc: HeaderCarrier): Future[String] = {
-
     for {
-      otherPropertiesClaimed <- otherPropertiesCheck
-      allowableLossesClaimed <- allowableLossesCheck
-    } yield (otherPropertiesClaimed, allowableLossesClaimed)
-
-    match {
-      case (false, _) => routes.DeductionsController.otherProperties().url
-      case (true, false) => routes.DeductionsController.allowableLosses().url
-      case (true, true) => routes.DeductionsController.allowableLossesValue().url
-    }
+      livedInProperty <- calcConnector.fetchAndGetFormData[PropertyLivedInModel](keystoreKeys.propertyLivedIn)
+      privateResidenceRelief <- calcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](keystoreKeys.privateResidenceRelief)
+      lettingsRelief <- calcConnector.fetchAndGetFormData[LettingsReliefModel](keystoreKeys.lettingsRelief)
+      backUrl <- otherPropertiesData(livedInProperty, privateResidenceRelief, lettingsRelief)
+    } yield backUrl
   }
 
   val lossesBroughtForward = ValidateSession.async { implicit request =>
 
-    def routeRequest(backLinkUrl: String, taxYear: TaxYearModel, otherPropertiesClaimed: Boolean): Future[Result] = {
+    def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
       calcConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
         case Some(data) => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
-          backLinkUrl, taxYear, otherPropertiesClaimed, homeLink, navTitle))
+          backLinkUrl, taxYear, homeLink, navTitle))
         case _ => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl,
-          taxYear, otherPropertiesClaimed, homeLink, navTitle))
+          taxYear, homeLink, navTitle))
       }
     }
 
@@ -476,8 +441,7 @@ trait DeductionsController extends ValidActiveSession {
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
-      otherPropertiesClaimed <- otherPropertiesCheck
-      finalResult <- routeRequest(backLinkUrl, taxYear.get, otherPropertiesClaimed)
+      finalResult <- routeRequest(backLinkUrl, taxYear.get)
     } yield finalResult
 
   }
@@ -497,10 +461,10 @@ trait DeductionsController extends ValidActiveSession {
 
   val submitLossesBroughtForward = ValidateSession.async { implicit request =>
 
-    def routeRequest(backUrl: String, taxYearModel: TaxYearModel, otherPropertiesClaimed: Boolean): Future[Result] = {
+    def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       lossesBroughtForwardForm.bindFromRequest.fold(
         errors => Future.successful(BadRequest(commonViews.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl,
-          taxYearModel, otherPropertiesClaimed, homeLink, navTitle))),
+          taxYearModel, homeLink, navTitle))),
         success => {
           calcConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success)
 
@@ -520,8 +484,7 @@ trait DeductionsController extends ValidActiveSession {
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
-      otherPropertiesClaimed <- otherPropertiesCheck
-      route <- routeRequest(backUrl, taxYear.get, otherPropertiesClaimed)
+      route <- routeRequest(backUrl, taxYear.get)
     } yield route
 
   }
