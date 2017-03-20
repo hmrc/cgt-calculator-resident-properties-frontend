@@ -67,14 +67,4 @@ object CalculateRequestConstructor {
     s"&previousIncome=${answers.currentIncomeModel.get.amount}" +
     s"&personalAllowance=${answers.personalAllowanceModel.get.amount}"
   }
-
-  def isUsingAnnualExemptAmount (otherPropertiesModel: Option[OtherPropertiesModel],
-                                 allowableLossesModel: Option[AllowableLossesModel],
-                                 allowableLossesValueModel: Option[AllowableLossesValueModel]): Boolean = {
-    (otherPropertiesModel, allowableLossesModel) match {
-      case (Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(true))) if allowableLossesValueModel.get.amount == 0 => true
-      case (Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(false))) => true
-      case _ => false
-    }
-  }
 }

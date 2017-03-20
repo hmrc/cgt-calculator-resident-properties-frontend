@@ -202,10 +202,6 @@ articleLayout = false
         summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied),
             deductionAnswers.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString))}
 
-    @{if (deductionAnswers.displayAnnualExemptAmount)
-        summaryNumericRowHelper("annualExemptAmount",Messages("calc.resident.annualExemptAmount.title"),
-            deductionAnswers.annualExemptAmountModel.get.amount,Some(deductionRoutes.annualExemptAmount().toString))}
-
     @summaryNumericRowHelper("currentIncome",
         if(isCurrentTaxYear){Messages("calc.resident.currentIncome.questionCurrentYear")}
         else{Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)},
