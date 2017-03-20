@@ -915,21 +915,6 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
     }
 
-    "has an option output row for previous taxable gains" which {
-
-      s"should have the question text '${commonMessages.PreviousTaxableGains.title("2013/14")}'" in {
-        doc.select("#previousTaxableGains-question").text shouldBe commonMessages.PreviousTaxableGains.title("2013/14")
-      }
-
-      "should have the value '£1,000'" in {
-        doc.select("#previousTaxableGains-amount span.bold-medium").text shouldBe "£1,000"
-      }
-
-      s"should have a change link to ${routes.IncomeController.previousTaxableGains().url}" in {
-        doc.select("#previousTaxableGains-amount a").attr("href") shouldBe routes.IncomeController.previousTaxableGains().url
-      }
-    }
-
     "has an option output row for current income" which {
 
       s"should have the question text '${commonMessages.CurrentIncome.title("2013/14")}'" in {

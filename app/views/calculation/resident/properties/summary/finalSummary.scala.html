@@ -206,10 +206,6 @@ articleLayout = false
         summaryNumericRowHelper("annualExemptAmount",Messages("calc.resident.annualExemptAmount.title"),
             deductionAnswers.annualExemptAmountModel.get.amount,Some(deductionRoutes.annualExemptAmount().toString))}
 
-    @{if (deductionAnswers.displayPreviousTaxableGains)
-        summaryNumericRowHelper("previousTaxableGains", Messages("calc.resident.previousTaxableGains.title", taxYear.taxYearSupplied),
-            incomeAnswers.previousTaxableGainsModel.get.amount, Some(incomeRoutes.previousTaxableGains().toString))}
-
     @summaryNumericRowHelper("currentIncome",
         if(isCurrentTaxYear){Messages("calc.resident.currentIncome.questionCurrentYear")}
         else{Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)},
