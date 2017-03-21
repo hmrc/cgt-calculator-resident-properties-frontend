@@ -44,9 +44,6 @@ object FrontendGlobal
     ApplicationCrypto.verifyConfiguration()
   }
 
-  override protected def defaultFrontendFilters: Seq[EssentialFilter] =
-    super.defaultFrontendFilters.filterNot(filter => filter.isInstanceOf[SessionTimeoutFilter])
-
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit rh: Request[_]): Html = {
     val url = """^(.*[\/])""".r findFirstIn rh.path
     val homeNavLink = url match {
