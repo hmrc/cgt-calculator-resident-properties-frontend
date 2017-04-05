@@ -53,10 +53,6 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
       doc.getElementById("homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
     }
 
-    "have a fieldset with aria-details attribute" in {
-      doc.select("fieldset").attr("aria-details") shouldBe "help"
-    }
-
     "have a hidden legend" in {
       val legend = doc.select("legend")
       legend.hasClass("visuallyhidden") shouldBe true
@@ -76,6 +72,18 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
 
     s"have a visually hidden legend for an input with text ${messages.question("2015/16")}" in {
       doc.select("legend.visuallyhidden").text() shouldEqual messages.question("2015/16")
+    }
+
+    "have hint text" which {
+      lazy val hintText = doc.select("form span")
+
+      "with the class 'form-hint'" in {
+        hintText.attr("class") shouldBe "form-hint"
+      }
+
+      s"with the message ${messages.helpText}" in {
+        hintText.text() shouldBe messages.helpText
+      }
     }
 
     s"have an input field with id option-yes " in {

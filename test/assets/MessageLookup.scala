@@ -819,11 +819,7 @@ object MessageLookup {
   object LossesBroughtForward {
     def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
     def question(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
-    val helpInfoTitle = "What are Capital Gains Tax losses?"
-    val helpInfoSubtitle = "They're losses you've made that:"
-    val helpInfoPoint1 = "are covered by Capital Gains Tax"
-    val helpInfoPoint2 = "you've declared within 4 years of making the loss"
-    val helpInfoPoint3 = "you haven't already used to reduce the amount of Capital Gains Tax you had to pay"
+    val helpText = "These are unused losses that are covered by Capital Gains Tax and that you've already reported to HMRC."
     def errorSelect(input: String): String = s"Tell us if you're claiming any Capital Gains Tax losses from tax years before $input"
   }
 
