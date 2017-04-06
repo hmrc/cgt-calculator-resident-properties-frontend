@@ -16,9 +16,9 @@
 
 package views.resident
 
+
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.{PersonalAllowance => messages}
-import assets.DateAsset
 import common.Dates
 import common.resident.JourneyKeys
 import controllers.helpers.FakeRequestHelper
@@ -89,8 +89,8 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
       "have a form" which {
         lazy val form = doc.getElementsByTag("form")
 
-        s"has the action '${controllers.routes.IncomeController.submitPersonalAllowance().toString}'" in {
-          form.attr("action") shouldBe controllers.routes.IncomeController.submitPersonalAllowance().toString
+        s"has the action '${postAction.url}'" in {
+          form.attr("action") shouldBe postAction.url
         }
 
         "has the method of POST" in {
@@ -187,9 +187,9 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
 
     "supplied with a tax year a year after the current tax year" should {
 
-      lazy val taxYearModel = TaxYearModel(DateAsset.getYearAfterCurrentTaxYear, false, Dates.getCurrentTaxYear)
+      lazy val taxYearModel = TaxYearModel("2017/18", false, "2016/17")
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
+        Some("back-link"), JourneyKeys.properties, "navTitle", "2016/17")(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
