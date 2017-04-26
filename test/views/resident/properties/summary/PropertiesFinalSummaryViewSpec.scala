@@ -248,7 +248,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the date '10 October 2016'" in {
-          doc.select("#disposalDate-date span.bold-medium").text shouldBe "10 October 2016"
+          doc.select("#disposalDate-date").text shouldBe "10 October 2016"
         }
 
         s"should have a change link to ${routes.GainController.disposalDate().url}" in {
@@ -271,7 +271,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value 'Gave it away'" in {
-          doc.select("#sellOrGiveAway-option span.bold-medium").text shouldBe "Gave it away"
+          doc.select("#sellOrGiveAway-option").text shouldBe "Gave it away"
         }
 
         s"should have a change link to ${routes.GainController.sellOrGiveAway().url}" in {
@@ -295,7 +295,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value 'Someone else'" in {
-          doc.select("#whoDidYouGiveItTo-option span.bold-medium").text shouldBe "Someone else"
+          doc.select("#whoDidYouGiveItTo-option").text shouldBe "Someone else"
         }
 
         s"should have a change link to ${routes.GainController.whoDidYouGiveItTo().url}" in {
@@ -318,7 +318,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£10,000'" in {
-          doc.select("#worthWhenGaveAway-amount span.bold-medium").text shouldBe "£10,000"
+          doc.select("#worthWhenGaveAway-amount").text shouldBe "£10,000"
         }
 
         s"should have a change link to ${routes.GainController.worthWhenGaveAway().url}" in {
@@ -344,7 +344,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£10,000'" in {
-          doc.select("#disposalCosts-amount span.bold-medium").text shouldBe "£10,000"
+          doc.select("#disposalCosts-amount").text shouldBe "£10,000"
         }
 
         s"should have a change link to ${routes.GainController.disposalCosts().url}" in {
@@ -360,7 +360,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "Yes"
         }
 
         s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
@@ -385,7 +385,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£5,000'" in {
-          doc.select("#valueBeforeLegislationStart-amount span.bold-medium").text shouldBe "£5,000"
+          doc.select("#valueBeforeLegislationStart-amount").text shouldBe "£5,000"
         }
 
         s"should have a change link to ${routes.GainController.valueBeforeLegislationStart().url}" in {
@@ -410,7 +410,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£10,000'" in {
-          doc.select("#acquisitionCosts-amount span.bold-medium").text shouldBe "£10,000"
+          doc.select("#acquisitionCosts-amount").text shouldBe "£10,000"
         }
 
         s"should have a change link to ${routes.GainController.acquisitionCosts().url}" in {
@@ -426,7 +426,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£30,000'" in {
-          doc.select("#improvements-amount span.bold-medium").text shouldBe "£30,000"
+          doc.select("#improvements-amount").text shouldBe "£30,000"
         }
 
         s"should have a change link to ${routes.GainController.improvements().url}" in {
@@ -441,7 +441,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value 'No'" in {
-          doc.select("#propertyLivedIn-option span.bold-medium").text shouldBe "No"
+          doc.select("#propertyLivedIn-option").text shouldBe "No"
         }
 
         s"should have a change link to ${routes.DeductionsController.propertyLivedIn().url}" in {
@@ -485,7 +485,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value 'No'" in {
-          doc.select("#broughtForwardLosses-option span.bold-medium").text shouldBe "No"
+          doc.select("#broughtForwardLosses-option").text shouldBe "No"
         }
 
         s"should have a change link to ${routes.DeductionsController.lossesBroughtForward().url}" in {
@@ -508,7 +508,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£0'" in {
-          doc.select("#currentIncome-amount span.bold-medium").text shouldBe "£0"
+          doc.select("#currentIncome-amount").text shouldBe "£0"
         }
 
         s"should have a change link to ${routes.IncomeController.currentIncome().url}" in {
@@ -522,7 +522,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£0'" in {
-          doc.select("#personalAllowance-amount span.bold-medium").text shouldBe "£0"
+          doc.select("#personalAllowance-amount").text shouldBe "£0"
         }
 
         s"should have a change link to ${routes.IncomeController.personalAllowance().url}" in {
@@ -613,7 +613,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value 'Yes'" in {
-        doc.select("#boughtForLessThanWorth-option span.bold-medium").text shouldBe "Yes"
+        doc.select("#boughtForLessThanWorth-option").text shouldBe "Yes"
       }
 
       s"should have a change link to ${routes.GainController.boughtForLessThanWorth().url}" in {
@@ -636,7 +636,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value '£3,000'" in {
-        doc.select("#worthWhenBoughtForLess-amount span.bold-medium").text shouldBe "£3,000"
+        doc.select("#worthWhenBoughtForLess-amount").text shouldBe "£3,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenBoughtForLess().url}" in {
@@ -773,7 +773,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value 'Yes'" in {
-        doc.select("#privateResidenceRelief-option span.bold-medium").text shouldBe "Yes"
+        doc.select("#privateResidenceRelief-option").text shouldBe "Yes"
       }
 
       s"should have a change link to ${routes.DeductionsController.privateResidenceRelief().url}" in {
@@ -796,7 +796,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value '5000'" in {
-        doc.select("#privateResidenceReliefValue-amount span.bold-medium").text shouldBe "£5,000"
+        doc.select("#privateResidenceReliefValue-amount").text shouldBe "£5,000"
       }
 
       s"should have a change link to ${routes.DeductionsController.privateResidenceReliefValue().url}" in {
@@ -819,7 +819,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value 'No'" in {
-        doc.select("#lettingsRelief-option span.bold-medium").text shouldBe "Yes"
+        doc.select("#lettingsRelief-option").text shouldBe "Yes"
       }
 
       s"should have a change link to ${routes.DeductionsController.lettingsRelief().url}" in {
@@ -842,7 +842,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value '£4500'" in {
-        doc.select("#lettingsReliefValue-amount span.bold-medium").text shouldBe "£5,000"
+        doc.select("#lettingsReliefValue-amount").text shouldBe "£5,000"
       }
 
       s"should have a change link to ${routes.DeductionsController.lettingsReliefValue().url}" in {
@@ -942,7 +942,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       s"should have the value '${commonMessages.HowBecameOwner.inherited}'" in {
-        doc.select("#howBecameOwner-option span.bold-medium").text shouldBe commonMessages.HowBecameOwner.inherited
+        doc.select("#howBecameOwner-option").text shouldBe commonMessages.HowBecameOwner.inherited
       }
 
       s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
@@ -967,7 +967,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value '£3,000'" in {
-        doc.select("#worthWhenInherited-amount span.bold-medium").text shouldBe "£3,000"
+        doc.select("#worthWhenInherited-amount").text shouldBe "£3,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenInherited().url}" in {
@@ -1183,7 +1183,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value 'No'" in {
-        doc.select("#sellForLess-option span.bold-medium").text shouldBe "No"
+        doc.select("#sellForLess-option").text shouldBe "No"
       }
 
       s"should have a change link to ${routes.GainController.sellForLess().url}" in {
@@ -1206,7 +1206,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       s"should have the value '${commonMessages.HowBecameOwner.gifted}'" in {
-        doc.select("#howBecameOwner-option span.bold-medium").text shouldBe commonMessages.HowBecameOwner.gifted
+        doc.select("#howBecameOwner-option").text shouldBe commonMessages.HowBecameOwner.gifted
       }
 
       s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
@@ -1231,7 +1231,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value '£3,000'" in {
-        doc.select("#worthWhenGifted-amount span.bold-medium").text shouldBe "£3,000"
+        doc.select("#worthWhenGifted-amount").text shouldBe "£3,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenGifted().url}" in {

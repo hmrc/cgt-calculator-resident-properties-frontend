@@ -160,7 +160,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£11,100'" in {
-          doc.select("#deductions-amount span.bold-medium").text should include("£11,100")
+          doc.select("#deductions-amount").text should include("£11,100")
         }
 
         "has a breakdown that" should {
@@ -194,7 +194,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "include a value for Capital gains tax allowance left of £0" in {
-          doc.select("#aeaRemaining-amount span.bold-medium").text should include("£0")
+          doc.select("#aeaRemaining-amount").text should include("£0")
         }
 
         "not include the additional help text for AEA" in {
@@ -229,7 +229,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the date '10 October 2016'" in {
-          doc.select("#disposalDate-date span.bold-medium").text shouldBe "10 October 2016"
+          doc.select("#disposalDate-date").text shouldBe "10 October 2016"
         }
 
         s"should have a change link to ${routes.GainController.disposalDate().url}" in {
@@ -252,7 +252,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'Gave it away'" in {
-          doc.select("#sellOrGiveAway-option span.bold-medium").text shouldBe "Gave it away"
+          doc.select("#sellOrGiveAway-option").text shouldBe "Gave it away"
         }
 
         s"should have a change link to ${routes.GainController.sellOrGiveAway().url}" in {
@@ -276,7 +276,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'Someone else'" in {
-          doc.select("#whoDidYouGiveItTo-option span.bold-medium").text shouldBe "Someone else"
+          doc.select("#whoDidYouGiveItTo-option").text shouldBe "Someone else"
         }
 
         s"should have a change link to ${routes.GainController.whoDidYouGiveItTo().url}" in {
@@ -299,7 +299,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£10,000'" in {
-          doc.select("#worthWhenGaveAway-amount span.bold-medium").text shouldBe "£10,000"
+          doc.select("#worthWhenGaveAway-amount").text shouldBe "£10,000"
         }
 
         s"should have a change link to ${routes.GainController.worthWhenGaveAway().url}" in {
@@ -325,7 +325,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£10,000'" in {
-          doc.select("#disposalCosts-amount span.bold-medium").text shouldBe "£10,000"
+          doc.select("#disposalCosts-amount").text shouldBe "£10,000"
         }
 
         s"should have a change link to ${routes.GainController.disposalCosts().url}" in {
@@ -341,7 +341,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "Yes"
         }
 
         s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
@@ -366,7 +366,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£5,000'" in {
-          doc.select("#valueBeforeLegislationStart-amount span.bold-medium").text shouldBe "£5,000"
+          doc.select("#valueBeforeLegislationStart-amount").text shouldBe "£5,000"
         }
 
         s"should have a change link to ${routes.GainController.valueBeforeLegislationStart().url}" in {
@@ -391,7 +391,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£10,000'" in {
-          doc.select("#acquisitionCosts-amount span.bold-medium").text shouldBe "£10,000"
+          doc.select("#acquisitionCosts-amount").text shouldBe "£10,000"
         }
 
         s"should have a change link to ${routes.GainController.acquisitionCosts().url}" in {
@@ -407,7 +407,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£30,000'" in {
-          doc.select("#improvements-amount span.bold-medium").text shouldBe "£30,000"
+          doc.select("#improvements-amount").text shouldBe "£30,000"
         }
 
         s"should have a change link to ${routes.GainController.improvements().url}" in {
@@ -422,7 +422,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'No'" in {
-          doc.select("#propertyLivedIn-option span.bold-medium").text shouldBe "No"
+          doc.select("#propertyLivedIn-option").text shouldBe "No"
         }
 
         s"should have a change link to ${routes.DeductionsController.propertyLivedIn().url}" in {
@@ -466,7 +466,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'No'" in {
-          doc.select("#broughtForwardLosses-option span.bold-medium").text shouldBe "No"
+          doc.select("#broughtForwardLosses-option").text shouldBe "No"
         }
 
         s"should have a change link to ${routes.DeductionsController.lossesBroughtForward().url}" in {
@@ -644,7 +644,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£71,000'" in {
-          doc.select("#deductions-amount span.bold-medium").text should include("£71,000")
+          doc.select("#deductions-amount").text should include("£71,000")
         }
 
         "has a breakdown that" should {
@@ -674,7 +674,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'Sold it'" in {
-          doc.select("#sellOrGiveAway-option span.bold-medium").text shouldBe "Sold it"
+          doc.select("#sellOrGiveAway-option").text shouldBe "Sold it"
         }
 
         s"should have a change link to ${routes.GainController.sellOrGiveAway().url}" in {
@@ -697,7 +697,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£500'" in {
-          doc.select("#worthWhenSoldForLess-amount span.bold-medium").text shouldBe "£500"
+          doc.select("#worthWhenSoldForLess-amount").text shouldBe "£500"
         }
 
         s"should have a change link to ${routes.GainController.worthWhenSoldForLess().url}" in {
@@ -720,7 +720,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#sellForLess-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#sellForLess-option").text shouldBe "Yes"
         }
 
         s"should have a change link to ${routes.GainController.sellForLess().url}" in {
@@ -742,7 +742,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'No'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "No"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "No"
         }
 
         s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
@@ -767,7 +767,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         s"should have the value '${pageMessages.HowBecameOwner.bought}'" in {
-          doc.select("#howBecameOwner-option span.bold-medium").text shouldBe pageMessages.HowBecameOwner.bought
+          doc.select("#howBecameOwner-option").text shouldBe pageMessages.HowBecameOwner.bought
         }
 
         s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
@@ -792,7 +792,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'No'" in {
-          doc.select("#boughtForLessThanWorth-option span.bold-medium").text shouldBe "No"
+          doc.select("#boughtForLessThanWorth-option").text shouldBe "No"
         }
 
         s"should have a change link to ${routes.GainController.boughtForLessThanWorth().url}" in {
@@ -815,7 +815,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£100,000'" in {
-          doc.select("#acquisitionValue-amount span.bold-medium").text shouldBe "£100,000"
+          doc.select("#acquisitionValue-amount").text shouldBe "£100,000"
         }
 
         s"should have a change link to ${routes.GainController.acquisitionValue().url}" in {
@@ -831,7 +831,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£30,000'" in {
-          doc.select("#improvements-amount span.bold-medium").text shouldBe "£30,000"
+          doc.select("#improvements-amount").text shouldBe "£30,000"
         }
 
         s"should have a change link to ${routes.GainController.improvements().url}" in {
@@ -868,7 +868,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       }
 
       "include a value for Capital gains tax allowance left of £11,000" in {
-        doc.select("#aeaRemaining-amount span.bold-medium").text should include("£11,000")
+        doc.select("#aeaRemaining-amount").text should include("£11,000")
       }
 
       "include the additional help text for AEA" in {
@@ -902,7 +902,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#propertyLivedIn-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#propertyLivedIn-option").text shouldBe "Yes"
         }
 
         s"should have a change link to ${routes.DeductionsController.propertyLivedIn().url}" in {
@@ -925,7 +925,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#privateResidenceRelief-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#privateResidenceRelief-option").text shouldBe "Yes"
         }
 
         s"should have a change link to ${routes.DeductionsController.privateResidenceRelief().url}" in {
@@ -948,7 +948,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£4500'" in {
-          doc.select("#lettingsReliefValue-amount span.bold-medium").text shouldBe "£4,500"
+          doc.select("#lettingsReliefValue-amount").text shouldBe "£4,500"
         }
 
         s"should have a change link to ${routes.DeductionsController.lettingsReliefValue().url}" in {
@@ -971,7 +971,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#broughtForwardLosses-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#broughtForwardLosses-option").text shouldBe "Yes"
         }
 
         s"should have a change link to ${routes.DeductionsController.lossesBroughtForward().url}" in {
@@ -995,7 +995,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
 
         "should have the value '£10,000'" in {
-          doc.select("#broughtForwardLossesValue-amount span.bold-medium").text shouldBe "£10,000"
+          doc.select("#broughtForwardLossesValue-amount").text shouldBe "£10,000"
         }
 
         s"should have a change link to ${routes.DeductionsController.lossesBroughtForwardValue().url}" in {
@@ -1079,7 +1079,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       }
 
       "should have the value 'Yes'" in {
-        doc.select("#boughtForLessThanWorth-option span.bold-medium").text shouldBe "Yes"
+        doc.select("#boughtForLessThanWorth-option").text shouldBe "Yes"
       }
 
       s"should have a change link to ${routes.GainController.boughtForLessThanWorth().url}" in {
@@ -1102,7 +1102,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       }
 
       "should have the value '£3,000'" in {
-        doc.select("#worthWhenBoughtForLess-amount span.bold-medium").text shouldBe "£3,000"
+        doc.select("#worthWhenBoughtForLess-amount").text shouldBe "£3,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenBoughtForLess().url}" in {
@@ -1196,7 +1196,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       }
 
       s"should have the value '${pageMessages.HowBecameOwner.inherited}'" in {
-        doc.select("#howBecameOwner-option span.bold-medium").text shouldBe pageMessages.HowBecameOwner.inherited
+        doc.select("#howBecameOwner-option").text shouldBe pageMessages.HowBecameOwner.inherited
       }
 
       s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
@@ -1221,7 +1221,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       }
 
       "should have the value '£3,000'" in {
-        doc.select("#worthWhenInherited-amount span.bold-medium").text shouldBe "£3,000"
+        doc.select("#worthWhenInherited-amount").text shouldBe "£3,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenInherited().url}" in {
@@ -1353,7 +1353,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       }
 
       "should have the value '£200,000'" in {
-        doc.select("#disposalValue-amount span.bold-medium").text shouldBe "£200,000"
+        doc.select("#disposalValue-amount").text shouldBe "£200,000"
       }
 
       s"should have a change link to ${routes.GainController.disposalValue().url}" in {
@@ -1368,7 +1368,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       }
 
       "should have the value 'No'" in {
-        doc.select("#sellForLess-option span.bold-medium").text shouldBe "No"
+        doc.select("#sellForLess-option").text shouldBe "No"
       }
 
       s"should have a change link to ${routes.GainController.sellForLess().url}" in {
@@ -1489,7 +1489,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       }
 
       s"should have the value '${pageMessages.HowBecameOwner.gifted}'" in {
-        doc.select("#howBecameOwner-option span.bold-medium").text shouldBe pageMessages.HowBecameOwner.gifted
+        doc.select("#howBecameOwner-option").text shouldBe pageMessages.HowBecameOwner.gifted
       }
 
       s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
@@ -1514,7 +1514,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
       }
 
       "should have the value '£3,000'" in {
-        doc.select("#worthWhenGifted-amount span.bold-medium").text shouldBe "£3,000"
+        doc.select("#worthWhenGifted-amount").text shouldBe "£3,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenGifted().url}" in {
