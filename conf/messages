@@ -536,6 +536,7 @@ calc.resident.properties.improvements.additionalContent.two = But replacing them
 ## Summary messages
 calc.resident.summary.title = Summary
 calc.resident.summary.pageHeading = Tax owed
+calc.resident.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
 calc.resident.summary.calcDetailsHeading = Calculation details
 calc.resident.summary.calcDetailsHeadingDate = Calculation details for {0} tax year
 calc.resident.summary.yourAnswersHeading = Your answers

@@ -691,6 +691,7 @@ object MessageLookup {
   //Summary messages
   object SummaryPage {
     val title = "Summary"
+    def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
     val pageHeading = "Tax owed"
     val secondaryHeading = "You owe"
     val calcDetailsHeading = "Calculation details"
