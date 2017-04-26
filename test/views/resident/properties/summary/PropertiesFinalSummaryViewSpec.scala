@@ -39,13 +39,13 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
   )
 
   //TODO: change to check your answers
-  val backLinkUrl = controllers.routes.IncomeController.personalAllowance().url
+  val backLinkUrl: String = controllers.routes.IncomeController.personalAllowance().url
 
   //sold, non-legislation, no reliefs, no brought forward losses, one rate (18%)
   "PropertiesFinalSummaryView when the property was sold inside tax years, bought after legislation start," +
-    "with no reliefs or brought forward losses and taxed at 18%" should {
+    " with no reliefs or brought forward losses and taxed at 18%" should {
 
-    val gainAnswers = YourAnswersSummaryModel(disposalDate = Dates.constructDate(10, 10, 2016),
+    val gainAnswers = YourAnswersSummaryModel(disposalDate = Dates.constructDate(10, 10, 2015),
       disposalValue = Some(100000),
       worthWhenSoldForLess = None,
       whoDidYouGiveItTo = None,
@@ -209,10 +209,6 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
           "include a value for Capital gains tax allowance used of £0" in {
             doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
           }
-
-          "include a value for Loss brought forward of £0" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2015/16")} £0")
-          }
         }
       }
 
@@ -275,59 +271,54 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
   //two tax rates
   "PropertiesFinalSummaryView when the calculation returns tax on both side of the rate boundary" should {
-    lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
-      None,
-      None,
+    val gainAnswers = YourAnswersSummaryModel(disposalDate = Dates.constructDate(10, 10, 2015),
+      disposalValue = None,
+      worthWhenSoldForLess = None,
       whoDidYouGiveItTo = Some("Other"),
       worthWhenGaveAway = Some(10000),
-      BigDecimal(10000),
-      None,
+      disposalCosts = BigDecimal(10000),
+      acquisitionValue = None,
       worthWhenInherited = None,
       worthWhenGifted = None,
       worthWhenBoughtForLess = None,
-      BigDecimal(10000),
-      BigDecimal(30000),
-      true,
-      None,
-      true,
-      Some(BigDecimal(5000)),
-      None,
-      None
+      acquisitionCosts = BigDecimal(10000),
+      improvements = BigDecimal(30000),
+      givenAway = false,
+      sellForLess = Some(false),
+      ownerBeforeLegislationStart = false,
+      valueBeforeLegislationStart = None,
+      howBecameOwner = Some("Bought"),
+      boughtForLessThanWorth = Some(false)
+    )
+    val deductionAnswers = ChargeableGainAnswers(
+      broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+      broughtForwardValueModel = None,
+      propertyLivedInModel = Some(PropertyLivedInModel(false)),
+      privateResidenceReliefModel = None,
+      privateResidenceReliefValueModel = None,
+      lettingsReliefModel = None,
+      lettingsReliefValueModel = None
+    )
+    val results = TotalGainAndTaxOwedModel(
+      gain = 50000,
+      chargeableGain = 20000,
+      aeaUsed = 0,
+      deductions = 30000,
+      taxOwed = 3600,
+      firstBand = 30000,
+      firstRate = 18,
+      secondBand = Some(10000),
+      secondRate = Some(28),
+      lettingReliefsUsed = Some(BigDecimal(0)),
+      prrUsed = Some(BigDecimal(0)),
+      broughtForwardLossesUsed = 0,
+      allowableLossesUsed = 0
     )
 
-    lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(PropertyLivedInModel(true)),
-      Some(PrivateResidenceReliefModel(true)),
-      Some(PrivateResidenceReliefValueModel(5000)),
-      Some(LettingsReliefModel(true)),
-      Some(LettingsReliefValueModel(5000))
-    )
+    val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
-
-    lazy val results = TotalGainAndTaxOwedModel(
-      50000,
-      20000,
-      0,
-      30000,
-      3600,
-      30000,
-      18,
-      Some(10000),
-      Some(28),
-      Some(BigDecimal(1000)),
-      Some(BigDecimal(2000)),
-      5,
-      10
-    )
-
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-
-    lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
-
-    lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, None)(fakeRequestWithSession, applicationMessages)
+    lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl, taxYearModel,
+      None, None)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -350,19 +341,8 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         backLink.text shouldBe residentMessages.back
       }
 
-      s"has a link to '${routes.IncomeController.personalAllowance().toString()}'" in {
-        backLink.attr("href") shouldBe routes.IncomeController.personalAllowance().toString
-      }
-    }
-
-    "has a breakdown that" should {
-
-      "include a value for Reliefs of £1,000" in {
-        doc.select("#deductions-amount").text should include(s"${messages.lettingReliefsUsed} £1,000")
-      }
-
-      "include a value for PRR of £2,000" in {
-        doc.select("#deductions-amount").text should include("Private Residence Relief used £2,000")
+      s"has a link to '$backLinkUrl'" in {
+        backLink.attr("href") shouldBe backLinkUrl
       }
     }
 
