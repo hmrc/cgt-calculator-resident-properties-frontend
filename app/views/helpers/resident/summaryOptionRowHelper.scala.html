@@ -1,6 +1,6 @@
-@(rowId: String, question: String, answer: Boolean, link: Option[String] = None, allowLinks: Boolean = true)(implicit messages: Messages)
+@(rowId: String, question: String, answer: Boolean, link: Option[String] = None, displayLink: Boolean = true)(implicit messages: Messages)
 
-@if(link.isDefined && allowLinks) {
+@if(link.isDefined && displayLink) {
     <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
         <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
             @question

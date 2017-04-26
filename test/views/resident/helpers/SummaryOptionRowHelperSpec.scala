@@ -33,74 +33,18 @@ class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication {
       lazy val row: HtmlFormat.Appendable = summaryOptionRowHelper("testID","testQ",answer = true)
       lazy val doc: Document = Jsoup.parse(row.body)
 
-      "have an outer div" which {
+      "have a question section" which {
+        lazy val questionDiv = doc.select("#testID-question")
 
-        lazy val outerDiv = doc.select("div#testID")
-
-        "has the id 'testID" in {
-          outerDiv.attr("id") shouldBe "testID"
-        }
-
-        "has the class 'grid-layout'" in {
-          outerDiv.hasClass("grid-layout") shouldBe true
-        }
-
-        "has the class 'grid-layout--stacked'" in {
-          outerDiv.hasClass("grid-layout--stacked") shouldBe true
-        }
-
-        "has the class 'form-group'" in {
-          outerDiv.hasClass("form-group") shouldBe true
-        }
-
-        "has the class 'resident'" in {
-          outerDiv.hasClass("resident") shouldBe true
-        }
-
-        "has the class 'summary-underline'" in {
-          outerDiv.hasClass("summary-underline") shouldBe true
-        }
-      }
-
-      "have an inner question div" which {
-
-        lazy val questionDiv = doc.select("div#testID-question")
-
-        "has the id 'testID-question" in {
-          questionDiv.attr("id") shouldBe "testID-question"
-        }
-
-        "has the class 'grid-layout__column'" in {
-          questionDiv.hasClass("grid-layout__column") shouldBe true
-        }
-
-        "has the class 'grid-layout__column--1-2'" in {
-          questionDiv.hasClass("grid-layout__column--1-2") shouldBe true
-        }
-
-        "has the text 'testQ'" in {
+        "has the correct text" in {
           questionDiv.text shouldBe "testQ"
         }
-
       }
 
-      "have an inner amount div" which {
+      "have an option section" which {
+        lazy val amountDiv = doc.select("#testID-option")
 
-        lazy val amountDiv = doc.select("div#testID-option")
-
-        "has the id 'testID-option" in {
-          amountDiv.attr("id") shouldBe "testID-option"
-        }
-
-        "has the class 'grid-layout__column'" in {
-          amountDiv.hasClass("grid-layout__column") shouldBe true
-        }
-
-        "has the class 'grid-layout__column--1-2'" in {
-          amountDiv.hasClass("grid-layout__column--1-2") shouldBe true
-        }
-
-        "has a span with the text 'testQ'" in {
+        "has the correct option" in {
           amountDiv.text shouldBe "Yes"
         }
       }
@@ -108,110 +52,43 @@ class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication {
 
     s"provided with a change link " should {
 
-      lazy val row = summaryOptionRowHelper("testID","testQ",answer = true, Some("link"), allowLinks = true)
+      lazy val row: HtmlFormat.Appendable = summaryOptionRowHelper("testID","testQ",answer = true, Some("link"))
       lazy val doc: Document = Jsoup.parse(row.body)
 
-      "have an outer div" which {
+      "have a question section" which {
+        lazy val questionDiv = doc.select("#testID-question")
 
-        lazy val outerDiv = doc.select("div#testID")
-
-        "has the id 'testID" in {
-          outerDiv.attr("id") shouldBe "testID"
-        }
-
-        "has the class 'grid-layout'" in {
-          outerDiv.hasClass("grid-layout") shouldBe true
-        }
-
-        "has the class 'grid-layout--stacked'" in {
-          outerDiv.hasClass("grid-layout--stacked") shouldBe true
-        }
-
-        "has the class 'form-group'" in {
-          outerDiv.hasClass("form-group") shouldBe true
-        }
-
-        "has the class 'resident'" in {
-          outerDiv.hasClass("resident") shouldBe true
-        }
-
-        "has the class 'summary-underline'" in {
-          outerDiv.hasClass("summary-underline") shouldBe true
-        }
-      }
-
-      "have an inner question div" which {
-
-        lazy val questionDiv = doc.select("div#testID-question")
-
-        "has the id 'testID-question" in {
-          questionDiv.attr("id") shouldBe "testID-question"
-        }
-
-        "has the class 'grid-layout__column'" in {
-          questionDiv.hasClass("grid-layout__column") shouldBe true
-        }
-
-        "has the class 'grid-layout__column--1-2'" in {
-          questionDiv.hasClass("grid-layout__column--1-2") shouldBe true
-        }
-
-        "has the text 'testQ'" in {
+        "has the correct text" in {
           questionDiv.text shouldBe "testQ"
         }
-
       }
 
-      "have an inner amount div" which {
+      "have an option section" which {
+        lazy val amountDiv = doc.select("#testID-option")
 
-        lazy val amountDiv = doc.select("div#testID-option")
-
-        "has the id 'testID-option" in {
-          amountDiv.attr("id") shouldBe "testID-option"
-        }
-
-        "has the class 'grid-layout__column'" in {
-          amountDiv.hasClass("grid-layout__column") shouldBe true
-        }
-
-        "has the class 'grid-layout__column--1-4'" in {
-          amountDiv.hasClass("grid-layout__column--1-4") shouldBe true
-        }
-
-        "has a span with the text 'testQ'" in {
+        "has the correct option" in {
           amountDiv.text shouldBe "Yes"
         }
       }
 
-      "have an inner link div" which {
+      "include a change link" which {
+        lazy val link = doc.select("#testID-change-link a")
 
-        lazy val amountDiv = doc.select("div#testID-change-link")
-
-        "has the id 'testID-change-link" in {
-          amountDiv.attr("id") shouldBe "testID-change-link"
+        "has the correct link" in {
+          link.attr("href") shouldBe "link"
         }
 
-        "has the class 'grid-layout__column'" in {
-          amountDiv.hasClass("grid-layout__column") shouldBe true
+        "has the text" in {
+          link.text shouldBe commonMessages.change + " testQ"
         }
 
-        "has the class 'grid-layout__column--1-4'" in {
-          amountDiv.hasClass("grid-layout__column--1-4") shouldBe true
-        }
-
-        "includes a change link" which {
-          lazy val link = amountDiv.select("a")
-
-          "has a link to 'link'" in {
-            link.attr("href") shouldBe "link"
+        "has a question" which {
+          "contains the correct text" in {
+            link.select("span").text shouldEqual "testQ"
           }
 
-          "has the text 'change'" in {
-            link.text shouldBe commonMessages.change + " testQ"
-          }
-
-          "has the question visually hidden as part of the link" in {
-            link.select("span.visuallyhidden").text shouldBe "testQ"
+          "is visible to only screen readers" in {
+            link.select("span").hasClass("visuallyhidden") shouldEqual true
           }
         }
       }

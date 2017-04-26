@@ -25,107 +25,76 @@ import play.api.Play.current
 
 class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
 
-  lazy val row = summaryNumericRowHelper("testID","testQ",2000)
-  lazy val doc = Jsoup.parse(row.body)
+  "The Summary Numeric Row Helper" when {
 
-  "The Summary Numeric Row Helper with no link" should {
+    "provided with no link" should {
+      lazy val row = summaryNumericRowHelper("testID","testQ",2000)
+      lazy val doc = Jsoup.parse(row.body)
 
-    "have an outer div" which {
+      "have a question section" which {
 
-      lazy val outerDiv = doc.select("div#testID")
+        lazy val questionDiv = doc.select("#testID-question")
 
-      "has the id 'testID" in {
-        outerDiv.attr("id") shouldBe "testID"
+        "has the correct text" in {
+          questionDiv.text shouldBe "testQ"
+        }
       }
 
-      "has the class 'grid-layout'" in {
-        outerDiv.hasClass("grid-layout") shouldBe true
+      "have a value section" which {
+
+        lazy val amountDiv = doc.select("#testID-amount")
+
+        "has a correct value" in {
+          amountDiv.text shouldBe "£2,000"
+        }
       }
 
-      "has the class 'grid-layout--stacked'" in {
-        outerDiv.hasClass("grid-layout--stacked") shouldBe true
-      }
-
-      "has the class 'form-group'" in {
-        outerDiv.hasClass("form-group") shouldBe true
-      }
-
-      "has the class 'font-medium'" in {
-        outerDiv.hasClass("font-medium") shouldBe true
+      "have no link" in {
+        doc.select("#testID-change-link").size shouldBe 0
       }
     }
 
-    "have an inner question div" which {
+    "provided with a change link " should {
+      lazy val row = summaryNumericRowHelper("testID","testQ",2000,Some("link"))
+      lazy val doc = Jsoup.parse(row.body)
 
-      lazy val questionDiv = doc.select("div#testID-question")
 
-      "has the id 'testID-question" in {
-        questionDiv.attr("id") shouldBe "testID-question"
+      "have a question section" which {
+
+        lazy val questionDiv = doc.select("#testID-question")
+
+        "has the correct text" in {
+          questionDiv.text shouldBe "testQ"
+        }
+
       }
 
-      "has the class 'grid-layout__column'" in {
-        questionDiv.hasClass("grid-layout__column") shouldBe true
+      "have a value section" which {
+
+        lazy val amountDiv = doc.select("#testID-amount")
+
+        "has a correct value" in {
+          amountDiv.text shouldBe "£2,000"
+        }
       }
-
-      "has the class 'grid-layout__column--1-2'" in {
-        questionDiv.hasClass("grid-layout__column--1-2") shouldBe true
-      }
-
-      "has the text 'testQ'" in {
-        questionDiv.text shouldBe "testQ"
-      }
-
-    }
-
-    "have an inner amount div" which {
-
-      lazy val amountDiv = doc.select("div#testID-amount")
-
-      "has the id 'testID-amount" in {
-        amountDiv.attr("id") shouldBe "testID-amount"
-      }
-
-      "has the class 'grid-layout__column'" in {
-        amountDiv.hasClass("grid-layout__column") shouldBe true
-      }
-
-      "has the class 'grid-layout__column--1-2'" in {
-        amountDiv.hasClass("grid-layout__column--1-2") shouldBe true
-      }
-
-      "has a span with the text 'testQ'" in {
-        amountDiv.select("span").text shouldBe "£2,000"
-      }
-
-    }
-
-    "have no link" in {
-      doc.select("#testID-change-link").size shouldBe 0
-    }
-
-    s"if given data that includes a change link " should {
-
-      lazy val rowWithChangeLink = summaryNumericRowHelper("testID","testQ",2000,Some("link"))
-      lazy val link = Jsoup.parse(rowWithChangeLink.body).select("a")
 
       "include a change link" which {
+        lazy val link = doc.select("#testID-change-link a")
 
-        "has a link to 'link'" in {
+        "has the correct link" in {
           link.attr("href") shouldBe "link"
         }
 
-        "has the text 'change'" in {
+        "has the text" in {
           link.text shouldBe commonMessages.change + " testQ"
         }
-        "has the id testID-change-link" in {
-          link.attr("id") shouldBe "testID-change-link"
-        }
-        "has a span" which {
-          "contains the queston text" in {
+
+        "has a question" which {
+          "contains the correct text" in {
             link.select("span").text shouldEqual "testQ"
           }
 
-          "has the class visually hidden" in {
+          "is visible to only screen readers" in {
             link.select("span").hasClass("visuallyhidden") shouldEqual true
           }
         }
