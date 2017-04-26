@@ -101,7 +101,7 @@ class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication {
         }
 
         "has a span with the text 'testQ'" in {
-          amountDiv.select("span").text shouldBe "Yes"
+          amountDiv.text shouldBe "Yes"
         }
       }
     }

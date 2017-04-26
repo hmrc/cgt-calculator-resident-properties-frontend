@@ -3,14 +3,14 @@
 @if(link.isDefined && allowLinks) {
     <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
         <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
-        @question
+            @question
         </div>
         <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-4">
-        @{if (answer) "Yes"
-        else "No"}
+            @{if (answer) "Yes" else "No"}
         </div>
         <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4">
-            <a href="@link" class="bold-small">@Messages("calc.base.change")
+            <a href="@link" class="bold-small">
+                @Messages("calc.base.change")
                 <span class="visuallyhidden">@question</span>
             </a>
         </div>
@@ -18,13 +18,10 @@
 } else {
     <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
         <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
-        @question
+            @question
         </div>
         <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-2">
-            <span class="bold-medium">
-            @{if (answer) "Yes"
-            else "No"}
-            </span>
+            @{if (answer) "Yes" else "No"}
         </div>
     </div>
 }
