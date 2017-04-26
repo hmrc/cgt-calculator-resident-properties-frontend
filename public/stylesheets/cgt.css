@@ -240,8 +240,25 @@
     padding-left: 0
 }
 
-.save-pdf-button {
-    margin-top: 3.0em;
+.download-pdf {
+    padding-top: 2em;
+    display: block;
+}
+
+.save-pdf-link {
+    padding-left: 0.5em;
+    padding-bottom: 0.5em;
+    text-decoration: none;
+}
+
+.icon-file-download {
+    background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png") no-repeat;
+
+    padding-top; -0.5em;
+    width: 30px;
+    height: 39px;
+
+    display: inline-block;
 }
 
 

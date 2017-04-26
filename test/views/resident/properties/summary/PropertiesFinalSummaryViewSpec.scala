@@ -532,6 +532,10 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "display the save as PDF Button" which {
 
+        "should have the icon....." in {
+          true == false
+        }
+
         "should render only one button" in {
           doc.select("a.save-pdf-button").size() shouldEqual 1
         }
@@ -860,6 +864,10 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
     "display the save as PDF Button" which {
 
+      "should have the icon....." in {
+        true == false
+      }
+
       "should render only one button" in {
         doc.select("a.save-pdf-button").size() shouldEqual 1
       }
@@ -1012,6 +1020,10 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
     "display the save as PDF Button" which {
 
+      "should have the icon....." in {
+        true == false
+      }
+
       "should render only one button" in {
         doc.select("a.save-pdf-button").size() shouldEqual 1
       }
@@ -1092,6 +1104,10 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
     }
 
     "display the save as PDF Button" which {
+
+      "should have the icon....." in {
+        true == false
+      }
 
       "should render only one button" in {
         doc.select("a.save-pdf-button").size() shouldEqual 1
@@ -1240,6 +1256,10 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
     }
 
     "display the save as PDF Button" which {
+
+      "should have the icon....." in {
+        true == false
+      }
 
       "should render only one button" in {
         doc.select("a.save-pdf-button").size() shouldEqual 1
