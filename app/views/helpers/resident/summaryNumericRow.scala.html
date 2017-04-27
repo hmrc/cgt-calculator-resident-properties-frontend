@@ -1,0 +1,22 @@
+@import uk.gov.hmrc.play.views.helpers._
+
+@(rowId: String, question: String, amount: BigDecimal)(implicit messages: Messages)
+
+<div id="@rowId" class="grid-layout grid-layout--no-margin form-group font-small">
+    <div id="@{rowId}-text" class="grid-layout__column--2-3 form-hint">
+        @question
+    </div>
+    <div id="@{rowId}-amount" class="grid-layout__column--1-2">
+        @amount.scale match {
+            case 0 => {
+                <span class="form-hint">&pound;@MoneyPounds(amount, 0).quantity</span>
+            }
+            case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
+                <span class="form-hint">&pound;@MoneyPounds(amount, 0).quantity</span>
+            }
+            case _ => {
+                <span class="form-hint">&pound;@MoneyPounds(amount, 2).quantity</span>
+            }
+        }
+    </div>
+</div>

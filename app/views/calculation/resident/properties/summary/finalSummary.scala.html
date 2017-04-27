@@ -83,7 +83,12 @@ articleLayout = false
         <!-- Header -->
         <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
-        <h3>@Messages("calc.summary.calculationDetails.totalGain")</h3>
+        <div id="totalGain">
+            <h3>@Messages("calc.summary.calculationDetails.totalGain")</h3>
+
+            @summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.getOrElse(0))
+            @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.getOrElse(0))
+        </div>
 
         <!-- Data Rows -->
         @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)

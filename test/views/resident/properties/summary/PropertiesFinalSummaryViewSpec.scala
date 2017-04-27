@@ -147,111 +147,59 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have a section for the Calculation details" which {
 
-        s"has a h2 tag" which {
+        "has a h2 tag" which {
           s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
             doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
           }
         }
 
-        s"has a h3 tag" which {
-          s"has the text '${summaryMessages.yourTotalGain}'" in {
-            doc.select("section#calcDetails h3").text shouldBe summaryMessages.yourTotalGain
+        "has a div" which {
+
+          lazy val div = doc.select("#totalGain")
+
+          "has a h3 tag" which {
+
+            s"has the text '${summaryMessages.yourTotalGain}'" in {
+              div.select("h3").text shouldBe summaryMessages.yourTotalGain
+            }
+          }
+
+          "has a row for disposal value" which {
+
+            s"has the text '${summaryMessages.disposalValue}'" in {
+              div.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
+            }
+
+            "has the value '£100,000'" in {
+              div.select("#disposalValue-amount").text shouldBe "£100,000"
+            }
+          }
+
+          "has a row for acquisition value" which {
+            s"has the text '${summaryMessages.acquisitionValue}'" in {
+              div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+            }
+
+            "has the value '£0'" in {
+              div.select("#acquisitionValue-amount").text shouldBe "£0"
+            }
+          }
+
+          "has a row for value" which {
+            s"has the text '${summaryMessages.acquisitionValue}'" in {
+              div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+            }
+
+            "has the value '£0'" in {
+              div.select("#acquisitionValue-amount").text shouldBe "£0"
+            }
           }
         }
       }
+    }
 
-//        "has a numeric output row for the gain" which {
-//
-//          "should have the question text 'Total gain'" in {
-//            doc.select("#gain-question").text shouldBe messages.totalGain
-//          }
-//
-//          "should have the value '£50,000'" in {
-//            doc.select("#gain-amount").text shouldBe "£50,000"
-//          }
-//        }
-//
-//        "has a numeric output row for the deductions" which {
-//
-//          "should have the question text 'Deductions'" in {
-//            doc.select("#deductions-question").text shouldBe messages.deductions
-//          }
-//
-//          "should have the value '£0'" in {
-//            doc.select("#deductions-amount").text should include("£0")
-//          }
-//
-//          "has a breakdown that" should {
-//
-//            "include a value for PRR of £0" in {
-//              doc.select("#deductions-amount").text should include("Private Residence Relief used £0")
-//            }
-//
-//            "include a value for Reliefs of £0" in {
-//              doc.select("#deductions-amount").text should include(s"${messages.lettingReliefsUsed} £0")
-//            }
-//
-//            "include a value for Capital gains tax allowance used of £0" in {
-//              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
-//            }
-//          }
-//        }
-//
-//        "has a numeric output row for the chargeable gain" which {
-//
-//          "should have the question text 'Taxable gain'" in {
-//            doc.select("#chargeableGain-question").text shouldBe messages.chargeableGain
-//          }
-//
-//          "should have the value '£20,000'" in {
-//            doc.select("#chargeableGain-amount").text should include("£20,000")
-//          }
-//        }
-//
-//        "has a numeric output row and a tax rate" which {
-//
-//          "Should have the question text 'Tax Rate'" in {
-//            doc.select("#gainAndRate-question").text shouldBe messages.taxRate
-//          }
-//
-//          "Should have the value £30,000" in {
-//            doc.select("#firstBand").text should include("£30,000")
-//          }
-//          "Should have the tax rate 18%" in {
-//            doc.select("#firstBand").text should include("18%")
-//          }
-//        }
-//
-//        "has a numeric output row for the AEA remaining" which {
-//
-//          "should have the question text 'Capital Gains Tax allowance left for 2015/16" in {
-//            doc.select("#aeaRemaining-question").text should include(messages.aeaRemaining("2015/16"))
-//          }
-//
-//          "include a value for Capital gains tax allowance left of £0" in {
-//            doc.select("#aeaRemaining-amount").text should include("£0")
-//          }
-//        }
-//      }
-//
-//      "display the save as PDF Button" which {
-//
-//        "should render only one button" in {
-//          doc.select("a.save-pdf-button").size() shouldEqual 1
-//        }
-//
-//        "with the class save-pdf-button" in {
-//          doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-//        }
-//
-//        s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-//          doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/final-report"
-//        }
-//
-//        s"have the text ${messages.saveAsPdf}" in {
-//          doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
-//        }
-//      }
+    "the property was sold for less than worth" should {
+
     }
 
     "the calculation returns tax on both side of the rate boundary" should {

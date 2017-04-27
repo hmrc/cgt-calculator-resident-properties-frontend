@@ -939,5 +939,7 @@ object MessageLookup {
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
     val howWeWorkedThisOut = "How we've worked this out"
     val yourTotalGain = "Your total gain"
+    val disposalValue = "Value when you sold the property"
+    val acquisitionValue = "Minus the value of the property when you acquired it"
   }
 }

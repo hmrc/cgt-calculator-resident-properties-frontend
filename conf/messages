@@ -748,3 +748,6 @@ calc.resident.shares.otherDisposals.bullet.three = other shares
 calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
 calc.summary.calculationDetails.heading = How we''ve worked this out
 calc.summary.calculationDetails.totalGain = Your total gain
+calc.summary.calculationDetails.disposalValue = Value when you sold the property
+calc.summary.calculationDetails.acquisitionValue = Minus the value of the property when you acquired it
+
