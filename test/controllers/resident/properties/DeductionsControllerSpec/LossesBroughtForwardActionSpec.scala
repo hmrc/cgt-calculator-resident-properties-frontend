@@ -21,7 +21,7 @@ import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import config.AppConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
-import controllers.DeductionsController
+import controllers.{DeductionsController, routes}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, LettingsReliefModel, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
@@ -218,7 +218,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/summary")
+        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersDeductions().url
       }
     }
 
@@ -235,7 +235,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/summary")
+        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersDeductions().url
       }
     }
 

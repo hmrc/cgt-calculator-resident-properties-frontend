@@ -20,7 +20,7 @@ import assets.DateAsset
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
-import controllers.IncomeController
+import controllers.{IncomeController, routes}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.scalatest.mock.MockitoSugar
@@ -144,7 +144,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/summary")
+        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersFinal().url
       }
     }
 

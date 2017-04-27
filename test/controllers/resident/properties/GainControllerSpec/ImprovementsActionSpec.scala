@@ -21,7 +21,7 @@ import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import config.AppConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
-import controllers.GainController
+import controllers.{GainController, routes}
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import models.resident.properties.{ImprovementsModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
@@ -151,7 +151,7 @@ class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with Fake
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/summary")
+        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersGain().url
       }
     }
 
@@ -165,7 +165,7 @@ class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with Fake
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/summary")
+        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersGain().url
       }
     }
 
