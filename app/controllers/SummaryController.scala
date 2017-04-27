@@ -123,6 +123,10 @@ trait SummaryController extends ValidActiveSession {
       Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
     }
 
+    def getPropertyTotalCosts(yourAnswersSummaryModel: YourAnswersSummaryModel): Future[BigDecimal] = {
+      calculatorConnector.getPropertyTotalCosts(yourAnswersSummaryModel)
+    }
+
     for {
       answers <- calculatorConnector.getPropertyGainAnswers
       taxYear <- getTaxYear(answers.disposalDate)

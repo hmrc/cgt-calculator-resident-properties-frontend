@@ -21,6 +21,7 @@ import common.KeystoreKeys.ResidentPropertyKeys
 import config.{CalculatorSessionCache, WSHttp}
 import constructors.resident.{properties => propertyConstructor}
 import models._
+import models.resident.properties.YourAnswersSummaryModel
 import play.api.libs.json.Format
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import uk.gov.hmrc.play.config.ServicesConfig
@@ -256,5 +257,11 @@ trait CalculatorConnector {
     } yield {
       resident.IncomeAnswersModel(currentIncome, personalAllowance)
     }
+  }
+
+  def getPropertyTotalCosts(input: resident.properties.YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
+    http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/calculate-total-costs" +
+      propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
+    )
   }
 }
