@@ -18,15 +18,15 @@ package assets
 
 import common.Dates
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
-import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
-import models.resident.{IncomeAnswersModel, LossesBroughtForwardModel, TaxYearModel, TotalGainAndTaxOwedModel}
+import models.resident.properties._
+import models.resident._
 
 /**
   * Created by david on 27/04/17.
   */
 object ModelsAsset {
 
-  val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
+  val gainAnswersMostPossibles = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
     None,
     None,
     whoDidYouGiveItTo = Some("Other"),
@@ -46,7 +46,17 @@ object ModelsAsset {
     None
   )
 
-  val deductionAnswers = ChargeableGainAnswers(
+  val deductionAnswersMostPossibles = ChargeableGainAnswers(
+    Some(LossesBroughtForwardModel(true)),
+    Some(LossesBroughtForwardValueModel(10000)),
+    Some(PropertyLivedInModel(true)),
+    Some(PrivateResidenceReliefModel(true)),
+    Some(PrivateResidenceReliefValueModel(4000)),
+    Some(LettingsReliefModel(true)),
+    Some(LettingsReliefValueModel(4500))
+  )
+
+  val deductionAnswersLeastPossibles = ChargeableGainAnswers(
     Some(LossesBroughtForwardModel(false)),
     None,
     Some(PropertyLivedInModel(false)),
@@ -55,22 +65,9 @@ object ModelsAsset {
     None,
     None
   )
+
   val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
-  val results = TotalGainAndTaxOwedModel(
-    50000,
-    20000,
-    0,
-    30000,
-    3600,
-    30000,
-    18,
-    None,
-    None,
-    Some(BigDecimal(0)),
-    Some(BigDecimal(0)),
-    0,
-    0
-  )
+
   val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
 }

@@ -34,8 +34,8 @@ class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with Fa
   val dummyBackLink = "backLink"
   val dummyPostCall: Call = Call("POST", "/dummy-url")
 
-  lazy val view: HtmlFormat.Appendable = views.checkYourAnswers(dummyPostCall, dummyBackLink, gainAnswers,
-    Some(deductionAnswers), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, applicationMessages)
+  lazy val view: HtmlFormat.Appendable = views.checkYourAnswers(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, applicationMessages)
   lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {
