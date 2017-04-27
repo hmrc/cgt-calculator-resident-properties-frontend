@@ -312,6 +312,6 @@
     display: inline-block;
 }
 
-.grid-layout__column--1-4 {
-    padding-left: 1.5em;
+.grid-layout__column--1-2 {
+    padding-right: 1.5em;
 }
