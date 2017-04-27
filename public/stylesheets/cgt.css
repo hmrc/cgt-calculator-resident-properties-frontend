@@ -114,7 +114,7 @@
 }
 
 .resident .summary-underline {
-    padding-bottom: 0.5em;
+    padding-bottom: 1.5em;
     border-bottom: 2px solid #BFC1C3;
 }
 
@@ -240,11 +240,6 @@
     padding-left: 0
 }
 
-.save-pdf-button {
-    margin-top: 3.0em;
-}
-
-
 .nr.save-pdf-button {
     margin-top: 0;
     margin-bottom: 1em;
@@ -292,4 +287,29 @@
 .pdf-non-resident p.lede {
     position: relative;
         bottom: 1.0em
+}
+
+
+
+.download-pdf {
+    padding-top: 2em;
+    display: block;
+}
+
+.save-pdf-link {
+    padding-left: 0.5em;
+    text-decoration: none;
+    position: absolute;
+    left: 30px;
+    top: 47px;
+}
+
+.icon-file-download {
+    background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png") no-repeat;
+
+    padding-top; -0.5em;
+    width: 30px;
+    height: 39px;
+
+    display: inline-block;
 }

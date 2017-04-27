@@ -17,24 +17,23 @@
 package views.resident.helpers
 
 import assets.MessageLookup.{Resident => commonMessages}
-import common.Dates._
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.scalatestplus.play.OneAppPerSuite
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.play.test.UnitSpec
-import views.html.helpers.resident.summaryDateRowHelper
+import views.html.helpers.resident.summaryTextRowHelper
 
-class SummaryDateRowHelperSpec extends UnitSpec with OneAppPerSuite with I18nSupport {
+class SummaryTextRowHelperSpec extends UnitSpec with OneAppPerSuite with I18nSupport {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
-  "The Summary Date Row Helper" when {
-    val testDate = constructDate(12, 9, 1990)
-    val formattedTestDate = datePageFormatNoZero.format(testDate)
+  "The Summary Text Row Helper" when {
 
     "not provided with any change links" should {
-      lazy val row = summaryDateRowHelper("testID", "testQ", testDate)
-      lazy val doc = Jsoup.parse(row.body)
+      lazy val row: HtmlFormat.Appendable = summaryTextRowHelper("testID", "testQ", "testValue")
+      lazy val doc: Document = Jsoup.parse(row.body)
 
       "have a question section" which {
         lazy val questionDiv = doc.select("#testID-question")
@@ -45,10 +44,10 @@ class SummaryDateRowHelperSpec extends UnitSpec with OneAppPerSuite with I18nSup
       }
 
       "have a text value section" which {
-        lazy val amountDiv = doc.select("#testID-date")
+        lazy val amountDiv = doc.select("#testID-option")
 
         "has the correct option" in {
-          amountDiv.text shouldBe formattedTestDate
+          amountDiv.text shouldBe "testValue"
         }
       }
 
@@ -59,9 +58,10 @@ class SummaryDateRowHelperSpec extends UnitSpec with OneAppPerSuite with I18nSup
       }
     }
 
-    "provided with a change link" should {
-      lazy val row = summaryDateRowHelper("testID", "testQ", testDate, Some("link"))
-      lazy val doc = Jsoup.parse(row.body)
+    "provided with a change link " should {
+
+      lazy val row: HtmlFormat.Appendable = summaryTextRowHelper("testID", "testQ", "testValue", Some("link"))
+      lazy val doc: Document = Jsoup.parse(row.body)
 
       "have a question section" which {
         lazy val questionDiv = doc.select("#testID-question")
@@ -72,10 +72,10 @@ class SummaryDateRowHelperSpec extends UnitSpec with OneAppPerSuite with I18nSup
       }
 
       "have an text value section" which {
-        lazy val amountDiv = doc.select("#testID-date")
+        lazy val amountDiv = doc.select("#testID-option")
 
         "has the correct option" in {
-          amountDiv.text shouldBe formattedTestDate
+          amountDiv.text shouldBe "testValue"
         }
       }
 
@@ -100,7 +100,6 @@ class SummaryDateRowHelperSpec extends UnitSpec with OneAppPerSuite with I18nSup
           }
         }
       }
-
     }
   }
 }
