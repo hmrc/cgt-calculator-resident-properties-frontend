@@ -536,7 +536,6 @@ calc.resident.properties.improvements.additionalContent.two = But replacing them
 ## Summary messages
 calc.resident.summary.title = Summary
 calc.resident.summary.pageHeading = Tax owed
-calc.resident.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
 calc.resident.summary.calcDetailsHeading = Calculation details
 calc.resident.summary.calcDetailsHeadingDate = Calculation details for {0} tax year
 calc.resident.summary.yourAnswersHeading = Your answers
@@ -744,3 +743,8 @@ calc.resident.shares.currentIncome.helpText = Include your salary before tax, an
 ## Other Disposals messages
 calc.resident.shares.otherDisposals.bullet.one = UK residential properties
 calc.resident.shares.otherDisposals.bullet.three = other shares
+
+## Final Summary messages
+calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
+calc.summary.calculationDetails.heading = How we''ve worked this out
+calc.summary.calculationDetails.totalGain = Your total gain

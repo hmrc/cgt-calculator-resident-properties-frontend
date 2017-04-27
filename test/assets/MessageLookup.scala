@@ -933,4 +933,11 @@ object MessageLookup {
     val other = "Someone else"
     val errormandatory = "Please tell us who you gave the property to"
   }
+
+  object SummaryDetails {
+    val title = "Summary"
+    def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
+    val howWeWorkedThisOut = "How we've worked this out"
+    val yourTotalGain = "Your total gain"
+  }
 }
