@@ -21,7 +21,7 @@
                 }}
                 @{if(additionalContent.isDefined){additionalContent.get.map{ case (additionalText, additionalAmount) => additionalDetails(additionalText, additionalAmount)}}}
             </div>
-            <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4">
+            <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
                 <a href="@link" class="bold-small">
                     @Messages("calc.base.change")
                     <span class="visuallyhidden">@question</span>
