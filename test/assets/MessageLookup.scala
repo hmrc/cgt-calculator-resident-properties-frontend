@@ -129,7 +129,7 @@ object MessageLookup {
     }
 
     object CheckYourAnswers {
-      val question = "Check your answers"
+      val title = "Check your answers"
       val tableHeading = "You've told us"
       val change = "Change"
       val hiddenText = "your response to the question"
