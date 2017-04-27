@@ -10,10 +10,10 @@
 
 <section id="yourAnswers">
 
-    <h2 class="bold-medium">@Messages("calc.checkYourAnswers.tableHeading")</h2>
+    <h2 class="bold-medium check-your-answers-tableHeading">@Messages("calc.checkYourAnswers.tableHeading")</h2>
 
     <!-- Gain Answers-->
-    @summaryDateRowHelper("disposalDate",Messages("calc.resident.disposalDate.question"),gainAnswers.disposalDate,Some(gainRoutes.disposalDate().toString))
+    @summaryDateRowHelper("disposalDate",Messages("calc.resident.disposalDate.question"),gainAnswers.disposalDate, Some(gainRoutes.disposalDate().toString), extraClass = "summary-overline")
 
     @summaryTextRowHelper("sellOrGiveAway", Messages("calc.resident.sellOrGiveAway.title"), if (gainAnswers.givenAway) {Messages("calc.resident.sellOrGiveAway.given")}
     else {Messages("calc.resident.sellOrGiveAway.sold")}, Some(gainRoutes.sellOrGiveAway().toString))

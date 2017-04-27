@@ -1,11 +1,11 @@
 @import common.Dates._
 @import java.time.LocalDate
 
-@(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true)(implicit messages: Messages)
+@(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages)
 
 
 @if(displayLink && link.isDefined) {
-    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
+    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline @extraClass">
         <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
             @question
         </div>
@@ -19,7 +19,7 @@
         </div>
     </div>
 } else {
-    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
+    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline @extraClass">
         <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
             @question
         </div>
