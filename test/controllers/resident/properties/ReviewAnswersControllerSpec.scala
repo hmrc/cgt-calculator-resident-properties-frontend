@@ -18,6 +18,7 @@ package controllers.resident.properties
 
 import java.time.LocalDate
 
+import akka.util.Timeout
 import common.resident.HowYouBecameTheOwnerKeys
 import connectors.CalculatorConnector
 import controllers.ReviewAnswersController
@@ -31,9 +32,11 @@ import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import org.scalatestplus.play.OneAppPerSuite
 import play.api.test.Helpers.redirectLocation
+import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
+import scala.concurrent.duration.Duration
 
 class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
@@ -50,6 +53,8 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
   val noDeductionsModel: ChargeableGainAnswers = ChargeableGainAnswers(Some(LossesBroughtForwardModel(false)), None,
     Some(PropertyLivedInModel(false)), None, None, None, None)
   val incomeAnswersModel: IncomeAnswersModel = IncomeAnswersModel(Some(CurrentIncomeModel(25000)), Some(PersonalAllowanceModel(11000)))
+  implicit val timeout: Timeout = Timeout.apply(Duration.create(20, "seconds"))
+  implicit val hc: HeaderCarrier = new HeaderCarrier()
 
   def setupController(gainResponse: YourAnswersSummaryModel,
                       deductionsResponse: ChargeableGainAnswers,
@@ -62,7 +67,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
     when(mockConnector.getPropertyDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(deductionsResponse))
 
-    when(mockConnector.getTaxYear(ArgumentMatchers.any()))
+    when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
     when(mockConnector.getPropertyIncomeAnswers(ArgumentMatchers.any()))
