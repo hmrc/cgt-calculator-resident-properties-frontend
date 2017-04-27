@@ -16,21 +16,19 @@
 
 package views.resident.properties.summary
 
-import assets.MessageLookup.{SummaryPage => messages}
-import assets.MessageLookup.{Resident => residentMessages}
-import assets.{MessageLookup => commonMessages}
 import assets.MessageLookup.Resident.{Properties => propertiesMessages}
+import assets.MessageLookup.{Resident => residentMessages, SummaryPage => messages}
+import assets.{MessageLookup => commonMessages}
 import common.Dates._
 import controllers.helpers.FakeRequestHelper
 import controllers.routes
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
-import org.scalatestplus.play.OneAppPerSuite
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{summary => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -353,20 +351,55 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
       "display the save as PDF Button" which {
 
-        "should render only one button" in {
-          doc.select("a.save-pdf-button").size() shouldEqual 1
-        }
+        lazy val savePDFSection = doc.select("#save-as-a-pdf")
 
-        "with the class save-pdf-button" in {
-          doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-        }
 
-        s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-          doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/gain-report"
-        }
+        "contain an internal div which" should {
 
-        s"have the text ${messages.saveAsPdf}" in {
-          doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
+          lazy val icon = savePDFSection.select("div")
+
+          "have the class icon-file-download" in {
+            icon.hasClass("icon-file-download") shouldBe true
+          }
+
+          "contain a span" which {
+
+            lazy val informationTag = icon.select("span")
+
+            "has the class visuallyhidden" in {
+              informationTag.hasClass("visuallyhidden") shouldBe true
+            }
+
+            "has the text Download" in {
+              informationTag.text shouldBe "Download"
+            }
+          }
+
+
+          "contain a link" which {
+
+            lazy val link = savePDFSection.select("a")
+
+            "has the type submit" in {
+              link.attr("type").equals("submit") shouldBe true
+            }
+
+            "has the class bold-small" in {
+              link.hasClass("bold-small") shouldBe true
+            }
+
+            "has the class save-pdf-link" in {
+              link.hasClass("save-pdf-link") shouldBe true
+            }
+
+            s"links to ${controllers.routes.ReportController.gainSummaryReport()}" in {
+              link.attr("href") shouldBe controllers.routes.ReportController.gainSummaryReport().toString()
+            }
+
+            s"has the text ${messages.saveAsPdf}" in {
+              link.text shouldBe messages.saveAsPdf
+            }
+          }
         }
       }
     }
@@ -605,21 +638,6 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         doc.select("span#opensInANewTab").text shouldEqual residentMessages.externalLink
       }
     }
-
-    "display the save as PDF Button" which {
-
-      "should render only one button" in {
-        doc.select("a.save-pdf-button").size() shouldEqual 1
-      }
-
-      "with the class save-pdf-button" in {
-        doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-      }
-
-      s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-        doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/gain-report"
-      }
-    }
   }
 
   "Summary when supplied with a property bought for less than worth" should {
@@ -747,25 +765,6 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
     s"have the visually hidden text ${residentMessages.externalLink}" in {
       doc.select("div#whatToDoNextNoLossText span#opensInANewTab2").text shouldBe s"${residentMessages.externalLink}"
     }
-
-    "display the save as PDF Button" which {
-
-      "should render only one button" in {
-        doc.select("a.save-pdf-button").size() shouldEqual 1
-      }
-
-      "with the class save-pdf-button" in {
-        doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-      }
-
-      s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-        doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/gain-report"
-      }
-
-      s"have the text ${messages.saveAsPdf}" in {
-        doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
-      }
-    }
   }
 
   "Summary when supplied with a date above the known tax years" should {
@@ -773,7 +772,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
     lazy val taxYearModel = TaxYearModel("2018/19", false, "2016/17")
 
     val testModel = YourAnswersSummaryModel(
-      constructDate(12,9,2018),
+      constructDate(12, 9, 2018),
       Some(10),
       None,
       whoDidYouGiveItTo = None,
@@ -792,7 +791,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       Some("Inherited"),
       None
     )
-    lazy val view = views.gainSummary(testModel,-2000, taxYearModel)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not display the what to do next content" in {
@@ -929,25 +928,6 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         doc.select("#sellForLess-option a span.visuallyhidden").text shouldBe propertiesMessages.SellForLess.title
       }
     }
-
-    "display the save as PDF Button" which {
-
-      "should render only one button" in {
-        doc.select("a.save-pdf-button").size() shouldEqual 1
-      }
-
-      "with the class save-pdf-button" in {
-        doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-      }
-
-      s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-        doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/gain-report"
-      }
-
-      s"have the text ${messages.saveAsPdf}" in {
-        doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
-      }
-    }
   }
 
   "Summary when supplied with a gifted property" should {
@@ -955,7 +935,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
     lazy val taxYearModel = TaxYearModel("2018/19", false, "2016/17")
 
     val testModel = YourAnswersSummaryModel(
-      constructDate(12,9,2018),
+      constructDate(12, 9, 2018),
       Some(10),
       None,
       whoDidYouGiveItTo = None,
@@ -974,7 +954,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       Some("Gifted"),
       None
     )
-    lazy val view = views.gainSummary(testModel,-2000, taxYearModel)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has an output row for how became owner" which {
