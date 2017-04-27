@@ -255,6 +255,7 @@ trait IncomeController extends ValidActiveSession {
         success => {
           calcConnector.saveFormData(keystoreKeys.personalAllowance, success)
           Future.successful(Redirect(routes.SummaryController.summary()))
+          //TODO: Update to checkYourAnswers
         }
       )
     }

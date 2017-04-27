@@ -473,6 +473,7 @@ trait DeductionsController extends ValidActiveSession {
             positiveChargeableGainCheck.map { positiveChargeableGain =>
               if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
               else Redirect(routes.SummaryController.summary())
+              //TODO: Update to CYA
             }
           }
         }
@@ -546,6 +547,7 @@ trait DeductionsController extends ValidActiveSession {
         positiveChargeableGainCheck.map { positiveChargeableGain =>
           if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
           else Redirect(routes.SummaryController.summary())
+          //TODO: update to checkYourAnswers
         }
       }
     )
@@ -612,6 +614,7 @@ trait DeductionsController extends ValidActiveSession {
           match {
             case (false, true) => Redirect(routes.IncomeController.previousTaxableGains())
             case (_, false) => Redirect(routes.SummaryController.summary())
+              //TODO: Update to checkYourAnswers
             case _ => Redirect(routes.IncomeController.currentIncome())
           }
         }

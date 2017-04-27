@@ -110,9 +110,12 @@ trait SummaryController extends ValidActiveSession {
         Ok(views.finalSummary(totalGainAnswers, chargeableGainAnswers, incomeAnswers,
           totalGainAndTax.get, routes.IncomeController.personalAllowance().url, taxYear.get, isPrrUsed, isLettingsReliefUsed,
           taxYear.get.taxYearSupplied == currentTaxYear)))
+        //TODO: Update to finalYourAnswersSummary
       else if (grossGain > 0) Future.successful(Ok(views.deductionsSummary(totalGainAnswers, chargeableGainAnswers, chargeableGain.get,
         backUrl, taxYear.get, isPrrUsed, isLettingsReliefUsed)))
+        //TODO: Update to reviewYourAnswersDeductions
       else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get)))
+      //TODO: Update to reviewYourAnswersGain
     }
 
     def getMaxAEA(taxYear: Int): Future[Option[BigDecimal]] = {
