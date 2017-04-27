@@ -156,12 +156,12 @@
             </section>
         }
     }
-    <div class="download-pdf">
+    <div id="save-as-a-pdf" class="notice download-pdf">
         <div class="icon-file-download">
             <span class="visuallyhidden">Download</span>
         </div>
 
-        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.gainSummaryReport.toString"
+        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.gainSummaryReport"
            data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
 }
