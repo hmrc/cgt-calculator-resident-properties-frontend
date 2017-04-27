@@ -472,7 +472,7 @@ trait DeductionsController extends ValidActiveSession {
           else {
             positiveChargeableGainCheck.map { positiveChargeableGain =>
               if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-              else Redirect(routes.SummaryController.summary())
+              else Redirect(routes.ReviewYourAnswersController.checkYourAnswersDeductions())
               //TODO: Update to CYA
             }
           }
@@ -546,7 +546,7 @@ trait DeductionsController extends ValidActiveSession {
         calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
         positiveChargeableGainCheck.map { positiveChargeableGain =>
           if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-          else Redirect(routes.SummaryController.summary())
+          else Redirect(routes.ReviewYourAnswersController.checkYourAnswersDeductions())
           //TODO: update to checkYourAnswers
         }
       }
@@ -613,7 +613,7 @@ trait DeductionsController extends ValidActiveSession {
 
           match {
             case (false, true) => Redirect(routes.IncomeController.previousTaxableGains())
-            case (_, false) => Redirect(routes.SummaryController.summary())
+            case (_, false) => Redirect(routes.ReviewYourAnswersController.checkYourAnswersDeductions())
               //TODO: Update to checkYourAnswers
             case _ => Redirect(routes.IncomeController.currentIncome())
           }

@@ -594,7 +594,7 @@ trait GainController extends ValidActiveSession {
 
     def routeRequest(totalGain: BigDecimal): Future[Result] = {
       if (totalGain > 0) Future.successful(Redirect(routes.DeductionsController.propertyLivedIn()))
-      else Future.successful(Redirect(routes.SummaryController.summary()))
+      else Future.successful(Redirect(routes.ReviewYourAnswersController.checkYourAnswersGain()))
       //TODO: Update to CYA
     }
 
