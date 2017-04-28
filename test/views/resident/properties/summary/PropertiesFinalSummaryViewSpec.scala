@@ -287,6 +287,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         "Should have the value £30,000 in the first band" in {
           doc.select("#firstBand").text should include("£30,000")
         }
+
         "Should have the tax rate 18% for the first band" in {
           doc.select("#firstBand").text should include("18%")
         }
@@ -301,20 +302,55 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "display the save as PDF Button" which {
 
-        "should render only one button" in {
-          doc.select("a.save-pdf-button").size() shouldEqual 1
-        }
+        lazy val savePDFSection = doc.select("#save-as-a-pdf")
 
-        "with the class save-pdf-button" in {
-          doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-        }
 
-        s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-          doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/final-report"
-        }
+        "contain an internal div which" should {
 
-        s"have the text ${messages.saveAsPdf}" in {
-          doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
+          lazy val icon = savePDFSection.select("div")
+
+          "have the class icon-file-download" in {
+            icon.hasClass("icon-file-download") shouldBe true
+          }
+
+          "contain a span" which {
+
+            lazy val informationTag = icon.select("span")
+
+            "has the class visuallyhidden" in {
+              informationTag.hasClass("visuallyhidden") shouldBe true
+            }
+
+            "has the text Download" in {
+              informationTag.text shouldBe "Download"
+            }
+          }
+
+
+          "contain a link" which {
+
+            lazy val link = savePDFSection.select("a")
+
+            "has the type submit" in {
+              link.attr("type").equals("submit") shouldBe true
+            }
+
+            "has the class bold-small" in {
+              link.hasClass("bold-small") shouldBe true
+            }
+
+            "has the class save-pdf-link" in {
+              link.hasClass("save-pdf-link") shouldBe true
+            }
+
+            s"links to ${controllers.routes.ReportController.finalSummaryReport()}" in {
+              link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport().toString()
+            }
+
+            s"has the text ${messages.saveAsPdf}" in {
+              link.text shouldBe messages.saveAsPdf
+            }
+          }
         }
       }
     }
@@ -398,25 +434,6 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "does not display the what to do next content" in {
         doc.select("#whatToDoNext").isEmpty shouldBe true
-      }
-
-      "display the save as PDF Button" which {
-
-        "should render only one button" in {
-          doc.select("a.save-pdf-button").size() shouldEqual 1
-        }
-
-        "with the class save-pdf-button" in {
-          doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-        }
-
-        s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-          doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/final-report"
-        }
-
-        s"have the text ${messages.saveAsPdf}" in {
-          doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
-        }
       }
     }
 
@@ -521,7 +538,6 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 1
       }
-
     }
   }
 }

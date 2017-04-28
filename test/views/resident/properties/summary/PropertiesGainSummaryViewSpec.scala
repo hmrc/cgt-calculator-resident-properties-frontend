@@ -16,21 +16,19 @@
 
 package views.resident.properties.summary
 
-import assets.MessageLookup.{SummaryPage => messages}
-import assets.MessageLookup.{Resident => residentMessages}
-import assets.{MessageLookup => commonMessages}
 import assets.MessageLookup.Resident.{Properties => propertiesMessages}
+import assets.MessageLookup.{Resident => residentMessages, SummaryPage => messages}
+import assets.{MessageLookup => commonMessages}
 import common.Dates._
 import controllers.helpers.FakeRequestHelper
 import controllers.routes
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
-import org.scalatestplus.play.OneAppPerSuite
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{summary => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -161,19 +159,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         }
 
         "should have the value '12 September 1990'" in {
-          doc.select("#disposalDate-date span.bold-medium").text shouldBe "12 September 1990"
+          doc.select("#disposalDate-date").text shouldBe "12 September 1990"
         }
 
         s"should have a change link to ${routes.GainController.disposalDate().url}" in {
-          doc.select("#disposalDate-date a").attr("href") shouldBe routes.GainController.disposalDate().url
+          doc.select("#disposalDate-change-link a").attr("href") shouldBe routes.GainController.disposalDate().url
         }
 
         "has the question as part of the link" in {
-          doc.select("#disposalDate-date a").text shouldBe s"${residentMessages.change} ${commonMessages.DisposalDate.question}"
+          doc.select("#disposalDate-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.DisposalDate.question}"
         }
 
         "has the question component of the link is visuallyhidden" in {
-          doc.select("#disposalDate-date a span.visuallyhidden").text shouldBe commonMessages.DisposalDate.question
+          doc.select("#disposalDate-change-link a span.visuallyhidden").text shouldBe commonMessages.DisposalDate.question
         }
       }
 
@@ -184,19 +182,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         }
 
         "should have the value 'Gave it away'" in {
-          doc.select("#sellOrGiveAway-option span.bold-medium").text shouldBe "Gave it away"
+          doc.select("#sellOrGiveAway-option").text shouldBe "Gave it away"
         }
 
         s"should have a change link to ${routes.GainController.sellOrGiveAway().url}" in {
-          doc.select("#sellOrGiveAway-option a").attr("href") shouldBe routes.GainController.sellOrGiveAway().url
+          doc.select("#sellOrGiveAway-change-link a").attr("href") shouldBe routes.GainController.sellOrGiveAway().url
         }
 
         "has the question as part of the link" in {
-          doc.select("#sellOrGiveAway-option a").text shouldBe s"${residentMessages.change} ${commonMessages.PropertiesSellOrGiveAway.title}"
+          doc.select("#sellOrGiveAway-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.PropertiesSellOrGiveAway.title}"
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#sellOrGiveAway-option a span.visuallyhidden").text shouldBe commonMessages.PropertiesSellOrGiveAway.title
+          doc.select("#sellOrGiveAway-change-link a span.visuallyhidden").text shouldBe commonMessages.PropertiesSellOrGiveAway.title
         }
       }
 
@@ -208,19 +206,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         }
 
         "should have the value 'Someone else'" in {
-          doc.select("#whoDidYouGiveItTo-option span.bold-medium").text shouldBe "Someone else"
+          doc.select("#whoDidYouGiveItTo-option").text shouldBe "Someone else"
         }
 
         s"should have a change link to ${routes.GainController.whoDidYouGiveItTo().url}" in {
-          doc.select("#whoDidYouGiveItTo-option a").attr("href") shouldBe routes.GainController.whoDidYouGiveItTo().url
+          doc.select("#whoDidYouGiveItTo-change-link a").attr("href") shouldBe routes.GainController.whoDidYouGiveItTo().url
         }
 
         "has the question as part of the link" in {
-          doc.select("#whoDidYouGiveItTo-option a").text shouldBe s"${residentMessages.change} ${commonMessages.WhoDidYouGiveItTo.title}"
+          doc.select("#whoDidYouGiveItTo-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.WhoDidYouGiveItTo.title}"
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#whoDidYouGiveItTo-option a span.visuallyhidden").text shouldBe commonMessages.WhoDidYouGiveItTo.title
+          doc.select("#whoDidYouGiveItTo-change-link a span.visuallyhidden").text shouldBe commonMessages.WhoDidYouGiveItTo.title
         }
       }
 
@@ -231,20 +229,20 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         }
 
         "should have the value '£10,000'" in {
-          doc.select("#worthWhenGaveAway-amount span.bold-medium").text shouldBe "£10,000"
+          doc.select("#worthWhenGaveAway-amount").text shouldBe "£10,000"
         }
 
         s"should have a change link to ${routes.GainController.worthWhenGaveAway().url}" in {
-          doc.select("#worthWhenGaveAway-amount a").attr("href") shouldBe routes.GainController.worthWhenGaveAway().url
+          doc.select("#worthWhenGaveAway-change-link a").attr("href") shouldBe routes.GainController.worthWhenGaveAway().url
         }
 
         "has the question as part of the link" in {
-          doc.select("#worthWhenGaveAway-amount a").text shouldBe
+          doc.select("#worthWhenGaveAway-change-link a").text shouldBe
             s"${residentMessages.change} ${propertiesMessages.PropertiesWorthWhenGaveAway.title}"
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#worthWhenGaveAway-amount a span.visuallyhidden").text shouldBe
+          doc.select("#worthWhenGaveAway-change-link a span.visuallyhidden").text shouldBe
             propertiesMessages.PropertiesWorthWhenGaveAway.title
         }
       }
@@ -257,11 +255,11 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         }
 
         "should have the value '£20'" in {
-          doc.select("#disposalCosts-amount span.bold-medium").text shouldBe "£20"
+          doc.select("#disposalCosts-amount").text shouldBe "£20"
         }
 
         s"should have a change link to ${routes.GainController.disposalCosts().url}" in {
-          doc.select("#disposalCosts-amount a").attr("href") shouldBe routes.GainController.disposalCosts().url
+          doc.select("#disposalCosts-change-link a").attr("href") shouldBe routes.GainController.disposalCosts().url
         }
 
       }
@@ -273,20 +271,20 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "Yes"
         }
 
         s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
-          doc.select("#ownerBeforeLegislationStart-option a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
+          doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
         }
 
         "has the question as part of the link" in {
-          doc.select("#ownerBeforeLegislationStart-option a").text shouldBe
+          doc.select("#ownerBeforeLegislationStart-change-link a").text shouldBe
             s"${residentMessages.change} ${propertiesMessages.OwnerBeforeLegislationStart.title}"
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#ownerBeforeLegislationStart-option a span.visuallyhidden").text shouldBe
+          doc.select("#ownerBeforeLegislationStart-change-link a span.visuallyhidden").text shouldBe
             propertiesMessages.OwnerBeforeLegislationStart.title
         }
       }
@@ -298,20 +296,20 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         }
 
         "should have the value '£5,000'" in {
-          doc.select("#valueBeforeLegislationStart-amount span.bold-medium").text shouldBe "£5,000"
+          doc.select("#valueBeforeLegislationStart-amount").text shouldBe "£5,000"
         }
 
         s"should have a change link to ${routes.GainController.valueBeforeLegislationStart().url}" in {
-          doc.select("#valueBeforeLegislationStart-amount a").attr("href") shouldBe routes.GainController.valueBeforeLegislationStart().url
+          doc.select("#valueBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.valueBeforeLegislationStart().url
         }
 
         "has the question as part of the link" in {
-          doc.select("#valueBeforeLegislationStart-amount a").text shouldBe
+          doc.select("#valueBeforeLegislationStart-change-link a").text shouldBe
             s"${residentMessages.change} ${propertiesMessages.ValueBeforeLegislationStart.question}"
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#valueBeforeLegislationStart-amount a span.visuallyhidden").text shouldBe
+          doc.select("#valueBeforeLegislationStart-change-link a span.visuallyhidden").text shouldBe
             propertiesMessages.ValueBeforeLegislationStart.question
         }
       }
@@ -323,11 +321,11 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         }
 
         "should have the value '£40'" in {
-          doc.select("#acquisitionCosts-amount span.bold-medium").text shouldBe "£40"
+          doc.select("#acquisitionCosts-amount").text shouldBe "£40"
         }
 
         s"should have a change link to ${routes.GainController.acquisitionCosts().url}" in {
-          doc.select("#acquisitionCosts-amount a").attr("href") shouldBe routes.GainController.acquisitionCosts().url
+          doc.select("#acquisitionCosts-change-link a").attr("href") shouldBe routes.GainController.acquisitionCosts().url
         }
 
       }
@@ -339,11 +337,11 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         }
 
         "should have the value '£50'" in {
-          doc.select("#improvements-amount span.bold-medium").text shouldBe "£50"
+          doc.select("#improvements-amount").text shouldBe "£50"
         }
 
         s"should have a change link to ${routes.GainController.improvements().url}" in {
-          doc.select("#improvements-amount a").attr("href") shouldBe routes.GainController.improvements().url
+          doc.select("#improvements-change-link a").attr("href") shouldBe routes.GainController.improvements().url
         }
       }
 
@@ -353,20 +351,55 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
       "display the save as PDF Button" which {
 
-        "should render only one button" in {
-          doc.select("a.save-pdf-button").size() shouldEqual 1
-        }
+        lazy val savePDFSection = doc.select("#save-as-a-pdf")
 
-        "with the class save-pdf-button" in {
-          doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-        }
 
-        s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-          doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/gain-report"
-        }
+        "contain an internal div which" should {
 
-        s"have the text ${messages.saveAsPdf}" in {
-          doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
+          lazy val icon = savePDFSection.select("div")
+
+          "have the class icon-file-download" in {
+            icon.hasClass("icon-file-download") shouldBe true
+          }
+
+          "contain a span" which {
+
+            lazy val informationTag = icon.select("span")
+
+            "has the class visuallyhidden" in {
+              informationTag.hasClass("visuallyhidden") shouldBe true
+            }
+
+            "has the text Download" in {
+              informationTag.text shouldBe "Download"
+            }
+          }
+
+
+          "contain a link" which {
+
+            lazy val link = savePDFSection.select("a")
+
+            "has the type submit" in {
+              link.attr("type").equals("submit") shouldBe true
+            }
+
+            "has the class bold-small" in {
+              link.hasClass("bold-small") shouldBe true
+            }
+
+            "has the class save-pdf-link" in {
+              link.hasClass("save-pdf-link") shouldBe true
+            }
+
+            s"links to ${controllers.routes.ReportController.gainSummaryReport()}" in {
+              link.attr("href") shouldBe controllers.routes.ReportController.gainSummaryReport().toString()
+            }
+
+            s"has the text ${messages.saveAsPdf}" in {
+              link.text shouldBe messages.saveAsPdf
+            }
+          }
         }
       }
     }
@@ -420,19 +453,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value 'Sold it'" in {
-        doc.select("#sellOrGiveAway-option span.bold-medium").text shouldBe "Sold it"
+        doc.select("#sellOrGiveAway-option").text shouldBe "Sold it"
       }
 
       s"should have a change link to ${routes.GainController.sellOrGiveAway().url}" in {
-        doc.select("#sellOrGiveAway-option a").attr("href") shouldBe routes.GainController.sellOrGiveAway().url
+        doc.select("#sellOrGiveAway-change-link a").attr("href") shouldBe routes.GainController.sellOrGiveAway().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#sellOrGiveAway-option a").text shouldBe s"${residentMessages.change} ${commonMessages.PropertiesSellOrGiveAway.title}"
+        doc.select("#sellOrGiveAway-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.PropertiesSellOrGiveAway.title}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#sellOrGiveAway-option a span.visuallyhidden").text shouldBe commonMessages.PropertiesSellOrGiveAway.title
+        doc.select("#sellOrGiveAway-change-link a span.visuallyhidden").text shouldBe commonMessages.PropertiesSellOrGiveAway.title
       }
     }
 
@@ -443,19 +476,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value 'Yes'" in {
-        doc.select("#sellForLess-option span.bold-medium").text shouldBe "Yes"
+        doc.select("#sellForLess-option").text shouldBe "Yes"
       }
 
       s"should have a change link to ${routes.GainController.sellForLess().url}" in {
-        doc.select("#sellForLess-option a").attr("href") shouldBe routes.GainController.sellForLess().url
+        doc.select("#sellForLess-change-link a").attr("href") shouldBe routes.GainController.sellForLess().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#sellForLess-option a").text shouldBe s"${residentMessages.change} ${propertiesMessages.SellForLess.title}"
+        doc.select("#sellForLess-change-link a").text shouldBe s"${residentMessages.change} ${propertiesMessages.SellForLess.title}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#sellForLess-option a span.visuallyhidden").text shouldBe propertiesMessages.SellForLess.title
+        doc.select("#sellForLess-change-link a span.visuallyhidden").text shouldBe propertiesMessages.SellForLess.title
       }
     }
 
@@ -466,19 +499,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value '£500'" in {
-        doc.select("#worthWhenSoldForLess-amount span.bold-medium").text shouldBe "£500"
+        doc.select("#worthWhenSoldForLess-amount").text shouldBe "£500"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenSoldForLess().url}" in {
-        doc.select("#worthWhenSoldForLess-amount a").attr("href") shouldBe routes.GainController.worthWhenSoldForLess().url
+        doc.select("#worthWhenSoldForLess-change-link a").attr("href") shouldBe routes.GainController.worthWhenSoldForLess().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#worthWhenSoldForLess-amount a").text shouldBe s"${residentMessages.change} ${propertiesMessages.WorthWhenSoldForLess.question}"
+        doc.select("#worthWhenSoldForLess-change-link a").text shouldBe s"${residentMessages.change} ${propertiesMessages.WorthWhenSoldForLess.question}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#worthWhenSoldForLess-amount a span.visuallyhidden").text shouldBe propertiesMessages.WorthWhenSoldForLess.question
+        doc.select("#worthWhenSoldForLess-change-link a span.visuallyhidden").text shouldBe propertiesMessages.WorthWhenSoldForLess.question
       }
     }
 
@@ -489,20 +522,20 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value 'No'" in {
-        doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "No"
+        doc.select("#ownerBeforeLegislationStart-option").text shouldBe "No"
       }
 
       s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
-        doc.select("#ownerBeforeLegislationStart-option a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
+        doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#ownerBeforeLegislationStart-option a").text shouldBe
+        doc.select("#ownerBeforeLegislationStart-change-link a").text shouldBe
           s"${residentMessages.change} ${propertiesMessages.OwnerBeforeLegislationStart.title}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#ownerBeforeLegislationStart-option a span.visuallyhidden").text shouldBe
+        doc.select("#ownerBeforeLegislationStart-change-link a span.visuallyhidden").text shouldBe
           propertiesMessages.OwnerBeforeLegislationStart.title
       }
     }
@@ -514,20 +547,20 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       s"should have the value '${commonMessages.HowBecameOwner.bought}'" in {
-        doc.select("#howBecameOwner-option span.bold-medium").text shouldBe commonMessages.HowBecameOwner.bought
+        doc.select("#howBecameOwner-option").text shouldBe commonMessages.HowBecameOwner.bought
       }
 
       s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
-        doc.select("#howBecameOwner-option a").attr("href") shouldBe routes.GainController.howBecameOwner().url
+        doc.select("#howBecameOwner-change-link a").attr("href") shouldBe routes.GainController.howBecameOwner().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#howBecameOwner-option a").text shouldBe
+        doc.select("#howBecameOwner-change-link a").text shouldBe
           s"${residentMessages.change} ${commonMessages.HowBecameOwner.title}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#howBecameOwner-option a span.visuallyhidden").text shouldBe
+        doc.select("#howBecameOwner-change-link a span.visuallyhidden").text shouldBe
           commonMessages.HowBecameOwner.title
       }
     }
@@ -540,19 +573,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value 'No'" in {
-        doc.select("#boughtForLessThanWorth-option span.bold-medium").text shouldBe "No"
+        doc.select("#boughtForLessThanWorth-option").text shouldBe "No"
       }
 
       s"should have a change link to ${routes.GainController.boughtForLessThanWorth().url}" in {
-        doc.select("#boughtForLessThanWorth-option a").attr("href") shouldBe routes.GainController.boughtForLessThanWorth().url
+        doc.select("#boughtForLessThanWorth-change-link a").attr("href") shouldBe routes.GainController.boughtForLessThanWorth().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#boughtForLessThanWorth-option a").text shouldBe s"${residentMessages.change} ${commonMessages.BoughtForLessThanWorth.title}"
+        doc.select("#boughtForLessThanWorth-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.BoughtForLessThanWorth.title}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#boughtForLessThanWorth-option a span.visuallyhidden").text shouldBe commonMessages.BoughtForLessThanWorth.title
+        doc.select("#boughtForLessThanWorth-change-link a span.visuallyhidden").text shouldBe commonMessages.BoughtForLessThanWorth.title
       }
     }
 
@@ -563,11 +596,11 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value '£30'" in {
-        doc.select("#acquisitionValue-amount span.bold-medium").text shouldBe "£30"
+        doc.select("#acquisitionValue-amount").text shouldBe "£30"
       }
 
       s"should have a change link to ${routes.GainController.acquisitionValue().url}" in {
-        doc.select("#acquisitionValue-amount a").attr("href") shouldBe routes.GainController.acquisitionValue().url
+        doc.select("#acquisitionValue-change-link a").attr("href") shouldBe routes.GainController.acquisitionValue().url
       }
 
     }
@@ -579,11 +612,11 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value '£30,000'" in {
-        doc.select("#improvements-amount span.bold-medium").text shouldBe "£50"
+        doc.select("#improvements-amount").text shouldBe "£50"
       }
 
       s"should have a change link to ${routes.GainController.improvements().url}" in {
-        doc.select("#improvements-amount a").attr("href") shouldBe routes.GainController.improvements().url
+        doc.select("#improvements-change-link a").attr("href") shouldBe routes.GainController.improvements().url
       }
     }
 
@@ -603,21 +636,6 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
       "has a visually hidden span with the text opens in a new tab" in {
         doc.select("span#opensInANewTab").text shouldEqual residentMessages.externalLink
-      }
-    }
-
-    "display the save as PDF Button" which {
-
-      "should render only one button" in {
-        doc.select("a.save-pdf-button").size() shouldEqual 1
-      }
-
-      "with the class save-pdf-button" in {
-        doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-      }
-
-      s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-        doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/gain-report"
       }
     }
   }
@@ -656,19 +674,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value 'Yes'" in {
-        doc.select("#boughtForLessThanWorth-option span.bold-medium").text shouldBe "Yes"
+        doc.select("#boughtForLessThanWorth-option").text shouldBe "Yes"
       }
 
       s"should have a change link to ${routes.GainController.boughtForLessThanWorth().url}" in {
-        doc.select("#boughtForLessThanWorth-option a").attr("href") shouldBe routes.GainController.boughtForLessThanWorth().url
+        doc.select("#boughtForLessThanWorth-change-link a").attr("href") shouldBe routes.GainController.boughtForLessThanWorth().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#boughtForLessThanWorth-option a").text shouldBe s"${residentMessages.change} ${commonMessages.BoughtForLessThanWorth.title}"
+        doc.select("#boughtForLessThanWorth-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.BoughtForLessThanWorth.title}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#boughtForLessThanWorth-option a span.visuallyhidden").text shouldBe commonMessages.BoughtForLessThanWorth.title
+        doc.select("#boughtForLessThanWorth-change-link a span.visuallyhidden").text shouldBe commonMessages.BoughtForLessThanWorth.title
       }
     }
 
@@ -679,19 +697,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value '£3,000'" in {
-        doc.select("#worthWhenBoughtForLess-amount span.bold-medium").text shouldBe "£3,000"
+        doc.select("#worthWhenBoughtForLess-amount").text shouldBe "£3,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenBoughtForLess().url}" in {
-        doc.select("#worthWhenBoughtForLess-amount a").attr("href") shouldBe routes.GainController.worthWhenBoughtForLess().url
+        doc.select("#worthWhenBoughtForLess-change-link a").attr("href") shouldBe routes.GainController.worthWhenBoughtForLess().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#worthWhenBoughtForLess-amount a").text shouldBe s"${residentMessages.change} ${propertiesMessages.WorthWhenBoughtForLess.question}"
+        doc.select("#worthWhenBoughtForLess-change-link a").text shouldBe s"${residentMessages.change} ${propertiesMessages.WorthWhenBoughtForLess.question}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#worthWhenBoughtForLess-amount a span.visuallyhidden").text shouldBe propertiesMessages.WorthWhenBoughtForLess.question
+        doc.select("#worthWhenBoughtForLess-change-link a span.visuallyhidden").text shouldBe propertiesMessages.WorthWhenBoughtForLess.question
       }
     }
   }
@@ -747,25 +765,6 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
     s"have the visually hidden text ${residentMessages.externalLink}" in {
       doc.select("div#whatToDoNextNoLossText span#opensInANewTab2").text shouldBe s"${residentMessages.externalLink}"
     }
-
-    "display the save as PDF Button" which {
-
-      "should render only one button" in {
-        doc.select("a.save-pdf-button").size() shouldEqual 1
-      }
-
-      "with the class save-pdf-button" in {
-        doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-      }
-
-      s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-        doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/gain-report"
-      }
-
-      s"have the text ${messages.saveAsPdf}" in {
-        doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
-      }
-    }
   }
 
   "Summary when supplied with a date above the known tax years" should {
@@ -773,7 +772,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
     lazy val taxYearModel = TaxYearModel("2018/19", false, "2016/17")
 
     val testModel = YourAnswersSummaryModel(
-      constructDate(12,9,2018),
+      constructDate(12, 9, 2018),
       Some(10),
       None,
       whoDidYouGiveItTo = None,
@@ -792,7 +791,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       Some("Inherited"),
       None
     )
-    lazy val view = views.gainSummary(testModel,-2000, taxYearModel)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not display the what to do next content" in {
@@ -806,11 +805,11 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value '£10'" in {
-        doc.select("#disposalValue-amount span.bold-medium").text shouldBe "£10"
+        doc.select("#disposalValue-amount").text shouldBe "£10"
       }
 
       s"should have a change link to ${routes.GainController.disposalValue().url}" in {
-        doc.select("#disposalValue-amount a").attr("href") shouldBe routes.GainController.disposalValue().url
+        doc.select("#disposalValue-change-link a").attr("href") shouldBe routes.GainController.disposalValue().url
       }
 
     }
@@ -822,20 +821,20 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       s"should have the value '${commonMessages.HowBecameOwner.inherited}'" in {
-        doc.select("#howBecameOwner-option span.bold-medium").text shouldBe commonMessages.HowBecameOwner.inherited
+        doc.select("#howBecameOwner-option").text shouldBe commonMessages.HowBecameOwner.inherited
       }
 
       s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
-        doc.select("#howBecameOwner-option a").attr("href") shouldBe routes.GainController.howBecameOwner().url
+        doc.select("#howBecameOwner-change-link a").attr("href") shouldBe routes.GainController.howBecameOwner().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#howBecameOwner-option a").text shouldBe
+        doc.select("#howBecameOwner-change-link a").text shouldBe
           s"${residentMessages.change} ${commonMessages.HowBecameOwner.title}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#howBecameOwner-option a span.visuallyhidden").text shouldBe
+        doc.select("#howBecameOwner-change-link a span.visuallyhidden").text shouldBe
           commonMessages.HowBecameOwner.title
       }
     }
@@ -847,11 +846,11 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value '£3,000'" in {
-        doc.select("#worthWhenInherited-amount span.bold-medium").text shouldBe "£3,000"
+        doc.select("#worthWhenInherited-amount").text shouldBe "£3,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenInherited().url}" in {
-        doc.select("#worthWhenInherited-amount a").attr("href") shouldBe routes.GainController.worthWhenInherited().url
+        doc.select("#worthWhenInherited-change-link a").attr("href") shouldBe routes.GainController.worthWhenInherited().url
       }
     }
   }
@@ -914,38 +913,19 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value 'No'" in {
-        doc.select("#sellForLess-option span.bold-medium").text shouldBe "No"
+        doc.select("#sellForLess-option").text shouldBe "No"
       }
 
       s"should have a change link to ${routes.GainController.sellForLess().url}" in {
-        doc.select("#sellForLess-option a").attr("href") shouldBe routes.GainController.sellForLess().url
+        doc.select("#sellForLess-change-link a").attr("href") shouldBe routes.GainController.sellForLess().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#sellForLess-option a").text shouldBe s"${residentMessages.change} ${propertiesMessages.SellForLess.title}"
+        doc.select("#sellForLess-change-link a").text shouldBe s"${residentMessages.change} ${propertiesMessages.SellForLess.title}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#sellForLess-option a span.visuallyhidden").text shouldBe propertiesMessages.SellForLess.title
-      }
-    }
-
-    "display the save as PDF Button" which {
-
-      "should render only one button" in {
-        doc.select("a.save-pdf-button").size() shouldEqual 1
-      }
-
-      "with the class save-pdf-button" in {
-        doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-      }
-
-      s"with an href to ${controllers.routes.ReportController.gainSummaryReport().toString}" in {
-        doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/gain-report"
-      }
-
-      s"have the text ${messages.saveAsPdf}" in {
-        doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
+        doc.select("#sellForLess-change-link a span.visuallyhidden").text shouldBe propertiesMessages.SellForLess.title
       }
     }
   }
@@ -955,7 +935,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
     lazy val taxYearModel = TaxYearModel("2018/19", false, "2016/17")
 
     val testModel = YourAnswersSummaryModel(
-      constructDate(12,9,2018),
+      constructDate(12, 9, 2018),
       Some(10),
       None,
       whoDidYouGiveItTo = None,
@@ -974,7 +954,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       Some("Gifted"),
       None
     )
-    lazy val view = views.gainSummary(testModel,-2000, taxYearModel)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummary(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has an output row for how became owner" which {
@@ -984,20 +964,20 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       s"should have the value '${commonMessages.HowBecameOwner.gifted}'" in {
-        doc.select("#howBecameOwner-option span.bold-medium").text shouldBe commonMessages.HowBecameOwner.gifted
+        doc.select("#howBecameOwner-option").text shouldBe commonMessages.HowBecameOwner.gifted
       }
 
       s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
-        doc.select("#howBecameOwner-option a").attr("href") shouldBe routes.GainController.howBecameOwner().url
+        doc.select("#howBecameOwner-change-link a").attr("href") shouldBe routes.GainController.howBecameOwner().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#howBecameOwner-option a").text shouldBe
+        doc.select("#howBecameOwner-change-link a").text shouldBe
           s"${residentMessages.change} ${commonMessages.HowBecameOwner.title}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#howBecameOwner-option a span.visuallyhidden").text shouldBe
+        doc.select("#howBecameOwner-change-link a span.visuallyhidden").text shouldBe
           commonMessages.HowBecameOwner.title
       }
     }
@@ -1009,11 +989,11 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
 
       "should have the value '£3,000'" in {
-        doc.select("#worthWhenGifted-amount span.bold-medium").text shouldBe "£3,000"
+        doc.select("#worthWhenGifted-amount").text shouldBe "£3,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenGifted().url}" in {
-        doc.select("#worthWhenGifted-amount a").attr("href") shouldBe routes.GainController.worthWhenGifted().url
+        doc.select("#worthWhenGifted-change-link a").attr("href") shouldBe routes.GainController.worthWhenGifted().url
       }
     }
   }

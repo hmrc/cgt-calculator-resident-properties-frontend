@@ -1,0 +1,23 @@
+@import models.resident._
+@import models.resident.properties._
+@import views.html.helpers._
+@import views.html.calculation.resident.properties._
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import controllers.routes.{GainController => gainRoutes}
+@import controllers.routes.{DeductionsController => deductionRoutes}
+@import controllers.routes.{IncomeController => incomeRoutes}
+
+@(postAction: Call, backUrl: String, gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages)
+
+@resident_properties_main_template(title = Messages("calc.checkYourAnswers.title"), backLink = Some(backUrl), articleLayout = false) {
+
+    <h1 class="heading-large">@Messages("calc.checkYourAnswers.title")</h1>
+
+    <div class="form-group">
+        @checkYourAnswersPartial(gainAnswers, deductionsAnswers, taxYear, incomeAnswers, isCurrentTaxYear)
+    </div>
+
+    @form(action = postAction) {
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
+}

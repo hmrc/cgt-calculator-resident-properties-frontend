@@ -26,7 +26,7 @@ object MessageLookup {
   trait Common {
 
     val externalLink = "(opens in a new window)"
-    val change = "change"
+    val change = "Change"
     val back = "Back"
     val continue = "Continue"
     val yes = "Yes"
@@ -129,7 +129,7 @@ object MessageLookup {
     }
 
     object CheckYourAnswers {
-      val question = "Check your answers"
+      val title = "Check your answers"
       val tableHeading = "You've told us"
       val change = "Change"
       val hiddenText = "your response to the question"
@@ -720,7 +720,7 @@ object MessageLookup {
     val whatToDoNextPropertiesLiabilityMessage = "You can tell HMRC about the property and pay your tax using our online service"
     val whatToDoNextLiabilityAdditionalMessage = "You can use the figures on this page to help you do this."
     def aeaRemaining(taxYear: String): String = s"Capital Gains Tax allowance left for $taxYear"
-    val saveAsPdf = "Save as PDF"
+    val saveAsPdf = "Download your Capital Gains Tax calculation (PDF, under ...)"
     def remainingAllowableLoss(taxYear: String): String = s"Remaining loss from $taxYear tax year"
     def remainingBroughtForwardLoss(taxYear: String): String = s"Remaining loss from tax years before $taxYear"
     val remainingLossHelp = "You can"

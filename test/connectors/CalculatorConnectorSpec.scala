@@ -18,15 +18,16 @@ package connectors
 
 import java.util.UUID
 
-import common.KeystoreKeys
+import common.{Dates, KeystoreKeys}
 import models.resident
-import models.resident.properties.ChargeableGainAnswers
+import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.libs.json.Json
 import uk.gov.hmrc.http.cache.client.SessionCache
 import uk.gov.hmrc.play.http.logging.SessionId
-import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet}
+import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpResponse}
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
@@ -100,6 +101,41 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
       mockResidentPropertyFetchAndGetFormData()
       lazy val result = TargetCalculatorConnector.getPropertyDeductionAnswers(hc)
       await(result).isInstanceOf[ChargeableGainAnswers] shouldBe true
+    }
+  }
+
+  "Calling .getPropertyTotalCosts" should {
+
+    implicit val hc = mock[HeaderCarrier]
+
+    val gainAnswers = YourAnswersSummaryModel(
+      disposalDate = Dates.constructDate(10, 10, 2018),
+      disposalValue = Some(200000),
+      worthWhenSoldForLess = None,
+      whoDidYouGiveItTo = Some("Other"),
+      worthWhenGaveAway = Some(10000),
+      disposalCosts = 10000,
+      acquisitionValue = Some(100000),
+      worthWhenInherited = None,
+      worthWhenGifted = None,
+      worthWhenBoughtForLess = None,
+      acquisitionCosts = 10000,
+      improvements = 30000,
+      givenAway = true,
+      sellForLess = Some(false),
+      ownerBeforeLegislationStart = true,
+      valueBeforeLegislationStart = Some(5000),
+      howBecameOwner = Some("Bought"),
+      boughtForLessThanWorth = Some(false)
+    )
+
+    when(mockHttp.GET[BigDecimal](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful(BigDecimal(1000.0)))
+
+    lazy val result = TargetCalculatorConnector.getPropertyTotalCosts(gainAnswers)
+
+    "return 1000" in {
+      await(result) shouldBe 1000
     }
   }
 }
