@@ -51,6 +51,9 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
   val allDeductionsModel: ChargeableGainAnswers = ChargeableGainAnswers(Some(LossesBroughtForwardModel(true)), Some(LossesBroughtForwardValueModel(10000)),
     Some(PropertyLivedInModel(true)), Some(PrivateResidenceReliefModel(true)), Some(PrivateResidenceReliefValueModel(35000)), Some(LettingsReliefModel(true)),
     Some(LettingsReliefValueModel(5000)))
+  val noBroughtForwardLossesModel: ChargeableGainAnswers = ChargeableGainAnswers(Some(LossesBroughtForwardModel(false)), None,
+    Some(PropertyLivedInModel(true)), Some(PrivateResidenceReliefModel(true)), Some(PrivateResidenceReliefValueModel(35000)), Some(LettingsReliefModel(true)),
+    Some(LettingsReliefValueModel(5000)))
   val noDeductionsModel: ChargeableGainAnswers = ChargeableGainAnswers(Some(LossesBroughtForwardModel(false)), None,
     Some(PropertyLivedInModel(false)), None, None, None, None)
   val incomeAnswersModel: IncomeAnswersModel = IncomeAnswersModel(Some(CurrentIncomeModel(25000)), Some(PersonalAllowanceModel(11000)))
@@ -105,6 +108,10 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
       "load the Review Answers page" in {
         Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.NonResident.ReviewAnswers.title
       }
+
+      "have a back link to the improvements page" in {
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.GainController.improvements().url
+      }
     }
   }
 
@@ -126,7 +133,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
       }
     }
 
-    "provided with a valid session" should {
+    "provided with a valid session and brought forward losses" should {
       lazy val controller = setupController(
         totalLossModel,
         allDeductionsModel,
@@ -139,6 +146,30 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
 
       "load the Review Answers page" in {
         Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.NonResident.ReviewAnswers.title
+      }
+
+      "have a back link to the brought forward losses value page" in {
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForwardValue().url
+      }
+    }
+
+    "provided with a valid session and no brought forward losses" should {
+      lazy val controller = setupController(
+        totalLossModel,
+        noBroughtForwardLossesModel,
+        taxYearModel = Some(TaxYearModel("2016/17", isValidYear = true, "2016/17")))
+      lazy val result = controller.reviewDeductionsAnswers(fakeRequestWithSession)
+
+      "return a status of 200" in {
+        status(result) shouldBe 200
+      }
+
+      "load the Review Answers page" in {
+        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.NonResident.ReviewAnswers.title
+      }
+
+      "have a back link to the brought forward losses page" in {
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward().url
       }
     }
   }
@@ -174,6 +205,10 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
 
       "load the Review Answers page" in {
         Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.NonResident.ReviewAnswers.title
+      }
+
+      "have a back link to the personal allowance page" in {
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.IncomeController.personalAllowance().url
       }
     }
   }
