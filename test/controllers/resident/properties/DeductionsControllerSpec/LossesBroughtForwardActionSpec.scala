@@ -217,7 +217,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
         status(result) shouldBe 303
       }
 
-      "redirect to the summary page" in {
+      "redirect to the review your answers page" in {
         redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().url
       }
     }
