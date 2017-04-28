@@ -22,8 +22,8 @@ import common.Dates
 import common.Dates.requestFormatter
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
-import models.resident.TaxYearModel
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
+import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
@@ -52,17 +52,26 @@ trait ReviewAnswersController extends ValidActiveSession {
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
       getGainAnswers.map { answers =>
-        Ok(checkYourAnswers(routes.SummaryController.summary(), "Back link", answers, None, None))
+        Ok(checkYourAnswers(routes.SummaryController.summary(), controllers.routes.GainController.improvements().url, answers, None, None))
       }
   }
 
   val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
+    def generateBackUrl(chargeableGainAnswers: ChargeableGainAnswers): Future[String] = {
+      if (chargeableGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option) {
+        Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
+      } else {
+        Future.successful(routes.DeductionsController.lossesBroughtForward().url)
+      }
+    }
+
     implicit request =>
       for {
         gainAnswers <- getGainAnswers
         deductionsAnswers <- getDeductionsAnswers
         taxYear <- getTaxYear(gainAnswers.disposalDate)
-      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), "Back link", gainAnswers, Some(deductionsAnswers), Some(taxYear)))
+        url <- generateBackUrl(deductionsAnswers)
+      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), url, gainAnswers, Some(deductionsAnswers), Some(taxYear)))
   }
 
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
@@ -76,7 +85,7 @@ trait ReviewAnswersController extends ValidActiveSession {
         incomeAnswers <- getIncomeAnswers
         taxYear <- getTaxYear(gainAnswers.disposalDate)
         currentTaxYear <- getCurrentTaxYear
-      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), "Back link", gainAnswers,
+      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), routes.IncomeController.personalAllowance().url, gainAnswers,
         Some(deductionsAnswers), Some(taxYear), Some(incomeAnswers), taxYear.taxYearSupplied == currentTaxYear))
   }
 }
