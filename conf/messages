@@ -760,4 +760,7 @@ calc.summary.calculationDetails.totalDeductions = Total deductions
 calc.summary.calculationDetails.yourTaxableGain = Your taxable gain
 calc.summary.calculationDetails.minusDeductions = Minus deductions
 calc.summary.calculationDetails.taxableGain = Taxable gain
+calc.summary.calculationDetails.yourTaxRate = Your tax rate
+calc.summary.calculationDetails.taxRate = £{0} taxable gain multiplied by {1}% tax rate
+calc.summary.calculationDetails.taxToPay = Tax to pay
 

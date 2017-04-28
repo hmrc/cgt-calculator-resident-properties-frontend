@@ -2,8 +2,8 @@
 
 @(rowId: String, question: String, amount: BigDecimal, isTotal: Boolean = false)(implicit messages: Messages)
 
-<div id="@rowId" class="grid-layout grid-layout--no-margin form-group font-small">
-    @if(isTotal) {
+@if(isTotal) {
+    <div id="@rowId" class="grid-layout grid-layout--no-margin font-small summary-total-margin-top">
         <div id="@{rowId}-text">
             <strong>@question</strong>
         </div>
@@ -20,7 +20,9 @@
                 }
             }
         </div>
-    } else {
+    </div>
+} else {
+    <div id="@rowId" class="grid-layout grid-layout--no-margin font-small">
         <div id="@{rowId}-text" class="form-hint">
             @question
         </div>
@@ -37,5 +39,6 @@
                 }
             }
         </div>
-    }
-</div>
+    </div>
+}
+

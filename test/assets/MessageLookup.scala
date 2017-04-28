@@ -951,5 +951,8 @@ object MessageLookup {
     val yourTaxableGain = "Your taxable gain"
     val minusDeductions = "Minus deductions"
     val taxableGain = "Taxable gain"
+    val yourTaxRate = "Your tax rate"
+    def taxRate(amount: String, rate: String): String = s"$amount taxable gain multiplied by $rate% tax rate"
+    val taxToPay = "Tax to pay"
   }
 }

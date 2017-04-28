@@ -77,14 +77,15 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         aeaUsed = 10,
         deductions = 30000,
         taxOwed = 3600,
-        firstBand = 30000,
+        firstBand = 20000,
         firstRate = 18,
         secondBand = None,
         secondRate = None,
         lettingReliefsUsed = Some(BigDecimal(0)),
         prrUsed = Some(BigDecimal(0)),
         broughtForwardLossesUsed = 0,
-        allowableLossesUsed = 0
+        allowableLossesUsed = 0,
+        baseRateTotal = 30000
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
@@ -215,8 +216,8 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             }
           }
 
-          "not have a row for reliefs claimed" in {
-            div.select("#reliefsUsed") shouldBe empty
+          "not have a row for reliefs used" in {
+            div.select("#reliefsUsed-text") shouldBe empty
           }
 
           "has a row for AEA used" which {
@@ -231,10 +232,11 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "not have a row for brought forward losses used" in {
-            div.select("#lossesUsed") shouldBe empty
+            div.select("#lossesUsed-text") shouldBe empty
           }
 
           "has a row for total deductions" which {
+
             s"has the text '${summaryMessages.totalDeductions}'" in {
               div.select("#totalDeductions-text").text shouldBe summaryMessages.totalDeductions
             }
@@ -283,6 +285,44 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
             "has the value '£20,000'" in {
               div.select("#taxableGain-amount").text shouldBe "£20,000"
+            }
+          }
+        }
+
+        "has a div for tax rate" which {
+
+          lazy val div = doc.select("#taxRate")
+
+          "has a h3 tag" which {
+
+            s"has the text ${summaryMessages.yourTaxRate}" in {
+              div.select("h3").text shouldBe summaryMessages.yourTaxRate
+            }
+          }
+
+          "has row for first band" which {
+
+            s"has the text '${summaryMessages.taxRate("£20,000", "18")}'" in {
+              div.select("#firstBand-text").text shouldBe summaryMessages.taxRate("£20,000", "18")
+            }
+
+            "has the value '£30,000'" in {
+              div.select("#firstBand-amount").text shouldBe "£30,000"
+            }
+          }
+
+          "does not have a row for second band" in {
+            div.select("#secondBand-text") shouldBe empty
+          }
+
+          "has a row for tax to pay" which {
+
+            s"has the text ${summaryMessages.taxToPay}" in {
+              div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
+            }
+
+            "has the value '£3,600'" in {
+              div.select("#taxToPay-amount").text shouldBe "£3,600"
             }
           }
         }
@@ -370,10 +410,6 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "has a numeric output row and a tax rate" which {
-
-        "Should have the question text 'Tax Rate'" in {
-          doc.select("#gainAndRate-question").text shouldBe messages.taxRate
-        }
 
         "Should have the value £30,000 in the first band" in {
           doc.select("#firstBand").text should include("£30,000")

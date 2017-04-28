@@ -93,7 +93,7 @@
             @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
         </div>
 
-        <div id="deductions" class="resident summary-underline">
+        <div id="deductions" class="summary-underline-padding">
             <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
 
             @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
@@ -114,15 +114,19 @@
             @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
         </div>
 
-        @summaryNumericRowHelper("chargeableGain", if(result.chargeableGain < 0) {
-        Messages("calc.resident.summary.chargeableLoss")} else {Messages("calc.resident.summary.chargeableGain")}, result.chargeableGain)
+        <div id="taxRate" class="resident">
+            <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
 
-        @if(!result.secondRate.isDefined && !result.secondBand.isDefined) {
-            @summaryGainAndRateHelper("gainAndRate", Messages("calc.resident.summary.taxRate"), result.firstBand, result.firstRate, None, None)
-        } else {
-            @summaryGainAndRateHelper("gainAndRate", Messages("calc.resident.summary.taxRate"), result.firstBand, result.firstRate, result.secondBand, result.secondRate)
-        }
-        @summaryNumericRowHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), 0)
+            @summaryNumericRow("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
+                result.baseRateTotal)
+
+            @if(result.secondRate.isDefined && result.secondBand.isDefined) {
+                @summaryNumericRow("secondBand", Messages("calc.summary.calculationDetails.taxRate", result.secondBand.get, result.secondRate.get),
+                    result.upperRateTotal)
+            }
+            @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), result.taxOwed, isTotal = true)
+        </div>
+
     </section>
 
     @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
