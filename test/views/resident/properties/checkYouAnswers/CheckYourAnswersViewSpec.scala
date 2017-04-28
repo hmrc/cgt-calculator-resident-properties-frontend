@@ -22,7 +22,7 @@ import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import views.html.calculation.resident.properties.{checkYourAnswers => views}
-import assets.MessageLookup.NonResident.{CheckYourAnswers => messages}
+import assets.MessageLookup.NonResident.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.ModelsAsset._
 import org.jsoup.nodes.Document
