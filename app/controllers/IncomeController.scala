@@ -28,7 +28,7 @@ import models.resident._
 import models.resident.income._
 import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.mvc.Result
+import play.api.mvc.{Action, AnyContent, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{income => views}
@@ -84,8 +84,8 @@ trait IncomeController extends ValidActiveSession {
     Future.successful(s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}")
   }
 
-  override val homeLink = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl = homeLink
+  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override val sessionTimeoutUrl: String = homeLink
 
   //################################# Previous Taxable Gain Actions ##########################################
   private val previousTaxableGainsPostAction = controllers.routes.IncomeController.submitPreviousTaxableGains()
@@ -106,7 +106,7 @@ trait IncomeController extends ValidActiveSession {
     }
   }
 
-  val previousTaxableGains = ValidateSession.async { implicit request =>
+  val previousTaxableGains: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, calculationYear: String): Future[Result] = {
       calcConnector.fetchAndGetFormData[PreviousTaxableGainsModel](keystoreKeys.previousTaxableGains).map {
@@ -126,7 +126,7 @@ trait IncomeController extends ValidActiveSession {
     } yield finalResult
   }
 
-  val submitPreviousTaxableGains = ValidateSession.async { implicit request =>
+  val submitPreviousTaxableGains: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def errorAction (errors: Form[PreviousTaxableGainsModel], backUrl: String, taxYear: String) = {
       Future.successful(BadRequest(commonViews.previousTaxableGains(errors, backUrl, previousTaxableGainsPostAction,
@@ -159,7 +159,7 @@ trait IncomeController extends ValidActiveSession {
     }
   }
 
-  val currentIncome = ValidateSession.async { implicit request =>
+  val currentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYear: TaxYearModel, currentTaxYear: String): Future[Result] = {
 
@@ -181,7 +181,7 @@ trait IncomeController extends ValidActiveSession {
     } yield finalResult
   }
 
-  val submitCurrentIncome = ValidateSession.async { implicit request =>
+  val submitCurrentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
 
@@ -216,7 +216,7 @@ trait IncomeController extends ValidActiveSession {
   private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome().toString)
   private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance()
 
-  val personalAllowance = ValidateSession.async { implicit request =>
+  val personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def fetchKeystorePersonalAllowance(): Future[Form[PersonalAllowanceModel]] = {
       calcConnector.fetchAndGetFormData[PersonalAllowanceModel](keystoreKeys.personalAllowance).map {
@@ -242,7 +242,7 @@ trait IncomeController extends ValidActiveSession {
     } yield route
   }
 
-  val submitPersonalAllowance = ValidateSession.async { implicit request =>
+  val submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def getMaxPA(year: Int): Future[Option[BigDecimal]] = {
       calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true)(hc)
@@ -254,7 +254,7 @@ trait IncomeController extends ValidActiveSession {
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, navTitle, currentTaxYear))),
         success => {
           calcConnector.saveFormData(keystoreKeys.personalAllowance, success)
-          Future.successful(Redirect(routes.SummaryController.summary()))
+          Future.successful(Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))
         }
       )
     }

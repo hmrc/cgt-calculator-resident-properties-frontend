@@ -38,7 +38,7 @@ import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Result
+import play.api.mvc.{Action, AnyContent, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{deductions => views}
@@ -69,12 +69,12 @@ trait DeductionsController extends ValidActiveSession {
 
   def answerSummary(hc: HeaderCarrier): Future[YourAnswersSummaryModel] = calcConnector.getPropertyGainAnswers(hc)
 
-  override val homeLink = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl = homeLink
+  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override val sessionTimeoutUrl: String = homeLink
 
 
   //################# Property Lived In Actions #############################
-  val propertyLivedIn = ValidateSession.async { implicit request =>
+  val propertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     val backLink = Some(controllers.routes.GainController.improvements().toString)
 
@@ -84,7 +84,7 @@ trait DeductionsController extends ValidActiveSession {
     }
   }
 
-  val submitPropertyLivedIn = ValidateSession.async { implicit request =>
+  val submitPropertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     lazy val backLink = Some(controllers.GainController.improvements.toString())
 
@@ -109,14 +109,14 @@ trait DeductionsController extends ValidActiveSession {
 
 
   //########## Private Residence Relief Actions ##############
-  val privateResidenceRelief = ValidateSession.async { implicit request =>
+  val privateResidenceRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
     calcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](keystoreKeys.privateResidenceRelief).map {
       case Some(data) => Ok(views.privateResidenceRelief(privateResidenceReliefForm.fill(data)))
       case _ => Ok(views.privateResidenceRelief(privateResidenceReliefForm))
     }
   }
 
-  val submitPrivateResidenceRelief = ValidateSession.async { implicit request =>
+  val submitPrivateResidenceRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def errorAction(errors: Form[PrivateResidenceReliefModel]) = Future.successful(BadRequest(views.privateResidenceRelief(errors)))
 
@@ -137,7 +137,7 @@ trait DeductionsController extends ValidActiveSession {
 
 
   //########## Private Residence Relief Value Actions ##############
-  val privateResidenceReliefValue = ValidateSession.async { implicit request =>
+  val privateResidenceReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(totalGain: BigDecimal) = {
       calcConnector.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue).map {
@@ -153,7 +153,7 @@ trait DeductionsController extends ValidActiveSession {
     } yield route
   }
 
-  val submitPrivateResidenceReliefValue = ValidateSession.async { implicit request =>
+  val submitPrivateResidenceReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def successAction(model: PrivateResidenceReliefValueModel) = {
       calcConnector.saveFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue, model)
@@ -176,14 +176,14 @@ trait DeductionsController extends ValidActiveSession {
   //############## Lettings Relief Actions ##################
   private val lettingsReliefBackUrl = routes.DeductionsController.privateResidenceReliefValue().url
 
-  val lettingsRelief = ValidateSession.async { implicit request =>
+  val lettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
     calcConnector.fetchAndGetFormData[LettingsReliefModel](keystoreKeys.lettingsRelief).map {
       case Some(data) => Ok(views.lettingsRelief(lettingsReliefForm.fill(data), homeLink, Some(lettingsReliefBackUrl)))
       case None => Ok(views.lettingsRelief(lettingsReliefForm, homeLink, Some(lettingsReliefBackUrl)))
     }
   }
 
-  val submitLettingsRelief = ValidateSession.async { implicit request =>
+  val submitLettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def errorAction(form: Form[LettingsReliefModel]) = {
       Future.successful(BadRequest(views.lettingsRelief(form, homeLink, Some(lettingsReliefBackUrl))))
@@ -211,7 +211,7 @@ trait DeductionsController extends ValidActiveSession {
 
 
   //################# Lettings Relief Value Input Actions ########################
-  val lettingsReliefValue = ValidateSession.async { implicit request =>
+  val lettingsReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(totalGain: BigDecimal, prrValue: BigDecimal): Future[Result] = {
       calcConnector.fetchAndGetFormData[LettingsReliefValueModel](keystoreKeys.lettingsReliefValue).map {
@@ -228,7 +228,7 @@ trait DeductionsController extends ValidActiveSession {
     } yield route
   }
 
-  val submitLettingsReliefValue = ValidateSession.async { implicit request =>
+  val submitLettingsReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(totalGain: BigDecimal, prrValue: BigDecimal) = {
       lettingsReliefValueForm(totalGain, prrValue).bindFromRequest().fold(
@@ -269,7 +269,7 @@ trait DeductionsController extends ValidActiveSession {
     }
   }
 
-  val otherProperties = ValidateSession.async { implicit request =>
+  val otherProperties: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYear: TaxYearModel): Future[Result] = {
       calcConnector.fetchAndGetFormData[OtherPropertiesModel](keystoreKeys.otherProperties).map {
@@ -287,7 +287,7 @@ trait DeductionsController extends ValidActiveSession {
     } yield finalResult
   }
 
-  val submitOtherProperties = ValidateSession.async { implicit request =>
+  val submitOtherProperties: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       otherPropertiesForm.bindFromRequest.fold(
@@ -313,10 +313,10 @@ trait DeductionsController extends ValidActiveSession {
 
 
   //################# Allowable Losses Actions #########################
-  val allowableLosses = ValidateSession.async { implicit request =>
+  val allowableLosses: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     val postAction = controllers.routes.DeductionsController.submitAllowableLosses()
-    val backLink = Some(controllers.routes.DeductionsController.otherProperties().toString())
+    val backLink = Some(controllers.routes.DeductionsController.otherProperties().toString)
 
     def routeRequest(taxYear: TaxYearModel): Future[Result] = {
       calcConnector.fetchAndGetFormData[AllowableLossesModel](keystoreKeys.allowableLosses).map {
@@ -332,10 +332,10 @@ trait DeductionsController extends ValidActiveSession {
     } yield finalResult
   }
 
-  val submitAllowableLosses = ValidateSession.async { implicit request =>
+  val submitAllowableLosses: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     val postAction = controllers.routes.DeductionsController.submitAllowableLosses()
-    val backLink = Some(controllers.routes.DeductionsController.otherProperties().toString())
+    val backLink = Some(controllers.routes.DeductionsController.otherProperties().toString)
 
     def routeRequest(taxYear: TaxYearModel): Future[Result] = {
       allowableLossesForm.bindFromRequest.fold(
@@ -364,7 +364,7 @@ trait DeductionsController extends ValidActiveSession {
   private val allowableLossesValuePostAction = controllers.routes.DeductionsController.submitAllowableLossesValue()
   private val allowableLossesValueBackLink = Some(controllers.routes.DeductionsController.allowableLosses().toString)
 
-  val allowableLossesValue = ValidateSession.async { implicit request =>
+  val allowableLossesValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def fetchStoredAllowableLosses(): Future[Form[AllowableLossesValueModel]] = {
       calcConnector.fetchAndGetFormData[AllowableLossesValueModel](keystoreKeys.allowableLossesValue).map {
@@ -389,7 +389,7 @@ trait DeductionsController extends ValidActiveSession {
     } yield finalResult
   }
 
-  val submitAllowableLossesValue = ValidateSession.async { implicit request =>
+  val submitAllowableLossesValue: Action[AnyContent]= ValidateSession.async { implicit request =>
 
     def routeRequest(taxYearModel: TaxYearModel): Future[Result] = {
       allowableLossesValueForm.bindFromRequest.fold(
@@ -425,7 +425,7 @@ trait DeductionsController extends ValidActiveSession {
     } yield backUrl
   }
 
-  val lossesBroughtForward = ValidateSession.async { implicit request =>
+  val lossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
       calcConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
@@ -459,7 +459,7 @@ trait DeductionsController extends ValidActiveSession {
     }
   }
 
-  val submitLossesBroughtForward = ValidateSession.async { implicit request =>
+  val submitLossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       lossesBroughtForwardForm.bindFromRequest.fold(
@@ -472,7 +472,7 @@ trait DeductionsController extends ValidActiveSession {
           else {
             positiveChargeableGainCheck.map { positiveChargeableGain =>
               if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-              else Redirect(routes.SummaryController.summary())
+              else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
             }
           }
         }
@@ -494,7 +494,7 @@ trait DeductionsController extends ValidActiveSession {
   private val lossesBroughtForwardValueBackLink = routes.DeductionsController.lossesBroughtForward().url
   private val lossesBroughtForwardValuePostAction = routes.DeductionsController.submitLossesBroughtForwardValue()
 
-  val lossesBroughtForwardValue = ValidateSession.async { implicit request =>
+  val lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def retrieveKeystoreData(): Future[Form[LossesBroughtForwardValueModel]] = {
       calcConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue).map {
@@ -523,7 +523,7 @@ trait DeductionsController extends ValidActiveSession {
     } yield route
   }
 
-  val submitLossesBroughtForwardValue = ValidateSession.async { implicit request =>
+  val submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     lossesBroughtForwardValueForm.bindFromRequest.fold(
       errors => {
@@ -545,7 +545,7 @@ trait DeductionsController extends ValidActiveSession {
         calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
         positiveChargeableGainCheck.map { positiveChargeableGain =>
           if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-          else Redirect(routes.SummaryController.summary())
+          else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
         }
       }
     )
@@ -563,7 +563,7 @@ trait DeductionsController extends ValidActiveSession {
 
   private val annualExemptAmountPostAction = controllers.routes.DeductionsController.submitAnnualExemptAmount()
 
-  val annualExemptAmount = ValidateSession.async { implicit request =>
+  val annualExemptAmount: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backLink: Option[String]) = {
       calcConnector.fetchAndGetFormData[AnnualExemptAmountModel](keystoreKeys.annualExemptAmount).map {
@@ -584,7 +584,7 @@ trait DeductionsController extends ValidActiveSession {
     Future(model.amount > 0)
   }
 
-  val submitAnnualExemptAmount = ValidateSession.async { implicit request =>
+  val submitAnnualExemptAmount: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def taxYearStringToInteger(taxYear: String): Future[Int] = {
       Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
@@ -611,7 +611,7 @@ trait DeductionsController extends ValidActiveSession {
 
           match {
             case (false, true) => Redirect(routes.IncomeController.previousTaxableGains())
-            case (_, false) => Redirect(routes.SummaryController.summary())
+            case (_, false) => Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
             case _ => Redirect(routes.IncomeController.currentIncome())
           }
         }
