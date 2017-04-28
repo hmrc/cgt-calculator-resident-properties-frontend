@@ -21,7 +21,8 @@
         taxYear: TaxYearModel,
         prrUsed: Option[Boolean] = None,
         lettingsReliefUsed: Option[Boolean] = None,
-        totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
+        totalCosts: BigDecimal,
+        totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
@@ -102,15 +103,8 @@
             @if(result.broughtForwardLossesUsed > 0) {
                 @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
             }
-//            @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), result.gain, isTotal = true)
+            @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
         </div>
-
-        @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
-            (Messages("calc.resident.summary.deductionsDetails.prrUsed"), MoneyPounds(result.prrUsed.get, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.lettingReliefsUsed"), MoneyPounds(result.lettingReliefsUsed.get, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
-        )))
 
         @summaryNumericRowHelper("chargeableGain", if(result.chargeableGain < 0) {
         Messages("calc.resident.summary.chargeableLoss")} else {Messages("calc.resident.summary.chargeableGain")}, result.chargeableGain)
