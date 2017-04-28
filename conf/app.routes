@@ -149,12 +149,10 @@ POST    /current-income                   controllers.IncomeController.submitCur
 GET     /personal-allowance               controllers.IncomeController.personalAllowance
 POST    /personal-allowance               controllers.IncomeController.submitPersonalAllowance
 
-#Check your answers Routes
-GET     /check-your-answers-final          controllers.ReviewYourAnswersController.checkYourAnswersFinal
-
-GET     /check-your-answers-gain            controllers.ReviewYourAnswersController.checkYourAnswersGain
-
-GET     /check-your-answers-loss            controllers.ReviewYourAnswersController.checkYourAnswersDeductions
+#Review your answers Routes
+GET     /review-your-answers-gain          controllers.ReviewAnswersController.reviewGainAnswers
+GET     /review-your-answers-deductions    controllers.ReviewAnswersController.reviewDeductionsAnswers
+GET     /review-your-answers-final         controllers.ReviewAnswersController.reviewFinalAnswers
 
 #Summary Routes
 GET     /summary                          controllers.SummaryController.summary

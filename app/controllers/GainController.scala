@@ -46,7 +46,7 @@ import models.resident.properties._
 import models.resident.properties.gain.{OwnerBeforeLegislationStartModel, WhoDidYouGiveItToModel, WorthWhenGiftedModel}
 import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.mvc.{Action, Result}
+import play.api.mvc.{Action, AnyContent, Result}
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{gain => views}
@@ -66,11 +66,11 @@ trait GainController extends ValidActiveSession {
   val config: AppConfig
 
   val navTitle = Messages("calc.base.resident.properties.home")
-  override val homeLink = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl = homeLink
+  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override val sessionTimeoutUrl: String = homeLink
 
   //################# Disposal Date Actions ####################
-  val disposalDate = Action.async { implicit request =>
+  val disposalDate: Action[AnyContent] = Action.async { implicit request =>
     if (request.session.get(SessionKeys.sessionId).isEmpty) {
       val sessionId = UUID.randomUUID.toString
       Future.successful(Ok(views.disposalDate(disposalDateForm)).withSession(request.session + (SessionKeys.sessionId -> s"session-$sessionId")))
@@ -83,7 +83,7 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val submitDisposalDate = Action.async { implicit request =>
+  val submitDisposalDate: Action[AnyContent] = Action.async { implicit request =>
 
     def routeRequest(taxYearResult: Option[TaxYearModel]): Future[Result] = {
       if (taxYearResult.isDefined && !taxYearResult.get.isValidYear) Future.successful(Redirect(routes.GainController.outsideTaxYears()))
@@ -103,7 +103,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //################ Sell or Give Away Actions ######################
-  val sellOrGiveAway = ValidateSession.async { implicit request =>
+  val sellOrGiveAway: Action[AnyContent] = ValidateSession.async { implicit request =>
     val backUrl = routes.GainController.disposalDate().url
     val postAction = controllers.routes.GainController.submitSellOrGiveAway()
 
@@ -113,7 +113,7 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val submitSellOrGiveAway = ValidateSession.async { implicit request =>
+  val submitSellOrGiveAway: Action[AnyContent] = ValidateSession.async { implicit request =>
     val backUrl = routes.GainController.disposalDate().url
     val postAction = controllers.routes.GainController.submitSellOrGiveAway()
 
@@ -130,7 +130,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //################ Who Did You Give It To Actions ######################
-  val whoDidYouGiveItTo = ValidateSession.async { implicit request =>
+  val whoDidYouGiveItTo: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     calcConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](keystoreKeys.whoDidYouGiveItTo).map {
       case Some(data) => Ok(views.whoDidYouGiveItTo(whoDidYouGiveItToForm.fill(data)))
@@ -138,7 +138,7 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val submitWhoDidYouGiveItTo = ValidateSession.async { implicit request =>
+  val submitWhoDidYouGiveItTo: Action[AnyContent] = ValidateSession.async { implicit request =>
     whoDidYouGiveItToForm.bindFromRequest.fold(
     errors => Future.successful(BadRequest(views.whoDidYouGiveItTo(errors))),
     success => {
@@ -152,7 +152,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //################ No Tax to Pay Actions ######################
-  val noTaxToPay = ValidateSession.async { implicit request =>
+  val noTaxToPay: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def isGivenToCharity: Future[Boolean] = {
       calcConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](keystoreKeys.whoDidYouGiveItTo).map {
@@ -172,7 +172,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //################ Outside Tax Years Actions ######################
-  val outsideTaxYears = ValidateSession.async { implicit request =>
+  val outsideTaxYears: Action[AnyContent] = ValidateSession.async { implicit request =>
     for {
       disposalDate <- calcConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
       taxYear <- calcConnector.getTaxYear(s"${disposalDate.get.year}-${disposalDate.get.month}-${disposalDate.get.day}")
@@ -195,14 +195,14 @@ trait GainController extends ValidActiveSession {
   private val worthWhenGaveAwayPostAction = controllers.routes.GainController.submitWorthWhenGaveAway()
   private val worthWhenGaveAwayBackLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString)
 
-  val worthWhenGaveAway = ValidateSession.async { implicit request =>
+  val worthWhenGaveAway: Action[AnyContent] = ValidateSession.async { implicit request =>
     calcConnector.fetchAndGetFormData[WorthWhenGaveAwayModel](keystoreKeys.worthWhenGaveAway).map {
       case Some(data) => Ok(views.worthWhenGaveAway(worthWhenGaveAwayForm.fill(data), worthWhenGaveAwayBackLink, homeLink, worthWhenGaveAwayPostAction))
       case None => Ok(views.worthWhenGaveAway(worthWhenGaveAwayForm, worthWhenGaveAwayBackLink, homeLink, worthWhenGaveAwayPostAction))
     }
   }
 
-  val submitWorthWhenGaveAway = ValidateSession.async { implicit request =>
+  val submitWorthWhenGaveAway: Action[AnyContent] = ValidateSession.async { implicit request =>
     worthWhenGaveAwayForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.worthWhenGaveAway(errors, worthWhenGaveAwayBackLink, homeLink, worthWhenGaveAwayPostAction))),
       success => {
@@ -213,7 +213,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //############## Sell for Less Actions ##################
-    val sellForLess = ValidateSession.async {implicit request =>
+    val sellForLess: Action[AnyContent] = ValidateSession.async {implicit request =>
 
     val backLink = Some(controllers.routes.GainController.sellOrGiveAway().toString)
 
@@ -223,7 +223,7 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val submitSellForLess = ValidateSession.async { implicit request =>
+  val submitSellForLess: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     lazy val backLink = Some(controllers.GainController.sellOrGiveAway().toString())
 
@@ -248,14 +248,14 @@ trait GainController extends ValidActiveSession {
   }
 
   //################ Disposal Value Actions ######################
-  val disposalValue = ValidateSession.async { implicit request =>
+  val disposalValue: Action[AnyContent] = ValidateSession.async { implicit request =>
     calcConnector.fetchAndGetFormData[DisposalValueModel](keystoreKeys.disposalValue).map {
       case Some(data) => Ok(views.disposalValue(disposalValueForm.fill(data)))
       case None => Ok(views.disposalValue(disposalValueForm))
     }
   }
 
-  val submitDisposalValue = ValidateSession.async { implicit request =>
+  val submitDisposalValue: Action[AnyContent] = ValidateSession.async { implicit request =>
     disposalValueForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.disposalValue(errors))),
       success => {
@@ -266,14 +266,14 @@ trait GainController extends ValidActiveSession {
   }
 
   //################ Property Worth When Sold For Less Actions ######################
-  val worthWhenSoldForLess = ValidateSession.async { implicit request =>
+  val worthWhenSoldForLess: Action[AnyContent] = ValidateSession.async { implicit request =>
     calcConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](keystoreKeys.worthWhenSoldForLess).map {
       case Some(data) => Ok(views.worthWhenSoldForLess(worthWhenSoldForLessForm.fill(data)))
       case _ => Ok(views.worthWhenSoldForLess(worthWhenSoldForLessForm))
     }
   }
 
-  val submitWorthWhenSoldForLess = ValidateSession.async { implicit request =>
+  val submitWorthWhenSoldForLess: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     worthWhenSoldForLessForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.worthWhenSoldForLess(errors))),
@@ -291,7 +291,7 @@ trait GainController extends ValidActiveSession {
     case (_, _) => routes.GainController.disposalValue().url
   }
 
-  val disposalCosts = ValidateSession.async { implicit request =>
+  val disposalCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backLink: String) = {
       calcConnector.fetchAndGetFormData[DisposalCostsModel](keystoreKeys.disposalCosts).map {
@@ -307,7 +307,7 @@ trait GainController extends ValidActiveSession {
     } yield route
   }
 
-  val submitDisposalCosts = ValidateSession.async { implicit request =>
+  val submitDisposalCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
     def routeRequest(backLink: String) = {
       disposalCostsForm.bindFromRequest.fold(
         errors => Future.successful(BadRequest(views.disposalCosts(errors,backLink))),
@@ -325,14 +325,14 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Owner Before Legislation Start Actions ########################
-  val ownerBeforeLegislationStart = ValidateSession.async { implicit request =>
+  val ownerBeforeLegislationStart: Action[AnyContent] = ValidateSession.async { implicit request =>
     calcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart).map {
       case Some(data) => Ok(views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm.fill(data)))
       case None => Ok(views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm))
     }
   }
 
-  val submitOwnerBeforeLegislationStart = ValidateSession.async { implicit request =>
+  val submitOwnerBeforeLegislationStart: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def errorAction(errors: Form[OwnerBeforeLegislationStartModel]) = Future.successful(BadRequest(views.ownerBeforeLegislationStart(errors)))
 
@@ -353,14 +353,14 @@ trait GainController extends ValidActiveSession {
 
   //################# Value Before Legislation Start Actions ########################
 
-  val valueBeforeLegislationStart = ValidateSession.async { implicit request =>
+  val valueBeforeLegislationStart: Action[AnyContent] = ValidateSession.async { implicit request =>
     calcConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](keystoreKeys.valueBeforeLegislationStart).map {
       case Some(data) => Ok(views.valueBeforeLegislationStart(valueBeforeLegislationStartForm.fill(data)))
       case None => Ok(views.valueBeforeLegislationStart(valueBeforeLegislationStartForm))
     }
   }
 
-  val submitValueBeforeLegislationStart = ValidateSession.async { implicit request =>
+  val submitValueBeforeLegislationStart: Action[AnyContent] = ValidateSession.async { implicit request =>
     valueBeforeLegislationStartForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.valueBeforeLegislationStart(errors))),
       success => {
@@ -371,7 +371,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# How Became Owner Actions ########################
-  val howBecameOwner = ValidateSession.async { implicit request =>
+  val howBecameOwner: Action[AnyContent] = ValidateSession.async { implicit request =>
     val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url)
     val postAction = controllers.routes.GainController.submitHowBecameOwner()
 
@@ -381,7 +381,7 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val submitHowBecameOwner = ValidateSession.async { implicit request =>
+  val submitHowBecameOwner: Action[AnyContent] = ValidateSession.async { implicit request =>
     val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url)
     val postAction = controllers.routes.GainController.submitHowBecameOwner()
 
@@ -399,7 +399,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Bought For Less Than Worth Actions ########################
-  val boughtForLessThanWorth = ValidateSession.async {implicit request =>
+  val boughtForLessThanWorth: Action[AnyContent] = ValidateSession.async {implicit request =>
 
     val backLink = Some(controllers.routes.GainController.howBecameOwner().toString)
 
@@ -409,7 +409,7 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val submitBoughtForLessThanWorth = ValidateSession.async { implicit request =>
+  val submitBoughtForLessThanWorth: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     lazy val backLink = Some(controllers.GainController.howBecameOwner().toString())
 
@@ -434,7 +434,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Worth When Inherited Actions ########################
-  val worthWhenInherited = ValidateSession.async {implicit request =>
+  val worthWhenInherited: Action[AnyContent] = ValidateSession.async {implicit request =>
     val backLink = Some(controllers.routes.GainController.howBecameOwner().url)
     val postAction = controllers.routes.GainController.submitWorthWhenInherited()
 
@@ -444,7 +444,7 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val submitWorthWhenInherited = ValidateSession.async { implicit request =>
+  val submitWorthWhenInherited: Action[AnyContent] = ValidateSession.async { implicit request =>
     val backLink = Some(controllers.routes.GainController.howBecameOwner().url)
     val postAction = controllers.routes.GainController.submitWorthWhenInherited()
 
@@ -458,7 +458,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Worth When Gifted Actions ########################
-   val worthWhenGifted = ValidateSession.async {implicit request =>
+   val worthWhenGifted: Action[AnyContent] = ValidateSession.async {implicit request =>
     val backLink = Some(controllers.routes.GainController.howBecameOwner().url)
     val postAction = controllers.routes.GainController.submitWorthWhenGifted()
 
@@ -468,7 +468,7 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val submitWorthWhenGifted = ValidateSession.async { implicit request =>
+  val submitWorthWhenGifted: Action[AnyContent] = ValidateSession.async { implicit request =>
     val backLink = Some(controllers.routes.GainController.howBecameOwner().url)
     val postAction = controllers.routes.GainController.submitWorthWhenGifted()
 
@@ -483,14 +483,14 @@ trait GainController extends ValidActiveSession {
 
   //################# Worth When Bought For Less Actions ########################
 
-  val worthWhenBoughtForLess = ValidateSession.async {implicit request =>
+  val worthWhenBoughtForLess: Action[AnyContent] = ValidateSession.async {implicit request =>
     calcConnector.fetchAndGetFormData[WorthWhenBoughtForLessModel](keystoreKeys.worthWhenBoughtForLess).map {
       case Some(data) => Ok(views.worthWhenBoughtForLess(worthWhenBoughtForLessForm.fill(data)))
       case _ => Ok(views.worthWhenBoughtForLess(worthWhenBoughtForLessForm))
     }
   }
 
-  val submitWorthWhenBoughtForLess = ValidateSession.async { implicit request =>
+  val submitWorthWhenBoughtForLess: Action[AnyContent] = ValidateSession.async { implicit request =>
     worthWhenBoughtForLessForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.worthWhenBoughtForLess(errors))),
       success => {
@@ -501,14 +501,14 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Acquisition Value Actions ########################
-  val acquisitionValue = ValidateSession.async { implicit request =>
+  val acquisitionValue: Action[AnyContent] = ValidateSession.async { implicit request =>
     calcConnector.fetchAndGetFormData[AcquisitionValueModel](keystoreKeys.acquisitionValue).map {
       case Some(data) => Ok(views.acquisitionValue(acquisitionValueForm.fill(data)))
       case None => Ok(views.acquisitionValue(acquisitionValueForm))
     }
   }
 
-  val submitAcquisitionValue = ValidateSession.async { implicit request =>
+  val submitAcquisitionValue: Action[AnyContent] = ValidateSession.async { implicit request =>
     acquisitionValueForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.acquisitionValue(errors))),
       success => {
@@ -552,14 +552,14 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val acquisitionCosts = ValidateSession.async { implicit request =>
+  val acquisitionCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
     for {
       backLink <- acquisitionCostsBackLink
       form <- createAcquisitionCostsForm()
     } yield Ok(views.acquisitionCosts(form, backLink))
   }
 
-  val submitAcquisitionCosts = ValidateSession.async { implicit request =>
+  val submitAcquisitionCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
     acquisitionCostsForm.bindFromRequest.fold(
       errors => for {
         backLink <- acquisitionCostsBackLink
@@ -583,19 +583,18 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val improvements = ValidateSession.async { implicit request =>
+  val improvements: Action[AnyContent] = ValidateSession.async { implicit request =>
     for{
       ownerBeforeAprilNineteenEightyTwo <- getOwnerBeforeAprilNineteenEightyTwo()
       improvementsForm <- getImprovementsForm
     } yield Ok(views.improvements(improvementsForm, ownerBeforeAprilNineteenEightyTwo))
   }
 
-  val submitImprovements = ValidateSession.async { implicit request =>
+  val submitImprovements: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(totalGain: BigDecimal): Future[Result] = {
       if (totalGain > 0) Future.successful(Redirect(routes.DeductionsController.propertyLivedIn()))
-      else Future.successful(Redirect(routes.ReviewYourAnswersController.checkYourAnswersGain()))
-      //TODO: Update to CYA
+      else Future.successful(Redirect(routes.ReviewAnswersController.reviewGainAnswers()))
     }
 
     def errorAction(form: Form[ImprovementsModel]): Future[Result] = {
