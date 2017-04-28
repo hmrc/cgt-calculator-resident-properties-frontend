@@ -16,9 +16,18 @@
 
 package controllers
 
+import java.time.LocalDate
+
+import common.Dates
+import common.Dates.requestFormatter
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import models.resident.TaxYearModel
+import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import play.api.mvc.{Action, AnyContent}
+import uk.gov.hmrc.play.http.HeaderCarrier
+
+import scala.concurrent.Future
 
 object ReviewAnswersController extends ReviewAnswersController {
   val calculatorConnector = CalculatorConnector
@@ -28,9 +37,38 @@ trait ReviewAnswersController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
 
-  val reviewGainAnswers: Action[AnyContent] = TODO
+  def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
+    calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map{_.get}
+  def getGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = calculatorConnector.getPropertyGainAnswers
+  def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[ChargeableGainAnswers] = calculatorConnector.getPropertyDeductionAnswers
 
-  val reviewDeductionsAnswers: Action[AnyContent] = TODO
+  val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
+    implicit request =>
+     getGainAnswers.map { answers =>
+       Ok("")
+     }
+  }
 
-  val reviewFinalAnswers: Action[AnyContent] = TODO
+  val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
+    implicit request =>
+      for {
+        gainAnswers <- getGainAnswers
+        deductionsAnswers <- getDeductionsAnswers
+        taxYear <- getTaxYear(gainAnswers.disposalDate)
+      } yield Ok("")
+  }
+
+  val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
+    implicit request =>
+      val getCurrentTaxYear = Dates.getCurrentTaxYear
+      val getIncomeAnswers = calculatorConnector.getPropertyIncomeAnswers
+
+      for {
+        gainAnswers <- getGainAnswers
+        deductionsAnswers <- getDeductionsAnswers
+        incomeAnswers <- getIncomeAnswers
+        taxYear <- getTaxYear(gainAnswers.disposalDate)
+        currentTaxYear <- getCurrentTaxYear
+      } yield Ok("")
+  }
 }
