@@ -151,7 +151,7 @@ class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with Fake
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersGain().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewGainAnswers().url
       }
     }
 
@@ -165,7 +165,7 @@ class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with Fake
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersGain().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewGainAnswers().url
       }
     }
 

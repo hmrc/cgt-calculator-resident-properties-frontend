@@ -144,7 +144,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersFinal().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewFinalAnswers().url
       }
     }
 

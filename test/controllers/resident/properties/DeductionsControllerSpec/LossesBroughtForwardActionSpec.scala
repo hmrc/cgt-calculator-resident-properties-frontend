@@ -218,7 +218,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersDeductions().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().url
       }
     }
 
@@ -235,7 +235,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersDeductions().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().url
       }
     }
 

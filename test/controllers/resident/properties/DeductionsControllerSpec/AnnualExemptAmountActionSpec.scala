@@ -164,7 +164,7 @@ class AnnualExemptAmountActionSpec extends UnitSpec with WithFakeApplication wit
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result).get shouldBe routes.ReviewYourAnswersController.checkYourAnswersDeductions().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().url
       }
     }
 
