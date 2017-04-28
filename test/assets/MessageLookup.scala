@@ -948,5 +948,8 @@ object MessageLookup {
     val reliefsUsed = "Reliefs used"
     val broughtForwardLossesUsed = "Loss used from previous tax years"
     val totalDeductions = "Total deductions"
+    val yourTaxableGain = "Your taxable gain"
+    val minusDeductions = "Minus deductions"
+    val taxableGain = "Taxable gain"
   }
 }

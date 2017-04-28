@@ -757,4 +757,7 @@ calc.summary.calculationDetails.aeaUsed = Capital Gains Tax Annual Exempt Amount
 calc.summary.calculationDetails.reliefsUsed = Reliefs used
 calc.summary.calculationDetails.lossesUsed = Loss used from previous tax years
 calc.summary.calculationDetails.totalDeductions = Total deductions
+calc.summary.calculationDetails.yourTaxableGain = Your taxable gain
+calc.summary.calculationDetails.minusDeductions = Minus deductions
+calc.summary.calculationDetails.taxableGain = Taxable gain
 

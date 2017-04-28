@@ -105,8 +105,8 @@ trait SummaryController extends ValidActiveSession {
         case _ => None
       }
 
-      def getTotalDeductions(prrUsed: BigDecimal, lettingsReliefUsed: BigDecimal, lossesUsed: BigDecimal): BigDecimal = {
-        prrUsed + lettingsReliefUsed + lossesUsed
+      def getTotalDeductions(prrUsed: BigDecimal, lettingsReliefUsed: BigDecimal, lossesUsed: BigDecimal, aeaUsed: BigDecimal): BigDecimal = {
+        prrUsed + lettingsReliefUsed + lossesUsed + aeaUsed
       }
 
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
@@ -122,7 +122,8 @@ trait SummaryController extends ValidActiveSession {
                               totalCosts,
                               getTotalDeductions(totalGainAndTax.get.prrUsed.getOrElse(0),
                                 totalGainAndTax.get.lettingReliefsUsed.getOrElse(0),
-                                totalGainAndTax.get.broughtForwardLossesUsed)
+                                totalGainAndTax.get.broughtForwardLossesUsed,
+                                totalGainAndTax.get.aeaUsed)
                              )
           ))
 

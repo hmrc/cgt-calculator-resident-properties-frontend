@@ -106,6 +106,14 @@
             @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
         </div>
 
+        <div id="taxableGain" class="resident summary-underline">
+            <h3>@Messages("calc.summary.calculationDetails.yourTaxableGain")</h3>
+
+            @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
+            @summaryNumericRow("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
+            @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
+        </div>
+
         @summaryNumericRowHelper("chargeableGain", if(result.chargeableGain < 0) {
         Messages("calc.resident.summary.chargeableLoss")} else {Messages("calc.resident.summary.chargeableGain")}, result.chargeableGain)
 
