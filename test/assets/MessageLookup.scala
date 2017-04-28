@@ -941,5 +941,12 @@ object MessageLookup {
     val yourTotalGain = "Your total gain"
     val disposalValue = "Value when you sold the property"
     val acquisitionValue = "Minus the value of the property when you acquired it"
+    val totalCosts = "Minus all costs, including improvements"
+    val totalGain = "Total gain"
+    val yourDeductions = "Your deductions"
+    val aeaUsed = "Capital Gains Tax Annual Exempt Amount used"
+    val reliefsUsed = "Reliefs used"
+    val broughtForwardLossesUsed = "Loss used from previous tax years"
+    val totalDeductions = "Total deductions"
   }
 }

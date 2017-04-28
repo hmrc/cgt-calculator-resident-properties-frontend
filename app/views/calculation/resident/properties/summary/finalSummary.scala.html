@@ -20,7 +20,8 @@
         backUrl: String,
         taxYear: TaxYearModel,
         prrUsed: Option[Boolean] = None,
-        lettingsReliefUsed: Option[Boolean] = None)(implicit request: Request[_], messages: Messages)
+        lettingsReliefUsed: Option[Boolean] = None,
+        totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
@@ -82,15 +83,28 @@
         <!-- Header -->
         <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
-        <div id="totalGain">
-            <h3>@Messages("calc.summary.calculationDetails.totalGain")</h3>
+        <div id="totalGain" class="resident summary-underline">
+            <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
 
             @summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.getOrElse(0))
             @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.getOrElse(0))
+            @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
+            @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
         </div>
 
-        <!-- Data Rows -->
-        @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)
+        <div id="deductions" class="resident summary-underline">
+            <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
+
+            @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
+                @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
+            }
+            @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
+            @if(result.broughtForwardLossesUsed > 0) {
+                @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
+            }
+//            @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), result.gain, isTotal = true)
+        </div>
+
         @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
             (Messages("calc.resident.summary.deductionsDetails.prrUsed"), MoneyPounds(result.prrUsed.get, 0).quantity),
             (Messages("calc.resident.summary.deductionsDetails.lettingReliefsUsed"), MoneyPounds(result.lettingReliefsUsed.get, 0).quantity),
