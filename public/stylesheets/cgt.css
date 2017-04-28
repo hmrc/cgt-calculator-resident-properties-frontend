@@ -327,3 +327,11 @@
 .you-told-us-title {
     padding-bottom: 1em;
 }
+
+.transaction-banner--complete h1 {
+    color: #ffffff
+}
+
+.transaction-banner--complete h2 {
+    color: #ffffff
+}

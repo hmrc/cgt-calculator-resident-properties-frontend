@@ -16,12 +16,9 @@
 
 package views.resident.properties.summary
 
-import assets.MessageLookup.Resident.{Properties => propertiesMessages}
 import assets.MessageLookup.{Resident => residentMessages, SummaryPage => messages, SummaryDetails => summaryMessages}
-import assets.{MessageLookup => commonMessages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
-import controllers.routes
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties._
