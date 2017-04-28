@@ -24,8 +24,11 @@ import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import models.resident.TaxYearModel
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import views.html.calculation.resident.properties.checkYourAnswers.checkYourAnswers
 
 import scala.concurrent.Future
 
@@ -38,15 +41,19 @@ trait ReviewAnswersController extends ValidActiveSession {
   val calculatorConnector: CalculatorConnector
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
-    calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map{_.get}
+    calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map {
+      _.get
+    }
+
   def getGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = calculatorConnector.getPropertyGainAnswers
+
   def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[ChargeableGainAnswers] = calculatorConnector.getPropertyDeductionAnswers
 
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
-     getGainAnswers.map { answers =>
-       Ok("")
-     }
+      getGainAnswers.map { answers =>
+        Ok(checkYourAnswers(routes.SummaryController.summary(), "Back link", answers, None, None))
+      }
   }
 
   val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
@@ -55,7 +62,7 @@ trait ReviewAnswersController extends ValidActiveSession {
         gainAnswers <- getGainAnswers
         deductionsAnswers <- getDeductionsAnswers
         taxYear <- getTaxYear(gainAnswers.disposalDate)
-      } yield Ok("")
+      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), "Back link", gainAnswers, Some(deductionsAnswers), Some(taxYear)))
   }
 
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
@@ -69,6 +76,7 @@ trait ReviewAnswersController extends ValidActiveSession {
         incomeAnswers <- getIncomeAnswers
         taxYear <- getTaxYear(gainAnswers.disposalDate)
         currentTaxYear <- getCurrentTaxYear
-      } yield Ok("")
+      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), "Back link", gainAnswers,
+        Some(deductionsAnswers), Some(taxYear), Some(incomeAnswers), taxYear.taxYearSupplied == currentTaxYear))
   }
 }

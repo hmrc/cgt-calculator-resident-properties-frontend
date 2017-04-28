@@ -19,6 +19,7 @@ package controllers.resident.properties
 import java.time.LocalDate
 
 import akka.util.Timeout
+import assets.MessageLookup
 import common.resident.HowYouBecameTheOwnerKeys
 import connectors.CalculatorConnector
 import controllers.ReviewAnswersController
@@ -102,8 +103,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
       }
 
       "load the Review Answers page" in {
-        //TODO update with correct message
-        Jsoup.parse(bodyOf(result)).title() shouldBe ""
+        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.NonResident.ReviewAnswers.title
       }
     }
   }
@@ -138,8 +138,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
       }
 
       "load the Review Answers page" in {
-        //TODO update with correct message
-        Jsoup.parse(bodyOf(result)).title() shouldBe ""
+        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.NonResident.ReviewAnswers.title
       }
     }
   }
@@ -174,8 +173,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
       }
 
       "load the Review Answers page" in {
-        //TODO update with correct message
-        Jsoup.parse(bodyOf(result)).title() shouldBe ""
+        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.NonResident.ReviewAnswers.title
       }
     }
   }
