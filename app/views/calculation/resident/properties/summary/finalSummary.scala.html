@@ -93,7 +93,7 @@
             @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
         </div>
 
-        <div id="deductions" class="summary-underline-padding">
+        <div id="deductions" class="resident summary-underline">
             <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
 
             @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
@@ -114,7 +114,7 @@
             @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
         </div>
 
-        <div id="taxRate" class="resident">
+        <div id="taxRate" class="resident summary-underline">
             <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
 
             @summaryNumericRow("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
