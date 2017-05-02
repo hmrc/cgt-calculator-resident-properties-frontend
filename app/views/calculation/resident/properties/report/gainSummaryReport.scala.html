@@ -37,6 +37,12 @@
             </div>
         </span>
 
+        <div id="tax-owed-banner" class="transaction-banner--complete transaction-banner">
+                <!-- TODO: UPDATE WITH UPDATED SUMMARY'S TAX OWED VALUE AND MESSAGE FUNCTION WHEN MERGED, HARD-CODED STATIC TEXT PLACE HOLDER-->
+            <h1 class="bold-xlarge transaction-banner--complete"><span>£20000</span></h1>
+            <h2 class="heading-medium transaction-banner--complete">Hello gainSummaryReport, you owe this amount of tax</h2>
+        </div>
+
         @{if (!taxYear.isValidYear) {
                 <div class="notice-wrapper">
                 <div class="notice">
