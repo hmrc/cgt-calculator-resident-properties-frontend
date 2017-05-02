@@ -186,7 +186,7 @@
 }
 
 .pdf .summary-underline {
-    padding-bottom: 0.5em;
+    padding-bottom: 0.75em;
     border-bottom: 2px solid #BFC1C3;
 }
 
@@ -223,7 +223,7 @@
 }
 
 .pdf .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 0.75em;
 }
 
 .pdf .grid-layout {
@@ -322,4 +322,13 @@
 
 .you-told-us-title {
     padding-bottom: 1em;
+}
+
+.pdf .you-told-us-title {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.pdf .text--right {
+    text-align: right;
 }
