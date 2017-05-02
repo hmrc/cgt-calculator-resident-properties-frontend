@@ -22,7 +22,8 @@
         prrUsed: Option[Boolean] = None,
         lettingsReliefUsed: Option[Boolean] = None,
         totalCosts: BigDecimal,
-        totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
+        totalDeductions: BigDecimal,
+        aeaRemaining: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
@@ -129,9 +130,17 @@
 
     </section>
 
+    <!--Remaining Details Section-->
+    <div id="remainingDeductions">
+        <!-- Header -->
+        <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
+
+        @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), aeaRemaining, hintText = false)
+    </div>
+
     @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
 
-            <section id="whatToDoNext" class="summary-underline summary-overline">
+            <section id="whatToDoNext" class="summary-underline">
                 <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
                 <div id="whatToDoNextText" class="font-medium what-to-do-next-text">@Messages("calc.resident.summary.whatNext.properties.liabilityMessage") <a id="whatToDoNextLink"
                                                                                                                               class="external-link"

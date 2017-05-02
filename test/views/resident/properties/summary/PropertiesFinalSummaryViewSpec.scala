@@ -90,7 +90,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -327,6 +327,39 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
           }
         }
       }
+
+      "have a section for the You remaining deductions" which {
+
+        "has a div for remaining deductions" which {
+
+          lazy val div = doc.select("#remainingDeductions")
+
+          "has a h2 tag" which {
+
+            s"has the text ${summaryMessages.remainingDeductions}" in {
+              div.select("h2").text shouldBe summaryMessages.remainingDeductions
+            }
+          }
+
+          "has a row for annual exempt amount left" which {
+            s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
+              div.select("#aeaRemaining-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
+            }
+
+            "has the value '£0'" in {
+              div.select("#aeaRemaining-amount").text shouldBe "£0"
+            }
+          }
+
+          "not have a row for brought forward losses remaining" in {
+            div.select("#broughtForwardLossesRemaining-text") shouldBe empty
+          }
+
+          "not have a row for losses to carry forward" in {
+            div.select("#lossesToCarryForward-text") shouldBe empty
+          }
+        }
+      }
     }
 
     "the property was sold for less than worth" should {
@@ -381,7 +414,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl, taxYearModel,
-        None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -491,7 +524,15 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
     }
 
     "a Brought Forward Loss remains" should {
-
+//      "have a row for losses to carry forward from tax years" in {
+//        s"has the text ${summaryMessages.lossesToCarryForwardFromTaxYears("2015 to 2016")}" in {
+//          div.select("#lossesToCarryForwardTaxYears-text").text shouldBe summaryMessages.lossesToCarryForwardFromTaxYears("2015 to 2016")
+//        }
+//
+//        "has the value '£???'" in {
+//          div.select("#lossesToCarryForwardTaxYears-amount").text shouldBe "£???"
+//        }
+//      }
     }
 
     "the property was bought before 31 March 1982" should {
@@ -557,7 +598,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
       lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-        None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "does not display the what to do next content" in {
@@ -621,7 +662,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "not have PRR GA metrics when PRR is not in scope" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+          None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
@@ -630,7 +671,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "not have lettings relief GA metrics when it is not in scope" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+          None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
@@ -639,7 +680,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have PRR GA metrics when PRR is used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          Some(true), None, 100, 100)(fakeRequestWithSession, applicationMessages)
+          Some(true), None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 1
@@ -648,7 +689,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "not have lettings relief GA metrics when it is used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, Some(true), 100, 100)(fakeRequestWithSession, applicationMessages)
+          None, Some(true), 100, 100, 0)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 1
@@ -657,7 +698,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have PRR GA metrics when PRR is not used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          Some(false), None, 100, 100)(fakeRequestWithSession, applicationMessages)
+          Some(false), None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
@@ -666,7 +707,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have lettings relief GA metrics when it is not used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, Some(false), 100, 100)(fakeRequestWithSession, applicationMessages)
+          None, Some(false), 100, 100, 0)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0

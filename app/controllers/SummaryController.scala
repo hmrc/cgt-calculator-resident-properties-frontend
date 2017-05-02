@@ -93,7 +93,8 @@ trait SummaryController extends ValidActiveSession {
                      backUrl: String,
                      taxYear: Option[TaxYearModel],
                      currentTaxYear: String,
-                     totalCosts: BigDecimal)(implicit hc: HeaderCarrier): Future[Result] = {
+                     totalCosts: BigDecimal,
+                     maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Result] = {
 
       //These lazy vals are called only when the values are determined to be available
       lazy val isPrrUsed = if (chargeableGainAnswers.propertyLivedInModel.get.livedInProperty) {
@@ -109,6 +110,8 @@ trait SummaryController extends ValidActiveSession {
         prrUsed + lettingsReliefUsed + lossesUsed + aeaUsed
       }
 
+      lazy val aeaRemaining: BigDecimal = maxAEA - totalGainAndTax.get.aeaUsed
+
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
         Ok(views.finalSummary(totalGainAnswers,
@@ -123,7 +126,8 @@ trait SummaryController extends ValidActiveSession {
                               getTotalDeductions(totalGainAndTax.get.prrUsed.getOrElse(0),
                                 totalGainAndTax.get.lettingReliefsUsed.getOrElse(0),
                                 totalGainAndTax.get.broughtForwardLossesUsed,
-                                totalGainAndTax.get.aeaUsed)
+                                totalGainAndTax.get.aeaUsed),
+                              aeaRemaining
                              )
           ))
 
@@ -158,7 +162,7 @@ trait SummaryController extends ValidActiveSession {
       totalGain <- totalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
-        backLink, taxYear, currentTaxYear, totalCosts)
+        backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get)
     } yield routeRequest
   }
 }
