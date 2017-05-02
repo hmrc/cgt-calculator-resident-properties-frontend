@@ -366,3 +366,20 @@
 
     display: inline-block;
 }
+
+.transaction-banner {
+    display: block;
+    background-color:#28a197;color:#fff;padding:30px;margin-bottom:30px;text-align:center
+}
+
+.transaction-banner--complete h1 {
+    color: #ffffff;
+}
+
+.transaction-banner--complete h2 {
+    color: #ffffff;
+}
+
+.summary-total-margin-top {
+    margin-top: 0.8em;
+}

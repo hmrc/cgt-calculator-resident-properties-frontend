@@ -47,9 +47,9 @@
     <br>
         <br><br>
 
-    <div id="tax-owed-banner" class="transaction-banner--complete">
-        <h1 class="bold-xlarge"><span>&pound;@MoneyPounds(result.taxOwed, 2).quantity</span></h1>
-        <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", 0.00))</h2>
+    <div id="tax-owed-banner" class="transaction-banner--complete transaction-banner">
+        <h1 class="bold-xlarge transaction-banner--complete"><span>£20000</span></h1>
+        <h2 class="heading-medium transaction-banner--complete">Hello world, you owe this amount of tax</h2>
     </div>
 
     @{if (!taxYear.isValidYear) {
