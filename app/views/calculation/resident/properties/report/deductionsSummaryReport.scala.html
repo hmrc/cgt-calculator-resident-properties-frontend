@@ -12,7 +12,7 @@
     <span>
         @Messages("calc.resident.summary.remainingLossHelp")
         <span>
-            @Messages("calc.resident.summary.remainingLossLink")
+        @Messages("calc.resident.summary.remainingLossLink")
         </span>
         @Messages("calc.resident.summary.remainingBroughtForwardLossHelp")
     </span>
@@ -25,68 +25,66 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta name="viewport" content="width=device-width"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="/calculate-your-capital-gains/resident/properties/assets/stylesheets/cgt.css">
-    <title>@Messages("calc.resident.summary.title")</title>
-</head>
+    <head>
+        <meta name="viewport" content="width=device-width"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" type="text/css" href="/calculate-your-capital-gains/resident/properties/assets/stylesheets/cgt.css">
+        <title>@Messages("calc.resident.summary.title")</title>
+    </head>
 
 
-<div class="pdf">
-    <div class="header-container">
-        <h1 class="heading-xlarge">
-            <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-            &pound;0.00
-        </h1>
-        <div class="logo">
-            <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+    <div class="pdf">
+        <div class="header-container">
+            <h1 class="heading-xlarge">
+                <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
+                    &pound;0.00
+            </h1>
+            <div class="logo">
+                <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+            </div>
         </div>
-    </div>
 
-    @{if (!taxYear.isValidYear) {
-    <div class="notice-wrapper">
-        <div class="notice">
-            <strong class="bold-small">
+        @{if (!taxYear.isValidYear) {
+                <div class="notice-wrapper">
+                <div class="notice">
+                <strong class="bold-small">
                 {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-            </strong>
-        </div>
-    </div>
-    }
-    }
-
-    <!-- Calculation Details Section -->
-    <section id="calcDetails">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-        <!-- Data Rows -->
-        @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)
-        @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
-            (Messages("calc.resident.summary.deductionsDetails.prrUsed"), MoneyPounds(result.prrUsed.get, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.lettingReliefsUsed"), MoneyPounds(result.lettingReliefsUsed.get, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
-        )))
-
-        @if(result.chargeableGain == 0){
-            @summaryNumericRowHelper("chargeableGain", Messages("calc.resident.summary.chargeableGain"), result.chargeableGain)
+                </strong>
+                </div>
+                </div>
         }
-        @if(result.broughtForwardLossesRemaining > 0) {
-            @{summaryNumericHelpTextHelper("broughtForwardLossRemaining", Messages("calc.resident.summary.remainingBroughtForwardLoss", taxYear.taxYearSupplied),
-                result.broughtForwardLossesRemaining,
-                None,
-                Some(broughtForwardLossesHelpText()))
+        }
+
+            <!-- Calculation Details Section -->
+        <section id="calcDetails">
+                <!-- Header -->
+            @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
+
+                <!-- Data Rows -->
+            @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)
+            @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
+                (Messages("calc.resident.summary.deductionsDetails.prrUsed"), MoneyPounds(result.prrUsed.get, 0).quantity),
+                (Messages("calc.resident.summary.deductionsDetails.lettingReliefsUsed"), MoneyPounds(result.lettingReliefsUsed.get, 0).quantity),
+                (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
+                (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
+            )))
+
+            @if(result.chargeableGain == 0){
+                @summaryNumericRowHelper("chargeableGain", Messages("calc.resident.summary.chargeableGain"), result.chargeableGain)
             }
-        }
-        @summaryNumericHelpTextHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), result.aeaRemaining, None,
-            if(result.aeaRemaining > 0) {Some(annualExemptAmountHelpText())}
-            else {None}
-        )
+            @if(result.broughtForwardLossesRemaining > 0) {
+                @{summaryNumericHelpTextHelper("broughtForwardLossRemaining", Messages("calc.resident.summary.remainingBroughtForwardLoss", taxYear.taxYearSupplied),
+                    result.broughtForwardLossesRemaining,
+                    None,
+                    Some(broughtForwardLossesHelpText()))
+                }
+            }
+            @summaryNumericHelpTextHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), result.aeaRemaining, None,
+                if(result.aeaRemaining > 0) {Some(annualExemptAmountHelpText())}
+                else {None}
+            )
 
-    </section>
-
-
+        </section>
     <!-- Your Answers Section -->
     @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), displayLinks = false)
 </div>

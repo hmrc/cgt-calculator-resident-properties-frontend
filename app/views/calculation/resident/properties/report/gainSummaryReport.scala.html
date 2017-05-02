@@ -9,29 +9,29 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta name="viewport" content="width=device-width"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="/calculate-your-capital-gains/resident/properties/assets/stylesheets/cgt.css">
-    <title>@Messages("calc.resident.summary.title")</title>
-</head>
+    <head>
+        <meta name="viewport" content="width=device-width"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" type="text/css" href="/calculate-your-capital-gains/resident/properties/assets/stylesheets/cgt.css">
+        <title>@Messages("calc.resident.summary.title")</title>
+    </head>
 
 
-<div class="pdf">
-    <div class="header-container">
-        <h1 class="heading-xlarge">
-            <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-            &pound;0.00
-        </h1>
-        <div class="logo">
-            <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+    <div class="pdf">
+        <div class="header-container">
+            <h1 class="heading-xlarge">
+                <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
+                    &pound;0.00
+            </h1>
+            <div class="logo">
+                <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+            </div>
         </div>
-    </div>
 
-    @{if (!taxYear.isValidYear) {
-    <div class="notice-wrapper">
-        <div class="notice">
-            <strong class="bold-small">
+        @{if (!taxYear.isValidYear) {
+                <div class="notice-wrapper">
+                <div class="notice">
+                <strong class="bold-small">
                 {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
             </strong>
         </div>
@@ -50,3 +50,4 @@
 
     @checkYourAnswersPartial(answers, None, None, displayLinks = false)
 </div>
+
