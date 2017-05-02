@@ -362,12 +362,11 @@
 }
 
 .icon-file-download {
-    background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png") no-repeat;
-
+    background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png");
+    background-repeat: no-repeat;
     padding-top; -0.5em;
     width: 30px;
     height: 39px;
-
     display: inline-block;
 }
 .grid-layout__column--1-2 {
@@ -382,7 +381,6 @@
     padding-bottom: 1em;
 }
 
-<<<<<<< HEAD
 .transaction-banner {
     display: block;
     background-color:#28a197;color:#fff;padding:30px;margin-bottom:30px;text-align:center
@@ -398,7 +396,8 @@
 
 .summary-total-margin-top {
     margin-top: 0.8em;
-=======
+}
+
 .pdf .you-told-us-title {
     font-weight: 700;
     font-size: 18px;
@@ -406,5 +405,4 @@
 
 .pdf .text--right {
     text-align: right;
->>>>>>> master
 }
