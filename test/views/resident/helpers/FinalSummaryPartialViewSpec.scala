@@ -14,33 +14,31 @@
  * limitations under the License.
  */
 
-package views.resident.properties.summary
+package views.resident.helpers
 
-import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
-import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
-import models.resident.properties._
+import models.resident.{IncomeAnswersModel, LossesBroughtForwardModel, TaxYearModel, TotalGainAndTaxOwedModel}
+import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
 import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.Messages.Implicits.applicationMessages
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{summary => views}
+import assets.MessageLookup.{SummaryDetails => summaryMessages}
+import views.html.{helpers => views}
 
-class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
-  "PropertiesFinalSummaryView" when {
+  "FinalSummaryPartial" when {
+
     val incomeAnswers = IncomeAnswersModel(
       currentIncomeModel = Some(CurrentIncomeModel(0)),
       personalAllowanceModel = Some(PersonalAllowanceModel(0))
     )
 
-    //TODO: change to check your answers
-    val backLinkUrl: String = controllers.routes.IncomeController.personalAllowance().url
-
     "the property was sold inside tax years, bought after legislation start," +
-      " with reliefs and brought forward losses and taxed at both tax bands" should {
+      " with no reliefs or brought forward losses and taxed at 18%" should {
 
       val gainAnswers = YourAnswersSummaryModel(
         disposalDate = Dates.constructDate(10, 10, 2015),
@@ -89,35 +87,9 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl,
+      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
         taxYearModel, None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
-
-      "have a charset of UTF-8" in {
-        doc.charset().toString shouldBe "UTF-8"
-      }
-
-      s"have a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
-      }
-
-      "have a back button" which {
-
-        lazy val backLink = doc.getElementById("back-link")
-
-        "has the id 'back-link'" in {
-          backLink.attr("id") shouldBe "back-link"
-        }
-
-        s"has the text '${residentMessages.back}'" in {
-          backLink.text shouldBe residentMessages.back
-        }
-
-        s"has a link to $backLinkUrl" in {
-          backLink.attr("href") shouldEqual backLinkUrl
-        }
-
-      }
 
       "has a banner" which {
         lazy val banner = doc.select("#tax-owed-banner")
@@ -133,8 +105,8 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         "contains a h2" which {
           lazy val h2 = banner.select("h2")
 
-          s"has the text ${messages.cgtToPay("2015 to 2016")}" in {
-            h2.text() shouldEqual messages.cgtToPay("2015 to 2016")
+          s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
+            h2.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
           }
         }
       }
@@ -360,137 +332,108 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
           }
         }
       }
-
-      "have a section for What to do next" which {
-        lazy val section = doc.select("#whatToDoNext")
-
-        "has a h2 tag" which {
-          s"has the text ${summaryMessages.whatToDoNext}" in {
-            section.select("h2").text shouldBe summaryMessages.whatToDoNext
-          }
-        }
-
-        "has a paragraph" which {
-          s"has the text ${summaryMessages.whatToDoNextDetails}" in {
-            section.select("p").text shouldBe summaryMessages.whatToDoNextDetails
-          }
-        }
-
-        "has a continue button" which {
-          s"has the text ${summaryMessages.continue}" in {
-            section.select("button").text shouldBe summaryMessages.continue
-          }
-        }
-      }
     }
-    
-    //GA - move into top tests
-    "Properties Final Summary view" should {
 
-      lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2018),
-        None,
-        None,
+    "the property was sold for less than worth" should {
+
+    }
+
+    "the calculation returns tax on both side of the rate boundary" should {
+      val gainAnswers = YourAnswersSummaryModel(disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = None,
+        worthWhenSoldForLess = None,
         whoDidYouGiveItTo = Some("Other"),
         worthWhenGaveAway = Some(10000),
-        BigDecimal(10000),
-        None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = None,
         worthWhenInherited = None,
         worthWhenGifted = None,
         worthWhenBoughtForLess = None,
-        BigDecimal(10000),
-        BigDecimal(30000),
-        true,
-        None,
-        true,
-        Some(BigDecimal(5000)),
-        None,
-        None
+        acquisitionCosts = BigDecimal(10000),
+        improvements = BigDecimal(30000),
+        givenAway = false,
+        sellForLess = Some(false),
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        howBecameOwner = Some("Bought"),
+        boughtForLessThanWorth = Some(false)
+      )
+      val deductionAnswers = ChargeableGainAnswers(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = None,
+        propertyLivedInModel = Some(PropertyLivedInModel(false)),
+        privateResidenceReliefModel = None,
+        privateResidenceReliefValueModel = None,
+        lettingsReliefModel = None,
+        lettingsReliefValueModel = None
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 0,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 30000,
+        firstRate = 18,
+        secondBand = Some(10000),
+        secondRate = Some(28),
+        lettingReliefsUsed = Some(BigDecimal(0)),
+        prrUsed = Some(BigDecimal(0)),
+        broughtForwardLossesUsed = 0,
+        allowableLossesUsed = 0
       )
 
-      lazy val deductionAnswers = ChargeableGainAnswers(
-        Some(LossesBroughtForwardModel(false)),
-        None,
-        Some(PropertyLivedInModel(false)),
-        None,
-        None,
-        None,
-        None)
+      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
+        None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
 
-      lazy val results = TotalGainAndTaxOwedModel(
-        50000,
-        20000,
-        0,
-        30000,
-        3600,
-        30000,
-        18,
-        Some(10000),
-        Some(28),
-        Some(BigDecimal(0)),
-        Some(BigDecimal(0)),
-        0,
-        0
-      )
+      "has a numeric output row and a tax rate" which {
 
-      lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
+        "Should have the value £30,000 in the first band" in {
+          doc.select("#firstBand").text should include("£30,000")
+        }
 
-      lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
+        "Should have the tax rate 18% for the first band" in {
+          doc.select("#firstBand").text should include("18%")
+        }
 
-      "not have PRR GA metrics when PRR is not in scope" in {
-        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
-        val doc = Jsoup.parse(view.body)
-
-        doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
-        doc.select("[data-metrics=\"rtt-properties-summary:prr:no\"]").size shouldBe 0
+        "Should have the value £10,000 in the second band" in {
+          doc.select("#secondBand").text should include("£10,000")
+        }
+        "Should have the tax rate 28% for the first band" in {
+          doc.select("#secondBand").text should include("28%")
+        }
       }
+    }
 
-      "not have lettings relief GA metrics when it is not in scope" in {
-        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
-        val doc = Jsoup.parse(view.body)
+    "reliefs are used" should {
 
-        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
-        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 0
-      }
+    }
 
-      "have PRR GA metrics when PRR is used" in {
-        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          Some(true), None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
-        val doc = Jsoup.parse(view.body)
+    "a Brought Forward Loss is entered and none remains" should {
 
-        doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 1
-        doc.select("[data-metrics=\"rtt-properties-summary:prr:no\"]").size shouldBe 0
-      }
+    }
 
-      "not have lettings relief GA metrics when it is used" in {
-        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, Some(true), 100, 100, 0)(fakeRequestWithSession, applicationMessages)
-        val doc = Jsoup.parse(view.body)
+    "a Brought Forward Loss remains" should {
+      //      "have a row for losses to carry forward from tax years" in {
+      //        s"has the text ${summaryMessages.lossesToCarryForwardFromTaxYears("2015 to 2016")}" in {
+      //          div.select("#lossesToCarryForwardTaxYears-text").text shouldBe summaryMessages.lossesToCarryForwardFromTaxYears("2015 to 2016")
+      //        }
+      //
+      //        "has the value '£???'" in {
+      //          div.select("#lossesToCarryForwardTaxYears-amount").text shouldBe "£???"
+      //        }
+      //      }
+    }
 
-        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 1
-        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 0
-      }
+    "the property was bought before 31 March 1982" should {
 
-      "have PRR GA metrics when PRR is not used" in {
-        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          Some(false), None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
-        val doc = Jsoup.parse(view.body)
+    }
 
-        doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
-        doc.select("[data-metrics=\"rtt-properties-summary:prr:no\"]").size shouldBe 1
-      }
+    "the property was given away" should {
 
-      "have lettings relief GA metrics when it is not used" in {
-        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, Some(false), 100, 100, 0)(fakeRequestWithSession, applicationMessages)
-        val doc = Jsoup.parse(view.body)
-
-        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
-        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 1
-      }
     }
   }
 }

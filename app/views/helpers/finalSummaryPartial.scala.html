@@ -1,0 +1,94 @@
+@import models.resident._
+@import models.resident.properties._
+@import config.ApplicationConfig
+@import views.html.helpers.resident._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
+
+
+@(gainAnswers: YourAnswersSummaryModel,
+  deductionAnswers: ChargeableGainAnswers,
+  incomeAnswers: IncomeAnswersModel,
+  result: TotalGainAndTaxOwedModel,
+  taxYear: TaxYearModel,
+  prrUsed: Option[Boolean] = None,
+  lettingsReliefUsed: Option[Boolean] = None,
+  totalCosts: BigDecimal,
+  totalDeductions: BigDecimal,
+  aeaRemaining: BigDecimal)(implicit request: Request[_], messages: Messages)
+
+  <div id="tax-owed-banner" class="transaction-banner--complete">
+    <h1 class="bold-xlarge"><span>&pound;@MoneyPounds(result.taxOwed, 2).quantity</span></h1>
+    <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</h2>
+  </div>
+
+  @{if (!taxYear.isValidYear) {
+      <div class="notice-wrapper">
+          <div class="notice">
+              <i class="icon icon-important">
+                <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
+              </i>
+              <strong class="bold-small">
+                {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
+              </strong>
+          </div>
+      </div>
+    }
+  }
+
+    <!-- Calculation Details Section -->
+    <section id="calcDetails">
+        <!-- Header -->
+    <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
+
+    <div id="totalGain" class="resident summary-underline summary-details-padding">
+        <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
+
+        @summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.getOrElse(0))
+        @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.getOrElse(0))
+        @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
+        @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
+    </div>
+
+    <div id="deductions" class="resident summary-underline summary-details-padding">
+        <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
+
+        @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
+            @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
+        }
+        @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
+        @if(result.broughtForwardLossesUsed > 0) {
+            @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
+        }
+        @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
+    </div>
+
+    <div id="taxableGain" class="resident summary-underline">
+        <h3>@Messages("calc.summary.calculationDetails.yourTaxableGain")</h3>
+
+        @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
+        @summaryNumericRow("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
+        @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
+    </div>
+
+    <div id="taxRate" class="resident summary-underline">
+        <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
+
+        @summaryNumericRow("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
+            result.baseRateTotal)
+
+        @if(result.secondRate.isDefined && result.secondBand.isDefined) {
+            @summaryNumericRow("secondBand", Messages("calc.summary.calculationDetails.taxRate", result.secondBand.get, result.secondRate.get),
+                result.upperRateTotal)
+        }
+        @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), result.taxOwed, isTotal = true)
+    </div>
+
+</section>
+
+    <!--Remaining Details Section-->
+    <section id="remainingDeductions">
+        <!-- Header -->
+    <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
+
+    @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), aeaRemaining, hintText = false)
+</section>
