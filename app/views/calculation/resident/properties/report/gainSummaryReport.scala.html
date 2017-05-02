@@ -1,10 +1,7 @@
 @import views.html.helpers.resident._
-@import models.SummaryDataItemModel
 @import models.resident._
 @import models.resident.properties._
-@import common.Dates._
 @import constructors.resident.properties.SummaryConstructor._
-@import controllers.routes.{GainController => routes}
 
 @import views.html.helpers.checkYourAnswersPartial
 @(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
