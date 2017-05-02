@@ -1,36 +1,37 @@
 @import views.html.helpers.resident._
-@import models.SummaryDataItemModel
 @import models.resident._
 @import models.resident.properties._
-@import common.Dates._
 @import constructors.resident.properties.SummaryConstructor._
-@import controllers.routes.{GainController => routes}
 
+@import views.html.helpers.checkYourAnswersPartial
 @(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
 
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta name="viewport" content="width=device-width"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="/calculate-your-capital-gains/resident/properties/assets/stylesheets/cgt.css">
-    <title>@Messages("calc.resident.summary.title")</title>
-</head>
+    <head>
+        <meta name="viewport" content="width=device-width"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" type="text/css" href="/calculate-your-capital-gains/resident/properties/assets/stylesheets/cgt.css">
+        <title>@Messages("calc.resident.summary.title")</title>
+    </head>
 
 
-<div class="pdf">
-    <div class="header-container">
-        <div class="logo">
-            <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+    <div class="pdf">
+        <div class="header-container">
+            <h1 class="heading-xlarge">
+                <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
+                    &pound;0.00
+            </h1>
+            <div class="logo">
+                <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+            </div>
         </div>
-    </div>
-    Hello world
 
-    @{if (!taxYear.isValidYear) {
-    <div class="notice-wrapper">
-        <div class="notice">
-            <strong class="bold-small">
+        @{if (!taxYear.isValidYear) {
+                <div class="notice-wrapper">
+                <div class="notice">
+                <strong class="bold-small">
                 {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
             </strong>
         </div>
@@ -47,73 +48,5 @@
         @summaryNumericRowHelper("gain",gainMessage(gain),gain)
     </section>
 
-    <!-- Your Answers Section -->
-    <section id="yourAnswers">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
-
-        <!-- Data Rows-->
-        @summaryDateRowHelper("disposalDate",Messages("calc.resident.disposalDate.question"),answers.disposalDate,None)
-        @summaryTextRowHelper("sellOrGiveAway", Messages("calc.resident.sellOrGiveAway.title"), if (answers.givenAway) {Messages("calc.resident.sellOrGiveAway.given")}
-        else {Messages("calc.resident.sellOrGiveAway.sold")}, None)
-
-        @{if(!answers.givenAway)
-        summaryOptionRowHelper("sellForLess", Messages("calc.resident.properties.sellForLess.title"), answers.sellForLess.get, None)}
-
-        <!-- Given to someone else Block -->
-        @{if(answers.givenAway)
-            summaryTextRowHelper("whoDidYouGiveItTo", Messages("calc.resident.whoDidYouGiveThePropertyTo.title"), Messages("calc.resident.whoDidYouGiveThePropertyTo.other"), None)
-        }
-
-        @{if(answers.givenAway)
-            summaryNumericRowHelper("worthWhenGaveAway", Messages("calc.resident.properties.worthWhenGaveAway.title"), answers.worthWhenGaveAway.get, None)
-        }
-        <!-- ^^^^^^ Given to someone else Block ^^^^^^ -->
-
-        @{if(answers.displayWorthWhenSold)
-            summaryNumericRowHelper("disposalValue", Messages("calc.resident.disposal.value.question"), answers.disposalValue.get, None)
-        }
-        @{if(answers.displayWorthWhenSoldForLess)
-            summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.properties.worthWhenSoldForLess.question"), answers.worthWhenSoldForLess.get, None)
-        }
-
-        @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.disposalCosts.title"),answers.disposalCosts,None)
-        @summaryOptionRowHelper("ownerBeforeLegislationStart", Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),
-        answers.ownerBeforeLegislationStart, None)
-
-        @{if (answers.ownerBeforeLegislationStart)
-            summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.properties.valueBeforeLegislationStart.question"),answers.valueBeforeLegislationStart.get,None)
-        }
-
-        @{if (!answers.ownerBeforeLegislationStart)
-            summaryTextRowHelper("howBecameOwner", Messages("calc.resident.howBecameOwner.title"),
-            Messages(s"calc.resident.howBecameOwner.${answers.howBecameOwner.get.toLowerCase}"), None)
-        }
-        @{if (answers.displayBoughtForLessThanWorth)
-            summaryOptionRowHelper("boughtForLessThanWorth", Messages("calc.resident.properties.boughtForLessThanWorth.title"),
-            answers.boughtForLessThanWorth.get, None)
-        }
-
-        @{if (answers.displayWorthWhenBought)
-            summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.acquisitionValue.title"),answers.acquisitionValue.get,None)
-        }
-
-        @{if (answers.displayWorthWhenBoughtForLess)
-            summaryNumericRowHelper("worthWhenBoughtForLess", Messages("calc.resident.properties.worthWhenBoughtForLess.question"), answers.worthWhenBoughtForLess.get, None)
-        }
-
-        @{if (answers.displayWorthWhenGifted)
-            summaryNumericRowHelper("worthWhenGifted", Messages("calc.resident.properties.worthWhenGifted.question"), answers.worthWhenGifted.get, None)
-        }
-
-        @{if (answers.displayWorthWhenInherited)
-            summaryNumericRowHelper("worthWhenInherited", Messages("calc.resident.properties.worthWhenInherited.question"), answers.worthWhenInherited.get, None)
-        }
-
-        @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.acquisitionCosts.title"),answers.acquisitionCosts,None)
-        @summaryNumericRowHelper("improvements",
-        if(answers.ownerBeforeLegislationStart) Messages("calc.resident.properties.improvements.questionBefore")
-        else Messages("calc.resident.properties.improvements.question"),
-        answers.improvements, None)
-    </section>
+    @checkYourAnswersPartial(answers, None, None, displayLinks = false)
 </div>

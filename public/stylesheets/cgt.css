@@ -183,7 +183,7 @@
     line-height: 1em;
     padding: 0 0 0 0;
     vertical-align: top;
-    background-image: url("/calculate-your-capital-gains/resident/properties/assets/images/hmrc_logo_v2.png");
+    background-image: url("/calculate-your-capital-gains/resident/properties/assets/images/govuk_logo.png");
     background-position: 6px center;
     background-repeat: no-repeat;
     background-size: 33px 25px;
@@ -245,7 +245,7 @@
 }
 
 .pdf .summary-underline {
-    padding-bottom: 0.5em;
+    padding-bottom: 0.75em;
     border-bottom: 2px solid #BFC1C3;
 }
 
@@ -282,7 +282,7 @@
 }
 
 .pdf .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 0.75em;
 }
 
 .pdf .grid-layout {
@@ -382,6 +382,7 @@
     padding-bottom: 1em;
 }
 
+<<<<<<< HEAD
 .transaction-banner {
     display: block;
     background-color:#28a197;color:#fff;padding:30px;margin-bottom:30px;text-align:center
@@ -397,4 +398,13 @@
 
 .summary-total-margin-top {
     margin-top: 0.8em;
+=======
+.pdf .you-told-us-title {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.pdf .text--right {
+    text-align: right;
+>>>>>>> master
 }
