@@ -245,7 +245,7 @@
 }
 
 .pdf .summary-underline {
-    padding-bottom: 0.5em;
+    padding-bottom: 0.75em;
     border-bottom: 2px solid #BFC1C3;
 }
 
@@ -282,7 +282,7 @@
 }
 
 .pdf .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 0.75em;
 }
 
 .pdf .grid-layout {
@@ -362,12 +362,11 @@
 }
 
 .icon-file-download {
-    background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png") no-repeat;
-
+    background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png");
+    background-repeat: no-repeat;
     padding-top; -0.5em;
     width: 30px;
     height: 39px;
-
     display: inline-block;
 }
 .grid-layout__column--1-2 {
@@ -397,4 +396,13 @@
 
 .summary-total-margin-top {
     margin-top: 0.8em;
+}
+
+.pdf .you-told-us-title {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.pdf .text--right {
+    text-align: right;
 }
