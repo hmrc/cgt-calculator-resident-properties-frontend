@@ -155,7 +155,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
         "has a div for total gain" which {
 
-          lazy val div = doc.select("#totalGain").get(0)
+          lazy val div = doc.select("#yourTotalGain")
 
           "has a h3 tag" which {
 
@@ -208,7 +208,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
         "has a div for deductions" which {
 
-          lazy val div = doc.select("#deductions")
+          lazy val div = doc.select("#yourDeductions")
 
           "has a h3 tag" which {
 
@@ -262,7 +262,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
         "has a div for Taxable Gain" which {
 
-          lazy val div = doc.select("#taxableGain")
+          lazy val div = doc.select("#yourTaxableGain")
 
           "has a h3 tag" which {
 
@@ -271,13 +271,13 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             }
           }
 
-          "has a row for total gain" which {
+          "has a row for gain" which {
             s"has the text '${summaryMessages.totalGain}'" in {
-              div.select("#totalGain-text").text shouldBe summaryMessages.totalGain
+              div.select("#gain-text").text shouldBe summaryMessages.totalGain
             }
 
             "has the value '£50,000'" in {
-              div.select("#totalGain-amount").text shouldBe "£50,000"
+              div.select("#gain-amount").text shouldBe "£50,000"
             }
           }
 
@@ -304,7 +304,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
         "has a div for tax rate" which {
 
-          lazy val div = doc.select("#taxRate")
+          lazy val div = doc.select("#yourTaxRate")
 
           "has a h3 tag" which {
 

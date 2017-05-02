@@ -40,16 +40,26 @@
         <!-- Header -->
     <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
-    <div id="totalGain" class="resident summary-underline summary-details-padding">
+    <div id="yourTotalGain" class="resident summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
 
-        @summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.getOrElse(0))
-        @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.getOrElse(0))
+        @(gainAnswers.givenAway, gainAnswers.sellForLess) match {
+            case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
+            case (false, Some(true)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
+            case (false, Some(false)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
+        }
+
+        @if(gainAnswers.ownerBeforeLegislationStart){
+            @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+        } else {
+            @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.getOrElse(0))
+        }
+
         @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
         @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
     </div>
 
-    <div id="deductions" class="resident summary-underline summary-details-padding">
+    <div id="yourDeductions" class="resident summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
 
         @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
@@ -62,15 +72,15 @@
         @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
     </div>
 
-    <div id="taxableGain" class="resident summary-underline">
+    <div id="yourTaxableGain" class="resident summary-underline">
         <h3>@Messages("calc.summary.calculationDetails.yourTaxableGain")</h3>
 
-        @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
+        @summaryNumericRow("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
         @summaryNumericRow("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
         @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
     </div>
 
-    <div id="taxRate" class="resident summary-underline">
+    <div id="yourTaxRate" class="resident summary-underline">
         <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
 
         @summaryNumericRow("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
