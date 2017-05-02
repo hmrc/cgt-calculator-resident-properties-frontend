@@ -934,7 +934,7 @@ object MessageLookup {
     val errormandatory = "Please tell us who you gave the property to"
   }
 
-  object SummaryDetails {
+  object SummaryDetails extends Common {
     val title = "Summary"
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
     val howWeWorkedThisOut = "How we've worked this out"
@@ -958,5 +958,7 @@ object MessageLookup {
     def remainingAnnualExemptAmount(taxYear: String): String = s"Annual Exempt Amount left for the $taxYear tax year"
     def lossesToCarryForwardFromTaxYears(taxYear: String): String = s"Losses to carry forward from tax years before $taxYear"
     val lossesToCarryForwardFromCalculation = "Losses you can carry forward from this calculation"
+    val whatToDoNext = "What to do next"
+    val whatToDoNextDetails = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
   }
 }

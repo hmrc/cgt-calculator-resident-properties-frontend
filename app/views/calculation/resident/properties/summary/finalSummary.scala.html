@@ -85,7 +85,7 @@
         <!-- Header -->
         <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
-        <div id="totalGain" class="resident summary-underline">
+        <div id="totalGain" class="resident summary-underline summary-details-padding">
             <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
 
             @summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.getOrElse(0))
@@ -94,7 +94,7 @@
             @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
         </div>
 
-        <div id="deductions" class="resident summary-underline">
+        <div id="deductions" class="resident summary-underline summary-details-padding">
             <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
 
             @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
@@ -131,37 +131,29 @@
     </section>
 
     <!--Remaining Details Section-->
-    <div id="remainingDeductions">
+    <section id="remainingDeductions">
         <!-- Header -->
         <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
 
         @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), aeaRemaining, hintText = false)
-    </div>
+    </section>
 
     @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
 
-            <section id="whatToDoNext" class="summary-underline">
-                <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
-                <div id="whatToDoNextText" class="font-medium what-to-do-next-text">@Messages("calc.resident.summary.whatNext.properties.liabilityMessage") <a id="whatToDoNextLink"
-                                                                                                                              class="external-link"
-                                                                                                                              rel="external"
-                                                                                                                              href="https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"
-                                                                                                                              target="_blank"
-                                                                                                                              data-journey-click=help:govUK:rtt-properties-whatToDoNext">@Messages("calc.resident.summary.whatNext.liabilityLink")<span id="opensInANewTab"> @Messages("calc.base.externalLink")</span></a>.
+        <section id="whatToDoNext" class="">
+            <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
+            <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
+
+            <div id="save-as-a-pdf" class="notice download-pdf">
+                <div class="icon-file-download">
+                    <span class="visuallyhidden">Download</span>
                 </div>
-                <p class="font-medium">@Messages("calc.resident.summary.whatNext.liabilityMessageTwo")</p>
 
-            </section>
+                <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.finalSummaryReport"
+                data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+            </div>
 
+            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
+        </section>
     }
-
-    <div id="save-as-a-pdf" class="notice download-pdf">
-        <div class="icon-file-download">
-            <span class="visuallyhidden">Download</span>
-        </div>
-
-        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.finalSummaryReport"
-           data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
-    </div>
-
 }

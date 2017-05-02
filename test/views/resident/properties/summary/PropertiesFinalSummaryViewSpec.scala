@@ -16,7 +16,8 @@
 
 package views.resident.properties.summary
 
-import assets.MessageLookup.{Resident => residentMessages, SummaryPage => messages, SummaryDetails => summaryMessages}
+import assets.MessageLookup
+import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
 import models.resident._
@@ -357,6 +358,28 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
           "not have a row for losses to carry forward" in {
             div.select("#lossesToCarryForward-text") shouldBe empty
+          }
+        }
+      }
+
+      "have a section for What to do next" which {
+        lazy val section = doc.select("#whatToDoNext")
+
+        "has a h2 tag" which {
+          s"has the text ${summaryMessages.whatToDoNext}" in {
+            section.select("h2").text shouldBe summaryMessages.whatToDoNext
+          }
+        }
+
+        "has a paragraph" which {
+          s"has the text ${summaryMessages.whatToDoNextDetails}" in {
+            section.select("p").text shouldBe summaryMessages.whatToDoNextDetails
+          }
+        }
+
+        "has a continue button" which {
+          s"has the text ${summaryMessages.continue}" in {
+            section.select("button").text shouldBe summaryMessages.continue
           }
         }
       }

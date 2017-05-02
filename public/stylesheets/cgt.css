@@ -114,7 +114,7 @@
 }
 
 .resident .summary-underline {
-    padding-bottom: 1.5em;
+    padding-bottom: 2.0em;
     border-bottom: 2px solid #BFC1C3;
 }
 
@@ -130,8 +130,8 @@
 
 .resident section {
     margin: 0em 0em;
-    padding-bottom: 1em;
-    padding-top: 1em;
+    padding-bottom: 1.5em;
+    padding-top: 1.5em;
     border-bottom: 0px;
 }
 
@@ -310,6 +310,7 @@
     background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png") no-repeat;
 
     padding-top: -0.5em;
+    padding-bottom: 1.0em;
     width: 30px;
     height: 39px;
 
@@ -338,4 +339,8 @@
 
 .summary-total-margin-top {
     margin-top: 0.8em;
+}
+
+.summary-details-padding  {
+    padding-top: 1.0em;
 }
