@@ -401,10 +401,62 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             section.select("p").text shouldBe summaryMessages.whatToDoNextDetails
           }
         }
+      }
 
-        "has a continue button" which {
-          s"has the text ${summaryMessages.continue}" in {
-            section.select("button").text shouldBe summaryMessages.continue
+      "has a continue button" which {
+        s"has the text ${summaryMessages.continue}" in {
+          doc.select("button").text shouldBe summaryMessages.continue
+        }
+      }
+
+      "has a save as PDF Button" which {
+
+        lazy val savePDFSection = doc.select("#save-as-a-pdf")
+
+        "contains an internal div which" should {
+
+          lazy val icon = savePDFSection.select("div")
+
+          "has class icon-file-download" in {
+            icon.hasClass("icon-file-download") shouldBe true
+          }
+
+          "contains a span" which {
+
+            lazy val informationTag = icon.select("span")
+
+            "has the class visuallyhidden" in {
+              informationTag.hasClass("visuallyhidden") shouldBe true
+            }
+
+            "has the text Download" in {
+              informationTag.text shouldBe "Download"
+            }
+          }
+
+          "contains a link" which {
+
+            lazy val link = savePDFSection.select("a")
+
+            "has the type submit" in {
+              link.attr("type").equals("submit") shouldBe true
+            }
+
+            "has the class bold-small" in {
+              link.hasClass("bold-small") shouldBe true
+            }
+
+            "has the class save-pdf-link" in {
+              link.hasClass("save-pdf-link") shouldBe true
+            }
+
+            s"links to ${controllers.routes.ReportController.finalSummaryReport()}" in {
+              link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport().toString()
+            }
+
+            s"has the text ${messages.saveAsPdf}" in {
+              link.text shouldBe messages.saveAsPdf
+            }
           }
         }
       }

@@ -67,21 +67,24 @@
         aeaRemaining)
 
     @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
-
-        <section id="whatToDoNext" class="">
+        <section id="whatToDoNext">
             <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
             <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
-
-            <div id="save-as-a-pdf" class="notice download-pdf">
-                <div class="icon-file-download">
-                    <span class="visuallyhidden">Download</span>
-                </div>
-
-                <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.finalSummaryReport"
-                data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
-            </div>
-
-            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
         </section>
+    }
+
+    <div id="save-as-a-pdf" class="notice download-pdf">
+        <div class="icon-file-download">
+            <span class="visuallyhidden">@Messages("calc.summary.download")</span>
+        </div>
+
+        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.finalSummaryReport"
+        data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+    </div>
+
+    @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+        <div class="summary-details-padding">
+            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
+        </div>
     }
 }

@@ -22,7 +22,7 @@ import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import views.html.helpers.checkYourAnswersPartial
-import assets.MessageLookup.NonResident.{CheckYourAnswers => messages}
+import assets.MessageLookup.NonResident.{ReviewAnswers => messages}
 import assets.MessageLookup.Resident.{Properties => propertiesMessages}
 import assets.MessageLookup.{Resident => residentMessages}
 import assets.{MessageLookup => commonMessages}
@@ -377,6 +377,16 @@ class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication 
           doc.select("#personalAllowance-change-link a").attr("href") shouldBe routes.IncomeController.personalAllowance().url
         }
       }
+    }
+  }
+
+  "The check your answers partial with display links set to false" should {
+    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(applicationMessages)
+    lazy val doc: Document = Jsoup.parse(view.body)
+
+    "have no links" in {
+      doc.select("a").size() shouldBe 0
     }
   }
 
