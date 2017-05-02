@@ -742,5 +742,64 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         }
       }
     }
+
+    "property was sold outside known tax years" should {
+
+      val gainAnswers = YourAnswersSummaryModel(
+        disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = Some(100000),
+        worthWhenSoldForLess = None,
+        whoDidYouGiveItTo = None,
+        worthWhenGaveAway = None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = Some(0),
+        worthWhenInherited = None,
+        worthWhenGifted = None,
+        worthWhenBoughtForLess = None,
+        acquisitionCosts = BigDecimal(10000),
+        improvements = BigDecimal(30000),
+        givenAway = false,
+        sellForLess = Some(false),
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        howBecameOwner = Some("Bought"),
+        boughtForLessThanWorth = Some(false)
+      )
+      val deductionAnswers = ChargeableGainAnswers(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = Some(LossesBroughtForwardValueModel(36.00)),
+        propertyLivedInModel = Some(PropertyLivedInModel(false)),
+        privateResidenceReliefModel = None,
+        privateResidenceReliefValueModel = None,
+        lettingsReliefModel = None,
+        lettingsReliefValueModel = None
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 10,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 20000,
+        firstRate = 18,
+        secondBand = Some(10000.00),
+        secondRate = Some(28),
+        lettingReliefsUsed = Some(BigDecimal(500)),
+        prrUsed = Some(BigDecimal(125)),
+        broughtForwardLossesUsed = 35,
+        allowableLossesUsed = 0,
+        baseRateTotal = 30000,
+        upperRateTotal = 15000
+      )
+      val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
+
+      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
+        taxYearModel, None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      s"display a notice summary with text ${summaryMessages.noticeSummary}" in {
+        doc.select("div.notice-wrapper").text should include(summaryMessages.noticeSummary)
+      }
+    }
   }
 }

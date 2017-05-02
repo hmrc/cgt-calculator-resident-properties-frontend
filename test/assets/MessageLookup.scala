@@ -962,5 +962,7 @@ object MessageLookup {
     val lossesToCarryForwardFromCalculation = "Losses you can carry forward from this calculation"
     val whatToDoNext = "What to do next"
     val whatToDoNextDetails = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
+    val noticeSummary = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
+      " Do not use these figures to report your Capital Gains Tax."
   }
 }
