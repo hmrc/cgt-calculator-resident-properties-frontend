@@ -31,7 +31,6 @@ articleLayout = false
 
 <h1 class="heading-xlarge">
     <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-    &pound;@MoneyPounds(result.taxOwed, 2).quantity
 </h1>
 
 @{if (!taxYear.isValidYear) {
@@ -102,116 +101,6 @@ articleLayout = false
         @summaryGainAndRateHelper("gainAndRate", Messages("calc.resident.summary.taxRate"), result.firstBand, result.firstRate, result.secondBand, result.secondRate)
     }
     @summaryNumericRowHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), 0)
-</section>
-
-<!-- Your Answers Section -->
-<section id="yourAnswers">
-    <!-- Header -->
-    @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
-
-    <!-- Data Rows-->
-    @summaryDateRowHelper("disposalDate",Messages("calc.resident.disposalDate.question"),gainAnswers.disposalDate,Some(gainRoutes.disposalDate().toString))
-
-    @summaryTextRowHelper("sellOrGiveAway", Messages("calc.resident.sellOrGiveAway.title"), if (gainAnswers.givenAway) {Messages("calc.resident.sellOrGiveAway.given")}
-    else {Messages("calc.resident.sellOrGiveAway.sold")}, Some(gainRoutes.sellOrGiveAway().toString))
-
-    <!-- Given to someone else Block -->
-    @{if(gainAnswers.givenAway)
-        summaryTextRowHelper("whoDidYouGiveItTo", Messages("calc.resident.whoDidYouGiveThePropertyTo.title"), Messages("calc.resident.whoDidYouGiveThePropertyTo.other"), Some(gainRoutes.whoDidYouGiveItTo().toString))
-    }
-
-    @{if(gainAnswers.givenAway)
-        summaryNumericRowHelper("worthWhenGaveAway", Messages("calc.resident.properties.worthWhenGaveAway.title"), gainAnswers.worthWhenGaveAway.get, Some(gainRoutes.worthWhenGaveAway().toString))
-    }
-    <!-- ^^^^^^ Given to someone else Block ^^^^^^ -->
-
-    @{if(!gainAnswers.givenAway)
-    summaryOptionRowHelper("sellForLess", Messages("calc.resident.properties.sellForLess.title"), gainAnswers.sellForLess.get, Some(gainRoutes.sellForLess().toString))}
-
-    @{if(gainAnswers.displayWorthWhenSold)
-    summaryNumericRowHelper("disposalValue",Messages("calc.resident.disposal.value.question"),gainAnswers.disposalValue.get,Some(gainRoutes.disposalValue().toString))}
-
-    @{if(gainAnswers.displayWorthWhenSoldForLess)
-        summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.properties.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, Some(gainRoutes.worthWhenSoldForLess().toString))
-    }
-
-    @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.disposalCosts.title"),gainAnswers.disposalCosts,Some(gainRoutes.disposalCosts().toString))
-
-    @summaryOptionRowHelper("ownerBeforeLegislationStart", Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),
-    gainAnswers.ownerBeforeLegislationStart, Some(gainRoutes.ownerBeforeLegislationStart().toString))
-
-    @{if (gainAnswers.ownerBeforeLegislationStart)
-    summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.properties.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,Some(gainRoutes.valueBeforeLegislationStart().toString))}
-
-    @{if (!gainAnswers.ownerBeforeLegislationStart)
-    summaryTextRowHelper("howBecameOwner", Messages("calc.resident.howBecameOwner.title"), Messages(s"calc.resident.howBecameOwner.${gainAnswers.howBecameOwner.get.toLowerCase}"),
-    Some(gainRoutes.howBecameOwner().toString))}
-
-    @{if (gainAnswers.displayBoughtForLessThanWorth)
-    summaryOptionRowHelper("boughtForLessThanWorth", Messages("calc.resident.properties.boughtForLessThanWorth.title"),
-    gainAnswers.boughtForLessThanWorth.get, Some(gainRoutes.boughtForLessThanWorth().toString))}
-
-    @{if (gainAnswers.displayWorthWhenBought)
-        summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.acquisitionValue.title"),gainAnswers.acquisitionValue.get,Some(gainRoutes.acquisitionValue().toString))
-    }
-
-    <!--- --->
-    @{if (gainAnswers.displayWorthWhenBoughtForLess)
-        summaryNumericRowHelper("worthWhenBoughtForLess", Messages("calc.resident.properties.worthWhenBoughtForLess.question"), gainAnswers.worthWhenBoughtForLess.get, Some(gainRoutes.worthWhenBoughtForLess().toString))
-    }
-
-    @{if (gainAnswers.displayWorthWhenGifted)
-        summaryNumericRowHelper("worthWhenGifted", Messages("calc.resident.properties.worthWhenGifted.question"), gainAnswers.worthWhenGifted.get, Some(gainRoutes.worthWhenGifted().toString))
-    }
-
-    @{if (gainAnswers.displayWorthWhenInherited)
-        summaryNumericRowHelper("worthWhenInherited", Messages("calc.resident.properties.worthWhenInherited.question"), gainAnswers.worthWhenInherited.get, Some(gainRoutes.worthWhenInherited().toString))
-    }
-    <!--- --->
-
-    @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.acquisitionCosts.title"),gainAnswers.acquisitionCosts,Some(gainRoutes.acquisitionCosts().toString))
-
-    @summaryNumericRowHelper("improvements",
-    if(gainAnswers.ownerBeforeLegislationStart) Messages("calc.resident.properties.improvements.questionBefore")
-    else Messages("calc.resident.properties.improvements.question"),
-    gainAnswers.improvements,Some(gainRoutes.improvements().toString))
-
-    @summaryOptionRowHelper("propertyLivedIn", Messages("calc.resident.properties.propertyLivedIn.title"),
-        deductionAnswers.propertyLivedInModel.get.livedInProperty, Some(deductionRoutes.propertyLivedIn().toString))
-
-    @{if (deductionAnswers.propertyLivedInModel.get.livedInProperty)
-        summaryOptionRowHelper("privateResidenceRelief", Messages("calc.resident.properties.privateResidenceRelief.title"),
-            deductionAnswers.privateResidenceReliefModel.get.isClaiming, Some(deductionRoutes.privateResidenceRelief().toString))}
-
-    @{if(deductionAnswers.displayPRRValueAndLettingsRelief)
-        summaryNumericRowHelper("privateResidenceReliefValue", Messages("calc.resident.privateResidenceReliefValue.title"),
-            deductionAnswers.privateResidenceReliefValueModel.get.amount, Some(deductionRoutes.privateResidenceReliefValue().toString))}
-
-    @{if(deductionAnswers.displayPRRValueAndLettingsRelief)
-        summaryOptionRowHelper("lettingsRelief", Messages("calc.resident.lettingsRelief.title"),
-            deductionAnswers.lettingsReliefModel.get.isClaiming, Some(deductionRoutes.lettingsRelief().toString))}
-
-    @{if(deductionAnswers.displayLettingsReliefValue)
-        summaryNumericRowHelper("lettingsReliefValue", Messages("calc.resident.lettingsReliefValue.title"),
-            deductionAnswers.lettingsReliefValueModel.get.amount, Some(deductionRoutes.lettingsReliefValue().toString))}
-
-    @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied),
-        deductionAnswers.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString))
-
-    @{if (deductionAnswers.broughtForwardModel.get.option)
-        summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied),
-            deductionAnswers.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString))}
-
-    @summaryNumericRowHelper("currentIncome",
-        if(isCurrentTaxYear){Messages("calc.resident.currentIncome.questionCurrentYear")}
-        else{Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)},
-        incomeAnswers.currentIncomeModel.get.amount,Some(incomeRoutes.currentIncome().toString))
-
-    @summaryNumericRowHelper("personalAllowance",
-        {if(isCurrentTaxYear) {Messages("calc.resident.personalAllowance.currentYearQuestion")}
-        else {Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)}},
-        incomeAnswers.personalAllowanceModel.get.amount,Some(incomeRoutes.personalAllowance().toString))
-
 </section>
 
     @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
