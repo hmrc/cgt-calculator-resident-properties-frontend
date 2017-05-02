@@ -956,7 +956,7 @@ object MessageLookup {
     val taxToPay = "Tax to pay"
     val remainingDeductions = "Your remaining deductions"
     def remainingAnnualExemptAmount(taxYear: String): String = s"Annual Exempt Amount left for the $taxYear tax year"
-    def lossesToCarryForwardFromTaxYears(taxYear: String): String = s"Losses to carry forward from tax years before $taxYear"
+    def broughtForwardLossesRemaining(taxYear: String): String = s"Losses to carry forward from tax years before $taxYear"
     val lossesToCarryForwardFromCalculation = "Losses you can carry forward from this calculation"
     val whatToDoNext = "What to do next"
     val whatToDoNextDetails = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."

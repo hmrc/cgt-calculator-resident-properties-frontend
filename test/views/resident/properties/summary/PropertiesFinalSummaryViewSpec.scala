@@ -64,7 +64,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       )
       val deductionAnswers = ChargeableGainAnswers(
         broughtForwardModel = Some(LossesBroughtForwardModel(false)),
-        broughtForwardValueModel = None,
+        broughtForwardValueModel = Some(LossesBroughtForwardValueModel(36.00)),
         propertyLivedInModel = Some(PropertyLivedInModel(false)),
         privateResidenceReliefModel = None,
         privateResidenceReliefValueModel = None,
@@ -79,13 +79,14 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         taxOwed = 3600,
         firstBand = 20000,
         firstRate = 18,
-        secondBand = None,
-        secondRate = None,
-        lettingReliefsUsed = Some(BigDecimal(0)),
-        prrUsed = Some(BigDecimal(0)),
-        broughtForwardLossesUsed = 0,
+        secondBand = Some(10000.00),
+        secondRate = Some(28),
+        lettingReliefsUsed = Some(BigDecimal(500)),
+        prrUsed = Some(BigDecimal(125)),
+        broughtForwardLossesUsed = 35,
         allowableLossesUsed = 0,
-        baseRateTotal = 30000
+        baseRateTotal = 30000,
+        upperRateTotal = 15000
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
@@ -216,8 +217,14 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             }
           }
 
-          "not have a row for reliefs used" in {
-            div.select("#reliefsUsed-text") shouldBe empty
+          "has a row for reliefs used" which {
+            s"has the text '${summaryMessages.reliefsUsed}'" in {
+              div.select("#reliefsUsed-text").text shouldBe summaryMessages.reliefsUsed
+            }
+
+            "has the value '£625'" in {
+              div.select("#reliefsUsed-amount").text shouldBe "£625"
+            }
           }
 
           "has a row for AEA used" which {
@@ -231,8 +238,14 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             }
           }
 
-          "not have a row for brought forward losses used" in {
-            div.select("#lossesUsed-text") shouldBe empty
+          "has a row for brought forward losses used" which {
+            s"has the text '${summaryMessages.broughtForwardLossesUsed}'" in {
+              div.select("#lossesUsed-text").text shouldBe summaryMessages.broughtForwardLossesUsed
+            }
+
+            "has the value '£35'" in {
+              div.select("#lossesUsed-amount").text shouldBe "£35"
+            }
           }
 
           "has a row for total deductions" which {
@@ -311,8 +324,14 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             }
           }
 
-          "does not have a row for second band" in {
-            div.select("#secondBand-text") shouldBe empty
+          "has a row for second band" which {
+            s"has the text '${summaryMessages.taxRate("£10,000", "28")}'" in {
+              div.select("#secondBand-text").text shouldBe summaryMessages.taxRate("£10,000", "28")
+            }
+
+            "has the value '£15,000'" in {
+              div.select("#secondBand-amount").text shouldBe "£15,000"
+            }
           }
 
           "has a row for tax to pay" which {
@@ -351,8 +370,15 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             }
           }
 
-          "not have a row for brought forward losses remaining" in {
-            div.select("#broughtForwardLossesRemaining-text") shouldBe empty
+          "has a row for brought forward losses remaining" which {
+
+            s"has the text ${summaryMessages.broughtForwardLossesRemaining("2015 to 2016")}" in {
+              div.select("#broughtForwardLossesRemaining-text").text shouldBe summaryMessages.broughtForwardLossesRemaining("2015 to 2016")
+            }
+
+            "has the value '£1'" in {
+              div.select("#broughtForwardLossesRemaining-amount").text shouldBe "£1"
+            }
           }
 
           "not have a row for losses to carry forward" in {
@@ -383,7 +409,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
       }
     }
-    
+
     //GA - move into top tests
     "Properties Final Summary view" should {
 

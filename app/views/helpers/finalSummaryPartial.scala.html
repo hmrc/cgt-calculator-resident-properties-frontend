@@ -87,8 +87,20 @@
 
     <!--Remaining Details Section-->
     <section id="remainingDeductions">
-        <!-- Header -->
+
+    <!-- Header -->
     <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
 
     @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), aeaRemaining, hintText = false)
+
+    @if(deductionAnswers.broughtForwardValueModel.isDefined) {
+        @if(deductionAnswers.broughtForwardValueModel.get.amount - result.broughtForwardLossesUsed > 0) {
+            @summaryNumericRow("broughtForwardLossesRemaining",
+                Messages("calc.summary.remainingDeductions.broughtForwardLossesRemaining",
+                    TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)),
+                deductionAnswers.broughtForwardValueModel.get.amount - result.broughtForwardLossesUsed,
+                hintText = false)
+        }
+    }
+
 </section>
