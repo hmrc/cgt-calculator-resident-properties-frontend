@@ -19,16 +19,23 @@
     </head>
 
 
-    <div class="pdf">
-        <div class="header-container">
-            <h1 class="heading-xlarge">
-                <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-                    &pound;0.00
-            </h1>
-            <div class="logo">
-                <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+    <span class="pdf">
+        <span id="logos">
+            <div class="govuk-logo">
+                <span class="govuk-logo-medium">
+                    <span class="govuk-logo-text">GOV.UK</span>
+                </span>
+                <span class="calculate-your-cgt">
+                    Calculate your Capital Gains Tax
+                </span>
             </div>
-        </div>
+
+            <div class="logo">
+                <span class="organisation-logo organisation-logo-medium">
+                    <span class="organisation-logo-text">HM Revenue &amp; Customs</span>
+                </span>
+            </div>
+        </span>
 
         @{if (!taxYear.isValidYear) {
                 <div class="notice-wrapper">
@@ -119,4 +126,4 @@
                 else Messages("calc.resident.properties.improvements.question"),
                 answers.improvements, None)
         </section>
-    </div>
+    </span>
