@@ -63,22 +63,8 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
       doc.title() shouldBe messages.title
     }
 
-    s"have a page heading" which {
-
-      s"includes a secondary heading with text '${messages.pageHeading}'" in {
-        //TODO: Update when summary updates merged in merged in
-//        doc.select("h1 span.pre-heading").text shouldBe messages.pageHeading
-      }
-
-      "includes an amount of tax due of £0.00" in {
-        //TODO: Update when summary updates merged in
-//        doc.select("h1").text should include("£0.00")
-      }
-    }
-
     "have the hmrc logo with the hmrc name" in {
-      //TODO: Update when summary updates merged in
-//      doc.select("div.logo span").text shouldBe "HM Revenue & Customs"
+      doc.select("span.organisation-logo-text").text shouldBe "HM Revenue & Customs"
     }
 
     "does not have a notice summary" in {
