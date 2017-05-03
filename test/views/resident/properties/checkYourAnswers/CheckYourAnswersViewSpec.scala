@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package views.resident.properties.checkYouAnswers
+package views.resident.properties.checkYourAnswers
 
 import controllers.helpers.FakeRequestHelper
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

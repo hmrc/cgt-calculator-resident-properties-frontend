@@ -92,7 +92,9 @@ trait SummaryController extends ValidActiveSession {
                      totalGainAndTax: Option[TotalGainAndTaxOwedModel],
                      backUrl: String,
                      taxYear: Option[TaxYearModel],
-                     currentTaxYear: String)(implicit hc: HeaderCarrier): Future[Result] = {
+                     currentTaxYear: String,
+                     totalCosts: BigDecimal,
+                     maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Result] = {
 
       //These lazy vals are called only when the values are determined to be available
       lazy val isPrrUsed = if (chargeableGainAnswers.propertyLivedInModel.get.livedInProperty) {
@@ -104,12 +106,31 @@ trait SummaryController extends ValidActiveSession {
         case _ => None
       }
 
+      def getTotalDeductions(prrUsed: BigDecimal, lettingsReliefUsed: BigDecimal, lossesUsed: BigDecimal, aeaUsed: BigDecimal): BigDecimal = {
+        prrUsed + lettingsReliefUsed + lossesUsed + aeaUsed
+      }
+
+      lazy val aeaRemaining: BigDecimal = maxAEA - totalGainAndTax.get.aeaUsed
 
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
-        Ok(views.finalSummary(totalGainAnswers, chargeableGainAnswers, incomeAnswers,
-          totalGainAndTax.get, routes.IncomeController.personalAllowance().url, taxYear.get, isPrrUsed, isLettingsReliefUsed,
-          taxYear.get.taxYearSupplied == currentTaxYear)))
+        Ok(views.finalSummary(totalGainAnswers,
+                              chargeableGainAnswers,
+                              incomeAnswers,
+                              totalGainAndTax.get,
+                              routes.IncomeController.personalAllowance().url,
+                              taxYear.get,
+                              isPrrUsed,
+                              isLettingsReliefUsed,
+                              totalCosts,
+                              getTotalDeductions(totalGainAndTax.get.prrUsed.getOrElse(0),
+                                totalGainAndTax.get.lettingReliefsUsed.getOrElse(0),
+                                totalGainAndTax.get.broughtForwardLossesUsed,
+                                totalGainAndTax.get.aeaUsed),
+                              aeaRemaining
+                             )
+          ))
+
       else if (grossGain > 0) Future.successful(Ok(views.deductionsSummary(totalGainAnswers, chargeableGainAnswers, chargeableGain.get,
         backUrl, taxYear.get, isPrrUsed, isLettingsReliefUsed)))
       else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get)))
@@ -129,6 +150,7 @@ trait SummaryController extends ValidActiveSession {
 
     for {
       answers <- calculatorConnector.getPropertyGainAnswers
+      totalCosts <- getPropertyTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)
@@ -139,7 +161,8 @@ trait SummaryController extends ValidActiveSession {
       incomeAnswers <- calculatorConnector.getPropertyIncomeAnswers
       totalGain <- totalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
       currentTaxYear <- Dates.getCurrentTaxYear
-      routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain, backLink, taxYear, currentTaxYear)
+      routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
+        backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get)
     } yield routeRequest
   }
 }
