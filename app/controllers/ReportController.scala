@@ -24,6 +24,7 @@ import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import it.innove.play.pdf.PdfGenerator
 import models.resident.TaxYearModel
+import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import play.api.i18n.Messages
 import play.api.mvc.RequestHeader
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -58,6 +59,10 @@ trait ReportController extends ValidActiveSession {
     Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
   }
 
+  def getPropertyTotalCosts(yourAnswersSummaryModel: YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
+    calcConnector.getPropertyTotalCosts(yourAnswersSummaryModel)
+  }
+
   val gainSummaryReport = ValidateSession.async { implicit request =>
     for {
       answers <- calcConnector.getPropertyGainAnswers
@@ -84,25 +89,72 @@ trait ReportController extends ValidActiveSession {
   //#####Final summary actions#####\\
 
   val finalSummaryReport = ValidateSession.async { implicit request =>
+
+    def getTotalDeductions(prrUsed: BigDecimal, lettingsReliefUsed: BigDecimal, lossesUsed: BigDecimal, aeaUsed: BigDecimal): Future[BigDecimal] = {
+      Future.successful(prrUsed + lettingsReliefUsed + lossesUsed + aeaUsed)
+    }
+
+    def aeaRemaining(maxAEA: BigDecimal, aeaUsed: BigDecimal): BigDecimal = maxAEA - aeaUsed
+
     for {
-      answers <- calcConnector.getPropertyGainAnswers
-      taxYear <- getTaxYear(answers.disposalDate)
+      gainAnswers <- calcConnector.getPropertyGainAnswers
+
+      totalCosts <- getPropertyTotalCosts(gainAnswers)
+
+      taxYear <- getTaxYear(gainAnswers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
-      grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
       deductionAnswers <- calcConnector.getPropertyDeductionAnswers
-      chargeableGain <- calcConnector.calculateRttPropertyChargeableGain(answers, deductionAnswers, maxAEA.get)
+
       incomeAnswers <- calcConnector.getPropertyIncomeAnswers
       currentTaxYear <- Dates.getCurrentTaxYear
-      totalGain <- calcConnector.calculateRttPropertyTotalGainAndTax(answers, deductionAnswers, maxAEA.get, incomeAnswers)
+      totalGainAndTax <- calcConnector.calculateRttPropertyTotalGainAndTax(gainAnswers, deductionAnswers, maxAEA.get, incomeAnswers)
+
+      totalDeductions <- getTotalDeductions(totalGainAndTax.get.prrUsed.getOrElse(0),
+        totalGainAndTax.get.lettingReliefsUsed.getOrElse(0),
+        totalGainAndTax.get.broughtForwardLossesUsed,
+        totalGainAndTax.get.aeaUsed)
+
     } yield {
-      pdfGenerator.ok(views.finalSummaryReport(answers,
+
+      val isPrrUsed = if (deductionAnswers.propertyLivedInModel.get.livedInProperty) {
+        Some(deductionAnswers.privateResidenceReliefModel.get.isClaiming)
+      } else None
+
+      val isLettingsReliefUsed = isPrrUsed match {
+        case Some(true) => Some(deductionAnswers.lettingsReliefModel.get.isClaiming)
+        case _ => None
+      }
+
+      val aeaLeftOver = aeaRemaining(maxAEA.getOrElse(0), totalGainAndTax.get.aeaUsed)
+
+      pdfGenerator.ok(views.finalSummaryReport(gainAnswers,
         deductionAnswers,
         incomeAnswers,
-        totalGain.get,
+        totalGainAndTax.get,
         taxYear.get,
-        taxYear.get.taxYearSupplied == currentTaxYear),
+        taxYear.get.taxYearSupplied == currentTaxYear,
+        isPrrUsed,
+        isLettingsReliefUsed,
+        totalCosts,
+        totalDeductions,
+        aeaLeftOver),
         host).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
     }
   }
 }
+
+//totalGainAnswers,
+//chargeableGainAnswers,
+//incomeAnswers,
+//totalGainAndTax.get,
+//routes.IncomeController.personalAllowance().url,
+//taxYear.get,
+//isPrrUsed,
+//isLettingsReliefUsed,
+//totalCosts,
+//getTotalDeductions(totalGainAndTax.get.prrUsed.getOrElse(0),
+//totalGainAndTax.get.lettingReliefsUsed.getOrElse(0),
+//totalGainAndTax.get.broughtForwardLossesUsed,
+//totalGainAndTax.get.aeaUsed),
+//aeaRemaining

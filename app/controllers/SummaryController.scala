@@ -45,16 +45,6 @@ trait SummaryController extends ValidActiveSession {
 
   val summary = ValidateSession.async { implicit request =>
 
-    def displayAnnualExemptAmountCheck(claimedOtherProperties: Boolean,
-                                       claimedAllowableLosses: Boolean,
-                                       allowableLossesValueModel: Option[AllowableLossesValueModel])(implicit hc: HeaderCarrier): Boolean = {
-      allowableLossesValueModel match {
-        case Some(result) if claimedAllowableLosses && claimedOtherProperties => result.amount == 0
-        case _ if claimedOtherProperties && !claimedAllowableLosses => true
-        case _ => false
-      }
-    }
-
     def buildDeductionsSummaryBackUrl(chargeableGainAnswers: ChargeableGainAnswers)(implicit hc: HeaderCarrier): Future[String] = {
       chargeableGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option match {
         case true => Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)

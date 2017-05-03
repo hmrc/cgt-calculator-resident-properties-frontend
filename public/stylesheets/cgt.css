@@ -377,6 +377,10 @@
     padding-right: 1.5em;
 }
 
+.pdf .grid-layout {
+    margin-left: 0px;
+}
+
 .grid-layout {
     margin-left: 0px;
 }
@@ -385,16 +389,16 @@
     padding-bottom: 1em;
 }
 
-.transaction-banner {
+.pdf .transaction-banner--complete {
     display: block;
     background-color:#28a197;color:#fff;padding:30px;margin-bottom:30px;text-align:center
 }
 
-.transaction-banner--complete h1 {
+.pdf .transaction-banner--complete h1 {
     color: #ffffff;
 }
 
-.transaction-banner--complete h2 {
+.pdf .transaction-banner--complete h2 {
     color: #ffffff;
 }
 
