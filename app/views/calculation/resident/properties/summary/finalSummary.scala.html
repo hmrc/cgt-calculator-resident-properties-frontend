@@ -27,10 +27,10 @@
     <!-- Google Analytics -->
     <div id="ga-reporting" class="visuallyhidden">
 
-        <!-- Tax Year -->
+            <!-- Tax Year -->
         <span data-metrics="rtt-properties-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
 
-        <!-- Gain Stats -->
+            <!-- Gain Stats -->
         <span data-metrics="rtt-properties-summary:result:gain"></span>
 
             <!-- PRR Stats -->
@@ -40,14 +40,14 @@
             case _ => ()
         }}
 
-        <!-- Lettings Reliefs Stats -->
+            <!-- Lettings Reliefs Stats -->
         @{lettingsReliefUsed match {
             case Some(true) => <span data-metrics="rtt-properties-summary:lettingsRelief:yes"></span>
             case Some(false) => <span data-metrics="rtt-properties-summary:lettingsRelief:no"></span>
             case _ => ()
         }}
 
-        <!-- Claiming Brought Forward Losses Stats -->
+            <!-- Claiming Brought Forward Losses Stats -->
         @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
             <span data-metrics="rtt-properties-summary:broughtForwardLosses:yes"></span>
         } else {

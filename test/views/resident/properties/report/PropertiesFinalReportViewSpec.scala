@@ -16,9 +16,7 @@
 
 package views.resident.properties.report
 
-import assets.MessageLookup.Resident.{Properties => propertiesMessages}
 import assets.MessageLookup.{SummaryPage => messages}
-import assets.{MessageLookup => commonMessages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
 import models.resident._
@@ -46,9 +44,9 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       worthWhenBoughtForLess = None,
       BigDecimal(10000),
       BigDecimal(30000),
-      true,
+      givenAway = true,
       None,
-      true,
+      ownerBeforeLegislationStart = true,
       Some(BigDecimal(5000)),
       None,
       None
@@ -82,10 +80,10 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
       0
     )
 
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
+    lazy val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
     lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results,
-      taxYearModel, false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+      taxYearModel, isCurrentTaxYear = false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
