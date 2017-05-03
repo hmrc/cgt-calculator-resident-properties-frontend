@@ -16,29 +16,23 @@
 
 package views.resident.helpers
 
+import assets.MessageLookup.{SummaryDetails => summaryMessages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
-import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits.applicationMessages
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import assets.MessageLookup.{SummaryDetails => summaryMessages}
 import views.html.{helpers => views}
 
-class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
-  "FinalSummaryPartial" when {
-
-    val incomeAnswers = IncomeAnswersModel(
-      currentIncomeModel = Some(CurrentIncomeModel(0)),
-      personalAllowanceModel = Some(PersonalAllowanceModel(0))
-    )
+  "DeductionsSummaryPartial" when {
 
     "the property was sold inside tax years, bought after legislation start," +
-      " with no reliefs or brought forward losses and taxed at 18%" should {
+      " with no reliefs or brought forward losses, with £0 taxable gain and AEA remaining" should {
 
       val gainAnswers = YourAnswersSummaryModel(
         disposalDate = Dates.constructDate(10, 10, 2015),
@@ -69,26 +63,23 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         lettingsReliefModel = None,
         lettingsReliefValueModel = None
       )
-      val results = TotalGainAndTaxOwedModel(
-        gain = 50000,
-        chargeableGain = 20000,
-        aeaUsed = 10,
+      val results = ChargeableGainResultModel(
+        gain = 30000,
+        chargeableGain = 0,
+        aeaUsed = 900,
+        aeaRemaining = 1000,
         deductions = 30000,
-        taxOwed = 3600,
-        firstBand = 20000,
-        firstRate = 18,
-        secondBand = None,
-        secondRate = None,
+        allowableLossesRemaining = 0,
+        broughtForwardLossesRemaining = 0,
         lettingReliefsUsed = Some(BigDecimal(0)),
         prrUsed = Some(BigDecimal(0)),
         broughtForwardLossesUsed = 0,
-        allowableLossesUsed = 0,
-        baseRateTotal = 30000
+        allowableLossesUsed = 0
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a banner" which {
@@ -97,8 +88,8 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         "contains a h1" which {
           lazy val h1 = banner.select("h1")
 
-          s"has the text '£3,600.00'" in {
-            h1.text() shouldEqual "£3,600.00"
+          s"has the text '£0.00'" in {
+            h1.text() shouldEqual "£0.00"
           }
         }
 
@@ -126,7 +117,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
 
         "has a div for total gain" which {
 
-          lazy val div = doc.select("#yourTotalGain").get(0)
+          lazy val div = doc.select("#yourTotalGain")
 
           "has a h3 tag" which {
 
@@ -171,8 +162,8 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
               div.select("#totalGain-text").text shouldBe summaryMessages.totalGain
             }
 
-            "has the value '£50,000'" in {
-              div.select("#totalGain-amount").text shouldBe "£50,000"
+            "has the value '£30,000'" in {
+              div.select("#totalGain-amount").text shouldBe "£30,000"
             }
           }
         }
@@ -198,8 +189,8 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
               div.select("#aeaUsed-text").text shouldBe summaryMessages.aeaUsed
             }
 
-            "has the value '£10'" in {
-              div.select("#aeaUsed-amount").text shouldBe "£10"
+            "has the value '£900'" in {
+              div.select("#aeaUsed-amount").text shouldBe "£900"
             }
           }
 
@@ -213,8 +204,8 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
               div.select("#totalDeductions-text").text shouldBe summaryMessages.totalDeductions
             }
 
-            "has the value '£100'" in {
-              div.select("#totalDeductions-amount").text shouldBe "£100"
+            "has the value '£30,000'" in {
+              div.select("#totalDeductions-amount").text shouldBe "£30,000"
             }
           }
         }
@@ -235,8 +226,8 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
               div.select("#gain-text").text shouldBe summaryMessages.totalGain
             }
 
-            "has the value '£50,000'" in {
-              div.select("#gain-amount").text shouldBe "£50,000"
+            "has the value '£30,000'" in {
+              div.select("#gain-amount").text shouldBe "£30,000"
             }
           }
 
@@ -245,8 +236,8 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
               div.select("#minusDeductions-text").text shouldBe summaryMessages.minusDeductions
             }
 
-            "has the value '£100'" in {
-              div.select("#minusDeductions-amount").text shouldBe "£100"
+            "has the value '£30,000'" in {
+              div.select("#minusDeductions-amount").text shouldBe "£30,000"
             }
           }
 
@@ -255,52 +246,28 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
               div.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
             }
 
-            "has the value '£20,000'" in {
-              div.select("#taxableGain-amount").text shouldBe "£20,000"
+            "has the value '£0'" in {
+              div.select("#taxableGain-amount").text shouldBe "£0"
             }
           }
         }
 
         "has a div for tax rate" which {
 
-          lazy val div = doc.select("#yourTaxRate")
-
-          "has a h3 tag" which {
-
-            s"has the text ${summaryMessages.yourTaxRate}" in {
-              div.select("h3").text shouldBe summaryMessages.yourTaxRate
-            }
-          }
-
-          "has row for first band" which {
-
-            s"has the text '${summaryMessages.taxRate("£20,000", "18")}'" in {
-              div.select("#firstBand-text").text shouldBe summaryMessages.taxRate("£20,000", "18")
-            }
-
-            "has the value '£30,000'" in {
-              div.select("#firstBand-amount").text shouldBe "£30,000"
-            }
-          }
-
-          "does not have a row for second band" in {
-            div.select("#secondBand-text") shouldBe empty
-          }
-
           "has a row for tax to pay" which {
 
             s"has the text ${summaryMessages.taxToPay}" in {
-              div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
+              doc.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
             }
 
-            "has the value '£3,600'" in {
-              div.select("#taxToPay-amount").text shouldBe "£3,600"
+            "has the value '£0'" in {
+              doc.select("#taxToPay-amount").text shouldBe "£0"
             }
           }
         }
       }
 
-      "have a section for the You remaining deductions" which {
+      "have a section for the Your remaining deductions" which {
 
         "has a div for remaining deductions" which {
 
@@ -318,8 +285,8 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
               div.select("#aeaRemaining-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
             }
 
-            "has the value '£0'" in {
-              div.select("#aeaRemaining-amount").text shouldBe "£0"
+            "has the value '£1,000'" in {
+              div.select("#aeaRemaining-amount").text shouldBe "£1,000"
             }
           }
 
@@ -364,26 +331,23 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         lettingsReliefModel = None,
         lettingsReliefValueModel = None
       )
-      val results = TotalGainAndTaxOwedModel(
-        gain = 50000,
-        chargeableGain = 20000,
-        aeaUsed = 10,
+      val results = ChargeableGainResultModel(
+        gain = 30000,
+        chargeableGain = 0,
+        aeaUsed = 900,
+        aeaRemaining = 1000,
         deductions = 30000,
-        taxOwed = 3600,
-        firstBand = 20000,
-        firstRate = 18,
-        secondBand = None,
-        secondRate = None,
+        allowableLossesRemaining = 0,
+        broughtForwardLossesRemaining = 0,
         lettingReliefsUsed = Some(BigDecimal(0)),
         prrUsed = Some(BigDecimal(0)),
         broughtForwardLossesUsed = 0,
-        allowableLossesUsed = 0,
-        baseRateTotal = 30000
+        allowableLossesUsed = 0
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for worth when sold for less" which {
@@ -394,86 +358,6 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
 
         "has the value '£100,000'" in {
           doc.select("#disposalValue-amount").text shouldBe "£100,000"
-        }
-      }
-    }
-
-    "the calculation returns tax on both side of the rate boundary" should {
-      val gainAnswers = YourAnswersSummaryModel(
-        disposalDate = Dates.constructDate(10, 10, 2015),
-        disposalValue = Some(100000),
-        worthWhenSoldForLess = None,
-        whoDidYouGiveItTo = None,
-        worthWhenGaveAway = None,
-        disposalCosts = BigDecimal(10000),
-        acquisitionValue = Some(0),
-        worthWhenInherited = None,
-        worthWhenGifted = None,
-        worthWhenBoughtForLess = None,
-        acquisitionCosts = BigDecimal(10000),
-        improvements = BigDecimal(30000),
-        givenAway = false,
-        sellForLess = Some(false),
-        ownerBeforeLegislationStart = false,
-        valueBeforeLegislationStart = None,
-        howBecameOwner = Some("Bought"),
-        boughtForLessThanWorth = Some(false)
-      )
-      val deductionAnswers = ChargeableGainAnswers(
-        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
-        broughtForwardValueModel = None,
-        propertyLivedInModel = Some(PropertyLivedInModel(false)),
-        privateResidenceReliefModel = None,
-        privateResidenceReliefValueModel = None,
-        lettingsReliefModel = None,
-        lettingsReliefValueModel = None
-      )
-      val results = TotalGainAndTaxOwedModel(
-        gain = 50000,
-        chargeableGain = 20000,
-        aeaUsed = 0,
-        deductions = 30000,
-        taxOwed = 3600,
-        firstBand = 30000,
-        firstRate = 18,
-        secondBand = Some(10000),
-        secondRate = Some(28),
-        lettingReliefsUsed = Some(BigDecimal(0)),
-        prrUsed = Some(BigDecimal(0)),
-        broughtForwardLossesUsed = 0,
-        allowableLossesUsed = 0,
-        baseRateTotal = 101,
-        upperRateTotal = 100
-      )
-
-      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
-
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
-        None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
-      lazy val doc = Jsoup.parse(view.body)
-
-      "has a numeric output row and a tax rate" which {
-
-        "has row for first band" which {
-
-          s"has the text '${summaryMessages.taxRate("£30,000", "18")}'" in {
-            doc.select("#firstBand-text").text shouldBe summaryMessages.taxRate("£30,000", "18")
-          }
-
-          "has the value '£101'" in {
-            doc.select("#firstBand-amount").text shouldBe "£101"
-          }
-        }
-
-        "has row for second band" which {
-
-          s"has the text '${summaryMessages.taxRate("£10,000", "28")}'" in {
-            doc.select("#secondBand-text").text shouldBe summaryMessages.taxRate("£10,000", "28")
-          }
-
-          "has the value '£100'" in {
-            doc.select("#secondBand-amount").text shouldBe "£100"
-          }
         }
       }
     }
@@ -509,29 +393,24 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         lettingsReliefModel = None,
         lettingsReliefValueModel = None
       )
-      val results = TotalGainAndTaxOwedModel(
-        gain = 50000,
-        chargeableGain = 20000,
-        aeaUsed = 10,
+      val results = ChargeableGainResultModel(
+        gain = 30000,
+        chargeableGain = 0,
+        aeaUsed = 900,
+        aeaRemaining = 1000,
         deductions = 30000,
-        taxOwed = 3600,
-        firstBand = 20000,
-        firstRate = 18,
-        secondBand = Some(10000.00),
-        secondRate = Some(28),
+        allowableLossesRemaining = 0,
+        broughtForwardLossesRemaining = 0,
         lettingReliefsUsed = Some(BigDecimal(500)),
         prrUsed = Some(BigDecimal(125)),
-        broughtForwardLossesUsed = 35,
-        allowableLossesUsed = 0,
-        baseRateTotal = 30000,
-        upperRateTotal = 15000
+        broughtForwardLossesUsed = 0,
+        allowableLossesUsed = 0
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
-
 
       "has a row for reliefs used" which {
         s"has the text '${summaryMessages.reliefsUsed}'" in {
@@ -575,27 +454,23 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         lettingsReliefModel = None,
         lettingsReliefValueModel = None
       )
-      val results = TotalGainAndTaxOwedModel(
-        gain = 50000,
-        chargeableGain = -20000,
-        aeaUsed = 10,
+      val results = ChargeableGainResultModel(
+        gain = 30000,
+        chargeableGain = 0,
+        aeaUsed = 900,
+        aeaRemaining = 1000,
         deductions = 30000,
-        taxOwed = 3600,
-        firstBand = 20000,
-        firstRate = 18,
-        secondBand = Some(10000.00),
-        secondRate = Some(28),
-        lettingReliefsUsed = Some(BigDecimal(500)),
-        prrUsed = Some(BigDecimal(125)),
+        allowableLossesRemaining = 0,
+        broughtForwardLossesRemaining = 0,
+        lettingReliefsUsed = Some(BigDecimal(0)),
+        prrUsed = Some(BigDecimal(0)),
         broughtForwardLossesUsed = 35,
-        allowableLossesUsed = 0,
-        baseRateTotal = 30000,
-        upperRateTotal = 15000
+        allowableLossesUsed = 0
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for brought forward losses used" which {
@@ -610,6 +485,78 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
 
       "not have a row for brought forward losses remaining" in {
          doc.select("#broughtForwardLossesRemaining-text") shouldBe empty
+      }
+
+    }
+
+    "a Brought Forward Loss is entered and some remains" should {
+
+      val gainAnswers = YourAnswersSummaryModel(
+        disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = Some(100000),
+        worthWhenSoldForLess = None,
+        whoDidYouGiveItTo = None,
+        worthWhenGaveAway = None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = Some(0),
+        worthWhenInherited = None,
+        worthWhenGifted = None,
+        worthWhenBoughtForLess = None,
+        acquisitionCosts = BigDecimal(10000),
+        improvements = BigDecimal(30000),
+        givenAway = false,
+        sellForLess = Some(false),
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        howBecameOwner = Some("Bought"),
+        boughtForLessThanWorth = Some(false)
+      )
+      val deductionAnswers = ChargeableGainAnswers(
+        broughtForwardModel = Some(LossesBroughtForwardModel(true)),
+        broughtForwardValueModel = Some(LossesBroughtForwardValueModel(35.00)),
+        propertyLivedInModel = Some(PropertyLivedInModel(false)),
+        privateResidenceReliefModel = None,
+        privateResidenceReliefValueModel = None,
+        lettingsReliefModel = None,
+        lettingsReliefValueModel = None
+      )
+      val results = ChargeableGainResultModel(
+        gain = 30000,
+        chargeableGain = 0,
+        aeaUsed = 900,
+        aeaRemaining = 1000,
+        deductions = 30000,
+        allowableLossesRemaining = 0,
+        broughtForwardLossesRemaining = 5,
+        lettingReliefsUsed = Some(BigDecimal(0)),
+        prrUsed = Some(BigDecimal(0)),
+        broughtForwardLossesUsed = 35,
+        allowableLossesUsed = 0
+      )
+      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      "has a row for brought forward losses used" which {
+        s"has the title ${summaryMessages.broughtForwardLossesUsed}" in {
+          doc.select("#lossesUsed-text").text shouldBe summaryMessages.broughtForwardLossesUsed
+        }
+
+        "has the amount of '£35'" in {
+          doc.select("#lossesUsed-amount").text shouldBe "£35"
+        }
+      }
+
+      "have a row for brought forward losses remaining" which {
+        s"has the title ${summaryMessages.broughtForwardLossesRemaining}" in {
+          doc.select("#broughtForwardLossesRemaining-text").text shouldBe summaryMessages.broughtForwardLossesRemaining
+        }
+
+        "has the amount of '£35'" in {
+          doc.select("#broughtForwardLossesRemaining-amount").text shouldBe "£5"
+        }
       }
 
     }
@@ -645,26 +592,23 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         lettingsReliefModel = None,
         lettingsReliefValueModel = None
       )
-      val results = TotalGainAndTaxOwedModel(
-        gain = 50000,
-        chargeableGain = 20000,
-        aeaUsed = 10,
+      val results = ChargeableGainResultModel(
+        gain = 30000,
+        chargeableGain = 0,
+        aeaUsed = 900,
+        aeaRemaining = 1000,
         deductions = 30000,
-        taxOwed = 3600,
-        firstBand = 20000,
-        firstRate = 18,
-        secondBand = None,
-        secondRate = None,
+        allowableLossesRemaining = 0,
+        broughtForwardLossesRemaining = 0,
         lettingReliefsUsed = Some(BigDecimal(0)),
         prrUsed = Some(BigDecimal(0)),
         broughtForwardLossesUsed = 0,
-        allowableLossesUsed = 0,
-        baseRateTotal = 30000
+        allowableLossesUsed = 0
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -709,26 +653,23 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         lettingsReliefModel = None,
         lettingsReliefValueModel = None
       )
-      val results = TotalGainAndTaxOwedModel(
-        gain = 50000,
-        chargeableGain = 20000,
-        aeaUsed = 10,
+      val results = ChargeableGainResultModel(
+        gain = 30000,
+        chargeableGain = 0,
+        aeaUsed = 900,
+        aeaRemaining = 1000,
         deductions = 30000,
-        taxOwed = 3600,
-        firstBand = 20000,
-        firstRate = 18,
-        secondBand = None,
-        secondRate = None,
+        allowableLossesRemaining = 0,
+        broughtForwardLossesRemaining = 0,
         lettingReliefsUsed = Some(BigDecimal(0)),
         prrUsed = Some(BigDecimal(0)),
         broughtForwardLossesUsed = 0,
-        allowableLossesUsed = 0,
-        baseRateTotal = 30000
+        allowableLossesUsed = 0
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for value when the property was given away" which {
@@ -774,27 +715,23 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         lettingsReliefModel = None,
         lettingsReliefValueModel = None
       )
-      val results = TotalGainAndTaxOwedModel(
-        gain = 50000,
-        chargeableGain = 20000,
-        aeaUsed = 10,
+      val results = ChargeableGainResultModel(
+        gain = 30000,
+        chargeableGain = 0,
+        aeaUsed = 900,
+        aeaRemaining = 1000,
         deductions = 30000,
-        taxOwed = 3600,
-        firstBand = 20000,
-        firstRate = 18,
-        secondBand = Some(10000.00),
-        secondRate = Some(28),
-        lettingReliefsUsed = Some(BigDecimal(500)),
-        prrUsed = Some(BigDecimal(125)),
-        broughtForwardLossesUsed = 35,
-        allowableLossesUsed = 0,
-        baseRateTotal = 30000,
-        upperRateTotal = 15000
+        allowableLossesRemaining = 0,
+        broughtForwardLossesRemaining = 0,
+        lettingReliefsUsed = Some(BigDecimal(0)),
+        prrUsed = Some(BigDecimal(0)),
+        broughtForwardLossesUsed = 0,
+        allowableLossesUsed = 0
       )
       val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"display a notice summary with text ${summaryMessages.noticeSummary}" in {

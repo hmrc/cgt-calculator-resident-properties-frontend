@@ -62,18 +62,18 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
 //      None,
 //      None
 //    )
-//    lazy val results = ChargeableGainResultModel(BigDecimal(50000),
-//      BigDecimal(38900),
-//      BigDecimal(11100),
-//      BigDecimal(0),
-//      BigDecimal(11100),
-//      BigDecimal(0),
-//      BigDecimal(0),
-//      Some(BigDecimal(0)),
-//      Some(BigDecimal(0)),
-//      0,
-//      0
-//    )
+    lazy val results = ChargeableGainResultModel(BigDecimal(50000),
+      BigDecimal(38900),
+      BigDecimal(11100),
+      BigDecimal(0),
+      BigDecimal(11100),
+      BigDecimal(0),
+      BigDecimal(0),
+      Some(BigDecimal(0)),
+      Some(BigDecimal(0)),
+      0,
+      0
+    )
 //    lazy val backLink = "/calculate-your-capital-gains/resident/properties/losses-brought-forward"
 //
 //    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")

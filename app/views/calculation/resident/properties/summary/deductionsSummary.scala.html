@@ -1,13 +1,8 @@
-@import views.html.helpers.resident._
+@import views.html.helpers.deductionsSummaryPartial
 @import models.resident._
 @import models.resident.properties._
+@import common.TaxDates._
 @import common.Dates._
-@import common.TaxDates
-@import constructors.resident.properties.SummaryConstructor._
-@import constructors.resident.properties.CalculateRequestConstructor._
-@import controllers.routes.{GainController => gainRoutes}
-@import controllers.routes.{DeductionsController => deductionRoutes}
-@import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation.resident.properties._
 @import config.ApplicationConfig
 
@@ -17,50 +12,70 @@
         backUrl: String,
         taxYear: TaxYearModel,
         prrUsed: Option[Boolean] = None,
-        lettingsReliefUsed: Option[Boolean] = None)(implicit request: Request[_], messages: Messages)
+        lettingsReliefUsed: Option[Boolean] = None,
+        totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
     backLink = Some(backUrl)
 ) {
 
-<!-- Google Analytics -->
-<div id="ga-reporting" class="visuallyhidden">
+    <!-- Google Analytics -->
+    <div id="ga-reporting" class="visuallyhidden">
 
-    <!-- Tax Year -->
-    <span data-metrics="rtt-properties-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
+        <!-- Tax Year -->
+        <span data-metrics="rtt-properties-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
 
-    <!-- No Gain Stats -->
-    <span data-metrics="rtt-properties-summary:result:no-gain"></span>
+        <!-- No Gain Stats -->
+        <span data-metrics="rtt-properties-summary:result:no-gain"></span>
 
-    <!-- PRR Stats -->
-    @{prrUsed match {
-        case Some(true) => <span data-metrics="rtt-properties-summary:prr:yes"></span>
-        case Some(false) => <span data-metrics="rtt-properties-summary:prr:no"></span>
-        case _ => ()
-    }}
+        <!-- PRR Stats -->
+        @{prrUsed match {
+            case Some(true) => <span data-metrics="rtt-properties-summary:prr:yes"></span>
+            case Some(false) => <span data-metrics="rtt-properties-summary:prr:no"></span>
+            case _ => ()
+        }}
 
-    <!-- Lettings Reliefs Stats -->
-    @{lettingsReliefUsed match {
-        case Some(true) => <span data-metrics="rtt-properties-summary:lettingsRelief:yes"></span>
-        case Some(false) => <span data-metrics="rtt-properties-summary:lettingsRelief:no"></span>
-        case _ => ()
-    }}
+        <!-- Lettings Reliefs Stats -->
+        @{lettingsReliefUsed match {
+            case Some(true) => <span data-metrics="rtt-properties-summary:lettingsRelief:yes"></span>
+            case Some(false) => <span data-metrics="rtt-properties-summary:lettingsRelief:no"></span>
+            case _ => ()
+        }}
 
-    <!-- Claiming Brought Forward Losses Stats -->
-    @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
-        <span data-metrics="rtt-properties-summary:broughtForwardLosses:yes"></span>
-    } else {
-        <span data-metrics="rtt-properties-summary:broughtForwardLosses:no"></span>
+        <!-- Claiming Brought Forward Losses Stats -->
+        @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
+            <span data-metrics="rtt-properties-summary:broughtForwardLosses:yes"></span>
+        } else {
+            <span data-metrics="rtt-properties-summary:broughtForwardLosses:no"></span>
+        }
+    </div>
+
+    @deductionsSummaryPartial(gainAnswers,
+        deductionAnswers,
+        result,
+        taxYear,
+        totalCosts)
+
+    @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+        <section id="whatToDoNext">
+            <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
+            <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
+        </section>
     }
-</div>
 
     <div id="save-as-a-pdf" class="notice download-pdf">
         <div class="icon-file-download">
-            <span class="visuallyhidden">Download</span>
+            <span class="visuallyhidden">@Messages("calc.summary.download")</span>
         </div>
 
-        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.deductionsReport"
-           data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.finalSummaryReport"
+        data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
+
+    @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+        <div class="summary-details-padding">
+            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
+        </div>
+    }
 }
