@@ -362,12 +362,11 @@
 }
 
 .icon-file-download {
-    background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png") no-repeat;
-
+    background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png");
+    background-repeat: no-repeat;
     padding-top; -0.5em;
     width: 30px;
     height: 39px;
-
     display: inline-block;
 }
 .grid-layout__column--1-2 {
