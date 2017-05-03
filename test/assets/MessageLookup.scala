@@ -691,6 +691,7 @@ object MessageLookup {
   //Summary messages
   object SummaryPage {
     val title = "Summary"
+    def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
     val pageHeading = "Tax owed"
     val secondaryHeading = "You owe"
     val calcDetailsHeading = "Calculation details"
@@ -931,5 +932,37 @@ object MessageLookup {
     val charity = "A charity"
     val other = "Someone else"
     val errormandatory = "Please tell us who you gave the property to"
+  }
+
+  object SummaryDetails extends Common {
+    val title = "Summary"
+    def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
+    val howWeWorkedThisOut = "How we've worked this out"
+    val yourTotalGain = "Your total gain"
+    val disposalValue = "Value when you sold the property"
+    val marketValue = "Value when you gave away the property"
+    val acquisitionValue = "Minus the value of the property when you acquired it"
+    val acquisitionValueBeforeLegislation = "Minus the value of the property at 31 March 1982"
+    val totalCosts = "Minus all costs, including improvements"
+    val totalGain = "Total gain"
+    val yourDeductions = "Your deductions"
+    val aeaUsed = "Capital Gains Tax Annual Exempt Amount used"
+    val reliefsUsed = "Reliefs used"
+    val broughtForwardLossesUsed = "Loss used from previous tax years"
+    val totalDeductions = "Total deductions"
+    val yourTaxableGain = "Your taxable gain"
+    val minusDeductions = "Minus deductions"
+    val taxableGain = "Taxable gain"
+    val yourTaxRate = "Your tax rate"
+    def taxRate(amount: String, rate: String): String = s"$amount taxable gain multiplied by $rate% tax rate"
+    val taxToPay = "Tax to pay"
+    val remainingDeductions = "Your remaining deductions"
+    def remainingAnnualExemptAmount(taxYear: String): String = s"Annual Exempt Amount left for the $taxYear tax year"
+    def broughtForwardLossesRemaining(taxYear: String): String = s"Losses to carry forward from tax years before $taxYear"
+    val lossesToCarryForwardFromCalculation = "Losses you can carry forward from this calculation"
+    val whatToDoNext = "What to do next"
+    val whatToDoNextDetails = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
+    val noticeSummary = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
+      " Do not use these figures to report your Capital Gains Tax."
   }
 }
