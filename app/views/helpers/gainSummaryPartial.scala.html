@@ -34,8 +34,8 @@
     <!-- Header -->
   <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
-  <div id="yourTotalGain" class="resident summary-underline summary-details-padding">
-    <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
+  <div id="yourTotalLoss" class="resident summary-underline summary-details-padding">
+    <h3>@Messages("calc.summary.calculationDetails.yourTotalLoss")</h3>
 
     @(gainAnswers.givenAway, gainAnswers.sellForLess) match {
       case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
@@ -50,7 +50,7 @@
     }
 
     @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
-    @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), 0, isTotal = true)
+    @summaryNumericRow("totalLoss", Messages("calc.summary.calculationDetails.totalLoss"), 0, isTotal = true)
   </div>
 
   <div id="yourDeductions" class="resident summary-underline summary-details-padding">
