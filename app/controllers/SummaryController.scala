@@ -55,13 +55,6 @@ trait SummaryController extends ValidActiveSession {
       }
     }
 
-    def buildDeductionsSummaryBackUrl(chargeableGainAnswers: ChargeableGainAnswers)(implicit hc: HeaderCarrier): Future[String] = {
-      chargeableGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option match {
-        case true => Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
-        case false => Future.successful(routes.DeductionsController.lossesBroughtForward().url)
-      }
-    }
-
     def chargeableGain(grossGain: BigDecimal,
                        yourAnswersSummaryModel: YourAnswersSummaryModel,
                        chargeableGainAnswers: ChargeableGainAnswers,
