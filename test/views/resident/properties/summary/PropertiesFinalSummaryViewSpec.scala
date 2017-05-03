@@ -16,12 +16,9 @@
 
 package views.resident.properties.summary
 
-import assets.MessageLookup.Resident.{Properties => propertiesMessages}
-import assets.MessageLookup.{Resident => residentMessages, SummaryPage => messages}
-import assets.{MessageLookup => commonMessages}
+import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
-import controllers.routes
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties._
@@ -33,517 +30,398 @@ import views.html.calculation.resident.properties.{summary => views}
 
 class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
-  "Final Summary view" should {
-    lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
-      None,
-      None,
-      whoDidYouGiveItTo = Some("Other"),
-      worthWhenGaveAway = Some(10000),
-      BigDecimal(10000),
-      None,
-      worthWhenInherited = None,
-      worthWhenGifted = None,
-      worthWhenBoughtForLess = None,
-      BigDecimal(10000),
-      BigDecimal(30000),
-      true,
-      None,
-      true,
-      Some(BigDecimal(5000)),
-      None,
-      None
+  "PropertiesFinalSummaryView" when {
+    val incomeAnswers = IncomeAnswersModel(
+      currentIncomeModel = Some(CurrentIncomeModel(0)),
+      personalAllowanceModel = Some(PersonalAllowanceModel(0))
     )
 
-    lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(PropertyLivedInModel(false)),
-      None,
-      None,
-      None,
-      None
-    )
-    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
-    lazy val results = TotalGainAndTaxOwedModel(
-      50000,
-      20000,
-      0,
-      30000,
-      3600,
-      30000,
-      18,
-      None,
-      None,
-      Some(BigDecimal(0)),
-      Some(BigDecimal(0)),
-      0,
-      0
-    )
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-    lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
-    lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, None, false)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
+    //TODO: change to check your answers
+    val backLinkUrl: String = controllers.routes.IncomeController.personalAllowance().url
 
-    "have a charset of UTF-8" in {
-      doc.charset().toString shouldBe "UTF-8"
-    }
+    "the property was sold inside tax years, bought after legislation start," +
+      " with reliefs and brought forward losses and taxed at both tax bands" should {
 
-    s"have a title ${messages.title}" in {
-      doc.title() shouldBe messages.title
-    }
+      val gainAnswers = YourAnswersSummaryModel(
+        disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = Some(100000),
+        worthWhenSoldForLess = None,
+        whoDidYouGiveItTo = None,
+        worthWhenGaveAway = None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = Some(0),
+        worthWhenInherited = None,
+        worthWhenGifted = None,
+        worthWhenBoughtForLess = None,
+        acquisitionCosts = BigDecimal(10000),
+        improvements = BigDecimal(30000),
+        givenAway = false,
+        sellForLess = Some(false),
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        howBecameOwner = Some("Bought"),
+        boughtForLessThanWorth = Some(false)
+      )
+      val deductionAnswers = ChargeableGainAnswers(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = Some(LossesBroughtForwardValueModel(36.00)),
+        propertyLivedInModel = Some(PropertyLivedInModel(false)),
+        privateResidenceReliefModel = None,
+        privateResidenceReliefValueModel = None,
+        lettingsReliefModel = None,
+        lettingsReliefValueModel = None
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 10,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 20000,
+        firstRate = 18,
+        secondBand = Some(10000.00),
+        secondRate = Some(28),
+        lettingReliefsUsed = Some(BigDecimal(500)),
+        prrUsed = Some(BigDecimal(125)),
+        broughtForwardLossesUsed = 35,
+        allowableLossesUsed = 0,
+        baseRateTotal = 30000,
+        upperRateTotal = 15000
+      )
+      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    s"have a back button" which {
+      lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl,
+        taxYearModel, None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
 
-      lazy val backLink = doc.getElementById("back-link")
-
-      "has the id 'back-link'" in {
-        backLink.attr("id") shouldBe "back-link"
+      "have a charset of UTF-8" in {
+        doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"has the text '${residentMessages.back}'" in {
-        backLink.text shouldBe residentMessages.back
+      s"have a title ${messages.title}" in {
+        doc.title() shouldBe messages.title
       }
 
-      s"has a link to '${routes.IncomeController.personalAllowance().toString()}'" in {
-        backLink.attr("href") shouldBe routes.IncomeController.personalAllowance().toString
-      }
+      "have a back button" which {
 
-    }
+        lazy val backLink = doc.getElementById("back-link")
 
-    s"have a page heading" which {
-
-      s"includes a secondary heading with text '${messages.pageHeading}'" in {
-        doc.select("h1 span.pre-heading").text shouldBe messages.pageHeading
-      }
-
-      "includes an amount of tax due of £3,600.00" in {
-        doc.select("h1").text should include("£3,600.00")
-      }
-    }
-
-    "does not have a notice summary" in {
-      doc.select("div.notice-wrapper").isEmpty shouldBe true
-    }
-
-    s"have a section for the Calculation details" which {
-
-      "has the class 'summary-section' to underline the heading" in {
-
-        doc.select("section#calcDetails h2").hasClass("summary-underline") shouldBe true
-
-      }
-
-      s"has a h2 tag" which {
-
-        s"should have the title '${messages.calcDetailsHeadingDate("2015/16")}'" in {
-          doc.select("section#calcDetails h2").text shouldBe messages.calcDetailsHeadingDate("2015/16")
+        "has the id 'back-link'" in {
+          backLink.attr("id") shouldBe "back-link"
         }
 
-        "has the class 'heading-large'" in {
-          doc.select("section#calcDetails h2").hasClass("heading-large") shouldBe true
+        s"has the text '${residentMessages.back}'" in {
+          backLink.text shouldBe residentMessages.back
         }
+
+        s"has a link to $backLinkUrl" in {
+          backLink.attr("href") shouldEqual backLinkUrl
+        }
+
       }
 
-      "has a numeric output row for the gain" which {
+      "has a banner" which {
+        lazy val banner = doc.select("#tax-owed-banner")
 
-        "should have the question text 'Total gain'" in {
-          doc.select("#gain-question").text shouldBe messages.totalGain
-        }
+        "contains a h1" which {
+          lazy val h1 = banner.select("h1")
 
-        "should have the value '£50,000'" in {
-          doc.select("#gain-amount").text shouldBe "£50,000"
-        }
-      }
-
-      "has a numeric output row for the deductions" which {
-
-        "should have the question text 'Deductions'" in {
-          doc.select("#deductions-question").text shouldBe messages.deductions
-        }
-
-        "should have the value '£0'" in {
-          doc.select("#deductions-amount").text should include("£0")
-        }
-
-        "has a breakdown that" should {
-
-          "include a value for PRR of £0" in {
-            doc.select("#deductions-amount").text should include("Private Residence Relief used £0")
+          s"has the text '£3,600.00'" in {
+            h1.text() shouldEqual "£3,600.00"
           }
+        }
 
-          "include a value for Reliefs of £0" in {
-            doc.select("#deductions-amount").text should include(s"${messages.lettingReliefsUsed} £0")
-          }
+        "contains a h2" which {
+          lazy val h2 = banner.select("h2")
 
-          "include a value for Capital gains tax allowance used of £0" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
-          }
-
-          "include a value for Loss brought forward of £0" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2015/16")} £0")
+          s"has the text ${messages.cgtToPay("2015 to 2016")}" in {
+            h2.text() shouldEqual messages.cgtToPay("2015 to 2016")
           }
         }
       }
 
-      "has a numeric output row for the chargeable gain" which {
+      "does not have a notice summary" in {
+        doc.select("div.notice-wrapper").isEmpty shouldBe true
+      }
 
-        "should have the question text 'Taxable gain'" in {
-          doc.select("#chargeableGain-question").text shouldBe messages.chargeableGain
+      "have a section for the Calculation details" which {
+
+        "has a h2 tag" which {
+
+          s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
+            doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
+          }
         }
 
-        "should have the value '£20,000'" in {
-          doc.select("#chargeableGain-amount").text should include("£20,000")
+        "has a div for total gain" which {
+
+          lazy val div = doc.select("#yourTotalGain")
+
+          "has a h3 tag" which {
+
+            s"has the text '${summaryMessages.yourTotalGain}'" in {
+              div.select("h3").text shouldBe summaryMessages.yourTotalGain
+            }
+          }
+
+          "has a row for disposal value" which {
+
+            s"has the text '${summaryMessages.disposalValue}'" in {
+              div.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
+            }
+
+            "has the value '£100,000'" in {
+              div.select("#disposalValue-amount").text shouldBe "£100,000"
+            }
+          }
+
+          "has a row for acquisition value" which {
+            s"has the text '${summaryMessages.acquisitionValue}'" in {
+              div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+            }
+
+            "has the value '£0'" in {
+              div.select("#acquisitionValue-amount").text shouldBe "£0"
+            }
+          }
+
+          "has a row for total costs" which {
+            s"has the text '${summaryMessages.totalCosts}'" in {
+              div.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
+            }
+
+            "has the value '£100'" in {
+              div.select("#totalCosts-amount").text shouldBe "£100"
+            }
+          }
+
+          "has a row for total gain" which {
+            s"has the text '${summaryMessages.totalGain}'" in {
+              div.select("#totalGain-text").text shouldBe summaryMessages.totalGain
+            }
+
+            "has the value '£50,000'" in {
+              div.select("#totalGain-amount").text shouldBe "£50,000"
+            }
+          }
+        }
+
+        "has a div for deductions" which {
+
+          lazy val div = doc.select("#yourDeductions")
+
+          "has a h3 tag" which {
+
+            s"has the text '${summaryMessages.yourDeductions}'" in {
+              div.select("h3").text shouldBe summaryMessages.yourDeductions
+            }
+          }
+
+          "has a row for reliefs used" which {
+            s"has the text '${summaryMessages.reliefsUsed}'" in {
+              div.select("#reliefsUsed-text").text shouldBe summaryMessages.reliefsUsed
+            }
+
+            "has the value '£625'" in {
+              div.select("#reliefsUsed-amount").text shouldBe "£625"
+            }
+          }
+
+          "has a row for AEA used" which {
+
+            s"has the text '${summaryMessages.aeaUsed}'" in {
+              div.select("#aeaUsed-text").text shouldBe summaryMessages.aeaUsed
+            }
+
+            "has the value '£10'" in {
+              div.select("#aeaUsed-amount").text shouldBe "£10"
+            }
+          }
+
+          "has a row for brought forward losses used" which {
+            s"has the text '${summaryMessages.broughtForwardLossesUsed}'" in {
+              div.select("#lossesUsed-text").text shouldBe summaryMessages.broughtForwardLossesUsed
+            }
+
+            "has the value '£35'" in {
+              div.select("#lossesUsed-amount").text shouldBe "£35"
+            }
+          }
+
+          "has a row for total deductions" which {
+
+            s"has the text '${summaryMessages.totalDeductions}'" in {
+              div.select("#totalDeductions-text").text shouldBe summaryMessages.totalDeductions
+            }
+
+            "has the value '£100'" in {
+              div.select("#totalDeductions-amount").text shouldBe "£100"
+            }
+          }
+        }
+
+        "has a div for Taxable Gain" which {
+
+          lazy val div = doc.select("#yourTaxableGain")
+
+          "has a h3 tag" which {
+
+            s"has the text '${summaryMessages.yourTaxableGain}'" in {
+              div.select("h3").text shouldBe summaryMessages.yourTaxableGain
+            }
+          }
+
+          "has a row for gain" which {
+            s"has the text '${summaryMessages.totalGain}'" in {
+              div.select("#gain-text").text shouldBe summaryMessages.totalGain
+            }
+
+            "has the value '£50,000'" in {
+              div.select("#gain-amount").text shouldBe "£50,000"
+            }
+          }
+
+          "has a row for minus deductions" which {
+            s"has the text '${summaryMessages.minusDeductions}'" in {
+              div.select("#minusDeductions-text").text shouldBe summaryMessages.minusDeductions
+            }
+
+            "has the value '£100'" in {
+              div.select("#minusDeductions-amount").text shouldBe "£100"
+            }
+          }
+
+          "has a row for taxable gain" which {
+            s"has the text '${summaryMessages.taxableGain}'" in {
+              div.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
+            }
+
+            "has the value '£20,000'" in {
+              div.select("#taxableGain-amount").text shouldBe "£20,000"
+            }
+          }
+        }
+
+        "has a div for tax rate" which {
+
+          lazy val div = doc.select("#yourTaxRate")
+
+          "has a h3 tag" which {
+
+            s"has the text ${summaryMessages.yourTaxRate}" in {
+              div.select("h3").text shouldBe summaryMessages.yourTaxRate
+            }
+          }
+
+          "has row for first band" which {
+
+            s"has the text '${summaryMessages.taxRate("£20,000", "18")}'" in {
+              div.select("#firstBand-text").text shouldBe summaryMessages.taxRate("£20,000", "18")
+            }
+
+            "has the value '£30,000'" in {
+              div.select("#firstBand-amount").text shouldBe "£30,000"
+            }
+          }
+
+          "has a row for second band" which {
+            s"has the text '${summaryMessages.taxRate("£10,000", "28")}'" in {
+              div.select("#secondBand-text").text shouldBe summaryMessages.taxRate("£10,000", "28")
+            }
+
+            "has the value '£15,000'" in {
+              div.select("#secondBand-amount").text shouldBe "£15,000"
+            }
+          }
+
+          "has a row for tax to pay" which {
+
+            s"has the text ${summaryMessages.taxToPay}" in {
+              div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
+            }
+
+            "has the value '£3,600'" in {
+              div.select("#taxToPay-amount").text shouldBe "£3,600"
+            }
+          }
         }
       }
 
-      "has a numeric output row and a tax rate" which {
+      "have a section for the You remaining deductions" which {
 
-        "Should have the question text 'Tax Rate'" in {
-          doc.select("#gainAndRate-question").text shouldBe messages.taxRate
-        }
+        "has a div for remaining deductions" which {
 
-        "Should have the value £30,000" in {
-          doc.select("#firstBand").text should include("£30,000")
-        }
-        "Should have the tax rate 18%" in {
-          doc.select("#firstBand").text should include("18%")
-        }
-      }
+          lazy val div = doc.select("#remainingDeductions")
 
-      "has a numeric output row for the AEA remaining" which {
+          "has a h2 tag" which {
 
-        "should have the question text 'Capital Gains Tax allowance left for 2015/16" in {
-          doc.select("#aeaRemaining-question").text should include(messages.aeaRemaining("2015/16"))
-        }
+            s"has the text ${summaryMessages.remainingDeductions}" in {
+              div.select("h2").text shouldBe summaryMessages.remainingDeductions
+            }
+          }
 
-        "include a value for Capital gains tax allowance left of £0" in {
-          doc.select("#aeaRemaining-amount").text should include("£0")
-        }
-      }
-    }
+          "has a row for annual exempt amount left" which {
+            s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
+              div.select("#aeaRemaining-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
+            }
 
-    s"have a section for Your answers" which {
+            "has the value '£0'" in {
+              div.select("#aeaRemaining-amount").text shouldBe "£0"
+            }
+          }
 
-      "has the class 'summary-section' to underline the heading" in {
+          "has a row for brought forward losses remaining" which {
 
-        doc.select("section#yourAnswers h2").hasClass("summary-underline") shouldBe true
+            s"has the text ${summaryMessages.broughtForwardLossesRemaining("2015 to 2016")}" in {
+              div.select("#broughtForwardLossesRemaining-text").text shouldBe summaryMessages.broughtForwardLossesRemaining("2015 to 2016")
+            }
 
-      }
+            "has the value '£1'" in {
+              div.select("#broughtForwardLossesRemaining-amount").text shouldBe "£1"
+            }
+          }
 
-      s"has a h2 tag" which {
-
-        s"should have the title '${messages.yourAnswersHeading}'" in {
-          doc.select("section#yourAnswers h2").text shouldBe messages.yourAnswersHeading
-        }
-
-        "has the class 'heading-large'" in {
-          doc.select("section#yourAnswers h2").hasClass("heading-large") shouldBe true
+          "not have a row for losses to carry forward" in {
+            div.select("#lossesToCarryForward-text") shouldBe empty
+          }
         }
       }
 
-      "has a date output row for the Disposal Date" which {
+      "have a section for What to do next" which {
+        lazy val section = doc.select("#whatToDoNext")
 
-        s"should have the question text '${commonMessages.DisposalDate.question}'" in {
-          doc.select("#disposalDate-question").text shouldBe commonMessages.DisposalDate.question
+        "has a h2 tag" which {
+          s"has the text ${summaryMessages.whatToDoNext}" in {
+            section.select("h2").text shouldBe summaryMessages.whatToDoNext
+          }
         }
 
-        "should have the date '10 October 2016'" in {
-          doc.select("#disposalDate-date").text shouldBe "10 October 2016"
-        }
-
-        s"should have a change link to ${routes.GainController.disposalDate().url}" in {
-          doc.select("#disposalDate-change-link a").attr("href") shouldBe routes.GainController.disposalDate().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#disposalDate-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.DisposalDate.question}"
-        }
-
-        "has the question component of the link is visuallyhidden" in {
-          doc.select("#disposalDate-change-link a span.visuallyhidden").text shouldBe commonMessages.DisposalDate.question
+        "has a paragraph" which {
+          s"has the text ${summaryMessages.whatToDoNextDetails}" in {
+            section.select("p").text shouldBe summaryMessages.whatToDoNextDetails
+          }
         }
       }
 
-      "has an option output row for sell or give away" which {
-
-        s"should have the question text '${commonMessages.PropertiesSellOrGiveAway.title}'" in {
-          doc.select("#sellOrGiveAway-question").text shouldBe commonMessages.PropertiesSellOrGiveAway.title
-        }
-
-        "should have the value 'Gave it away'" in {
-          doc.select("#sellOrGiveAway-option").text shouldBe "Gave it away"
-        }
-
-        s"should have a change link to ${routes.GainController.sellOrGiveAway().url}" in {
-          doc.select("#sellOrGiveAway-change-link a").attr("href") shouldBe routes.GainController.sellOrGiveAway().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#sellOrGiveAway-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.PropertiesSellOrGiveAway.title}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#sellOrGiveAway-change-link a span.visuallyhidden").text shouldBe commonMessages.PropertiesSellOrGiveAway.title
+      "has a continue button" which {
+        s"has the text ${summaryMessages.continue}" in {
+          doc.select("button").text shouldBe summaryMessages.continue
         }
       }
 
-      //######################################################################################
-      "has an option output row for who did you give it to" which {
-
-        s"should have the question text '${commonMessages.WhoDidYouGiveItTo.title}'" in {
-          doc.select("#whoDidYouGiveItTo-question").text shouldBe commonMessages.WhoDidYouGiveItTo.title
-        }
-
-        "should have the value 'Someone else'" in {
-          doc.select("#whoDidYouGiveItTo-option").text shouldBe "Someone else"
-        }
-
-        s"should have a change link to ${routes.GainController.whoDidYouGiveItTo().url}" in {
-          doc.select("#whoDidYouGiveItTo-change-link a").attr("href") shouldBe routes.GainController.whoDidYouGiveItTo().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#whoDidYouGiveItTo-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.WhoDidYouGiveItTo.title}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#whoDidYouGiveItTo-change-link a span.visuallyhidden").text shouldBe commonMessages.WhoDidYouGiveItTo.title
-        }
-      }
-
-      "has a numeric output row for the Value when you gave it away" which {
-
-        s"should have the question text '${propertiesMessages.PropertiesWorthWhenGaveAway.title}'" in {
-          doc.select("#worthWhenGaveAway-question").text shouldBe propertiesMessages.PropertiesWorthWhenGaveAway.title
-        }
-
-        "should have the value '£10,000'" in {
-          doc.select("#worthWhenGaveAway-amount").text shouldBe "£10,000"
-        }
-
-        s"should have a change link to ${routes.GainController.worthWhenGaveAway().url}" in {
-          doc.select("#worthWhenGaveAway-change-link a").attr("href") shouldBe routes.GainController.worthWhenGaveAway().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#worthWhenGaveAway-change-link a").text shouldBe
-            s"${residentMessages.change} ${propertiesMessages.PropertiesWorthWhenGaveAway.title}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#worthWhenGaveAway-change-link a span.visuallyhidden").text shouldBe
-            propertiesMessages.PropertiesWorthWhenGaveAway.title
-        }
-      }
-      //######################################################################################
-
-      "has a numeric output row for the Disposal Costs" which {
-
-        s"should have the question text '${commonMessages.DisposalCosts.title}'" in {
-          doc.select("#disposalCosts-question").text shouldBe commonMessages.DisposalCosts.title
-        }
-
-        "should have the value '£10,000'" in {
-          doc.select("#disposalCosts-amount").text shouldBe "£10,000"
-        }
-
-        s"should have a change link to ${routes.GainController.disposalCosts().url}" in {
-          doc.select("#disposalCosts-change-link a").attr("href") shouldBe routes.GainController.disposalCosts().url
-        }
-
-      }
-
-      "has an option output row for owner before april 1982" which {
-
-        s"should have the question text '${propertiesMessages.OwnerBeforeLegislationStart.title}'" in {
-          doc.select("#ownerBeforeLegislationStart-question").text shouldBe propertiesMessages.OwnerBeforeLegislationStart.title
-        }
-
-        "should have the value 'Yes'" in {
-          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "Yes"
-        }
-
-        s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
-          doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#ownerBeforeLegislationStart-change-link a").text shouldBe
-            s"${residentMessages.change} ${propertiesMessages.OwnerBeforeLegislationStart.title}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#ownerBeforeLegislationStart-change-link a span.visuallyhidden").text shouldBe
-            propertiesMessages.OwnerBeforeLegislationStart.title
-        }
-      }
-
-      "has a numeric output row for the Value Before Legislation Start" which {
-
-        s"should have the question text '${propertiesMessages.ValueBeforeLegislationStart.question}'" in {
-          doc.select("#valueBeforeLegislationStart-question").text shouldBe propertiesMessages.ValueBeforeLegislationStart.question
-        }
-
-        "should have the value '£5,000'" in {
-          doc.select("#valueBeforeLegislationStart-amount").text shouldBe "£5,000"
-        }
-
-        s"should have a change link to ${routes.GainController.valueBeforeLegislationStart().url}" in {
-          doc.select("#valueBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.valueBeforeLegislationStart().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#valueBeforeLegislationStart-change-link a").text shouldBe
-            s"${residentMessages.change} ${propertiesMessages.ValueBeforeLegislationStart.question}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#valueBeforeLegislationStart-change-link a span.visuallyhidden").text shouldBe
-            propertiesMessages.ValueBeforeLegislationStart.question
-        }
-      }
-
-      "has a numeric output row for the Acquisition Costs" which {
-
-        s"should have the question text '${commonMessages.AcquisitionCosts.title}'" in {
-          doc.select("#acquisitionCosts-question").text shouldBe commonMessages.AcquisitionCosts.title
-        }
-
-        "should have the value '£10,000'" in {
-          doc.select("#acquisitionCosts-amount").text shouldBe "£10,000"
-        }
-
-        s"should have a change link to ${routes.GainController.acquisitionCosts().url}" in {
-          doc.select("#acquisitionCosts-change-link a").attr("href") shouldBe routes.GainController.acquisitionCosts().url
-        }
-
-      }
-
-      "has a numeric output row for the Improvements" which {
-
-        s"should have the question text '${propertiesMessages.ImprovementsView.questionBefore}'" in {
-          doc.select("#improvements-question").text shouldBe propertiesMessages.ImprovementsView.questionBefore
-        }
-
-        "should have the value '£30,000'" in {
-          doc.select("#improvements-amount").text shouldBe "£30,000"
-        }
-
-        s"should have a change link to ${routes.GainController.improvements().url}" in {
-          doc.select("#improvements-change-link a").attr("href") shouldBe routes.GainController.improvements().url
-        }
-      }
-
-      "has an option output row for property lived in" which {
-
-        s"should have the question text '${commonMessages.PropertyLivedIn.title}'" in {
-          doc.select("#propertyLivedIn-question").text shouldBe commonMessages.PropertyLivedIn.title
-        }
-
-        "should have the value 'No'" in {
-          doc.select("#propertyLivedIn-option").text shouldBe "No"
-        }
-
-        s"should have a change link to ${routes.DeductionsController.propertyLivedIn().url}" in {
-          doc.select("#propertyLivedIn-change-link a").attr("href") shouldBe routes.DeductionsController.propertyLivedIn().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#propertyLivedIn-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.PropertyLivedIn.title}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#propertyLivedIn-change-link a span.visuallyhidden").text shouldBe commonMessages.PropertyLivedIn.title
-        }
-      }
-
-      "does not have an option output row for the eligible for private residence relief" which {
-
-        s"should not display" in {
-          doc.select("#privateResidenceRelief-question").size() shouldBe 0
-        }
-      }
-
-      "does not have an option output row for private residence relief value" which {
-
-        s"should not display" in {
-          doc.select("#privateResidenceReliefValue-question").size() shouldBe 0
-        }
-      }
-
-      "does not have an option output row for the lettings relief" which {
-
-        s"should not display" in {
-          doc.select("#lettingsRelief-question").size() shouldBe 0
-        }
-      }
-
-      "has an option output row for brought forward losses" which {
-
-        s"should have the question text '${commonMessages.LossesBroughtForward.title("2015/16")}'" in {
-          doc.select("#broughtForwardLosses-question").text shouldBe commonMessages.LossesBroughtForward.title("2015/16")
-        }
-
-        "should have the value 'No'" in {
-          doc.select("#broughtForwardLosses-option").text shouldBe "No"
-        }
-
-        s"should have a change link to ${routes.DeductionsController.lossesBroughtForward().url}" in {
-          doc.select("#broughtForwardLosses-change-link a").attr("href") shouldBe routes.DeductionsController.lossesBroughtForward().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#broughtForwardLosses-change-link a").text shouldBe
-            s"${residentMessages.change} ${commonMessages.LossesBroughtForward.question("2015/16")}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#broughtForwardLosses-change-link a span.visuallyhidden").text shouldBe commonMessages.LossesBroughtForward.question("2015/16")
-        }
-      }
-      "has a numeric output row for current income" which {
-
-        s"should have the question text '${commonMessages.CurrentIncome.title("2015/16")}'" in {
-          doc.select("#currentIncome-question").text shouldBe commonMessages.CurrentIncome.title("2015/16")
-        }
-
-        "should have the value '£0'" in {
-          doc.select("#currentIncome-amount").text shouldBe "£0"
-        }
-
-        s"should have a change link to ${routes.IncomeController.currentIncome().url}" in {
-          doc.select("#currentIncome-change-link a").attr("href") shouldBe routes.IncomeController.currentIncome().url
-        }
-      }
-      "has a numeric output row for personal allowance" which {
-
-        s"should have the question text '${commonMessages.PersonalAllowance.question("2015/16")}'" in {
-          doc.select("#personalAllowance-question").text shouldBe commonMessages.PersonalAllowance.question("2015/16")
-        }
-
-        "should have the value '£0'" in {
-          doc.select("#personalAllowance-amount").text shouldBe "£0"
-        }
-
-        s"should have a change link to ${routes.IncomeController.personalAllowance().url}" in {
-          doc.select("#personalAllowance-change-link a").attr("href") shouldBe routes.IncomeController.personalAllowance().url
-        }
-      }
-
-      "display the save as PDF Button" which {
+      "has a save as PDF Button" which {
 
         lazy val savePDFSection = doc.select("#save-as-a-pdf")
 
-
-        "contain an internal div which" should {
+        "contains an internal div which" should {
 
           lazy val icon = savePDFSection.select("div")
 
-          "have the class icon-file-download" in {
+          "has class icon-file-download" in {
             icon.hasClass("icon-file-download") shouldBe true
           }
 
-          "contain a span" which {
+          "contains a span" which {
 
             lazy val informationTag = icon.select("span")
 
@@ -556,8 +434,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             }
           }
 
-
-          "contain a link" which {
+          "contains a link" which {
 
             lazy val link = savePDFSection.select("a")
 
@@ -584,735 +461,114 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
         }
       }
     }
-  }
 
-  "Properties Final Summary view when property was sold for less than worth" should {
-    lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
-      None,
-      Some(500),
-      whoDidYouGiveItTo = None,
-      worthWhenGaveAway = None,
-      BigDecimal(10000),
-      None,
-      worthWhenInherited = None,
-      worthWhenGifted = None,
-      worthWhenBoughtForLess = Some(3000),
-      BigDecimal(10000),
-      BigDecimal(30000),
-      false,
-      Some(true),
-      false,
-      None,
-      Some("Bought"),
-      Some(true)
-    )
-    lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(PropertyLivedInModel(true)),
-      Some(PrivateResidenceReliefModel(false)),
-      None,
-      None,
-      None
-    )
+    //GA - move into top tests
+    "Properties Final Summary view" should {
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+      lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2018),
+        None,
+        None,
+        whoDidYouGiveItTo = Some("Other"),
+        worthWhenGaveAway = Some(10000),
+        BigDecimal(10000),
+        None,
+        worthWhenInherited = None,
+        worthWhenGifted = None,
+        worthWhenBoughtForLess = None,
+        BigDecimal(10000),
+        BigDecimal(30000),
+        true,
+        None,
+        true,
+        Some(BigDecimal(5000)),
+        None,
+        None
+      )
 
-    lazy val results = TotalGainAndTaxOwedModel(
-      50000,
-      20000,
-      0,
-      30000,
-      3600,
-      30000,
-      18,
-      None,
-      None,
-      Some(BigDecimal(0)),
-      Some(BigDecimal(0)),
-      0,
-      0
-    )
+      lazy val deductionAnswers = ChargeableGainAnswers(
+        Some(LossesBroughtForwardModel(false)),
+        None,
+        Some(PropertyLivedInModel(false)),
+        None,
+        None,
+        None,
+        None)
 
-    lazy val taxYearModel = TaxYearModel("2013/14", false, "2015/16")
+      lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
-    lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
+      lazy val results = TotalGainAndTaxOwedModel(
+        50000,
+        20000,
+        0,
+        30000,
+        3600,
+        30000,
+        18,
+        Some(10000),
+        Some(28),
+        Some(BigDecimal(0)),
+        Some(BigDecimal(0)),
+        0,
+        0
+      )
 
-    lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, None, false)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
+      lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
 
-    "has an option output row for bought for less than worth" which {
+      lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-      s"should have the question text '${commonMessages.BoughtForLessThanWorth.title}'" in {
-        doc.select("#boughtForLessThanWorth-question").text shouldBe commonMessages.BoughtForLessThanWorth.title
+      "not have PRR GA metrics when PRR is not in scope" in {
+        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
+          None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+        val doc = Jsoup.parse(view.body)
+
+        doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
+        doc.select("[data-metrics=\"rtt-properties-summary:prr:no\"]").size shouldBe 0
       }
 
-      "should have the value 'Yes'" in {
-        doc.select("#boughtForLessThanWorth-option").text shouldBe "Yes"
+      "not have lettings relief GA metrics when it is not in scope" in {
+        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
+          None, None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+        val doc = Jsoup.parse(view.body)
+
+        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
+        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 0
       }
 
-      s"should have a change link to ${routes.GainController.boughtForLessThanWorth().url}" in {
-        doc.select("#boughtForLessThanWorth-change-link a").attr("href") shouldBe routes.GainController.boughtForLessThanWorth().url
+      "have PRR GA metrics when PRR is used" in {
+        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
+          Some(true), None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+        val doc = Jsoup.parse(view.body)
+
+        doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 1
+        doc.select("[data-metrics=\"rtt-properties-summary:prr:no\"]").size shouldBe 0
       }
 
-      "has the question as part of the link" in {
-        doc.select("#boughtForLessThanWorth-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.BoughtForLessThanWorth.title}"
+      "not have lettings relief GA metrics when it is used" in {
+        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
+          None, Some(true), 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+        val doc = Jsoup.parse(view.body)
+
+        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 1
+        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 0
       }
 
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#boughtForLessThanWorth-change-link a span.visuallyhidden").text shouldBe commonMessages.BoughtForLessThanWorth.title
-      }
-    }
+      "have PRR GA metrics when PRR is not used" in {
+        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
+          Some(false), None, 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+        val doc = Jsoup.parse(view.body)
 
-    "has a numeric output row for the bought for less than worth value" which {
-
-      s"should have the question text '${propertiesMessages.WorthWhenBoughtForLess.question}'" in {
-        doc.select("#worthWhenBoughtForLess-question").text shouldBe propertiesMessages.WorthWhenBoughtForLess.question
+        doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
+        doc.select("[data-metrics=\"rtt-properties-summary:prr:no\"]").size shouldBe 1
       }
 
-      "should have the value '£3,000'" in {
-        doc.select("#worthWhenBoughtForLess-amount").text shouldBe "£3,000"
-      }
+      "have lettings relief GA metrics when it is not used" in {
+        val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
+          None, Some(false), 100, 100, 0)(fakeRequestWithSession, applicationMessages)
+        val doc = Jsoup.parse(view.body)
 
-      s"should have a change link to ${routes.GainController.worthWhenBoughtForLess().url}" in {
-        doc.select("#worthWhenBoughtForLess-change-link a").attr("href") shouldBe routes.GainController.worthWhenBoughtForLess().url
-      }
-
-      "has the question as part of the link" in {
-        doc.select("#worthWhenBoughtForLess-change-link a").text shouldBe s"${residentMessages.change} ${propertiesMessages.WorthWhenBoughtForLess.question}"
-      }
-
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#worthWhenBoughtForLess-change-link a span.visuallyhidden").text shouldBe propertiesMessages.WorthWhenBoughtForLess.question
-      }
-    }
-  }
-
-  "Final Summary view with a calculation that returns tax on both side of the rate boundary" should {
-    lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
-      None,
-      None,
-      whoDidYouGiveItTo = Some("Other"),
-      worthWhenGaveAway = Some(10000),
-      BigDecimal(10000),
-      None,
-      worthWhenInherited = None,
-      worthWhenGifted = None,
-      worthWhenBoughtForLess = None,
-      BigDecimal(10000),
-      BigDecimal(30000),
-      true,
-      None,
-      true,
-      Some(BigDecimal(5000)),
-      None,
-      None
-    )
-
-    lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(PropertyLivedInModel(true)),
-      Some(PrivateResidenceReliefModel(true)),
-      Some(PrivateResidenceReliefValueModel(5000)),
-      Some(LettingsReliefModel(true)),
-      Some(LettingsReliefValueModel(5000))
-    )
-
-    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
-
-    lazy val results = TotalGainAndTaxOwedModel(
-      50000,
-      20000,
-      0,
-      30000,
-      3600,
-      30000,
-      18,
-      Some(10000),
-      Some(28),
-      Some(BigDecimal(1000)),
-      Some(BigDecimal(2000)),
-      5,
-      10
-    )
-
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-
-    lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
-
-    lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, None, false)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "have a charset of UTF-8" in {
-      doc.charset().toString shouldBe "UTF-8"
-    }
-
-    s"have a title ${messages.title}" in {
-      doc.title() shouldBe messages.title
-    }
-
-    s"have a back button" which {
-
-      lazy val backLink = doc.getElementById("back-link")
-
-      "has the id 'back-link'" in {
-        backLink.attr("id") shouldBe "back-link"
-      }
-
-      s"has the text '${residentMessages.back}'" in {
-        backLink.text shouldBe residentMessages.back
-      }
-
-      s"has a link to '${routes.IncomeController.personalAllowance().toString()}'" in {
-        backLink.attr("href") shouldBe routes.IncomeController.personalAllowance().toString
+        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
+        doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 1
       }
     }
-
-    "has a breakdown that" should {
-
-      "include a value for Reliefs of £1,000" in {
-        doc.select("#deductions-amount").text should include(s"${messages.lettingReliefsUsed} £1,000")
-      }
-
-      "include a value for PRR of £2,000" in {
-        doc.select("#deductions-amount").text should include("Private Residence Relief used £2,000")
-      }
-    }
-
-    "has a numeric output row and a tax rate" which {
-
-      "Should have the question text 'Tax Rate'" in {
-        doc.select("#gainAndRate-question").text shouldBe messages.taxRate
-      }
-
-      "Should have the value £30,000 in the first band" in {
-        doc.select("#firstBand").text should include("£30,000")
-      }
-      "Should have the tax rate 18% for the first band" in {
-        doc.select("#firstBand").text should include("18%")
-      }
-
-      "Should have the value £10,000 in the second band" in {
-        doc.select("#secondBand").text should include("£10,000")
-      }
-      "Should have the tax rate 28% for the first band" in {
-        doc.select("#secondBand").text should include("28%")
-      }
-    }
-
-    "has an option output row for eligible for private residence relief in" which {
-
-      s"should have the question text '${commonMessages.PrivateResidenceRelief.title}'" in {
-        doc.select("#privateResidenceRelief-question").text shouldBe commonMessages.PrivateResidenceRelief.title
-      }
-
-      "should have the value 'Yes'" in {
-        doc.select("#privateResidenceRelief-option").text shouldBe "Yes"
-      }
-
-      s"should have a change link to ${routes.DeductionsController.privateResidenceRelief().url}" in {
-        doc.select("#privateResidenceRelief-change-link a").attr("href") shouldBe routes.DeductionsController.privateResidenceRelief().url
-      }
-
-      "has the question as part of the link" in {
-        doc.select("#privateResidenceRelief-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.PrivateResidenceRelief.title}"
-      }
-
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#privateResidenceRelief-change-link a span.visuallyhidden").text shouldBe commonMessages.PrivateResidenceRelief.title
-      }
-    }
-
-    "has an option output row for private residence relief value in" which {
-
-      s"should have the question text '${commonMessages.PrivateResidenceReliefValue.title}'" in {
-        doc.select("#privateResidenceReliefValue-question").text shouldBe commonMessages.PrivateResidenceReliefValue.title
-      }
-
-      "should have the value '5000'" in {
-        doc.select("#privateResidenceReliefValue-amount").text shouldBe "£5,000"
-      }
-
-      s"should have a change link to ${routes.DeductionsController.privateResidenceReliefValue().url}" in {
-        doc.select("#privateResidenceReliefValue-change-link a").attr("href") shouldBe routes.DeductionsController.privateResidenceReliefValue().url
-      }
-
-      "has the question as part of the link" in {
-        doc.select("#privateResidenceReliefValue-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.PrivateResidenceReliefValue.title}"
-      }
-
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#privateResidenceReliefValue-change-link a span.visuallyhidden").text shouldBe commonMessages.PrivateResidenceReliefValue.title
-      }
-    }
-
-    "has an option output row for eligible for lettings relief in" which {
-
-      s"should have the question text '${commonMessages.LettingsRelief.title}'" in {
-        doc.select("#lettingsRelief-question").text shouldBe commonMessages.LettingsRelief.title
-      }
-
-      "should have the value 'No'" in {
-        doc.select("#lettingsRelief-option").text shouldBe "Yes"
-      }
-
-      s"should have a change link to ${routes.DeductionsController.lettingsRelief().url}" in {
-        doc.select("#lettingsRelief-change-link a").attr("href") shouldBe routes.DeductionsController.lettingsRelief().url
-      }
-
-      "has the question as part of the link" in {
-        doc.select("#lettingsRelief-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.LettingsRelief.title}"
-      }
-
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#lettingsRelief-change-link a span.visuallyhidden").text shouldBe commonMessages.LettingsRelief.title
-      }
-    }
-
-    "has an option output row for lettings relief value" which {
-
-      s"should have the question text '${commonMessages.LettingsReliefValue.title}'" in {
-        doc.select("#lettingsReliefValue-question").text shouldBe commonMessages.LettingsReliefValue.title
-      }
-
-      "should have the value '£4500'" in {
-        doc.select("#lettingsReliefValue-amount").text shouldBe "£5,000"
-      }
-
-      s"should have a change link to ${routes.DeductionsController.lettingsReliefValue().url}" in {
-        doc.select("#lettingsReliefValue-change-link a").attr("href") shouldBe routes.DeductionsController.lettingsReliefValue().url
-      }
-
-      "has the question as part of the link" in {
-        doc.select("#lettingsReliefValue-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.LettingsReliefValue.title}"
-      }
-
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#lettingsReliefValue-change-link a span.visuallyhidden").text shouldBe commonMessages.LettingsReliefValue.title
-      }
-    }
-  }
-
-  "Summary when supplied with a date within the known tax years and tax owed" should {
-
-    lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2015),
-      None,
-      Some(500),
-      whoDidYouGiveItTo = None,
-      worthWhenGaveAway = None,
-      BigDecimal(0),
-      None,
-      worthWhenInherited = Some(3000),
-      worthWhenGifted = None,
-      worthWhenBoughtForLess = None,
-      BigDecimal(0),
-      BigDecimal(0),
-      false,
-      Some(true),
-      false,
-      None,
-      Some("Inherited"),
-      None
-    )
-
-    lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(PropertyLivedInModel(false)),
-      None,
-      None,
-      None,
-      None
-    )
-
-    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
-
-    lazy val results = TotalGainAndTaxOwedModel(
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      18,
-      Some(0),
-      Some(28),
-      Some(BigDecimal(0)),
-      Some(BigDecimal(0)),
-      0,
-      0
-    )
-
-    lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
-
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-
-    lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, None, false)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "has an output row for how became owner" which {
-
-      s"should have the question text '${commonMessages.HowBecameOwner.title}'" in {
-        doc.select("#howBecameOwner-question").text shouldBe commonMessages.HowBecameOwner.title
-      }
-
-      s"should have the value '${commonMessages.HowBecameOwner.inherited}'" in {
-        doc.select("#howBecameOwner-option").text shouldBe commonMessages.HowBecameOwner.inherited
-      }
-
-      s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
-        doc.select("#howBecameOwner-change-link a").attr("href") shouldBe routes.GainController.howBecameOwner().url
-      }
-
-      "has the question as part of the link" in {
-        doc.select("#howBecameOwner-change-link a").text shouldBe
-          s"${residentMessages.change} ${commonMessages.HowBecameOwner.title}"
-      }
-
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#howBecameOwner-change-link a span.visuallyhidden").text shouldBe
-          commonMessages.HowBecameOwner.title
-      }
-    }
-
-    "has a numeric output row for the inherited value" which {
-
-      s"should have the question text '${propertiesMessages.WorthWhenInherited.question}'" in {
-        doc.select("#worthWhenInherited-question").text shouldBe propertiesMessages.WorthWhenInherited.question
-      }
-
-      "should have the value '£3,000'" in {
-        doc.select("#worthWhenInherited-amount").text shouldBe "£3,000"
-      }
-
-      s"should have a change link to ${routes.GainController.worthWhenInherited().url}" in {
-        doc.select("#worthWhenInherited-change-link a").attr("href") shouldBe routes.GainController.worthWhenInherited().url
-      }
-    }
-
-    "display the what to do next section" in {
-      doc.select("#whatToDoNext").hasText shouldEqual true
-    }
-
-    s"display the title ${messages.whatToDoNextTitle}" in {
-      doc.select("#whatToDoNextTitle").text shouldEqual messages.whatToDoNextTitle
-    }
-
-    s"display the text ${messages.whatToDoNextPropertiesLiabilityMessage}" in {
-      doc.select("#whatToDoNextText").text shouldEqual s"${messages.whatToDoNextPropertiesLiabilityMessage} ${residentMessages.externalLink}."
-    }
-
-    s"display the additional text ${messages.whatToDoNextLiabilityAdditionalMessage}" in {
-      doc.select("#whatToDoNext p").text shouldEqual messages.whatToDoNextLiabilityAdditionalMessage
-    }
-
-    "have a link" which {
-
-      "should have a href attribute" in {
-        doc.select("#whatToDoNextLink").hasAttr("href") shouldEqual true
-      }
-
-      "should link to the work-out-need-to-pay govuk page" in {
-        doc.select("#whatToDoNextLink").attr("href") shouldEqual "https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"
-      }
-
-      "have the externalLink attribute" in {
-        doc.select("#whatToDoNextLink").hasClass("external-link") shouldEqual true
-      }
-
-      "has a visually hidden span with the text opens in a new tab" in {
-        doc.select("span#opensInANewTab").text shouldEqual residentMessages.externalLink
-      }
-    }
-  }
-
-  "Summary when supplied with a date above the known tax years" should {
-
-    lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2018),
-      None,
-      None,
-      whoDidYouGiveItTo = Some("Other"),
-      worthWhenGaveAway = Some(10000),
-      BigDecimal(10000),
-      None,
-      worthWhenInherited = None,
-      worthWhenGifted = None,
-      worthWhenBoughtForLess = None,
-      BigDecimal(10000),
-      BigDecimal(30000),
-      true,
-      None,
-      true,
-      Some(BigDecimal(5000)),
-      None,
-      None
-    )
-
-    lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(PropertyLivedInModel(false)),
-      None,
-      None,
-      None,
-      None
-    )
-
-    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
-
-    lazy val results = TotalGainAndTaxOwedModel(
-      50000,
-      20000,
-      0,
-      30000,
-      3600,
-      30000,
-      18,
-      Some(10000),
-      Some(28),
-      Some(BigDecimal(0)),
-      Some(BigDecimal(0)),
-      0,
-      0
-    )
-
-    lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
-
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-
-    lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, None, false)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "does not display the what to do next content" in {
-      doc.select("#whatToDoNext").isEmpty shouldBe true
-    }
-  }
-
-  "Summary when supplied with a date in 2016/17" should {
-
-    lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
-      Some(BigDecimal(200000)),
-      None,
-      whoDidYouGiveItTo = None,
-      worthWhenGaveAway = None,
-      BigDecimal(10000),
-      None,
-      worthWhenInherited = None,
-      worthWhenGifted = Some(3000),
-      worthWhenBoughtForLess = None,
-      BigDecimal(10000),
-      BigDecimal(30000),
-      false,
-      Some(false),
-      false,
-      None,
-      Some("Gifted"),
-      None
-    )
-
-    lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(PropertyLivedInModel(false)),
-      None,
-      None,
-      None,
-      None
-    )
-
-    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
-
-    lazy val results = TotalGainAndTaxOwedModel(
-      50000,
-      20000,
-      0,
-      30000,
-      3600,
-      30000,
-      18,
-      Some(10000),
-      Some(28),
-      Some(BigDecimal(0)),
-      Some(BigDecimal(0)),
-      0,
-      0
-    )
-
-    lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
-
-    lazy val taxYearModel = TaxYearModel(Dates.getCurrentTaxYear, true, Dates.getCurrentTaxYear)
-
-    lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, None, true)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "has an option output row for current income" which {
-
-      s"should have the question text '${commonMessages.CurrentIncome.currentYearTitle}'" in {
-        doc.select("#currentIncome-question").text shouldBe commonMessages.CurrentIncome.currentYearTitle
-      }
-    }
-
-
-    "has an option output row for sell for less" which {
-
-      s"should have the question text '${propertiesMessages.SellForLess.title}'" in {
-        doc.select("#sellForLess-question").text shouldBe propertiesMessages.SellForLess.title
-      }
-
-      "should have the value 'No'" in {
-        doc.select("#sellForLess-option").text shouldBe "No"
-      }
-
-      s"should have a change link to ${routes.GainController.sellForLess().url}" in {
-        doc.select("#sellForLess-change-link a").attr("href") shouldBe routes.GainController.sellForLess().url
-      }
-
-      "has the question as part of the link" in {
-        doc.select("#sellForLess-change-link a").text shouldBe s"${residentMessages.change} ${propertiesMessages.SellForLess.title}"
-      }
-
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#sellForLess-change-link a span.visuallyhidden").text shouldBe propertiesMessages.SellForLess.title
-      }
-    }
-
-    "has an output row for how became owner" which {
-
-      s"should have the question text '${commonMessages.HowBecameOwner.title}'" in {
-        doc.select("#howBecameOwner-question").text shouldBe commonMessages.HowBecameOwner.title
-      }
-
-      s"should have the value '${commonMessages.HowBecameOwner.gifted}'" in {
-        doc.select("#howBecameOwner-option").text shouldBe commonMessages.HowBecameOwner.gifted
-      }
-
-      s"should have a change link to ${routes.GainController.howBecameOwner().url}" in {
-        doc.select("#howBecameOwner-change-link a").attr("href") shouldBe routes.GainController.howBecameOwner().url
-      }
-
-      "has the question as part of the link" in {
-        doc.select("#howBecameOwner-change-link a").text shouldBe
-          s"${residentMessages.change} ${commonMessages.HowBecameOwner.title}"
-      }
-    }
-
-    "has a numeric output row for the gifted value" which {
-
-      s"should have the question text '${propertiesMessages.WorthWhenGifted.question}'" in {
-        doc.select("#worthWhenGifted-question").text shouldBe propertiesMessages.WorthWhenGifted.question
-      }
-
-      "should have the value '£3,000'" in {
-        doc.select("#worthWhenGifted-amount").text shouldBe "£3,000"
-      }
-
-      s"should have a change link to ${routes.GainController.worthWhenGifted().url}" in {
-        doc.select("#worthWhenGifted-change-link a").attr("href") shouldBe routes.GainController.worthWhenGifted().url
-      }
-    }
-  }
-
-  "Properties Final Summary view" should {
-
-    lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2018),
-      None,
-      None,
-      whoDidYouGiveItTo = Some("Other"),
-      worthWhenGaveAway = Some(10000),
-      BigDecimal(10000),
-      None,
-      worthWhenInherited = None,
-      worthWhenGifted = None,
-      worthWhenBoughtForLess = None,
-      BigDecimal(10000),
-      BigDecimal(30000),
-      true,
-      None,
-      true,
-      Some(BigDecimal(5000)),
-      None,
-      None
-    )
-
-    lazy val deductionAnswers = ChargeableGainAnswers(
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(PropertyLivedInModel(false)),
-      None,
-      None,
-      None,
-      None)
-
-    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
-
-    lazy val results = TotalGainAndTaxOwedModel(
-      50000,
-      20000,
-      0,
-      30000,
-      3600,
-      30000,
-      18,
-      Some(10000),
-      Some(28),
-      Some(BigDecimal(0)),
-      Some(BigDecimal(0)),
-      0,
-      0
-    )
-
-    lazy val backLink = "/calculate-your-capital-gains/resident/properties/personal-allowance"
-
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-
-    "not have PRR GA metrics when PRR is not in scope" in {
-      val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, None, false)(fakeRequestWithSession, applicationMessages)
-      val doc = Jsoup.parse(view.body)
-
-      doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
-      doc.select("[data-metrics=\"rtt-properties-summary:prr:no\"]").size shouldBe 0
-    }
-
-    "not have lettings relief GA metrics when it is not in scope" in {
-      val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, None, false)(fakeRequestWithSession, applicationMessages)
-      val doc = Jsoup.parse(view.body)
-
-      doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
-      doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 0
-    }
-
-    "have PRR GA metrics when PRR is used" in {
-      val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, Some(true), None, false)(fakeRequestWithSession, applicationMessages)
-      val doc = Jsoup.parse(view.body)
-
-      doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 1
-      doc.select("[data-metrics=\"rtt-properties-summary:prr:no\"]").size shouldBe 0
-    }
-
-    "not have lettings relief GA metrics when it is used" in {
-      val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, Some(true), false)(fakeRequestWithSession, applicationMessages)
-      val doc = Jsoup.parse(view.body)
-
-      doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 1
-      doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 0
-    }
-
-    "have PRR GA metrics when PRR is not used" in {
-      val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, Some(false), None, false)(fakeRequestWithSession, applicationMessages)
-      val doc = Jsoup.parse(view.body)
-
-      doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
-      doc.select("[data-metrics=\"rtt-properties-summary:prr:no\"]").size shouldBe 1
-    }
-
-    "have lettings relief GA metrics when it is not used" in {
-      val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, None, Some(false), false)(fakeRequestWithSession, applicationMessages)
-      val doc = Jsoup.parse(view.body)
-
-      doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
-      doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:no\"]").size shouldBe 1
-    }
-
   }
 }

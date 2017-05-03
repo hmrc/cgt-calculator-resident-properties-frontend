@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package models.resident
+package models
 
-import play.api.libs.json.Json
+import models.resident.TaxYearModel
+import uk.gov.hmrc.play.test.UnitSpec
 
-case class TaxYearModel (taxYearSupplied: String, isValidYear: Boolean, calculationTaxYear: String)
+class TaxYearModelSpec extends UnitSpec {
 
-object TaxYearModel {
-  implicit val formats = Json.format[TaxYearModel]
+  "TaxYearModel .convertToSummaryFormat" should {
 
-  def convertToSummaryFormat(taxYear: String): String = {
-    val startYear = taxYear.take(4)
-    val endYear = startYear.toInt + 1
-    startYear + " to " + endYear
+    val result = TaxYearModel.convertToSummaryFormat("2016/17")
+
+    "return a formatted year" in {
+      result shouldEqual "2016 to 2017"
+    }
   }
 }
