@@ -7,13 +7,13 @@
 @import config.ApplicationConfig
 
 @(gainAnswers: YourAnswersSummaryModel,
-        deductionAnswers: ChargeableGainAnswers,
-        result: ChargeableGainResultModel,
-        backUrl: String,
-        taxYear: TaxYearModel,
-        prrUsed: Option[Boolean] = None,
-        lettingsReliefUsed: Option[Boolean] = None,
-        totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
+  deductionAnswers: ChargeableGainAnswers,
+  result: ChargeableGainResultModel,
+  backUrl: String,
+  taxYear: TaxYearModel,
+  prrUsed: Option[Boolean] = None,
+  lettingsReliefUsed: Option[Boolean] = None,
+  totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),

@@ -11,27 +11,27 @@
   taxYear: TaxYearModel,
   totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
 
-  <div id="tax-owed-banner" class="transaction-banner--complete">
+<div id="tax-owed-banner" class="transaction-banner--complete">
     <h1 class="bold-xlarge"><span>&pound;@MoneyPounds(0, 2).quantity</span></h1>
     <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</h2>
-  </div>
+</div>
 
-  @{if (!taxYear.isValidYear) {
-      <div id="notice-summary" class="notice-wrapper">
-          <div class="notice">
-              <i class="icon icon-important">
-                <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
-              </i>
-              <strong class="bold-small">
-                {Messages("calc.summary.noticeSummary")}
-              </strong>
-          </div>
+@{if (!taxYear.isValidYear) {
+  <div id="notice-summary" class="notice-wrapper">
+      <div class="notice">
+          <i class="icon icon-important">
+            <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
+          </i>
+          <strong class="bold-small">
+            {Messages("calc.summary.noticeSummary")}
+          </strong>
       </div>
-    }
-  }
+  </div>
+}
+}
 
-    <!-- Calculation Details Section -->
-    <section id="calcDetails">
+<!-- Calculation Details Section -->
+<section id="calcDetails">
         <!-- Header -->
     <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
@@ -82,7 +82,7 @@
 </section>
 
     <!--Remaining Details Section-->
-    <section id="remainingDeductions">
+<section id="remainingDeductions">
 
     <!-- Header -->
     <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
@@ -96,5 +96,4 @@
             result.broughtForwardLossesRemaining,
             hintText = false)
     }
-
 </section>

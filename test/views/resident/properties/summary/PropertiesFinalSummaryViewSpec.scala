@@ -36,8 +36,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       personalAllowanceModel = Some(PersonalAllowanceModel(0))
     )
 
-    //TODO: change to check your answers
-    val backLinkUrl: String = controllers.routes.IncomeController.personalAllowance().url
+    val backLinkUrl: String = controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
 
     "the property was sold inside tax years, bought after legislation start," +
       " with reliefs and brought forward losses and taxed at both tax bands" should {
@@ -114,10 +113,9 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
           backLink.text shouldBe residentMessages.back
         }
 
-        s"has a link to $backLinkUrl" in {
-          backLink.attr("href") shouldEqual backLinkUrl
+        s"has a link to ${controllers.routes.ReviewAnswersController.reviewFinalAnswers().url}" in {
+          backLink.attr("href") shouldEqual controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
         }
-
       }
 
       "has a banner" which {

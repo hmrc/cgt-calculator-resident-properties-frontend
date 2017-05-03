@@ -90,7 +90,6 @@ trait SummaryController extends ValidActiveSession {
                      chargeableGain: Option[ChargeableGainResultModel],
                      incomeAnswers: IncomeAnswersModel,
                      totalGainAndTax: Option[TotalGainAndTaxOwedModel],
-                     backUrl: String,
                      taxYear: Option[TaxYearModel],
                      currentTaxYear: String,
                      totalCosts: BigDecimal,
@@ -112,7 +111,7 @@ trait SummaryController extends ValidActiveSession {
                               chargeableGainAnswers,
                               incomeAnswers,
                               totalGainAndTax.get,
-                              routes.IncomeController.personalAllowance().url,
+                              routes.ReviewAnswersController.reviewFinalAnswers().url,
                               taxYear.get,
                               isPrrUsed,
                               isLettingsReliefUsed,
@@ -125,7 +124,7 @@ trait SummaryController extends ValidActiveSession {
         Ok(views.deductionsSummary(totalGainAnswers,
           chargeableGainAnswers,
           chargeableGain.get,
-          backUrl,
+          routes.ReviewAnswersController.reviewDeductionsAnswers().url,
           taxYear.get,
           isPrrUsed,
           isLettingsReliefUsed,
@@ -153,13 +152,12 @@ trait SummaryController extends ValidActiveSession {
       maxAEA <- getMaxAEA(taxYearInt)
       grossGain <- calculatorConnector.calculateRttPropertyGrossGain(answers)
       deductionAnswers <- calculatorConnector.getPropertyDeductionAnswers
-      backLink <- buildDeductionsSummaryBackUrl(deductionAnswers)
       chargeableGain <- chargeableGain(grossGain, answers, deductionAnswers, maxAEA.get)
       incomeAnswers <- calculatorConnector.getPropertyIncomeAnswers
       totalGain <- totalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
-        backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get)
+        taxYear, currentTaxYear, totalCosts, maxAEA.get)
     } yield routeRequest
   }
 }
