@@ -8,7 +8,7 @@
 @import controllers.routes.{GainController => routes}
 @import views.html.calculation.resident.properties._
 
-@(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
+@(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel, aeaRemaining: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
