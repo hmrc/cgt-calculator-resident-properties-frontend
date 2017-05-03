@@ -92,7 +92,9 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
     }
 
     "have a page heading" which {
-        //TODO: Update when merged in tax owed
+
+
+        //TODO: Update when Summary merged in
 //      s"includes a secondary heading with text '${messages.pageHeading}'" in {
 //        doc.select("h1 span.pre-heading").text shouldBe messages.pageHeading
 //      }
