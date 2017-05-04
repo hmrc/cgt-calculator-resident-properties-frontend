@@ -64,6 +64,9 @@ class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with
     when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
+    when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    .thenReturn(Future.successful(BigDecimal(10000)))
+
     new ReportController {
       override val calcConnector: CalculatorConnector = mockCalculatorConnector
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
