@@ -30,6 +30,10 @@ import views.html.{helpers => views}
 class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with FakeRequestHelper
 {
 
+  "the property was sold for less than worth" should {
+
+  }
+
   "the property was bought before 31 March 1982" should {
 
     val gainAnswers = YourAnswersSummaryModel(
@@ -338,8 +342,8 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
     }
   }
 
-//  "negative gain (cost higher than disposal value)" should {
-//
-//  }
+  "there are losses to carry forward" should {
+
+  }
 
 }
