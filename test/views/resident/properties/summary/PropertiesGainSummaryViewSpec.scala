@@ -78,8 +78,8 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
         backLink.text shouldBe residentMessages.back
       }
 
-      s"has a link to '${routes.GainController.improvements().toString}'" in {
-        backLink.attr("href") shouldBe routes.GainController.improvements().toString
+      s"has a link to '${routes.ReviewAnswersController.reviewFinalAnswers().url}'" in {
+        backLink.attr("href") shouldBe routes.ReviewAnswersController.reviewFinalAnswers().url
       }
 
     }
