@@ -40,8 +40,8 @@ trait SummaryController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
 
-  override val homeLink = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl = homeLink
+  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override val sessionTimeoutUrl: String = homeLink
 
   val summary = ValidateSession.async { implicit request =>
 
