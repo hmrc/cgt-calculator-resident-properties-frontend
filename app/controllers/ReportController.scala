@@ -24,7 +24,7 @@ import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import it.innove.play.pdf.PdfGenerator
 import models.resident.TaxYearModel
-import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
+import models.resident.properties.YourAnswersSummaryModel
 import play.api.i18n.Messages
 import play.api.mvc.RequestHeader
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -76,13 +76,14 @@ trait ReportController extends ValidActiveSession {
   val deductionsReport = ValidateSession.async { implicit request =>
     for {
       answers <- calcConnector.getPropertyGainAnswers
+      totalCosts <- getPropertyTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
       deductionAnswers <- calcConnector.getPropertyDeductionAnswers
       grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
       chargeableGain <- calcConnector.calculateRttPropertyChargeableGain(answers, deductionAnswers, maxAEA.get)
-    } yield {pdfGenerator.ok(views.deductionsSummaryReport(answers, deductionAnswers, chargeableGain.get, taxYear.get), host).asScala()
+    } yield {pdfGenerator.ok(views.deductionsSummaryReport(answers, deductionAnswers, chargeableGain.get, taxYear.get, totalCosts), host).asScala()
       .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
   }
 
