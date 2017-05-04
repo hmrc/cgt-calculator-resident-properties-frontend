@@ -41,13 +41,13 @@ case class YourAnswersSummaryModel(
   howBecameOwner: Option[String],
   boughtForLessThanWorth: Option[Boolean]) {
 
-  val displayWorthWhenSold = !givenAway && !sellForLess.get
-  val displayWorthWhenSoldForLess = !givenAway && sellForLess.get
-  val displayBoughtForLessThanWorth = !ownerBeforeLegislationStart && howBecameOwner.get.equals("Bought")
-  val displayWorthWhenBought = displayBoughtForLessThanWorth && !boughtForLessThanWorth.get
-  val displayWorthWhenBoughtForLess = displayBoughtForLessThanWorth && boughtForLessThanWorth.get
-  val displayWorthWhenGifted = !ownerBeforeLegislationStart && howBecameOwner.get.equals("Gifted")
-  val displayWorthWhenInherited = !ownerBeforeLegislationStart && howBecameOwner.get.equals("Inherited")
+  val displayWorthWhenSold: Boolean = !givenAway && !sellForLess.get
+  val displayWorthWhenSoldForLess: Boolean = !givenAway && sellForLess.get
+  val displayBoughtForLessThanWorth: Boolean = !ownerBeforeLegislationStart && howBecameOwner.get.equals("Bought")
+  val displayWorthWhenBought: Boolean = displayBoughtForLessThanWorth && !boughtForLessThanWorth.get
+  val displayWorthWhenBoughtForLess: Boolean = displayBoughtForLessThanWorth && boughtForLessThanWorth.get
+  val displayWorthWhenGifted: Boolean = !ownerBeforeLegislationStart && howBecameOwner.get.equals("Gifted")
+  val displayWorthWhenInherited: Boolean = !ownerBeforeLegislationStart && howBecameOwner.get.equals("Inherited")
 }
 
 object YourAnswersSummaryModel {

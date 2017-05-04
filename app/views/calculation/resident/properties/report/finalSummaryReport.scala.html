@@ -45,7 +45,7 @@
         </span>
 
         <!--Summary Section-->
-        @finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, result, taxYear, Some(prrUsed), Some(lettingsReliefUsed), totalCosts, totalDeductions, aeaRemaining)
+        @finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, result, taxYear, Some(prrUsed), Some(lettingsReliefUsed), totalCosts, totalDeductions)
 
         <!-- Your Answers Section -->
         @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), displayLinks = false)
