@@ -679,6 +679,197 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
 
     }
 
+    "the property was inherited" should {
+      val gainAnswers = YourAnswersSummaryModel(
+        disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = Some(100000),
+        worthWhenSoldForLess = None,
+        whoDidYouGiveItTo = None,
+        worthWhenGaveAway = None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = None,
+        worthWhenInherited = Some(300000),
+        worthWhenGifted = None,
+        worthWhenBoughtForLess = None,
+        acquisitionCosts = BigDecimal(10000),
+        improvements = BigDecimal(30000),
+        givenAway = false,
+        sellForLess = Some(false),
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        howBecameOwner = Some("Inherited"),
+        boughtForLessThanWorth = Some(false)
+      )
+      val deductionAnswers = ChargeableGainAnswers(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = None,
+        propertyLivedInModel = Some(PropertyLivedInModel(false)),
+        privateResidenceReliefModel = None,
+        privateResidenceReliefValueModel = None,
+        lettingsReliefModel = None,
+        lettingsReliefValueModel = None
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 10,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 20000,
+        firstRate = 18,
+        secondBand = None,
+        secondRate = None,
+        lettingReliefsUsed = Some(BigDecimal(0)),
+        prrUsed = Some(BigDecimal(0)),
+        broughtForwardLossesUsed = 0,
+        allowableLossesUsed = 0,
+        baseRateTotal = 30000
+      )
+      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      "has a row for acquisition value" which {
+        s"has the text '${summaryMessages.acquisitionValue}'" in {
+          doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+        }
+
+        "has the value '£300,000'" in {
+          doc.select("#acquisitionValue-amount").text shouldBe "£300,000"
+        }
+      }
+    }
+
+    "the property was gifted" should {
+      val gainAnswers = YourAnswersSummaryModel(
+        disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = Some(100000),
+        worthWhenSoldForLess = None,
+        whoDidYouGiveItTo = None,
+        worthWhenGaveAway = None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = None,
+        worthWhenInherited = None,
+        worthWhenGifted = Some(300000),
+        worthWhenBoughtForLess = None,
+        acquisitionCosts = BigDecimal(10000),
+        improvements = BigDecimal(30000),
+        givenAway = false,
+        sellForLess = Some(false),
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        howBecameOwner = Some("Gifted"),
+        boughtForLessThanWorth = Some(false)
+      )
+      val deductionAnswers = ChargeableGainAnswers(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = None,
+        propertyLivedInModel = Some(PropertyLivedInModel(false)),
+        privateResidenceReliefModel = None,
+        privateResidenceReliefValueModel = None,
+        lettingsReliefModel = None,
+        lettingsReliefValueModel = None
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 10,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 20000,
+        firstRate = 18,
+        secondBand = None,
+        secondRate = None,
+        lettingReliefsUsed = Some(BigDecimal(0)),
+        prrUsed = Some(BigDecimal(0)),
+        broughtForwardLossesUsed = 0,
+        allowableLossesUsed = 0,
+        baseRateTotal = 30000
+      )
+      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      "has a row for acquisition value" which {
+        s"has the text '${summaryMessages.acquisitionValue}'" in {
+          doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+        }
+
+        "has the value '£300,000'" in {
+          doc.select("#acquisitionValue-amount").text shouldBe "£300,000"
+        }
+      }
+    }
+
+    "the property was bought for less than worth" should {
+      val gainAnswers = YourAnswersSummaryModel(
+        disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = Some(100000),
+        worthWhenSoldForLess = None,
+        whoDidYouGiveItTo = None,
+        worthWhenGaveAway = None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = None,
+        worthWhenInherited = None,
+        worthWhenGifted = None,
+        worthWhenBoughtForLess = Some(300000),
+        acquisitionCosts = BigDecimal(10000),
+        improvements = BigDecimal(30000),
+        givenAway = false,
+        sellForLess = Some(false),
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        howBecameOwner = Some("Bought"),
+        boughtForLessThanWorth = Some(true)
+      )
+      val deductionAnswers = ChargeableGainAnswers(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = None,
+        propertyLivedInModel = Some(PropertyLivedInModel(false)),
+        privateResidenceReliefModel = None,
+        privateResidenceReliefValueModel = None,
+        lettingsReliefModel = None,
+        lettingsReliefValueModel = None
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 10,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 20000,
+        firstRate = 18,
+        secondBand = None,
+        secondRate = None,
+        lettingReliefsUsed = Some(BigDecimal(0)),
+        prrUsed = Some(BigDecimal(0)),
+        broughtForwardLossesUsed = 0,
+        allowableLossesUsed = 0,
+        baseRateTotal = 30000
+      )
+      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      "has a row for acquisition value" which {
+        s"has the text '${summaryMessages.acquisitionValue}'" in {
+          doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+        }
+
+        "has the value '£350,000'" in {
+          doc.select("#acquisitionValue-amount").text shouldBe "£300,000"
+        }
+      }
+    }
+
+
+
     "the property was given away" should {
       val gainAnswers = YourAnswersSummaryModel(
         disposalDate = Dates.constructDate(10, 10, 2015),
