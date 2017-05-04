@@ -154,8 +154,8 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
             div.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
           }
 
-          "has the value '£2,000'" in {
-            div.select("#totalCosts-amount").text shouldBe "£2,000"
+          "has the value '£1,000'" in {
+            div.select("#totalCosts-amount").text shouldBe "£1,000"
           }
         }
 
@@ -164,8 +164,8 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
             div.select("#totalLoss-text").text shouldBe summaryMessages.totalLoss
           }
 
-          "has the value '£0'" in {
-            div.select("#totalLoss-amount").text shouldBe "£0"
+          "has the value '£2,000'" in {
+            div.select("#totalLoss-amount").text shouldBe "£2,000"
           }
         }
       }

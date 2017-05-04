@@ -127,8 +127,8 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
             div.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
           }
 
-          "has the value '£100'" in {
-            div.select("#totalCosts-amount").text shouldBe "£100"
+          "has the value '£150'" in {
+            div.select("#totalCosts-amount").text shouldBe "£150"
           }
         }
 
@@ -137,8 +137,8 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
             div.select("#totalLoss-text").text shouldBe summaryMessages.totalLoss
           }
 
-          "has the value '£0'" in {
-            div.select("#totalLoss-amount").text shouldBe "£0"
+          "has the value '£100'" in {
+            div.select("#totalLoss-amount").text shouldBe "£100"
           }
         }
       }
@@ -241,6 +241,44 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
       }
     }
 
+    "have a section for the Your remaining deductions" which {
+
+      "has a div for remaining deductions" which {
+
+        lazy val div = doc.select("#remainingDeductions")
+
+        "has a h2 tag" which {
+
+          s"has the text ${summaryMessages.remainingDeductions}" in {
+            div.select("h2").text shouldBe summaryMessages.remainingDeductions
+          }
+        }
+
+        "has a row for annual exempt amount left" which {
+          s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
+            div.select("#aeaRemaining-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
+          }
+
+          "has the value '£11,000'" in {
+            div.select("#aeaRemaining-amount").text shouldBe "£11,000"
+          }
+        }
+
+        "not have a row for brought forward losses remaining" in {
+          div.select("#broughtForwardLossesRemaining-text") shouldBe empty
+        }
+
+        "has a row for losses to carry forward" which {
+          s"has the text${summaryMessages.lossesToCarryForwardFromCalculation}" in {
+            div.select("#lossesToCarryForward-text").text shouldBe summaryMessages.lossesToCarryForwardFromCalculation
+          }
+
+          "has the value '£100" in {
+            div.select("#lossesToCarryForward-amount").text shouldBe "£100"
+          }
+        }
+      }
+    }
   }
 
   "the property was bought before 31 March 1982" should {
