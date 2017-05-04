@@ -256,11 +256,11 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
 
         "has a row for annual exempt amount left" which {
           s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
-            div.select("#aeaRemaining-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
+            div.select("#aeaLeft-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
           }
 
           "has the value '£11,000'" in {
-            div.select("#aeaRemaining-amount").text shouldBe "£11,000"
+            div.select("#aeaLeft-amount").text shouldBe "£11,000"
           }
         }
 
@@ -270,11 +270,11 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
 
         "has a row for losses to carry forward" which {
           s"has the text${summaryMessages.lossesToCarryForwardFromCalculation}" in {
-            div.select("#lossesToCarryForward-text").text shouldBe summaryMessages.lossesToCarryForwardFromCalculation
+            div.select("#lossesToCarryForwardFromCalc-text").text shouldBe summaryMessages.lossesToCarryForwardFromCalculation
           }
 
           "has the value '£100" in {
-            div.select("#lossesToCarryForward-amount").text shouldBe "£100"
+            div.select("#lossesToCarryForwardFromCalc-amount").text shouldBe "£100"
           }
         }
       }
@@ -319,7 +319,6 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
       }
     }
   }
-
 
   "the property was given away" should {
     val gainAnswers = YourAnswersSummaryModel(
@@ -420,5 +419,4 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
   "there are losses to carry forward" should {
 
   }
-
 }

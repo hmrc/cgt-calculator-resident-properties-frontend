@@ -75,11 +75,11 @@
 
     <!-- Header -->
     <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
-    <div id="aeaRemaining" class="summary-details-padding">
-      @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), maxAEA, hintText = false)
+    <div id="aeaLeft" class="summary-details-padding">
+      @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), maxAEA, hintText = false)
     </div>
     <div id="lossesToCarryForward" class="summary-details-padding">
-        @summaryNumericRow("lossesToCarryForward", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
+        @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
     </div>
 
 </section>

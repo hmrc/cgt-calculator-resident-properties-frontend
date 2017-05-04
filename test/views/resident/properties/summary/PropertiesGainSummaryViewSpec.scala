@@ -17,7 +17,6 @@
 package views.resident.properties.summary
 
 import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
-import common.Dates
 import common.Dates._
 import controllers.helpers.FakeRequestHelper
 import controllers.routes
@@ -263,6 +262,115 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
           "has the value '£0'" in {
             div.select("#taxToPay-amount").text shouldBe "£0"
+          }
+        }
+      }
+    }
+
+    "have a section for the Your remaining deductions" which {
+
+      "has a div for remaining deductions" which {
+
+        lazy val div = doc.select("#remainingDeductions")
+
+        "has a h2 tag" which {
+
+          s"has the text ${summaryMessages.remainingDeductions}" in {
+            div.select("h2").text shouldBe summaryMessages.remainingDeductions
+          }
+        }
+
+        "has a row for annual exempt amount left" which {
+          s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
+            div.select("#aeaLeft-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
+          }
+
+          "has the value '£11,000'" in {
+            div.select("#aeaLeft-amount").text shouldBe "£11,000"
+          }
+        }
+
+        "not have a row for brought forward losses remaining" in {
+          div.select("#broughtForwardLossesRemaining-text") shouldBe empty
+        }
+
+        "has a row for losses to carry forward" which {
+          s"has the text${summaryMessages.lossesToCarryForwardFromCalculation}" in {
+            div.select("#lossesToCarryForwardFromCalc-text").text shouldBe summaryMessages.lossesToCarryForwardFromCalculation
+          }
+
+          "has the value '£2,000" in {
+            div.select("#lossesToCarryForwardFromCalc-amount").text shouldBe "£2,000"
+          }
+        }
+      }
+    }
+
+    "have a section for What to do next" which {
+      lazy val section = doc.select("#whatToDoNext")
+
+      "has a h2 tag" which {
+        s"has the text ${summaryMessages.whatToDoNext}" in {
+          section.select("h2").text shouldBe summaryMessages.whatToDoNext
+        }
+      }
+
+      "has a paragraph" which {
+        s"has the text ${summaryMessages.whatToDoNextDetails}" in {
+          section.select("p").text shouldBe summaryMessages.whatToDoNextDetails
+        }
+      }
+    }
+
+    "has a continue button" which {
+      s"has the text ${summaryMessages.continue}" in {
+        doc.select("button").text shouldBe summaryMessages.continue
+      }
+    }
+
+    "has a save as PDF Button" which {
+
+      lazy val savePDFSection = doc.select("#save-as-a-pdf")
+
+      "contains an internal div which" should {
+
+        lazy val icon = savePDFSection.select("div")
+
+        "has class icon-file-download" in {
+          icon.hasClass("icon-file-download") shouldBe true
+        }
+
+        "contains a span" which {
+
+          lazy val informationTag = icon.select("span")
+
+          "has the class visuallyhidden" in {
+            informationTag.hasClass("visuallyhidden") shouldBe true
+          }
+
+          "has the text Download" in {
+            informationTag.text shouldBe "Download"
+          }
+        }
+
+        "contains a link" which {
+
+          lazy val link = savePDFSection.select("a")
+
+          "has the class bold-small" in {
+            link.hasClass("bold-small") shouldBe true
+          }
+
+          "has the class save-pdf-link" in {
+            link.hasClass("save-pdf-link") shouldBe true
+          }
+
+          s"links to ${controllers.routes.ReportController.gainSummaryReport()}" in {
+            link.attr("href") shouldBe controllers.routes.ReportController.gainSummaryReport().toString
+          }
+
+          s"has the text ${messages.saveAsPdf}" in {
+            link.text shouldBe messages.saveAsPdf
           }
         }
       }
