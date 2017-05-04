@@ -70,10 +70,6 @@
     border-bottom: 2px solid #BFC1C3;
 }
 
-.grid-layout__column--1-3 {
-    padding: 0 15px
-}
-
 .summary-answer {
     white-space: pre-line;
 }
@@ -286,13 +282,8 @@
 }
 
 .pdf .grid-layout {
-    margin-left: 15px;
-    margin-right: 15px;
-    display: table;
-}
-
-.pdf .grid-layout {
     width: 100%;
+    display: table;
 }
 
 .pdf .notice strong {
@@ -324,6 +315,14 @@
     display: table;
     text-align: left;
     float: left;
+}
+
+.pdf-grid-layout__column--1-2 {
+    width: 50%;
+    vertical-align: top;
+    display: table-cell;
+    box-sizing: border-box;
+    text-align: left;
 }
 
 .pdf-non-resident .pdf-header {
@@ -373,8 +372,22 @@
     height: 39px;
     display: inline-block;
 }
+
 .grid-layout__column--1-2 {
     padding-right: 1.5em;
+}
+
+.pdf .grid-layout__column--1-2 {
+    padding-right: 0em;
+}
+
+.pdf .pdf-result-row {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.pdf .summary-end-block {
+    padding-bottom: 2em;
 }
 
 .grid-layout {
@@ -385,16 +398,30 @@
     padding-bottom: 1em;
 }
 
-.transaction-banner {
+.pdf .you-told-us-title {
+    padding-top: 2em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.pdf .transaction-banner--complete {
     display: block;
     background-color:#28a197;color:#fff;padding:30px;margin-bottom:30px;text-align:center
 }
 
-.transaction-banner--complete h1 {
+.pdf .transaction-banner--complete h1 {
+    color: #ffffff;
+}
+
+.pdf .transaction-banner--complete h2 {
     color: #ffffff;
 }
 
 .transaction-banner--complete h2 {
+    color: #ffffff;
+}
+
+.transaction-banner--complete h1 {
     color: #ffffff;
 }
 
@@ -404,11 +431,6 @@
 
 .summary-details-padding {
     padding-top: 1.0em;
-}
-
-.pdf .you-told-us-title {
-    font-weight: 700;
-    font-size: 18px;
 }
 
 .pdf .text--right {

@@ -1,15 +1,24 @@
 @import views.html.helpers.resident._
-@import views.html.helpers.checkYourAnswersPartial
+@import views.html.helpers._
 @import models.resident._
 @import models.resident.properties._
 @import constructors.resident.properties.SummaryConstructor._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
-@(gainAnswers: YourAnswersSummaryModel, deductionAnswers: ChargeableGainAnswers, incomeAnswers: IncomeAnswersModel, result: TotalGainAndTaxOwedModel, taxYear: TaxYearModel, isCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
+@(gainAnswers: YourAnswersSummaryModel,
+    deductionAnswers: ChargeableGainAnswers,
+    incomeAnswers: IncomeAnswersModel,
+    result: TotalGainAndTaxOwedModel,
+    taxYear: TaxYearModel,
+    isCurrentTaxYear: Boolean,
+    prrUsed: Option[Boolean] = None,
+    lettingsReliefUsed: Option[Boolean] = None,
+    totalCosts: BigDecimal,
+    totalDeductions: BigDecimal,
+    aeaRemaining: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 <!DOCTYPE html>
 <html>
-
     <head>
         <meta name="viewport" content="width=device-width"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -35,52 +44,10 @@
             </div>
         </span>
 
-        <div id="tax-owed-banner" class="transaction-banner--complete transaction-banner">
-                <!-- TODO: UPDATE WITH UPDATED SUMMARY'S TAX OWED VALUE AND MESSAGE FUNCTION WHEN MERGED, HARD-CODED STATIC TEXT PLACE HOLDER-->
-            <h1 class="bold-xlarge transaction-banner--complete"><span>£20000</span></h1>
-            <h2 class="heading-medium transaction-banner--complete">Hello world, you owe this amount of tax</h2>
-        </div>
-        @{
-            if(!taxYear.isValidYear) {
-                    <div class="notice-wrapper">
-                    <div class="notice">
-                    <strong class="bold-small">
-                    {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-                    </strong>
-                    </div>
-                    </div>
-            }
-        }
+        <!--Summary Section-->
+        @finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, result, taxYear, Some(prrUsed), Some(lettingsReliefUsed), totalCosts, totalDeductions)
 
-    <!-- Calculation Details Section -->
-    <section id="calcDetails">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-        <!-- Data Rows -->
-        @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)
-        @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
-            (Messages("calc.resident.summary.deductionsDetails.prrUsed"), MoneyPounds(result.prrUsed.get, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.lettingReliefsUsed"), MoneyPounds(result.lettingReliefsUsed.get, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
-            (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
-        )))
-
-
-        @summaryNumericRowHelper("chargeableGain", if(result.chargeableGain < 0) {
-        Messages("calc.resident.summary.chargeableLoss")} else {Messages("calc.resident.summary.chargeableGain")},
-        result.chargeableGain)
-
-        @if(!result.secondRate.isDefined && !result.secondBand.isDefined) {
-        @summaryGainAndRateHelper("gainAndRate", Messages("calc.resident.summary.taxRate"), result.firstBand,
-        result.firstRate, None, None)
-        } else {
-        @summaryGainAndRateHelper("gainAndRate", Messages("calc.resident.summary.taxRate"), result.firstBand,
-        result.firstRate, result.secondBand, result.secondRate)
-        }
-        @summaryNumericRowHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), 0)
-    </section>
-
-    <!-- Your Answers Section -->
-    @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), displayLinks = false)
-</span>
+        <!-- Your Answers Section -->
+        @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), displayLinks = false)
+    </span>
+</html>

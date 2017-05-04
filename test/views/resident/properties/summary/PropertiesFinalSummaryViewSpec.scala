@@ -442,7 +442,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
             }
 
             s"links to ${controllers.routes.ReportController.finalSummaryReport()}" in {
-              link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport().toString()
+              link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport().toString
             }
 
             s"has the text ${messages.saveAsPdf}" in {

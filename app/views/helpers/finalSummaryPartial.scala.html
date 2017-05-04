@@ -35,7 +35,7 @@
   }
 
     <!-- Calculation Details Section -->
-    <section id="calcDetails">
+<section id="calcDetails">
         <!-- Header -->
     <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
@@ -109,10 +109,13 @@
 </section>
 
     <!--Remaining Details Section-->
-    <section id="remainingDeductions">
+<section id="remainingDeductions" class="summary-end-block">
 
-    <!-- Header -->
-    <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
+    <div class="resident summary-underline">
 
-    @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), 0, hintText = false)
+        <!-- Header -->
+        <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
+
+        @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), 0, hintText = false)
+    </div>
 </section>

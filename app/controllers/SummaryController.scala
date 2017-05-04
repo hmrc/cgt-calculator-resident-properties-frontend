@@ -40,20 +40,10 @@ trait SummaryController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
 
-  override val homeLink = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl = homeLink
+  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override val sessionTimeoutUrl: String = homeLink
 
   val summary = ValidateSession.async { implicit request =>
-
-    def displayAnnualExemptAmountCheck(claimedOtherProperties: Boolean,
-                                       claimedAllowableLosses: Boolean,
-                                       allowableLossesValueModel: Option[AllowableLossesValueModel])(implicit hc: HeaderCarrier): Boolean = {
-      allowableLossesValueModel match {
-        case Some(result) if claimedAllowableLosses && claimedOtherProperties => result.amount == 0
-        case _ if claimedOtherProperties && !claimedAllowableLosses => true
-        case _ => false
-      }
-    }
 
     def chargeableGain(grossGain: BigDecimal,
                        yourAnswersSummaryModel: YourAnswersSummaryModel,
@@ -101,17 +91,17 @@ trait SummaryController extends ValidActiveSession {
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
         Ok(views.finalSummary(totalGainAnswers,
-                              chargeableGainAnswers,
-                              incomeAnswers,
-                              totalGainAndTax.get,
-                              routes.ReviewAnswersController.reviewFinalAnswers().url,
-                              taxYear.get,
-                              isPrrUsed,
-                              isLettingsReliefUsed,
-                              totalCosts,
-                              chargeableGain.get.deductions
-                             )
-          ))
+          chargeableGainAnswers,
+          incomeAnswers,
+          totalGainAndTax.get,
+          routes.ReviewAnswersController.reviewFinalAnswers().url,
+          taxYear.get,
+          isPrrUsed,
+          isLettingsReliefUsed,
+          totalCosts,
+          chargeableGain.get.deductions
+        )
+        ))
 
       else if (grossGain > 0) Future.successful(
         Ok(views.deductionsSummary(totalGainAnswers,
@@ -129,7 +119,7 @@ trait SummaryController extends ValidActiveSession {
       calculatorConnector.getFullAEA(taxYear)
     }
 
-    def taxYearStringToInteger (taxYear: String): Future[Int] = {
+    def taxYearStringToInteger(taxYear: String): Future[Int] = {
       Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
     }
 
