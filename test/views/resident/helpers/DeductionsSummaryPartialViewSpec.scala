@@ -913,7 +913,7 @@ class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication
           doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
         }
 
-        "has the value '£350,000'" in {
+        "has the value '£300,000'" in {
           doc.select("#acquisitionValue-amount").text shouldBe "£300,000"
         }
       }
