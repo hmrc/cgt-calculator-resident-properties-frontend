@@ -7,6 +7,7 @@
 
 @(gainAnswers: YourAnswersSummaryModel,
         taxYear: TaxYearModel,
+        gain: BigDecimal,
         totalCosts: BigDecimal,
         maxAEA: BigDecimal = 0)(implicit request: Request[_], messages: Messages)
 
@@ -50,7 +51,7 @@
     }
 
     @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
-    @summaryNumericRow("totalLoss", Messages("calc.summary.calculationDetails.totalLoss"), 0, isTotal = true)
+    @summaryNumericRow("totalLoss", Messages("calc.summary.calculationDetails.totalLoss"), gain, isTotal = true)
   </div>
 
   <div id="yourDeductions" class="resident summary-underline summary-details-padding">

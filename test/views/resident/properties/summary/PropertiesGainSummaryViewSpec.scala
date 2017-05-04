@@ -17,6 +17,7 @@
 package views.resident.properties.summary
 
 import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
+import common.Dates
 import common.Dates._
 import controllers.helpers.FakeRequestHelper
 import controllers.routes
@@ -33,30 +34,29 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
   "Summary view" should {
 
     val testModel = YourAnswersSummaryModel(
-      constructDate(12, 9, 1990),
-      None,
-      None,
-      whoDidYouGiveItTo = Some("Other"),
-      worthWhenGaveAway = Some(10000),
-      20,
-      None,
+      disposalDate = constructDate(12, 9, 2015),
+      disposalValue = Some(1000),
+      worthWhenSoldForLess = None,
+      whoDidYouGiveItTo = None,
+      worthWhenGaveAway = None,
+      disposalCosts = BigDecimal(20),
+      acquisitionValue = Some(50000),
       worthWhenInherited = None,
       worthWhenGifted = None,
       worthWhenBoughtForLess = None,
-      40,
-      50,
-      true,
-      None,
-      true,
-      Some(BigDecimal(5000)),
-      None,
-      None
+      acquisitionCosts = BigDecimal(40),
+      improvements = BigDecimal(50),
+      givenAway = false,
+      sellForLess = Some(false),
+      ownerBeforeLegislationStart = false,
+      valueBeforeLegislationStart = None,
+      howBecameOwner = Some("Bought"),
+      boughtForLessThanWorth = Some(false)
     )
-
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummary(testModel, -2000, taxYearModel, 11000)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -134,18 +134,18 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
             div.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
           }
 
-          "has the value '£10,000'" in {
-            div.select("#disposalValue-amount").text shouldBe "£10,000"
+          "has the value '£1,000'" in {
+            div.select("#disposalValue-amount").text shouldBe "£1,000"
           }
         }
 
         "has a row for acquisition value" which {
-          s"has the text '${summaryMessages.acquisitionValueBeforeLegislation}'" in {
-            div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValueBeforeLegislation
+          s"has the text '${summaryMessages.acquisitionValue}'" in {
+            div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
           }
 
-          "has the value '£350,000'" in {
-            div.select("#acquisitionValue-amount").text shouldBe "£350,000"
+          "has the value '£50,000'" in {
+            div.select("#acquisitionValue-amount").text shouldBe "£50,000"
           }
         }
 
@@ -154,8 +154,8 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
             div.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
           }
 
-          "has the value '£100'" in {
-            div.select("#totalCosts-amount").text shouldBe "£100"
+          "has the value '£2,000'" in {
+            div.select("#totalCosts-amount").text shouldBe "£2,000"
           }
         }
 

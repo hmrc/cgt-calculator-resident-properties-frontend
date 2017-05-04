@@ -24,17 +24,13 @@ import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits.applicationMessages
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
+import assets.MessageLookup.{SummaryDetails => summaryMessages}
 import views.html.{helpers => views}
 
 class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with FakeRequestHelper
 {
 
   "the property was sold for less than worth" should {
-
-  }
-
-  "the property was bought before 31 March 1982" should {
 
     val gainAnswers = YourAnswersSummaryModel(
       disposalDate = Dates.constructDate(10, 10, 2015),
@@ -43,7 +39,7 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
       whoDidYouGiveItTo = None,
       worthWhenGaveAway = None,
       disposalCosts = BigDecimal(100000),
-      acquisitionValue = Some(0),
+      acquisitionValue = Some(10000),
       worthWhenInherited = None,
       worthWhenGifted = None,
       worthWhenBoughtForLess = None,
@@ -51,15 +47,15 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
       improvements = BigDecimal(300000),
       givenAway = false,
       sellForLess = Some(false),
-      ownerBeforeLegislationStart = true,
-      valueBeforeLegislationStart = Some(350000.00),
+      ownerBeforeLegislationStart = false,
+      valueBeforeLegislationStart = None,
       howBecameOwner = Some("Bought"),
       boughtForLessThanWorth = Some(false)
     )
 
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = views.gainSummaryPartial(gainAnswers, taxYearModel, 100, 11000)(fakeRequestWithSession, applicationMessages)
+    lazy val view = views.gainSummaryPartial(gainAnswers, taxYearModel, 100, 150, 11000)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a banner" which {
@@ -117,12 +113,12 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
         }
 
         "has a row for acquisition value" which {
-          s"has the text '${summaryMessages.acquisitionValueBeforeLegislation}'" in {
-            div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValueBeforeLegislation
+          s"has the text '${summaryMessages.acquisitionValue}'" in {
+            div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
           }
 
-          "has the value '£350,000'" in {
-            div.select("#acquisitionValue-amount").text shouldBe "£350,000"
+          "has the value '£10,000'" in {
+            div.select("#acquisitionValue-amount").text shouldBe "£10,000"
           }
         }
 
@@ -244,7 +240,48 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
         }
       }
     }
+
   }
+
+  "the property was bought before 31 March 1982" should {
+
+    val gainAnswers = YourAnswersSummaryModel(
+      disposalDate = Dates.constructDate(10, 10, 2015),
+      disposalValue = Some(10000),
+      worthWhenSoldForLess = None,
+      whoDidYouGiveItTo = None,
+      worthWhenGaveAway = None,
+      disposalCosts = BigDecimal(100000),
+      acquisitionValue = Some(0),
+      worthWhenInherited = None,
+      worthWhenGifted = None,
+      worthWhenBoughtForLess = None,
+      acquisitionCosts = BigDecimal(100000),
+      improvements = BigDecimal(300000),
+      givenAway = false,
+      sellForLess = Some(false),
+      ownerBeforeLegislationStart = true,
+      valueBeforeLegislationStart = Some(350000.00),
+      howBecameOwner = Some("Bought"),
+      boughtForLessThanWorth = Some(false)
+    )
+
+    val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+    lazy val view = views.gainSummaryPartial(gainAnswers, taxYearModel, 100, 11000)(fakeRequestWithSession, applicationMessages)
+    lazy val doc = Jsoup.parse(view.body)
+
+    "has a row for acquisition value" which {
+      s"has the text '${summaryMessages.acquisitionValueBeforeLegislation}'" in {
+        doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValueBeforeLegislation
+      }
+
+      "has the value '£350,000'" in {
+        doc.select("#acquisitionValue-amount").text shouldBe "£350,000"
+      }
+    }
+  }
+
 
   "the property was given away" should {
     val gainAnswers = YourAnswersSummaryModel(
