@@ -187,8 +187,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         doc.title() shouldBe messages.title
       }
 
-      s"has a link to '${controllers.routes.DeductionsController.lossesBroughtForward().toString()}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward().toString
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
       }
     }
 
@@ -241,8 +241,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         doc.title() shouldBe messages.title
       }
 
-      s"has a link to '${controllers.routes.DeductionsController.lossesBroughtForwardValue().toString()}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForwardValue().toString
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
       }
     }
 
@@ -299,8 +299,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         doc.title() shouldBe messages.title
       }
 
-      s"has a link to '${controllers.routes.IncomeController.personalAllowance().toString()}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.IncomeController.personalAllowance().toString
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewFinalAnswers().url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
       }
     }
   }

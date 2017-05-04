@@ -1,251 +1,81 @@
-@import views.html.helpers.resident._
+@import views.html.helpers.deductionsSummaryPartial
 @import models.resident._
 @import models.resident.properties._
+@import common.TaxDates._
 @import common.Dates._
-@import common.TaxDates
-@import constructors.resident.properties.SummaryConstructor._
-@import constructors.resident.properties.CalculateRequestConstructor._
-@import controllers.routes.{GainController => gainRoutes}
-@import controllers.routes.{DeductionsController => deductionRoutes}
-@import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation.resident.properties._
 @import config.ApplicationConfig
 
 @(gainAnswers: YourAnswersSummaryModel,
-        deductionAnswers: ChargeableGainAnswers,
-        result: ChargeableGainResultModel,
-        backUrl: String,
-        taxYear: TaxYearModel,
-        prrUsed: Option[Boolean] = None,
-        lettingsReliefUsed: Option[Boolean] = None)(implicit request: Request[_], messages: Messages)
-
-@broughtForwardLossesHelpText() = {
-    <span>
-        @Messages("calc.resident.summary.remainingLossHelp")
-        <a href="https://www.gov.uk/capital-gains-tax/losses" rel="external"
-           data-journey-click="rtt-properties-help:govUK:summary-broughtForwardLosses">
-            @Messages("calc.resident.summary.remainingLossLink")
-            <span>@Messages("calc.base.externalLink")</span>
-        </a>
-        @Messages("calc.resident.summary.remainingBroughtForwardLossHelp")
-    </span>
-}
-
-@annualExemptAmountHelpText() = {
-    <span>@Messages("calc.resident.summary.annualExemptAmountHelp")</span>
-}
+  deductionAnswers: ChargeableGainAnswers,
+  result: ChargeableGainResultModel,
+  backUrl: String,
+  taxYear: TaxYearModel,
+  prrUsed: Option[Boolean] = None,
+  lettingsReliefUsed: Option[Boolean] = None,
+  totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
-title = Messages("calc.resident.summary.title"),
-backLink = Some(backUrl),
-articleLayout = false
+    title = Messages("calc.resident.summary.title"),
+    backLink = Some(backUrl)
 ) {
 
-<h1 class="heading-xlarge">
-    <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-    &pound;0.00
-</h1>
+    <!-- Google Analytics -->
+    <div id="ga-reporting" class="visuallyhidden">
 
-@{if (!taxYear.isValidYear) {
-    <div class="notice-wrapper">
-        <div class="notice">
-            <i class="icon icon-important">
-                <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
-            </i>
-            <strong class="bold-small">
-                {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-            </strong>
-        </div>
-    </div>
-    }
-}
+        <!-- Tax Year -->
+        <span data-metrics="rtt-properties-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
 
-<!-- Google Analytics -->
-<div id="ga-reporting" class="visuallyhidden">
+        <!-- No Gain Stats -->
+        <span data-metrics="rtt-properties-summary:result:no-gain"></span>
 
-    <!-- Tax Year -->
-    <span data-metrics="rtt-properties-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
+        <!-- PRR Stats -->
+        @{prrUsed match {
+            case Some(true) => <span data-metrics="rtt-properties-summary:prr:yes"></span>
+            case Some(false) => <span data-metrics="rtt-properties-summary:prr:no"></span>
+            case _ => ()
+        }}
 
-    <!-- No Gain Stats -->
-    <span data-metrics="rtt-properties-summary:result:no-gain"></span>
+        <!-- Lettings Reliefs Stats -->
+        @{lettingsReliefUsed match {
+            case Some(true) => <span data-metrics="rtt-properties-summary:lettingsRelief:yes"></span>
+            case Some(false) => <span data-metrics="rtt-properties-summary:lettingsRelief:no"></span>
+            case _ => ()
+        }}
 
-    <!-- PRR Stats -->
-    @{prrUsed match {
-        case Some(true) => <span data-metrics="rtt-properties-summary:prr:yes"></span>
-        case Some(false) => <span data-metrics="rtt-properties-summary:prr:no"></span>
-        case _ => ()
-    }}
-
-    <!-- Lettings Reliefs Stats -->
-    @{lettingsReliefUsed match {
-        case Some(true) => <span data-metrics="rtt-properties-summary:lettingsRelief:yes"></span>
-        case Some(false) => <span data-metrics="rtt-properties-summary:lettingsRelief:no"></span>
-        case _ => ()
-    }}
-
-    <!-- Claiming Brought Forward Losses Stats -->
-    @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
-        <span data-metrics="rtt-properties-summary:broughtForwardLosses:yes"></span>
-    } else {
-        <span data-metrics="rtt-properties-summary:broughtForwardLosses:no"></span>
-    }
-</div>
-
-<!-- Calculation Details Section -->
-<section id="calcDetails">
-    <!-- Header -->
-    @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-    <!-- Data Rows -->
-    @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)
-    @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
-        (Messages("calc.resident.summary.deductionsDetails.prrUsed"), MoneyPounds(result.prrUsed.get, 0).quantity),
-        (Messages("calc.resident.summary.deductionsDetails.lettingReliefsUsed"), MoneyPounds(result.lettingReliefsUsed.get, 0).quantity),
-        (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
-        (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
-    )))
-
-    @if(result.chargeableGain == 0){
-        @summaryNumericRowHelper("chargeableGain", Messages("calc.resident.summary.chargeableGain"), result.chargeableGain)
-    }
-    @if(result.broughtForwardLossesRemaining > 0) {
-        @{summaryNumericHelpTextHelper("broughtForwardLossRemaining", Messages("calc.resident.summary.remainingBroughtForwardLoss", taxYear.taxYearSupplied),
-            result.broughtForwardLossesRemaining,
-            None,
-            Some(broughtForwardLossesHelpText()))
+        <!-- Claiming Brought Forward Losses Stats -->
+        @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
+            <span data-metrics="rtt-properties-summary:broughtForwardLosses:yes"></span>
+        } else {
+            <span data-metrics="rtt-properties-summary:broughtForwardLosses:no"></span>
         }
-    }
-    @summaryNumericHelpTextHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), result.aeaRemaining, None,
-        if(result.aeaRemaining > 0) {Some(annualExemptAmountHelpText())}
-        else {None}
-    )
-</section>
+    </div>
 
-<!-- Your Answers Section -->
-<section id="yourAnswers">
-    <!-- Header -->
-    @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
+    @deductionsSummaryPartial(gainAnswers,
+        deductionAnswers,
+        result,
+        taxYear,
+        totalCosts)
 
-    <!-- Data Rows-->
-    @summaryDateRowHelper("disposalDate",Messages("calc.resident.disposalDate.question"),gainAnswers.disposalDate,Some(gainRoutes.disposalDate().toString))
-
-    @summaryTextRowHelper("sellOrGiveAway", Messages("calc.resident.sellOrGiveAway.title"), if (gainAnswers.givenAway) {Messages("calc.resident.sellOrGiveAway.given")}
-    else {Messages("calc.resident.sellOrGiveAway.sold")}, Some(gainRoutes.sellOrGiveAway().toString))
-
-    <!-- Given to someone else Block -->
-    @{if(gainAnswers.givenAway)
-        summaryTextRowHelper("whoDidYouGiveItTo", Messages("calc.resident.whoDidYouGiveThePropertyTo.title"), Messages("calc.resident.whoDidYouGiveThePropertyTo.other"), Some(gainRoutes.whoDidYouGiveItTo().toString))
-    }
-
-    @{if(gainAnswers.givenAway)
-        summaryNumericRowHelper("worthWhenGaveAway", Messages("calc.resident.properties.worthWhenGaveAway.title"), gainAnswers.worthWhenGaveAway.get, Some(gainRoutes.worthWhenGaveAway().toString))
-    }
-    <!-- ^^^^^^ Given to someone else Block ^^^^^^ -->
-
-    @{if(!gainAnswers.givenAway)
-    summaryOptionRowHelper("sellForLess", Messages("calc.resident.properties.sellForLess.title"), gainAnswers.sellForLess.get, Some(gainRoutes.sellForLess().toString))}
-
-    @{if(gainAnswers.displayWorthWhenSold)
-    summaryNumericRowHelper("disposalValue",Messages("calc.resident.disposal.value.question"),gainAnswers.disposalValue.get,Some(gainRoutes.disposalValue().toString))}
-
-    @{if(gainAnswers.displayWorthWhenSoldForLess)
-        summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.properties.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, Some(gainRoutes.worthWhenSoldForLess().toString))
-    }
-
-    @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.disposalCosts.title"),gainAnswers.disposalCosts,Some(gainRoutes.disposalCosts().toString))
-
-    @summaryOptionRowHelper("ownerBeforeLegislationStart", Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),
-    gainAnswers.ownerBeforeLegislationStart, Some(gainRoutes.ownerBeforeLegislationStart().toString))
-
-    @{if (gainAnswers.ownerBeforeLegislationStart)
-    summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.properties.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,Some(gainRoutes.valueBeforeLegislationStart().toString))}
-
-    @{if (!gainAnswers.ownerBeforeLegislationStart)
-    summaryTextRowHelper("howBecameOwner", Messages("calc.resident.howBecameOwner.title"), Messages(s"calc.resident.howBecameOwner.${gainAnswers.howBecameOwner.get.toLowerCase}"),
-    Some(gainRoutes.howBecameOwner().toString))}
-
-    @{if (gainAnswers.displayBoughtForLessThanWorth)
-    summaryOptionRowHelper("boughtForLessThanWorth", Messages("calc.resident.properties.boughtForLessThanWorth.title"),
-    gainAnswers.boughtForLessThanWorth.get, Some(gainRoutes.boughtForLessThanWorth().toString))}
-
-    @{if (gainAnswers.displayWorthWhenBought)
-        summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.acquisitionValue.title"),gainAnswers.acquisitionValue.get,Some(gainRoutes.acquisitionValue().toString))
-    }
-
-    <!--- --->
-    @{if (gainAnswers.displayWorthWhenBoughtForLess)
-        summaryNumericRowHelper("worthWhenBoughtForLess", Messages("calc.resident.properties.worthWhenBoughtForLess.question"),gainAnswers.worthWhenBoughtForLess.get, Some(gainRoutes.worthWhenBoughtForLess().toString))
-    }
-
-    @{if (gainAnswers.displayWorthWhenGifted)
-        summaryNumericRowHelper("worthWhenGifted", Messages("calc.resident.properties.worthWhenGifted.question"),gainAnswers.worthWhenGifted.get, Some(gainRoutes.worthWhenGifted().toString))
-    }
-
-    @{if (gainAnswers.displayWorthWhenInherited)
-        summaryNumericRowHelper("worthWhenInherited", Messages("calc.resident.properties.worthWhenInherited.question"),gainAnswers.worthWhenInherited.get, Some(gainRoutes.worthWhenInherited().toString))
-    }
-    <!--- --->
-
-    @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.acquisitionCosts.title"),gainAnswers.acquisitionCosts,Some(gainRoutes.acquisitionCosts().toString))
-
-    @summaryNumericRowHelper("improvements",
-        if(gainAnswers.ownerBeforeLegislationStart) Messages("calc.resident.properties.improvements.questionBefore")
-        else Messages("calc.resident.properties.improvements.question"),
-        gainAnswers.improvements,Some(gainRoutes.improvements().toString))
-
-    @summaryOptionRowHelper("propertyLivedIn", Messages("calc.resident.properties.propertyLivedIn.title"),
-        deductionAnswers.propertyLivedInModel.get.livedInProperty, Some(deductionRoutes.propertyLivedIn().toString))
-
-    @{if (deductionAnswers.displayPRRValueAndLettingsRelief)
-        summaryOptionRowHelper("privateResidenceRelief", Messages("calc.resident.properties.privateResidenceRelief.title"),
-        deductionAnswers.privateResidenceReliefModel.get.isClaiming, Some(deductionRoutes.privateResidenceRelief().toString))}
-
-    @{if(deductionAnswers.displayPRRValueAndLettingsRelief)
-        summaryNumericRowHelper("privateResidenceReliefValue", Messages("calc.resident.privateResidenceReliefValue.title"),
-            deductionAnswers.privateResidenceReliefValueModel.get.amount, Some(deductionRoutes.privateResidenceReliefValue().toString))}
-
-    @{if(deductionAnswers.displayLettingsReliefValue)
-        summaryOptionRowHelper("lettingsRelief", Messages("calc.resident.lettingsRelief.title"),
-            deductionAnswers.lettingsReliefModel.get.isClaiming, Some(deductionRoutes.lettingsRelief().toString))}
-
-    @{if(deductionAnswers.displayLettingsReliefValue)
-        summaryNumericRowHelper("lettingsReliefValue", Messages("calc.resident.lettingsReliefValue.title"),
-            deductionAnswers.lettingsReliefValueModel.get.amount, Some(deductionRoutes.lettingsReliefValue().toString))}
-
-    @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied),
-        deductionAnswers.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString))
-
-    @{if (deductionAnswers.broughtForwardModel.get.option)
-        summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied),
-            deductionAnswers.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString))}
-</section>
-
-
-
-    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
-            <section id="whatToDoNext" class="summary-underline summary-overline">
-                <h2 id="whatToDoNextNoLossTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
-                <div id="whatToDoNextNoLossText" class="font-medium what-to-do-next-text">
-                    @Messages("calc.resident.summary.whatNext.noLossOrGain")
-                    <a href=@{if (result.broughtForwardLossesRemaining > 0) "https://www.gov.uk/capital-gains-tax/losses"
-                        else "https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"}
-                        target="_blank" rel="external"
-                       data-journey-click="help:govUK:rtt-properties-whaToDoNext">
-                        @Messages("calc.resident.summary.whatNext.noLossOrGainLinkProperties")
-                        <span id="opensInANewTab">@Messages("calc.base.externalLink")</span>
-                    </a>
-                    @{if (result.broughtForwardLossesRemaining > 0) Messages("calc.resident.summary.whatNext.withLossRemaining")}.
-                </div>
-            </section>
+    @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+        <section id="whatToDoNext">
+            <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
+            <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
+        </section>
     }
 
     <div id="save-as-a-pdf" class="notice download-pdf">
         <div class="icon-file-download">
-            <span class="visuallyhidden">Download</span>
+            <span class="visuallyhidden">@Messages("calc.summary.download")</span>
         </div>
 
-        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.deductionsReport"
-           data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.finalSummaryReport"
+        data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
 
+    @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+        <div class="summary-details-padding">
+            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
+        </div>
+    }
 }
