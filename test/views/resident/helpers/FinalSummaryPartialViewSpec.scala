@@ -300,7 +300,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         }
       }
 
-      "have a section for the You remaining deductions" which {
+      "have a section for the Your remaining deductions" which {
 
         "has a div for remaining deductions" which {
 

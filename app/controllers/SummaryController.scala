@@ -112,7 +112,7 @@ trait SummaryController extends ValidActiveSession {
           isPrrUsed,
           isLettingsReliefUsed,
           totalCosts)))
-      else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get)))
+      else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, totalCosts, taxYear.get, maxAEA)))
     }
 
     def getMaxAEA(taxYear: Int): Future[Option[BigDecimal]] = {
