@@ -16,19 +16,19 @@
 
 package controllers.ReportControllerSpec
 
-import common.Dates
 import assets.MessageLookup.{SummaryPage => messages}
+import common.Dates
 import connectors.CalculatorConnector
-import controllers.helpers.FakeRequestHelper
 import controllers.ReportController
-import models.resident.properties.YourAnswersSummaryModel
+import controllers.helpers.FakeRequestHelper
 import models.resident.TaxYearModel
+import models.resident.properties.YourAnswersSummaryModel
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.mvc.RequestHeader
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
@@ -52,9 +52,16 @@ class GainSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeR
     when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
-    new ReportController{
+    when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(BigDecimal(10000)))
+
+    when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(Some(BigDecimal(10000))))
+
+    new ReportController {
       override val calcConnector: CalculatorConnector = mockCalculatorConnector
-      override def host(implicit request: RequestHeader): String  = "http://localhost:9977/"
+
+      override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }
 
