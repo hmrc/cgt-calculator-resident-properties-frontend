@@ -960,11 +960,11 @@ object MessageLookup {
     val taxToPay = "Tax to pay"
     val remainingDeductions = "Your remaining deductions"
     def remainingAnnualExemptAmount(taxYear: String): String = s"Annual Exempt Amount left for the $taxYear tax year"
-    def broughtForwardLossesRemaining(taxYear: String): String = s"Losses to carry forward from tax years before $taxYear"
     val lossesToCarryForwardFromCalculation = "Losses you can carry forward from this calculation"
+    val broughtForwardLossesRemaining = "Losses to carry forward from previous tax years"
     val whatToDoNext = "What to do next"
     val whatToDoNextDetails = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
-    val noticeSummary = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
+    val noticeSummary: String = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
   }
 }

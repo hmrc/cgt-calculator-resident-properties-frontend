@@ -32,27 +32,40 @@
         <title>@Messages("calc.resident.summary.title")</title>
     </head>
 
-
-    <div class="pdf">
-        <div class="header-container">
-            <h1 class="heading-xlarge">
-                <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-                    &pound;0.00
-            </h1>
-            <div class="logo">
-                <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+    <span class="pdf">
+        <span id="logos">
+            <div class="govuk-logo">
+                <span class="govuk-logo-medium">
+                    <span class="govuk-logo-text">GOV.UK</span>
+                </span>
+                <span class="calculate-your-cgt">
+                    Calculate your Capital Gains Tax
+                </span>
             </div>
+
+            <div class="logo">
+                <span class="organisation-logo organisation-logo-medium">
+                    <span class="organisation-logo-text">HM Revenue &amp; Customs</span>
+                </span>
+            </div>
+        </span>
+
+        <div id="tax-owed-banner" class="transaction-banner--complete transaction-banner">
+                <!-- TODO: UPDATE WITH UPDATED SUMMARY'S TAX OWED VALUE AND MESSAGE FUNCTION WHEN MERGED, HARD-CODED STATIC TEXT PLACE HOLDER-->
+            <h1 class="bold-xlarge transaction-banner--complete"><span>£20000</span></h1>
+            <h2 class="heading-medium transaction-banner--complete">Hello deduction summary report, you owe this amount of tax</h2>
         </div>
 
-        @{if (!taxYear.isValidYear) {
-                <div class="notice-wrapper">
-                <div class="notice">
-                <strong class="bold-small">
-                {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-                </strong>
-                </div>
-                </div>
-        }
+        @{
+            if(!taxYear.isValidYear) {
+                    <div class="notice-wrapper">
+                    <div class="notice">
+                    <strong class="bold-small">
+                    {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
+                    </strong>
+                    </div>
+                    </div>
+            }
         }
 
             <!-- Calculation Details Section -->
@@ -87,4 +100,4 @@
         </section>
     <!-- Your Answers Section -->
     @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), displayLinks = false)
-</div>
+</span>

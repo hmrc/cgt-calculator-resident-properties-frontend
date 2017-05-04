@@ -16,8 +16,7 @@
         prrUsed: Option[Boolean] = None,
         lettingsReliefUsed: Option[Boolean] = None,
         totalCosts: BigDecimal,
-        totalDeductions: BigDecimal,
-        aeaRemaining: BigDecimal)(implicit request: Request[_], messages: Messages)
+        totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
@@ -27,10 +26,10 @@
     <!-- Google Analytics -->
     <div id="ga-reporting" class="visuallyhidden">
 
-        <!-- Tax Year -->
+            <!-- Tax Year -->
         <span data-metrics="rtt-properties-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
 
-        <!-- Gain Stats -->
+            <!-- Gain Stats -->
         <span data-metrics="rtt-properties-summary:result:gain"></span>
 
             <!-- PRR Stats -->
@@ -47,7 +46,7 @@
             case _ => ()
         }}
 
-        <!-- Claiming Brought Forward Losses Stats -->
+            <!-- Claiming Brought Forward Losses Stats -->
         @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
             <span data-metrics="rtt-properties-summary:broughtForwardLosses:yes"></span>
         } else {
@@ -63,8 +62,7 @@
         Some(prrUsed),
         Some(lettingsReliefUsed),
         totalCosts,
-        totalDeductions,
-        aeaRemaining)
+        totalDeductions)
 
     @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
         <section id="whatToDoNext">
