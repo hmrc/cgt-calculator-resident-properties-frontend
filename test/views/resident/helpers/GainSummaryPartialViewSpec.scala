@@ -164,8 +164,8 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
             div.select("#aeaUsed-text").text shouldBe summaryMessages.aeaUsed
           }
 
-          "has the value '£11,000'" in {
-            div.select("#aeaUsed-amount").text shouldBe "£11,000"
+          "has the value '£0'" in {
+            div.select("#aeaUsed-amount").text shouldBe "£0"
           }
         }
 
