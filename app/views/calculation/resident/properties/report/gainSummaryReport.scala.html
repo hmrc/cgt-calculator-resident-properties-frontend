@@ -2,9 +2,10 @@
 @import models.resident._
 @import models.resident.properties._
 @import constructors.resident.properties.SummaryConstructor._
-
+@import views.html.helpers.gainSummaryPartial
 @import views.html.helpers.checkYourAnswersPartial
-@(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
+
+@(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel, totalCosts: BigDecimal, maxAea: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 <!DOCTYPE html>
 <html>
@@ -35,31 +36,12 @@
             </div>
         </span>
 
-        <div id="tax-owed-banner" class="transaction-banner--complete transaction-banner">
-                <!-- TODO: UPDATE WITH UPDATED SUMMARY'S TAX OWED VALUE AND MESSAGE FUNCTION WHEN MERGED, HARD-CODED STATIC TEXT PLACE HOLDER-->
-            <h1 class="bold-xlarge transaction-banner--complete"><span>£20000</span></h1>
-            <h2 class="heading-medium transaction-banner--complete">Hello gainSummaryReport, you owe this amount of tax</h2>
-        </div>
-
-        @{if (!taxYear.isValidYear) {
-                <div class="notice-wrapper">
-                <div class="notice">
-                <strong class="bold-small">
-                {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-            </strong>
-        </div>
-    </div>
-    }
-    }
-
-    <!-- Calculation Details Section -->
-    <section id="calcDetails">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-        <!-- Data Rows -->
-        @summaryNumericRowHelper("gain",gainMessage(gain),gain)
-    </section>
+        @gainSummaryPartial(answers,
+            taxYear,
+            gain,
+            totalCosts,
+            maxAea
+        )
 
     @checkYourAnswersPartial(answers, None, None, displayLinks = false)
 </span>
