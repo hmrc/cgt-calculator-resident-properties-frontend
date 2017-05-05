@@ -133,8 +133,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         doc.title() shouldBe messages.title
       }
 
-      s"has a link to '${controllers.routes.ReviewAnswersController.reviewFinalAnswers().url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewGainAnswers().url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewGainAnswers().url
       }
 
     }
