@@ -43,6 +43,10 @@ object Dates {
     s"$startYear/$endYear"
   }
 
+  def dateStringToLonghandFormat(date: String): String = {
+    s"${date.take(4)} to ${date.take(2) + date.takeRight(2)}"
+  }
+
   def getCurrentTaxYear: Future[String] = {
     val now = LocalDate.now()
     val year = now.getYear

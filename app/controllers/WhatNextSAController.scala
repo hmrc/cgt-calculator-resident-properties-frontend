@@ -17,12 +17,40 @@
 package controllers
 
 import controllers.predicates.ValidActiveSession
+import play.api.mvc.{Action, AnyContent}
+import common.Dates._
+import common.KeystoreKeys
+import connectors.CalculatorConnector
+import models.resident.DisposalDateModel
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import uk.gov.hmrc.play.http.HeaderCarrier
 
-object WhatNextSAController extends WhatNextSAController
+import scala.concurrent.Future
+
+object WhatNextSAController extends WhatNextSAController {
+  val calcConnector = CalculatorConnector
+}
 
 trait WhatNextSAController extends ValidActiveSession {
 
-  val whatNextSAOverFourTimesAEA = TODO
+  val calcConnector: CalculatorConnector
+
+  //TODO link to the correct page
+  val backLink: String = "back-link"
+
+  def fetchAndParseDate()(implicit hc: HeaderCarrier): Future[String] = {
+    calcConnector.fetchAndGetFormData[DisposalDateModel] (KeystoreKeys.ResidentPropertyKeys.disposalDate).map {
+      case Some(data) => datePageFormatNoZero.format(constructDate(31, 1, data.year + 1))
+      case _ => "Disposal Date Page Not Visited"
+    }
+  }
+
+  val whatNextSAOverFourTimesAEA: Action[AnyContent] = Action.async { implicit request =>
+    fetchAndParseDate() map {
+      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA("back-link", date))
+    }
+  }
 
   val whatNextSANoGain = TODO
 

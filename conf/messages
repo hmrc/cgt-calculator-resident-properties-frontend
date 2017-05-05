@@ -775,3 +775,9 @@ calc.summary.whatToDoNext.heading = What to do next
 calc.summary.whatToDoNext.details = Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax.
 calc.summary.noticeSummary = Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax.
 calc.summary.download = Download
+
+## What to do next
+calc.whatToDoNext.title = What to do next
+calc.whatToDoNext.information = You have until {0} to report your Capital Gains Tax figures through Self Assessment.
+calc.whatToDoNext.youMustDoThis = You must do this, even though there’s no tax to pay.
+calc.whatToDoNext.finish = Finish

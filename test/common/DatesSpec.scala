@@ -58,4 +58,16 @@ class DatesSpec extends UnitSpec {
       } yield date.length shouldEqual 7
     }
   }
+
+  "Calling dateStringToLonghandFormat" should {
+    "when called with 2016/17 return 2016 to 2017" in {
+      Dates.dateStringToLonghandFormat("2016/17") shouldBe "2016 to 2017"
+    }
+    "when called with 1993/94 return 1993 to 1994" in {
+      Dates.dateStringToLonghandFormat("1993/94") shouldBe "1993 to 1994"
+    }
+    "when called with 2018/19 return 2018 to 2019" in {
+      Dates.dateStringToLonghandFormat("2018/19") shouldBe "2018 to 2019"
+    }
+  }
 }

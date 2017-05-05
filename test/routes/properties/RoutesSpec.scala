@@ -391,8 +391,8 @@ class RoutesSpec extends UnitSpec with WithFakeApplication with Matchers {
   }
 
   "The URL for the whatNextSAOverFourTimesAEA action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/what-next-gain-over-limit" in {
-      WhatNextSAController.whatNextSAOverFourTimesAEA().url shouldEqual "/calculate-your-capital-gains/resident/properties/what-next-gain-over-limit"
+    "be equal to /calculate-your-capital-gains/resident/properties/what-next-zero-gain-over-limit" in {
+      WhatNextSAController.whatNextSAOverFourTimesAEA().url shouldEqual "/calculate-your-capital-gains/resident/properties/what-next-zero-gain-over-limit"
     }
   }
 
