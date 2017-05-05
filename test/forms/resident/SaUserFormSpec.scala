@@ -16,18 +16,19 @@
 
 package forms.resident
 
-import assets.MessageLookup.{AllowableLosses => messages}
-import forms.resident.AllowableLossesForm._
-import models.resident.AllowableLossesModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import models.resident.SaUserModel
+import org.scalatestplus.play.OneAppPerSuite
+import uk.gov.hmrc.play.test.UnitSpec
+import forms.resident.SaUserForm._
+import assets.MessageLookup.{SaUser => messages}
 
-class AllowableLossesFormSpec extends UnitSpec with WithFakeApplication {
+class SaUserFormSpec extends UnitSpec with OneAppPerSuite {
 
   "Creating a form using a valid model" should {
 
     "return a form with the data specified in the model" in {
-      lazy val model = AllowableLossesModel(true)
-      lazy val form = allowableLossesForm.fill(model)
+      lazy val model = SaUserModel(true)
+      lazy val form = saUserForm.fill(model)
       form.value shouldBe Some(model)
     }
   }
@@ -35,15 +36,15 @@ class AllowableLossesFormSpec extends UnitSpec with WithFakeApplication {
   "Creating a form using a valid map" should {
 
     "return a form with the data specified in the model" in {
-      lazy val form = allowableLossesForm.bind(Map(("isClaiming", "Yes")))
-      form.value shouldBe Some(AllowableLossesModel(true))
+      lazy val form = saUserForm.bind(Map(("isInSa", "Yes")))
+      form.value shouldBe Some(SaUserModel(true))
     }
   }
 
   "Creating a form using an invalid map" when {
 
     "supplied with no data" should {
-      lazy val form = allowableLossesForm.bind(Map(("isClaiming", "")))
+      lazy val form = saUserForm.bind(Map(("isInSa", "")))
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
@@ -53,13 +54,13 @@ class AllowableLossesFormSpec extends UnitSpec with WithFakeApplication {
         form.errors.size shouldBe 1
       }
 
-      s"return an error with message ${messages.errorSelect("2015/16")}" in {
-        form.error("isClaiming").get.message shouldBe messages.errorSelect("2015/16")
+      s"return an error with message ${messages.error}" in {
+        form.error("isInSa").get.message shouldBe messages.error
       }
     }
 
     "supplied with invalid data" should {
-      lazy val form = allowableLossesForm.bind(Map(("isClaiming", "a")))
+      lazy val form = saUserForm.bind(Map(("isInSa", "a")))
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
@@ -69,8 +70,8 @@ class AllowableLossesFormSpec extends UnitSpec with WithFakeApplication {
         form.errors.size shouldBe 1
       }
 
-      s"return an error with message ${messages.errorSelect("2015/16")}" in {
-        form.error("isClaiming").get.message shouldBe messages.errorSelect("2015/16")
+      s"return an error with message ${messages.error}" in {
+        form.error("isInSa").get.message shouldBe messages.error
       }
     }
   }
