@@ -1,6 +1,6 @@
 @import views.html.calculation.resident._
 
-@()(implicit request: Request[_], messages: Messages)
+@(iFormUrl: String)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(
     Messages("calc.resident.whatNextNonSa.loss.title"),
@@ -16,8 +16,7 @@
     <p id="details-two">@Messages("calc.resident.whatNextNonSa.loss.detailsTwo")</p>
 
     <p id="report-now">
-            <!-- TODO: update link -->
-        <a class="button" href="">@Messages("calc.resident.whatNextNonSa.loss.reportNow")</a>
+        <a class="button" href=@iFormUrl>@Messages("calc.resident.whatNextNonSa.loss.reportNow")</a>
     </p>
 
     <p id="govUk">

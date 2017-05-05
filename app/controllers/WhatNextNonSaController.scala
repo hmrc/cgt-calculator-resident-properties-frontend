@@ -16,22 +16,28 @@
 
 package controllers
 
+import config.{AppConfig, ApplicationConfig}
 import controllers.predicates.ValidActiveSession
 import play.api.mvc.{Action, AnyContent}
 import views.html.calculation.resident.properties.{whatNext => views}
+
 import scala.concurrent.Future
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
-object WhatNextNonSaController extends WhatNextNonSaController
+object WhatNextNonSaController extends WhatNextNonSaController {
+  override val applicationConfig: AppConfig = ApplicationConfig
+}
 
 trait WhatNextNonSaController extends ValidActiveSession {
 
+  val applicationConfig: AppConfig
+
   val whatNextNonSaGain: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(views.whatNextNonSaGain()))
+    Future.successful(Ok(views.whatNextNonSaGain(applicationConfig.residentIFormUrl)))
   }
 
   val whatNextNonSaLoss: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(views.whatNextNonSaLoss()))
+    Future.successful(Ok(views.whatNextNonSaLoss(applicationConfig.residentIFormUrl)))
   }
 }

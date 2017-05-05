@@ -28,7 +28,7 @@ class WhatNextNonSaGainViewSpec extends UnitSpec with WithFakeApplication with F
 
   "whatNextNonSaGain view" should {
 
-    lazy val view = views.whatNextNonSaGain()(fakeRequestWithSession, applicationMessages)
+    lazy val view = views.whatNextNonSaGain("iFormUrl")(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -59,8 +59,8 @@ class WhatNextNonSaGainViewSpec extends UnitSpec with WithFakeApplication with F
         reportNow.text shouldBe messages.reportNow
       }
 
-      "has a link to ''" in {
-        reportNow.attr("href") shouldBe ""
+      "has a link to 'iFormUrl'" in {
+        reportNow.attr("href") shouldBe "iFormUrl"
       }
     }
 
