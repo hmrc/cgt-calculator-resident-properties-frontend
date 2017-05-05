@@ -165,3 +165,8 @@ GET     /deductions-report                controllers.ReportController.deduction
 
 #Final Summary PDF Routes
 GET     /final-report                     controllers.ReportController.finalSummaryReport
+
+#What Next Routes
+GET     /what-next-gain-over-limit        controllers.WhatNextSAController.whatNextSAOverFourTimesAEA
+GET     /what-next-no-gain                controllers.WhatNextSAController.whatNextSANoGain
+GET     /what-next-gain                   controllers.WhatNextSAController.whatNextSAGain
