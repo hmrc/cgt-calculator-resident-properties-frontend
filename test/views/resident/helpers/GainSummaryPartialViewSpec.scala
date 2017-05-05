@@ -320,6 +320,54 @@ class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with
     }
   }
 
+  "The property sale price is equal to the losses" should {
+
+    val gainAnswers = YourAnswersSummaryModel(
+      disposalDate = Dates.constructDate(10, 10, 2015),
+      disposalValue = Some(10000),
+      worthWhenSoldForLess = None,
+      whoDidYouGiveItTo = None,
+      worthWhenGaveAway = None,
+      disposalCosts = BigDecimal(100000),
+      acquisitionValue = Some(0),
+      worthWhenInherited = None,
+      worthWhenGifted = None,
+      worthWhenBoughtForLess = None,
+      acquisitionCosts = BigDecimal(100000),
+      improvements = BigDecimal(300000),
+      givenAway = false,
+      sellForLess = Some(false),
+      ownerBeforeLegislationStart = true,
+      valueBeforeLegislationStart = Some(350000.00),
+      howBecameOwner = Some("Bought"),
+      boughtForLessThanWorth = Some(false)
+    )
+
+    val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+    lazy val view = views.gainSummaryPartial(gainAnswers, taxYearModel, 0, 150, 11000)(fakeRequestWithSession, applicationMessages)
+    lazy val doc = Jsoup.parse(view.body)
+
+    "has a h3 tag" which {
+
+      lazy val div = doc.select("#yourTotalLoss")
+      
+      s"has the text '${summaryMessages.yourTotalGain}'" in {
+        div.select("h3").text shouldBe summaryMessages.yourTotalGain
+      }
+
+      "has a row for total gain" which {
+        s"has the text '${summaryMessages.totalGain}'" in {
+          div.select("#totalGain-text").text shouldBe summaryMessages.totalGain
+        }
+
+        "has the value '£0'" in {
+          div.select("#totalGain-amount").text shouldBe "£0"
+        }
+      }
+    }
+  }
+
   "the property was given away" should {
     val gainAnswers = YourAnswersSummaryModel(
       disposalDate = Dates.constructDate(10, 10, 2015),
