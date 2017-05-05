@@ -169,3 +169,8 @@ GET     /final-report                     controllers.ReportController.finalSumm
 #What Next Non-SA Gain Routes
 GET     /what-next-non-sa-gain            controllers.WhatNextNonSaController.whatNextNonSaGain
 GET     /what-next-non-sa-loss            controllers.WhatNextNonSaController.whatNextNonSaLoss
+
+#What Next SA Routes
+GET     /what-next-gain-over-limit        controllers.WhatNextSAController.whatNextSAOverFourTimesAEA
+GET     /what-next-no-gain                controllers.WhatNextSAController.whatNextSANoGain
+GET     /what-next-gain                   controllers.WhatNextSAController.whatNextSAGain

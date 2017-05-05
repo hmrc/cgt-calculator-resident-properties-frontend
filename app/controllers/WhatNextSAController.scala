@@ -20,7 +20,6 @@ import controllers.predicates.ValidActiveSession
 
 object WhatNextSAController extends WhatNextSAController
 
-
 trait WhatNextSAController extends ValidActiveSession {
 
   val whatNextSAOverFourTimesAEA = TODO
