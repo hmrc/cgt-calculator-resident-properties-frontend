@@ -6,14 +6,14 @@
 @import common.Dates._
 @import views.html.helpers.gainSummaryPartial
 @import constructors.resident.properties.SummaryConstructor._
-@import controllers.routes.{GainController => routes}
+@import controllers.routes
 @import views.html.calculation.resident.properties._
 
 @(answers: YourAnswersSummaryModel, gain: BigDecimal, totalCosts: BigDecimal, taxYear: TaxYearModel, maxAEA: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
-    backLink = Some(controllers.routes.GainController.improvements().toString)
+    backLink = Some(routes.ReviewAnswersController.reviewGainAnswers().url)
 ) {
 
     <!-- Google Analytics -->
