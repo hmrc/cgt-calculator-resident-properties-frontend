@@ -79,8 +79,8 @@ trait SaUserController extends ValidActiveSession {
 
     def nonSaAction(taxOwed: Option[BigDecimal]) = {
       taxOwed match {
-        case Some(gain) if gain > 0 => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSAGain())} //TODO update to nonSa controller
-        case _ => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSANoGain())} //TODO update to nonSa controller
+        case Some(gain) if gain > 0 => Future{Redirect(controllers.routes.WhatNextNonSaController.whatNextNonSaGain())}
+        case _ => Future{Redirect(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss())}
       }
     }
 

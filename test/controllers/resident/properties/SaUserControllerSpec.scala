@@ -121,7 +121,7 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
         }
 
         "redirect to the nonSa loss what next page" in {
-          redirectLocation(result) shouldBe ""
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss().url)
         }
       }
 
@@ -134,7 +134,7 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
         }
 
         "redirect to the nonSa gain what next page" in {
-          redirectLocation(result) shouldBe ""
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaGain().url)
         }
       }
     }
