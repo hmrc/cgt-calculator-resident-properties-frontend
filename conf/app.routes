@@ -167,6 +167,6 @@ GET     /deductions-report                controllers.ReportController.deduction
 GET     /final-report                     controllers.ReportController.finalSummaryReport
 
 #What Next Routes
-GET     /what-next-zero-gain-over-limit   controllers.WhatNextSAController.whatNextSAOverFourTimesAEA
-GET     /what-next-no-gain                controllers.WhatNextSAController.whatNextSANoGain
-GET     /what-next-gain                   controllers.WhatNextSAController.whatNextSAGain
+GET     /what-next-sa-no-gain-over-limit  controllers.WhatNextSAController.whatNextSAOverFourTimesAEA
+GET     /what-next-sa-no-gain             controllers.WhatNextSAController.whatNextSANoGain
+GET     /what-next-sa-gain                controllers.WhatNextSAController.whatNextSAGain

@@ -6,18 +6,20 @@
 
     <h1>@Messages("calc.whatToDoNext.title")</h1>
 
-    <p id="bullet-list-title">@Messages("calc.whatToDoNext.gain.bulletTitle")</p>
+    <div class="form-group">
+        <p id="bullet-list-title">@Messages("calc.whatToDoNext.gain.bulletTitle")</p>
 
-    <ul>
-        <li>@Messages("calc.whatToDoNext.gain.bulletPointOne", disposalTaxYear)</li>
-        <li>@Messages("calc.whatToDoNext.gain.bulletPointTwo")</li>
-    </ul>
+        <ul class="bullets">
+            <li>@Messages("calc.whatToDoNext.gain.bulletPointOne", disposalTaxYear)</li>
+            <li>@Messages("calc.whatToDoNext.gain.bulletPointTwo")</li>
+        </ul>
 
-    <p id="important-information">@Messages("calc.whatToDoNext.gain.reportImportant", reportingYear)</p>
+        <p id="important-information" class="indent">@Messages("calc.whatToDoNext.gain.reportImportant", reportingYear)</p>
 
-    <p id="report-now-information">@Messages("calc.whatToDoNext.gain.reportNowInfo")</p>
+        <p id="report-now-information">@Messages("calc.whatToDoNext.gain.reportNowInfo")</p>
 
-    <a id="report-now-button" class="button" href="I-FORM">@Messages("calc.whatToDoNext.reportNow")</a>
+        <a id="report-now-button" class="button" href="I-FORM">@Messages("calc.whatToDoNext.reportNow")</a>
+    </div>
 
-    <a id="finish"  href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>
+    <a id="finish" href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>
 }
