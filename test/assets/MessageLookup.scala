@@ -981,7 +981,7 @@ object MessageLookup {
 
     object WhatNextNoGain {
       val bulletPointTitle = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can either:"
-      val bulletPointOne: String => String = year =>  s"report it on your Self Assessment return for the $year tax year"
+      val bulletPointOne: String => String = year => s"report it on your Self Assessment return for the $year tax year"
       val bulletPointTwo = "report it now using our online form"
       val importantInformation: String => String =
         saYear => s"If you report it now, you'll still need to declare your capital gains through Self Assessment by $saYear."
@@ -991,12 +991,28 @@ object MessageLookup {
 
     object WhatNextGain {
       val bulletPointTitle = "You can either:"
-      val bulletPointOne: String => String = year =>  s"report and pay on your Self Assessment return for the $year tax year"
+      val bulletPointOne: String => String = year => s"report and pay on your Self Assessment return for the $year tax year"
       val bulletPointTwo = "report and pay now using our online form"
       val importantInformation: String => String =
         saYear => s"If you report and pay now, you'll still need to declare your capital gains through Self Assessment by $saYear."
       val whatNextInformation =
         "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
     }
+  }
+
+   object WhatNextNonSaGain {
+    val title = "What to do next"
+    val reportNow = "Report now"
+    val govUk = "Return to GOV.UK"
+    val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
+    val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+  }
+
+  object WhatNextNonSaLoss {
+    val title = "What to do next"
+    val reportNow = "Report now"
+    val govUk = "Return to GOV.UK"
+    val detailsOne = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can report it using our online form."
+    val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
   }
 }
