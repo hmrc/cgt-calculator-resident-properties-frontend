@@ -436,16 +436,3 @@
 .pdf .text--right {
     text-align: right;
 }
-
-.indent {
-    font-size: 19px;
-    padding-top: 0.5em;
-    padding-bottom: 0.75em;
-}
-
-@media (max-width: 640px) {
-    .indent {
-        font-size: 16px;
-        line-height: 1.25;
-    }
-}
