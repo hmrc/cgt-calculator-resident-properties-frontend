@@ -16,7 +16,7 @@
 
     <h1 class="heading-large">@Messages("calc.resident.saUser.title")</h1>
 
-    @form(action = controllers.routes.SaConfirmController.submitSaConfirm) {
+    @form(action = controllers.routes.SaUserController.submitSaUser()) {
         @inputRadioGroup(
             saUserForm("isInSa"),
             Seq(

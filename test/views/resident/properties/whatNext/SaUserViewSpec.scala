@@ -49,8 +49,8 @@ class SaUserViewSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper
           form.attr("method") shouldBe "POST"
         }
 
-        s"has an action of ${controllers.routes.SaConfirmController.submitSaConfirm().url}" in {
-          form.attr("action") shouldBe controllers.routes.SaConfirmController.submitSaConfirm().url
+        s"has an action of ${controllers.routes.SaUserController.submitSaUser().url}" in {
+          form.attr("action") shouldBe controllers.routes.SaUserController.submitSaUser().url
         }
       }
 

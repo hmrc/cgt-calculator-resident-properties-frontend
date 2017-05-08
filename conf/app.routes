@@ -167,8 +167,8 @@ GET     /deductions-report                controllers.ReportController.deduction
 GET     /final-report                     controllers.ReportController.finalSummaryReport
 
 #SA Confirm Routes
-GET     /confirm-self-assessment          controllers.SaConfirmController.saConfirm
-POST    /confirm-self-assessment          controllers.SaConfirmController.submitSaConfirm
+GET     /confirm-self-assessment          controllers.SaUserController.saUser
+POST    /confirm-self-assessment          controllers.SaUserController.submitSaUser
 
 #What Next Non-SA Gain Routes
 GET     /what-next-non-sa-gain            controllers.WhatNextNonSaController.whatNextNonSaGain
