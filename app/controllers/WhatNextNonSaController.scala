@@ -33,11 +33,11 @@ trait WhatNextNonSaController extends ValidActiveSession {
 
   val applicationConfig: AppConfig
 
-  val whatNextNonSaGain: Action[AnyContent] = Action.async { implicit request =>
+  val whatNextNonSaGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     Future.successful(Ok(views.whatNextNonSaGain(applicationConfig.residentIFormUrl)))
   }
 
-  val whatNextNonSaLoss: Action[AnyContent] = Action.async { implicit request =>
+  val whatNextNonSaLoss: Action[AnyContent] = ValidateSession.async { implicit request =>
     Future.successful(Ok(views.whatNextNonSaLoss(applicationConfig.residentIFormUrl)))
   }
 }
