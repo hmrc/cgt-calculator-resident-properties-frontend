@@ -16,16 +16,57 @@
 
 package controllers.resident.properties
 
-import assets.MessageLookup
+import assets.{MessageLookup, ModelsAsset}
+import connectors.CalculatorConnector
 import controllers.SaUserController
 import controllers.helpers.FakeRequestHelper
+import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
+import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import org.scalatestplus.play.OneAppPerSuite
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
 
+import scala.concurrent.Future
+
 class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+
+  def setupController(yourAnswersSummaryModel: YourAnswersSummaryModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
+                      taxOwed: BigDecimal): SaUserController = {
+    val mockConnector = mock[CalculatorConnector]
+
+    when(mockConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(yourAnswersSummaryModel))
+
+    when(mockConnector.getPropertyDeductionAnswers(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(ModelsAsset.deductionAnswersLeastPossibles))
+
+    when(mockConnector.getPropertyIncomeAnswers(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(ModelsAsset.incomeAnswers))
+
+    when(mockConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(totalGain))
+
+    when(mockConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(Some(ChargeableGainResultModel(totalGain, chargeableGain, 0, 0, 0, 0, 0, None, None, 0, 0))))
+
+    when(mockConnector.calculateRttPropertyTotalGainAndTax(ArgumentMatchers.any(), ArgumentMatchers.any(),
+      ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+    .thenReturn(Future.successful(Some(TotalGainAndTaxOwedModel(totalGain, chargeableGain, 11000, 0, 5000, 10000, 5, None, None, None, None, 0, 0))))
+
+    when(mockConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    .thenReturn(Future.successful(Some(BigDecimal(11000))))
+
+    when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    .thenReturn(Future.successful(Some(ModelsAsset.taxYearModel)))
+
+    new SaUserController {
+      override val calculatorConnector: CalculatorConnector = mockConnector
+    }
+  }
 
   "Calling .saUser" when {
 
@@ -37,7 +78,7 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
       }
 
       "redirect to the missing session page" in {
-        redirectLocation(result).get should include ("/calculate-your-capital-gains/resident/properties/session-timeout")
+        redirectLocation(result).get should include("/calculate-your-capital-gains/resident/properties/session-timeout")
       }
     }
 
@@ -50,6 +91,94 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
 
       "load the saUser page" in {
         Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.SaUser.title
+      }
+    }
+  }
+
+  "Calling .submitSaUser" when {
+
+    "no session is provided" should {
+      lazy val result = SaUserController.submitSaUser(fakeRequest)
+
+      "return a status of 303" in {
+        status(result) shouldBe 303
+      }
+
+      "redirect to the missing session page" in {
+        redirectLocation(result).get should include("/calculate-your-capital-gains/resident/properties/session-timeout")
+      }
+    }
+
+    "a non-sa user is submitted" when {
+      val form = "isInSa" -> "No"
+
+      "there is no tax liability" should {
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa loss what next page" in {
+          redirectLocation(result) shouldBe ""
+        }
+      }
+
+      "there is a tax liability" should {
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa gain what next page" in {
+          redirectLocation(result) shouldBe ""
+        }
+      }
+    }
+
+    "a sa user is submitted" when {
+      val form = "isInSa" -> "Yes"
+
+      "there is a tax liability" should {
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa gain what next page" in {
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAGain().url)
+        }
+      }
+
+      "there is no tax liability and a disposal value less than 4*AEA" should {
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa loss what next page" in {
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSANoGain().url)
+        }
+      }
+
+      "there is no tax liability and a disposal value greater than 4*AEA" should {
+        lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa loss with value greater than what next page" in {
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAOverFourTimesAEA().url)
+        }
       }
     }
   }

@@ -69,16 +69,16 @@ trait SaUserController extends ValidActiveSession {
       Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
     }
 
-    def saAction(disposalValue: BigDecimal, finalGain: Option[BigDecimal], maxAEA: BigDecimal): Future[Result] = {
-      finalGain match {
-        case Some(gain) if gain > 0 => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSAGain())}
+    def saAction(disposalValue: BigDecimal, taxOwed: Option[BigDecimal], maxAEA: BigDecimal): Future[Result] = {
+      taxOwed match {
+        case Some(tax) if tax > 0 => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSAGain())}
         case _ if disposalValue >= 4 * maxAEA => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSAOverFourTimesAEA())}
         case _ => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSANoGain())}
       }
     }
 
-    def nonSaAction(finalGain: Option[BigDecimal]) = {
-      finalGain match {
+    def nonSaAction(taxOwed: Option[BigDecimal]) = {
+      taxOwed match {
         case Some(gain) if gain > 0 => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSAGain())} //TODO update to nonSa controller
         case _ => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSANoGain())} //TODO update to nonSa controller
       }
@@ -86,9 +86,9 @@ trait SaUserController extends ValidActiveSession {
 
     def routeAction(saUserModel: SaUserModel, totalGainAndTaxOwedModel: Option[TotalGainAndTaxOwedModel],
                     maxAEA: BigDecimal, disposalValue: BigDecimal): Future[Result] = {
-      val chargeableGain = totalGainAndTaxOwedModel.map {_.chargeableGain}
-      if (saUserModel.isInSa) saAction(disposalValue, chargeableGain, maxAEA)
-      else nonSaAction(chargeableGain)
+      val taxOwed = totalGainAndTaxOwedModel.map {_.taxOwed}
+      if (saUserModel.isInSa) saAction(disposalValue, taxOwed, maxAEA)
+      else nonSaAction(taxOwed)
     }
 
     def errorAction(form: Form[SaUserModel]) = {
