@@ -1,21 +1,23 @@
 @import views.html.calculation.resident.properties._
 
-@(backUrl: String, reportingYear: String)(implicit request : Request[_], messages: Messages)
+@(backUrl: String, disposalTaxYear: String, reportingYear: String)(implicit request : Request[_], messages: Messages)
 
-@resident_properties_main_template(title = Messages("calc.whatToDoNext.gain.title"), backLink = Some(backUrl)) {
+@resident_properties_main_template(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
 
-    <h1>@Messages("calc.whatToDoNext.gain.title")</h1>
+    <h1>@Messages("calc.whatToDoNext.title")</h1>
 
-    <p>@Messages("calc.whatToDoNext.gain.information", reportingYear)</p>
+    <p id="bullet-list-title">@Messages("calc.whatToDoNext.gain.bulletTitle")</p>
 
     <ul>
-        <li>@Messages("calc.whatToDoNext.gain.bulletPointOne")</li>
+        <li>@Messages("calc.whatToDoNext.gain.bulletPointOne", disposalTaxYear)</li>
         <li>@Messages("calc.whatToDoNext.gain.bulletPointTwo")</li>
     </ul>
 
-    <p>@Messages("calc.whatToDoNext.gain.reportNowInfo")</p>
+    <p id="important-information">@Messages("calc.whatToDoNext.gain.reportImportant", reportingYear)</p>
 
-    <a id="report-now">@Messages("calc.whatToDoNext.reportNow")</a>
+    <p id="report-now-information">@Messages("calc.whatToDoNext.gain.reportNowInfo")</p>
 
-    <a id="finish">@Messages("calc.whatToDoNext.finish")</a>
+    <a id="report-now-button" class="button" href="I-FORM">@Messages("calc.whatToDoNext.reportNow")</a>
+
+    <a id="finish"  href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>
 }

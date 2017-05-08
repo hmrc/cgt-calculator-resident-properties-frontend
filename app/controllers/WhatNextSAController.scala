@@ -19,6 +19,7 @@ package controllers
 import controllers.predicates.ValidActiveSession
 import play.api.mvc.{Action, AnyContent}
 import common.Dates._
+import java.time._
 import common.KeystoreKeys
 import connectors.CalculatorConnector
 import models.resident.DisposalDateModel
@@ -39,21 +40,31 @@ trait WhatNextSAController extends ValidActiveSession {
   //TODO link to the correct page
   val backLink: String = "back-link"
 
-  def fetchAndParseDate()(implicit hc: HeaderCarrier): Future[String] = {
+  def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
     calcConnector.fetchAndGetFormData[DisposalDateModel] (KeystoreKeys.ResidentPropertyKeys.disposalDate).map {
-      case Some(data) => datePageFormatNoZero.format(constructDate(31, 1, data.year + 1))
-      case _ => "Disposal Date Page Not Visited"
+      data => LocalDate.of(data.get.year, data.get.month, data.get.day)
     }
   }
 
   val whatNextSAOverFourTimesAEA: Action[AnyContent] = Action.async { implicit request =>
-    fetchAndParseDate() map {
-      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA("back-link", date))
+    fetchAndParseDateToLocalDate() map {
+      date =>
+        val reportingDate = reportingYear(date)
+        Ok(views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA("back-link", reportingDate))
     }
   }
 
   val whatNextSANoGain = TODO
+//  : Action[AnyContent] = Action.async { implicit request =>
+//    Future.successful(Ok(views.html.calculation.resident.properties.whatNext.whatNextSaNoGain(backLink, , saReportingYear)))
+//  }
 
   val whatNextSAGain = TODO
 
 }
+
+//        val longHandTaxYear = taxYearOfDateLongHand(date)
+
+
+//      case Some(data) => datePageFormatNoZero.format(constructDate(31, 1, data.year + 1))
+

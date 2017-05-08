@@ -43,8 +43,22 @@ object Dates {
     s"$startYear/$endYear"
   }
 
-  def dateStringToLonghandFormat(date: String): String = {
-    s"${date.take(4)} to ${date.take(2) + date.takeRight(2)}"
+  def taxYearOfDateLongHand(date: LocalDate): String = {
+    if (date.isAfter(LocalDate.parse(s"${date.getYear.toString}-$taxYearEnd"))) {
+      s"${date.getYear} to ${date.plusYears(1L).getYear}"
+    }
+    else {
+      s"${date.minusYears(1L).getYear} to ${date.getYear}"
+    }
+  }
+
+  def reportingYear(date: LocalDate): String = {
+    if (date.isAfter(LocalDate.parse(s"${date.getYear.toString}-$taxYearEnd"))) {
+      datePageFormatNoZero.format(constructDate(31, 1, date.getYear + 2))
+    }
+    else {
+      datePageFormatNoZero.format(constructDate(31, 1, date.getYear + 1))
+    }
   }
 
   def getCurrentTaxYear: Future[String] = {

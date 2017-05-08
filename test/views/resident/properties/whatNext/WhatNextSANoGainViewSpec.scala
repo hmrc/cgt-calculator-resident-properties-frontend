@@ -16,6 +16,8 @@
 
 package views.resident.properties.whatNext
 
+import assets.MessageLookup.{WhatNextPages => commonMessages}
+import assets.MessageLookup.WhatNextPages.{WhatNextNoGain => pageMessages}
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.i18n.Messages.Implicits._
@@ -25,53 +27,73 @@ import views.html.calculation.resident.properties.{whatNext => views}
 
 class WhatNextSANoGainViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
-  "The whatNextSANoGain view" should {
+  "The whatNextSaNoGain view" should {
 
-    lazy val view = views.whatNextSAFourTimesAEA("back-link", "31 January 2018")(fakeRequest, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body).select("article.content__body")
+    lazy val view = views.whatNextSaNoGain("back-link", "2016 to 2017", "31 January 2018")(fakeRequest, applicationMessages)
+    lazy val doc = Jsoup.parse(view.body)
 
-    "have the correct title" in {
-
+    s"have a title ${commonMessages.title}" in {
+      doc.title() shouldBe commonMessages.title
     }
 
-    "have a bullet point ..." which {
+    "have a back link to 'back-link'" in {
+      doc.select("a#back-link").attr("href") shouldBe "back-link"
+    }
 
-      "has the title ..." in {
+    "have the correct heading" in {
+      doc.select("h1").text shouldBe commonMessages.title
+    }
 
+    "have a bullet point list" which {
+
+      s"has the title ${pageMessages.bulletPointTitle}" in {
+        doc.select("#bullet-list-title").text shouldBe pageMessages.bulletPointTitle
       }
 
-      "has a first bullet point of ..." in {
-
+      s"has a first bullet point of ${pageMessages.bulletPointOne("2016 to 2017")}" in {
+        doc.select("article.content__body ul li").get(0).text shouldBe pageMessages.bulletPointOne("2016 to 2017")
       }
 
-      "has a second bullet point of ..." in {
-
+      s"has a second bullet point of ${pageMessages.bulletPointTwo}" in {
+        doc.select("article.content__body ul li").get(1).text shouldBe pageMessages.bulletPointTwo
       }
     }
 
-    "have an important information section with the text ..." in {
-
+    s"have an important information section with the text ${pageMessages.importantInformation("31 January 2018")}" in {
+      doc.select("#important-information").text shouldBe pageMessages.importantInformation("31 January 2018")
     }
 
-    "have a notice section with the text ..." in {
-
+    "have a paragraph with the text ..." in {
+      doc.select("#report-now-information").text shouldBe pageMessages.whatNextInformation
     }
 
     "have a Report now button" which {
 
-      "has the styling/id ..." in {
+      lazy val reportNowButton = doc.select("a#report-now-button")
 
+      s"has the text ${commonMessages.reportNow}" in {
+        reportNowButton.text shouldBe commonMessages.reportNow
       }
 
-      "has a link to the ... page" in {
+      "has the class button" in {
+        reportNowButton.hasClass("button") shouldBe true
+      }
 
+      "has a link to the 'I-FORM'" in {
+        reportNowButton.attr("href") shouldBe "I-FORM"
       }
     }
 
     "have a Finish link" which {
 
-      "has a link to the ... page" in {
+      lazy val reportNowButton = doc.select("a#finish")
 
+      s"has the text ${commonMessages.finish}" in {
+        reportNowButton.text shouldBe commonMessages.finish
+      }
+
+      "has a link to the 'www.gov.uk' page" in {
+        reportNowButton.attr("href") shouldBe "http://www.gov.uk"
       }
     }
   }

@@ -59,15 +59,21 @@ class DatesSpec extends UnitSpec {
     }
   }
 
-  "Calling dateStringToLonghandFormat" should {
-    "when called with 2016/17 return 2016 to 2017" in {
-      Dates.dateStringToLonghandFormat("2016/17") shouldBe "2016 to 2017"
+  "Calling taxYearOfDateLongHand" should {
+    "when called with 2016/4/6 return 2016 to 2017" in {
+      Dates.taxYearOfDateLongHand(LocalDate.of(2016, 4, 6)) shouldBe "2016 to 2017"
     }
-    "when called with 1993/94 return 1993 to 1994" in {
-      Dates.dateStringToLonghandFormat("1993/94") shouldBe "1993 to 1994"
+
+    "when called with a date of 2016/4/5 return 2015 to 2016" in {
+      Dates.taxYearOfDateLongHand(LocalDate.of(2016, 4, 5)) shouldBe "2015 to 2016"
     }
-    "when called with 2018/19 return 2018 to 2019" in {
-      Dates.dateStringToLonghandFormat("2018/19") shouldBe "2018 to 2019"
+
+    "when called with 1999/4/6 return 1999 to 2000" in {
+      Dates.taxYearOfDateLongHand(LocalDate.of(1999, 4, 6)) shouldBe "1999 to 2000"
+    }
+
+    "when called with 1999/4/5 return 1999 to 2000" in {
+      Dates.taxYearOfDateLongHand(LocalDate.of(1999, 4, 5)) shouldBe "1998 to 1999"
     }
   }
 }
