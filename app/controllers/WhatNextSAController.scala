@@ -48,23 +48,19 @@ trait WhatNextSAController extends ValidActiveSession {
 
   val whatNextSAOverFourTimesAEA: Action[AnyContent] = Action.async { implicit request =>
     fetchAndParseDateToLocalDate() map {
-      date =>
-        val reportingDate = reportingYear(date)
-        Ok(views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA("back-link", reportingDate))
+      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA(backLink, reportingYear(date)))
     }
   }
 
-  val whatNextSANoGain = TODO
-//  : Action[AnyContent] = Action.async { implicit request =>
-//    Future.successful(Ok(views.html.calculation.resident.properties.whatNext.whatNextSaNoGain(backLink, , saReportingYear)))
-//  }
+  val whatNextSANoGain: Action[AnyContent] = Action.async { implicit request =>
+    fetchAndParseDateToLocalDate() map {
+      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaNoGain(backLink, taxYearOfDateLongHand(date), reportingYear(date)))
+    }
+  }
 
-  val whatNextSAGain = TODO
-
+  val whatNextSAGain: Action[AnyContent] = Action.async { implicit request =>
+    fetchAndParseDateToLocalDate() map {
+      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaGain(backLink, taxYearOfDateLongHand(date), reportingYear(date)))
+    }
+  }
 }
-
-//        val longHandTaxYear = taxYearOfDateLongHand(date)
-
-
-//      case Some(data) => datePageFormatNoZero.format(constructDate(31, 1, data.year + 1))
-
