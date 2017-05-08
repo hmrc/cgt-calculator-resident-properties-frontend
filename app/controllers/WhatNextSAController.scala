@@ -41,24 +41,24 @@ trait WhatNextSAController extends ValidActiveSession {
   val backLink: String = "back-link"
 
   def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
-    calcConnector.fetchAndGetFormData[DisposalDateModel] (KeystoreKeys.ResidentPropertyKeys.disposalDate).map {
+    calcConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentPropertyKeys.disposalDate).map {
       data => LocalDate.of(data.get.year, data.get.month, data.get.day)
     }
   }
 
-  val whatNextSAOverFourTimesAEA: Action[AnyContent] = Action.async { implicit request =>
+  val whatNextSAOverFourTimesAEA: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate() map {
       date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA(backLink, reportingYear(date)))
     }
   }
 
-  val whatNextSANoGain: Action[AnyContent] = Action.async { implicit request =>
+  val whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate() map {
       date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaNoGain(backLink, taxYearOfDateLongHand(date), reportingYear(date)))
     }
   }
 
-  val whatNextSAGain: Action[AnyContent] = Action.async { implicit request =>
+  val whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate() map {
       date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaGain(backLink, taxYearOfDateLongHand(date), reportingYear(date)))
     }
