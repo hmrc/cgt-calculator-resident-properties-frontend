@@ -18,6 +18,7 @@ package controllers
 
 import common.Dates.requestFormatter
 import connectors.CalculatorConnector
+import constructors.resident.properties.CalculateRequestConstructor
 import controllers.predicates.ValidActiveSession
 import forms.resident.SaUserForm
 import models.resident._
@@ -95,12 +96,6 @@ trait SaUserController extends ValidActiveSession {
       Future.successful(BadRequest(views.html.calculation.resident.properties.whatNext.saUser(form)))
     }
 
-    def getDisposalValue(answers: YourAnswersSummaryModel): BigDecimal = {
-      if(!answers.displayWorthWhenSold) answers.worthWhenGaveAway.get
-      else if (!answers.displayWorthWhenSoldForLess) answers.worthWhenSoldForLess.get
-      else answers.disposalValue.get
-    }
-
     def successAction(model: SaUserModel) = {
       for {
         answers <- calculatorConnector.getPropertyGainAnswers
@@ -112,7 +107,7 @@ trait SaUserController extends ValidActiveSession {
         chargeableGain <- chargeableGain(grossGain, answers, deductionAnswers, maxAEA.get)
         incomeAnswers <- calculatorConnector.getPropertyIncomeAnswers
         finalResult <- totalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
-        route <- routeAction(model, finalResult, maxAEA.get, getDisposalValue(answers))
+        route <- routeAction(model, finalResult, maxAEA.get, CalculateRequestConstructor.determineDisposalValueToUse(answers))
       } yield route
     }
 
