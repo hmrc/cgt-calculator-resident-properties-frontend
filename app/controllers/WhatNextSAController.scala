@@ -17,15 +17,52 @@
 package controllers
 
 import controllers.predicates.ValidActiveSession
+import play.api.mvc.{Action, AnyContent}
+import common.Dates._
+import java.time._
 
-object WhatNextSAController extends WhatNextSAController
+import common.KeystoreKeys
+import config.{AppConfig, ApplicationConfig}
+import connectors.CalculatorConnector
+import models.resident.DisposalDateModel
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import uk.gov.hmrc.play.http.HeaderCarrier
+
+import scala.concurrent.Future
+
+object WhatNextSAController extends WhatNextSAController {
+  val calcConnector = CalculatorConnector
+  val appConfig = ApplicationConfig
+}
 
 trait WhatNextSAController extends ValidActiveSession {
 
-  val whatNextSAOverFourTimesAEA = TODO
+  val calcConnector: CalculatorConnector
+  val appConfig: AppConfig
 
-  val whatNextSANoGain = TODO
+  val backLink: String = routes.SaUserController.saUser().url
+  lazy val iFormUrl: String = appConfig.residentIFormUrl
 
-  val whatNextSAGain = TODO
+  def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
+    calcConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentPropertyKeys.disposalDate).map {
+      data => LocalDate.of(data.get.year, data.get.month, data.get.day)
+    }
+  }
 
+  val whatNextSAOverFourTimesAEA: Action[AnyContent] = ValidateSession.async { implicit request =>
+    Future.successful(Ok(views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA(backLink)))
+  }
+
+  val whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
+    fetchAndParseDateToLocalDate() map {
+      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaNoGain(backLink, iFormUrl, taxYearOfDateLongHand(date)))
+    }
+  }
+
+  val whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
+    fetchAndParseDateToLocalDate() map {
+      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaGain(backLink, iFormUrl, taxYearOfDateLongHand(date)))
+    }
+  }
 }

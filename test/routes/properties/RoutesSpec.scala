@@ -391,20 +391,20 @@ class RoutesSpec extends UnitSpec with WithFakeApplication with Matchers {
   }
 
   "The URL for the whatNextSAOverFourTimesAEA action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/what-next-gain-over-limit" in {
-      WhatNextSAController.whatNextSAOverFourTimesAEA().url shouldEqual "/calculate-your-capital-gains/resident/properties/what-next-gain-over-limit"
+    "be equal to /calculate-your-capital-gains/resident/properties/what-next-zero-gain-over-limit" in {
+      WhatNextSAController.whatNextSAOverFourTimesAEA().url shouldEqual "/calculate-your-capital-gains/resident/properties/what-next-sa-no-gain-over-limit"
     }
   }
 
   "The URL for the whatNextSANoGain action" should {
     "be equal to /calculate-your-capital-gains/resident/properties/what-next-no-gain" in {
-      WhatNextSAController.whatNextSANoGain().url shouldEqual "/calculate-your-capital-gains/resident/properties/what-next-no-gain"
+      WhatNextSAController.whatNextSANoGain().url shouldEqual "/calculate-your-capital-gains/resident/properties/what-next-sa-no-gain"
     }
   }
 
   "The URL for the whatNextSAGain action" should {
     "be equal to /calculate-your-capital-gains/resident/properties/what-next-gain" in {
-      WhatNextSAController.whatNextSAGain().url shouldEqual "/calculate-your-capital-gains/resident/properties/what-next-gain"
+      WhatNextSAController.whatNextSAGain().url shouldEqual "/calculate-your-capital-gains/resident/properties/what-next-sa-gain"
     }
   }
 }
