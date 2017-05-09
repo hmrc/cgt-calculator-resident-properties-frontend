@@ -41,6 +41,11 @@ object Validation {
 
   val mandatoryCheck: String => Boolean = input => input.trim != ""
 
+  val optionalMandatoryCheck: Option[String] => Boolean = {
+    case Some(input) => mandatoryCheck(input)
+    case _ => false
+  }
+
   val decimalPlacesCheck: BigDecimal => Boolean = input => input.scale < 3
 
   val decimalPlacesCheckNoDecimal: BigDecimal => Boolean = input => input.scale < 1
@@ -58,6 +63,11 @@ object Validation {
     case "No" => true
     case "" => true
     case _ => false
+  }
+
+  val optionalYesNoCheck: Option[String] => Boolean = {
+    case Some(input) => yesNoCheck(input)
+    case _ => true
   }
 
   val givenAwayCheck: String => Boolean = {

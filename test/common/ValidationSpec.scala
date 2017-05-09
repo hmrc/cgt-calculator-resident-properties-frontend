@@ -279,6 +279,43 @@ class ValidationSpec extends UnitSpec {
         yesNoCheck("    ") shouldBe false
       }
     }
+  }
 
+  "Calling .optionalMandatoryCheck" should {
+
+    "return a false when an empty value is provided" in {
+      optionalMandatoryCheck(Some(" ")) shouldBe false
+    }
+
+    "return a false when no value is provided" in {
+      optionalMandatoryCheck(None) shouldBe false
+    }
+
+    "return a true when a value is provided" in {
+      optionalMandatoryCheck(Some("test")) shouldBe true
+    }
+  }
+
+  "Calling .optionalYesNoCheck" should {
+
+    "return a true when no value is provided" in {
+      optionalYesNoCheck(None) shouldBe true
+    }
+
+    "return a true when an empty value is provided" in {
+      optionalYesNoCheck(Some("")) shouldBe true
+    }
+
+    "return a true when a Yes is provided" in {
+      optionalYesNoCheck(Some("Yes")) shouldBe true
+    }
+
+    "return a true when a No is provided" in {
+      optionalYesNoCheck(Some("No")) shouldBe true
+    }
+
+    "return a false when any other value is provided" in {
+      optionalYesNoCheck(Some("test")) shouldBe false
+    }
   }
 }
