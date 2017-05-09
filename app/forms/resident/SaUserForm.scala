@@ -16,8 +16,8 @@
 
 package forms.resident
 
-import common.Transformers.{booleanToString, stringToBoolean}
-import common.Validation.{mandatoryCheck, yesNoCheck}
+import common.Transformers._
+import common.Validation._
 import models.resident.SaUserModel
 import play.api.data.Form
 import play.api.data.Forms._
@@ -29,10 +29,10 @@ object SaUserForm {
 
   val saUserForm = Form(
     mapping (
-      "isInSa" -> text
-        .verifying(Messages("calc.resident.saUser.errorSelect"), mandatoryCheck)
-        .verifying(Messages("calc.resident.saUser.errorSelect"), yesNoCheck)
-        .transform[Boolean](stringToBoolean, booleanToString)
+      "isInSa" -> optional(text)
+        .verifying(Messages("calc.resident.saUser.errorSelect"), optionalMandatoryCheck)
+        .verifying(Messages("calc.resident.saUser.errorSelect"), optionalYesNoCheck)
+        .transform[Boolean](optionStringToBoolean, booleanToOptionString)
     )(SaUserModel.apply)(SaUserModel.unapply)
   )
 }
