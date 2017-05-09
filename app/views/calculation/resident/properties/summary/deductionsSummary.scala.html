@@ -57,7 +57,7 @@
         taxYear,
         totalCosts)
 
-    @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+    @if(taxYear.isValidYear) {
         <section id="whatToDoNext">
             <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
             <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
@@ -73,9 +73,9 @@
         data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
 
-    @if(dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+    @if(taxYear.isValidYear) {
         <div class="summary-details-padding">
-            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
+            <a class="button" href="@controllers.routes.SaUserController.saUser.url">@Messages("calc.base.button.continue")</a>
         </div>
     }
 }

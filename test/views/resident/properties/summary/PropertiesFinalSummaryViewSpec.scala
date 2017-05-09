@@ -113,8 +113,8 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
           backLink.text shouldBe residentMessages.back
         }
 
-        s"has a link to ${controllers.routes.ReviewAnswersController.reviewFinalAnswers().url}" in {
-          backLink.attr("href") shouldEqual controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
+        s"has a link to final check your answers" in {
+          backLink.attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
         }
       }
 
@@ -396,7 +396,11 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "has a continue button" which {
         s"has the text ${summaryMessages.continue}" in {
-          doc.select("button").text shouldBe summaryMessages.continue
+          doc.select("a.button").text shouldBe summaryMessages.continue
+        }
+
+        "has a link to the what next section" in {
+          doc.select("a.button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
         }
       }
 
