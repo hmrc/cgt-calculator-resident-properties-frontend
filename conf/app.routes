@@ -166,6 +166,9 @@ GET     /deductions-report                controllers.ReportController.deduction
 #Final Summary PDF Routes
 GET     /final-report                     controllers.ReportController.finalSummaryReport
 
+GET     /confirm-self-assessment          controllers.SaUserController.saUser
+POST    /confirm-self-assessment          controllers.SaUserController.submitSaUser
+
 #What Next SA Routes
 GET     /what-next-sa-no-gain-over-limit  controllers.WhatNextSAController.whatNextSAOverFourTimesAEA
 GET     /what-next-sa-no-gain             controllers.WhatNextSAController.whatNextSANoGain

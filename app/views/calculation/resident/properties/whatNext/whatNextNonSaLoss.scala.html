@@ -5,7 +5,7 @@
 @resident_main_template(
     Messages("calc.resident.whatNextNonSa.loss.title"),
     // TODO: update back link
-    backLink = Some(""),
+    backLink = Some(controllers.routes.SaUserController.saUser().url),
     homeLink = controllers.routes.PropertiesController.introduction().url,
     navTitle = Messages("calc.base.resident.properties.home")
 ) {

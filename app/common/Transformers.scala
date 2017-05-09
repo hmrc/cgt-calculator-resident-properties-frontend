@@ -35,6 +35,16 @@ object Transformers {
     case Failure(_) => 0
   }
 
+  val optionStringToBoolean: Option[String] => Boolean = {
+    case Some("Yes") => true
+    case _ => false
+  }
+
+  val booleanToOptionString: Boolean => Option[String] = input => {
+    if (input) Some("Yes")
+    else Some("No")
+  }
+
   val stringToBoolean: String => Boolean = {
     case "Yes" => true
     case _ => false

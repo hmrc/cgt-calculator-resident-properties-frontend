@@ -37,8 +37,7 @@ trait WhatNextSAController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
 
-  //TODO link to the correct page
-  val backLink: String = "back-link"
+  val backLink: String = routes.SaUserController.saUser().url
 
   def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
     calcConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentPropertyKeys.disposalDate).map {

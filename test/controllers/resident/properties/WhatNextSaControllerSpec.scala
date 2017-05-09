@@ -76,8 +76,8 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
         Jsoup.parse(bodyOf(result)).select("article").text should include(MessageLookup.WhatNextPages.FourTimesAEA.paragraphOne("31 January 2018"))
       }
 
-      "have a back link to the xxx page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.GainController.improvements().url
+      "have a back link to the confirm-sa page" in {
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }
@@ -109,8 +109,8 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
         Jsoup.parse(bodyOf(result)).select("article").text should include(MessageLookup.WhatNextPages.WhatNextNoGain.bulletPointTitle)
       }
 
-      "have a back link to the xxx page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.GainController.improvements().url
+      "have a back link to the confirm-sa page" in {
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }
@@ -142,8 +142,8 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
         Jsoup.parse(bodyOf(result)).select("article").text should include(MessageLookup.WhatNextPages.WhatNextGain.bulletPointTitle)
       }
 
-      "have a back link to the xxx page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.GainController.improvements().url
+      "have a back link to the confirm-sa page" in {
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }

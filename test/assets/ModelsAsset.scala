@@ -46,6 +46,26 @@ object ModelsAsset {
     None
   )
 
+  val gainLargeDisposalValue = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
+    None,
+    None,
+    whoDidYouGiveItTo = Some("Other"),
+    worthWhenGaveAway = Some(1000000),
+    BigDecimal(1000000),
+    None,
+    worthWhenInherited = None,
+    worthWhenGifted = None,
+    worthWhenBoughtForLess = None,
+    BigDecimal(10000),
+    BigDecimal(30000),
+    givenAway = true,
+    None,
+    ownerBeforeLegislationStart = true,
+    Some(BigDecimal(5000)),
+    None,
+    None
+  )
+
   val deductionAnswersMostPossibles = ChargeableGainAnswers(
     Some(LossesBroughtForwardModel(true)),
     Some(LossesBroughtForwardValueModel(10000)),
