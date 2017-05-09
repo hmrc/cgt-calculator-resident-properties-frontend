@@ -60,10 +60,6 @@ class WhatNextSAFourTimesAEAViewSpec extends UnitSpec with WithFakeApplication w
         finishButton.text shouldBe commonMessages.finish
       }
 
-      "has the class button" in {
-        finishButton.hasClass("button") shouldBe true
-      }
-
       "has a link to the 'www.gov.uk' page" in {
         finishButton.attr("href") shouldBe "http://www.gov.uk"
       }
