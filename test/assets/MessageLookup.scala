@@ -971,11 +971,11 @@ object MessageLookup {
   object WhatNextPages {
 
     val title = "What to do next"
-    val finish = "Finish"
+    val finish = "Return to GOV.UK"
     val reportNow = "Report now"
 
     object FourTimesAEA {
-      val paragraphOne: String => String = year => s"You have until $year to report your Capital Gains Tax figures through Self Assessment."
+      val paragraphOne = s"You'll have to report your Capital Gains Tax figures through Self Assessment."
       val paragraphTwo = "You must do this, even though there's no tax to pay."
     }
 
@@ -983,8 +983,7 @@ object MessageLookup {
       val bulletPointTitle = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can either:"
       val bulletPointOne: String => String = year => s"report it on your Self Assessment return for the $year tax year"
       val bulletPointTwo = "report it now using our online form"
-      val importantInformation: String => String =
-        saYear => s"If you report it now, you'll still need to declare your capital gains through Self Assessment by $saYear."
+      val importantInformation = s"If you report it now, you'll still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
         "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
     }
@@ -993,8 +992,7 @@ object MessageLookup {
       val bulletPointTitle = "You can either:"
       val bulletPointOne: String => String = year => s"report and pay on your Self Assessment return for the $year tax year"
       val bulletPointTwo = "report and pay now using our online form"
-      val importantInformation: String => String =
-        saYear => s"If you report and pay now, you'll still need to declare your capital gains through Self Assessment by $saYear."
+      val importantInformation = s"If you report and pay now, you'll still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
         "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
     }

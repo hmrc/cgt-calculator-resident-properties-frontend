@@ -76,22 +76,4 @@ class DatesSpec extends UnitSpec {
       Dates.taxYearOfDateLongHand(LocalDate.of(1999, 4, 5)) shouldBe "1998 to 1999"
     }
   }
-
-  "Calling reportingYear" should {
-    "when called with 2016/4/6 return 31 January 2018" in {
-      Dates.reportingYear(LocalDate.of(2016, 4, 6)) shouldBe "31 January 2018"
-    }
-
-    "when called with a date of 2016/4/5 return 31 January 2017" in {
-      Dates.reportingYear(LocalDate.of(2016, 4, 5)) shouldBe "31 January 2017"
-    }
-
-    "when called with 1999/4/6 return 31 January 2001" in {
-      Dates.reportingYear(LocalDate.of(1999, 4, 6)) shouldBe "31 January 2001"
-    }
-
-    "when called with 1999/4/5 return 31 January 2000" in {
-      Dates.reportingYear(LocalDate.of(1999, 4, 5)) shouldBe "31 January 2000"
-    }
-  }
 }

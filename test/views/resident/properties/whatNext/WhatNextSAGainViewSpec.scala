@@ -29,7 +29,7 @@ class WhatNextSAGainViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "The whatNextSAGain view" should {
 
-    lazy val view = views.whatNextSaGain("back-link", "2016 to 2017", "31 January 2018")(fakeRequest, applicationMessages)
+    lazy val view = views.whatNextSaGain("back-link", "2016 to 2017")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {
@@ -59,8 +59,8 @@ class WhatNextSAGainViewSpec extends UnitSpec with WithFakeApplication with Fake
       }
     }
 
-    s"have an important information section with the text ${pageMessages.importantInformation("31 January 2018")}" in {
-      doc.select("#important-information").text shouldBe pageMessages.importantInformation("31 January 2018")
+    s"have an important information section with the text ${pageMessages.importantInformation}" in {
+      doc.select("#important-information").text shouldBe pageMessages.importantInformation
     }
 
     "have a paragraph with the text ..." in {

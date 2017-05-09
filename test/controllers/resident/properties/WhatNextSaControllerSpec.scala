@@ -73,7 +73,7 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
       }
 
       "load the WhatNextFourTimesAEA page" in {
-        Jsoup.parse(bodyOf(result)).select("article").text should include(MessageLookup.WhatNextPages.FourTimesAEA.paragraphOne("31 January 2018"))
+        Jsoup.parse(bodyOf(result)).select("article").text should include(MessageLookup.WhatNextPages.FourTimesAEA.paragraphOne)
       }
 
       "have a back link to the confirm-sa page" in {

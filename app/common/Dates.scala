@@ -52,15 +52,6 @@ object Dates {
     }
   }
 
-  def reportingYear(date: LocalDate): String = {
-    if (date.isAfter(LocalDate.parse(s"${date.getYear.toString}-$taxYearEnd"))) {
-      datePageFormatNoZero.format(constructDate(31, 1, date.getYear + 2))
-    }
-    else {
-      datePageFormatNoZero.format(constructDate(31, 1, date.getYear + 1))
-    }
-  }
-
   def getCurrentTaxYear: Future[String] = {
     val now = LocalDate.now()
     val year = now.getYear

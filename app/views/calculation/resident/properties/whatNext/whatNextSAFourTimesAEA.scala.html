@@ -1,12 +1,12 @@
 @import views.html.calculation.resident.properties._
 
-@(backUrl: String, reportingYear: String)(implicit request : Request[_], messages: Messages)
+@(backUrl: String)(implicit request : Request[_], messages: Messages)
 
 @resident_properties_main_template(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
 
     <h1>@Messages("calc.whatToDoNext.title")</h1>
 
-    <p>@Messages("calc.whatToDoNext.fourAEA.information", reportingYear)</p>
+    <p>@Messages("calc.whatToDoNext.fourAEA.information")</p>
 
     <p>@Messages("calc.whatToDoNext.fourAEA.youMustDoThis")</p>
 
