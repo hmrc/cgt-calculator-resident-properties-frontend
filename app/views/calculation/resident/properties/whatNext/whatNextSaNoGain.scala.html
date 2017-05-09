@@ -1,6 +1,6 @@
 @import views.html.calculation.resident.properties._
 
-@(backUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages)
+@(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages)
 
 @resident_properties_main_template(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
 
@@ -18,7 +18,7 @@
 
         <p id="report-now-information">@Messages("calc.whatToDoNext.noGain.reportNowInfo")</p>
 
-        <a id="report-now-button" class="button" href="I-FORM">@Messages("calc.whatToDoNext.reportNow")</a>
+        <a id="report-now-button" class="button" href="@iFormUrl">@Messages("calc.whatToDoNext.reportNow")</a>
     </div>
 
     <a id="finish" href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>

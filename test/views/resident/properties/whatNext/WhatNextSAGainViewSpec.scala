@@ -29,7 +29,7 @@ class WhatNextSAGainViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "The whatNextSAGain view" should {
 
-    lazy val view = views.whatNextSaGain("back-link", "2016 to 2017")(fakeRequest, applicationMessages)
+    lazy val view = views.whatNextSaGain("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {
@@ -79,8 +79,8 @@ class WhatNextSAGainViewSpec extends UnitSpec with WithFakeApplication with Fake
         reportNowButton.hasClass("button") shouldBe true
       }
 
-      "has a link to the 'I-FORM'" in {
-        reportNowButton.attr("href") shouldBe "I-FORM"
+      "has a link to the 'iFormUrl'" in {
+        reportNowButton.attr("href") shouldBe "iFormUrl"
       }
     }
 

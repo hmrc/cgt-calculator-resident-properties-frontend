@@ -20,7 +20,9 @@ import controllers.predicates.ValidActiveSession
 import play.api.mvc.{Action, AnyContent}
 import common.Dates._
 import java.time._
+
 import common.KeystoreKeys
+import config.{AppConfig, ApplicationConfig}
 import connectors.CalculatorConnector
 import models.resident.DisposalDateModel
 import play.api.i18n.Messages.Implicits._
@@ -31,13 +33,16 @@ import scala.concurrent.Future
 
 object WhatNextSAController extends WhatNextSAController {
   val calcConnector = CalculatorConnector
+  val appConfig = ApplicationConfig
 }
 
 trait WhatNextSAController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
+  val appConfig: AppConfig
 
   val backLink: String = routes.SaUserController.saUser().url
+  lazy val iFormUrl: String = appConfig.residentIFormUrl
 
   def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
     calcConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentPropertyKeys.disposalDate).map {
@@ -51,13 +56,13 @@ trait WhatNextSAController extends ValidActiveSession {
 
   val whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate() map {
-      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaNoGain(backLink, taxYearOfDateLongHand(date)))
+      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaNoGain(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }
   }
 
   val whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate() map {
-      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaGain(backLink, taxYearOfDateLongHand(date)))
+      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaGain(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }
   }
 }

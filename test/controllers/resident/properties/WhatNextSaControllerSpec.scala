@@ -19,6 +19,7 @@ package controllers.resident.properties
 import java.time._
 
 import assets.MessageLookup
+import config.{AppConfig, ApplicationConfig}
 import connectors.CalculatorConnector
 import controllers.WhatNextSAController
 import controllers.helpers.FakeRequestHelper
@@ -46,6 +47,16 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
 
     new WhatNextSAController {
       override val calcConnector: CalculatorConnector = mockConnector
+      override val appConfig: AppConfig = new AppConfig {
+        override val assetsPrefix: String = ""
+        override val residentIFormUrl: String = "iform-url"
+        override val reportAProblemNonJSUrl: String = ""
+        override val contactFrontendPartialBaseUrl: String = ""
+        override val analyticsHost: String = ""
+        override val analyticsToken: String = ""
+        override val reportAProblemPartialUrl: String = ""
+        override val contactFormServiceIdentifier: String = ""
+      }
     }
   }
 
