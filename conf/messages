@@ -476,6 +476,7 @@ calc.resident.noTaxToPay.charityText = This is because Capital Gains Tax doesn''
 
 ## Disposal Value messages
 calc.resident.disposal.value.question = How much did you sell the property for?
+calc.resident.disposal.value.helpText = If you owned the property with someone else, only enter your share of the sale value.
 
 ## Property Worth when you sold it messages
 calc.resident.properties.worthWhenSoldForLess.question = What was the property worth when you sold it?

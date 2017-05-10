@@ -649,6 +649,7 @@ object MessageLookup {
   //Disposal Value messages
   object DisposalValue {
     val question = "How much did you sell the property for?"
+    val helpText = "If you owned the property with someone else, only enter your share of the sale value."
   }
 
   //Disposal Costs messages
