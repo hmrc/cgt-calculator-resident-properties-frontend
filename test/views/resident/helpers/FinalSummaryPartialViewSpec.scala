@@ -992,5 +992,64 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         doc.select("div.notice-wrapper").text should include(summaryMessages.noticeSummary)
       }
     }
+
+    "the property has a 0% tax rate/£0 taxable gain" should {
+      val gainAnswers = YourAnswersSummaryModel(
+        disposalDate = Dates.constructDate(1, 6, 2017),
+        disposalValue = Some(400000),
+        worthWhenSoldForLess = None,
+        whoDidYouGiveItTo = None,
+        worthWhenGaveAway = None,
+        disposalCosts = BigDecimal(1),
+        acquisitionValue = Some(0),
+        worthWhenInherited = None,
+        worthWhenGifted = None,
+        worthWhenBoughtForLess = None,
+        acquisitionCosts = BigDecimal(10000),
+        improvements = BigDecimal(10000),
+        givenAway = false,
+        sellForLess = Some(false),
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        howBecameOwner = Some("Bought"),
+        boughtForLessThanWorth = Some(false)
+      )
+      val deductionAnswers = ChargeableGainAnswers(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = Some(LossesBroughtForwardValueModel(36.00)),
+        propertyLivedInModel = Some(PropertyLivedInModel(false)),
+        privateResidenceReliefModel = None,
+        privateResidenceReliefValueModel = None,
+        lettingsReliefModel = None,
+        lettingsReliefValueModel = None
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 10,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 0,
+        firstRate = 18,
+        secondBand = Some(10000.00),
+        secondRate = Some(28),
+        lettingReliefsUsed = Some(BigDecimal(500)),
+        prrUsed = Some(BigDecimal(125)),
+        broughtForwardLossesUsed = 35,
+        allowableLossesUsed = 0,
+        baseRateTotal = 0,
+        upperRateTotal = 15000
+      )
+      val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
+
+
+      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      s"have no taxable rate section" in {
+        doc.select("#firstBand").isEmpty() shouldBe true
+      }
+    }
   }
 }
