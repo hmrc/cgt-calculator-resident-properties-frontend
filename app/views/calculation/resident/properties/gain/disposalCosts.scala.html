@@ -14,9 +14,25 @@
 
     <h1 class="heading-large">@Messages("calc.resident.disposalCosts.pageHeading")</h1>
 
+    <div class="form-hint">
+        <p>@Messages("calc.resident.disposalCosts.bulletTitle")</p>
+
+        <ul class="bullets">
+            <li>@Messages("calc.resident.disposalCosts.bulletOne")</li>
+            <li>@Messages("calc.resident.disposalCosts.bulletTwo")</li>
+            <li>@Messages("calc.resident.disposalCosts.bulletThree")</li>
+            <li>@Messages("calc.resident.disposalCosts.bulletFour")</li>
+        </ul>
+    </div>
+
+
+    <div class="panel-indent panel-indent--wide panel-indent--gutter">
+        <p>@Messages("calc.resident.disposalCosts.helpText")</p>
+    </div>
+
     @form(action = controllers.routes.GainController.submitDisposalCosts){
 
-        @formInputMoney(disposalCostsForm, "amount", Messages("calc.resident.disposalCosts.pageHeading"), Some(Messages("calc.resident.disposalCosts.helpText")), hideLabel = true)
+        @formInputMoney(disposalCostsForm, "amount", Messages("calc.resident.disposalCosts.pageHeading"), None, hideLabel = true)
 
         <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
 

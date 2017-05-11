@@ -657,7 +657,12 @@ object MessageLookup {
   object DisposalCosts {
     val title = "How much did you pay in costs when you stopped owning the property?"
     val pageHeading = "How much did you pay in costs when you stopped owning the property?"
-    val helpText = "Costs include agent fees, legal fees and surveys"
+    val bulletTitle = "This is what you paid for:"
+    val bulletOne = "estate agents or auctioneers"
+    val bulletTwo = "solicitors or conveyancers"
+    val bulletThree = "any professional help to value your property, eg surveyor or valuer"
+    val bulletFour = "advertising to find a buyer"
+    val helpText = "If you owned the property with someone else, only enter your share of the sale value."
   }
 
   //How Became Owner messages
