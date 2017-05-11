@@ -539,7 +539,11 @@ calc.resident.acquisitionValue.question = How much did you pay for the property?
 ## Acquisition Costs messages
 calc.resident.acquisitionCosts.title = How much did you pay in costs when you became the property owner?
 calc.resident.acquisitionCosts.question = How much did you pay in costs when you became the property owner?
-calc.resident.acquisitionCosts.helpText = Costs include stamp duty, agent fees, legal fees and surveys
+calc.resident.acquisitionCosts.listTitle = This is what you paid for:
+calc.resident.acquisitionCosts.bulletOne = estate agents or auctioneers
+calc.resident.acquisitionCosts.bulletTwo = solicitors or conveyancers
+calc.resident.acquisitionCosts.bulletThree = any professional help to value your property, for example a surveyor or valuer
+calc.resident.acquisitionCosts.panelText = If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner.
 
 ## Improvements messages
 calc.resident.properties.improvements.question = How much have you spent on improvements since you became the property owner?
