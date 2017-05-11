@@ -122,7 +122,7 @@ class WorthWhenGaveAwayViewSpec extends UnitSpec with WithFakeApplication with F
 
           "have a p tag" which {
             s"with the extra text ${messages.extraText}" in {
-              form.select("p.block-panel-border").text shouldBe messages.extraText
+              form.select("p.panel-indent").text shouldBe messages.extraText
             }
           }
         }
