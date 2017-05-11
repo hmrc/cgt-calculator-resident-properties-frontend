@@ -481,7 +481,9 @@ object MessageLookup {
 
       object WorthWhenSoldForLess {
         val question = "What was the property worth when you sold it?"
-        val paragraphText = "You can use a valuation from a surveyor or a property website."
+        val paragraphText = "You can use a valuation from a surveyor. If you don’t know the exact value, " +
+          "you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
+        val extraText = "If you owned the property with someone else, only enter the value of your share of the property."
       }
 
       object OwnerBeforeLegislationStart {
