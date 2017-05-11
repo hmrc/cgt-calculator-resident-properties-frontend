@@ -51,6 +51,7 @@ object MessageLookup {
 
     val whatToDoNextTextTwo = "You need to tell HMRC about the property"
     val whatToDoNextFurtherDetails = "Further details on how to tell HMRC about this property can be found at"
+    val ratesHelp = "These rates are based on your Income Tax bands:"
   }
 
   object NonResident extends Common {

@@ -418,6 +418,7 @@ calc.summary.calculation.details.flatCalculation = How much you''ve gained on th
 calc.summary.calculation.details.rebasedCalculation = How much you''ve gained on the property since 5 April 2015
 calc.summary.calculation.details.lossCarriedForward = Loss carried forward
 calc.summary.warning.taxYear = Your total might be less accurate because you didn't sell or give away your property in this tax year
+calc.summary.ratesHelp = These rates are based on your Income Tax bands:
 
 ## Check Your Answers ##
 calc.checkYourAnswers.title = Check your answers
