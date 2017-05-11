@@ -125,7 +125,7 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
             }
 
           s"has panel text ${messages.panelText}" in {
-            formHint.select("p.panel-indent").text shouldBe messages.panelText
+            doc.select("p.panel-indent").text shouldBe messages.panelText
           }
           }
         }

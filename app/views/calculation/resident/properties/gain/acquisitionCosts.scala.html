@@ -12,7 +12,6 @@
     <h1 class="heading-large">@Messages("calc.resident.acquisitionCosts.question")</h1>
 
     @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
-
         <div class="form-hint">
             <p id="listTitle">@Messages("calc.resident.acquisitionCosts.listTitle")</p>
             <ul class="list list-bullet">
@@ -21,8 +20,9 @@
                 <li>@Messages("calc.resident.acquisitionCosts.bulletThree")</li>
                 <li>@Messages("calc.resident.acquisitionCosts.bulletFour")</li>
             </ul>
-            <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.acquisitionCosts.panelText")</p>
         </div>
+
+        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.acquisitionCosts.panelText")</p>
 
         @formInputMoney(acquisitionCostsForm, "amount", Messages("calc.resident.acquisitionCosts.question"), hideLabel = true)
 
