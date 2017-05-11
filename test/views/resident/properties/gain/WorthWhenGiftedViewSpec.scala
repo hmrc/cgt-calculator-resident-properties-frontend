@@ -61,6 +61,23 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
       doc.select("h1.heading-large").text() shouldBe messages.question
     }
 
+    "has a form hint" which {
+
+      lazy val formHint = doc.select("div.form-hint")
+
+      s"has the first paragraph of ${messages.hintOne}" in {
+        formHint.select("p").get(0).text shouldEqual messages.hintOne
+      }
+
+      s"has the second paragraph of ${messages.hintTwo}" in {
+        formHint.select("p").get(1).text shouldEqual messages.hintTwo
+      }
+    }
+
+    s"has the joint ownership text ${messages.jointOwner}" in {
+      doc.select("article > div.panel-indent > p").text shouldEqual messages.jointOwner
+    }
+
     "have a form tag" in {
       doc.select("form").size() shouldBe 1
     }
@@ -71,10 +88,6 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
 
     "have a form method of 'POST'" in {
       doc.select("form").attr("method") shouldBe "POST"
-    }
-
-    "have additional content regarding valuations" in {
-      doc.select("div.resident p").text() shouldBe messages.additionalContent
     }
 
     s"have a label for an input with text ${messages.question}" in {

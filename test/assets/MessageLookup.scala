@@ -500,21 +500,30 @@ object MessageLookup {
 
       object ValueBeforeLegislationStart {
         val question = "What was the property worth on 31 March 1982?"
+        val information = "31 March 1982 is when the current Capital Gains Tax system came into effect."
+        val hintText = "If you don't know the exact value, you must provide a realistic estimate. " +
+          "You might have to pay more if we think your estimate is unrealistic."
+        val jointOwnership = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object WorthWhenInherited {
         val question = "What was the property worth when you inherited it?"
-        val additionalContent = "You can use a valuation from a surveyor or a property website."
+        val help = "This is the value of the property on the date the previous owner died."
+        val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object WorthWhenGifted {
         val question = "What was the property worth when you got it as a gift?"
-        val additionalContent = "You can use a valuation from a surveyor or a property website."
+        val hintOne = "You can use a valuation from a surveyor."
+        val hintTwo = "If you don't know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
+        val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object WorthWhenBoughtForLess {
         val question = "What was the property worth when you bought it?"
-        val additionalContent = "You can use a valuation from a surveyor or a property website."
+        val helpOne = "You can use a valuation from a surveyor."
+        val helpTwo = "If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
+        val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object ImprovementsView {
@@ -523,6 +532,7 @@ object MessageLookup {
         val questionBefore = "How much have you spent on improvements since 31 March 1982?"
         val hint = "Improvements are permanent changes that raise the value of a property, like adding " +
           "extensions or garages. Normal maintenance costs don't count."
+        val jointOwner = "If you owned the property with someone else, only enter your share of the improvement costs, as agreed with your co-owner."
         val improvementsHelpButton = "Show me an example"
         val improvementsAdditionalContentOne = "Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement."
         val improvementsAdditionalContentTwo = "But replacing them with something of a similar standard is normally not an improvement."
@@ -661,7 +671,12 @@ object MessageLookup {
   object DisposalCosts {
     val title = "How much did you pay in costs when you stopped owning the property?"
     val pageHeading = "How much did you pay in costs when you stopped owning the property?"
-    val helpText = "Costs include agent fees, legal fees and surveys"
+    val bulletTitle = "This is what you paid for:"
+    val bulletOne = "estate agents or auctioneers"
+    val bulletTwo = "solicitors or conveyancers"
+    val bulletThree = "any professional help to value your property, for example a surveyor or valuer"
+    val bulletFour = "advertising to find a buyer"
+    val helpText = "If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner."
   }
 
   //How Became Owner messages

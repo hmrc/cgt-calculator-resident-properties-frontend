@@ -490,7 +490,12 @@ calc.resident.properties.worthWhenSoldForLess.paragraphText = You can use a valu
 ## Disposal Costs messages
 calc.resident.disposalCosts.title = How much did you pay in costs when you stopped owning the property?
 calc.resident.disposalCosts.pageHeading = How much did you pay in costs when you stopped owning the property?
-calc.resident.disposalCosts.helpText = Costs include agent fees, legal fees and surveys
+calc.resident.disposalCosts.bulletTitle = This is what you paid for:
+calc.resident.disposalCosts.bulletOne = estate agents or auctioneers
+calc.resident.disposalCosts.bulletTwo = solicitors or conveyancers
+calc.resident.disposalCosts.bulletThree = any professional help to value your property, for example a surveyor or valuer
+calc.resident.disposalCosts.bulletFour = advertising to find a buyer
+calc.resident.disposalCosts.helpText = If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner.
 
 
 ## Owner Before 1st April 1982 messages
@@ -507,18 +512,27 @@ calc.resident.howBecameOwner.inherited= Inherited it
 
 ##Worth On messages
 calc.resident.properties.valueBeforeLegislationStart.question = What was the property worth on 31 March 1982?
+calc.resident.properties.valueBeforeLegislationStart.information = 31 March 1982 is when the current Capital Gains Tax system came into effect.
+calc.resident.properties.valueBeforeLegislationStart.help = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
+calc.resident.properties.valueBeforeLegislationStart.jointOwnership = If you owned the property with someone else, only enter your share of the property value.
+
 
 ## Worth When Inherited messages
 calc.resident.properties.worthWhenInherited.question = What was the property worth when you inherited it?
-calc.resident.properties.worthWhenInherited.additionalContent = You can use a valuation from a surveyor or a property website.
+calc.resident.properties.worthWhenInherited.help = This is the value of the property on the date the previous owner died.
+calc.resident.properties.worthWhenInherited.jointOwner = If you owned the property with someone else, only enter your share of the property value.
 
 ## Worth When Bought messages
 calc.resident.properties.worthWhenBoughtForLess.question = What was the property worth when you bought it?
-calc.resident.properties.worthWhenBoughtForLess.additionalContent = You can use a valuation from a surveyor or a property website.
+calc.resident.properties.worthWhenBoughtForLess.hintOne = You can use a valuation from a surveyor.
+calc.resident.properties.worthWhenBoughtForLess.hintTwo = If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
+calc.resident.properties.worthWhenBoughtForLess.jointOwner = If you owned the property with someone else, only enter your share of the property value.
 
 ## Worth When Gifted messages
 calc.resident.properties.worthWhenGifted.question = What was the property worth when you got it as a gift?
-calc.resident.properties.worthWhenGifted.additionalContent = You can use a valuation from a surveyor or a property website.
+calc.resident.properties.worthWhenGifted.hintOne = You can use a valuation from a surveyor.
+calc.resident.properties.worthWhenGifted.hintTwo = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
+calc.resident.properties.worthWhenGifted.jointOwner = If you owned the property with someone else, only enter your share of the property value.
 
 ## Acquisition Value messages
 calc.resident.acquisitionValue.title = How much did you pay for the property?
@@ -534,6 +548,7 @@ calc.resident.properties.improvements.question = How much have you spent on impr
 calc.resident.properties.improvements.label = How much have you spent on improvements since you became the property owner?
 calc.resident.properties.improvements.questionBefore = How much have you spent on improvements since 31 March 1982?
 calc.resident.properties.improvements.hint = Improvements are permanent changes that raise the value of a property, like adding extensions or garages. Normal maintenance costs don''t count.
+calc.resident.properties.improvements.jointOwner = If you owned the property with someone else, only enter your share of the improvement costs, as agreed with your co-owner.
 calc.resident.properties.improvements.helpButton = Show me an example
 calc.resident.properties.improvements.additionalContent.one = Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement.
 calc.resident.properties.improvements.additionalContent.two = But replacing them with something of a similar standard is normally not an improvement.

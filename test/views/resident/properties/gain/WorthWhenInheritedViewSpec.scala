@@ -61,6 +61,14 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
       doc.select("h1.heading-large").text() shouldBe messages.question
     }
 
+    "have additional content regarding valuations" in {
+      doc.select("div.resident p").first().text() shouldBe messages.help
+    }
+
+    s"have a joint ownership section with the text ${messages.jointOwner}" in {
+      doc.select("div.panel-indent p").text shouldEqual messages.jointOwner
+    }
+
     "have a form tag" in {
       doc.select("form").size() shouldBe 1
     }
@@ -71,10 +79,6 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
 
     "have a form method of 'POST'" in {
       doc.select("form").attr("method") shouldBe "POST"
-    }
-
-    "have additional content regarding valuations" in {
-      doc.select("div.resident p").first().text() shouldBe messages.additionalContent
     }
 
     s"have a label for an input with text ${messages.question}" in {
