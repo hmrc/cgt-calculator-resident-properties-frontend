@@ -488,7 +488,12 @@ calc.resident.properties.worthWhenSoldForLess.paragraphText = You can use a valu
 ## Disposal Costs messages
 calc.resident.disposalCosts.title = How much did you pay in costs when you stopped owning the property?
 calc.resident.disposalCosts.pageHeading = How much did you pay in costs when you stopped owning the property?
-calc.resident.disposalCosts.helpText = Costs include agent fees, legal fees and surveys
+calc.resident.disposalCosts.bulletTitle = This is what you paid for:
+calc.resident.disposalCosts.bulletOne = estate agents or auctioneers
+calc.resident.disposalCosts.bulletTwo = solicitors or conveyancers
+calc.resident.disposalCosts.bulletThree = any professional help to value your property, for example a surveyor or valuer
+calc.resident.disposalCosts.bulletFour = advertising to find a buyer
+calc.resident.disposalCosts.helpText = If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner.
 
 
 ## Owner Before 1st April 1982 messages

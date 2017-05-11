@@ -96,11 +96,31 @@ class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeR
         }
       }
 
-      "has help text that" should {
+      "has a help list of bullet points that" should {
 
-        s"have the text ${messages.helpText}" in {
-          doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
+        s"have the title text ${messages.bulletTitle}" in {
+          doc.body.select("div.form-hint p").text shouldBe messages.bulletTitle
         }
+
+        s"have the first bullet of ${messages.bulletOne}" in {
+          doc.body.select("div.form-hint ul li").get(0).text shouldBe messages.bulletOne
+        }
+
+        s"have the second bullet of ${messages.bulletTwo}" in {
+          doc.body.select("div.form-hint ul li").get(1).text shouldBe messages.bulletTwo
+        }
+
+        s"have the third bullet of ${messages.bulletThree}" in {
+          doc.body.select("div.form-hint ul li").get(2).text shouldBe messages.bulletThree
+        }
+
+        s"have the fourth bullet of ${messages.bulletFour}" in {
+          doc.body.select("div.form-hint ul li").get(3).text shouldBe messages.bulletFour
+        }
+      }
+
+      s"has the important text ${messages.helpText}" in {
+        doc.select("article > div.panel-indent > p").text shouldEqual messages.helpText
       }
 
       "has a numeric input field" which {
