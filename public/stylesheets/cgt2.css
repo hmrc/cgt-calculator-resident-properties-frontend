@@ -437,7 +437,7 @@
     text-align: right;
 }
 
-#soldForLess {
+.block-panel-border {
     border-left-width: 10px;
     clear: both;
     border-left-style: solid;
