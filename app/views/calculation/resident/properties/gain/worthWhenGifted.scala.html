@@ -16,7 +16,15 @@
 
     <h1 class="heading-large">@Messages("calc.resident.properties.worthWhenGifted.question")</h1>
 
-    <p>@Messages("calc.resident.properties.worthWhenGifted.additionalContent")</p>
+    <div class="form-hint">
+        <p>@Messages("calc.resident.properties.worthWhenGifted.hintOne")</p>
+        <p>@Messages("calc.resident.properties.worthWhenGifted.hintTwo")</p>
+    </div>
+
+
+    <div class="panel-indent panel-indent--wide panel-indent--gutter">
+        <p>@Messages("calc.resident.properties.worthWhenGifted.jointOwner")</p>
+    </div>
 
     @form(action = postAction) {
 
