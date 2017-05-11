@@ -479,7 +479,7 @@ calc.resident.disposal.value.question = How much did you sell the property for?
 
 ## Property Worth when you sold it messages
 calc.resident.properties.worthWhenSoldForLess.question = What was the property worth when you sold it?
-calc.resident.properties.worthWhenSoldForLess.hintText = If you owned the property with someone else, only enter your share of the property value.
+calc.resident.properties.worthWhenSoldForLess.hintText = If you owned the property with someone else, only enter the value of your share of the property.
 calc.resident.properties.worthWhenSoldForLess.paragraphText = You can use a valuation from a surveyor. If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 
 
