@@ -15,6 +15,16 @@ backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart.to
 
     <h1 class="heading-large">@Messages("calc.resident.properties.valueBeforeLegislationStart.question")</h1>
 
+    <p>@Messages("calc.resident.properties.valueBeforeLegislationStart.information")</p>
+
+    <div class="form-hint">
+        <p>@Messages("calc.resident.properties.valueBeforeLegislationStart.help")</p>
+    </div>
+
+    <div class="panel-indent panel-indent--wide panel-indent--gutter">
+        <p>@Messages("calc.resident.properties.valueBeforeLegislationStart.jointOwnership")</p>
+    </div>
+
     @form(action = controllers.routes.GainController.submitValueBeforeLegislationStart){
 
         @formInputMoney(valueBeforeLegislationStartForm, "amount", Messages("calc.resident.properties.valueBeforeLegislationStart.question"), hideLabel = true)

@@ -67,6 +67,18 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
       }
     }
 
+    s"has the information text ${messages.information}" in {
+      doc.select("article > p").text should include(messages.information)
+    }
+
+    s"has the hint text ${messages.hintText}" in {
+      doc.select("article > div.form-hint > p").text shouldEqual messages.hintText
+    }
+
+    s"has the joint ownership text ${messages.jointOwnership}" in {
+      doc.select("article > div.panel-indent > p").text shouldEqual messages.jointOwnership
+    }
+
 
     "have a form that" should {
 
