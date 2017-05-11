@@ -238,7 +238,7 @@ calc.disposalCosts.errorDecimalPlaces = There are too many numbers after the dec
 
 ## Market Value ##
 calc.marketValue.gaveItAway.question = What was the property worth when you gave it away?
-calc.resident.properties.gaveItAway.hintText = If you owned the property with someone else, only enter the value of your share of the property.
+calc.resident.properties.gaveItAway.hintText = If you owned the property with someone else, only enter your share of the property value.
 calc.resident.properties.gaveItAway.paragraphText = You can use a valuation from a surveyor. If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 calc.marketValue.sold.question = What was the market value of the property when you sold it?
 
@@ -483,7 +483,7 @@ calc.resident.disposal.value.helpText = If you owned the property with someone e
 
 ## Property Worth when you sold it messages
 calc.resident.properties.worthWhenSoldForLess.question = What was the property worth when you sold it?
-calc.resident.properties.worthWhenSoldForLess.hintText = If you owned the property with someone else, only enter the value of your share of the property.
+calc.resident.properties.worthWhenSoldForLess.hintText = If you owned the property with someone else, only enter your share of the property value.
 calc.resident.properties.worthWhenSoldForLess.paragraphText = You can use a valuation from a surveyor. If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 
 
@@ -543,7 +543,7 @@ calc.resident.acquisitionCosts.title = How much did you pay in costs when you be
 calc.resident.acquisitionCosts.question = How much did you pay in costs when you became the property owner?
 calc.resident.acquisitionCosts.listTitle = This is what you paid for:
 calc.resident.acquisitionCosts.bulletOne = estate agents or auctioneers
-calc.resident.acquisitionCosts.bulletTwo = solicitors or conveyancers
+calc.resident.acquisitionCosts.bulletTwo = solicitors or conveyancers, including Stamp Duty Land Tax
 calc.resident.acquisitionCosts.bulletThree = any professional help to value your property, for example a surveyor or valuer
 calc.resident.acquisitionCosts.panelText = If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner.
 
@@ -552,7 +552,7 @@ calc.resident.properties.improvements.question = How much have you spent on impr
 calc.resident.properties.improvements.label = How much have you spent on improvements since you became the property owner?
 calc.resident.properties.improvements.questionBefore = How much have you spent on improvements since 31 March 1982?
 calc.resident.properties.improvements.hint = Improvements are permanent changes that raise the value of a property, like adding extensions or garages. Normal maintenance costs don''t count.
-calc.resident.properties.improvements.jointOwner = If you owned the property with someone else, only enter your share of the improvement costs, as agreed with your co-owner.
+calc.resident.properties.improvements.jointOwner = If you owned the property with someone else, only enter your share of the improvement costs as agreed with your co-owner.
 calc.resident.properties.improvements.helpButton = Show me an example
 calc.resident.properties.improvements.additionalContent.one = Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement.
 calc.resident.properties.improvements.additionalContent.two = But replacing them with something of a similar standard is normally not an improvement.
