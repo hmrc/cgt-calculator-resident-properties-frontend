@@ -71,9 +71,6 @@ class WorthWhenGaveAwayViewSpec extends UnitSpec with WithFakeApplication with F
     "have a help paragraph" should {
       lazy val helpText = doc.select("#help")
 
-      s"have the help text ${messages.helpMessage}" in {
-        helpText.text shouldBe messages.helpMessage
-      }
     }
 
 
@@ -116,6 +113,18 @@ class WorthWhenGaveAwayViewSpec extends UnitSpec with WithFakeApplication with F
 
         "has the field name as 'amount' to bind correctly to the form" in {
 
+        }
+
+        "have two paragraphs" which {
+          s"have a p tag with the text ${messages.paragraphText}" in {
+            form.select("p#guideText").text shouldBe messages.paragraphText
+          }
+
+          "have a p tag" which {
+            s"with the extra text ${messages.extraText}" in {
+              form.select("p.panel-indent").text shouldBe messages.extraText
+            }
+          }
         }
       }
 
