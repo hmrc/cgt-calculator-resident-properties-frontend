@@ -53,6 +53,13 @@ class ImprovementsViewSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
     }
 
+    "have the correct hint" in {
+      doc.select("div.form-hint p").text shouldBe messages.hint
+    }
+
+    s"has the joint ownership text ${messages.jointOwner}" in {
+      doc.select("article > div.panel-indent > p").text shouldEqual messages.jointOwner
+    }
 
     "have the correct label" in {
       val label = doc.select("label")
@@ -62,11 +69,6 @@ class ImprovementsViewSpec extends UnitSpec with WithFakeApplication with FakeRe
     "have a hidden label" in {
       val label = doc.select("label > span")
       label.hasClass("visuallyhidden") shouldBe true
-    }
-
-    "have the correct hint" in {
-      val hint = doc.select("label .form-hint")
-      hint.text shouldBe messages.hint
     }
 
     s"have a drop down button with the text ${messages.improvementsHelpButton}" in {
