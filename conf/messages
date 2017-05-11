@@ -546,6 +546,7 @@ calc.resident.properties.improvements.question = How much have you spent on impr
 calc.resident.properties.improvements.label = How much have you spent on improvements since you became the property owner?
 calc.resident.properties.improvements.questionBefore = How much have you spent on improvements since 31 March 1982?
 calc.resident.properties.improvements.hint = Improvements are permanent changes that raise the value of a property, like adding extensions or garages. Normal maintenance costs don''t count.
+calc.resident.properties.improvements.jointOwner = If you owned the property with someone else, only enter your share of the improvement costs, as agreed with your co-owner.
 calc.resident.properties.improvements.helpButton = Show me an example
 calc.resident.properties.improvements.additionalContent.one = Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement.
 calc.resident.properties.improvements.additionalContent.two = But replacing them with something of a similar standard is normally not an improvement.
