@@ -686,7 +686,12 @@ object MessageLookup {
   object AcquisitionCosts {
     val title = "How much did you pay in costs when you became the property owner?"
     val pageHeading = "How much did you pay in costs when you became the property owner?"
-    val helpText = "Costs include stamp duty, agent fees, legal fees and surveys"
+    val listTitle = "This is what you paid for:"
+    val bulletOne = "estate agents or auctioneers"
+    val bulletTwo = "solicitors or conveyancers"
+    val bulletThree = "any professional help to value your property, for example surveyor or valuer"
+    val bulletFour = "advertising to find a buyer"
+    val panelText = "If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner."
   }
 
   //Improvements messages
