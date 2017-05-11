@@ -124,9 +124,6 @@ class WorthWhenGaveAwayViewSpec extends UnitSpec with WithFakeApplication with F
             s"with the extra text ${messages.extraText}" in {
               form.select("p.block-panel-border").text shouldBe messages.extraText
             }
-            s"with the classes ' and the classes 'panel panel-border-wide'" in {
-              form.select("p.block-panel-border").attr("class") shouldBe "block-panel-border"
-            }
           }
         }
       }
