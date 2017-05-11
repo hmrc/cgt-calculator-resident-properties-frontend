@@ -18,6 +18,7 @@ package views.resident.properties.gain
 
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.Properties.{WorthWhenSoldForLess => messages}
+import assets.MessageLookup.Resident.Shares.WorthWhenSoldForLess
 import controllers.helpers.FakeRequestHelper
 import forms.resident.WorthWhenSoldForLessForm._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -67,10 +68,6 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
       }
     }
 
-    s"have text under the heading equal to ${messages.paragraphText}" in {
-      doc.select("#additionalText").text shouldEqual messages.paragraphText
-    }
-
     "have a form that" should {
 
       lazy val form = doc.select("form")
@@ -108,8 +105,19 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
           input.is("input") shouldEqual true
         }
 
-        "has the field name as 'amount' to bind correctly to the form" in {
+        "have two paragraphs" which {
+          s"have a p tag with the text ${messages.paragraphText}" in {
+            form.select("p#guideText").text shouldBe messages.paragraphText
+          }
 
+          "have a p tag" which {
+            s"with the extra text ${messages.extraText}" in {
+              form.select("p.panel").text shouldBe messages.extraText
+            }
+            s"with the classes ' and the classes 'panel panel-border-wide'" in {
+              form.select("p.panel").attr("class") shouldBe "panel panel-border-wide"
+            }
+          }
         }
       }
 
