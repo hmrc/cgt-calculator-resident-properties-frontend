@@ -528,7 +528,7 @@ calc.resident.acquisitionCosts.question = How much did you pay in costs when you
 calc.resident.acquisitionCosts.listTitle = This is what you paid for:
 calc.resident.acquisitionCosts.bulletOne = estate agents or auctioneers
 calc.resident.acquisitionCosts.bulletTwo = solicitors or conveyancers
-calc.resident.acquisitionCosts.bulletThree = any professional help to value your property, for example surveyor or valuer
+calc.resident.acquisitionCosts.bulletThree = any professional help to value your property, for example a surveyor or valuer
 calc.resident.acquisitionCosts.bulletFour = advertising to find a buyer
 calc.resident.acquisitionCosts.panelText = If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner.
 

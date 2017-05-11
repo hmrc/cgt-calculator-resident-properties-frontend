@@ -14,7 +14,7 @@
     @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
 
         <div class="form-hint">
-            <p>@Messages("calc.resident.acquisitionCosts.listTitle")</p>
+            <p id="listTitle">@Messages("calc.resident.acquisitionCosts.listTitle")</p>
             <ul class="list list-bullet">
                 <li>@Messages("calc.resident.acquisitionCosts.bulletOne")</li>
                 <li>@Messages("calc.resident.acquisitionCosts.bulletTwo")</li>
@@ -24,7 +24,7 @@
             <p class="block-panel-border">@Messages("calc.resident.acquisitionCosts.panelText")</p>
         </div>
 
-        @formInputMoney(acquisitionCostsForm, "amount", Messages("calc.resident.acquisitionCosts.question"), Some(Messages("calc.resident.acquisitionCosts.helpText")), hideLabel = true)
+        @formInputMoney(acquisitionCostsForm, "amount", Messages("calc.resident.acquisitionCosts.question"), hideLabel = true)
 
         <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
     }

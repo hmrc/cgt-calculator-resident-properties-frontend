@@ -90,7 +90,7 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
 
       "has a label that" should {
 
-        lazy val label = doc.body.getElementsByTag("label")
+        lazy val label = form.select("label")
 
         s"have the question ${messages.pageHeading}" in {
           label.text should include(messages.pageHeading)
@@ -99,12 +99,39 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
         "have the class 'visuallyhidden'" in {
           label.select("span.visuallyhidden").size shouldBe 1
         }
-      }
 
-      "has help text that" should {
+        "have a div form-hint" which {
+          lazy val formHint = form.select("div.form-hint")
+          s"has a paragraph with the text ${messages.listTitle}" in {
+            doc.getElementById("listTitle").text shouldBe messages.listTitle
+          }
 
-        s"have the text ${messages.helpText}" in {
-          doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
+            s"has a list" which {
+              s"have the first bullet of ${messages.bulletOne}" in {
+                doc.body.select("div.form-hint ul li").get(0).text shouldBe messages.bulletOne
+              }
+
+              s"have the second bullet of ${messages.bulletTwo}" in {
+                doc.body.select("div.form-hint ul li").get(1).text shouldBe messages.bulletTwo
+              }
+
+              s"have the third bullet of ${messages.bulletThree}" in {
+                doc.body.select("div.form-hint ul li").get(2).text shouldBe messages.bulletThree
+              }
+
+              s"have the fourth bullet of ${messages.bulletFour}" in {
+                doc.body.select("div.form-hint ul li").get(3).text shouldBe messages.bulletFour
+              }
+            }
+
+          s"has panel text ${messages.panelText}" in {
+            formHint.select("p.block-panel-border").text shouldBe messages.panelText
+          }
+          }
+        }
+
+        "have a help panel" which {
+
         }
       }
 
@@ -129,7 +156,6 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
         }
 
       }
-    }
 
     "have a continue button that" should {
 
