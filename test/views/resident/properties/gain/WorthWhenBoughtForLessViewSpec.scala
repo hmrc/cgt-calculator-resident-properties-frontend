@@ -57,6 +57,23 @@ class WorthWhenBoughtForLessViewSpec extends UnitSpec with WithFakeApplication w
       doc.select("h1.heading-large").text() shouldBe messages.question
     }
 
+    "has a form hint" which {
+
+      lazy val formHint = doc.select("div.form-hint")
+
+      s"has the first paragraph of ${messages.helpOne}" in {
+        formHint.select("p").get(0).text shouldEqual messages.helpOne
+      }
+
+      s"has the second paragraph of ${messages.helpTwo}" in {
+        formHint.select("p").get(1).text shouldEqual messages.helpTwo
+      }
+    }
+
+    s"has the joint ownership text ${messages.jointOwner}" in {
+      doc.select("article > div.panel-indent > p").text shouldEqual messages.jointOwner
+    }
+
     "have a form tag" in {
       doc.select("form").size() shouldBe 1
     }
@@ -67,10 +84,6 @@ class WorthWhenBoughtForLessViewSpec extends UnitSpec with WithFakeApplication w
 
     "have a form method of 'POST'" in {
       doc.select("form").attr("method") shouldBe "POST"
-    }
-
-    "have additional content regarding valuations" in {
-      doc.select("div.resident p").text() shouldBe messages.additionalContent
     }
 
     "have a visually hidden label for the question" in {

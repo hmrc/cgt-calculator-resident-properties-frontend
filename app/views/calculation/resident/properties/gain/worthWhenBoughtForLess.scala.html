@@ -14,7 +14,15 @@
 
     <h1 class="heading-large">@Messages("calc.resident.properties.worthWhenBoughtForLess.question")</h1>
 
-    <p>@Messages("calc.resident.properties.worthWhenBoughtForLess.additionalContent")</p>
+    <div class="form-hint">
+        <p>@Messages("calc.resident.properties.worthWhenBoughtForLess.hintOne")</p>
+        <p>@Messages("calc.resident.properties.worthWhenBoughtForLess.hintTwo")</p>
+    </div>
+
+
+    <div class="panel-indent panel-indent--wide panel-indent--gutter">
+        <p>@Messages("calc.resident.properties.worthWhenBoughtForLess.jointOwner")</p>
+    </div>
 
     @form(action = controllers.routes.GainController.submitWorthWhenBoughtForLess()) {
 
