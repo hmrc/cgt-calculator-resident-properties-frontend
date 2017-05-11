@@ -512,7 +512,9 @@ object MessageLookup {
 
       object WorthWhenGifted {
         val question = "What was the property worth when you got it as a gift?"
-        val additionalContent = "You can use a valuation from a surveyor or a property website."
+        val hintOne = "You can use a valuation from a surveyor."
+        val hintTwo = "If you don't know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
+        val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object WorthWhenBoughtForLess {
