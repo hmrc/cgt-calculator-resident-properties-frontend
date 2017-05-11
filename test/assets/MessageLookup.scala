@@ -506,7 +506,8 @@ object MessageLookup {
 
       object WorthWhenInherited {
         val question = "What was the property worth when you inherited it?"
-        val additionalContent = "You can use a valuation from a surveyor or a property website."
+        val help = "This is the value of the property on the date the previous owner died."
+        val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object WorthWhenGifted {
