@@ -483,7 +483,7 @@ object MessageLookup {
         val question = "What was the property worth when you sold it?"
         val paragraphText = "You can use a valuation from a surveyor. If you don’t know the exact value, " +
           "you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
-        val extraText = "If you owned the property with someone else, only enter the value of your share of the property."
+        val extraText = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object OwnerBeforeLegislationStart {
@@ -495,7 +495,7 @@ object MessageLookup {
         val title = "What was the property worth when you gave it away?"
         val paragraphText = "You can use a valuation from a surveyor. If you don’t know the exact value, " +
           "you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
-        val extraText = "If you owned the property with someone else, only enter the value of your share of the property."
+        val extraText = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object ValueBeforeLegislationStart {
@@ -532,7 +532,7 @@ object MessageLookup {
         val questionBefore = "How much have you spent on improvements since 31 March 1982?"
         val hint = "Improvements are permanent changes that raise the value of a property, like adding " +
           "extensions or garages. Normal maintenance costs don't count."
-        val jointOwner = "If you owned the property with someone else, only enter your share of the improvement costs, as agreed with your co-owner."
+        val jointOwner = "If you owned the property with someone else, only enter your share of the improvement costs as agreed with your co-owner."
         val improvementsHelpButton = "Show me an example"
         val improvementsAdditionalContentOne = "Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement."
         val improvementsAdditionalContentTwo = "But replacing them with something of a similar standard is normally not an improvement."
@@ -705,7 +705,7 @@ object MessageLookup {
     val pageHeading = "How much did you pay in costs when you became the property owner?"
     val listTitle = "This is what you paid for:"
     val bulletOne = "estate agents or auctioneers"
-    val bulletTwo = "solicitors or conveyancers"
+    val bulletTwo = "solicitors or conveyancers, including Stamp Duty Land Tax"
     val bulletThree = "any professional help to value your property, for example a surveyor or valuer"
     val bulletFour = "advertising to find a buyer"
     val panelText = "If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner."
