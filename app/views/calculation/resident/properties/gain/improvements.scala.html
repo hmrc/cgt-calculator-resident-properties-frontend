@@ -28,6 +28,8 @@
         <p>@Messages("calc.resident.properties.improvements.jointOwner")</p>
     </div>
 
+    @expandableHelpTextHelper(Messages("calc.resident.properties.improvements.helpButton"), hiddenHelpTextContent)
+
     @form(action = controllers.routes.GainController.submitImprovements) {
 
         @formInputMoney(improvementsForm, "amount",
@@ -37,7 +39,4 @@
 
         <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
     }
-
-    @{if(!ownedBeforeAprilNineteenEightyTwo) expandableHelpTextHelper(Messages("calc.resident.properties.improvements.helpButton"), hiddenHelpTextContent)}
-
 }
