@@ -17,9 +17,11 @@ navTitle = Messages("calc.base.resident.properties.home")
 
 <h1 class="heading-large">@Messages("calc.resident.properties.worthWhenGaveAway.title")</h1>
 
-<p id="help">@Messages("calc.resident.properties.worthWhenGaveAway.help")</p>
-
 @form(action = postAction){
+
+    <p id="guideText">@Messages("calc.resident.properties.gaveItAway.paragraphText")</p>
+
+    <p class="block-panel-border">@Messages("calc.resident.properties.gaveItAway.hintText")</p>
 
 @formInputMoney(worthWhenGaveAwayForm, "amount", Messages("calc.resident.properties.worthWhenGaveAway.title"), hideLabel = true)
 

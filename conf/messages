@@ -238,6 +238,8 @@ calc.disposalCosts.errorDecimalPlaces = There are too many numbers after the dec
 
 ## Market Value ##
 calc.marketValue.gaveItAway.question = What was the property worth when you gave it away?
+calc.resident.properties.gaveItAway.hintText = If you owned the property with someone else, only enter the value of your share of the property.
+calc.resident.properties.gaveItAway.paragraphText = You can use a valuation from a surveyor. If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 calc.marketValue.sold.question = What was the market value of the property when you sold it?
 
 calc.marketValue.error.gaveItAway.decimalPlaces = There are too many numbers after the decimal point in your market value at the point of giving away
