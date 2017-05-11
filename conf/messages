@@ -507,7 +507,8 @@ calc.resident.properties.valueBeforeLegislationStart.question = What was the pro
 
 ## Worth When Inherited messages
 calc.resident.properties.worthWhenInherited.question = What was the property worth when you inherited it?
-calc.resident.properties.worthWhenInherited.additionalContent = You can use a valuation from a surveyor or a property website.
+calc.resident.properties.worthWhenInherited.help = This is the value of the property on the date the previous owner died.
+calc.resident.properties.worthWhenInherited.jointOwner = If you owned the property with someone else, only enter your share of the property value.
 
 ## Worth When Bought messages
 calc.resident.properties.worthWhenBoughtForLess.question = What was the property worth when you bought it?
