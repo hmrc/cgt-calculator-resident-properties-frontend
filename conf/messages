@@ -511,7 +511,9 @@ calc.resident.properties.worthWhenInherited.additionalContent = You can use a va
 
 ## Worth When Bought messages
 calc.resident.properties.worthWhenBoughtForLess.question = What was the property worth when you bought it?
-calc.resident.properties.worthWhenBoughtForLess.additionalContent = You can use a valuation from a surveyor or a property website.
+calc.resident.properties.worthWhenBoughtForLess.hintOne = You can use a valuation from a surveyor.
+calc.resident.properties.worthWhenBoughtForLess.hintTwo = If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
+calc.resident.properties.worthWhenBoughtForLess.jointOwner = If you owned the property with someone else, only enter your share of the property value.
 
 ## Worth When Gifted messages
 calc.resident.properties.worthWhenGifted.question = What was the property worth when you got it as a gift?
