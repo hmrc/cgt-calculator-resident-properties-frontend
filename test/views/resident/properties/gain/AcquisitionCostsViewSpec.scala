@@ -119,9 +119,6 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
                 doc.body.select("div.form-hint ul li").get(2).text shouldBe messages.bulletThree
               }
 
-              s"have the fourth bullet of ${messages.bulletFour}" in {
-                doc.body.select("div.form-hint ul li").get(3).text shouldBe messages.bulletFour
-              }
             }
 
           s"has panel text ${messages.panelText}" in {
