@@ -123,10 +123,6 @@ class ImprovementsViewSpec extends UnitSpec with WithFakeApplication with FakeRe
       val label = doc.select("label > span.visuallyhidden")
       label.hasClass("visuallyhidden") shouldBe true
     }
-
-    "not have any example text" in {
-      doc.select("span.summary").size() shouldBe 0
-    }
   }
 
   "Improvements View with form without errors" should {
