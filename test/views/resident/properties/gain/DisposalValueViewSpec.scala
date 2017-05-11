@@ -56,6 +56,10 @@ class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeR
       doc.select("h1").text shouldEqual messages.question
     }
 
+    s"has the help text ${messages.helpText}" in {
+      doc.select("article > div > p").text shouldEqual messages.helpText
+    }
+
     "render a form tag with a submit action" in {
       doc.select("form").attr("action") shouldEqual "/calculate-your-capital-gains/resident/properties/disposal-value"
     }
