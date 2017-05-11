@@ -436,3 +436,12 @@
 .pdf .text--right {
     text-align: right;
 }
+
+#soldForLess {
+    border-left-width: 10px;
+    clear: both;
+    border-left-style: solid;
+    border-color: #bfc1c3;
+    padding: 0.7894736842em;
+    margin-bottom: 0.7894736842em;
+}
