@@ -95,7 +95,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
     "there is some keystore data" should {
 
       lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
-      lazy val taxYearModel = TaxYearModel(Dates.getCurrentTaxYear, true, Dates.getCurrentTaxYear)
+      lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
       lazy val target = setupTarget(Some(PersonalAllowanceModel(1000)), disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
       lazy val result = target.personalAllowance(fakeRequestWithSession)
 
@@ -108,7 +108,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.inYearQuestion
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.question()
       }
     }
   }
@@ -116,7 +116,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
   "request has an invalid session" should {
 
     lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
-    lazy val taxYearModel = TaxYearModel(DateAsset.getYearAfterCurrentTaxYear, false, Dates.getCurrentTaxYear)
+    lazy val taxYearModel = TaxYearModel("2016/17", false, "2017/18")
     lazy val target = setupTarget(None, disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
     lazy val result = target.personalAllowance(fakeRequest)
 

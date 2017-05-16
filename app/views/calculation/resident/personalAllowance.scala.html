@@ -5,45 +5,50 @@
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
+@import common.Dates
 @(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages)
 
-@sidebar = {
+    @resident_main_template(title = Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied), backLink = backLink, homeLink = homeLink, navTitle = navTitle) {
 
-    <a id="personalAllowanceLink" class="external-link" rel="external" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
-       target="_blank" data-journey-click="help:govUK:rtt-@{journey}-currentRatesAndAllowances">
-        @Messages("calc.resident.personalAllowance.link.one")
-        <span>@Messages("calc.base.externalLink")</span>
-    </a>
-}
+        @errorSummary(personalAllowanceForm, "amount")
 
-@defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
-    @defining(
-        if(taxYearValid) Messages("calc.resident.personalAllowance.currentYearQuestion")
-        else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { question =>
+        <h1 class="heading-large">@Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)</h1>
 
-        @defining(
-            if(taxYearValid) "calc.resident.personalAllowance.currentYearHelpText" else "calc.resident.personalAllowance.helpText") { hintTextKey =>
+        @form(action = postAction) {
 
-            @resident_main_template(title = question, backLink = backLink, sidebarLinks = Some(sidebar), homeLink = homeLink, navTitle = navTitle) {
+            <p>@Messages("calc.personalAllowance.help")</p>
 
-                @errorSummary(personalAllowanceForm, "amount")
-
-                <h1 class="heading-large">@question</h1>
-
-                @form(action = postAction) {
-
-                    @formInputMoney(
-                        personalAllowanceForm,
-                        "amount",
-                        question,
-                        Some(Messages(hintTextKey, MoneyPounds(standardPA, 0).quantity)),
-                        hideLabel = true,
-                        step = "1")
-
-                    <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
-
+            <p>
+                @{
+                    val splitYear = taxYear.taxYearSupplied.split("/")
+                    Messages("calc.personalAllowance.list.title",
+                        splitYear.apply(0),
+                        splitYear.apply(0).substring(0, 2) + splitYear.apply(1),
+                        MoneyPounds(standardPA, 0).quantity)
                 }
-            }
+            </p>
+
+            <ul class="list list-bullet">
+                <li>@Messages("calc.personalAllowance.list.one")</li>
+                <li>@Messages("calc.personalAllowance.list.two")</li>
+            </ul>
+
+            <div class="form-group">
+                <span>@Messages("calc.personalAllowance.link.text")</span>
+                <a class="external-link" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" rel="external">
+                    @Messages("calc.personalAllowance.link")
+                </a>
+            </div>
+
+            @formInputMoney(
+                personalAllowanceForm,
+                "amount",
+                Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied),
+                None,
+                hideLabel = true,
+                step = "1")
+
+            <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
         }
     }
-}
