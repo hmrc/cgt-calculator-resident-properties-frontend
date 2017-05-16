@@ -908,7 +908,7 @@ object MessageLookup {
     val title = "Are you entitled to Private Residence Relief?"
     val helpTextOne = "You'll be entitled to Private Residence Relief if you've lived in the property as your main home " +
       "at some point while you owned it. Find out more about"
-    val helpTextLink = "Private Residence Relief"
+    val helpTextLink = "You may be entitled to Private Residence Relief if you've lived in the property as your main home at some point while you owned it. Find out more about Private Residence Relief"
     val errorSelect = "Tell us if you want to claim Private Residence Relief"
   }
 
