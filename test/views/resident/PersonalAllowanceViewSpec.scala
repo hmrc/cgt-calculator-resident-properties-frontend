@@ -17,6 +17,8 @@
 package views.resident
 
 
+import java.time.LocalDate
+
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.{PersonalAllowance => messages}
 import common.Dates
@@ -29,6 +31,8 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{resident => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
+import scala.concurrent.Await
 
 class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -172,30 +176,30 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
       }
     }
 
-    "supplied with a a 2016/17 tax year" should {
+    "supplied with a the current tax year" should {
 
-      lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
+      lazy val taxYearModel = TaxYearModel(await(Dates.getCurrentTaxYear), true, await(Dates.getCurrentTaxYear))
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
         Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
-      s"have a title ${messages.question()}" in {
-        doc.title() shouldBe messages.question()
+      s"have a title ${messages.currentYearQuestion}" in {
+        doc.title() shouldBe messages.currentYearQuestion
       }
 
-      s"have the page heading '${messages.question()}'" in {
-        h1Tag.text shouldBe messages.question()
+      s"have the page heading '${messages.currentYearQuestion}'" in {
+        h1Tag.text shouldBe messages.currentYearQuestion
       }
 
-      s"have a legend for an input with text ${messages.question()}" in {
-        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question()
+      s"have a legend for an input with text ${messages.currentYearQuestion}" in {
+        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.currentYearQuestion
       }
     }
 
     "supplied with a tax year a year after the current tax year" should {
 
-      lazy val taxYearModel = TaxYearModel("2017/18", false, "2016/17")
+      lazy val taxYearModel = TaxYearModel(Dates.taxYearToString(LocalDate.now.getYear + 1), false, "2016/17")
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
         Some("back-link"), JourneyKeys.properties, "navTitle", "2016/17")(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)

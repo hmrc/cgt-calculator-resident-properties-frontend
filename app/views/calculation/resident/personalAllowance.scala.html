@@ -8,17 +8,23 @@
 @import common.Dates
 @(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages)
 
-    @resident_main_template(title = Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied), backLink = backLink, homeLink = homeLink, navTitle = navTitle) {
+@defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
+    @defining(
+        if(taxYearValid) Messages("calc.resident.personalAllowance.currentYearQuestion")
+        else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { question =>
 
-        @errorSummary(personalAllowanceForm, "amount")
 
-        <h1 class="heading-large">@Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)</h1>
+        @resident_main_template(title = question, backLink = backLink, homeLink = homeLink, navTitle = navTitle) {
 
-        @form(action = postAction) {
+            @errorSummary(personalAllowanceForm, "amount")
 
-            <p>@Messages("calc.personalAllowance.help")</p>
+            <h1 class="heading-large">@question</h1>
 
-            <p>
+            @form(action = postAction) {
+
+                <p>@Messages("calc.personalAllowance.help")</p>
+
+                <p>
                 @{
                     val splitYear = taxYear.taxYearSupplied.split("/")
                     Messages("calc.personalAllowance.list.title",
@@ -26,29 +32,31 @@
                         splitYear.apply(0).substring(0, 2) + splitYear.apply(1),
                         MoneyPounds(standardPA, 0).quantity)
                 }
-            </p>
+                </p>
 
-            <ul class="list list-bullet">
-                <li>@Messages("calc.personalAllowance.list.one")</li>
-                <li>@Messages("calc.personalAllowance.list.two")</li>
-            </ul>
+                <ul class="list list-bullet">
+                    <li>@Messages("calc.personalAllowance.list.one")</li>
+                    <li>@Messages("calc.personalAllowance.list.two")</li>
+                </ul>
 
-            <div class="form-group">
-                <span>@Messages("calc.personalAllowance.link.text")</span>
-                <a class="external-link" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" rel="external">
+                <div class="form-group">
+                    <span>@Messages("calc.personalAllowance.link.text")</span>
+                    <a class="external-link" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" rel="external">
                     @Messages("calc.personalAllowance.link")
-                </a>
-            </div>
+                    </a>
+                </div>
 
-            @formInputMoney(
-                personalAllowanceForm,
-                "amount",
-                Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied),
-                None,
-                hideLabel = true,
-                step = "1")
+                @formInputMoney(
+                    personalAllowanceForm,
+                    "amount",
+                    question,
+                    None,
+                    hideLabel = true,
+                    step = "1")
 
-            <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+                <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
 
+            }
         }
     }
+}
