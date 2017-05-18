@@ -696,10 +696,8 @@ calc.resident.previousTaxableGains.helpText = This is the amount of taxable gain
 ## Current Income messages
 calc.resident.currentIncome.title = In the {0} tax year, what was your income?
 calc.resident.currentIncome.question = In the {0} tax year, what was your income?
-calc.resident.currentIncome.titleCurrentYear = How much do you expect your income to be in this tax year?
 calc.resident.currentIncome.questionCurrentYear = How much do you expect your income to be in this tax year?
 calc.resident.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the property.
-calc.resident.currentIncome.linkText = Income tax
 
 ## Personal Allowance messages
 calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?

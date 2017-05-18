@@ -138,8 +138,6 @@ object MessageLookup {
 
     object CurrentIncome {
       val question = "What was your total UK income in the tax year when you stopped owning the property?"
-      val linkOne = "Income Tax"
-      val linkTwo = "Previous tax years"
       val helpText = "Give a realistic estimate if this was in the current tax year. Include your UK salary before tax, and anything else you pay UK income tax on. Do not include the money you made from selling the property."
       val errorNegative = "Enter a positive number for your current income"
       val errorDecimalPlace = "Your current income has too many numbers after the decimal point"
