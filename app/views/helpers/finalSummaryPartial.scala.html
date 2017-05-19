@@ -39,7 +39,7 @@
         <!-- Header -->
     <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
-    <div id="yourTotalGain" class="resident summary-underline summary-details-padding">
+    <div id="yourTotalGain" class="resident summary-partial summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
 
         @(gainAnswers.givenAway, gainAnswers.sellForLess) match {
@@ -72,7 +72,7 @@
         @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
     </div>
 
-    <div id="yourDeductions" class="resident summary-underline summary-details-padding">
+    <div id="yourDeductions" class="resident summary-partial summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
 
         @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
@@ -85,7 +85,7 @@
         @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
     </div>
 
-    <div id="yourTaxableGain" class="resident summary-underline summary-details-padding">
+    <div id="yourTaxableGain" class="resident summary-partial summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourTaxableGain")</h3>
 
         @summaryNumericRow("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
@@ -93,7 +93,7 @@
         @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
     </div>
 
-    <div id="yourTaxRate" class="resident summary-underline summary-details-padding">
+    <div id="yourTaxRate" class="resident summary-partial summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
         <h4>@Messages("calc.summary.ratesHelp")</h4>
 
@@ -114,7 +114,7 @@
     <!--Remaining Details Section-->
 <section id="remainingDeductions" class="summary-end-block">
 
-    <div class="resident summary-underline">
+    <div class="resident summary-partial summary-underline">
 
         <!-- Header -->
         <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
