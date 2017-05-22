@@ -20,8 +20,8 @@ import assets.MessageLookup.{CurrentIncome => messages}
 import common.Dates
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import connectors.CalculatorConnector
-import controllers.helpers.FakeRequestHelper
 import controllers.IncomeController
+import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.income._
 import org.jsoup.Jsoup
@@ -39,8 +39,6 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
                   otherProperties: Boolean = true,
                   lossesBroughtForward: Boolean = true,
                   annualExemptAmount: BigDecimal = 0,
-                  allowableLossesModel: Option[AllowableLossesModel] = None,
-                  allowableLossesValueModel: Option[AllowableLossesValueModel] = None,
                   disposalDate: Option[DisposalDateModel],
                   taxYear: Option[TaxYearModel]): IncomeController = {
 
@@ -50,25 +48,9 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(storedData))
 
-    when(mockCalcConnector.fetchAndGetFormData[OtherPropertiesModel](ArgumentMatchers.eq(keystoreKeys.otherProperties))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(OtherPropertiesModel(otherProperties))))
-
-    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesModel](ArgumentMatchers.eq(keystoreKeys.allowableLosses))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(allowableLossesModel))
-
-    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesValueModel](ArgumentMatchers.eq(keystoreKeys.allowableLossesValue))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(allowableLossesValueModel))
-
     when(mockCalcConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(LossesBroughtForwardModel(lossesBroughtForward))))
-
-    when(mockCalcConnector.fetchAndGetFormData[AnnualExemptAmountModel](ArgumentMatchers.eq(keystoreKeys.annualExemptAmount))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(AnnualExemptAmountModel(annualExemptAmount))))
 
     when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -140,7 +122,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
     "no brought forward losses" should {
 
       lazy val target = setupTarget(None, otherProperties = false, lossesBroughtForward = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
-                                    taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
+        taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.currentIncome(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(bodyOf(result))
 
@@ -156,7 +138,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
     "brought forward losses has been selected" should {
 
       lazy val target = setupTarget(None, otherProperties = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
-                                    taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
+        taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.currentIncome(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(bodyOf(result))
 
@@ -179,7 +161,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
     }
 
     "return you to the session timeout view" in {
-      redirectLocation(result).get should include ("/calculate-your-capital-gains/resident/properties/session-timeout")
+      redirectLocation(result).get should include("/calculate-your-capital-gains/resident/properties/session-timeout")
     }
   }
 
@@ -188,7 +170,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
     "given a valid form should" should {
 
       lazy val target = setupTarget(Some(CurrentIncomeModel(40000)), disposalDate = Some(DisposalDateModel(10, 10, 2015)),
-                                    taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
+        taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.submitCurrentIncome(fakeRequestToPOSTWithSession(("amount", "40000")))
 
       "return a status of 303" in {
@@ -203,7 +185,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
     "given an invalid form" should {
 
       lazy val target = setupTarget(Some(CurrentIncomeModel(-40000)), otherProperties = false,
-                                    disposalDate = Some(DisposalDateModel(10, 10, 2015)), taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
+        disposalDate = Some(DisposalDateModel(10, 10, 2015)), taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.submitCurrentIncome(fakeRequestToPOSTWithSession(("amount", "-40000")))
 
       "return a status of 400" in {

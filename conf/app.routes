@@ -113,18 +113,6 @@ POST    /lettings-relief                  controllers.DeductionsController.submi
 GET     /lettings-relief-value            controllers.DeductionsController.lettingsReliefValue
 POST    /lettings-relief-value            controllers.DeductionsController.submitLettingsReliefValue
 
-#Other Properties Routes
-GET     /other-properties                 controllers.DeductionsController.otherProperties
-POST    /other-properties                 controllers.DeductionsController.submitOtherProperties
-
-#Allowable Losses Routes
-GET     /allowable-losses                 controllers.DeductionsController.allowableLosses
-POST    /allowable-losses                 controllers.DeductionsController.submitAllowableLosses
-
-#Allowable Losses Value Routes
-GET     /allowable-losses-value           controllers.DeductionsController.allowableLossesValue
-POST    /allowable-losses-value           controllers.DeductionsController.submitAllowableLossesValue
-
 #Losses Brought Forward Routes
 GET     /losses-brought-forward           controllers.DeductionsController.lossesBroughtForward
 POST    /losses-brought-forward           controllers.DeductionsController.submitLossesBroughtForward
@@ -132,14 +120,6 @@ POST    /losses-brought-forward           controllers.DeductionsController.submi
 #Losses Brought Forward Value Routes
 GET     /losses-brought-forward-value     controllers.DeductionsController.lossesBroughtForwardValue
 POST    /losses-brought-forward-value     controllers.DeductionsController.submitLossesBroughtForwardValue
-
-#Annual Exempt Amount Routes
-GET     /annual-exempt-amount             controllers.DeductionsController.annualExemptAmount
-POST    /annual-exempt-amount             controllers.DeductionsController.submitAnnualExemptAmount
-
-#Previous Taxable Gains Routes
-GET     /previous-taxable-gains           controllers.IncomeController.previousTaxableGains
-POST    /previous-taxable-gains           controllers.IncomeController.submitPreviousTaxableGains
 
 #Current Income Routes
 GET     /current-income                   controllers.IncomeController.currentIncome
