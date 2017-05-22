@@ -823,22 +823,6 @@ object MessageLookup {
     val errorSelect = "Tell us if you want to claim Letting Relief"
   }
 
-  //Other Properties messages
-  object OtherProperties {
-    def title(input: String): String = s"In the $input tax year, did you sell or give away anything else that's covered by Capital Gains Tax?"
-    def pageHeading(input: String): String = s"In the $input tax year, did you sell or give away anything else that's covered by Capital Gains Tax?"
-    val help = "This includes things like:"
-    val helpOne = "shares"
-    val helpTwo = "antiques"
-    val helpThree = "other UK residential properties"
-    def errorSelect(input: String): String = s"Tell us if you sold or gave away anything else that's covered by Capital Gains Tax in the $input tax year"
-  }
-
-  //Allowable Losses Value messages
-  object AllowableLossesValue {
-    def title(input: String): String = s"What's the total value of your Capital Gains Tax losses from the $input tax year?"
-    def question(input: String): String = s"What's the total value of your Capital Gains Tax losses from the $input tax year?"
-  }
 
   //Losses Brought Forward messages
   object LossesBroughtForward {
@@ -848,16 +832,6 @@ object MessageLookup {
     def errorSelect(input: String): String = s"Tell us if you're claiming any Capital Gains Tax losses from tax years before $input"
   }
 
-  //Allowable Losses messages
-  object AllowableLosses {
-    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from the $input tax year?"
-    val helpInfoTitle = "What are Capital Gains Tax losses?"
-    val helpInfoSubtitle = "They're losses you've made that:"
-    val helpInfoPoint1 = "are covered by Capital Gains Tax"
-    val helpInfoPoint2 = "you've declared within 4 years of making the loss"
-    val helpInfoPoint3 = "you haven't already used to reduce the amount of Capital Gains Tax you had to pay"
-    def errorSelect(input: String): String = s"Tell us if you're claiming any Capital Gains Tax losses from the $input tax year"
-  }
 
   //Losses Brought Forward Value messages
   object LossesBroughtForwardValue {
@@ -865,21 +839,6 @@ object MessageLookup {
     def question(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input?"
   }
 
-  //Annual Exempt Amount messages
-  object AnnualExemptAmount {
-    val title = "How much of your Capital Gains Tax allowance have you got left?"
-    val question = "How much of your Capital Gains Tax allowance have you got left?"
-    val help = "This is the amount you can make in capital gains before you have to pay tax."
-    val helpOne = "It's £11,100 a year."
-    val helpLinkOne = "Tax-free allowances for Capital Gains Tax"
-  }
-
-  //Previous Taxable Gains messages
-  object PreviousTaxableGains {
-    def title(year: String): String = s"What was your taxable gain in the $year tax year?"
-    def question(year: String): String = s"What was your taxable gain in the $year tax year?"
-    val helpLinkOne = "How to work out your taxable gain"
-  }
 
   //Current Income messages
   object CurrentIncome {

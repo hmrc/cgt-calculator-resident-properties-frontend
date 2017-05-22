@@ -252,55 +252,13 @@ class RoutesSpec extends UnitSpec with WithFakeApplication with Matchers {
     }
   }
 
-  "The URL for the other properties action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/other-properties" in {
-      DeductionsController.otherProperties().url shouldEqual "/calculate-your-capital-gains/resident/properties/other-properties"
-    }
-  }
-
-  "The URL for the submit other properties action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/other-properties" in {
-      DeductionsController.submitOtherProperties().url shouldEqual "/calculate-your-capital-gains/resident/properties/other-properties"
-    }
-  }
-
-  "The URL for the allowable losses value action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/allowable-losses-value" in {
-      DeductionsController.allowableLossesValue().url shouldEqual "/calculate-your-capital-gains/resident/properties/allowable-losses-value"
-    }
-  }
-
-  "The URL for the submit allowable losses value action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/allowable-losses-value" in {
-      DeductionsController.submitAllowableLossesValue().url shouldEqual "/calculate-your-capital-gains/resident/properties/allowable-losses-value"
-    }
-  }
-
   "The URL for the lossesBroughtForward action" should {
     "be equal to /calculate-your-capital-gains/resident/properties/losses-brought-forward" in {
       DeductionsController.lossesBroughtForward().url shouldEqual "/calculate-your-capital-gains/resident/properties/losses-brought-forward"
     }
   }
 
-  "The URL for the annualExemptAmount action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/annual-exempt-amount" in {
-      DeductionsController.annualExemptAmount().url shouldEqual "/calculate-your-capital-gains/resident/properties/annual-exempt-amount"
-    }
-  }
-
-  "The URL for the submit annualExemptAmount action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/annual-exempt-amount" in {
-      DeductionsController.submitAnnualExemptAmount().url shouldEqual "/calculate-your-capital-gains/resident/properties/annual-exempt-amount"
-    }
-  }
-
-  "The URL for the allowableLosses action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/allowable-losses" in {
-      DeductionsController.allowableLosses().url shouldEqual "/calculate-your-capital-gains/resident/properties/allowable-losses"
-    }
-  }
-
-  "The URL for the lossesBroughtForwardValue action" should {
+   "The URL for the lossesBroughtForwardValue action" should {
     "be equal to /calculate-your-capital-gains/resident/properties/losses-brought-forward-value" in {
       DeductionsController.lossesBroughtForwardValue().url shouldEqual "/calculate-your-capital-gains/resident/properties/losses-brought-forward-value"
     }
@@ -309,12 +267,6 @@ class RoutesSpec extends UnitSpec with WithFakeApplication with Matchers {
   "The URL for the submitLossesBroughtForwardValue action" should {
     "be equal to /calculate-your-capital-gains/resident/properties/losses-brought-forward-value" in {
       DeductionsController.submitLossesBroughtForwardValue().url shouldEqual "/calculate-your-capital-gains/resident/properties/losses-brought-forward-value"
-    }
-  }
-
-  "The URL for the previousTaxableGains action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/previous-taxable-gains" in {
-      IncomeController.previousTaxableGains().url shouldEqual "/calculate-your-capital-gains/resident/properties/previous-taxable-gains"
     }
   }
 

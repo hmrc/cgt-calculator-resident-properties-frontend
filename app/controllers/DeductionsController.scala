@@ -17,23 +17,18 @@
 package controllers
 
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import common.resident.JourneyKeys
 import config.{AppConfig, ApplicationConfig}
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
-import forms.resident.AllowableLossesForm._
-import forms.resident.AllowableLossesValueForm._
-import forms.resident.AnnualExemptAmountForm._
 import forms.resident.LossesBroughtForwardForm._
 import forms.resident.LossesBroughtForwardValueForm._
-import forms.resident.OtherPropertiesForm._
 import forms.resident.properties.LettingsReliefForm._
 import forms.resident.properties.LettingsReliefValueForm._
 import forms.resident.properties.PrivateResidenceReliefForm._
 import forms.resident.properties.PrivateResidenceReliefValueForm._
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties._
-import models.resident.{AllowableLossesValueModel, _}
+import models.resident._
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -209,6 +204,17 @@ trait DeductionsController extends ValidActiveSession {
     )
   }
 
+  private def otherPropertiesData(propertyLivedInModel: Option[PropertyLivedInModel],
+                                  privateResidenceReliefModel: Option[PrivateResidenceReliefModel],
+                                  lettingsReliefModel: Option[LettingsReliefModel]): Future[String] = {
+    (propertyLivedInModel.get.livedInProperty, privateResidenceReliefModel, lettingsReliefModel) match {
+      case (true, Some(PrivateResidenceReliefModel(true)), Some(LettingsReliefModel(true))) =>
+        Future.successful(routes.DeductionsController.lettingsReliefValue().url)
+      case (true, Some(PrivateResidenceReliefModel(true)), _) => Future.successful(routes.DeductionsController.lettingsRelief().url)
+      case (true, _, _) => Future.successful(routes.DeductionsController.privateResidenceRelief().url)
+      case _ => Future.successful(routes.DeductionsController.propertyLivedIn().url)
+    }
+  }
 
   //################# Lettings Relief Value Input Actions ########################
   val lettingsReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -247,170 +253,6 @@ trait DeductionsController extends ValidActiveSession {
     } yield route
   }
 
-
-  private def otherPropertiesBackUrl()(implicit hc: HeaderCarrier): Future[String] = {
-    for {
-      livedInProperty <- calcConnector.fetchAndGetFormData[PropertyLivedInModel](keystoreKeys.propertyLivedIn)
-      privateResidenceRelief <- calcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](keystoreKeys.privateResidenceRelief)
-      lettingsRelief <- calcConnector.fetchAndGetFormData[LettingsReliefModel](keystoreKeys.lettingsRelief)
-      backUrl <- otherPropertiesData(livedInProperty, privateResidenceRelief, lettingsRelief)
-    } yield backUrl
-  }
-
-  private def otherPropertiesData(propertyLivedInModel: Option[PropertyLivedInModel],
-                                  privateResidenceReliefModel: Option[PrivateResidenceReliefModel],
-                                  lettingsReliefModel: Option[LettingsReliefModel]): Future[String] = {
-    (propertyLivedInModel.get.livedInProperty, privateResidenceReliefModel, lettingsReliefModel) match {
-      case (true, Some(PrivateResidenceReliefModel(true)), Some(LettingsReliefModel(true))) =>
-        Future.successful(routes.DeductionsController.lettingsReliefValue().url)
-      case (true, Some(PrivateResidenceReliefModel(true)), _) => Future.successful(routes.DeductionsController.lettingsRelief().url)
-      case (true, _, _) => Future.successful(routes.DeductionsController.privateResidenceRelief().url)
-      case _ => Future.successful(routes.DeductionsController.propertyLivedIn().url)
-    }
-  }
-
-  val otherProperties: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def routeRequest(backUrl: String, taxYear: TaxYearModel): Future[Result] = {
-      calcConnector.fetchAndGetFormData[OtherPropertiesModel](keystoreKeys.otherProperties).map {
-        case Some(data) => Ok(views.otherProperties(otherPropertiesForm.fill(data), backUrl, taxYear))
-        case None => Ok(views.otherProperties(otherPropertiesForm, backUrl, taxYear))
-      }
-    }
-
-    for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      backUrl <- otherPropertiesBackUrl()
-      finalResult <- routeRequest(backUrl, taxYear.get)
-    } yield finalResult
-  }
-
-  val submitOtherProperties: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
-      otherPropertiesForm.bindFromRequest.fold(
-        errors => Future.successful(BadRequest(views.otherProperties(errors, backUrl, taxYearModel))),
-        success => {
-          calcConnector.saveFormData[OtherPropertiesModel](keystoreKeys.otherProperties, success)
-          if (success.hasOtherProperties) {
-            Future.successful(Redirect(routes.DeductionsController.allowableLosses()))
-          } else {
-            Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
-          }
-        }
-      )
-    }
-    for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      backUrl <- otherPropertiesBackUrl()
-      route <- routeRequest(backUrl, taxYear.get)
-    } yield route
-  }
-
-
-  //################# Allowable Losses Actions #########################
-  val allowableLosses: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    val postAction = controllers.routes.DeductionsController.submitAllowableLosses()
-    val backLink = Some(controllers.routes.DeductionsController.otherProperties().toString)
-
-    def routeRequest(taxYear: TaxYearModel): Future[Result] = {
-      calcConnector.fetchAndGetFormData[AllowableLossesModel](keystoreKeys.allowableLosses).map {
-        case Some(data) => Ok(commonViews.allowableLosses(allowableLossesForm.fill(data), taxYear, postAction, backLink, homeLink, navTitle))
-        case None => Ok(commonViews.allowableLosses(allowableLossesForm, taxYear, postAction, backLink, homeLink, navTitle))
-      }
-    }
-    for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      finalResult <- routeRequest(taxYear.get)
-    } yield finalResult
-  }
-
-  val submitAllowableLosses: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    val postAction = controllers.routes.DeductionsController.submitAllowableLosses()
-    val backLink = Some(controllers.routes.DeductionsController.otherProperties().toString)
-
-    def routeRequest(taxYear: TaxYearModel): Future[Result] = {
-      allowableLossesForm.bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.allowableLosses(errors, taxYear, postAction, backLink, homeLink, navTitle))),
-        success => {
-          calcConnector.saveFormData[AllowableLossesModel](keystoreKeys.allowableLosses, success)
-          if (success.isClaiming) {
-            Future.successful(Redirect(routes.DeductionsController.allowableLossesValue()))
-          }
-          else {
-            Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
-          }
-        }
-      )
-    }
-    for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      finalResult <- routeRequest(taxYear.get)
-    } yield finalResult
-  }
-
-
-  //################# Allowable Losses Value Actions ############################
-  private val allowableLossesValuePostAction = controllers.routes.DeductionsController.submitAllowableLossesValue()
-  private val allowableLossesValueBackLink = Some(controllers.routes.DeductionsController.allowableLosses().toString)
-
-  val allowableLossesValue: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def fetchStoredAllowableLosses(): Future[Form[AllowableLossesValueModel]] = {
-      calcConnector.fetchAndGetFormData[AllowableLossesValueModel](keystoreKeys.allowableLossesValue).map {
-        case Some(data) => allowableLossesValueForm.fill(data)
-        case _ => allowableLossesValueForm
-      }
-    }
-
-    def routeRequest(taxYear: TaxYearModel, formData: Form[AllowableLossesValueModel]): Future[Result] = {
-      Future.successful(Ok(commonViews.allowableLossesValue(formData, taxYear,
-        homeLink,
-        allowableLossesValuePostAction,
-        allowableLossesValueBackLink,
-        navTitle)))
-    }
-    for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      formData <- fetchStoredAllowableLosses()
-      finalResult <- routeRequest(taxYear.get, formData)
-    } yield finalResult
-  }
-
-  val submitAllowableLossesValue: Action[AnyContent]= ValidateSession.async { implicit request =>
-
-    def routeRequest(taxYearModel: TaxYearModel): Future[Result] = {
-      allowableLossesValueForm.bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.allowableLossesValue(errors, taxYearModel,
-          homeLink,
-          allowableLossesValuePostAction,
-          allowableLossesValueBackLink,
-          navTitle))),
-        success => {
-          calcConnector.saveFormData[AllowableLossesValueModel](keystoreKeys.allowableLossesValue, success)
-          Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
-        }
-      )
-    }
-    for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      route <- routeRequest(taxYear.get)
-    } yield route
-  }
 
 
   //################# Brought Forward Losses Actions ############################
@@ -552,79 +394,4 @@ trait DeductionsController extends ValidActiveSession {
   }
 
 
-  //################# Annual Exempt Amount Input Actions #############################
-  private def annualExemptAmountBackLink(implicit hc: HeaderCarrier): Future[Option[String]] = calcConnector
-    .fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
-    case Some(LossesBroughtForwardModel(true)) =>
-      Some(controllers.routes.DeductionsController.lossesBroughtForwardValue().toString)
-    case _ =>
-      Some(controllers.routes.DeductionsController.lossesBroughtForward().toString)
   }
-
-  private val annualExemptAmountPostAction = controllers.routes.DeductionsController.submitAnnualExemptAmount()
-
-  val annualExemptAmount: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def routeRequest(backLink: Option[String]) = {
-      calcConnector.fetchAndGetFormData[AnnualExemptAmountModel](keystoreKeys.annualExemptAmount).map {
-        case Some(data) => Ok(commonViews.annualExemptAmount(annualExemptAmountForm().fill(data), backLink, annualExemptAmountPostAction,
-          homeLink, JourneyKeys.properties, navTitle))
-        case None => Ok(commonViews.annualExemptAmount(annualExemptAmountForm(), backLink, annualExemptAmountPostAction, homeLink,
-          JourneyKeys.properties, navTitle))
-      }
-    }
-
-    for {
-      backLink <- annualExemptAmountBackLink(hc)
-      result <- routeRequest(backLink)
-    } yield result
-  }
-
-  def positiveAEACheck(model: AnnualExemptAmountModel)(implicit hc: HeaderCarrier): Future[Boolean] = {
-    Future(model.amount > 0)
-  }
-
-  val submitAnnualExemptAmount: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def taxYearStringToInteger(taxYear: String): Future[Int] = {
-      Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
-    }
-
-    def formatDisposalDate(disposalDateModel: DisposalDateModel): Future[String] = {
-      Future.successful(s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}")
-    }
-
-    def getMaxAEA(taxYear: Int): Future[Option[BigDecimal]] = {
-      calcConnector.getFullAEA(taxYear)
-    }
-
-    def routeRequest(maxAEA: BigDecimal, backLink: Option[String]): Future[Result] = {
-      annualExemptAmountForm(maxAEA).bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.annualExemptAmount(errors, backLink, annualExemptAmountPostAction, homeLink,
-          JourneyKeys.properties, navTitle))),
-        success => {
-          for {
-            save <- calcConnector.saveFormData(keystoreKeys.annualExemptAmount, success)
-            positiveAEA <- positiveAEACheck(success)
-            positiveChargeableGain <- positiveChargeableGainCheck
-          } yield (positiveAEA, positiveChargeableGain)
-
-          match {
-            case (false, true) => Redirect(routes.IncomeController.previousTaxableGains())
-            case (_, false) => Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
-            case _ => Redirect(routes.IncomeController.currentIncome())
-          }
-        }
-      )
-    }
-    for {
-      disposalDate <- calcConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      year <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
-      maxAEA <- getMaxAEA(year)
-      backLink <- annualExemptAmountBackLink(hc)
-      route <- routeRequest(maxAEA.get, backLink)
-    } yield route
-  }
-}

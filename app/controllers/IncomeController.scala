@@ -23,7 +23,6 @@ import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import forms.resident.income.CurrentIncomeForm._
 import forms.resident.income.PersonalAllowanceForm._
-import forms.resident.income.PreviousTaxableGainsForm._
 import models.resident._
 import models.resident.income._
 import play.api.data.Form
@@ -47,32 +46,10 @@ trait IncomeController extends ValidActiveSession {
 
   val navTitle = Messages("calc.base.resident.properties.home")
 
-  def otherPropertiesResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[OtherPropertiesModel](keystoreKeys.otherProperties).map {
-      case Some(OtherPropertiesModel(response)) => response
-      case None => false
-    }
-  }
-
-  def lossesBroughtForwardResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
+    def lossesBroughtForwardResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
     calcConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
       case Some(LossesBroughtForwardModel(response)) => response
       case None => false
-    }
-  }
-
-  def allowableLossesCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[AllowableLossesModel](keystoreKeys.allowableLosses).map {
-      case Some(data) => data.isClaiming
-      case None => false
-    }
-  }
-
-  def displayAnnualExemptAmountCheck(claimedOtherProperties: Boolean, claimedAllowableLosses: Boolean)(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[AllowableLossesValueModel](keystoreKeys.allowableLossesValue).map {
-      case Some(result) if claimedAllowableLosses && claimedOtherProperties => result.amount == 0
-      case _ if claimedOtherProperties && !claimedAllowableLosses => true
-      case _ => false
     }
   }
 
@@ -86,69 +63,6 @@ trait IncomeController extends ValidActiveSession {
 
   override val homeLink: String = controllers.routes.PropertiesController.introduction().url
   override val sessionTimeoutUrl: String = homeLink
-
-  //################################# Previous Taxable Gain Actions ##########################################
-  private val previousTaxableGainsPostAction = controllers.routes.IncomeController.submitPreviousTaxableGains()
-
-  def buildPreviousTaxableGainsBackUrl(implicit hc: HeaderCarrier): Future[String] = {
-
-    for {
-      hasOtherProperties <- otherPropertiesResponse
-      hasAllowableLosses <- allowableLossesCheck
-      displayAnnualExemptAmount <- displayAnnualExemptAmountCheck(hasOtherProperties, hasAllowableLosses)
-      hasLossesBroughtForward <- lossesBroughtForwardResponse
-    } yield (displayAnnualExemptAmount, hasLossesBroughtForward)
-
-    match {
-      case (true, _) => routes.DeductionsController.annualExemptAmount().url
-      case (false, true) => routes.DeductionsController.lossesBroughtForwardValue().url
-      case (false, false) => routes.DeductionsController.lossesBroughtForward().url
-    }
-  }
-
-  val previousTaxableGains: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def routeRequest(backUrl: String, calculationYear: String): Future[Result] = {
-      calcConnector.fetchAndGetFormData[PreviousTaxableGainsModel](keystoreKeys.previousTaxableGains).map {
-        case Some(data) => Ok(commonViews.previousTaxableGains(previousTaxableGainsForm.fill(data), backUrl,
-          previousTaxableGainsPostAction, homeLink, JourneyKeys.properties, calculationYear, navTitle))
-        case None => Ok(commonViews.previousTaxableGains(previousTaxableGainsForm, backUrl,
-          previousTaxableGainsPostAction, homeLink, JourneyKeys.properties, calculationYear, navTitle))
-      }
-    }
-
-    for {
-      backUrl <- buildPreviousTaxableGainsBackUrl
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      finalResult <- routeRequest(backUrl, taxYear.get.calculationTaxYear)
-    } yield finalResult
-  }
-
-  val submitPreviousTaxableGains: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def errorAction (errors: Form[PreviousTaxableGainsModel], backUrl: String, taxYear: String) = {
-      Future.successful(BadRequest(commonViews.previousTaxableGains(errors, backUrl, previousTaxableGainsPostAction,
-        homeLink, JourneyKeys.properties, taxYear, navTitle)))
-    }
-
-    previousTaxableGainsForm.bindFromRequest.fold(
-      errors => {
-        for {
-          backUrl <- buildPreviousTaxableGainsBackUrl
-          disposalDate <- getDisposalDate
-          disposalDateString <- formatDisposalDate(disposalDate.get)
-          taxYear <- calcConnector.getTaxYear(disposalDateString)
-          page <- errorAction(errors, backUrl, taxYear.get.taxYearSupplied)
-        } yield page
-      },
-      success => {
-        calcConnector.saveFormData(keystoreKeys.previousTaxableGains, success)
-        Future.successful(Redirect(routes.IncomeController.currentIncome()))
-      }
-    )
-  }
 
   //################################# Current Income Actions ##########################################
 

@@ -48,17 +48,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
   def mockResidentPropertyFetchAndGetFormData(): Unit = {
 
-    when(mockSessionCache.fetchAndGetEntry[resident.OtherPropertiesModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.otherProperties))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(resident.OtherPropertiesModel(false))))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.AllowableLossesModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.allowableLosses))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AllowableLossesModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.AllowableLossesValueModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.allowableLossesValue))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AllowableLossesValueModel])))
 
     when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForward))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -67,10 +57,6 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
     when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardValueModel](ArgumentMatchers
       .eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForwardValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardValueModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.AnnualExemptAmountModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.annualExemptAmount))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AnnualExemptAmountModel])))
 
     when(mockSessionCache.fetchAndGetEntry[resident.properties.PropertyLivedInModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.propertyLivedIn))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
