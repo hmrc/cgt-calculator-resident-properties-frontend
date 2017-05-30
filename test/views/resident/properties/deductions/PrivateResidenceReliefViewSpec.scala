@@ -82,9 +82,9 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "have the address https://www.gov.uk/government/publications/" +
-        "private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016" in {
+        "private-residence-relief-hs283-self-assessment-helpsheet" in {
         helptext.select("a").attr("href") shouldEqual "https://www.gov.uk/government/publications/" +
-          "private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016"
+          "private-residence-relief-hs283-self-assessment-helpsheet"
       }
 
       "the link should have a set of attributes" which {
