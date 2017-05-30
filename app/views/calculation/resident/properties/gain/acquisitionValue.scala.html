@@ -13,6 +13,8 @@
 
     @form(action = controllers.routes.GainController.submitAcquisitionValue) {
 
+        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.acquisitionValue.jointOwnership")</p>
+
         @formInputMoney(acquisitionValueForm, "amount", Messages("calc.resident.acquisitionValue.question"), hideLabel = true)
 
         <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>

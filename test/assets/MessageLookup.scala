@@ -695,6 +695,7 @@ object MessageLookup {
   object AcquisitionValue {
     val title = "How much did you pay for the property?"
     val pageHeading = "How much did you pay for the property?"
+    val jointOwnership = "If you owned the property with someone else, only enter your share of the purchase value."
   }
 
   //Acquisition Costs messages

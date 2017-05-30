@@ -83,6 +83,10 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
         form.attr("method") shouldBe "POST"
       }
 
+      s"has a paragraph with the text ${messages.jointOwnership}" in {
+        doc.body().select("p.panel-indent").text shouldBe messages.jointOwnership
+      }
+
       "has a label that" should {
 
         lazy val label = doc.body.getElementsByTag("label")

@@ -508,6 +508,7 @@ calc.resident.properties.worthWhenGifted.jointOwner = If you owned the property 
 ## Acquisition Value messages
 calc.resident.acquisitionValue.title = How much did you pay for the property?
 calc.resident.acquisitionValue.question = How much did you pay for the property?
+calc.resident.acquisitionValue.jointOwnership = If you owned the property with someone else, only enter your share of the purchase value.
 
 ## Acquisition Costs messages
 calc.resident.acquisitionCosts.title = How much did you pay in costs when you became the property owner?
