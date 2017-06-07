@@ -483,7 +483,7 @@ calc.resident.howBecameOwner.inherited= Inherited it
 
 ##Worth On messages
 calc.resident.properties.valueBeforeLegislationStart.question = What was the property worth on 31 March 1982?
-calc.resident.properties.valueBeforeLegislationStart.information = 31 March 1982 is when the current Capital Gains Tax system came into effect.
+calc.resident.properties.valueBeforeLegislationStart.information = Capital Gains Tax only applies to gains made since 31 March 1982.
 calc.resident.properties.valueBeforeLegislationStart.help = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 calc.resident.properties.valueBeforeLegislationStart.jointOwnership = If you owned the property with someone else, only enter your share of the property value.
 
