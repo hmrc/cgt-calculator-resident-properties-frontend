@@ -21,19 +21,20 @@ import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
 import models.resident.PrivateResidenceReliefModel
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.mockito.Mockito._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import org.mockito.ArgumentMatchers
 import assets.MessageLookup.{PrivateResidenceRelief => messages}
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
 
 import scala.concurrent.Future
 
-class PrivateResidenceReliefActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class PrivateResidenceReliefActionSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
   def setupTarget(getData: Option[PrivateResidenceReliefModel]): DeductionsController= {
 
