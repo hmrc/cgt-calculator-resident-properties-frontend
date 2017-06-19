@@ -18,6 +18,7 @@ package controllers
 
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent}
 import play.api.test.FakeRequest

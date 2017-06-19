@@ -28,12 +28,13 @@ import org.mockito.ArgumentMatchers
 import assets.MessageLookup.Resident.Properties.{SellForLess => messages}
 import models.resident.SellForLessModel
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
 
 import scala.concurrent.Future
 
-class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class SellForLessActionSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
   def setupTarget(getData: Option[SellForLessModel]): GainController= {
 

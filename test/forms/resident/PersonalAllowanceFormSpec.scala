@@ -21,9 +21,10 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.income.PersonalAllowanceForm._
 import controllers.helpers.FakeRequestHelper
 import models.resident.income.PersonalAllowanceModel
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
-class PersonalAllowanceFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PersonalAllowanceFormSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper {
   "Creating a form using an empty model" should {
     val form = personalAllowanceForm()
     "return an empty string for amount" in {

@@ -19,7 +19,6 @@ package views.resident.helpers
 import controllers.helpers.FakeRequestHelper
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import org.jsoup.Jsoup
-import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import views.html.helpers.checkYourAnswersPartial
 import assets.MessageLookup.NonResident.{ReviewAnswers => messages}
@@ -29,9 +28,10 @@ import assets.{MessageLookup => commonMessages}
 import assets.ModelsAsset._
 import controllers.routes
 import org.jsoup.nodes.Document
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.twirl.api.HtmlFormat
 
-class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class CheckYourAnswersPartialViewSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper {
 
   "The check your answers partial with as much filled in as possible" should {
 

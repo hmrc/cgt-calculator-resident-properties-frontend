@@ -21,8 +21,9 @@ import models.resident.DisposalCostsModel
 import forms.resident.DisposalCostsForm._
 import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class DisposalCostsFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DisposalCostsFormSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper {
 
   "Creating a form using an empty model" should {
 

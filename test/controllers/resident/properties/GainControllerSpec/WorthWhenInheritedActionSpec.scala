@@ -30,10 +30,11 @@ import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import assets.MessageLookup.Resident.Properties.{WorthWhenInherited => messages}
 import models.resident.WorthWhenInheritedModel
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
 import scala.concurrent.Future
 
-class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class WorthWhenInheritedActionSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
   def setupTarget(getData: Option[WorthWhenInheritedModel]): GainController= {
 

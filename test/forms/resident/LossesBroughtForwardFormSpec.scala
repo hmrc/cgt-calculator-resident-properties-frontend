@@ -19,8 +19,9 @@ package forms.resident
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.LossesBroughtForwardForm._
 import assets.MessageLookup.{LossesBroughtForward => messages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
+class LossesBroughtForwardFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating the form with an empty model" should {
 

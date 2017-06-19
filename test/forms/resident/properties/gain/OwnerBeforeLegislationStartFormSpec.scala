@@ -20,8 +20,9 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import forms.resident.properties.gain.OwnerBeforeLegislationStartForm._
 import assets.MessageLookup.Resident.Properties.{OwnerBeforeLegislationStart => messages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class OwnerBeforeLegislationStartFormSpec  extends UnitSpec with WithFakeApplication {
+class OwnerBeforeLegislationStartFormSpec  extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating a form without a model" should {
 

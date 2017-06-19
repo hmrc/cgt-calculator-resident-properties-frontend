@@ -28,11 +28,12 @@ import assets.MessageLookup.{NoTaxToPay => messages}
 import common.KeystoreKeys.ResidentPropertyKeys
 import models.resident.properties.gain.WhoDidYouGiveItToModel
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Helpers._
 
 import scala.concurrent.Future
 
-class NoTaxToPayActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class NoTaxToPayActionSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
   def setupTarget(givenTo: String): GainController = {
 

@@ -16,18 +16,18 @@
 
 package views.resident.properties.checkYourAnswers
 
-import controllers.helpers.FakeRequestHelper
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import views.html.calculation.resident.properties.{checkYourAnswers => views}
 import assets.MessageLookup.NonResident.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.ModelsAsset._
+import controllers.helpers.FakeRequestHelper
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.html.calculation.resident.properties.{checkYourAnswers => views}
 
 class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 

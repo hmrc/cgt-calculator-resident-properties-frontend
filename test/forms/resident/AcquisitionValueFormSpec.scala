@@ -20,8 +20,9 @@ import models.resident.AcquisitionValueModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.AcquisitionValueForm._
 import assets.MessageLookup.{Resident => messages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class AcquisitionValueFormSpec extends UnitSpec with WithFakeApplication {
+class AcquisitionValueFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating the form for Acquisition Value from a valid input" should {
     "return a populated form using .fill" in {

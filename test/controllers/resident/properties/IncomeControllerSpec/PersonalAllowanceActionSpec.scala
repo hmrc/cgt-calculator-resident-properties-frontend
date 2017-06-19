@@ -30,12 +30,13 @@ import assets.MessageLookup.{PersonalAllowance => messages}
 import common.Dates
 import models.resident.{DisposalDateModel, TaxYearModel}
 import models.resident.income.PersonalAllowanceModel
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class PersonalAllowanceActionSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
 
   def setupTarget(getData: Option[PersonalAllowanceModel],

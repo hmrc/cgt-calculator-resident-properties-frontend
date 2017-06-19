@@ -23,6 +23,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{gain => views}
 import forms.resident.WorthWhenInheritedForm._
 import assets.MessageLookup.Resident.Properties.{WorthWhenInherited => messages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.mvc.Call
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current

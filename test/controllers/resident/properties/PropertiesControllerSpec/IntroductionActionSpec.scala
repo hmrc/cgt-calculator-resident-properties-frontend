@@ -21,10 +21,11 @@ import controllers.helpers.FakeRequestHelper
 import controllers.PropertiesController
 import org.jsoup.Jsoup
 import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class IntroductionActionSpec extends UnitSpec with WithFakeApplication with MockitoSugar with FakeRequestHelper {
+class IntroductionActionSpec extends UnitSpec with GuiceOneAppPerSuite with MockitoSugar with FakeRequestHelper {
 
   "Calling the introduction action" should {
 

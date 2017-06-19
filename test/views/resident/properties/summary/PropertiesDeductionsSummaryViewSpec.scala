@@ -16,13 +16,14 @@
 
 package views.resident.properties.summary
 
-import assets.MessageLookup.{Resident => residentMessages, SummaryPage => messages, SummaryDetails => summaryMessages}
+import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
 import controllers.routes
 import models.resident._
 import models.resident.properties._
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

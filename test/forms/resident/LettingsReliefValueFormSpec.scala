@@ -21,9 +21,10 @@ import assets.MessageLookup.{LettingsReliefValue => Messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.LettingsReliefValueForm._
 import models.resident.properties.LettingsReliefValueModel
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class LettingsReliefValueFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class LettingsReliefValueFormSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper {
 
   "Creating a form using an empty model" should {
 

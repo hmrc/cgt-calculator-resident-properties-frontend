@@ -16,15 +16,14 @@
 
 package views.resident.properties
 
-import assets.MessageLookup.{IntroductionView => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{IntroductionView => messages, Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
 import controllers.routes.{GainController => routes}
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.{properties => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class IntroductionViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 

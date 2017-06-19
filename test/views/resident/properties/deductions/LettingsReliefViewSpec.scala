@@ -21,6 +21,7 @@ import assets.MessageLookup.{LettingsRelief => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.LettingsReliefForm._
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{deductions => views}
 import play.api.i18n.Messages.Implicits._

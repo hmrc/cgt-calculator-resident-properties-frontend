@@ -20,8 +20,9 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.properties.HowBecameOwnerForm._
 import models.resident.properties.HowBecameOwnerModel
 import assets.MessageLookup.{HowBecameOwner => messages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class HowBecameOwnerFormSpec extends UnitSpec with WithFakeApplication {
+class HowBecameOwnerFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating the form from a model" should {
 

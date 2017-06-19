@@ -20,10 +20,10 @@ import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summaryNumericRowHelper
 import assets.MessageLookup.{Resident => commonMessages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
+class SummaryNumericRowHelperSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "The Summary Numeric Row Helper" when {
 

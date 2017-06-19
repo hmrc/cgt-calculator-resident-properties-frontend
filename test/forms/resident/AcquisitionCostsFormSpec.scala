@@ -21,8 +21,9 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import models.resident.AcquisitionCostsModel
 import forms.resident.AcquisitionCostsForm._
 import controllers.helpers.FakeRequestHelper
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class AcquisitionCostsFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class AcquisitionCostsFormSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper {
 
   "Creating a form using an empty model" should {
 

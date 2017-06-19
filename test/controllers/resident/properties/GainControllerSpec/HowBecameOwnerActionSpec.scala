@@ -28,9 +28,10 @@ import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import assets.MessageLookup.{HowBecameOwner => messages}
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Helpers._
 
-class HowBecameOwnerActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class HowBecameOwnerActionSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
   def setupTarget(getData: Option[HowBecameOwnerModel]): GainController = {
 

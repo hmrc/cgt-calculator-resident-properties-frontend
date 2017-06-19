@@ -29,10 +29,11 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import assets.MessageLookup.{SummaryPage => messages}
 import models.resident.properties._
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
 import scala.concurrent.Future
 
-class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class DeductionsSummaryActionSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
   def setupTarget
   (

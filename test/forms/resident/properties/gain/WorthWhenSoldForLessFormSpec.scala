@@ -19,9 +19,10 @@ package forms.resident.properties.gain
 import assets.MessageLookup.{Resident => messages}
 import forms.resident.WorthWhenSoldForLessForm._
 import models.resident.WorthWhenSoldForLessModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import uk.gov.hmrc.play.test.UnitSpec
 
-class WorthWhenSoldForLessFormSpec extends UnitSpec with WithFakeApplication {
+class WorthWhenSoldForLessFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating a form using an empty model" should {
 

@@ -22,13 +22,13 @@ import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
-import play.api.Play.current
 import play.api.i18n.Messages.Implicits.applicationMessages
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import assets.MessageLookup.{SummaryDetails => summaryMessages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import views.html.{helpers => views}
 
-class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class FinalSummaryPartialViewSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper {
 
   "FinalSummaryPartial" when {
 

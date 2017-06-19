@@ -31,10 +31,11 @@ import config.AppConfig
 import uk.gov.hmrc.http.cache.client.CacheMap
 import assets.MessageLookup
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Helpers._
 
 
-class WhoDidYouGiveItToActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar{
+class WhoDidYouGiveItToActionSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper with MockitoSugar{
 
   def setupTarget(getData: Option[WhoDidYouGiveItToModel]) : GainController = {
     val mockCalcConnector = mock[CalculatorConnector]

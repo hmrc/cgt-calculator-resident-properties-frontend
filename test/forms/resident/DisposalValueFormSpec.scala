@@ -20,8 +20,9 @@ import assets.MessageLookup.{Resident => messages}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import models.resident.DisposalValueModel
 import forms.resident.DisposalValueForm._
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class DisposalValueFormSpec extends UnitSpec with WithFakeApplication {
+class DisposalValueFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating a form using an empty model" should {
 

@@ -24,6 +24,7 @@ import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.properties._
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{report => views}
 import play.api.i18n.Messages.Implicits._

@@ -20,8 +20,9 @@ import assets.MessageLookup.{Resident => messages}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import models.resident.properties.WorthWhenGaveAwayModel
 import forms.resident.properties.WorthWhenGaveAwayForm._
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class WorthWhenGaveAwayFormSpec extends UnitSpec with WithFakeApplication {
+class WorthWhenGaveAwayFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating a form using an empty model" should {
 

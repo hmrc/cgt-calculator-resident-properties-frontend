@@ -20,9 +20,10 @@ import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.WorthWhenInheritedForm._
 import models.resident.WorthWhenInheritedModel
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class WorthWhenInheritedFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WorthWhenInheritedFormSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper {
 
   "Creating a form using an empty model" should {
     lazy val form = worthWhenInheritedForm

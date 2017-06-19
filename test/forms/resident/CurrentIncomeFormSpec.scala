@@ -20,8 +20,9 @@ import assets.MessageLookup.{Resident => messages}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.income.CurrentIncomeForm._
 import models.resident.income.CurrentIncomeModel
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class CurrentIncomeFormSpec extends UnitSpec with WithFakeApplication {
+class CurrentIncomeFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating a form using an empty model" should {
 

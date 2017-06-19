@@ -23,6 +23,7 @@ import controllers.routes
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

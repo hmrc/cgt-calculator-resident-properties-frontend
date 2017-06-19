@@ -20,8 +20,9 @@ import assets.MessageLookup.WhoDidYouGiveItTo
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.properties.gain.WhoDidYouGiveItToForm._
 import models.resident.properties.gain.WhoDidYouGiveItToModel
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class WhoDidYouGiveItToFormSpec extends UnitSpec with WithFakeApplication {
+class WhoDidYouGiveItToFormSpec extends UnitSpec with GuiceOneAppPerSuite {
   "Creating the form from an empty model" should {
 
     "create an empty form when the model is empty" in {
