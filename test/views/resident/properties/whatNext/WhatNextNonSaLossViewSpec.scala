@@ -19,10 +19,10 @@ package views.resident.properties.whatNext
 import assets.MessageLookup.{WhatNextNonSaLoss => messages}
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
+import play.api.Play.current
 import play.api.i18n.Messages.Implicits.applicationMessages
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{whatNext => views}
-import play.api.Play.current
 
 class WhatNextNonSaLossViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 

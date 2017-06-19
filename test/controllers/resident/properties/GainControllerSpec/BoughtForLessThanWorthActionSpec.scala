@@ -28,12 +28,13 @@ import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import org.mockito.ArgumentMatchers
 import assets.MessageLookup.{BoughtForLessThanWorth => messages}
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
 
 import scala.concurrent.Future
 
-class BoughtForLessThanWorthActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class BoughtForLessThanWorthActionSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
   def setupTarget(getData: Option[BoughtForLessThanWorthModel]): GainController= {
 

@@ -26,14 +26,15 @@ import models.resident.properties.{LettingsReliefValueModel, PrivateResidenceRel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.play.OneAppPerSuite
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class LettingsReliefValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class LettingsReliefValueActionSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
   def setupTarget(
                    getData: Option[LettingsReliefValueModel],

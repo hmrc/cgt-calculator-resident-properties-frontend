@@ -18,9 +18,10 @@ package forms.resident
 
 import forms.resident.properties.BoughtForLessThanWorthForm._
 import models.resident.properties.BoughtForLessThanWorthModel
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class BoughtForLessThanWorthFormSpec extends UnitSpec with WithFakeApplication {
+class BoughtForLessThanWorthFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating the BoughtForLessThanWorth form from valid inputs" should {
 

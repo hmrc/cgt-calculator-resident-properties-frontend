@@ -16,15 +16,14 @@
 
 package views.resident.properties.deductions
 
-import assets.MessageLookup.{Resident => commonMessages}
-import assets.MessageLookup.{LettingsReliefValue => messages}
+import assets.MessageLookup.{LettingsReliefValue => messages, Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.LettingsReliefValueForm._
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{deductions => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class LettingsReliefValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 

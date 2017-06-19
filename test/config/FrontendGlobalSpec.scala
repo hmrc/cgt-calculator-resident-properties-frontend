@@ -16,13 +16,14 @@
 
 package config
 
-import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import config.FrontendGlobal._
+import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.http.SessionKeys
+import uk.gov.hmrc.play.test.UnitSpec
 
-class FrontendGlobalSpec extends UnitSpec with WithFakeApplication {
+class FrontendGlobalSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   //############# Tests for homeLink ##########################
   "Rendering the error_template by causing an error" when {

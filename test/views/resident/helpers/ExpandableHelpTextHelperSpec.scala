@@ -17,11 +17,12 @@
 package views.resident.helpers
 
 import org.jsoup.Jsoup
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.twirl.api.Html
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.expandableHelpTextHelper
 
-class ExpandableHelpTextHelperSpec extends UnitSpec with WithFakeApplication{
+class ExpandableHelpTextHelperSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   val content = expandableHelpTextHelper("testQ", Html("someHtml"))
   val doc = Jsoup.parse(content.body)

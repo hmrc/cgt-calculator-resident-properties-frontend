@@ -21,8 +21,9 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.DisposalDateForm._
 import assets.MessageLookup.{DisposalDate => messages}
 import controllers.helpers.FakeRequestHelper
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DisposalDateFormSpec extends UnitSpec with GuiceOneAppPerSuite with FakeRequestHelper {
 
   "Creating the form for the disposal date" should {
     "return a populated form using .fill" in {

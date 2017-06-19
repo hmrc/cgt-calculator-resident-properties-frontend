@@ -20,8 +20,9 @@ import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties.PropertyLivedInModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import assets.MessageLookup.{PropertyLivedIn => messages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class PropertyLivedInFormSpec extends UnitSpec with WithFakeApplication {
+class PropertyLivedInFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating the PropertyLivedIn form from valid inputs" should {
 

@@ -19,8 +19,9 @@ package routes.properties
 import org.scalatest._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import controllers.routes._
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class RoutesSpec extends UnitSpec with WithFakeApplication with Matchers {
+class RoutesSpec extends UnitSpec with GuiceOneAppPerSuite with Matchers {
 
   "The URL for the introduction Action" should {
     "be equal to /calculate-your-capital-gains/resident/properties/" in {

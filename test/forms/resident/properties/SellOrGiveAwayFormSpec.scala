@@ -20,8 +20,9 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.properties.SellOrGiveAwayForm._
 import models.resident.properties.SellOrGiveAwayModel
 import assets.MessageLookup.{PropertiesSellOrGiveAway => messages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class SellOrGiveAwayFormSpec extends UnitSpec with WithFakeApplication {
+class SellOrGiveAwayFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating the form from a model" should {
 

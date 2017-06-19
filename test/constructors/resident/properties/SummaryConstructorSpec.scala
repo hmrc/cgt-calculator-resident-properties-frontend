@@ -19,9 +19,10 @@ package constructors.resident.properties
 import assets.MessageLookup.{SummaryPage => messages}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel}
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
+import uk.gov.hmrc.play.test.UnitSpec
 
-class SummaryConstructorSpec extends UnitSpec with WithFakeApplication {
+class SummaryConstructorSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Calling the .gainMessage function" when {
 

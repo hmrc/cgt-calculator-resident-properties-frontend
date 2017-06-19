@@ -20,8 +20,9 @@ import models.resident.properties.LettingsReliefModel
 import forms.resident.properties.LettingsReliefForm._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import assets.MessageLookup.{LettingsRelief => messages}
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 
-class LettingsReliefFormSpec extends UnitSpec with WithFakeApplication {
+class LettingsReliefFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating the form for Lettings Relief from a valid selection" should {
     "return a populated form using .fill" in {
