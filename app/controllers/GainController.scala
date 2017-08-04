@@ -605,12 +605,12 @@ trait GainController extends ValidActiveSession {
     }
 
     def successAction(model: ImprovementsModel): Future[Result] = {
-      for {
+      (for {
         save <- calcConnector.saveFormData(keystoreKeys.improvements, model)
         answers <- calcConnector.getPropertyGainAnswers
         grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
         route <- routeRequest(grossGain)
-      } yield route
+      } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
     }
 
     improvementsForm.bindFromRequest.fold(errorAction, successAction)
