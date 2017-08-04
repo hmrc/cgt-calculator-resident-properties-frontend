@@ -23,6 +23,7 @@ import common.{Dates, TaxDates}
 import config.{AppConfig, ApplicationConfig}
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import forms.resident.AcquisitionCostsForm._
 import forms.resident.AcquisitionValueForm._
 import forms.resident.DisposalCostsForm._
@@ -584,10 +585,10 @@ trait GainController extends ValidActiveSession {
   }
 
   val improvements: Action[AnyContent] = ValidateSession.async { implicit request =>
-    for{
+    (for{
       ownerBeforeAprilNineteenEightyTwo <- getOwnerBeforeAprilNineteenEightyTwo()
       improvementsForm <- getImprovementsForm
-    } yield Ok(views.improvements(improvementsForm, ownerBeforeAprilNineteenEightyTwo))
+    } yield Ok(views.improvements(improvementsForm, ownerBeforeAprilNineteenEightyTwo))).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitImprovements: Action[AnyContent] = ValidateSession.async { implicit request =>
