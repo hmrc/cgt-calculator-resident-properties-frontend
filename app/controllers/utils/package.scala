@@ -36,8 +36,8 @@ package object utils {
 
     def recoverToStart(homeLink:String, sessionTimeoutUrl: String)(implicit request: Request[_], ec: ExecutionContext): Future[Result] =
       future.recover {
-        case e: Exception =>
-          Logger.info(s"${request.uri} resulted in None.get, user redirected to start")
+        case e: NoSuchElementException =>
+          Logger.info(s"TEST TEST ${request.uri} resulted in None.get, user redirected to start")
           throw ApplicationException(
             "cgt-calculator-resident-properties-frontend",
             Redirect(controllers.routes.TimeoutController.timeout(homeLink, sessionTimeoutUrl)),

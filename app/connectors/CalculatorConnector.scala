@@ -194,7 +194,7 @@ trait CalculatorConnector {
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
+        "cgt-calculator-resident-properties-frontend",
         Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )
@@ -233,7 +233,7 @@ trait CalculatorConnector {
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
+        "cgt-calculator-resident-properties-frontend",
         Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )
@@ -252,7 +252,7 @@ trait CalculatorConnector {
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
+        "cgt-calculator-resident-properties-frontend",
         Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )

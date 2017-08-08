@@ -94,11 +94,11 @@ trait GainController extends ValidActiveSession {
     disposalDateForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.disposalDate(errors))),
       success => {
-        for {
+        (for {
           save <- calcConnector.saveFormData(keystoreKeys.disposalDate, success)
           taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
           route <- routeRequest(taxYearResult)
-        } yield route
+        } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
       }
     )
   }
@@ -141,15 +141,15 @@ trait GainController extends ValidActiveSession {
 
   val submitWhoDidYouGiveItTo: Action[AnyContent] = ValidateSession.async { implicit request =>
     whoDidYouGiveItToForm.bindFromRequest.fold(
-    errors => Future.successful(BadRequest(views.whoDidYouGiveItTo(errors))),
-    success => {
-      calcConnector.saveFormData[WhoDidYouGiveItToModel](keystoreKeys.whoDidYouGiveItTo, success)
-      success match {
-        case WhoDidYouGiveItToModel("Spouse") => Future.successful(Redirect(routes.GainController.noTaxToPay()))
-        case WhoDidYouGiveItToModel("Charity") => Future.successful(Redirect(routes.GainController.noTaxToPay()))
-        case WhoDidYouGiveItToModel("Other") => Future.successful(Redirect(routes.GainController.worthWhenGaveAway()))
+      errors => Future.successful(BadRequest(views.whoDidYouGiveItTo(errors))),
+      success => {
+        calcConnector.saveFormData[WhoDidYouGiveItToModel](keystoreKeys.whoDidYouGiveItTo, success)
+        success match {
+          case WhoDidYouGiveItToModel("Spouse" | "Charity") => Future.successful(Redirect(routes.GainController.noTaxToPay()))
+          case WhoDidYouGiveItToModel("Other") => Future.successful(Redirect(routes.GainController.worthWhenGaveAway()))
+        }
       }
-    })
+    )
   }
 
   //################ No Tax to Pay Actions ######################
@@ -166,10 +166,10 @@ trait GainController extends ValidActiveSession {
       Future.successful(Ok(views.noTaxToPay(input)))
     }
 
-    for {
+    (for {
       givenToCharity <- isGivenToCharity
       result <- result(givenToCharity)
-    } yield result
+    } yield result).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   //################ Outside Tax Years Actions ######################
@@ -214,7 +214,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //############## Sell for Less Actions ##################
-    val sellForLess: Action[AnyContent] = ValidateSession.async {implicit request =>
+  val sellForLess: Action[AnyContent] = ValidateSession.async {implicit request =>
 
     val backLink = Some(controllers.routes.GainController.sellOrGiveAway().toString)
 
@@ -301,11 +301,11 @@ trait GainController extends ValidActiveSession {
       }
     }
 
-    for {
+    (for {
       gaveAway <- calcConnector.fetchAndGetFormData[SellOrGiveAwayModel](keystoreKeys.sellOrGiveAway)
       soldForLess <- calcConnector.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
       route <- routeRequest(disposalCostsBackLink(gaveAway.get, soldForLess))
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitDisposalCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -318,11 +318,11 @@ trait GainController extends ValidActiveSession {
       )
     }
 
-    for {
+    (for {
       gaveAway <- calcConnector.fetchAndGetFormData[SellOrGiveAwayModel](keystoreKeys.sellOrGiveAway)
       soldForLess <- calcConnector.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
       route <- routeRequest(disposalCostsBackLink(gaveAway.get, soldForLess))
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   //################# Owner Before Legislation Start Actions ########################
