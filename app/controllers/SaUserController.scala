@@ -20,6 +20,7 @@ import common.Dates.requestFormatter
 import connectors.CalculatorConnector
 import constructors.resident.properties.CalculateRequestConstructor
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import forms.resident.SaUserForm
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
@@ -38,6 +39,9 @@ object SaUserController extends SaUserController {
 trait SaUserController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
+
+  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override val sessionTimeoutUrl: String = homeLink
 
   val saUser: Action[AnyContent] = ValidateSession.async {
     implicit request =>
@@ -97,7 +101,7 @@ trait SaUserController extends ValidActiveSession {
     }
 
     def successAction(model: SaUserModel) = {
-      for {
+      (for {
         answers <- calculatorConnector.getPropertyGainAnswers
         grossGain <- calculatorConnector.calculateRttPropertyGrossGain(answers)
         deductionAnswers <- calculatorConnector.getPropertyDeductionAnswers
@@ -108,7 +112,7 @@ trait SaUserController extends ValidActiveSession {
         incomeAnswers <- calculatorConnector.getPropertyIncomeAnswers
         finalResult <- totalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
         route <- routeAction(model, finalResult, maxAEA.get, CalculateRequestConstructor.determineDisposalValueToUse(answers))
-      } yield route
+      } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
     }
 
     SaUserForm.saUserForm.bindFromRequest().fold(errorAction, successAction)
