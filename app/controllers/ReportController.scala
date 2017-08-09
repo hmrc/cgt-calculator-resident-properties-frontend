@@ -22,6 +22,7 @@ import common.Dates
 import common.Dates._
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import it.innove.play.pdf.PdfGenerator
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
@@ -44,6 +45,9 @@ trait ReportController extends ValidActiveSession {
 
   val pdfGenerator = new PdfGenerator
 
+  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override val sessionTimeoutUrl: String = homeLink
+
   def host(implicit request: RequestHeader): String = {
     s"http://${request.host}/"
   }
@@ -64,20 +68,28 @@ trait ReportController extends ValidActiveSession {
   }
 
   val gainSummaryReport = ValidateSession.async { implicit request =>
-    for {
+    (for {
       answers <- calcConnector.getPropertyGainAnswers
       costs <- calcConnector.getPropertyTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
       grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
-    } yield {pdfGenerator.ok(views.gainSummaryReport(answers, grossGain, taxYear.get, costs, maxAEA.get), host).asScala()
-      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
+    } yield {
+      pdfGenerator.ok(views.gainSummaryReport(
+        answers,
+        grossGain,
+        taxYear.get,
+        costs,
+        maxAEA.get),
+        host
+      ).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
+    }).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   //#####Deductions summary actions#####\\
   val deductionsReport = ValidateSession.async { implicit request =>
-    for {
+    (for {
       answers <- calcConnector.getPropertyGainAnswers
       totalCosts <- getPropertyTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
@@ -86,8 +98,16 @@ trait ReportController extends ValidActiveSession {
       deductionAnswers <- calcConnector.getPropertyDeductionAnswers
       grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
       chargeableGain <- calcConnector.calculateRttPropertyChargeableGain(answers, deductionAnswers, maxAEA.get)
-    } yield {pdfGenerator.ok(views.deductionsSummaryReport(answers, deductionAnswers, chargeableGain.get, taxYear.get, totalCosts), host).asScala()
-      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
+    } yield {
+      pdfGenerator.ok(views.deductionsSummaryReport(
+        answers,
+        deductionAnswers,
+        chargeableGain.get,
+        taxYear.get,
+        totalCosts),
+        host
+      ).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
+    }).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   //#####Final summary actions#####\\
@@ -100,20 +120,16 @@ trait ReportController extends ValidActiveSession {
 
     def aeaRemaining(maxAEA: BigDecimal, aeaUsed: BigDecimal): BigDecimal = maxAEA - aeaUsed
 
-    for {
+    (for {
       gainAnswers <- calcConnector.getPropertyGainAnswers
-
       totalCosts <- getPropertyTotalCosts(gainAnswers)
-
       taxYear <- getTaxYear(gainAnswers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
       deductionAnswers <- calcConnector.getPropertyDeductionAnswers
-
       incomeAnswers <- calcConnector.getPropertyIncomeAnswers
       currentTaxYear <- Dates.getCurrentTaxYear
       totalGainAndTax <- calcConnector.calculateRttPropertyTotalGainAndTax(gainAnswers, deductionAnswers, maxAEA.get, incomeAnswers)
-
       totalDeductions <- getTotalDeductions(totalGainAndTax.get.prrUsed.getOrElse(0),
         totalGainAndTax.get.lettingReliefsUsed.getOrElse(0),
         totalGainAndTax.get.broughtForwardLossesUsed,
@@ -121,9 +137,7 @@ trait ReportController extends ValidActiveSession {
 
     } yield {
 
-      val isPrrUsed = if (deductionAnswers.propertyLivedInModel.get.livedInProperty) {
-        Some(deductionAnswers.privateResidenceReliefModel.get.isClaiming)
-      } else None
+      val isPrrUsed = if (deductionAnswers.propertyLivedInModel.get.livedInProperty) Some(deductionAnswers.privateResidenceReliefModel.get.isClaiming) else None
 
       val isLettingsReliefUsed = isPrrUsed match {
         case Some(true) => Some(deductionAnswers.lettingsReliefModel.get.isClaiming)
@@ -132,7 +146,8 @@ trait ReportController extends ValidActiveSession {
 
       val aeaLeftOver = aeaRemaining(maxAEA.getOrElse(0), totalGainAndTax.get.aeaUsed)
 
-      pdfGenerator.ok(views.finalSummaryReport(gainAnswers,
+      pdfGenerator.ok(views.finalSummaryReport(
+        gainAnswers,
         deductionAnswers,
         incomeAnswers,
         totalGainAndTax.get,
@@ -143,7 +158,8 @@ trait ReportController extends ValidActiveSession {
         totalCosts,
         totalDeductions,
         aeaLeftOver),
-        host).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
-    }
+        host
+      ).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
+    }).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 }

@@ -23,6 +23,7 @@ import common.{Dates, TaxDates}
 import config.{AppConfig, ApplicationConfig}
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import forms.resident.AcquisitionCostsForm._
 import forms.resident.AcquisitionValueForm._
 import forms.resident.DisposalCostsForm._
@@ -93,32 +94,30 @@ trait GainController extends ValidActiveSession {
     disposalDateForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.disposalDate(errors))),
       success => {
-        for {
+        (for {
           save <- calcConnector.saveFormData(keystoreKeys.disposalDate, success)
           taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
           route <- routeRequest(taxYearResult)
-        } yield route
+        } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
       }
     )
   }
 
   //################ Sell or Give Away Actions ######################
+  val sellOrGiveAwayBackUrl = routes.GainController.disposalDate().url
+  val sellOrGiveAwayPostAction = controllers.routes.GainController.submitSellOrGiveAway()
+
   val sellOrGiveAway: Action[AnyContent] = ValidateSession.async { implicit request =>
-    val backUrl = routes.GainController.disposalDate().url
-    val postAction = controllers.routes.GainController.submitSellOrGiveAway()
 
     calcConnector.fetchAndGetFormData[SellOrGiveAwayModel](keystoreKeys.sellOrGiveAway).map {
-      case Some(data) => Ok(views.sellOrGiveAway(sellOrGiveAwayForm.fill(data), Some(backUrl), homeLink, postAction))
-      case _ => Ok(views.sellOrGiveAway(sellOrGiveAwayForm, Some(backUrl), homeLink, postAction))
+      case Some(data) => Ok(views.sellOrGiveAway(sellOrGiveAwayForm.fill(data), Some(sellOrGiveAwayBackUrl), homeLink, sellOrGiveAwayPostAction))
+      case _ => Ok(views.sellOrGiveAway(sellOrGiveAwayForm, Some(sellOrGiveAwayBackUrl), homeLink, sellOrGiveAwayPostAction))
     }
   }
 
   val submitSellOrGiveAway: Action[AnyContent] = ValidateSession.async { implicit request =>
-    val backUrl = routes.GainController.disposalDate().url
-    val postAction = controllers.routes.GainController.submitSellOrGiveAway()
-
     sellOrGiveAwayForm.bindFromRequest.fold(
-      errors => Future.successful(BadRequest(views.sellOrGiveAway(errors, Some(backUrl), homeLink, postAction))),
+      errors => Future.successful(BadRequest(views.sellOrGiveAway(errors, Some(sellOrGiveAwayBackUrl), homeLink, sellOrGiveAwayPostAction))),
       success => {
         calcConnector.saveFormData[SellOrGiveAwayModel](keystoreKeys.sellOrGiveAway, success)
         success match {
@@ -140,15 +139,15 @@ trait GainController extends ValidActiveSession {
 
   val submitWhoDidYouGiveItTo: Action[AnyContent] = ValidateSession.async { implicit request =>
     whoDidYouGiveItToForm.bindFromRequest.fold(
-    errors => Future.successful(BadRequest(views.whoDidYouGiveItTo(errors))),
-    success => {
-      calcConnector.saveFormData[WhoDidYouGiveItToModel](keystoreKeys.whoDidYouGiveItTo, success)
-      success match {
-        case WhoDidYouGiveItToModel("Spouse") => Future.successful(Redirect(routes.GainController.noTaxToPay()))
-        case WhoDidYouGiveItToModel("Charity") => Future.successful(Redirect(routes.GainController.noTaxToPay()))
-        case WhoDidYouGiveItToModel("Other") => Future.successful(Redirect(routes.GainController.worthWhenGaveAway()))
+      errors => Future.successful(BadRequest(views.whoDidYouGiveItTo(errors))),
+      success => {
+        calcConnector.saveFormData[WhoDidYouGiveItToModel](keystoreKeys.whoDidYouGiveItTo, success)
+        success match {
+          case WhoDidYouGiveItToModel("Spouse" | "Charity") => Future.successful(Redirect(routes.GainController.noTaxToPay()))
+          case WhoDidYouGiveItToModel("Other") => Future.successful(Redirect(routes.GainController.worthWhenGaveAway()))
+        }
       }
-    })
+    )
   }
 
   //################ No Tax to Pay Actions ######################
@@ -165,15 +164,15 @@ trait GainController extends ValidActiveSession {
       Future.successful(Ok(views.noTaxToPay(input)))
     }
 
-    for {
+    (for {
       givenToCharity <- isGivenToCharity
       result <- result(givenToCharity)
-    } yield result
+    } yield result).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   //################ Outside Tax Years Actions ######################
   val outsideTaxYears: Action[AnyContent] = ValidateSession.async { implicit request =>
-    for {
+    (for {
       disposalDate <- calcConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
       taxYear <- calcConnector.getTaxYear(s"${disposalDate.get.year}-${disposalDate.get.month}-${disposalDate.get.day}")
     } yield {
@@ -186,7 +185,7 @@ trait GainController extends ValidActiveSession {
         continueUrl = routes.GainController.sellOrGiveAway().url,
         navTitle = navTitle
       ))
-    }
+    }).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
 
@@ -213,23 +212,17 @@ trait GainController extends ValidActiveSession {
   }
 
   //############## Sell for Less Actions ##################
-    val sellForLess: Action[AnyContent] = ValidateSession.async {implicit request =>
+  val sellForLessBackLink = Some(controllers.routes.GainController.sellOrGiveAway().url)
 
-    val backLink = Some(controllers.routes.GainController.sellOrGiveAway().toString)
-
+  val sellForLess: Action[AnyContent] = ValidateSession.async {implicit request =>
     calcConnector.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess).map{
-      case Some(data) => Ok(commonViews.properties.gain.sellForLess(sellForLessForm.fill(data), homeLink, backLink))
-      case _ => Ok(commonViews.properties.gain.sellForLess(sellForLessForm, homeLink, backLink))
+      case Some(data) => Ok(commonViews.properties.gain.sellForLess(sellForLessForm.fill(data), homeLink, sellForLessBackLink))
+      case _ => Ok(commonViews.properties.gain.sellForLess(sellForLessForm, homeLink, sellForLessBackLink))
     }
   }
 
   val submitSellForLess: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    lazy val backLink = Some(controllers.GainController.sellOrGiveAway().toString())
-
-    def errorAction(errors: Form[SellForLessModel]) = Future.successful(BadRequest(commonViews.properties.gain.sellForLess(
-      errors, homeLink, backLink
-    )))
+    def errorAction(errors: Form[SellForLessModel]) = Future.successful(BadRequest(commonViews.properties.gain.sellForLess(errors, homeLink, sellForLessBackLink)))
 
     def routeRequest(model: SellForLessModel) = {
       if (model.sellForLess) Future.successful(Redirect(routes.GainController.worthWhenSoldForLess()))
@@ -244,7 +237,6 @@ trait GainController extends ValidActiveSession {
     }
 
     sellForLessForm.bindFromRequest().fold(errorAction, successAction)
-
   }
 
   //################ Disposal Value Actions ######################
@@ -300,11 +292,11 @@ trait GainController extends ValidActiveSession {
       }
     }
 
-    for {
+    (for {
       gaveAway <- calcConnector.fetchAndGetFormData[SellOrGiveAwayModel](keystoreKeys.sellOrGiveAway)
       soldForLess <- calcConnector.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
       route <- routeRequest(disposalCostsBackLink(gaveAway.get, soldForLess))
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitDisposalCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -317,11 +309,11 @@ trait GainController extends ValidActiveSession {
       )
     }
 
-    for {
+    (for {
       gaveAway <- calcConnector.fetchAndGetFormData[SellOrGiveAwayModel](keystoreKeys.sellOrGiveAway)
       soldForLess <- calcConnector.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
       route <- routeRequest(disposalCostsBackLink(gaveAway.get, soldForLess))
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   //################# Owner Before Legislation Start Actions ########################
@@ -371,22 +363,20 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# How Became Owner Actions ########################
+  val howBecameOwnerBackLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url)
+  val howBecameOwnerPostAction = controllers.routes.GainController.submitHowBecameOwner()
+
   val howBecameOwner: Action[AnyContent] = ValidateSession.async { implicit request =>
-    val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url)
-    val postAction = controllers.routes.GainController.submitHowBecameOwner()
 
     calcConnector.fetchAndGetFormData[HowBecameOwnerModel](keystoreKeys.howBecameOwner).map {
-      case Some(data) => Ok(views.howBecameOwner(howBecameOwnerForm.fill(data), backLink, homeLink, postAction))
-      case _ => Ok(views.howBecameOwner(howBecameOwnerForm, backLink, homeLink, postAction))
+      case Some(data) => Ok(views.howBecameOwner(howBecameOwnerForm.fill(data), howBecameOwnerBackLink, homeLink, howBecameOwnerPostAction))
+      case _ => Ok(views.howBecameOwner(howBecameOwnerForm, howBecameOwnerBackLink, homeLink, howBecameOwnerPostAction))
     }
   }
 
   val submitHowBecameOwner: Action[AnyContent] = ValidateSession.async { implicit request =>
-    val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url)
-    val postAction = controllers.routes.GainController.submitHowBecameOwner()
-
     howBecameOwnerForm.bindFromRequest.fold(
-      errors => Future.successful(BadRequest(views.howBecameOwner(errors, backLink, homeLink, postAction))),
+      errors => Future.successful(BadRequest(views.howBecameOwner(errors, howBecameOwnerBackLink, homeLink, howBecameOwnerPostAction))),
       success => {
         calcConnector.saveFormData(keystoreKeys.howBecameOwner, success)
         success.gainedBy match {
@@ -399,23 +389,17 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Bought For Less Than Worth Actions ########################
+  val boughtForLessThanWorthBackLink = Some(controllers.routes.GainController.howBecameOwner().url)
+
   val boughtForLessThanWorth: Action[AnyContent] = ValidateSession.async {implicit request =>
-
-    val backLink = Some(controllers.routes.GainController.howBecameOwner().toString)
-
-    calcConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](keystoreKeys.boughtForLessThanWorth).map{
-      case Some(data) => Ok(commonViews.properties.gain.buyForLess(boughtForLessThanWorthForm.fill(data), homeLink, backLink))
-      case _ => Ok(commonViews.properties.gain.buyForLess(boughtForLessThanWorthForm, homeLink, backLink))
+    calcConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](keystoreKeys.boughtForLessThanWorth).map {
+      case Some(data) => Ok(commonViews.properties.gain.buyForLess(boughtForLessThanWorthForm.fill(data), homeLink, boughtForLessThanWorthBackLink))
+      case _ => Ok(commonViews.properties.gain.buyForLess(boughtForLessThanWorthForm, homeLink, boughtForLessThanWorthBackLink))
     }
   }
 
   val submitBoughtForLessThanWorth: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    lazy val backLink = Some(controllers.GainController.howBecameOwner().toString())
-
-    def errorAction(errors: Form[BoughtForLessThanWorthModel]) = Future.successful(BadRequest(commonViews.properties.gain.buyForLess(
-      errors, homeLink, backLink
-    )))
+    def errorAction(errors: Form[BoughtForLessThanWorthModel]) = Future.successful(BadRequest(commonViews.properties.gain.buyForLess(errors, homeLink, boughtForLessThanWorthBackLink)))
 
     def routeRequest(model: BoughtForLessThanWorthModel) = {
       if (model.boughtForLessThanWorth) Future.successful(Redirect(routes.GainController.worthWhenBoughtForLess()))
@@ -434,22 +418,19 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Worth When Inherited Actions ########################
-  val worthWhenInherited: Action[AnyContent] = ValidateSession.async {implicit request =>
-    val backLink = Some(controllers.routes.GainController.howBecameOwner().url)
-    val postAction = controllers.routes.GainController.submitWorthWhenInherited()
+  val worthWhenInheritedBackLink = Some(controllers.routes.GainController.howBecameOwner().url)
+  val worthWhenInheritedPostAction = controllers.routes.GainController.submitWorthWhenInherited()
 
+  val worthWhenInherited: Action[AnyContent] = ValidateSession.async {implicit request =>
     calcConnector.fetchAndGetFormData[WorthWhenInheritedModel](keystoreKeys.worthWhenInherited).map {
-      case Some(data) => Ok(views.worthWhenInherited(worthWhenInheritedForm.fill(data), backLink, homeLink, postAction))
-      case _ => Ok(views.worthWhenInherited(worthWhenInheritedForm, backLink, homeLink, postAction))
+      case Some(data) => Ok(views.worthWhenInherited(worthWhenInheritedForm.fill(data), worthWhenInheritedBackLink, homeLink, worthWhenInheritedPostAction))
+      case _ => Ok(views.worthWhenInherited(worthWhenInheritedForm, worthWhenInheritedBackLink, homeLink, worthWhenInheritedPostAction))
     }
   }
 
   val submitWorthWhenInherited: Action[AnyContent] = ValidateSession.async { implicit request =>
-    val backLink = Some(controllers.routes.GainController.howBecameOwner().url)
-    val postAction = controllers.routes.GainController.submitWorthWhenInherited()
-
     worthWhenInheritedForm.bindFromRequest.fold(
-      errors => Future.successful(BadRequest(views.worthWhenInherited(errors, backLink, homeLink, postAction))),
+      errors => Future.successful(BadRequest(views.worthWhenInherited(errors, worthWhenInheritedBackLink, homeLink, worthWhenInheritedPostAction))),
       success => {
         calcConnector.saveFormData(keystoreKeys.worthWhenInherited, success)
         Future.successful(Redirect(routes.GainController.acquisitionCosts()))
@@ -458,22 +439,19 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Worth When Gifted Actions ########################
-   val worthWhenGifted: Action[AnyContent] = ValidateSession.async {implicit request =>
-    val backLink = Some(controllers.routes.GainController.howBecameOwner().url)
-    val postAction = controllers.routes.GainController.submitWorthWhenGifted()
+  val worthWhenGiftedBackLink = Some(controllers.routes.GainController.howBecameOwner().url)
+  val worthWhenGiftedPostAction = controllers.routes.GainController.submitWorthWhenGifted()
 
+  val worthWhenGifted: Action[AnyContent] = ValidateSession.async {implicit request =>
     calcConnector.fetchAndGetFormData[WorthWhenGiftedModel](keystoreKeys.worthWhenGifted).map {
-      case Some(data) => Ok(views.worthWhenGifted(worthWhenGiftedForm.fill(data), backLink, homeLink, postAction))
-      case _ => Ok(views.worthWhenGifted(worthWhenGiftedForm, backLink, homeLink, postAction))
+      case Some(data) => Ok(views.worthWhenGifted(worthWhenGiftedForm.fill(data), worthWhenGiftedBackLink, homeLink, worthWhenGiftedPostAction))
+      case _ => Ok(views.worthWhenGifted(worthWhenGiftedForm, worthWhenGiftedBackLink, homeLink, worthWhenGiftedPostAction))
     }
   }
 
   val submitWorthWhenGifted: Action[AnyContent] = ValidateSession.async { implicit request =>
-    val backLink = Some(controllers.routes.GainController.howBecameOwner().url)
-    val postAction = controllers.routes.GainController.submitWorthWhenGifted()
-
     worthWhenGiftedForm.bindFromRequest.fold(
-      errors => Future.successful(BadRequest(views.worthWhenGifted(errors, backLink, homeLink, postAction))),
+      errors => Future.successful(BadRequest(views.worthWhenGifted(errors, worthWhenGiftedBackLink, homeLink, worthWhenGiftedPostAction))),
       success => {
         calcConnector.saveFormData(keystoreKeys.worthWhenGifted, success)
         Future.successful(Redirect(routes.GainController.acquisitionCosts()))
@@ -553,20 +531,22 @@ trait GainController extends ValidActiveSession {
   }
 
   val acquisitionCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
-    for {
+    (for {
       backLink <- acquisitionCostsBackLink
       form <- createAcquisitionCostsForm()
-    } yield Ok(views.acquisitionCosts(form, backLink))
+    } yield Ok(views.acquisitionCosts(form, backLink))).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitAcquisitionCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
     acquisitionCostsForm.bindFromRequest.fold(
-      errors => for {
-        backLink <- acquisitionCostsBackLink
-      } yield BadRequest(views.acquisitionCosts(errors, backLink)),
+      errors =>
+        (for {
+          backLink <- acquisitionCostsBackLink
+        } yield BadRequest(views.acquisitionCosts(errors, backLink))).recoverToStart(homeLink, sessionTimeoutUrl),
       success => {
         calcConnector.saveFormData(keystoreKeys.acquisitionCosts, success)
-        Future.successful(Redirect(routes.GainController.improvements()))}
+        Future.successful(Redirect(routes.GainController.improvements()))
+      }
     )
   }
 
@@ -584,10 +564,10 @@ trait GainController extends ValidActiveSession {
   }
 
   val improvements: Action[AnyContent] = ValidateSession.async { implicit request =>
-    for{
+    (for{
       ownerBeforeAprilNineteenEightyTwo <- getOwnerBeforeAprilNineteenEightyTwo()
       improvementsForm <- getImprovementsForm
-    } yield Ok(views.improvements(improvementsForm, ownerBeforeAprilNineteenEightyTwo))
+    } yield Ok(views.improvements(improvementsForm, ownerBeforeAprilNineteenEightyTwo))).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitImprovements: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -604,12 +584,12 @@ trait GainController extends ValidActiveSession {
     }
 
     def successAction(model: ImprovementsModel): Future[Result] = {
-      for {
+      (for {
         save <- calcConnector.saveFormData(keystoreKeys.improvements, model)
         answers <- calcConnector.getPropertyGainAnswers
         grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
         route <- routeRequest(grossGain)
-      } yield route
+      } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
     }
 
     improvementsForm.bindFromRequest.fold(errorAction, successAction)

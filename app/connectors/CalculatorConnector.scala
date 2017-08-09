@@ -20,11 +20,14 @@ import common.Dates._
 import common.KeystoreKeys.ResidentPropertyKeys
 import config.{CalculatorSessionCache, WSHttp}
 import constructors.resident.{properties => propertyConstructor}
-import models._
-import models.resident.properties.YourAnswersSummaryModel
+import models.resident._
+import models.resident.properties._
+import models.resident.properties.gain.{OwnerBeforeLegislationStartModel, WhoDidYouGiveItToModel, WorthWhenGiftedModel}
 import play.api.libs.json.Format
+import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import uk.gov.hmrc.play.config.ServicesConfig
+import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -41,6 +44,8 @@ trait CalculatorConnector {
   val sessionCache: SessionCache
   val http: HttpGet
   val serviceUrl: String
+  val homeLink = controllers.routes.GainController.disposalDate().url
+
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 
@@ -69,8 +74,8 @@ trait CalculatorConnector {
     )
   }
 
-  def getTaxYear(taxYear: String)(implicit hc: HeaderCarrier): Future[Option[resident.TaxYearModel]] = {
-    http.GET[Option[resident.TaxYearModel]](s"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear")
+  def getTaxYear(taxYear: String)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] = {
+    http.GET[Option[TaxYearModel]](s"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear")
   }
 
   def clearKeystore(implicit hc: HeaderCarrier): Future[HttpResponse] = {
@@ -78,27 +83,27 @@ trait CalculatorConnector {
   }
 
   //Rtt property calculation methods
-  def calculateRttPropertyGrossGain(input: resident.properties.YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
+  def calculateRttPropertyGrossGain(input: YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/calculate-total-gain" +
       propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
     )
   }
 
-  def calculateRttPropertyChargeableGain(totalGainInput: resident.properties.YourAnswersSummaryModel,
-                                         chargeableGainInput: resident.properties.ChargeableGainAnswers,
-                                         maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[resident.ChargeableGainResultModel]] = {
-    http.GET[Option[resident.ChargeableGainResultModel]](s"$serviceUrl/capital-gains-calculator/calculate-chargeable-gain" +
+  def calculateRttPropertyChargeableGain(totalGainInput: YourAnswersSummaryModel,
+                                         chargeableGainInput: ChargeableGainAnswers,
+                                         maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[ChargeableGainResultModel]] = {
+    http.GET[Option[ChargeableGainResultModel]](s"$serviceUrl/capital-gains-calculator/calculate-chargeable-gain" +
       propertyConstructor.CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
       propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
 
     )
   }
 
-  def calculateRttPropertyTotalGainAndTax(totalGainInput: resident.properties.YourAnswersSummaryModel,
-                                          chargeableGainInput: resident.properties.ChargeableGainAnswers,
+  def calculateRttPropertyTotalGainAndTax(totalGainInput: YourAnswersSummaryModel,
+                                          chargeableGainInput: ChargeableGainAnswers,
                                           maxAEA: BigDecimal,
-                                          incomeAnswers: resident.IncomeAnswersModel)(implicit hc: HeaderCarrier): Future[Option[resident.TotalGainAndTaxOwedModel]] = {
-    http.GET[Option[resident.TotalGainAndTaxOwedModel]](s"$serviceUrl/capital-gains-calculator/calculate-resident-capital-gains-tax" +
+                                          incomeAnswers: IncomeAnswersModel)(implicit hc: HeaderCarrier): Future[Option[TotalGainAndTaxOwedModel]] = {
+    http.GET[Option[TotalGainAndTaxOwedModel]](s"$serviceUrl/capital-gains-calculator/calculate-resident-capital-gains-tax" +
       propertyConstructor.CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
       propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA) +
       propertyConstructor.CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
@@ -106,72 +111,46 @@ trait CalculatorConnector {
   }
 
   //scalastyle:off
-  def getPropertyGainAnswers(implicit hc: HeaderCarrier): Future[resident.properties.YourAnswersSummaryModel] = {
-    val disposalDate = fetchAndGetFormData[resident.DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
+  def getPropertyGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = {
+    val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
       constructDate(formData.get.day, formData.get.month, formData.get.year))
 
     //This is a proposed alternate method of writing the map without needing the case statement, need a judgement on whether
     //to use this method or older ones. Fold automatically handles the None/Some cases without matching manually
-    val disposalValue = fetchAndGetFormData[resident.DisposalValueModel](ResidentPropertyKeys.disposalValue)
+    val disposalValue = fetchAndGetFormData[DisposalValueModel](ResidentPropertyKeys.disposalValue)
       .map(_.fold[Option[BigDecimal]](None)(input => Some(input.amount)))
 
-    val worthWhenSoldForLess = fetchAndGetFormData[resident.WorthWhenSoldForLessModel](ResidentPropertyKeys.worthWhenSoldForLess).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
+    val worthWhenSoldForLess = fetchAndGetFormData[WorthWhenSoldForLessModel](ResidentPropertyKeys.worthWhenSoldForLess).map(_.map(_.amount))
 
-    val whoDidYouGiveItTo = fetchAndGetFormData[resident.properties.gain.WhoDidYouGiveItToModel](ResidentPropertyKeys.whoDidYouGiveItTo).map {
-      case Some(data) => Some(data.option)
-      case _ => None
-    }
+    val whoDidYouGiveItTo = fetchAndGetFormData[WhoDidYouGiveItToModel](ResidentPropertyKeys.whoDidYouGiveItTo).map(_.map(_.option))
 
-    val worthWhenGaveAway = fetchAndGetFormData[resident.properties.WorthWhenGaveAwayModel](ResidentPropertyKeys.worthWhenGaveAway).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
+    val worthWhenGaveAway = fetchAndGetFormData[WorthWhenGaveAwayModel](ResidentPropertyKeys.worthWhenGaveAway).map(_.map(_.amount))
 
-    val acquisitionValue = fetchAndGetFormData[resident.AcquisitionValueModel](ResidentPropertyKeys.acquisitionValue).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
+    val acquisitionValue = fetchAndGetFormData[AcquisitionValueModel](ResidentPropertyKeys.acquisitionValue).map(_.map(_.amount))
 
-    val worthWhenInherited = fetchAndGetFormData[resident.WorthWhenInheritedModel](ResidentPropertyKeys.worthWhenInherited).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
+    val worthWhenInherited = fetchAndGetFormData[WorthWhenInheritedModel](ResidentPropertyKeys.worthWhenInherited).map(_.map(_.amount))
 
-    val worthWhenGifted = fetchAndGetFormData[resident.properties.gain.WorthWhenGiftedModel](ResidentPropertyKeys.worthWhenGifted).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
+    val worthWhenGifted = fetchAndGetFormData[WorthWhenGiftedModel](ResidentPropertyKeys.worthWhenGifted).map(_.map(_.amount))
 
-    val worthWhenBoughtForLess = fetchAndGetFormData[resident.properties.WorthWhenBoughtForLessModel](ResidentPropertyKeys.worthWhenBoughtForLess).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
+    val worthWhenBoughtForLess = fetchAndGetFormData[WorthWhenBoughtForLessModel](ResidentPropertyKeys.worthWhenBoughtForLess).map(_.map(_.amount))
 
-    val acquisitionCosts = fetchAndGetFormData[resident.AcquisitionCostsModel](ResidentPropertyKeys.acquisitionCosts).map(_.get.amount)
-    val disposalCosts = fetchAndGetFormData[resident.DisposalCostsModel](ResidentPropertyKeys.disposalCosts).map(_.get.amount)
-    val improvements = fetchAndGetFormData[resident.properties.ImprovementsModel](ResidentPropertyKeys.improvements).map(_.get.amount)
-    val givenAway = fetchAndGetFormData[resident.properties.SellOrGiveAwayModel](ResidentPropertyKeys.sellOrGiveAway).map(_.get.givenAway)
-    val sellForLess = fetchAndGetFormData[resident.SellForLessModel](ResidentPropertyKeys.sellForLess).map {
-      case Some(data) => Some(data.sellForLess)
-      case _ => None
-    }
-    val ownerBeforeLegislationStart = fetchAndGetFormData[resident.properties.gain.OwnerBeforeLegislationStartModel](ResidentPropertyKeys.ownerBeforeLegislationStart)
-      .map(_.get.ownedBeforeLegislationStart)
-    val valueBeforeLegislationStart = fetchAndGetFormData[resident.properties.ValueBeforeLegislationStartModel](ResidentPropertyKeys.valueBeforeLegislationStart).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val howBecameOwner = fetchAndGetFormData[resident.properties.HowBecameOwnerModel](ResidentPropertyKeys.howBecameOwner).map {
-      case Some(data) => Some(data.gainedBy)
-      case None => None
-    }
-    val boughtForLessThanWorth = fetchAndGetFormData[resident.properties.BoughtForLessThanWorthModel](ResidentPropertyKeys.boughtForLessThanWorth).map {
-      case Some(data) => Some(data.boughtForLessThanWorth)
-      case None => None
-    }
+    val acquisitionCosts = fetchAndGetFormData[AcquisitionCostsModel](ResidentPropertyKeys.acquisitionCosts).map(_.get.amount)
+
+    val disposalCosts = fetchAndGetFormData[DisposalCostsModel](ResidentPropertyKeys.disposalCosts).map(_.get.amount)
+
+    val improvements = fetchAndGetFormData[ImprovementsModel](ResidentPropertyKeys.improvements).map(_.get.amount)
+
+    val givenAway = fetchAndGetFormData[SellOrGiveAwayModel](ResidentPropertyKeys.sellOrGiveAway).map(_.get.givenAway)
+
+    val sellForLess = fetchAndGetFormData[SellForLessModel](ResidentPropertyKeys.sellForLess).map(_.map(_.sellForLess))
+
+    val ownerBeforeLegislationStart = fetchAndGetFormData[OwnerBeforeLegislationStartModel](ResidentPropertyKeys.ownerBeforeLegislationStart).map(_.get.ownedBeforeLegislationStart)
+
+    val valueBeforeLegislationStart = fetchAndGetFormData[ValueBeforeLegislationStartModel](ResidentPropertyKeys.valueBeforeLegislationStart).map(_.map(_.amount))
+
+    val howBecameOwner = fetchAndGetFormData[HowBecameOwnerModel](ResidentPropertyKeys.howBecameOwner).map(_.map(_.gainedBy))
+
+    val boughtForLessThanWorth = fetchAndGetFormData[BoughtForLessThanWorthModel](ResidentPropertyKeys.boughtForLessThanWorth).map(_.map(_.boughtForLessThanWorth))
 
     for {
       disposalDate <- disposalDate
@@ -192,7 +171,7 @@ trait CalculatorConnector {
       valueBeforeLegislationStart <- valueBeforeLegislationStart
       howBecameOwner <- howBecameOwner
       boughtForLessThanWorth <- boughtForLessThanWorth
-    } yield resident.properties.YourAnswersSummaryModel(
+    } yield YourAnswersSummaryModel(
       disposalDate,
       disposalValue,
       worthWhenSoldForLess,
@@ -212,18 +191,25 @@ trait CalculatorConnector {
       howBecameOwner,
       boughtForLessThanWorth
     )
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calculator-resident-properties-frontend",
+        Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
   //scalastyle:on
 
-  def getPropertyDeductionAnswers(implicit hc: HeaderCarrier): Future[resident.properties.ChargeableGainAnswers] = {
-    val broughtForwardModel = fetchAndGetFormData[resident.LossesBroughtForwardModel](ResidentPropertyKeys.lossesBroughtForward)
-    val broughtForwardValueModel = fetchAndGetFormData[resident.LossesBroughtForwardValueModel](ResidentPropertyKeys.lossesBroughtForwardValue)
-    val propertyLivedInModel = fetchAndGetFormData[resident.properties.PropertyLivedInModel](ResidentPropertyKeys.propertyLivedIn)
-    val privateResidenceReliefModel = fetchAndGetFormData[resident.PrivateResidenceReliefModel](ResidentPropertyKeys.privateResidenceRelief)
-    val privateResidenceReliefValueModel = fetchAndGetFormData[resident.properties.PrivateResidenceReliefValueModel](ResidentPropertyKeys.prrValue)
-    val lettingsReliefModel = fetchAndGetFormData[resident.properties.LettingsReliefModel](ResidentPropertyKeys.lettingsRelief)
-    val lettingsReliefValueModel = fetchAndGetFormData[resident.properties.LettingsReliefValueModel](ResidentPropertyKeys.lettingsReliefValue)
+  def getPropertyDeductionAnswers(implicit hc: HeaderCarrier): Future[ChargeableGainAnswers] = {
+    val broughtForwardModel = fetchAndGetFormData[LossesBroughtForwardModel](ResidentPropertyKeys.lossesBroughtForward)
+    val broughtForwardValueModel = fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentPropertyKeys.lossesBroughtForwardValue)
+    val propertyLivedInModel = fetchAndGetFormData[PropertyLivedInModel](ResidentPropertyKeys.propertyLivedIn)
+    val privateResidenceReliefModel = fetchAndGetFormData[PrivateResidenceReliefModel](ResidentPropertyKeys.privateResidenceRelief)
+    val privateResidenceReliefValueModel = fetchAndGetFormData[PrivateResidenceReliefValueModel](ResidentPropertyKeys.prrValue)
+    val lettingsReliefModel = fetchAndGetFormData[LettingsReliefModel](ResidentPropertyKeys.lettingsRelief)
+    val lettingsReliefValueModel = fetchAndGetFormData[LettingsReliefValueModel](ResidentPropertyKeys.lettingsReliefValue)
 
     for {
       propertyLivedIn <- propertyLivedInModel
@@ -234,7 +220,7 @@ trait CalculatorConnector {
       lettingsReliefValue <- lettingsReliefValueModel
       privateResidenceReliefValue <- privateResidenceReliefValueModel
     } yield {
-      resident.properties.ChargeableGainAnswers(
+      ChargeableGainAnswers(
         broughtForward,
         broughtForwardValue,
         propertyLivedIn,
@@ -244,22 +230,35 @@ trait CalculatorConnector {
         lettingsReliefValue
       )
     }
-
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calculator-resident-properties-frontend",
+        Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
-  def getPropertyIncomeAnswers(implicit hc: HeaderCarrier): Future[resident.IncomeAnswersModel] = {
-    val currentIncomeModel = fetchAndGetFormData[resident.income.CurrentIncomeModel](ResidentPropertyKeys.currentIncome)
-    val personalAllowanceModel = fetchAndGetFormData[resident.income.PersonalAllowanceModel](ResidentPropertyKeys.personalAllowance)
+  def getPropertyIncomeAnswers(implicit hc: HeaderCarrier): Future[IncomeAnswersModel] = {
+    val currentIncomeModel = fetchAndGetFormData[income.CurrentIncomeModel](ResidentPropertyKeys.currentIncome)
+    val personalAllowanceModel = fetchAndGetFormData[income.PersonalAllowanceModel](ResidentPropertyKeys.personalAllowance)
 
     for {
       currentIncome <- currentIncomeModel
       personalAllowance <- personalAllowanceModel
     } yield {
-      resident.IncomeAnswersModel(currentIncome, personalAllowance)
+      IncomeAnswersModel(currentIncome, personalAllowance)
     }
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calculator-resident-properties-frontend",
+        Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
-  def getPropertyTotalCosts(input: resident.properties.YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
+  def getPropertyTotalCosts(input: YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/calculate-total-costs" +
       propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
     )

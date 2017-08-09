@@ -21,6 +21,7 @@ import common.resident.JourneyKeys
 import common.{Dates, TaxDates}
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import forms.resident.income.CurrentIncomeForm._
 import forms.resident.income.PersonalAllowanceForm._
 import models.resident._
@@ -85,14 +86,14 @@ trait IncomeController extends ValidActiveSession {
       }
     }
 
-    for {
+    (for {
       backUrl <- buildCurrentIncomeBackUrl
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       currentTaxYear <- Dates.getCurrentTaxYear
       finalResult <- routeRequest(backUrl, taxYear.get, currentTaxYear)
-    } yield finalResult
+    } yield finalResult).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitCurrentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -109,13 +110,13 @@ trait IncomeController extends ValidActiveSession {
         }
       )
     }
-    for {
+    (for {
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, currentTaxYear)
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   //################################# Personal Allowance Actions ##########################################
@@ -144,7 +145,7 @@ trait IncomeController extends ValidActiveSession {
       Future.successful(Ok(commonViews.personalAllowance(formData, taxYearModel, standardPA, homeLink,
         postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, navTitle, currentTaxYear)))
     }
-    for {
+    (for {
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
@@ -153,7 +154,7 @@ trait IncomeController extends ValidActiveSession {
       formData <- fetchKeystorePersonalAllowance()
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, standardPA.get, formData, currentTaxYear)
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -173,7 +174,7 @@ trait IncomeController extends ValidActiveSession {
       )
     }
 
-    for {
+    (for {
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
@@ -182,7 +183,7 @@ trait IncomeController extends ValidActiveSession {
       maxPA <- getMaxPA(year)
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(maxPA.get, standardPA.get, taxYear.get, currentTaxYear)
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
 }

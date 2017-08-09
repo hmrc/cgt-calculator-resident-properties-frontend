@@ -22,6 +22,7 @@ import common.Dates
 import common.Dates._
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import play.api.mvc.Result
@@ -88,9 +89,9 @@ trait SummaryController extends ValidActiveSession {
         case _ => None
       }
 
-      if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
-        incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
-        Ok(views.finalSummary(totalGainAnswers,
+      if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 && incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined)
+        Future.successful(Ok(views.finalSummary(
+          totalGainAnswers,
           chargeableGainAnswers,
           incomeAnswers,
           totalGainAndTax.get,
@@ -100,19 +101,26 @@ trait SummaryController extends ValidActiveSession {
           isLettingsReliefUsed,
           totalCosts,
           chargeableGain.get.deductions
-        )
-        ))
-
-      else if (grossGain > 0) Future.successful(
-        Ok(views.deductionsSummary(totalGainAnswers,
+        )))
+      else if (grossGain > 0)
+        Future.successful(Ok(views.deductionsSummary(
+          totalGainAnswers,
           chargeableGainAnswers,
           chargeableGain.get,
           routes.ReviewAnswersController.reviewDeductionsAnswers().url,
           taxYear.get,
           isPrrUsed,
           isLettingsReliefUsed,
-          totalCosts)))
-      else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, totalCosts, taxYear.get, maxAEA)))
+          totalCosts
+        )))
+      else
+        Future.successful(Ok(views.gainSummary(
+          totalGainAnswers,
+          grossGain,
+          totalCosts,
+          taxYear.get,
+          maxAEA
+        )))
     }
 
     def getMaxAEA(taxYear: Int): Future[Option[BigDecimal]] = {
@@ -127,7 +135,7 @@ trait SummaryController extends ValidActiveSession {
       calculatorConnector.getPropertyTotalCosts(yourAnswersSummaryModel)
     }
 
-    for {
+    (for {
       answers <- calculatorConnector.getPropertyGainAnswers
       totalCosts <- getPropertyTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
@@ -141,6 +149,6 @@ trait SummaryController extends ValidActiveSession {
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
         taxYear, currentTaxYear, totalCosts, maxAEA.get)
-    } yield routeRequest
+    } yield routeRequest).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 }

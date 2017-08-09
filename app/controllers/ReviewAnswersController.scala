@@ -22,6 +22,7 @@ import common.Dates
 import common.Dates.requestFormatter
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.Play.current
@@ -40,6 +41,9 @@ trait ReviewAnswersController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
 
+  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override val sessionTimeoutUrl: String = homeLink
+
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
     calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map {
       _.get
@@ -52,8 +56,13 @@ trait ReviewAnswersController extends ValidActiveSession {
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
       getGainAnswers.map { answers =>
-        Ok(checkYourAnswers(routes.SummaryController.summary(), controllers.routes.GainController.improvements().url, answers, None, None))
-      }
+        Ok(checkYourAnswers(
+          routes.SummaryController.summary(),
+          controllers.routes.GainController.improvements().url,
+          answers,
+          None,
+          None))
+      }.recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
@@ -66,12 +75,18 @@ trait ReviewAnswersController extends ValidActiveSession {
     }
 
     implicit request =>
-      for {
+      (for {
         gainAnswers <- getGainAnswers
         deductionsAnswers <- getDeductionsAnswers
         taxYear <- getTaxYear(gainAnswers.disposalDate)
         url <- generateBackUrl(deductionsAnswers)
-      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), url, gainAnswers, Some(deductionsAnswers), Some(taxYear)))
+      } yield {
+        Ok(checkYourAnswers(
+          routes.SummaryController.summary(),
+          url, gainAnswers,
+          Some(deductionsAnswers),
+          Some(taxYear)))
+      }).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
@@ -79,13 +94,20 @@ trait ReviewAnswersController extends ValidActiveSession {
       val getCurrentTaxYear = Dates.getCurrentTaxYear
       val getIncomeAnswers = calculatorConnector.getPropertyIncomeAnswers
 
-      for {
+      (for {
         gainAnswers <- getGainAnswers
         deductionsAnswers <- getDeductionsAnswers
         incomeAnswers <- getIncomeAnswers
         taxYear <- getTaxYear(gainAnswers.disposalDate)
         currentTaxYear <- getCurrentTaxYear
-      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), routes.IncomeController.personalAllowance().url, gainAnswers,
-        Some(deductionsAnswers), Some(taxYear), Some(incomeAnswers), taxYear.taxYearSupplied == currentTaxYear))
+      } yield {
+        Ok(checkYourAnswers(routes.SummaryController.summary(),
+          routes.IncomeController.personalAllowance().url,
+          gainAnswers,
+          Some(deductionsAnswers),
+          Some(taxYear),
+          Some(incomeAnswers),
+          taxYear.taxYearSupplied == currentTaxYear))
+      }).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 }
