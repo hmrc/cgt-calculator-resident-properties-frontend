@@ -20,6 +20,7 @@ import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import config.{AppConfig, ApplicationConfig}
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import forms.resident.LossesBroughtForwardForm._
 import forms.resident.LossesBroughtForwardValueForm._
 import forms.resident.properties.LettingsReliefForm._
@@ -226,12 +227,12 @@ trait DeductionsController extends ValidActiveSession {
       }
     }
 
-    for {
+    (for {
       answerSummary <- answerSummary(hc)
       totalGain <- totalGain(answerSummary, hc)
       prrValue <- calcConnector.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue)
       route <- routeRequest(totalGain, prrValue.fold(BigDecimal(0))(_.amount))
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitLettingsReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -245,12 +246,12 @@ trait DeductionsController extends ValidActiveSession {
         })
     }
 
-    for {
+    (for {
       answerSummary <- answerSummary(hc)
       totalGain <- totalGain(answerSummary, hc)
       prrValue <- calcConnector.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue)
       route <- routeRequest(totalGain, prrValue.fold(BigDecimal(0))(_.amount))
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
 
@@ -278,13 +279,13 @@ trait DeductionsController extends ValidActiveSession {
       }
     }
 
-    for {
+    (for {
       backLinkUrl <- lossesBroughtForwardBackUrl
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       finalResult <- routeRequest(backLinkUrl, taxYear.get)
-    } yield finalResult
+    } yield finalResult).recoverToStart(homeLink, sessionTimeoutUrl)
 
   }
 
@@ -321,13 +322,13 @@ trait DeductionsController extends ValidActiveSession {
       )
     }
 
-    for {
+    (for {
       backUrl <- lossesBroughtForwardBackUrl
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       route <- routeRequest(backUrl, taxYear.get)
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
 
   }
 
@@ -356,20 +357,20 @@ trait DeductionsController extends ValidActiveSession {
       )))
     }
 
-    for {
+    (for {
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       formData <- retrieveKeystoreData()
       route <- routeRequest(taxYear.get, formData)
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     lossesBroughtForwardValueForm.bindFromRequest.fold(
       errors => {
-        for {
+        (for {
           disposalDate <- getDisposalDate
           disposalDateString <- formatDisposalDate(disposalDate.get)
           taxYear <- calcConnector.getTaxYear(disposalDateString)
@@ -381,7 +382,7 @@ trait DeductionsController extends ValidActiveSession {
             navHomeLink = homeLink,
             postAction = lossesBroughtForwardValuePostAction,
             navTitle = navTitle))
-        }
+        }).recoverToStart(homeLink, sessionTimeoutUrl)
       },
       success => {
         calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
@@ -392,6 +393,4 @@ trait DeductionsController extends ValidActiveSession {
       }
     )
   }
-
-
-  }
+}
