@@ -47,7 +47,7 @@ trait IncomeController extends ValidActiveSession {
 
   val navTitle = Messages("calc.base.resident.properties.home")
 
-    def lossesBroughtForwardResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
+  def lossesBroughtForwardResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
     calcConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
       case Some(LossesBroughtForwardModel(response)) => response
       case None => false
