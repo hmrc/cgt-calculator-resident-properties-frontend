@@ -46,24 +46,33 @@ object CalculateRequestConstructor {
       s"&disposalDate=${answers.disposalDate.format(requestFormatter)}"
   }
 
-  def chargeableGainRequestString (answers: ChargeableGainAnswers, maxAEA: BigDecimal): String = {
-
-    //Two new parameters in here the private residence relief claiming and the lettings relief claiming
-    s"${if (answers.propertyLivedInModel.get.livedInProperty && answers.privateResidenceReliefModel.get.isClaiming)
-      s"&prrValue=${answers.privateResidenceReliefValueModel.get.amount}"
-    else ""}" +
-    s"${if (answers.propertyLivedInModel.get.livedInProperty &&
-      answers.privateResidenceReliefModel.get.isClaiming &&
-      answers.lettingsReliefModel.get.isClaiming)
-      s"&lettingReliefs=${answers.lettingsReliefValueModel.get.amount}"
-    else ""}" +
-    s"${if (answers.broughtForwardModel.get.option)
-      s"&broughtForwardLosses=${answers.broughtForwardValueModel.get.amount}"
-    else ""}" +
-    s"&annualExemptAmount=$maxAEA"
+  def prrValue(answers: ChargeableGainAnswers): String = {
+    (answers.propertyLivedInModel, answers.privateResidenceReliefModel) match {
+      case (Some(x), Some(y)) if x.livedInProperty && y.isClaiming => s"&prrValue=${answers.privateResidenceReliefValueModel.get.amount}"
+      case _ => ""
+    }
   }
 
-  def incomeAnswersRequestString (deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): String ={
+  def lettingReliefs(answers: ChargeableGainAnswers): String = {
+    (answers.propertyLivedInModel, answers.privateResidenceReliefModel, answers.lettingsReliefModel) match {
+      case (Some(x), Some(y), Some(z)) if x.livedInProperty && y.isClaiming && z.isClaiming => s"&lettingReliefs=${answers.lettingsReliefValueModel.get.amount}"
+      case _ => ""
+    }
+  }
+
+  def broughtForwardLosses(answers: ChargeableGainAnswers): String = {
+    answers.broughtForwardModel match {
+      case (Some(x)) if x.option => s"&broughtForwardLosses=${answers.broughtForwardValueModel.get.amount}"
+      case _ => ""
+    }
+  }
+
+  def chargeableGainRequestString(answers: ChargeableGainAnswers, maxAEA: BigDecimal): String = {
+    //Two new parameters in here the private residence relief claiming and the lettings relief claiming
+    s"${prrValue(answers) + lettingReliefs(answers) + broughtForwardLosses(answers) + "&annualExemptAmount=" + maxAEA}"
+  }
+
+  def incomeAnswersRequestString (deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): String = {
     s"&previousIncome=${answers.currentIncomeModel.get.amount}" +
     s"&personalAllowance=${answers.personalAllowanceModel.get.amount}"
   }
