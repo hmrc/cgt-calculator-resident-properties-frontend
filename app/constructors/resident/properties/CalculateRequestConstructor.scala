@@ -16,10 +16,13 @@
 
 package constructors.resident.properties
 
+import java.net.URLEncoder
+
 import common.Dates._
 import common.resident.HowYouBecameTheOwnerKeys._
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
+import org.omg.CosNaming.NamingContextExtPackage.URLStringHelper
 
 object CalculateRequestConstructor {
 
@@ -46,30 +49,40 @@ object CalculateRequestConstructor {
       s"&disposalDate=${answers.disposalDate.format(requestFormatter)}"
   }
 
-  def prrValue(answers: ChargeableGainAnswers): String = {
+  def prrValue(answers: ChargeableGainAnswers): Map[String, String] = {
     (answers.propertyLivedInModel, answers.privateResidenceReliefModel) match {
-      case (Some(x), Some(y)) if x.livedInProperty && y.isClaiming => s"&prrValue=${answers.privateResidenceReliefValueModel.get.amount}"
-      case _ => ""
+      case (Some(x), Some(y)) if x.livedInProperty && y.isClaiming =>
+        Map("prrValue" -> answers.privateResidenceReliefValueModel.get.amount.toString)
+      case _ =>
+        Map.empty
     }
   }
 
-  def lettingReliefs(answers: ChargeableGainAnswers): String = {
+  def lettingReliefs(answers: ChargeableGainAnswers): Map[String, String] = {
     (answers.propertyLivedInModel, answers.privateResidenceReliefModel, answers.lettingsReliefModel) match {
-      case (Some(x), Some(y), Some(z)) if x.livedInProperty && y.isClaiming && z.isClaiming => s"&lettingReliefs=${answers.lettingsReliefValueModel.get.amount}"
-      case _ => ""
+      case (Some(x), Some(y), Some(z)) if x.livedInProperty && y.isClaiming && z.isClaiming =>
+        Map("lettingReliefs" -> answers.lettingsReliefValueModel.get.amount.toString)
+      case _ =>
+        Map.empty
     }
   }
 
-  def broughtForwardLosses(answers: ChargeableGainAnswers): String = {
+  def broughtForwardLosses(answers: ChargeableGainAnswers): Map[String, String] = {
     answers.broughtForwardModel match {
-      case (Some(x)) if x.option => s"&broughtForwardLosses=${answers.broughtForwardValueModel.get.amount}"
-      case _ => ""
+      case (Some(x)) if x.option =>
+        Map("broughtForwardLosses" -> answers.broughtForwardValueModel.get.amount.toString)
+      case _ =>
+        Map.empty
     }
   }
+
+  def toQS(map: Map[String, String]): String =
+    map.foldRight("") { (pair: (String, String), queryString: String) =>
+      s"${queryString}&${pair._1}=${pair._2}"
+    }
 
   def chargeableGainRequestString(answers: ChargeableGainAnswers, maxAEA: BigDecimal): String = {
-    //Two new parameters in here the private residence relief claiming and the lettings relief claiming
-    s"${prrValue(answers) + lettingReliefs(answers) + broughtForwardLosses(answers) + "&annualExemptAmount=" + maxAEA}"
+    s"${toQS(prrValue(answers) ++ lettingReliefs(answers) ++ broughtForwardLosses(answers)) + "&annualExemptAmount=" + maxAEA}"
   }
 
   def incomeAnswersRequestString (deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): String = {

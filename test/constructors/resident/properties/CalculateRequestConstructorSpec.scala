@@ -348,13 +348,13 @@ class CalculateRequestConstructorSpec extends UnitSpec {
         result shouldBe "&annualExemptAmount=11100"
 
         val prrValueResult = CalculateRequestConstructor.prrValue(answers)
-        prrValueResult shouldBe ""
+        prrValueResult shouldBe Map()
 
         val lettingReliefsResult = CalculateRequestConstructor.lettingReliefs(answers)
-        lettingReliefsResult shouldBe ""
+        lettingReliefsResult shouldBe Map()
 
         val broughtForwardLossesResult = CalculateRequestConstructor.broughtForwardLosses(answers)
-        broughtForwardLossesResult shouldBe ""
+        broughtForwardLossesResult shouldBe Map()
       }
     }
 
@@ -374,13 +374,13 @@ class CalculateRequestConstructorSpec extends UnitSpec {
         result shouldBe "&annualExemptAmount=11100"
 
         val prrValueResult = CalculateRequestConstructor.prrValue(answers)
-        prrValueResult shouldBe ""
+        prrValueResult shouldBe Map()
 
         val lettingReliefsResult = CalculateRequestConstructor.lettingReliefs(answers)
-        lettingReliefsResult shouldBe ""
+        lettingReliefsResult shouldBe Map()
 
         val broughtForwardLossesResult = CalculateRequestConstructor.broughtForwardLosses(answers)
-        broughtForwardLossesResult shouldBe ""
+        broughtForwardLossesResult shouldBe Map()
       }
     }
 
@@ -397,16 +397,16 @@ class CalculateRequestConstructorSpec extends UnitSpec {
           Some(LettingsReliefValueModel(4000))
         )
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&prrValue=5000&lettingReliefs=4000&broughtForwardLosses=2000&annualExemptAmount=11100"
+        result should (include("&prrValue=5000") and include("&lettingReliefs=4000") and include("&broughtForwardLosses=2000") and include("&annualExemptAmount=11100"))
 
         val prrValueResult = CalculateRequestConstructor.prrValue(answers)
-        prrValueResult shouldBe "&prrValue=5000"
+        prrValueResult shouldBe Map("prrValue" -> "5000")
 
         val lettingReliefsResult = CalculateRequestConstructor.lettingReliefs(answers)
-        lettingReliefsResult shouldBe "&lettingReliefs=4000"
+        lettingReliefsResult shouldBe Map("lettingReliefs" -> "4000")
 
         val broughtForwardLossesResult = CalculateRequestConstructor.broughtForwardLosses(answers)
-        broughtForwardLossesResult shouldBe "&broughtForwardLosses=2000"
+        broughtForwardLossesResult shouldBe Map("broughtForwardLosses" -> "2000")
       }
     }
   }
