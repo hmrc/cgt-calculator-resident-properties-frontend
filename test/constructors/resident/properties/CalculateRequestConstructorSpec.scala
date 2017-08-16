@@ -16,6 +16,8 @@
 
 package constructors.resident.properties
 
+import javax.xml.soap.SOAPConstants
+
 import common.Dates
 import common.resident.HowYouBecameTheOwnerKeys._
 import models.resident._
@@ -329,6 +331,33 @@ class CalculateRequestConstructorSpec extends UnitSpec {
 
   "chargeableGainRequestString" when {
 
+    "data is not in keystore" should {
+
+      "return a valid url variable string" in {
+        val answers = ChargeableGainAnswers(
+          None,
+          None,
+          None,
+          None,
+          None,
+          None,
+          None
+        )
+
+        val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
+        result shouldBe "&annualExemptAmount=11100"
+
+        val prrValueResult = CalculateRequestConstructor.prrValue(answers)
+        prrValueResult shouldBe Map()
+
+        val lettingReliefsResult = CalculateRequestConstructor.lettingReliefs(answers)
+        lettingReliefsResult shouldBe Map()
+
+        val broughtForwardLossesResult = CalculateRequestConstructor.broughtForwardLosses(answers)
+        broughtForwardLossesResult shouldBe Map()
+      }
+    }
+
     "supplied with no optional values" should {
 
       "return a valid url variable string" in {
@@ -343,6 +372,15 @@ class CalculateRequestConstructorSpec extends UnitSpec {
         )
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
         result shouldBe "&annualExemptAmount=11100"
+
+        val prrValueResult = CalculateRequestConstructor.prrValue(answers)
+        prrValueResult shouldBe Map()
+
+        val lettingReliefsResult = CalculateRequestConstructor.lettingReliefs(answers)
+        lettingReliefsResult shouldBe Map()
+
+        val broughtForwardLossesResult = CalculateRequestConstructor.broughtForwardLosses(answers)
+        broughtForwardLossesResult shouldBe Map()
       }
     }
 
@@ -359,7 +397,16 @@ class CalculateRequestConstructorSpec extends UnitSpec {
           Some(LettingsReliefValueModel(4000))
         )
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&prrValue=5000&lettingReliefs=4000&broughtForwardLosses=2000&annualExemptAmount=11100"
+        result should (include("&prrValue=5000") and include("&lettingReliefs=4000") and include("&broughtForwardLosses=2000") and include("&annualExemptAmount=11100"))
+
+        val prrValueResult = CalculateRequestConstructor.prrValue(answers)
+        prrValueResult shouldBe Map("prrValue" -> "5000")
+
+        val lettingReliefsResult = CalculateRequestConstructor.lettingReliefs(answers)
+        lettingReliefsResult shouldBe Map("lettingReliefs" -> "4000")
+
+        val broughtForwardLossesResult = CalculateRequestConstructor.broughtForwardLosses(answers)
+        broughtForwardLossesResult shouldBe Map("broughtForwardLosses" -> "2000")
       }
     }
   }
