@@ -16,6 +16,9 @@ calc.base.nonresident.home = Calculate your Capital Gains Tax
 calc.base.resident.properties.home = Calculate your Capital Gains Tax
 calc.base.resident.shares.home = Calculate your Capital Gains Tax
 calc.base.summary.dateWarning = These figures are based on the tax rates from the {0} tax year
+calc.base.govUk = GOV.UK
+calc.base.hmrc = HM Revenue &amp; Customs
+calc.base.home = Home
 
 ## Common date Messages ##
 ## Use common messages if some but not all pages use these messages. ##
