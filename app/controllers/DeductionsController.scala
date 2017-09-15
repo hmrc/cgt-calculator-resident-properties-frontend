@@ -152,8 +152,9 @@ trait DeductionsController extends ValidActiveSession {
   val submitPrivateResidenceReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def successAction(model: PrivateResidenceReliefValueModel) = {
-      calcConnector.saveFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue, model)
-      Future.successful(Redirect(routes.DeductionsController.lettingsRelief()))
+      calcConnector.saveFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue, model).map (_ =>
+        Redirect(routes.DeductionsController.lettingsRelief()))
+
     }
 
     def routeRequest(gain: BigDecimal): Future[Result] = {
@@ -241,8 +242,8 @@ trait DeductionsController extends ValidActiveSession {
       lettingsReliefValueForm(totalGain, prrValue).bindFromRequest().fold(
         errors => Future.successful(BadRequest(views.lettingsReliefValue(errors, homeLink, totalGain))),
         success => {
-          calcConnector.saveFormData[LettingsReliefValueModel](keystoreKeys.lettingsReliefValue, success)
-          Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
+          calcConnector.saveFormData[LettingsReliefValueModel](keystoreKeys.lettingsReliefValue, success).map (_ =>
+            Redirect(routes.DeductionsController.lossesBroughtForward()))
         })
     }
 
@@ -309,15 +310,15 @@ trait DeductionsController extends ValidActiveSession {
         errors => Future.successful(BadRequest(commonViews.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl,
           taxYearModel, homeLink, navTitle))),
         success => {
-          calcConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success)
-
-          if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
-          else {
-            positiveChargeableGainCheck.map { positiveChargeableGain =>
-              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-              else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+          calcConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
+            _ => if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
+            else {
+              positiveChargeableGainCheck.map { positiveChargeableGain =>
+                if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+                else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+              }
             }
-          }
+          )
         }
       )
     }
@@ -385,11 +386,13 @@ trait DeductionsController extends ValidActiveSession {
         }).recoverToStart(homeLink, sessionTimeoutUrl)
       },
       success => {
-        calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
-        positiveChargeableGainCheck.map { positiveChargeableGain =>
-          if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-          else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
-        }
+        calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success).flatMap(
+          _ =>  positiveChargeableGainCheck.map { positiveChargeableGain =>
+            if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+            else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+          }
+        )
+
       }
     )
   }
