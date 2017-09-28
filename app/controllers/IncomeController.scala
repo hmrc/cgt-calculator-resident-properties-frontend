@@ -106,7 +106,7 @@ trait IncomeController extends ValidActiveSession {
         errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(views.currentIncome(errors, url, taxYearModel, inCurrentTaxYear)))),
         success => {
           calcConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
-          Future.successful(Redirect(routes.IncomeController.personalAllowance()))
+            .map(_ => Redirect(routes.IncomeController.personalAllowance()))
         }
       )
     }
@@ -169,7 +169,7 @@ trait IncomeController extends ValidActiveSession {
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, navTitle, currentTaxYear))),
         success => {
           calcConnector.saveFormData(keystoreKeys.personalAllowance, success)
-          Future.successful(Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))
+            .map(_ => Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))
         }
       )
     }

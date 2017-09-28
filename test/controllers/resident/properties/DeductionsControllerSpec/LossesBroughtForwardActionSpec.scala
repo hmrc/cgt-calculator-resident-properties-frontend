@@ -29,6 +29,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
@@ -83,6 +84,11 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
     when(mockCalcConnector.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(lettingsReliefModel)
+
+    when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel]
+      (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward),ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful(CacheMap("",Map.empty)))
 
     new DeductionsController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
@@ -213,7 +219,9 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
       lazy val result = target.submitLossesBroughtForward(request)
 
+      val mockCalcConnector = mock[CalculatorConnector]
       "return a 303" in {
+
         status(result) shouldBe 303
       }
 

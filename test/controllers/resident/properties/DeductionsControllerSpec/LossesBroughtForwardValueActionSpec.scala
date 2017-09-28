@@ -29,7 +29,9 @@ import org.mockito.ArgumentMatchers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+
 import scala.concurrent.Future
 
 class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar{
@@ -143,6 +145,11 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
+      when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel]
+        (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue),ArgumentMatchers.any())
+        (ArgumentMatchers.any(), ArgumentMatchers.any()))
+        .thenReturn(Future.successful(CacheMap("",Map.empty)))
+
       new DeductionsController {
         override val calcConnector = mockCalcConnector
         val config = mock[AppConfig]
@@ -178,8 +185,9 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
         lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
         lazy val result = target.submitLossesBroughtForwardValue(request)
 
+
         "return a status of 303" in {
-          status(result) shouldBe 303
+            status(result) shouldBe 303
         }
 
         s"redirect to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url}'" in {

@@ -29,6 +29,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
@@ -58,6 +59,11 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYear)
+
+    when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel]
+      (ArgumentMatchers.eq(keystoreKeys.currentIncome),ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful(CacheMap("",Map.empty)))
 
     new IncomeController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
