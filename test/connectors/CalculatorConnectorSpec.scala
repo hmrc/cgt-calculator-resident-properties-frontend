@@ -26,15 +26,15 @@ import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
 import uk.gov.hmrc.http.cache.client.SessionCache
-import uk.gov.hmrc.play.http.logging.SessionId
-import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpResponse}
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.{ HeaderCarrier, HttpGet }
+import uk.gov.hmrc.http.logging.SessionId
 
 class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
-  val mockHttp = mock[HttpGet]
+  val mockHttp: HttpGet = mock[HttpGet]
   val mockSessionCache = mock[SessionCache]
   val sessionId = UUID.randomUUID.toString
 
@@ -51,32 +51,32 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
 
     when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForward))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardModel])))
 
     when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardValueModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForwardValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForwardValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardValueModel])))
 
     when(mockSessionCache.fetchAndGetEntry[resident.properties.PropertyLivedInModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.propertyLivedIn))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(resident.properties.PropertyLivedInModel(false))))
 
     when(mockSessionCache.fetchAndGetEntry[resident.properties.LettingsReliefModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.lettingsRelief))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.properties.LettingsReliefModel])))
 
     when(mockSessionCache.fetchAndGetEntry[resident.properties.LettingsReliefValueModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.lettingsReliefValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .eq(KeystoreKeys.ResidentPropertyKeys.lettingsReliefValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.properties.LettingsReliefValueModel])))
 
 
     when(mockSessionCache.fetchAndGetEntry[resident.PrivateResidenceReliefModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.privateResidenceRelief))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .eq(KeystoreKeys.ResidentPropertyKeys.privateResidenceRelief))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.PrivateResidenceReliefModel])))
 
     when(mockSessionCache.fetchAndGetEntry[resident.properties.PrivateResidenceReliefValueModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.prrValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .eq(KeystoreKeys.ResidentPropertyKeys.prrValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.properties.PrivateResidenceReliefValueModel])))
   }
 
@@ -115,7 +115,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
       boughtForLessThanWorth = Some(false)
     )
 
-    when(mockHttp.GET[BigDecimal](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockHttp.GET[BigDecimal](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000.0)))
 
     lazy val result = TargetCalculatorConnector.getPropertyTotalCosts(gainAnswers)

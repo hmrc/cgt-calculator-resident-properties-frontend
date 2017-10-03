@@ -28,12 +28,12 @@ import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import play.api.i18n.Messages
 import play.api.mvc.RequestHeader
-import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.resident.properties.{report => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object ReportController extends ReportController {
   val calcConnector = CalculatorConnector

@@ -28,9 +28,9 @@ import play.api.mvc.{Action, AnyContent, Result}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.data.Form
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object SaUserController extends SaUserController {
   val calculatorConnector = CalculatorConnector

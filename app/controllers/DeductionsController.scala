@@ -35,11 +35,11 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Result}
-import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{deductions => views}
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object DeductionsController extends DeductionsController {
   val calcConnector = CalculatorConnector

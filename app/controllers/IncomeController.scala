@@ -29,13 +29,13 @@ import models.resident.income._
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent, Result}
-import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{income => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object IncomeController extends IncomeController {
   val calcConnector = CalculatorConnector
