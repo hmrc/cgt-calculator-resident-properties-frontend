@@ -486,7 +486,7 @@ object MessageLookup {
 
       object OwnerBeforeLegislationStart {
         val title = "Did you become the property owner before 1 April 1982?"
-        val help = "If you had your property before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax. After this date, use the original cost."
+        val help = ""
         val errorSelectAnOption = "Tell us if you became the property owner before 1 April 1982"
       }
 
