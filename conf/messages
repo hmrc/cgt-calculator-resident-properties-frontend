@@ -471,7 +471,7 @@ calc.resident.disposalCosts.helpText = If you owned the property with someone el
 
 ## Owner Before 1st April 1982 messages
 calc.resident.properties.ownedBeforeLegislationStart.title = Did you become the property owner before 1 April 1982?
-calc.resident.properties.ownedBeforeLegislationStart.help = Capital Gains Tax only applies to gains made since 31 March 1982.
+calc.resident.properties.ownedBeforeLegislationStart.help =
 calc.resident.properties.ownedBeforeLegislationStart.noSelectError = Tell us if you became the property owner before 1 April 1982
 
 ## How Became Owner messages
@@ -484,7 +484,7 @@ calc.resident.howBecameOwner.inherited= Inherited it
 
 ##Worth On messages
 calc.resident.properties.valueBeforeLegislationStart.question = What was the property worth on 31 March 1982?
-calc.resident.properties.valueBeforeLegislationStart.information = Capital Gains Tax only applies to gains made since 31 March 1982.
+calc.resident.properties.valueBeforeLegislationStart.information = If you had your property before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax. After this date, use the original cost.
 calc.resident.properties.valueBeforeLegislationStart.help = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 calc.resident.properties.valueBeforeLegislationStart.jointOwnership = If you owned the property with someone else, only enter your share of the property value.
 
