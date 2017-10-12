@@ -85,7 +85,7 @@ trait GainController extends ValidActiveSession {
     }
   }
 
-  val submitDisposalDate: Action[AnyContent] = Action.async { implicit request =>
+  val submitDisposalDate: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(taxYearResult: Option[TaxYearModel]): Future[Result] = {
       if (taxYearResult.isDefined && !taxYearResult.get.isValidYear) Future.successful(Redirect(routes.GainController.outsideTaxYears()))

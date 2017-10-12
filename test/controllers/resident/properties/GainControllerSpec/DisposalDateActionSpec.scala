@@ -139,6 +139,18 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       }
     }
 
+    "when there is no session" should {
+      lazy val result = GainController.submitDisposalDate(fakeRequest)
+
+      "return a status of 303" in {
+        status(result) shouldBe 303
+      }
+
+      "return you to the session timeout view" in {
+        redirectLocation(result).get should include("/calculate-your-capital-gains/resident/properties/session-timeout")
+      }
+    }
+
     "when there is an invalid form" should {
 
       lazy val dateResponse = TaxYearModel("2016/17", true, "2016/17")
