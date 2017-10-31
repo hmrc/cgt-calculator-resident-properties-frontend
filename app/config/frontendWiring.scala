@@ -39,10 +39,9 @@ trait WSHttp extends HttpGet with WSGet with HttpPut with WSPut with HttpPost wi
 object WSHttp extends WSHttp
 
 
-object FrontendAuthConnector extends AuthConnector with ServicesConfig with WSHttp {
+object FrontendAuthConnector extends AuthConnector with ServicesConfig {
   val serviceUrl = baseUrl("auth")
-  lazy val http: HttpGet = new WSHttp with WSGet
-
+  lazy val http = WSHttp
 }
 
 object CalculatorSessionCache extends SessionCache with ServicesConfig with AppName{
@@ -50,5 +49,5 @@ object CalculatorSessionCache extends SessionCache with ServicesConfig with AppN
   override lazy val domain = getConfString("cachable.session-cache.domain", throw new Exception(s"Could not find config 'cachable.session-cache.domain'"))
   override lazy val baseUri = baseUrl("cachable.session-cache")
   override lazy val defaultSource = appName
-  override lazy val http = new WSHttp with WSGet
+  override lazy val http = WSHttp
 }
