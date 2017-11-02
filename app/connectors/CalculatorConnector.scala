@@ -16,6 +16,8 @@
 
 package connectors
 
+import java.time.LocalDate
+
 import common.Dates._
 import common.KeystoreKeys.ResidentPropertyKeys
 import config.{CalculatorSessionCache, WSHttp}
@@ -23,6 +25,7 @@ import constructors.resident.{properties => propertyConstructor}
 import models.resident._
 import models.resident.properties._
 import models.resident.properties.gain.{OwnerBeforeLegislationStartModel, WhoDidYouGiveItToModel, WorthWhenGiftedModel}
+import org.joda.time.DateTime
 import play.api.libs.json.Format
 import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
@@ -31,7 +34,7 @@ import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{ HeaderCarrier, HttpGet, HttpResponse }
+import uk.gov.hmrc.http.{HeaderCarrier, HttpGet, HttpResponse}
 
 object CalculatorConnector extends CalculatorConnector with ServicesConfig {
   override val sessionCache = CalculatorSessionCache
@@ -55,6 +58,12 @@ trait CalculatorConnector {
 
   def fetchAndGetFormData[T](key: String)(implicit hc: HeaderCarrier, formats: Format[T]): Future[Option[T]] = {
     sessionCache.fetchAndGetEntry(key)
+  }
+
+  def getMinimumDate()(implicit hc : HeaderCarrier): Future[LocalDate] = {
+    http.GET[DateTime](s"$serviceUrl/capital-gains-calculator/").map { date =>
+      LocalDate.of(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
+    }
   }
 
   def getFullAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
