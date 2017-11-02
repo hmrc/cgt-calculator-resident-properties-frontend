@@ -16,6 +16,8 @@
 
 package views.resident.properties.gain
 
+import java.time.LocalDate
+
 import assets.MessageLookup.{DisposalDate => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
@@ -31,7 +33,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
 
   "Disposal Date view" should {
 
-    lazy val view = views.disposalDate(disposalDateForm)(fakeRequest, applicationMessages)
+    lazy val view = views.disposalDate(disposalDateForm(LocalDate.parse("2014-04-06")))(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -77,7 +79,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
 
   "Disposal Date view with a pre-filled form" should {
 
-    lazy val form = disposalDateForm.fill(DisposalDateModel(10, 6, 2016))
+    lazy val form = disposalDateForm(LocalDate.parse("2014-04-06")).fill(DisposalDateModel(10, 6, 2016))
     lazy val view = views.disposalDate(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -96,7 +98,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
 
   "Disposal Date view with a non-valid date input error" should {
 
-    lazy val form = disposalDateForm.bind(Map(
+    lazy val form = disposalDateForm(LocalDate.parse("2014-04-06")).bind(Map(
       ("disposalDateDay", "32"),
       ("disposalDateMonth", "10"),
       ("disposalDateYear", "2016")
@@ -115,7 +117,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
 
   "Disposal Date view with an empty field date input error" should {
 
-    lazy val form = disposalDateForm.bind(Map(
+    lazy val form = disposalDateForm(LocalDate.parse("2014-04-06")).bind(Map(
       ("disposalDateDay", ""),
       ("disposalDateMonth", "10"),
       ("disposalDateYear", "2016")
@@ -134,7 +136,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
 
   "Disposal Date view with a non numeric date input error" should {
 
-    lazy val form = disposalDateForm.bind(Map(
+    lazy val form = disposalDateForm(LocalDate.parse("2014-04-06")).bind(Map(
       ("disposalDateDay", "a"),
       ("disposalDateMonth", "b"),
       ("disposalDateYear", "c")

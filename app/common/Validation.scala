@@ -16,11 +16,19 @@
 
 package common
 
+import java.time.LocalDate
+
 import common.Dates.constructDate
+import org.joda.time.DateTime
 
 import scala.util.{Failure, Success, Try}
 
 object Validation {
+
+  def dateAfterMinimum(day: Int, month: Int, year: Int, minimumDate: LocalDate): Boolean = {
+    if (isValidDate(day, month, year)) constructDate(day, month, year).isAfter(minimumDate)
+    else true
+  }
 
   def isValidDate(day: Int, month: Int, year: Int): Boolean = Try(constructDate(day, month, year)) match {
     case Success(_) => true

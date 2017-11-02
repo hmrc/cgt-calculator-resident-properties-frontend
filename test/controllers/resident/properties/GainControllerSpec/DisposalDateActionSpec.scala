@@ -16,6 +16,8 @@
 
 package controllers.GainControllerSpec
 
+import java.time.LocalDate
+
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
@@ -46,6 +48,9 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalcConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
+    when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
+
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
       val config: AppConfig = mock[AppConfig]
@@ -63,6 +68,9 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
 
       when(mockCalcConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(mock[CacheMap]))
+
+      when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
+        .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
       new GainController {
         override val calcConnector: CalculatorConnector = mockCalcConnector
@@ -183,12 +191,12 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       lazy val dateResponse = TaxYearModel("2013/14", false, "2015/16")
       lazy val request = FakePOSTRequest(dateResponse, ("disposalDateDay", "12"), ("disposalDateMonth", "4"), ("disposalDateYear", "2013"))
 
-      "return a status of 303" in {
-        status(request.result) shouldBe 303
+      "return a status of 400" in {
+        status(request.result) shouldBe 400
       }
 
-      "redirect to the outside know years page" in {
-        redirectLocation(request.result) shouldBe Some("/calculate-your-capital-gains/resident/properties/outside-tax-years")
+      "return a page with the title ''When did you sign the contract that made someone else the owner?'" in {
+        Jsoup.parse(bodyOf(request.result)).title shouldBe messages.title
       }
     }
   }

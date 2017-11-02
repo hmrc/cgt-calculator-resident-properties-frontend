@@ -416,6 +416,7 @@ calc.resident.disposalDate.invalidDayError = Enter a day
 calc.resident.disposalDate.invalidMonthError = Enter a month
 calc.resident.disposalDate.invalidYearError = Enter a year
 calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2015
+calc.common.date.error.beforeMinimum = Enter a date which is after {0}
 
 ## Outside Tax Years messages
 calc.resident.outsideTaxYears.title = The date you''ve entered isn''t supported by this calculator

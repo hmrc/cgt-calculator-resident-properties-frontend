@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package connectors
+package common
+
+import java.time.LocalDate
 
 import common.Validation._
+import org.joda.time.DateTime
 import uk.gov.hmrc.play.test.UnitSpec
-
-import scala.concurrent.Future
 
 class ValidationSpec extends UnitSpec {
 
@@ -316,6 +317,35 @@ class ValidationSpec extends UnitSpec {
 
     "return a false when any other value is provided" in {
       optionalYesNoCheck(Some("test")) shouldBe false
+    }
+  }
+
+  "Calling .dateNotBeforeMinimum" should {
+
+    "return a true" when {
+
+      "provided with form data after the supplied minimum date" in {
+        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe true
+      }
+
+      "provided with an invalid date" in {
+        Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe true
+      }
+    }
+
+    "return a false" when {
+
+      "provided with form data for the supplied minimum date" in {
+        Validation.dateAfterMinimum(5, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe false
+      }
+
+      "provided with form data before the supplied minimum date" in {
+        Validation.dateAfterMinimum(4, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe false
+      }
+
+      "provided with a different minimum date making the form date invalid" in {
+        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-08")) shouldBe false
+      }
     }
   }
 }
