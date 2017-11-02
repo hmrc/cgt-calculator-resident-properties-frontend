@@ -25,8 +25,8 @@ import scala.util.{Failure, Success, Try}
 
 object Validation {
 
-  def dateNotBeforeMinimum(day: Int, month: Int, year: Int, minimumDate: LocalDate): Boolean = {
-    if (isValidDate(day, month, year)) !constructDate(day, month, year).isBefore(minimumDate)
+  def dateAfterMinimum(day: Int, month: Int, year: Int, minimumDate: LocalDate): Boolean = {
+    if (isValidDate(day, month, year)) constructDate(day, month, year).isAfter(minimumDate)
     else true
   }
 

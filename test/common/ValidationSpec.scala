@@ -325,26 +325,26 @@ class ValidationSpec extends UnitSpec {
     "return a true" when {
 
       "provided with form data after the supplied minimum date" in {
-        Validation.dateNotBeforeMinimum(7, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe true
-      }
-
-      "provided with form data for the supplied minimum date" in {
-        Validation.dateNotBeforeMinimum(6, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe true
+        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe true
       }
 
       "provided with an invalid date" in {
-        Validation.dateNotBeforeMinimum(100, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe true
+        Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe true
       }
     }
 
     "return a false" when {
 
+      "provided with form data for the supplied minimum date" in {
+        Validation.dateAfterMinimum(5, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe false
+      }
+
       "provided with form data before the supplied minimum date" in {
-        Validation.dateNotBeforeMinimum(5, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe false
+        Validation.dateAfterMinimum(4, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe false
       }
 
       "provided with a different minimum date making the form date invalid" in {
-        Validation.dateNotBeforeMinimum(7, 4, 2015, LocalDate.parse("2015-04-08")) shouldBe false
+        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-08")) shouldBe false
       }
     }
   }

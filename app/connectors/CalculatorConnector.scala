@@ -61,7 +61,7 @@ trait CalculatorConnector {
   }
 
   def getMinimumDate()(implicit hc : HeaderCarrier): Future[LocalDate] = {
-    http.GET[DateTime](s"$serviceUrl/capital-gains-calculator/").map { date =>
+    http.GET[DateTime](s"$serviceUrl/capital-gains-calculator/minimum-date").map { date =>
       LocalDate.of(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
     }
   }

@@ -47,6 +47,6 @@ object DisposalDateForm {
     )(DisposalDateModel.apply)(DisposalDateModel.unapply)
       .verifying(Messages("calc.common.date.error.invalidDate"), fields => isValidDate(fields.day, fields.month, fields.year))
       .verifying(Messages("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonthValue} ${minimumDate.getYear}"),
-        fields => dateNotBeforeMinimum(fields.day, fields.month, fields.year, minimumDate))
+        fields => dateAfterMinimum(fields.day, fields.month, fields.year, minimumDate))
   )
 }
