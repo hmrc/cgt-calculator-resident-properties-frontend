@@ -25,7 +25,9 @@ import constructors.resident.{properties => propertyConstructor}
 import models.resident._
 import models.resident.properties._
 import models.resident.properties.gain.{OwnerBeforeLegislationStartModel, WhoDidYouGiveItToModel, WorthWhenGiftedModel}
+import org.asynchttpclient.exception.RemotelyClosedException
 import org.joda.time.DateTime
+import play.api.Logger
 import play.api.libs.json.Format
 import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
@@ -53,11 +55,17 @@ trait CalculatorConnector {
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 
   def saveFormData[T](key: String, data: T)(implicit hc: HeaderCarrier, formats: Format[T]): Future[CacheMap] = {
-    sessionCache.cache(key, data)
+    sessionCache.cache(key, data).recoverWith{
+      case e: Exception => Logger.warn(s"Keystore failed to save data: $data to this key: $key with message: ${e.getMessage}")
+        throw e
+    }
   }
 
   def fetchAndGetFormData[T](key: String)(implicit hc: HeaderCarrier, formats: Format[T]): Future[Option[T]] = {
-    sessionCache.fetchAndGetEntry(key)
+    sessionCache.fetchAndGetEntry(key).recoverWith{
+      case e: RemotelyClosedException => Logger.warn(s"Remotely closed exception from keystore on fetch: ${e.getMessage}")
+        throw e
+    }
   }
 
   def getMinimumDate()(implicit hc : HeaderCarrier): Future[LocalDate] = {
