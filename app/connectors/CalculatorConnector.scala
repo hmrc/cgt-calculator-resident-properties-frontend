@@ -56,14 +56,14 @@ trait CalculatorConnector {
 
   def saveFormData[T](key: String, data: T)(implicit hc: HeaderCarrier, formats: Format[T]): Future[CacheMap] = {
     sessionCache.cache(key, data).recoverWith{
-      case e: Exception => Logger.warn(s"Keystore failed to save data: $data to this key: $key with message: ${e.getMessage}")
+      case e: Exception => Logger.warn(s"Keystore failed to save data: $data to this key: $key with message: ${e.getMessage}", e)
         throw e
     }
   }
 
   def fetchAndGetFormData[T](key: String)(implicit hc: HeaderCarrier, formats: Format[T]): Future[Option[T]] = {
     sessionCache.fetchAndGetEntry(key).recoverWith{
-      case e: RemotelyClosedException => Logger.warn(s"Remotely closed exception from keystore on fetch: ${e.getMessage}")
+      case e: RemotelyClosedException => Logger.warn(s"Remotely closed exception from keystore on fetch: ${e.getMessage}", e)
         throw e
     }
   }
