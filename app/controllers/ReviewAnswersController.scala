@@ -28,6 +28,7 @@ import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
+import services.SessionCacheService
 import views.html.calculation.resident.properties.checkYourAnswers.checkYourAnswers
 
 import scala.concurrent.Future
@@ -35,11 +36,13 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 object ReviewAnswersController extends ReviewAnswersController {
   val calculatorConnector = CalculatorConnector
+  val sessionCacheService = SessionCacheService
 }
 
 trait ReviewAnswersController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
+  val sessionCacheService: SessionCacheService
 
   override val homeLink: String = controllers.routes.PropertiesController.introduction().url
   override val sessionTimeoutUrl: String = homeLink
@@ -49,9 +52,9 @@ trait ReviewAnswersController extends ValidActiveSession {
       _.get
     }
 
-  def getGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = calculatorConnector.getPropertyGainAnswers
+  def getGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers
 
-  def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[ChargeableGainAnswers] = calculatorConnector.getPropertyDeductionAnswers
+  def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[ChargeableGainAnswers] = sessionCacheService.getPropertyDeductionAnswers
 
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
@@ -92,7 +95,7 @@ trait ReviewAnswersController extends ValidActiveSession {
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
       val getCurrentTaxYear = Dates.getCurrentTaxYear
-      val getIncomeAnswers = calculatorConnector.getPropertyIncomeAnswers
+      val getIncomeAnswers = sessionCacheService.getPropertyIncomeAnswers
 
       (for {
         gainAnswers <- getGainAnswers

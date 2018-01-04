@@ -20,10 +20,11 @@ import controllers.predicates.ValidActiveSession
 import play.api.mvc.{Action, AnyContent}
 import common.Dates._
 import java.time._
+
 import controllers.utils.RecoverableFuture
 import common.KeystoreKeys
 import config.{AppConfig, ApplicationConfig}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import models.resident.DisposalDateModel
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -33,12 +34,14 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 object WhatNextSAController extends WhatNextSAController {
   val calcConnector = CalculatorConnector
+  val sessionCacheConnector = SessionCacheConnector
   val appConfig = ApplicationConfig
 }
 
 trait WhatNextSAController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
+  val sessionCacheConnector : SessionCacheConnector
   val appConfig: AppConfig
 
   val backLink: String = routes.SaUserController.saUser().url
@@ -48,7 +51,7 @@ trait WhatNextSAController extends ValidActiveSession {
   override val sessionTimeoutUrl: String = homeLink
 
   def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
-    calcConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentPropertyKeys.disposalDate).map {
+    sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentPropertyKeys.disposalDate).map {
       data => LocalDate.of(data.get.year, data.get.month, data.get.day)
     }
   }

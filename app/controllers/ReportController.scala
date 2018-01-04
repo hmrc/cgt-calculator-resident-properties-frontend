@@ -31,17 +31,20 @@ import play.api.mvc.RequestHeader
 import views.html.calculation.resident.properties.{report => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import services.SessionCacheService
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object ReportController extends ReportController {
   val calcConnector = CalculatorConnector
+  val sessionCacheService = SessionCacheService
 }
 
 trait ReportController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
+  val sessionCacheService : SessionCacheService
 
   val pdfGenerator = new PdfGenerator
 
@@ -69,7 +72,7 @@ trait ReportController extends ValidActiveSession {
 
   val gainSummaryReport = ValidateSession.async { implicit request =>
     (for {
-      answers <- calcConnector.getPropertyGainAnswers
+      answers <- sessionCacheService.getPropertyGainAnswers
       costs <- calcConnector.getPropertyTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
@@ -90,12 +93,12 @@ trait ReportController extends ValidActiveSession {
   //#####Deductions summary actions#####\\
   val deductionsReport = ValidateSession.async { implicit request =>
     (for {
-      answers <- calcConnector.getPropertyGainAnswers
+      answers <- sessionCacheService.getPropertyGainAnswers
       totalCosts <- getPropertyTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
-      deductionAnswers <- calcConnector.getPropertyDeductionAnswers
+      deductionAnswers <- sessionCacheService.getPropertyDeductionAnswers
       grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
       chargeableGain <- calcConnector.calculateRttPropertyChargeableGain(answers, deductionAnswers, maxAEA.get)
     } yield {
@@ -121,13 +124,13 @@ trait ReportController extends ValidActiveSession {
     def aeaRemaining(maxAEA: BigDecimal, aeaUsed: BigDecimal): BigDecimal = maxAEA - aeaUsed
 
     (for {
-      gainAnswers <- calcConnector.getPropertyGainAnswers
+      gainAnswers <- sessionCacheService.getPropertyGainAnswers
       totalCosts <- getPropertyTotalCosts(gainAnswers)
       taxYear <- getTaxYear(gainAnswers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
-      deductionAnswers <- calcConnector.getPropertyDeductionAnswers
-      incomeAnswers <- calcConnector.getPropertyIncomeAnswers
+      deductionAnswers <- sessionCacheService.getPropertyDeductionAnswers
+      incomeAnswers <- sessionCacheService.getPropertyIncomeAnswers
       currentTaxYear <- Dates.getCurrentTaxYear
       totalGainAndTax <- calcConnector.calculateRttPropertyTotalGainAndTax(gainAnswers, deductionAnswers, maxAEA.get, incomeAnswers)
       totalDeductions <- getTotalDeductions(totalGainAndTax.get.prrUsed.getOrElse(0),
