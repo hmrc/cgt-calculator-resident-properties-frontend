@@ -20,7 +20,7 @@ import java.time._
 
 import assets.MessageLookup
 import config.{AppConfig, ApplicationConfig}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.WhatNextSAController
 import controllers.helpers.FakeRequestHelper
 import models.resident.DisposalDateModel
@@ -41,12 +41,14 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
 
     val mockConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
 
-    when(mockConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
 
     new WhatNextSAController {
       override val calcConnector: CalculatorConnector = mockConnector
+      override val sessionCacheConnector =  mockSessionCacheConnector
       override val appConfig: AppConfig = new AppConfig {
         override val assetsPrefix: String = ""
         override val residentIFormUrl: String = "iform-url"

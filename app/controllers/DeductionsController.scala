@@ -42,10 +42,10 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object DeductionsController extends DeductionsController {
-  val calcConnector = CalculatorConnector
-  val sessionCacheConnector = SessionCacheConnector
-  val sessionCacheService =   SessionCacheService
-  val config = ApplicationConfig
+  lazy val calcConnector = CalculatorConnector
+  lazy val sessionCacheConnector = SessionCacheConnector
+  lazy val sessionCacheService = SessionCacheService
+  lazy val config = ApplicationConfig
 }
 
 trait DeductionsController extends ValidActiveSession {

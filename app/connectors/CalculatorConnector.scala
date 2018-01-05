@@ -47,7 +47,7 @@ object CalculatorConnector extends CalculatorConnector with ServicesConfig {
 trait CalculatorConnector {
   val http: HttpGet
   val serviceUrl: String
-  val homeLink = controllers.routes.GainController.disposalDate().url
+  lazy val homeLink = controllers.routes.GainController.disposalDate().url
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 

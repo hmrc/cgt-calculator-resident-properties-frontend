@@ -30,12 +30,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object SessionCacheService extends SessionCacheService{
-   val sessionCacheConnector = SessionCacheConnector
+   lazy val sessionCacheConnector = SessionCacheConnector
 }
 
 trait SessionCacheService {
   val sessionCacheConnector: SessionCacheConnector
-  val homeLink = sessionCacheConnector.homeLink
+  lazy val homeLink = sessionCacheConnector.homeLink
 
   //scalastyle:off
   def getPropertyGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = {

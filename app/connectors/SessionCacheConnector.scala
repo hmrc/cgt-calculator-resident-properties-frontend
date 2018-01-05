@@ -26,12 +26,13 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object SessionCacheConnector extends SessionCacheConnector {
-   val sessionCache = CalculatorSessionCache
+  val sessionCache = CalculatorSessionCache
+  lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
 }
 
 trait SessionCacheConnector{
   val sessionCache: SessionCache
-  val homeLink = controllers.routes.GainController.disposalDate().url
+  val homeLink: String
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 

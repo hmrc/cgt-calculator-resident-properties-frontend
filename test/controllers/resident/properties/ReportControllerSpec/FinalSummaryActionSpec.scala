@@ -30,6 +30,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import assets.MessageLookup.{SummaryPage => messages}
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
+import services.SessionCacheService
 
 import scala.concurrent.Future
 
@@ -47,21 +48,22 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
   ): ReportController = {
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockCalculatorConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
     when(mockCalculatorConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
 
-    when(mockCalculatorConnector.getPropertyDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
     when(mockCalculatorConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())
     (ArgumentMatchers.any()))
       .thenReturn(chargeableGainResultModel)
 
-    when(mockCalculatorConnector.getPropertyIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswers))
 
     when(mockCalculatorConnector.calculateRttPropertyTotalGainAndTax
@@ -79,6 +81,7 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
 
     new ReportController {
       override val calcConnector: CalculatorConnector = mockCalculatorConnector
+      override val sessionCacheService = mockSessionCacheService
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

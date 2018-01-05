@@ -28,6 +28,7 @@ import org.mockito.Mockito._
 import org.mockito.stubbing.OngoingStubbing
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.SessionCache
 import uk.gov.hmrc.play.test.UnitSpec
 
@@ -38,60 +39,14 @@ import uk.gov.hmrc.http.logging.SessionId
 class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
   val mockHttp: HttpGet = mock[HttpGet]
-  val mockSessionCache = mock[SessionCache]
   val sessionId = UUID.randomUUID.toString
 
   object TargetCalculatorConnector extends CalculatorConnector {
-    override val sessionCache = mockSessionCache
     override val http = mockHttp
     override val serviceUrl = "dummy"
   }
 
   implicit val hc: HeaderCarrier = HeaderCarrier(sessionId = Some(SessionId(sessionId.toString)))
-
-  def mockResidentPropertyFetchAndGetFormData(): Unit = {
-
-
-
-    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForward))
-      (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardValueModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForwardValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardValueModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.properties.PropertyLivedInModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.propertyLivedIn))
-      (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(resident.properties.PropertyLivedInModel(false))))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.properties.LettingsReliefModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.lettingsRelief))
-      (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.LettingsReliefModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.properties.LettingsReliefValueModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.lettingsReliefValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.LettingsReliefValueModel])))
-
-
-    when(mockSessionCache.fetchAndGetEntry[resident.PrivateResidenceReliefModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.privateResidenceRelief))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.PrivateResidenceReliefModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.properties.PrivateResidenceReliefValueModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.prrValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.PrivateResidenceReliefValueModel])))
-  }
-
-  "Calling getPropertyDeductionAnswers" should {
-
-    "return a valid ChargeableGainAnswersModel" in {
-      val hc = mock[HeaderCarrier]
-      mockResidentPropertyFetchAndGetFormData()
-      lazy val result = TargetCalculatorConnector.getPropertyDeductionAnswers(hc)
-      await(result).isInstanceOf[ChargeableGainAnswers] shouldBe true
-    }
-  }
 
   "Calling .getPropertyTotalCosts" should {
 
