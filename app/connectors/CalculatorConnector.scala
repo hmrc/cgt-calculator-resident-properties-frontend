@@ -18,22 +18,13 @@ package connectors
 
 import java.time.LocalDate
 
-import connectors.SessionCacheConnector
-import common.Dates._
-import common.KeystoreKeys.ResidentPropertyKeys
-import config.{CalculatorSessionCache, WSHttp}
+
+import config.WSHttp
 import constructors.resident.{properties => propertyConstructor}
 import models.resident._
 import models.resident.properties._
-import models.resident.properties.gain.{OwnerBeforeLegislationStartModel, WhoDidYouGiveItToModel, WorthWhenGiftedModel}
-import org.asynchttpclient.exception.RemotelyClosedException
 import org.joda.time.DateTime
-import play.api.Logger
-import play.api.libs.json.Format
-import play.api.mvc.Results.Redirect
-import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
