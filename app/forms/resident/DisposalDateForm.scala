@@ -16,7 +16,7 @@
 
 package forms.resident
 
-import java.time.LocalDate
+import java.time.{LocalDate, ZoneId, ZonedDateTime}
 
 import models.resident.DisposalDateModel
 import play.api.data.Forms._
@@ -29,7 +29,7 @@ import play.api.Play.current
 
 object DisposalDateForm {
 
-  def disposalDateForm(minimumDate: LocalDate = LocalDate.now()): Form[DisposalDateModel] = Form(
+  def disposalDateForm(minimumDate: ZonedDateTime = ZonedDateTime.now(ZoneId.of("Europe/London"))): Form[DisposalDateModel] = Form(
     mapping(
       "disposalDateDay" -> text
         .verifying(Messages("calc.resident.disposalDate.invalidDayError"), mandatoryCheck)
@@ -47,6 +47,6 @@ object DisposalDateForm {
     )(DisposalDateModel.apply)(DisposalDateModel.unapply)
       .verifying(Messages("calc.common.date.error.invalidDate"), fields => isValidDate(fields.day, fields.month, fields.year))
       .verifying(Messages("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonthValue} ${minimumDate.getYear}"),
-        fields => dateAfterMinimum(fields.day, fields.month, fields.year, minimumDate))
+        fields => dateAfterMinimum(fields.day, fields.month, fields.year, minimumDate.toLocalDate))
   )
 }

@@ -16,7 +16,7 @@
 
 package controllers
 
-import java.time.LocalDate
+import java.time.{LocalDate, ZoneId}
 import java.util.UUID
 
 import akka.actor.Status.Success
@@ -99,7 +99,7 @@ trait GainController extends ValidActiveSession {
     }
 
     def bindForm(minimumDate: LocalDate) = {
-      disposalDateForm(minimumDate).bindFromRequest.fold(
+      disposalDateForm(minimumDate.atStartOfDay(ZoneId.of("Europe/London"))).bindFromRequest.fold(
         errors => Future.successful(BadRequest(views.disposalDate(errors))),
         success => {
           (for {
