@@ -17,7 +17,7 @@
 package controllers.resident.properties.DeductionsControllerSpec
 
 import config.{AppConfig, ApplicationConfig}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
 import models.resident.PrivateResidenceReliefModel
@@ -29,6 +29,7 @@ import org.mockito.ArgumentMatchers
 import assets.MessageLookup.{PrivateResidenceRelief => messages}
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 
 import scala.concurrent.Future
@@ -38,17 +39,21 @@ class PrivateResidenceReliefActionSpec extends UnitSpec with WithFakeApplication
   def setupTarget(getData: Option[PrivateResidenceReliefModel]): DeductionsController= {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockCalcConnector.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keyStoreKeys.privateResidenceRelief))
+    when(mockSessionCacheConnector.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keyStoreKeys.privateResidenceRelief))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[PrivateResidenceReliefModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+    when(mockSessionCacheConnector.saveFormData[PrivateResidenceReliefModel](ArgumentMatchers.any(), ArgumentMatchers.any())
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new DeductionsController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
       override val config: AppConfig = ApplicationConfig
     }
   }

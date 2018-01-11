@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import config.{AppConfig, ApplicationConfig}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import org.mockito.ArgumentMatchers
@@ -29,6 +29,7 @@ import common.KeystoreKeys.ResidentPropertyKeys
 import models.resident.properties.gain.WhoDidYouGiveItToModel
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
+import services.SessionCacheService
 
 import scala.concurrent.Future
 
@@ -37,13 +38,17 @@ class NoTaxToPayActionSpec extends UnitSpec with WithFakeApplication with FakeRe
   def setupTarget(givenTo: String): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockCalcConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(ResidentPropertyKeys.whoDidYouGiveItTo))
+    when(mockSessionCacheConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(ResidentPropertyKeys.whoDidYouGiveItTo))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(WhoDidYouGiveItToModel(givenTo))))
 
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector =  mockSessionCacheConnector
+      override val sessionCacheService = mockSessionCacheService
       override val config: AppConfig = ApplicationConfig
     }
   }

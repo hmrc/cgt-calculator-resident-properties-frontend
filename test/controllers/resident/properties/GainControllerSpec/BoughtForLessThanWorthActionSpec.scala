@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import config.{AppConfig, ApplicationConfig}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import models.resident.properties.BoughtForLessThanWorthModel
@@ -29,6 +29,7 @@ import org.mockito.ArgumentMatchers
 import assets.MessageLookup.{BoughtForLessThanWorth => messages}
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 
 import scala.concurrent.Future
@@ -38,17 +39,21 @@ class BoughtForLessThanWorthActionSpec extends UnitSpec with WithFakeApplication
   def setupTarget(getData: Option[BoughtForLessThanWorthModel]): GainController= {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockCalcConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](ArgumentMatchers.eq(keyStoreKeys.boughtForLessThanWorth))
+    when(mockSessionCacheConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](ArgumentMatchers.eq(keyStoreKeys.boughtForLessThanWorth))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[BoughtForLessThanWorthModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+    when(mockSessionCacheConnector.saveFormData[BoughtForLessThanWorthModel](ArgumentMatchers.any(), ArgumentMatchers.any())
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector =  mockSessionCacheConnector
+      override val sessionCacheService = mockSessionCacheService
       override val config: AppConfig = ApplicationConfig
     }
   }

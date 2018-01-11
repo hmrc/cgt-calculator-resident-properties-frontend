@@ -30,6 +30,7 @@ import models.resident.properties._
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import services.SessionCacheService
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
@@ -51,21 +52,22 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
   ): SummaryController = {
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockCalculatorConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
     when(mockCalculatorConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
 
-    when(mockCalculatorConnector.getPropertyDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
     when(mockCalculatorConnector.calculateRttPropertyChargeableGain
     (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(chargeableGainResultModel)
 
-    when(mockCalculatorConnector.getPropertyIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswers))
 
     when(mockCalculatorConnector.calculateRttPropertyTotalGainAndTax
@@ -83,6 +85,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
 
     new SummaryController {
       override val calculatorConnector: CalculatorConnector = mockCalculatorConnector
+      override val sessionCacheService = mockSessionCacheService
+
     }
   }
 

@@ -19,7 +19,7 @@ package controllers.GainControllerSpec
 import assets.MessageLookup
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import config.AppConfig
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.properties.WorthWhenGaveAwayModel
@@ -29,6 +29,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 
 import scala.concurrent.Future
@@ -38,16 +39,20 @@ class WorthWhenGaveAwayActionSpec extends UnitSpec with WithFakeApplication with
   def setupTarget(getData: Option[WorthWhenGaveAwayModel]): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockCalcConnector.fetchAndGetFormData[WorthWhenGaveAwayModel](ArgumentMatchers.eq(keystoreKeys.worthWhenGaveAway))
+    when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenGaveAwayModel](ArgumentMatchers.eq(keystoreKeys.worthWhenGaveAway))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[WorthWhenGaveAwayModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[WorthWhenGaveAwayModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector =  mockSessionCacheConnector
+      override val sessionCacheService = mockSessionCacheService
       val config: AppConfig = mock[AppConfig]
     }
   }

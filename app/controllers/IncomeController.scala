@@ -19,7 +19,7 @@ package controllers
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.resident.JourneyKeys
 import common.{Dates, TaxDates}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.resident.income.CurrentIncomeForm._
@@ -39,23 +39,25 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 object IncomeController extends IncomeController {
   val calcConnector = CalculatorConnector
+  val sessionCacheConnector = SessionCacheConnector
 }
 
 trait IncomeController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
+  val sessionCacheConnector: SessionCacheConnector
 
   val navTitle = Messages("calc.base.resident.properties.home")
 
   def lossesBroughtForwardResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
+    sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
       case Some(LossesBroughtForwardModel(response)) => response
       case None => false
     }
   }
 
   def getDisposalDate(implicit hc: HeaderCarrier): Future[Option[DisposalDateModel]] = {
-    calcConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
+    sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
   }
 
   def formatDisposalDate(disposalDateModel: DisposalDateModel): Future[String] = {
@@ -80,7 +82,7 @@ trait IncomeController extends ValidActiveSession {
 
       val inCurrentTaxYear = taxYear.taxYearSupplied == currentTaxYear
 
-      calcConnector.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
+      sessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
         case Some(data) => Ok(views.currentIncome(currentIncomeForm.fill(data), backUrl, taxYear, inCurrentTaxYear))
         case None => Ok(views.currentIncome(currentIncomeForm, backUrl, taxYear, inCurrentTaxYear))
       }
@@ -105,7 +107,7 @@ trait IncomeController extends ValidActiveSession {
       currentIncomeForm.bindFromRequest.fold(
         errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(views.currentIncome(errors, url, taxYearModel, inCurrentTaxYear)))),
         success => {
-          calcConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
+          sessionCacheConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
             .map(_ => Redirect(routes.IncomeController.personalAllowance()))
         }
       )
@@ -134,7 +136,7 @@ trait IncomeController extends ValidActiveSession {
   val personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def fetchKeystorePersonalAllowance(): Future[Form[PersonalAllowanceModel]] = {
-      calcConnector.fetchAndGetFormData[PersonalAllowanceModel](keystoreKeys.personalAllowance).map {
+      sessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](keystoreKeys.personalAllowance).map {
         case Some(data) => personalAllowanceForm().fill(data)
         case _ => personalAllowanceForm()
       }
@@ -168,7 +170,7 @@ trait IncomeController extends ValidActiveSession {
         errors => Future.successful(BadRequest(commonViews.personalAllowance(errors, taxYearModel, standardPA, homeLink,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, navTitle, currentTaxYear))),
         success => {
-          calcConnector.saveFormData(keystoreKeys.personalAllowance, success)
+          sessionCacheConnector.saveFormData(keystoreKeys.personalAllowance, success)
             .map(_ => Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))
         }
       )

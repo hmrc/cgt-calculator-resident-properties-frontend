@@ -33,6 +33,7 @@ import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import org.scalatestplus.play.OneAppPerSuite
 import play.api.test.Helpers.redirectLocation
+import services.SessionCacheService
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
@@ -63,22 +64,25 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
   def setupController(gainResponse: YourAnswersSummaryModel,
                       deductionsResponse: ChargeableGainAnswers,
                       taxYearModel: Option[TaxYearModel] = None): ReviewAnswersController = {
-    val mockConnector = mock[CalculatorConnector]
 
-    when(mockConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
+    val mockConnector = mock[CalculatorConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
+
+    when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainResponse))
 
-    when(mockConnector.getPropertyDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(deductionsResponse))
 
     when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
-    when(mockConnector.getPropertyIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(incomeAnswersModel)
 
     new ReviewAnswersController {
       override val calculatorConnector: CalculatorConnector = mockConnector
+      override val sessionCacheService = mockSessionCacheService
     }
   }
 

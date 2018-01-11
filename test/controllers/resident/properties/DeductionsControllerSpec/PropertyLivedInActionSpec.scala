@@ -17,7 +17,7 @@
 package controllers.resident.properties.DeductionsControllerSpec
 
 import config.{AppConfig, ApplicationConfig}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
 import models.resident.properties.PropertyLivedInModel
@@ -29,6 +29,7 @@ import org.mockito.ArgumentMatchers
 import assets.MessageLookup.{PropertyLivedIn => messages}
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 
 import scala.concurrent.Future
@@ -38,16 +39,20 @@ class PropertyLivedInActionSpec extends UnitSpec with WithFakeApplication with F
   def setupTarget(getData: Option[PropertyLivedInModel]): DeductionsController= {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockCalcConnector.fetchAndGetFormData[PropertyLivedInModel](ArgumentMatchers.eq(keyStoreKeys.propertyLivedIn))
+    when(mockSessionCacheConnector.fetchAndGetFormData[PropertyLivedInModel](ArgumentMatchers.eq(keyStoreKeys.propertyLivedIn))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[PropertyLivedInModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[PropertyLivedInModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new DeductionsController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector =  mockSessionCacheConnector
+      override val sessionCacheService = mockSessionCacheService
       override val config: AppConfig = ApplicationConfig
     }
   }

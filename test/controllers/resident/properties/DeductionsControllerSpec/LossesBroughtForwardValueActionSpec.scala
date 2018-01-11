@@ -19,7 +19,7 @@ package controllers.resident.properties.DeductionsControllerSpec
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import config.AppConfig
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
 import models.resident._
@@ -29,6 +29,7 @@ import org.mockito.ArgumentMatchers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -43,12 +44,14 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
                      taxYearModel: TaxYearModel): DeductionsController = {
 
       val mockCalcConnector = mock[CalculatorConnector]
+      val mockSessionCacheConnector = mock[SessionCacheConnector]
+      val mockSessionCacheService = mock[SessionCacheService]
 
-      when(mockCalcConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
+      when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(getData)
 
-      when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
+      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
@@ -57,6 +60,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
       new DeductionsController {
         override val calcConnector = mockCalcConnector
+        override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+        override val sessionCacheService: SessionCacheService = mockSessionCacheService
         val config = mock[AppConfig]
       }
     }
@@ -129,29 +134,33 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
                       taxYearModel: TaxYearModel): DeductionsController = {
 
       val mockCalcConnector = mock[CalculatorConnector]
+      val mockSessionCacheConnector = mock[SessionCacheConnector]
+      val mockSessionCacheService = mock[SessionCacheService]
 
-      when(mockCalcConnector.getPropertyGainAnswers(ArgumentMatchers.any()))
+      when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
         .thenReturn(Future.successful(gainAnswers))
 
-      when(mockCalcConnector.getPropertyDeductionAnswers(ArgumentMatchers.any()))
+      when(mockSessionCacheService.getPropertyDeductionAnswers(ArgumentMatchers.any()))
         .thenReturn(Future.successful(chargeableGainAnswers))
 
       when(mockCalcConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(chargeableGain)))
 
-      when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel]
+      when(mockSessionCacheConnector.saveFormData[LossesBroughtForwardValueModel]
         (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue),ArgumentMatchers.any())
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(CacheMap("",Map.empty)))
 
       new DeductionsController {
         override val calcConnector = mockCalcConnector
+        override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+        override val sessionCacheService: SessionCacheService = mockSessionCacheService
         val config = mock[AppConfig]
       }
     }
