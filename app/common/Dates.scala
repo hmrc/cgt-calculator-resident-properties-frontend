@@ -53,7 +53,7 @@ object Dates {
   }
 
   def getCurrentTaxYear: Future[String] = {
-    val now = ZonedDateTime.now()
+    val now = ZonedDateTime.now(ZoneId.of("Europe/London"))
     val year = now.getYear
     if (now.isAfter(LocalDate.parse(s"${year.toString}-$taxYearEnd").atStartOfDay(ZoneId.of("Europe/London")))) {
       Future.successful(taxYearToString(year + 1))

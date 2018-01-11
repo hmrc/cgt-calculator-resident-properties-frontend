@@ -25,7 +25,7 @@ import scala.concurrent.Future
 object DateAsset {
 
   def getYearAfterCurrentTaxYear: Future[String] = {
-    val now = ZonedDateTime.now()
+    val now = ZonedDateTime.now(ZoneId.of("Europe/London"))
     val year = now.getYear
     if (now.isAfter(LocalDate.parse(s"${year.toString}-${Dates.taxYearEnd}").atStartOfDay(ZoneId.of("Europe/London")))) {
       Future.successful(Dates.taxYearToString(year + 2))
