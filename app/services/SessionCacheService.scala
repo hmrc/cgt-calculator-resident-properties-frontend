@@ -35,7 +35,6 @@ object SessionCacheService extends SessionCacheService{
 
 trait SessionCacheService {
   val sessionCacheConnector: SessionCacheConnector
-  lazy val homeLink = sessionCacheConnector.homeLink
 
   //scalastyle:off
   def getPropertyGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = {
@@ -44,8 +43,7 @@ trait SessionCacheService {
 
     //This is a proposed alternate method of writing the map without needing the case statement, need a judgement on whether
     //to use this method or older ones. Fold automatically handles the None/Some cases without matching manually
-    val disposalValue = sessionCacheConnector.fetchAndGetFormData[DisposalValueModel](ResidentPropertyKeys.disposalValue)
-      .map(_.fold[Option[BigDecimal]](None)(input => Some(input.amount)))
+    val disposalValue = sessionCacheConnector.fetchAndGetFormData[DisposalValueModel](ResidentPropertyKeys.disposalValue).map(_.map(_.amount))
 
     val worthWhenSoldForLess = sessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ResidentPropertyKeys.worthWhenSoldForLess).map(_.map(_.amount))
 
@@ -122,7 +120,7 @@ trait SessionCacheService {
     case e: NoSuchElementException =>
       throw ApplicationException(
         "cgt-calculator-resident-properties-frontend",
-        Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.routes.TimeoutController.timeout(sessionCacheConnector.homeLink, sessionCacheConnector.homeLink)),
         e.getMessage
       )
   }
@@ -161,7 +159,7 @@ trait SessionCacheService {
     case e: NoSuchElementException =>
       throw ApplicationException(
         "cgt-calculator-resident-properties-frontend",
-        Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.routes.TimeoutController.timeout(sessionCacheConnector.homeLink, sessionCacheConnector.homeLink)),
         e.getMessage
       )
   }
@@ -180,7 +178,7 @@ trait SessionCacheService {
     case e: NoSuchElementException =>
       throw ApplicationException(
         "cgt-calculator-resident-properties-frontend",
-        Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.routes.TimeoutController.timeout(sessionCacheConnector.homeLink, sessionCacheConnector.homeLink)),
         e.getMessage
       )
   }
