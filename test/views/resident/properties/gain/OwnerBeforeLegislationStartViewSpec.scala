@@ -57,10 +57,6 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
       }
     }
 
-    s"have a help section with the text ${messages.help}" in {
-      doc.select("article > p").text shouldEqual messages.help
-    }
-
     "have a back button" which {
 
       lazy val backLink = doc.select("a#back-link")
