@@ -19,7 +19,6 @@ calc.base.summary.dateWarning = These figures are based on the tax rates from th
 calc.base.govUk = GOV.UK
 calc.base.hmrc = HM Revenue &amp; Customs
 calc.base.home = Home
-
 calc.error.summary.heading = This page has errors
 
 ## Common date Messages ##
@@ -36,6 +35,9 @@ calc.common.error.mandatoryAmount = Enter an amount
 calc.common.error.minimumAmount = Enter an amount that''s £0 or more
 calc.common.error.invalidAmount = Enter an amount in the correct format e.g. 10000.00
 calc.common.error.invalidAmountNoDecimal = Enter an amount in the correct format e.g. 10000
+
+## Session Timeout message ##
+session.timeout.message = Your session has ended
 
 ## Personal Allowance ##
 calc.personalAllowance.help = This the amount of your income that you don''t pay tax on.
