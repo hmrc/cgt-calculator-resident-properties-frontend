@@ -20,7 +20,10 @@
     <h1>@Messages("calc.resident.properties.introduction.title")</h1>
     <h2 class="form-label-bold">@Messages("calc.resident.properties.introduction.subheading")</h2>
     <p>@Messages("calc.resident.properties.introduction.paragraph")</p>
-    <a href="https://www.gov.uk/tax-relief-selling-home" target="_blank" rel="external">@Messages("calc.resident.properties.introduction.entitledLinkText")</a>
+    <a id="taxReliefSellingHomeLink" class="external-link" rel="external" href="https://www.gov.uk/tax-relief-selling-home"
+    target="_blank" data-journey-click="help:govUK:rtt-properties-taxReliefSellingHomeHelp">
+    @Messages("calc.resident.properties.introduction.entitledLinkText")
+    </a>
     <p>@Messages("calc.resident.properties.introduction.continuationInstructions")</p>
     <a id="continue-button" href="@controllers.routes.GainController.disposalDate.toString" class="button">@Messages("calc.base.button.continue")</a>
 }

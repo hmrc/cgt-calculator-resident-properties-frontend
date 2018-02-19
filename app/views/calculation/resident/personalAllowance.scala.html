@@ -57,11 +57,11 @@
 
                 <div class="form-group">
                     <span>@Messages("calc.personalAllowance.link.text")</span>
-                    <a class="external-link" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" rel="external">
+                    <a id="currentRatesAndAllowancesLink" class="external-link" rel="external" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
+                    target="_blank" data-journey-click="help:govUK:rtt-properties-currentRatesAndAllowancesHelp">
                     @Messages("calc.personalAllowance.link")
                     </a>
                 </div>
-
                 @formInputMoney(
                     personalAllowanceForm,
                     "amount",
