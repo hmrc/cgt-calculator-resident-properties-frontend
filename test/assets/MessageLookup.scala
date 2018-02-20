@@ -857,7 +857,7 @@ object MessageLookup {
   object PersonalAllowance {
     def question(taxYear: String = "2016/17"): String = s"In the $taxYear tax year, what was your Personal Allowance?"
     val currentYearQuestion = "How much is your Personal Allowance?"
-    val link = "Income tax rates and Personal Allowances"
+    val link = "Income tax rates and Personal Allowances (opens in a new window)"
     val linkText = "Find out more about"
     val help = "This the amount of your income that you don't pay tax on."
     def listTitle(yearOne: String, yearTwo: String, value: String): String =

@@ -70,7 +70,7 @@ class PrivateResidenceReliefValueViewSpec extends UnitSpec with WithFakeApplicat
 
     s"have a help link" which {
       s"has the text ${messages.link}" in {
-        doc.select("#privateResidenceReliefLink").text shouldEqual (messages.link + " " + commonMessages.externalLink)
+        doc.select("#privateResidenceReliefAmountLink").text shouldEqual (messages.link + " " + commonMessages.externalLink)
       }
     }
 
