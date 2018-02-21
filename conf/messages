@@ -45,7 +45,7 @@ calc.personalAllowance.list.title = In the tax year {0} to {1} the UK Personal A
 calc.personalAllowance.list.one = earned more than £100,000
 calc.personalAllowance.list.two = claimed Blind Person''s Allowance
 calc.personalAllowance.link.text = Find out more about
-calc.personalAllowance.link = Income tax rates and Personal Allowances
+calc.personalAllowance.link = Income tax rates and Personal Allowances (opens in a new window)
 
 ## Market Value ##
 calc.resident.properties.gaveItAway.hintText = If you owned the property with someone else, only enter your share of the property value.

@@ -57,6 +57,38 @@ class IntroductionViewSpec extends UnitSpec with WithFakeApplication with FakeRe
         hyperlink.attr("href") shouldBe "https://www.gov.uk/tax-relief-selling-home"
       }
     }
+    "the link should have a set of attributes" which {
+
+      "has the external link class" in {
+        doc.select("#privateResidenceReliefStartPageLink").hasClass("external-link") shouldEqual true
+      }
+
+      "has the attribute rel" in {
+        doc.select("#privateResidenceReliefStartPageLink").hasAttr("rel") shouldEqual true
+      }
+
+      "rel has the value of external" in {
+        doc.select("#privateResidenceReliefStartPageLink").attr("rel") shouldEqual "external"
+      }
+
+      "has a target attribute" in {
+        doc.select("#privateResidenceReliefStartPageLink").hasAttr("target") shouldEqual true
+      }
+
+      "has a target value of _blank" in {
+        doc.select("#privateResidenceReliefStartPageLink").attr("target") shouldEqual "_blank"
+      }
+    }
+
+    "record GA statistics" which {
+      "has a data-journey-click attribute" in {
+        doc.select("#privateResidenceReliefStartPageLink").hasAttr("data-journey-click") shouldEqual true
+      }
+
+      "with the GA value of help:govUK:rtt-properties-privateResidenceReliefStartPageLink" in {
+        doc.select("#privateResidenceReliefStartPageLink").attr("data-journey-click") shouldEqual "help:govUK:rtt-properties-privateResidenceReliefStartPageLink"
+      }
+    }
 
     "have the correct continuation instructions" in {
       doc.select("p:nth-of-type(2)").text.trim shouldBe messages.continuationInstructions

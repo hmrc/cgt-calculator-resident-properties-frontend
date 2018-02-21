@@ -114,7 +114,38 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
           link.select("a").text() shouldBe messages.link
         }
       }
+      "the link should have a set of attributes" which {
 
+        "has the external link class" in {
+          doc.select("#currentRatesAndAllowancesLink").hasClass("external-link") shouldEqual true
+        }
+
+        "has the attribute rel" in {
+          doc.select("#currentRatesAndAllowancesLink").hasAttr("rel") shouldEqual true
+        }
+
+        "rel has the value of external" in {
+          doc.select("#currentRatesAndAllowancesLink").attr("rel") shouldEqual "external"
+        }
+
+        "has a target attribute" in {
+          doc.select("#currentRatesAndAllowancesLink").hasAttr("target") shouldEqual true
+        }
+
+        "has a target value of _blank" in {
+          doc.select("#currentRatesAndAllowancesLink").attr("target") shouldEqual "_blank"
+        }
+      }
+
+      "record GA statistics" which {
+        "has a data-journey-click attribute" in {
+          doc.select("#currentRatesAndAllowancesLink").hasAttr("data-journey-click") shouldEqual true
+        }
+
+        "with the GA value of help:govUK:rtt-properties-currentRatesAndAllowancesHelp" in {
+          doc.select("#currentRatesAndAllowancesLink").attr("data-journey-click") shouldEqual "help:govUK:rtt-properties-currentRatesAndAllowancesHelp"
+        }
+      }
       "have a form" which {
         lazy val form = doc.getElementsByTag("form")
 

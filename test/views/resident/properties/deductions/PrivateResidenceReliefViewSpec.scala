@@ -78,7 +78,7 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       s"have an internal span with the text ${commonMessages.externalLink}" in {
-        helptext.select("a#privateResidenceReliefLink span").text() shouldEqual commonMessages.externalLink
+        helptext.select("a#privateResidenceReliefQuestionLink span").text() shouldEqual commonMessages.externalLink
       }
 
       "have the address https://www.gov.uk/government/publications/" +
@@ -90,33 +90,33 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
       "the link should have a set of attributes" which {
 
         "has the external link class" in {
-          doc.select("#privateResidenceReliefLink").hasClass("external-link") shouldEqual true
+          doc.select("#privateResidenceReliefQuestionLink").hasClass("external-link") shouldEqual true
         }
 
         "has the attribute rel" in {
-          doc.select("#privateResidenceReliefLink").hasAttr("rel") shouldEqual true
+          doc.select("#privateResidenceReliefQuestionLink").hasAttr("rel") shouldEqual true
         }
 
         "rel has the value of external" in {
-          doc.select("#privateResidenceReliefLink").attr("rel") shouldEqual "external"
+          doc.select("#privateResidenceReliefQuestionLink").attr("rel") shouldEqual "external"
         }
 
         "has a target attribute" in {
-          doc.select("#privateResidenceReliefLink").hasAttr("target") shouldEqual true
+          doc.select("#privateResidenceReliefQuestionLink").hasAttr("target") shouldEqual true
         }
 
         "has a target value of _blank" in {
-          doc.select("#privateResidenceReliefLink").attr("target") shouldEqual "_blank"
+          doc.select("#privateResidenceReliefQuestionLink").attr("target") shouldEqual "_blank"
         }
       }
 
       "record GA statistics" which {
         "has a data-journey-click attribute" in {
-          doc.select("#privateResidenceReliefLink").hasAttr("data-journey-click") shouldEqual true
+          doc.select("#privateResidenceReliefQuestionLink").hasAttr("data-journey-click") shouldEqual true
         }
 
-        "with the GA value of help:govUK:rtt-properties-privateResidenceReliefHelp" in {
-          doc.select("#privateResidenceReliefLink").attr("data-journey-click") shouldEqual "help:govUK:rtt-properties-privateResidenceReliefHelp"
+        "with the GA value of help:govUK:rtt-properties-privateReliefQuestionHelp" in {
+          doc.select("#privateResidenceReliefQuestionLink").attr("data-journey-click") shouldEqual "help:govUK:rtt-properties-privateResidenceReliefQuestionHelp"
         }
       }
     }
