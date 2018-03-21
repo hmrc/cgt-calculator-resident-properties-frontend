@@ -40,7 +40,7 @@ calc.common.error.invalidAmountNoDecimal = Enter an amount in the correct format
 session.timeout.message = Your session has ended
 
 ## Personal Allowance ##
-calc.personalAllowance.help = This the amount of your income that you don''t pay tax on.
+calc.personalAllowance.help = This is the amount of your income that you don''t pay tax on.
 calc.personalAllowance.list.title = In the tax year {0} to {1} the UK Personal Allowance was £{2} unless you:
 calc.personalAllowance.list.one = earned more than £100,000
 calc.personalAllowance.list.two = claimed Blind Person''s Allowance
