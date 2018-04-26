@@ -231,7 +231,8 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
 
     "supplied with a tax year a year after the current tax year" should {
 
-      lazy val taxYearModel = TaxYearModel(Dates.taxYearToString(LocalDate.now.getYear + 1), false, "2016/17")
+      lazy val nextTaxYearEndInt = await(Dates.getCurrentTaxYear).take(4).toInt + 2
+      lazy val taxYearModel = TaxYearModel(Dates.taxYearToString(nextTaxYearEndInt), false, "2016/17")
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
         Some("back-link"), JourneyKeys.properties, "navTitle", "2016/17")(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
