@@ -40,11 +40,13 @@
         <p>@Messages("calc.resident.properties.improvements.hint")</p>
     </div>
 
-    <div class="panel-indent panel-indent--wide panel-indent--gutter">
+    <div class="panel-indent panel-indent--wide">
         <p>@Messages("calc.resident.properties.improvements.jointOwner")</p>
     </div>
 
+    <div class ="form-group">
     @expandableHelpTextHelper(Messages("calc.resident.properties.improvements.helpButton"), hiddenHelpTextContent)
+    </div>
 
     @form(action = controllers.routes.GainController.submitImprovements) {
 
