@@ -715,6 +715,7 @@ object MessageLookup {
 
 
   //Summary messages
+  //Summary messages
   object SummaryPage {
     val title = "Summary"
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
@@ -959,6 +960,12 @@ object MessageLookup {
     val whatToDoNextDetails = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
     val noticeSummary: String = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
+
+    val bannerPanelTitle = "Help improve GOV.UK"
+    val bannerPanelLinkURL = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_resident_properties_summary&utm_source=Survey_Banner&utm_medium=other&t=HMRC&id=117"
+    val bannerPanelLinkText = "Help improve this digital service by joining the HMRC user panel (opens in new window)"
+    val bannerPanelCloseVisibleText = "No thanks"
+    val bannerPanelCloseHiddenText = "I don't want to answer any questions about joining the research panel"
   }
 
   object WhatNextPages {

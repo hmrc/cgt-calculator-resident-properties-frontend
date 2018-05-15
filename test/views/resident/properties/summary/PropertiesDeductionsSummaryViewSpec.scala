@@ -78,7 +78,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, None, None, 100)(fakeRequestWithSession, applicationMessages)
+      taxYearModel, None, None, 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -323,5 +323,77 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
         }
       }
     }
+
+    "does have ur panel" in {
+      doc.select("div#ur-panel").size() shouldBe 1
+
+      doc.select(".banner-panel__close").size() shouldBe 1
+      doc.select(".banner-panel__title").text() shouldBe summaryMessages.bannerPanelTitle
+
+      doc.select("section > a").first().attr("href") shouldBe summaryMessages.bannerPanelLinkURL
+      doc.select("section > a").first().text() shouldBe summaryMessages.bannerPanelLinkText
+
+      doc.select("a > span").first().text() shouldBe summaryMessages.bannerPanelCloseVisibleText
+      doc.select("a > span").eq(1).text() shouldBe summaryMessages.bannerPanelCloseHiddenText
+
+    }
+
   }
+
+  "Properties Deductions Summary view no ur banner" should {
+    val gainAnswers = YourAnswersSummaryModel(
+      disposalDate = Dates.constructDate(10, 10, 2015),
+      disposalValue = Some(100000),
+      worthWhenSoldForLess = None,
+      whoDidYouGiveItTo = None,
+      worthWhenGaveAway = None,
+      disposalCosts = BigDecimal(10000),
+      acquisitionValue = Some(0),
+      worthWhenInherited = None,
+      worthWhenGifted = None,
+      worthWhenBoughtForLess = None,
+      acquisitionCosts = BigDecimal(10000),
+      improvements = BigDecimal(30000),
+      givenAway = false,
+      sellForLess = Some(false),
+      ownerBeforeLegislationStart = false,
+      valueBeforeLegislationStart = None,
+      howBecameOwner = Some("Bought"),
+      boughtForLessThanWorth = Some(false)
+    )
+    val deductionAnswers = ChargeableGainAnswers(
+      broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+      broughtForwardValueModel = None,
+      propertyLivedInModel = Some(PropertyLivedInModel(false)),
+      privateResidenceReliefModel = None,
+      privateResidenceReliefValueModel = None,
+      lettingsReliefModel = None,
+      lettingsReliefValueModel = None
+    )
+    val results = ChargeableGainResultModel(
+      gain = 30000,
+      chargeableGain = 0,
+      aeaUsed = 900,
+      aeaRemaining = 1000,
+      deductions = 30000,
+      allowableLossesRemaining = 0,
+      broughtForwardLossesRemaining = 0,
+      lettingReliefsUsed = Some(BigDecimal(0)),
+      prrUsed = Some(BigDecimal(0)),
+      broughtForwardLossesUsed = 0,
+      allowableLossesUsed = 0
+    )
+    val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+    val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+
+    lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
+      taxYearModel, None, None, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
+    lazy val doc = Jsoup.parse(view.body)
+
+    "does not have ur panel" in {
+      doc.select("div#ur-panel").size() shouldBe 0
+    }
+  }
+
 }

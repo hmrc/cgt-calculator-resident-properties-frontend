@@ -90,7 +90,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -451,6 +451,81 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
           }
         }
       }
+
+      "does have ur panel" in {
+        doc.select("div#ur-panel").size() shouldBe 1
+
+        doc.select(".banner-panel__close").size() shouldBe 1
+        doc.select(".banner-panel__title").text() shouldBe summaryMessages.bannerPanelTitle
+
+        doc.select("section > a").first().attr("href") shouldBe summaryMessages.bannerPanelLinkURL
+        doc.select("section > a").first().text() shouldBe summaryMessages.bannerPanelLinkText
+
+        doc.select("a > span").first().text() shouldBe summaryMessages.bannerPanelCloseVisibleText
+        doc.select("a > span").eq(1).text() shouldBe summaryMessages.bannerPanelCloseHiddenText
+
+      }
+
+    }
+
+    "the property was sold inside tax years and the ur banner is not displayed" should {
+
+      val gainAnswers = YourAnswersSummaryModel(
+        disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = Some(100000),
+        worthWhenSoldForLess = None,
+        whoDidYouGiveItTo = None,
+        worthWhenGaveAway = None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = Some(0),
+        worthWhenInherited = None,
+        worthWhenGifted = None,
+        worthWhenBoughtForLess = None,
+        acquisitionCosts = BigDecimal(10000),
+        improvements = BigDecimal(30000),
+        givenAway = false,
+        sellForLess = Some(false),
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        howBecameOwner = Some("Bought"),
+        boughtForLessThanWorth = Some(false)
+      )
+      val deductionAnswers = ChargeableGainAnswers(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = Some(LossesBroughtForwardValueModel(36.00)),
+        propertyLivedInModel = Some(PropertyLivedInModel(false)),
+        privateResidenceReliefModel = None,
+        privateResidenceReliefValueModel = None,
+        lettingsReliefModel = None,
+        lettingsReliefValueModel = None
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 10,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 20000,
+        firstRate = 18,
+        secondBand = Some(10000.00),
+        secondRate = Some(28),
+        lettingReliefsUsed = Some(BigDecimal(500)),
+        prrUsed = Some(BigDecimal(125)),
+        broughtForwardLossesUsed = 35,
+        allowableLossesUsed = 0,
+        baseRateTotal = 30000,
+        upperRateTotal = 15000
+      )
+      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+      lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl,
+        taxYearModel, None, None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      "does not have ur panel" in {
+        doc.select("div#ur-panel").size() shouldBe 0
+      }
+
     }
 
     //GA - move into top tests
