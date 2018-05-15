@@ -584,7 +584,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "not have PRR GA metrics when PRR is not in scope" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+          None, None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
@@ -593,7 +593,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "not have lettings relief GA metrics when it is not in scope" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+          None, None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
@@ -602,7 +602,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have PRR GA metrics when PRR is used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          Some(true), None, 100, 100)(fakeRequestWithSession, applicationMessages)
+          Some(true), None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 1
@@ -611,7 +611,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "not have lettings relief GA metrics when it is used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, Some(true), 100, 100)(fakeRequestWithSession, applicationMessages)
+          None, Some(true), 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 1
@@ -620,7 +620,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have PRR GA metrics when PRR is not used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          Some(false), None, 100, 100)(fakeRequestWithSession, applicationMessages)
+          Some(false), None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
@@ -629,7 +629,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have lettings relief GA metrics when it is not used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, Some(false), 100, 100)(fakeRequestWithSession, applicationMessages)
+          None, Some(false), 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0

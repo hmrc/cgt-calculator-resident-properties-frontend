@@ -15,12 +15,16 @@
  *@
 
 @import config.ApplicationConfig
+@import helpers.full_width_banner
+@import helpers.full_width_banner_content_ur
+
 @(title: String,
   sidebarLinks: Option[Html] = None,
   contentHeader: Option[Html] = None,
   bodyClasses: Option[String] = None,
   mainClass: Option[String] = None,
   scriptElem: Option[Html] = None,
+  isUserResearchBannerVisible: Boolean = false,
   articleLayout: Boolean = true,
   backLink: Option[String] = None
 )(mainContent: Html)(implicit request : Request[_], messages: Messages)
@@ -58,6 +62,20 @@
     }
 }
 
+@afterHeader = {
+    @if(isUserResearchBannerVisible) {
+
+    @full_width_banner(Some(full_width_banner_content_ur(
+                messages("calc.summary.userResearchLink.title"),
+                messages("calc.summary.userResearchLink.link"),
+                ApplicationConfig.urBannerLink,
+                Some(messages("calc.summary.userResearchLink.text"))
+                )
+            )
+        )
+    }
+}
+
 @govuk_wrapper(appConfig = ApplicationConfig,
                title = title,
                mainClass = mainClass,
@@ -67,6 +85,7 @@
                mainContent = contentLayout,
                serviceInfoContent = serviceInfoContent,
                scriptElem = scriptElem,
+               afterHeader = afterHeader,
                homeLink = controllers.routes.PropertiesController.introduction().url,
                navTitle = Messages("calc.base.resident.properties.home")
 )

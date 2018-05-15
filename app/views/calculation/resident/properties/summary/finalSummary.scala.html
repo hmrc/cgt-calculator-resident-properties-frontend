@@ -32,11 +32,13 @@
         prrUsed: Option[Boolean] = None,
         lettingsReliefUsed: Option[Boolean] = None,
         totalCosts: BigDecimal,
-        totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
+        totalDeductions: BigDecimal,
+        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
-    backLink = Some(backUrl)
+    backLink = Some(backUrl),
+    isUserResearchBannerVisible = showUserResearchPanel
 ) {
 
     <!-- Google Analytics -->

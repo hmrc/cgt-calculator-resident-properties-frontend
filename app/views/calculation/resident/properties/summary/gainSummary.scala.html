@@ -25,11 +25,12 @@
 @import controllers.routes.{GainController => routes}
 @import views.html.calculation.resident.properties._
 
-@(answers: YourAnswersSummaryModel, gain: BigDecimal, totalCosts: BigDecimal, taxYear: TaxYearModel, maxAEA: BigDecimal)(implicit request: Request[_], messages: Messages)
+@(answers: YourAnswersSummaryModel, gain: BigDecimal, totalCosts: BigDecimal, taxYear: TaxYearModel, maxAEA: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
-    backLink = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers().url)
+    backLink = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers().url),
+    isUserResearchBannerVisible = showUserResearchPanel
 ) {
 
     <!-- Google Analytics -->
