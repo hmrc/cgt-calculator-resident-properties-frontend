@@ -49,7 +49,7 @@ calc.personalAllowance.link = Income tax rates and Personal Allowances (opens in
 
 ## Market Value ##
 calc.resident.properties.gaveItAway.hintText = If you owned the property with someone else, only enter your share of the property value.
-calc.resident.properties.gaveItAway.paragraphText = You can use a valuation from a surveyor. If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
+calc.resident.properties.gaveItAway.paragraphText = You can use a valuation from a surveyor. If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 
 ## Who did you give the property to ##
 calc.resident.whoDidYouGiveThePropertyTo.title = Who did you give the property to?
@@ -63,7 +63,7 @@ calc.calculationElection.based = Based on
 
 ## Summary ##
 calc.summary.startAgain = Start again
-calc.summary.warning.taxYear = Your total might be less accurate because you didn't sell or give away your property in this tax year
+calc.summary.warning.taxYear = Your total might be less accurate because you didn''t sell or give away your property in this tax year
 calc.summary.ratesHelp = These rates are based on your Income Tax bands:
 
 ## Check Your Answers ##
@@ -124,7 +124,7 @@ calc.resident.disposal.value.helpText = If you owned the property with someone e
 ## Property Worth when you sold it messages
 calc.resident.properties.worthWhenSoldForLess.question = What was the property worth when you sold it?
 calc.resident.properties.worthWhenSoldForLess.hintText = If you owned the property with someone else, only enter your share of the property value.
-calc.resident.properties.worthWhenSoldForLess.paragraphText = You can use a valuation from a surveyor. If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
+calc.resident.properties.worthWhenSoldForLess.paragraphText = You can use a valuation from a surveyor. If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 
 ## Disposal Costs messages
 calc.resident.disposalCosts.title = How much did you pay in costs when you stopped owning the property?
@@ -163,7 +163,7 @@ calc.resident.properties.worthWhenInherited.jointOwner = If you owned the proper
 ## Worth When Bought messages
 calc.resident.properties.worthWhenBoughtForLess.question = What was the property worth when you bought it?
 calc.resident.properties.worthWhenBoughtForLess.hintOne = You can use a valuation from a surveyor.
-calc.resident.properties.worthWhenBoughtForLess.hintTwo = If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
+calc.resident.properties.worthWhenBoughtForLess.hintTwo = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 calc.resident.properties.worthWhenBoughtForLess.jointOwner = If you owned the property with someone else, only enter your share of the property value.
 
 ## Worth When Gifted messages

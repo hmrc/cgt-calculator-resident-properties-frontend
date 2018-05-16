@@ -366,7 +366,7 @@ object MessageLookup {
       val gave = "I gave it away"
     }
 
-    //Acquisition Market Value messages
+    //Acquisition Market Value messages.en
     object AcquisitionMarketValue {
       val errorNegativeNumber = "Enter a positive number for the market value of the property"
       val errorDecimalPlaces = "The market value of the property has too many numbers after the decimal point"
@@ -381,17 +381,17 @@ object MessageLookup {
       val expandableTitle = "Why we're asking for this"
     }
 
-    //Worth When Inherited messages
+    //Worth When Inherited messages.en
     object WorthWhenInherited {
       val question = "What was the market value of the property when you inherited it?"
     }
 
-    //Worth When Gifted To messages
+    //Worth When Gifted To messages.en
     object WorthWhenGiftedTo {
       val question = "What was the market value of the property when you got it as a gift?"
     }
 
-    //Worth When Bought for Less messages
+    //Worth When Bought for Less messages.en
     object WorthWhenBoughtForLess {
       val question = "What was the market value of the property when you bought it?"
     }
@@ -544,7 +544,7 @@ object MessageLookup {
     object Shares {
 
       //This object will have some duplication of text from the properties summary as well as duplicating
-      //some of the questions for the shares pages however it will still pull form the same messages location
+      //some of the questions for the shares pages however it will still pull form the same messages.en location
       //this is to encourage making the changes in the tests first in both places and understanding what changing
       //the message will affect.
       object SharesSummaryMessages {
@@ -565,7 +565,7 @@ object MessageLookup {
         val question = "How much did you sell the shares for?"
       }
 
-      //############ Owner Before Legislation Start messages #################//
+      //############ Owner Before Legislation Start messages.en #################//
       object OwnerBeforeLegislationStart {
         val title = "Did you own the shares before 1 April 1982?"
         val errorNoSelect = "Tell us if you owned the shares before 1 April 1982"
@@ -576,18 +576,18 @@ object MessageLookup {
         val errorSelect = "Tell us if you inherited the shares"
       }
 
-      //############ Sell For Less messages #################//
+      //############ Sell For Less messages.en #################//
       object SellForLess {
         val title = "Did you sell the shares for less than they were worth to help the buyer?"
         val errorSelect = s"Tell us if you sold the shares for less than they were worth to help the buyer."
       }
 
-      //############ Worth When Inherited messages #################//
+      //############ Worth When Inherited messages.en #################//
       object WorthWhenInherited {
         val question = "What were the shares worth when you inherited them?"
       }
 
-      //############ Worth When Sold For Less messages #################//
+      //############ Worth When Sold For Less messages.en #################//
       object WorthWhenSoldForLess {
         val question = "What were the shares worth when you sold them?"
       }
@@ -605,7 +605,7 @@ object MessageLookup {
     val continuationInstructions = "Continue to use this calculator if you've never lived at the property, or you're entitled to only some or no Private Residence Relief."
   }
 
-  //Disposal Date messages
+  //Disposal Date messages.en
   object DisposalDate {
     val title = "When did you sell or give away the property?"
     val question = "When did you sell or give away the property?"
@@ -621,7 +621,7 @@ object MessageLookup {
     def invalidMinimumDate(minimumDate: String) = s"Enter a date which is after $minimumDate"
   }
 
-  //Outside Tax Years messages
+  //Outside Tax Years messages.en
   object OutsideTaxYears {
     val title = "The date you've entered isn't supported by this calculator"
     val tooEarly = "You can use this calculator if you've sold a property since 5 April 2015."
@@ -630,43 +630,43 @@ object MessageLookup {
     def content(year: String): String = s"You can continue to use it, but we'll use the tax rates from the $year tax year."
   }
 
-  //No Tax To Pay messages
+  //No Tax To Pay messages.en
   object NoTaxToPay {
     val title = "You have no tax to pay"
     val spouseText = "This is because Capital Gains Tax doesn't apply if you give a property to your spouse or civil partner."
     val charityText = "This is because Capital Gains Tax doesn't apply if you give a property to a charity."
   }
 
-  //############ Sell For Less messages #################//
+  //############ Sell For Less messages.en #################//
   object SellForLess {
     val title = "Did you sell the property for less than it was worth to help the buyer?"
   }
 
-  //############ Worth When Inherited messages #################//
+  //############ Worth When Inherited messages.en #################//
   object WorthWhenInherited {
     val title = "What was the property worth when you inherited it?"
     val additionalContent = "You can use a valuation from a surveyor or a property website."
   }
 
-  //############ Worth When Gifted messages #################//
+  //############ Worth When Gifted messages.en #################//
   object WorthWhenGifted {
     val question = "What was the property worth when you got it as a gift?"
     val additionalContent = "You can use a valuation from a surveyor or a property website."
   }
 
-  //############ Worth When Bought messages #################//
+  //############ Worth When Bought messages.en #################//
   object WorthWhenBought {
     val question = "What was the property worth when you bought it?"
     val additionalContent = "You can use a valuation from a surveyor or a property website."
   }
 
-  //Disposal Value messages
+  //Disposal Value messages.en
   object DisposalValue {
     val question = "How much did you sell the property for?"
     val helpText = "If you owned the property with someone else, only enter your share of the sale value."
   }
 
-  //Disposal Costs messages
+  //Disposal Costs messages.en
   object DisposalCosts {
     val title = "How much did you pay in costs when you stopped owning the property?"
     val pageHeading = "How much did you pay in costs when you stopped owning the property?"
@@ -678,7 +678,7 @@ object MessageLookup {
     val helpText = "If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner."
   }
 
-  //How Became Owner messages
+  //How Became Owner messages.en
   object HowBecameOwner {
     val title = "How did you become the property owner?"
     val errorMandatory = "Tell us how you became the property owner"
@@ -687,19 +687,19 @@ object MessageLookup {
     val inherited = "Inherited it"
   }
 
-  //############ Bought For Less Than Worth messages #################//
+  //############ Bought For Less Than Worth messages.en #################//
   object BoughtForLessThanWorth {
     val title = "Did you buy the property for less than it was worth because the seller wanted to help you?"
   }
 
-  //Acquisition Value messages
+  //Acquisition Value messages.en
   object AcquisitionValue {
     val title = "How much did you pay for the property?"
     val pageHeading = "How much did you pay for the property?"
     val jointOwnership = "If you owned the property with someone else, only enter your share of the purchase value."
   }
 
-  //Acquisition Costs messages
+  //Acquisition Costs messages.en
   object AcquisitionCosts {
     val title = "How much did you pay in costs when you became the property owner?"
     val pageHeading = "How much did you pay in costs when you became the property owner?"
@@ -711,10 +711,10 @@ object MessageLookup {
     val panelText = "If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner."
   }
 
-  //Improvements messages
+  //Improvements messages.en
 
 
-  //Summary messages
+  //Summary messages.en
   object SummaryPage {
     val title = "Summary"
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
@@ -761,7 +761,7 @@ object MessageLookup {
     def deductionsDetailsLossBeforeYearUsed(taxYear: String): String = s"Loss used from tax years before $taxYear"
   }
 
-  //Private Residence Relief Value messages
+  //Private Residence Relief Value messages.en
   object PrivateResidenceReliefValue {
     val title = "How much Private Residence Relief are you entitled to?"
     val question = title
@@ -771,7 +771,7 @@ object MessageLookup {
     def error(value: String): String = s"Enter an amount that is less than your gain of £$value"
   }
 
-  //Reliefs messages
+  //Reliefs messages.en
   object Reliefs {
     val title = "Do you want to claim any other tax reliefs?"
     val questionSummary = "Do you want to claim any other tax reliefs?"
@@ -788,7 +788,7 @@ object MessageLookup {
     val helpNoPrr = "For example, Private Residence Relief"
   }
 
-  //Reliefs Value messages
+  //Reliefs Value messages.en
   object ReliefsValue {
     def title(input: String): String = s"How much tax relief are you claiming on your total gain of £$input?"
     def question(input: String): String = s"How much tax relief are you claiming on your total gain of £$input?"
@@ -796,7 +796,7 @@ object MessageLookup {
     val lettingsReliefLink = "Lettings Relief"
   }
 
-  //Lettings Relief Value messages
+  //Lettings Relief Value messages.en
   object LettingsReliefValue {
     val title = s"How much Letting Relief are you entitled to?"
     val question = s"How much Letting Relief are you entitled to?"
@@ -808,7 +808,7 @@ object MessageLookup {
     val reducYourLettingsRelief = "Reduce your Letting Relief amount"
   }
 
-  //No Prr Reliefs Value messages
+  //No Prr Reliefs Value messages.en
   object ReliefsValueNoPrr {
     val title = "How much Capital Gains Tax relief are you claiming?"
     val question = "How much Capital Gains Tax relief are you claiming?"
@@ -816,7 +816,7 @@ object MessageLookup {
     val lettingsReliefLink = "Lettings Relief"
   }
 
-  //Lettings Relief messages
+  //Lettings Relief messages.en
   object LettingsRelief {
     val title = "Are you entitled to Letting Relief?"
     val help = "You may be able entitled to Letting Relief if you've rented out the property. Find out more about Letting Relief (opens in a new window)"
@@ -826,7 +826,7 @@ object MessageLookup {
   }
 
 
-  //Losses Brought Forward messages
+  //Losses Brought Forward messages.en
   object LossesBroughtForward {
     def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
     def question(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
@@ -835,14 +835,14 @@ object MessageLookup {
   }
 
 
-  //Losses Brought Forward Value messages
+  //Losses Brought Forward Value messages.en
   object LossesBroughtForwardValue {
     def title(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input?"
     def question(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input?"
   }
 
 
-  //Current Income messages
+  //Current Income messages.en
   object CurrentIncome {
     def title(input: String): String = s"In the $input tax year, what was your income?"
     def question(input: String): String = s"In the $input tax year, what was your income?"
@@ -853,7 +853,7 @@ object MessageLookup {
     val linkText = "Income tax"
   }
 
-  //Personal Allowance messages
+  //Personal Allowance messages.en
   object PersonalAllowance {
     def question(taxYear: String = "2016/17"): String = s"In the $taxYear tax year, what was your Personal Allowance?"
     val currentYearQuestion = "How much is your Personal Allowance?"
@@ -870,7 +870,7 @@ object MessageLookup {
     val errorMaxLimitEnd = "or less"
   }
 
-  //############ Private Residence Relief messages #################//
+  //############ Private Residence Relief messages.en #################//
   object PrivateResidenceRelief {
     val title = "Are you entitled to Private Residence Relief?"
     val helpTextOne = "You'll be entitled to Private Residence Relief if you've lived in the property as your main home " +
@@ -879,13 +879,13 @@ object MessageLookup {
     val errorSelect = "Tell us if you want to claim Private Residence Relief"
   }
 
-  //############ Property Lived In messages #################//
+  //############ Property Lived In messages.en #################//
   object PropertyLivedIn {
     val title = "Have you ever lived in the property since you became the owner?"
     val errorNoSelect = "Tell us if you have ever lived in the property since you became the owner"
   }
 
-  //############ Shares messages ##############//
+  //############ Shares messages.en ##############//
   object SharesDisposalDate {
     val title = "When did you sell or give away the shares?"
   }
