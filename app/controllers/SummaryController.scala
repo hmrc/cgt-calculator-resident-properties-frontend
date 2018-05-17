@@ -30,6 +30,8 @@ import views.html.calculation.resident.properties.{summary => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import services.SessionCacheService
+import scala.util.Random
+import play.api.Logger
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
@@ -80,7 +82,8 @@ trait SummaryController extends ValidActiveSession {
                      taxYear: Option[TaxYearModel],
                      currentTaxYear: String,
                      totalCosts: BigDecimal,
-                     maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Result] = {
+                     maxAEA: BigDecimal,
+                     showUserResearchPanel: Boolean)(implicit hc: HeaderCarrier): Future[Result] = {
 
       //These lazy vals are called only when the values are determined to be available
       lazy val isPrrUsed = if (chargeableGainAnswers.propertyLivedInModel.get.livedInProperty) {
@@ -103,7 +106,8 @@ trait SummaryController extends ValidActiveSession {
           isPrrUsed,
           isLettingsReliefUsed,
           totalCosts,
-          chargeableGain.get.deductions
+          chargeableGain.get.deductions,
+          showUserResearchPanel = false
         )))
       else if (grossGain > 0)
         Future.successful(Ok(views.deductionsSummary(
@@ -114,7 +118,8 @@ trait SummaryController extends ValidActiveSession {
           taxYear.get,
           isPrrUsed,
           isLettingsReliefUsed,
-          totalCosts
+          totalCosts,
+          showUserResearchPanel
         )))
       else
         Future.successful(Ok(views.gainSummary(
@@ -122,7 +127,8 @@ trait SummaryController extends ValidActiveSession {
           grossGain,
           totalCosts,
           taxYear.get,
-          maxAEA
+          maxAEA,
+          showUserResearchPanel
         )))
     }
 
@@ -138,6 +144,8 @@ trait SummaryController extends ValidActiveSession {
       calculatorConnector.getPropertyTotalCosts(yourAnswersSummaryModel)
     }
 
+    val showUserResearchPanel = setURPanelFlag
+
     (for {
       answers <- sessionCacheService.getPropertyGainAnswers
       totalCosts <- getPropertyTotalCosts(answers)
@@ -151,7 +159,23 @@ trait SummaryController extends ValidActiveSession {
       totalGain <- totalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
-        taxYear, currentTaxYear, totalCosts, maxAEA.get)
+        taxYear, currentTaxYear, totalCosts, maxAEA.get, showUserResearchPanel = showUserResearchPanel)
     } yield routeRequest).recoverToStart(homeLink, sessionTimeoutUrl)
+  }
+
+  private[controllers] def setURPanelFlag(implicit hc: HeaderCarrier): Boolean = {
+    val random = new Random()
+    val seed = getLongFromSessionID(hc)
+    random.setSeed(seed)
+    random.nextInt(3) == 0
+  }
+
+  private[controllers] def getLongFromSessionID(hc: HeaderCarrier): Long = {
+    val session = hc.sessionId.map(_.value).getOrElse("0")
+    val numericSessionValues = session.replaceAll("[^0-9]", "") match {
+      case "" => "0"
+      case num => num
+    }
+    numericSessionValues.takeRight(10).toLong
   }
 }

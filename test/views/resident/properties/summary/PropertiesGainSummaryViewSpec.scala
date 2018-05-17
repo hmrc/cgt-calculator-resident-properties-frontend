@@ -55,7 +55,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = true)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -380,5 +380,54 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
       }
     }
 
+    "does have ur panel" in {
+      doc.select("div#ur-panel").size() shouldBe 1
+
+      doc.select(".banner-panel__close").size() shouldBe 1
+      doc.select(".banner-panel__title").text() shouldBe summaryMessages.bannerPanelTitle
+
+      doc.select("section > a").first().attr("href") shouldBe summaryMessages.bannerPanelLinkURL
+      doc.select("section > a").first().text() shouldBe summaryMessages.bannerPanelLinkText
+
+      doc.select("a > span").first().text() shouldBe summaryMessages.bannerPanelCloseVisibleText
+      doc.select("a > span").eq(1).text() shouldBe summaryMessages.bannerPanelCloseHiddenText
+
+    }
+
   }
+
+  "Summary view" should {
+
+    val testModel = YourAnswersSummaryModel(
+      disposalDate = constructDate(12, 9, 2015),
+      disposalValue = Some(1000),
+      worthWhenSoldForLess = None,
+      whoDidYouGiveItTo = None,
+      worthWhenGaveAway = None,
+      disposalCosts = BigDecimal(20),
+      acquisitionValue = Some(50000),
+      worthWhenInherited = None,
+      worthWhenGifted = None,
+      worthWhenBoughtForLess = None,
+      acquisitionCosts = BigDecimal(40),
+      improvements = BigDecimal(50),
+      givenAway = false,
+      sellForLess = Some(false),
+      ownerBeforeLegislationStart = false,
+      valueBeforeLegislationStart = None,
+      howBecameOwner = Some("Bought"),
+      boughtForLessThanWorth = Some(false)
+    )
+
+    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
+
+    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = false)(fakeRequest, applicationMessages)
+    lazy val doc = Jsoup.parse(view.body)
+
+    "does not have ur panel" in {
+      doc.select("div#ur-panel").size() shouldBe 0
+    }
+
+  }
+
 }
