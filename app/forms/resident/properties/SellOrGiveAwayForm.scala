@@ -30,8 +30,8 @@ object SellOrGiveAwayForm {
   val sellOrGiveAwayForm = Form(
     mapping(
       "givenAway" -> text
-        .verifying(Messages("calc.resident.sellOrGiveAway.errors.mandatory"), mandatoryCheck)
-        .verifying(Messages("calc.resident.sellOrGiveAway.errors.mandatory"), givenAwayCheck)
+        .verifying("calc.resident.sellOrGiveAway.errors.mandatory", mandatoryCheck)
+        .verifying("calc.resident.sellOrGiveAway.errors.mandatory", givenAwayCheck)
         .transform(givenAwayToBoolean, booleanToGivenAway)
     )(SellOrGiveAwayModel.apply)(SellOrGiveAwayModel.unapply)
   )

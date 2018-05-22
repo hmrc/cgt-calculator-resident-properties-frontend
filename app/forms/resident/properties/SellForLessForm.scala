@@ -30,8 +30,8 @@ object SellForLessForm {
   val sellForLessForm = Form(
     mapping(
       "sellForLess" -> text
-        .verifying(Messages("calc.resident.properties.sellForLess.noSelectError"), mandatoryCheck)
-        .verifying(Messages("calc.resident.properties.sellForLess.noSelectError"), yesNoCheck)
+        .verifying("calc.resident.properties.sellForLess.noSelectError", mandatoryCheck)
+        .verifying("calc.resident.properties.sellForLess.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)
     )(SellForLessModel.apply)(SellForLessModel.unapply)
   )

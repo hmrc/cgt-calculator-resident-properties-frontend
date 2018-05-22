@@ -130,8 +130,8 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
         form.hasErrors shouldBe true
       }
 
-      s"have an error message for the date of ${messages.invalidMinimumDate("6 4 2015")}" in {
-        form.errors.head.message shouldBe messages.invalidMinimumDate("6 4 2015")
+      s"have an error message for the date of ${messages.invalidMinimumDate}" in {
+        form.errors.head.message shouldBe messages.invalidMinimumDate
       }
     }
   }

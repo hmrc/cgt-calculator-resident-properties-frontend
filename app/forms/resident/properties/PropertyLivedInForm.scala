@@ -30,8 +30,8 @@ object PropertyLivedInForm {
   val propertyLivedInForm = Form(
     mapping(
       "livedInProperty" -> text
-        .verifying(Messages("calc.resident.properties.propertyLivedIn.noSelectError"), mandatoryCheck)
-        .verifying(Messages("calc.resident.properties.propertyLivedIn.noSelectError"), yesNoCheck)
+        .verifying("calc.resident.properties.propertyLivedIn.noSelectError", mandatoryCheck)
+        .verifying("calc.resident.properties.propertyLivedIn.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)
     )(PropertyLivedInModel.apply)(PropertyLivedInModel.unapply)
   )

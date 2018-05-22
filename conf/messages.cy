@@ -33,7 +33,8 @@ calc.common.date.hint = Er enghraifft, 4 9 2016
 calc.common.error.invalidAmount = Nodwch swm yn y fformat cywir, e.e. 10000.00
 calc.common.error.invalidAmountNoDecimal = Nodwch swm yn y fformat cywir, e.e. 10000
 calc.common.error.mandatoryAmount = Nodwch swm
-calc.common.error.maxAmountExceeded = Nodwch swm sy''n £{0} neu lai
+calc.common.error.maxAmountExceeded = Nodwch swm sy''n
+calc.common.error.maxAmountExceeded.orLess = neu lai
 calc.common.error.minimumAmount = Nodwch swm sy''n £0 neu fwy
 calc.common.readMore = Rhagor o wybodaeth
 
@@ -92,13 +93,13 @@ calc.resident.lettingsRelief.helpOne = Ryddhad Gosod
 calc.resident.lettingsRelief.title = A oes gennych hawl i Ryddhad Gosod?
 
 calc.resident.lettingsReliefValue.additionalContent = Rydym wedi cyfrifo eich bod wedi gwneud enillion o £{0} ar eich eiddo. Bydd angen y ffigur hwn arnoch i gyfrifo''ch Rhyddhad Gosod.
-calc.resident.lettingsReliefValue.error.moreThanCappedAmount = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''r uchafswm, sef £{0}
+calc.resident.lettingsReliefValue.error.moreThanCappedAmount = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''r uchafswm, sef
 calc.resident.lettingsReliefValue.error.moreThanPrr = Mae''r swm a nodwyd gennych ar gyfer Rhyddhad Gosod yn fwy na''ch Rhyddhad Preswylfan Preifat
-calc.resident.lettingsReliefValue.error.moreThanRemainingGain = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''ch enillion sy''n weddill, sef £{0}
+calc.resident.lettingsReliefValue.error.moreThanRemainingGain = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''ch enillion sy''n weddill, sef
 calc.resident.lettingsReliefValue.question = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 calc.resident.lettingsReliefValue.title = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 
-calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}
+calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn
 calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEM amdanynt.
 calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
 calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
@@ -152,7 +153,7 @@ calc.resident.properties.privateResidenceRelief.helpText = Efallai y bydd gennyc
 calc.resident.properties.privateResidenceRelief.helpTextLink = Ryddhad Preswylfan Preifat
 calc.resident.properties.privateResidenceRelief.title = A oes gennych hawl i Ryddhad Preswylfan Preifat?
 
-calc.resident.properties.privateResidenceReliefValue.gainExceededError = Nodwch swm sy''n llai na''ch enillion, sef £{0}
+calc.resident.properties.privateResidenceReliefValue.gainExceededError = Nodwch swm sy''n llai na''ch enillion, sef
 
 calc.resident.properties.propertyLivedIn.noSelectError = Rhowch wybod i ni a ydych wedi byw yn yr eiddo ar ryw adeg ers i chi ddod yn berchennog
 calc.resident.properties.propertyLivedIn.title = Ydych chi wedi byw yn yr eiddo ar ryw adeg ers i chi ddod yn berchennog?

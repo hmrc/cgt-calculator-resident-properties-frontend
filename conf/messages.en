@@ -30,7 +30,8 @@ calc.common.date.hint = For example, 4 9 2016
 calc.common.date.error.invalidDate = Enter a real date
 calc.common.date.error.beforeMinimum = Enter a date which is after 6 4 2015
 calc.common.readMore = Read more
-calc.common.error.maxAmountExceeded = Enter an amount that''s £{0} or less
+calc.common.error.maxAmountExceeded = Enter an amount that''s
+calc.common.error.maxAmountExceeded.orLess = or less
 calc.common.error.mandatoryAmount = Enter an amount
 calc.common.error.minimumAmount = Enter an amount that''s £0 or more
 calc.common.error.invalidAmount = Enter an amount in the correct format e.g. 10000.00
@@ -208,16 +209,16 @@ calc.resident.privateResidenceReliefValue.title = How much Private Residence Rel
 calc.resident.privateResidenceReliefValue.question = How much Private Residence Relief are you entitled to?
 calc.resident.privateResidenceReliefValue.help = We''ve calculated that you''ve made a gain of £{0} on your property. You''ll need this figure to calculate your Private Residence Relief.
 calc.resident.privateResidenceReliefValue.link = Find out how much you''re entitled to
-calc.resident.properties.privateResidenceReliefValue.gainExceededError = Enter an amount that is less than your gain of £{0}
+calc.resident.properties.privateResidenceReliefValue.gainExceededError = Enter an amount that is less than your gain of
 
 ## Reliefs messages
 ## Lettings Relief Value messages
 calc.resident.lettingsReliefValue.title = How much Letting Relief are you entitled to?
 calc.resident.lettingsReliefValue.question = How much Letting Relief are you entitled to?
 calc.resident.lettingsReliefValue.additionalContent = We''ve calculated that you''ve made a gain of £{0} on your property. You''ll need this figure to calculate your Letting Relief.
-calc.resident.lettingsReliefValue.error.moreThanCappedAmount = The Letting Relief you''ve entered is more than the maximum amount of £{0}
+calc.resident.lettingsReliefValue.error.moreThanCappedAmount = The Letting Relief you''ve entered is more than the maximum amount of
 calc.resident.lettingsReliefValue.error.moreThanPrr = The Letting Relief amount you''ve entered is more than your Private Residence Relief
-calc.resident.lettingsReliefValue.error.moreThanRemainingGain = The Letting Relief you''ve entered is more than your remaining gain of £{0}
+calc.resident.lettingsReliefValue.error.moreThanRemainingGain = The Letting Relief you''ve entered is more than your remaining gain of
 
 ## Reliefs Value messages
 ## Lettings Relief messages
@@ -233,7 +234,7 @@ calc.resident.lossesBroughtForward.helpText = These are unused losses that are c
 ##Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?
 calc.resident.lossesBroughtForward.question = Are you claiming any Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before {0}
+calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before
 
 ##Losses Brought Forward Value messages
 calc.resident.lossesBroughtForwardValue.title = What''s the total value of your Capital Gains Tax losses from tax years before {0}?

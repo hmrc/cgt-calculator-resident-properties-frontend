@@ -37,15 +37,15 @@ object MessageLookup {
 
     val readMore = "Read more"
 
-    val mandatoryAmount = "Enter an amount"
-    val minimumAmount = "Enter an amount that's £0 or more"
-    val maximumAmount = "Enter an amount that's £1,000,000,000 or less"
+    val mandatoryAmount = "calc.common.error.mandatoryAmount"
+    val minimumAmount = "calc.common.error.minimumAmount"
+    val maximumAmount = "calc.common.error.maxAmountExceeded £1,000,000,000 calc.common.error.maxAmountExceeded.orLess"
     val errorRequired = "This field is required"
 
-    def maximumLimit(limit: String): String = s"Enter an amount that's £$limit or less"
+    def maximumLimit(limit: String): String = s"calc.common.error.maxAmountExceeded £$limit calc.common.error.maxAmountExceeded.orLess"
 
-    val invalidAmount = "Enter an amount in the correct format e.g. 10000.00"
-    val invalidAmountNoDecimal = "Enter an amount in the correct format e.g. 10000"
+    val invalidAmount = "calc.common.error.invalidAmount"
+    val invalidAmountNoDecimal = "calc.common.error.invalidAmountNoDecimal"
     val numericPlayErrorOverride = "Enter a number without commas, for example 10000.00"
     val optionReqError = "Choose one of the options"
 
@@ -57,7 +57,7 @@ object MessageLookup {
   object NonResident extends Common {
 
     val pageHeading = "Calculate your non-resident Capital Gains Tax"
-    val errorInvalidDate = "Enter a real date"
+    val errorInvalidDate = "calc.common.date.error.invalidDate"
     val errorRealNumber = "Enter a number without commas, for example 10000.00"
 
     object AcquisitionCosts {
@@ -486,7 +486,7 @@ object MessageLookup {
 
       object OwnerBeforeLegislationStart {
         val title = "Did you become the property owner before 1 April 1982?"
-        val errorSelectAnOption = "Tell us if you became the property owner before 1 April 1982"
+        val errorSelectAnOption = "calc.resident.properties.ownedBeforeLegislationStart.noSelectError"
       }
 
       object PropertiesWorthWhenGaveAway {
@@ -613,12 +613,12 @@ object MessageLookup {
     val day = "Day"
     val month = "Month"
     val year = "Year"
-    val invalidDayError = "Enter a day"
-    val invalidMonthError = "Enter a month"
-    val invalidYearError = "Enter a year"
-    val realDateError = "Enter a real date"
-    val invalidYearRange = "Enter a date in the correct format e.g. 9 12 2015"
-    def invalidMinimumDate(minimumDate: String) = s"Enter a date which is after $minimumDate"
+    val invalidDayError = "calc.resident.disposalDate.invalidDayError"
+    val invalidMonthError = "calc.resident.disposalDate.invalidMonthError"
+    val invalidYearError = "calc.resident.disposalDate.invalidYearError"
+    val realDateError = "calc.common.date.error.invalidDate"
+    val invalidYearRange = "calc.resident.disposalDate.invalidYearRangeError"
+    def invalidMinimumDate = "calc.common.date.error.beforeMinimum"
   }
 
   //Outside Tax Years messages
@@ -681,7 +681,7 @@ object MessageLookup {
   //How Became Owner messages
   object HowBecameOwner {
     val title = "How did you become the property owner?"
-    val errorMandatory = "Tell us how you became the property owner"
+    val errorMandatory = "calc.resident.howBecameOwner.errors.mandatory"
     val bought = "Bought it"
     val gifted = "Got it as a gift"
     val inherited = "Inherited it"
@@ -769,7 +769,7 @@ object MessageLookup {
     val link = "Find out how much you're entitled to"
     def help(value: String): String = s"We've calculated that you've made a gain of £$value on your property. " +
       s"You'll need this figure to calculate your Private Residence Relief."
-    def error(value: String): String = s"Enter an amount that is less than your gain of £$value"
+    def error(value: String): String = s"calc.resident.properties.privateResidenceReliefValue.gainExceededError £$value"
   }
 
   //Reliefs messages
@@ -803,9 +803,9 @@ object MessageLookup {
     val question = s"How much Letting Relief are you entitled to?"
     def additionalContent(input: String): String = s"We've calculated that you've made a gain of £$input on your property. " +
       s"You'll need this figure to calculate your Letting Relief."
-    val maxLettingsReliefExceeded = "The Letting Relief you've entered is more than the maximum amount of £" + MoneyPounds(Constants.maxLettingsRelief,0).quantity
-    val lettingsReliefMoreThanPRR = "The Letting Relief amount you've entered is more than your Private Residence Relief"
-    def lettingsReliefMoreThanRemainingGain(input: BigDecimal): String = s"The Letting Relief you've entered is more than your remaining gain of £" + MoneyPounds(input,0).quantity
+    val maxLettingsReliefExceeded = "calc.resident.lettingsReliefValue.error.moreThanCappedAmount £" + MoneyPounds(Constants.maxLettingsRelief,0).quantity
+    val lettingsReliefMoreThanPRR = "calc.resident.lettingsReliefValue.error.moreThanPrr"
+    def lettingsReliefMoreThanRemainingGain(input: BigDecimal): String = s"calc.resident.lettingsReliefValue.error.moreThanRemainingGain £" + MoneyPounds(input,0).quantity
     val reducYourLettingsRelief = "Reduce your Letting Relief amount"
   }
 
@@ -823,7 +823,7 @@ object MessageLookup {
     val help = "You may be able entitled to Letting Relief if you've rented out the property. Find out more about Letting Relief (opens in a new window)"
     val helpOne = "Letting Relief (opens in a new window)"
     val helpLink = "https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016#letting-relief"
-    val errorSelect = "Tell us if you want to claim Letting Relief"
+    val errorSelect = "calc.resident.lettingsRelief.errorSelect"
   }
 
 
@@ -832,7 +832,7 @@ object MessageLookup {
     def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
     def question(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
     val helpText = "These are unused losses that are covered by Capital Gains Tax and that you've already reported to HMRC."
-    def errorSelect(input: String): String = s"Tell us if you're claiming any Capital Gains Tax losses from tax years before $input"
+    def errorSelect(input: String): String = s"calc.resident.lossesBroughtForward.errorSelect $input"
   }
 
 
@@ -877,13 +877,13 @@ object MessageLookup {
     val helpTextOne = "You'll be entitled to Private Residence Relief if you've lived in the property as your main home " +
       "at some point while you owned it. Find out more about"
     val helpTextLink = "You may be entitled to Private Residence Relief if you've lived in the property as your main home at some point while you owned it. Find out more about Private Residence Relief"
-    val errorSelect = "Tell us if you want to claim Private Residence Relief"
+    val errorSelect = "calc.resident.privateResidenceRelief.errorSelect"
   }
 
   //############ Property Lived In messages #################//
   object PropertyLivedIn {
     val title = "Have you ever lived in the property since you became the owner?"
-    val errorNoSelect = "Tell us if you have ever lived in the property since you became the owner"
+    val errorNoSelect = "calc.resident.properties.propertyLivedIn.noSelectError"
   }
 
   //############ Shares messages ##############//
@@ -915,7 +915,7 @@ object MessageLookup {
 
   object PropertiesSellOrGiveAway {
     val title = "Did you sell the property or give it away?"
-    val errorMandatory = "Tell us if you sold the property or gave it away"
+    val errorMandatory = "calc.resident.sellOrGiveAway.errors.mandatory"
     val sold = "Sold it"
     val gift = "Gave it away"
   }
@@ -925,7 +925,7 @@ object MessageLookup {
     val spouse = "Your spouse or a civil partner"
     val charity = "A charity"
     val other = "Someone else"
-    val errormandatory = "Please tell us who you gave the property to"
+    val errormandatory = "calc.resident.whoDidYouGiveThePropertyTo.errormandatory"
   }
 
   object SummaryDetails extends Common {
@@ -1017,6 +1017,6 @@ object MessageLookup {
 
   object SaUser extends Common {
     val title = "Are you currently in Self Assessment?"
-    val error = "Select whether you are currently in Self Assessment"
+    val error = "calc.resident.saUser.errorSelect"
   }
 }

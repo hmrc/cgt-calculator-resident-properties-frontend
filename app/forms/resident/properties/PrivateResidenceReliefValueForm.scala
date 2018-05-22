@@ -31,12 +31,12 @@ object PrivateResidenceReliefValueForm {
   def privateResidenceReliefValueForm(gain: BigDecimal): Form[PrivateResidenceReliefValueModel] = Form(
     mapping(
       "amount" -> text
-        .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)
-        .verifying(Messages("calc.common.error.invalidAmount"), bigDecimalCheck)
+        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(Messages("calc.resident.properties.privateResidenceReliefValue.gainExceededError", MoneyPounds(gain, 0).quantity), maxPRRCheck(gain))
-        .verifying(Messages("calc.common.error.minimumAmount"), isPositive)
-        .verifying(Messages("calc.common.error.invalidAmount"), decimalPlacesCheck)
+        .verifying("calc.resident.properties.privateResidenceReliefValue.gainExceededError" + s" £${MoneyPounds(gain, 0).quantity}", maxPRRCheck(gain))
+        .verifying("calc.common.error.minimumAmount", isPositive)
+        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
     )(PrivateResidenceReliefValueModel.apply)(PrivateResidenceReliefValueModel.unapply)
   )
 }
