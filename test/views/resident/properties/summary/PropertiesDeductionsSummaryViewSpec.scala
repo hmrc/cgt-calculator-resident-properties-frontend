@@ -78,7 +78,8 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, None, None, 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages)
+      taxYearModel, None, None, 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication)
+
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -388,7 +389,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, None, None, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
+      taxYearModel, None, None, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not have ur panel" in {

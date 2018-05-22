@@ -19,8 +19,9 @@
 @import models.resident.SellForLessModel
 @import models.resident.properties._
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import play.api.Application
 
-@(sellForLessForm: Form[SellForLessModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
+@(sellForLessForm: Form[SellForLessModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(title = Messages("calc.resident.properties.sellForLess.title"),
 backLink = navBackLink,

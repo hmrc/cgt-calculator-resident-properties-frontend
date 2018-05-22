@@ -18,8 +18,9 @@
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.properties.HowBecameOwnerModel
+@import play.api.Application
 
-@(howBecameOwnerForm: Form[HowBecameOwnerModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
+@(howBecameOwnerForm: Form[HowBecameOwnerModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(
     title = Messages("calc.resident.howBecameOwner.title"),

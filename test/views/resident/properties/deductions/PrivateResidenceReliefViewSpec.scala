@@ -30,7 +30,7 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
 
   "Private Residence Relief view" should {
 
-    lazy val view = views.privateResidenceRelief(privateResidenceReliefForm)(fakeRequest, applicationMessages)
+    lazy val view = views.privateResidenceRelief(privateResidenceReliefForm)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -219,7 +219,7 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
     "is due to mandatory field error" should {
 
       lazy val form = privateResidenceReliefForm.bind(Map("amount" -> ""))
-      lazy val view = views.privateResidenceRelief(form)(fakeRequest, applicationMessages)
+      lazy val view = views.privateResidenceRelief(form)(fakeRequest, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

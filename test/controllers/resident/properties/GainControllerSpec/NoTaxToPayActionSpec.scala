@@ -69,7 +69,7 @@ class NoTaxToPayActionSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       "have text explaining why tax is not owed" in {
-        doc.body().select("div#content p").text() shouldBe messages.charityText
+        doc.body().select("article p").text() shouldBe messages.charityText
       }
     }
 
@@ -87,7 +87,7 @@ class NoTaxToPayActionSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       "have text explaining why tax is not owed" in {
-        doc.body().select("div#content p").text() shouldBe messages.spouseText
+        doc.body().select("article p").text() shouldBe messages.spouseText
       }
     }
 

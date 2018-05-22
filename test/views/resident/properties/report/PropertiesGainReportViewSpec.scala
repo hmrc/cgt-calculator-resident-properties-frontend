@@ -56,7 +56,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000, 2000)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000, 2000)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -120,7 +120,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
       Some(false)
     )
 
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 1000, 4000)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 1000, 4000)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a banner for tax owed" in {

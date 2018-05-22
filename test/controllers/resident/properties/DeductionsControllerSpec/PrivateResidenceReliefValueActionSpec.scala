@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers.DeductionsControllerSpec
+package controllers.resident.properties.DeductionsControllerSpec
 
 import assets.MessageLookup.{PrivateResidenceReliefValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}

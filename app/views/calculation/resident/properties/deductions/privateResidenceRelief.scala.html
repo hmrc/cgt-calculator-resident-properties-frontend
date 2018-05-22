@@ -18,8 +18,9 @@
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import views.html.helpers._
 @import views.html.calculation.resident.properties.resident_properties_main_template
+@import play.api.Application
 
-@(privateResidenceReliefForm : Form[PrivateResidenceReliefModel])(implicit request: Request[_], messages: Messages)
+@(privateResidenceReliefForm : Form[PrivateResidenceReliefModel])(implicit request: Request[_], messages: Messages, application: Application)
 
 @helpText = {
     @Messages("calc.resident.properties.privateResidenceRelief.helpText")

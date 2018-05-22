@@ -20,9 +20,10 @@
 @import views.html.helpers._
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
+@import play.api.Application
 
 @import common.Dates
-@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages)
+@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, application: Application)
 
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(

@@ -22,6 +22,7 @@
 @import common.TaxDates._
 @import views.html.helpers.finalSummaryPartial
 @import config.ApplicationConfig
+@import play.api.Application
 
 @(gainAnswers: YourAnswersSummaryModel,
         deductionAnswers: ChargeableGainAnswers,
@@ -33,7 +34,7 @@
         lettingsReliefUsed: Option[Boolean] = None,
         totalCosts: BigDecimal,
         totalDeductions: BigDecimal,
-        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
+        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),

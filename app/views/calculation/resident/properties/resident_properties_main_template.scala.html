@@ -17,6 +17,7 @@
 @import config.ApplicationConfig
 @import helpers.full_width_banner
 @import helpers.full_width_banner_content_ur
+@import play.api.Application
 
 @(title: String,
   sidebarLinks: Option[Html] = None,
@@ -27,9 +28,11 @@
   isUserResearchBannerVisible: Boolean = false,
   articleLayout: Boolean = true,
   backLink: Option[String] = None
-)(mainContent: Html)(implicit request : Request[_], messages: Messages)
+)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application)
 
 @import uk.gov.hmrc.play.views.html.layouts
+
+@lc = @{Application.instanceCache[CgtLanguageController].apply(application)}
 
 @serviceInfoContent = {}
 
@@ -41,6 +44,8 @@
 }
 
 @sidebar = {
+    @language_selection(lc.languageMap, lc.langToCall, None)
+
     @if(sidebarLinks.isDefined) {
         @layouts.sidebar(sidebarContent, Some("sidebar"))
     }

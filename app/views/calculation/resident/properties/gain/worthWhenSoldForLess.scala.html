@@ -19,8 +19,9 @@
 @import views.html.helpers._
 @import views.html.helpers.resident._
 @import views.html.calculation.resident.properties._
+@import play.api.Application
 
-@(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages)
+@(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_properties_main_template(title = Messages("calc.resident.properties.worthWhenSoldForLess.question"),
                                    backLink = Some(controllers.routes.GainController.sellForLess().toString())) {

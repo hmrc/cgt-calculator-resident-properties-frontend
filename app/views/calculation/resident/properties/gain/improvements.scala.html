@@ -19,8 +19,9 @@
 @import views.html.helpers._
 @import views.html.helpers.resident._
 @import views.html.calculation.resident.properties._
+@import play.api.Application
 
-@(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_], messages: Messages)
+@(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
 
 @hiddenHelpTextContent = {
     <p>@Messages("calc.resident.properties.improvements.additionalContent.one")</p>

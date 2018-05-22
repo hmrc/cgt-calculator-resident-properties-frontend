@@ -31,7 +31,7 @@ class PrivateResidenceReliefValueViewSpec extends UnitSpec with WithFakeApplicat
   "Reliefs Value view" should {
 
     lazy val form = privateResidenceReliefValueForm(100000).bind(Map("amount" -> "10"))
-    lazy val view = views.privateResidenceReliefValue(form, "home-link", 1000)(fakeRequest, applicationMessages)
+    lazy val view = views.privateResidenceReliefValue(form, "home-link", 1000)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -94,7 +94,7 @@ class PrivateResidenceReliefValueViewSpec extends UnitSpec with WithFakeApplicat
   "Reliefs Value View with form without errors" should {
 
     lazy val form = privateResidenceReliefValueForm(100000).bind(Map("amount" -> "100"))
-    lazy val view = views.privateResidenceReliefValue(form, "home-link", 2000)(fakeRequest, applicationMessages)
+    lazy val view = views.privateResidenceReliefValue(form, "home-link", 2000)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -125,7 +125,7 @@ class PrivateResidenceReliefValueViewSpec extends UnitSpec with WithFakeApplicat
   "Reliefs Value View with form with errors" should {
 
     lazy val form = privateResidenceReliefValueForm(100000).bind(Map("amount" -> ""))
-    lazy val view = views.privateResidenceReliefValue(form, "home-link", 3000)(fakeRequest, applicationMessages)
+    lazy val view = views.privateResidenceReliefValue(form, "home-link", 3000)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {

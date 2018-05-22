@@ -29,7 +29,7 @@ class ImprovementsViewSpec extends UnitSpec with WithFakeApplication with FakeRe
 
   "Improvements view" should {
 
-    lazy val view = views.improvements(improvementsForm, false)(fakeRequest, applicationMessages)
+    lazy val view = views.improvements(improvementsForm, false)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -94,7 +94,7 @@ class ImprovementsViewSpec extends UnitSpec with WithFakeApplication with FakeRe
   }
 
   "Improvements View with a property acquired before April 1982" should {
-    lazy val view = views.improvements(improvementsForm, true)(fakeRequest, applicationMessages)
+    lazy val view = views.improvements(improvementsForm, true)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title of ${messages.questionBefore}" in {
@@ -128,7 +128,7 @@ class ImprovementsViewSpec extends UnitSpec with WithFakeApplication with FakeRe
   "Improvements View with form without errors" should {
 
     lazy val form = improvementsForm.bind(Map("amount" -> "100"))
-    lazy val view = views.improvements(form, false)(fakeRequest, applicationMessages)
+    lazy val view = views.improvements(form, false)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -147,7 +147,7 @@ class ImprovementsViewSpec extends UnitSpec with WithFakeApplication with FakeRe
   "Improvements View with form with errors" should {
 
     lazy val form = improvementsForm.bind(Map("amount" -> ""))
-    lazy val view = views.improvements(form, false)(fakeRequest, applicationMessages)
+    lazy val view = views.improvements(form, false)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

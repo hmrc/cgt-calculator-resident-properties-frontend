@@ -30,7 +30,7 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
 
   "Acquisition Value view" should {
 
-    lazy val view = views.acquisitionValue(acquisitionValueForm)(fakeRequest, applicationMessages)
+    lazy val view = views.acquisitionValue(acquisitionValueForm)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -142,7 +142,7 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
 
   "Acquisition Value View with form with errors" should {
     lazy val form = acquisitionValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.acquisitionValue(form)(fakeRequest, applicationMessages)
+    lazy val view = views.acquisitionValue(form)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
