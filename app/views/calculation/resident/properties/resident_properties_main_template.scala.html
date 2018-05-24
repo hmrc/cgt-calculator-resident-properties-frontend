@@ -44,21 +44,24 @@
 }
 
 @sidebar = {
-    @language_selection(lc.languageMap, lc.langToCall, None)
-
     @if(sidebarLinks.isDefined) {
-        @layouts.sidebar(sidebarContent, Some("sidebar"))
+     @layouts.sidebar(sidebarContent, Some("sidebar"))
     }
 }
 
+@translatedContent = {
+    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
+    @mainContent
+}
+
 @contentLayout = {
-    <div class="resident">
-        @if(articleLayout) {
-            @layouts.article(mainContent)
-        } else {
-            @mainContent
-        }
-    </div>
+<div class="resident">
+    @if(articleLayout) {
+        @layouts.article(translatedContent)
+    } else {
+        @translatedContent
+    }
+</div>
 }
 
 @contentHeader = {
