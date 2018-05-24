@@ -83,8 +83,8 @@ calc.resident.disposalDate.question = Pryd y gwnaethoch werthu''r eiddo neu ei r
 
 calc.resident.howBecameOwner.bought = Ei brynu
 calc.resident.howBecameOwner.errors.mandatory = Rhowch wybod i ni sut y daethoch yn berchennog yr eiddo
-calc.resident.howBecameOwner.gifted = ei gael fel anrheg
-calc.resident.howBecameOwner.inherited = ei etifeddu
+calc.resident.howBecameOwner.gifted = Ei gael fel anrheg
+calc.resident.howBecameOwner.inherited = Ei etifeddu
 calc.resident.howBecameOwner.title = Sut y daethoch yn berchennog yr eiddo?
 
 calc.resident.lettingsRelief.errorSelect = Rhowch wybod i ni a ydych am hawlio Rhyddhad Gosod
