@@ -33,8 +33,7 @@ calc.common.date.hint = Er enghraifft, 4 9 2016
 calc.common.error.invalidAmount = Nodwch swm yn y fformat cywir, e.e. 10000.00
 calc.common.error.invalidAmountNoDecimal = Nodwch swm yn y fformat cywir, e.e. 10000
 calc.common.error.mandatoryAmount = Nodwch swm
-calc.common.error.maxAmountExceeded = Nodwch swm sy''n
-calc.common.error.maxAmountExceeded.orLess = neu lai
+calc.common.error.maxAmountExceeded = Nodwch swm sy''n £{0} neu lai
 calc.common.error.minimumAmount = Nodwch swm sy''n £0 neu fwy
 calc.common.readMore = Rhagor o wybodaeth
 

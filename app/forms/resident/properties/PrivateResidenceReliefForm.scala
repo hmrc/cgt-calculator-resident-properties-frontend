@@ -30,7 +30,7 @@ object PrivateResidenceReliefForm {
   val privateResidenceReliefForm: Form[PrivateResidenceReliefModel] = Form(
     mapping(
       "isClaiming" -> text
-        .verifying("calc.resident.privateResidenceRelief.errorSelect", _.nonEmpty)
+        .verifying("calc.resident.privateResidenceRelief.errorSelect", mandatoryCheck)
         .verifying("calc.resident.privateResidenceRelief.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
     )(PrivateResidenceReliefModel.apply)(PrivateResidenceReliefModel.unapply)

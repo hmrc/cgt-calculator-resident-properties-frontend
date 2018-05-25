@@ -39,7 +39,7 @@ object MessageLookup {
 
     val mandatoryAmount = "calc.common.error.mandatoryAmount"
     val minimumAmount = "calc.common.error.minimumAmount"
-    val maximumAmount = "calc.common.error.maxAmountExceeded £1,000,000,000 calc.common.error.maxAmountExceeded.orLess"
+    val maximumAmount = "calc.common.error.maxAmountExceeded"
     val errorRequired = "This field is required"
 
     def maximumLimit(limit: String): String = s"calc.common.error.maxAmountExceeded £$limit calc.common.error.maxAmountExceeded.orLess"

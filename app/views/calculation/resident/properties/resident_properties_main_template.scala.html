@@ -44,22 +44,19 @@
 }
 
 @sidebar = {
+    @language_selection(lc.languageMap, lc.langToCall, None)
+
     @if(sidebarLinks.isDefined) {
-     @layouts.sidebar(sidebarContent, Some("sidebar"))
+        @layouts.sidebar(sidebarContent, Some("sidebar"))
     }
 }
 
-@translatedContent = {
-    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
-    @mainContent
-}
-
 @contentLayout = {
-<div class="resident">
+<div class="reside`nt">
     @if(articleLayout) {
-        @layouts.article(translatedContent)
+        @layouts.article(mainContent)
     } else {
-        @translatedContent
+        @mainContent
     }
 </div>
 }

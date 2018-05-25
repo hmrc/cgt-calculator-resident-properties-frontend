@@ -35,7 +35,7 @@ object ValueBeforeLegislationStartForm {
         .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying("calc.common.error.maxAmountExceeded" + s" £${MoneyPounds(Constants.maxNumeric, 0).quantity} " + "calc.common.error.maxAmountExceeded.orLess", maxCheck)
+        .verifying(maxMonetaryValueConstraint())
         .verifying("calc.common.error.minimumAmount", isPositive)
         .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
     )(ValueBeforeLegislationStartModel.apply)(ValueBeforeLegislationStartModel.unapply)
