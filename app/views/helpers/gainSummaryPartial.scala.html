@@ -29,7 +29,7 @@
 
 <div id="tax-owed-banner" class="transaction-banner--complete">
   <h1 class="bold-xlarge"><span>&pound;@MoneyPounds(0, 2).quantity</span></h1>
-  <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</h2>
+  <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*)</h2>
 </div>
 
 @{if (!taxYear.isValidYear) {
@@ -116,7 +116,7 @@
     <!-- Header -->
     <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
     <div id="aeaLeft" class="summary-partial summary-details-padding">
-      @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), maxAEA, hintText = false)
+      @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*), maxAEA, hintText = false)
     </div>
     <div id="lossesToCarryForward" class="summary-partial summary-details-padding">
         @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)

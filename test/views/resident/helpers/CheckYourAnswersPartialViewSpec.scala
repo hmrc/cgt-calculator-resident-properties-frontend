@@ -29,14 +29,16 @@ import assets.{MessageLookup => commonMessages}
 import assets.ModelsAsset._
 import controllers.routes
 import org.jsoup.nodes.Document
+import play.api.i18n.Lang
 import play.twirl.api.HtmlFormat
 
 class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  val fakeLang = Lang("en")
 
   "The check your answers partial with as much filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(applicationMessages)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(applicationMessages, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     s"have a section for Your answers" which {
@@ -382,7 +384,7 @@ class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication 
 
   "The check your answers partial with display links set to false" should {
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(applicationMessages)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(applicationMessages, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "have no links" in {
@@ -393,7 +395,7 @@ class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication 
   "The check your answers partial with as little filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
-      Some(deductionAnswersLeastPossibles), Some(taxYearModel), Some(incomeAnswers))(applicationMessages)
+      Some(deductionAnswersLeastPossibles), Some(taxYearModel), Some(incomeAnswers))(applicationMessages, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     s"have a section for Your answers" which {

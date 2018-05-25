@@ -26,7 +26,7 @@ class TaxYearModelSpec extends UnitSpec {
     val result = TaxYearModel.convertToSummaryFormat("2016/17")
 
     "return a formatted year" in {
-      result shouldEqual "2016 to 2017"
+      result shouldEqual Seq("2016", "2017")
     }
   }
 }
