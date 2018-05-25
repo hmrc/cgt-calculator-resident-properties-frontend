@@ -769,7 +769,7 @@ object MessageLookup {
     val link = "Find out how much you're entitled to"
     def help(value: String): String = s"We've calculated that you've made a gain of £$value on your property. " +
       s"You'll need this figure to calculate your Private Residence Relief."
-    def error(value: String): String = s"calc.resident.properties.privateResidenceReliefValue.gainExceededError £$value"
+    val error = "calc.resident.properties.privateResidenceReliefValue.gainExceededError"
   }
 
   //Reliefs messages
@@ -803,9 +803,9 @@ object MessageLookup {
     val question = s"How much Letting Relief are you entitled to?"
     def additionalContent(input: String): String = s"We've calculated that you've made a gain of £$input on your property. " +
       s"You'll need this figure to calculate your Letting Relief."
-    val maxLettingsReliefExceeded = "calc.resident.lettingsReliefValue.error.moreThanCappedAmount £" + MoneyPounds(Constants.maxLettingsRelief,0).quantity
+    val maxLettingsReliefExceeded = "calc.resident.lettingsReliefValue.error.moreThanCappedAmount"
     val lettingsReliefMoreThanPRR = "calc.resident.lettingsReliefValue.error.moreThanPrr"
-    def lettingsReliefMoreThanRemainingGain(input: BigDecimal): String = s"calc.resident.lettingsReliefValue.error.moreThanRemainingGain £" + MoneyPounds(input,0).quantity
+    val lettingsReliefMoreThanRemainingGain = "calc.resident.lettingsReliefValue.error.moreThanRemainingGain"
     val reducYourLettingsRelief = "Reduce your Letting Relief amount"
   }
 
@@ -832,7 +832,7 @@ object MessageLookup {
     def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
     def question(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
     val helpText = "These are unused losses that are covered by Capital Gains Tax and that you've already reported to HMRC."
-    def errorSelect(input: String): String = s"calc.resident.lossesBroughtForward.errorSelect $input"
+    val errorSelect = "calc.resident.lossesBroughtForward.errorSelect"
   }
 
 

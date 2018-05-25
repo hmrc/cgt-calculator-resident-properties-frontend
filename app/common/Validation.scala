@@ -34,12 +34,21 @@ object Validation {
   })
 
   private def maxMoneyCheck(value: BigDecimal, maxValue: BigDecimal, errMsgKey: String): ValidationResult = {
-    if(value <= maxValue) {
+    if (value <= maxValue) {
       Valid
     } else {
       Invalid(ValidationError(errMsgKey, MoneyPounds(maxValue, 0).quantity))
     }
   }
+
+  def constraintBuilder[A](key: String, args: String*)(condition: A => Boolean): Constraint[A] = {
+    Constraint(input => if (condition(input)) {
+      Valid
+    } else {
+      Invalid(ValidationError(key, args))
+    })
+  }
+
 
   def dateAfterMinimum(day: Int, month: Int, year: Int, minimumDate: LocalDate): Boolean = {
     if (isValidDate(day, month, year)) constructDate(day, month, year).isAfter(minimumDate)

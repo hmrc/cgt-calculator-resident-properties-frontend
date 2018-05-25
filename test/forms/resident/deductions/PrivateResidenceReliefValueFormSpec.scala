@@ -128,7 +128,7 @@ class PrivateResidenceReliefValueFormSpec extends UnitSpec with WithFakeApplicat
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe MessageLookup.PrivateResidenceReliefValue.error("50,000")
+        form.error("amount").get.message shouldBe MessageLookup.PrivateResidenceReliefValue.error
       }
     }
 

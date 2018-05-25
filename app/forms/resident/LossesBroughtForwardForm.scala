@@ -30,8 +30,12 @@ object LossesBroughtForwardForm {
   val lossesBroughtForwardForm = Form(
     mapping(
       "option" -> text
-        .verifying("calc.resident.lossesBroughtForward.errorSelect" + " 2015/16", mandatoryCheck)
-        .verifying("calc.resident.lossesBroughtForward.errorSelect" + " 2015/16", yesNoCheck)
+          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", "2015/16") {
+            mandatoryCheck
+          })
+          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", "2015/16") {
+            yesNoCheck
+          })
         .transform[Boolean](stringToBoolean, booleanToString)
     )(LossesBroughtForwardModel.apply)(LossesBroughtForwardModel.unapply)
   )

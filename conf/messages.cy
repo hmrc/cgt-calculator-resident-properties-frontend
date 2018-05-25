@@ -39,6 +39,20 @@ calc.common.readMore = Rhagor o wybodaeth
 
 calc.error.summary.heading = Mae gwallau ar y dudalen hon
 
+##Month Names##
+calc.month.1 = Ionawr
+calc.month.2 = Chwefror
+calc.month.3 = Mawrth
+calc.month.4 = Ebrill
+calc.month.5 = Mai
+calc.month.6 = Mehefin
+calc.month.7 = Gorffennaf
+calc.month.8 = Awst
+calc.month.9 = Medi
+calc.month.10 = Hydref
+calc.month.11 = Tachwedd
+calc.month.12 = Rhagfyr
+
 calc.personalAllowance.help = Dyma swm eich incwm nad ydych yn talu treth arno.
 calc.personalAllowance.link.text = Rhagor o wybodaeth am
 calc.personalAllowance.link = Cyfraddau Treth Incwm a Lwfansau Personol (yn agor ffenestr newydd)
@@ -92,9 +106,9 @@ calc.resident.lettingsRelief.helpOne = Ryddhad Gosod
 calc.resident.lettingsRelief.title = A oes gennych hawl i Ryddhad Gosod?
 
 calc.resident.lettingsReliefValue.additionalContent = Rydym wedi cyfrifo eich bod wedi gwneud enillion o £{0} ar eich eiddo. Bydd angen y ffigur hwn arnoch i gyfrifo''ch Rhyddhad Gosod.
-calc.resident.lettingsReliefValue.error.moreThanCappedAmount = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''r uchafswm, sef
+calc.resident.lettingsReliefValue.error.moreThanCappedAmount = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''r uchafswm, sef £{0}
 calc.resident.lettingsReliefValue.error.moreThanPrr = Mae''r swm a nodwyd gennych ar gyfer Rhyddhad Gosod yn fwy na''ch Rhyddhad Preswylfan Preifat
-calc.resident.lettingsReliefValue.error.moreThanRemainingGain = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''ch enillion sy''n weddill, sef
+calc.resident.lettingsReliefValue.error.moreThanRemainingGain = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''ch enillion sy''n weddill, sef £{0}
 calc.resident.lettingsReliefValue.question = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 calc.resident.lettingsReliefValue.title = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 
@@ -152,7 +166,7 @@ calc.resident.properties.privateResidenceRelief.helpText = Efallai y bydd gennyc
 calc.resident.properties.privateResidenceRelief.helpTextLink = Ryddhad Preswylfan Preifat
 calc.resident.properties.privateResidenceRelief.title = A oes gennych hawl i Ryddhad Preswylfan Preifat?
 
-calc.resident.properties.privateResidenceReliefValue.gainExceededError = Nodwch swm sy''n llai na''ch enillion, sef
+calc.resident.properties.privateResidenceReliefValue.gainExceededError = Nodwch swm sy''n llai na''ch enillion, sef £{0}
 
 calc.resident.properties.propertyLivedIn.noSelectError = Rhowch wybod i ni a ydych wedi byw yn yr eiddo ar ryw adeg ers i chi ddod yn berchennog
 calc.resident.properties.propertyLivedIn.title = Ydych chi wedi byw yn yr eiddo ar ryw adeg ers i chi ddod yn berchennog?
@@ -242,7 +256,7 @@ calc.summary.calculationDetails.yourTaxRate = Eich cyfradd dreth
 calc.summary.calculationDetails.yourTotalGain = Cyfanswm eich enillion
 calc.summary.calculationDetails.yourTotalLoss = Cyfanswm eich colledion
 
-calc.summary.cgtToPay = Treth Enillion Cyfalaf i''w thalu ar gyfer y flwyddyn dreth {0}
+calc.summary.cgtToPay = Treth Enillion Cyfalaf i''w thalu ar gyfer y flwyddyn dreth {0} to {1}
 
 calc.summary.download = Lawrlwytho
 

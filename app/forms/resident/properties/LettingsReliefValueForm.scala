@@ -16,15 +16,12 @@
 
 package forms.resident.properties
 
+import common.Constants._
 import common.Transformers._
 import common.Validation._
-import common.Constants._
+import models.resident.properties.LettingsReliefValueModel
 import play.api.data.Forms._
 import play.api.data._
-import models.resident.properties.LettingsReliefValueModel
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 import scala.math._
@@ -48,11 +45,13 @@ object LettingsReliefValueForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying("calc.common.error.minimumAmount", isPositive)
         .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
-        .verifying("calc.resident.lettingsReliefValue.error.moreThanCappedAmount" + s" £${MoneyPounds(maxLettingsRelief,0).quantity}", x =>
-          displayMaxLettingsRelief(x, prrValue, gain - prrValue))
+        .verifying(constraintBuilder[BigDecimal]("calc.resident.lettingsReliefValue.error.moreThanCappedAmount", MoneyPounds(maxLettingsRelief, 0).quantity) { x =>
+          displayMaxLettingsRelief(x, prrValue, gain - prrValue)
+        })
         .verifying("calc.resident.lettingsReliefValue.error.moreThanPrr", x =>
           displayGreaterThanPrr(x, prrValue, gain - prrValue))
-        .verifying("calc.resident.lettingsReliefValue.error.moreThanRemainingGain" + s" £${MoneyPounds(gain - prrValue,0).quantity}", x =>
-          displayGreaterThanRemainingGain(x, prrValue, gain - prrValue))
+        .verifying(constraintBuilder[BigDecimal]("calc.resident.lettingsReliefValue.error.moreThanRemainingGain", MoneyPounds(gain - prrValue, 0).quantity) { x =>
+          displayGreaterThanRemainingGain(x, prrValue, gain - prrValue)
+        })
     )(LettingsReliefValueModel.apply)(LettingsReliefValueModel.unapply))
 }

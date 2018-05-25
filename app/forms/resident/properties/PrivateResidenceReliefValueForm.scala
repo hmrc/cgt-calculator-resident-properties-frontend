@@ -21,10 +21,7 @@ import common.Validation._
 import models.resident.properties.PrivateResidenceReliefValueModel
 import play.api.data.Forms._
 import play.api.data._
-import play.api.i18n.Messages
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 object PrivateResidenceReliefValueForm {
 
@@ -34,7 +31,9 @@ object PrivateResidenceReliefValueForm {
         .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying("calc.resident.properties.privateResidenceReliefValue.gainExceededError" + s" £${MoneyPounds(gain, 0).quantity}", maxPRRCheck(gain))
+        .verifying(constraintBuilder[BigDecimal]("calc.resident.properties.privateResidenceReliefValue.gainExceededError", MoneyPounds(gain, 0).quantity) {
+          maxPRRCheck(gain)
+        })
         .verifying("calc.common.error.minimumAmount", isPositive)
         .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
     )(PrivateResidenceReliefValueModel.apply)(PrivateResidenceReliefValueModel.unapply)

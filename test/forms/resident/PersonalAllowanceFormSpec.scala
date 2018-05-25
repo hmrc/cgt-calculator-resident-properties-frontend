@@ -101,7 +101,7 @@ class PersonalAllowanceFormSpec extends UnitSpec with WithFakeApplication with F
               form.hasErrors shouldBe true
             }
            s"error with message '${messages.maximumLimit(MoneyPounds(limit, 0).quantity)}'" in {
-                form.error("amount").get.message shouldBe messages.maximumLimit(MoneyPounds(limit, 0).quantity)
+                form.error("amount").get.message shouldBe messages.maximumAmount
            }
           }
   }

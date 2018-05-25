@@ -39,6 +39,20 @@ calc.common.error.invalidAmountNoDecimal = Enter an amount in the correct format
 ## Session Timeout message ##
 session.timeout.message = Your session has ended
 
+##Month Names##
+calc.month.1 = January
+calc.month.2 = February
+calc.month.3 = March
+calc.month.4 = April
+calc.month.5 = May
+calc.month.6 = June
+calc.month.7 = July
+calc.month.8 = August
+calc.month.9 = September
+calc.month.10 = October
+calc.month.11 = November
+calc.month.12 = December
+
 ## Personal Allowance ##
 calc.personalAllowance.help = This is the amount of your income that you don''t pay tax on.
 calc.personalAllowance.list.title = In the tax year {0} to {1} the UK Personal Allowance was £{2} unless you:
@@ -208,16 +222,16 @@ calc.resident.privateResidenceReliefValue.title = How much Private Residence Rel
 calc.resident.privateResidenceReliefValue.question = How much Private Residence Relief are you entitled to?
 calc.resident.privateResidenceReliefValue.help = We''ve calculated that you''ve made a gain of £{0} on your property. You''ll need this figure to calculate your Private Residence Relief.
 calc.resident.privateResidenceReliefValue.link = Find out how much you''re entitled to
-calc.resident.properties.privateResidenceReliefValue.gainExceededError = Enter an amount that is less than your gain of
+calc.resident.properties.privateResidenceReliefValue.gainExceededError = Enter an amount that is less than your gain of £{0}
 
 ## Reliefs messages
 ## Lettings Relief Value messages
 calc.resident.lettingsReliefValue.title = How much Letting Relief are you entitled to?
 calc.resident.lettingsReliefValue.question = How much Letting Relief are you entitled to?
 calc.resident.lettingsReliefValue.additionalContent = We''ve calculated that you''ve made a gain of £{0} on your property. You''ll need this figure to calculate your Letting Relief.
-calc.resident.lettingsReliefValue.error.moreThanCappedAmount = The Letting Relief you''ve entered is more than the maximum amount of
+calc.resident.lettingsReliefValue.error.moreThanCappedAmount = The Letting Relief you''ve entered is more than the maximum amount of £{0}
 calc.resident.lettingsReliefValue.error.moreThanPrr = The Letting Relief amount you''ve entered is more than your Private Residence Relief
-calc.resident.lettingsReliefValue.error.moreThanRemainingGain = The Letting Relief you''ve entered is more than your remaining gain of
+calc.resident.lettingsReliefValue.error.moreThanRemainingGain = The Letting Relief you''ve entered is more than your remaining gain of £{0}
 
 ## Reliefs Value messages
 ## Lettings Relief messages
@@ -262,7 +276,7 @@ calc.resident.properties.propertyLivedIn.noSelectError = Tell us if you have eve
 ## Resident Shares messages ##
 ###############################################################################################
 ## Final Summary messages
-calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
+calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} to {1} tax year
 calc.summary.calculationDetails.heading = How we''ve worked this out
 calc.summary.calculationDetails.yourTotalGain = Your total gain
 calc.summary.calculationDetails.yourTotalLoss = Your total loss
