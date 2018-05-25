@@ -44,15 +44,13 @@
 }
 
 @sidebar = {
-    @language_selection(lc.languageMap, lc.langToCall, None)
-
     @if(sidebarLinks.isDefined) {
-        @layouts.sidebar(sidebarContent, Some("sidebar"))
+     @layouts.sidebar(sidebarContent, Some("sidebar"))
     }
 }
 
 @contentLayout = {
-<div class="reside`nt">
+<div class="resident">
     @if(articleLayout) {
         @layouts.article(mainContent)
     } else {
@@ -65,6 +63,8 @@
     @if(backLink.isDefined) {
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
+
+    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
 }
 
 @afterHeader = {
