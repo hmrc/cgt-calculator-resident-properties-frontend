@@ -291,6 +291,7 @@ calc.whatToDoNext.noGain.reportImportant = Os byddwch yn rhoi gwybod am hyn nawr
 calc.whatToDoNext.noGain.reportNowInfo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 calc.whatToDoNext.reportNow = Rhowch wybod nawr
 calc.whatToDoNext.title = Yr hyn i''w wneud nesaf
+calc.whatToDoNext.longTaxYear = {0} i {1}
 
 calc.yourOptions.title = Eich opsiynau
 

@@ -46,12 +46,12 @@ object Dates {
     s"$startYear/$endYear"
   }
 
-  def taxYearOfDateLongHand(date: LocalDate): String = {
+  def taxYearOfDateLongHand(date: LocalDate)(implicit messages: Messages): String = {
     if (date.isAfter(LocalDate.parse(s"${date.getYear.toString}-$taxYearEnd"))) {
-      s"${date.getYear} to ${date.plusYears(1L).getYear}"
+      Messages("calc.whatToDoNext.longTaxYear", date.getYear.toString, date.plusYears(1L).getYear.toString)
     }
     else {
-      s"${date.minusYears(1L).getYear} to ${date.getYear}"
+      Messages("calc.whatToDoNext.longTaxYear", date.minusYears(1L).getYear.toString, date.getYear.toString)
     }
   }
 
