@@ -24,11 +24,14 @@ import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties._
 import org.jsoup.Jsoup
 import play.api.Play.current
+import play.api.i18n.Lang
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{report => views}
 
 class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+
+  val fakeLang: Lang = Lang("en")
 
   "Final Summary view" should {
 
@@ -83,7 +86,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
     lazy val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
     lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results,
-      taxYearModel, isCurrentTaxYear = false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, applicationMessages, fakeApplication)
+      taxYearModel, isCurrentTaxYear = false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {

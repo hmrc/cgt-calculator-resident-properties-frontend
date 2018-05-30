@@ -37,7 +37,7 @@
             @question
         </div>
         <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-2 text--right">
-            @{if (answer) "Yes" else "No"}
+            @{if (answer) Messages("calc.base.yes") else Messages("calc.base.no")}
         </div>
     </div>
 }
