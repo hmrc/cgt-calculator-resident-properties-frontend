@@ -296,3 +296,9 @@ calc.whatToDoNext.longTaxYear = {0} i {1}
 calc.yourOptions.title = Eich opsiynau
 
 session.timeout.message = Mae''ch sesiwn wedi dod i ben
+
+#Summary User Banner
+calc.summary.dismissBanner = No thanks
+calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
+calc.summary.userResearchLink.title = Help improve GOV.UK
+calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new window)
