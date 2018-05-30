@@ -39,6 +39,20 @@ calc.common.error.invalidAmountNoDecimal = Enter an amount in the correct format
 ## Session Timeout message ##
 session.timeout.message = Your session has ended
 
+##Month Names##
+calc.month.1 = January
+calc.month.2 = February
+calc.month.3 = March
+calc.month.4 = April
+calc.month.5 = May
+calc.month.6 = June
+calc.month.7 = July
+calc.month.8 = August
+calc.month.9 = September
+calc.month.10 = October
+calc.month.11 = November
+calc.month.12 = December
+
 ## Personal Allowance ##
 calc.personalAllowance.help = This is the amount of your income that you don''t pay tax on.
 calc.personalAllowance.list.title = In the tax year {0} to {1} the UK Personal Allowance was £{2} unless you:
@@ -233,7 +247,7 @@ calc.resident.lossesBroughtForward.helpText = These are unused losses that are c
 ##Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?
 calc.resident.lossesBroughtForward.question = Are you claiming any Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before {0}
+calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before
 
 ##Losses Brought Forward Value messages
 calc.resident.lossesBroughtForwardValue.title = What''s the total value of your Capital Gains Tax losses from tax years before {0}?
@@ -262,7 +276,7 @@ calc.resident.properties.propertyLivedIn.noSelectError = Tell us if you have eve
 ## Resident Shares messages ##
 ###############################################################################################
 ## Final Summary messages
-calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
+calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} to {1} tax year
 calc.summary.calculationDetails.heading = How we''ve worked this out
 calc.summary.calculationDetails.yourTotalGain = Your total gain
 calc.summary.calculationDetails.yourTotalLoss = Your total loss
@@ -285,7 +299,7 @@ calc.summary.calculationDetails.yourTaxRate = Your tax rate
 calc.summary.calculationDetails.taxRate = £{0} taxable gain multiplied by {1}% tax rate
 calc.summary.calculationDetails.taxToPay = Tax to pay
 calc.summary.remainingDeductions.heading = Your remaining deductions
-calc.summary.remainingDeductions.aeaLeft = Annual Exempt Amount left for the {0} tax year
+calc.summary.remainingDeductions.aeaLeft = Annual Exempt Amount left for the {0} to {1} tax year
 calc.summary.remainingDeductions.broughtForwardLossesRemaining = Losses to carry forward from previous tax years
 calc.summary.remainingDeductions.lossesToCarryForward = Losses you can carry forward from this calculation
 calc.summary.whatToDoNext.heading = What to do next
@@ -316,6 +330,7 @@ calc.whatToDoNext.gain.bulletPointOne = report and pay on your Self Assessment r
 calc.whatToDoNext.gain.bulletPointTwo = report and pay now using our online form
 calc.whatToDoNext.gain.reportImportant = If you report and pay now, you''ll still need to declare your capital gains through Self Assessment.
 calc.whatToDoNext.gain.reportNowInfo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
+calc.whatToDoNext.longTaxYear = {0} to {1}
 
 ## What Next Non-SA Gain messages
 calc.resident.whatNextNonSa.gain.title = What to do next

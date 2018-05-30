@@ -30,8 +30,8 @@ object OwnerBeforeLegislationStartForm {
   val ownerBeforeLegislationStartForm = Form(
     mapping(
       "ownedBeforeLegislationStart" -> text
-        .verifying(Messages("calc.resident.properties.ownedBeforeLegislationStart.noSelectError"), mandatoryCheck)
-        .verifying(Messages("calc.resident.properties.ownedBeforeLegislationStart.noSelectError"), yesNoCheck)
+        .verifying("calc.resident.properties.ownedBeforeLegislationStart.noSelectError", mandatoryCheck)
+        .verifying("calc.resident.properties.ownedBeforeLegislationStart.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)
     )(OwnerBeforeLegislationStartModel.apply)(OwnerBeforeLegislationStartModel.unapply)
   )

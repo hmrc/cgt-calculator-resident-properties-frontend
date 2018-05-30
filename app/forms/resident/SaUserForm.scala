@@ -30,8 +30,8 @@ object SaUserForm {
   val saUserForm = Form(
     mapping (
       "isInSa" -> optional(text)
-        .verifying(Messages("calc.resident.saUser.errorSelect"), optionalMandatoryCheck)
-        .verifying(Messages("calc.resident.saUser.errorSelect"), optionalYesNoCheck)
+        .verifying("calc.resident.saUser.errorSelect", optionalMandatoryCheck)
+        .verifying("calc.resident.saUser.errorSelect", optionalYesNoCheck)
         .transform[Boolean](optionStringToBoolean, booleanToOptionString)
     )(SaUserModel.apply)(SaUserModel.unapply)
   )

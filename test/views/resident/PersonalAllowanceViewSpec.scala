@@ -45,7 +45,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
-        Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
+        Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -198,7 +198,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val form = personalAllowanceForm().bind(Map(("amount", "1000")))
         lazy val view = views.personalAllowance(form, taxYearModel, BigDecimal(10600), "home", postAction,
-          Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
+          Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication)
         lazy val doc = Jsoup.parse(view.body)
 
         "have the value of 1000 auto-filled in the input" in {
@@ -212,7 +212,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
 
       lazy val taxYearModel = TaxYearModel(await(Dates.getCurrentTaxYear), true, await(Dates.getCurrentTaxYear))
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
+        Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
@@ -234,7 +234,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
       lazy val nextTaxYearEndInt = await(Dates.getCurrentTaxYear).take(4).toInt + 2
       lazy val taxYearModel = TaxYearModel(Dates.taxYearToString(nextTaxYearEndInt), false, "2016/17")
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.properties, "navTitle", "2016/17")(fakeRequest, applicationMessages)
+        Some("back-link"), JourneyKeys.properties, "navTitle", "2016/17")(fakeRequest, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
@@ -260,7 +260,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val form = personalAllowanceForm().bind(Map("amount" -> ""))
         lazy val view = views.personalAllowance(form, taxYearModel, BigDecimal(11000), "home", postAction,
-          Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
+          Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication)
         lazy val doc = Jsoup.parse(view.body)
 
         "display an error summary message for the amount" in {

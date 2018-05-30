@@ -19,11 +19,36 @@ package common
 import java.time.LocalDate
 
 import common.Dates.constructDate
-import org.joda.time.DateTime
+import play.api.data.validation.{ValidationError, _}
+import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 import scala.util.{Failure, Success, Try}
 
 object Validation {
+
+  def maxMonetaryValueConstraint(
+                                  maxValue: BigDecimal = Constants.maxNumeric,
+                                  errMsgKey: String = "calc.common.error.maxAmountExceeded"
+                                ): Constraint[BigDecimal] = Constraint("constraints.maxValue")({
+    value => maxMoneyCheck(value, maxValue, errMsgKey)
+  })
+
+  private def maxMoneyCheck(value: BigDecimal, maxValue: BigDecimal, errMsgKey: String): ValidationResult = {
+    if (value <= maxValue) {
+      Valid
+    } else {
+      Invalid(ValidationError(errMsgKey, MoneyPounds(maxValue, 0).quantity))
+    }
+  }
+
+  def constraintBuilder[A](key: String, args: String*)(condition: A => Boolean): Constraint[A] = {
+    Constraint(input => if (condition(input)) {
+      Valid
+    } else {
+      Invalid(ValidationError(key, args:_*))
+    })
+  }
+
 
   def dateAfterMinimum(day: Int, month: Int, year: Int, minimumDate: LocalDate): Boolean = {
     if (isValidDate(day, month, year)) constructDate(day, month, year).isAfter(minimumDate)

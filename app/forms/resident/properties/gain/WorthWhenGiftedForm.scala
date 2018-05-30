@@ -32,12 +32,12 @@ object WorthWhenGiftedForm {
   val worthWhenGiftedForm = Form(
     mapping(
       "amount" -> text
-        .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)
-        .verifying(Messages("calc.common.error.invalidAmount"), bigDecimalCheck)
+        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(Messages("calc.common.error.maxAmountExceeded", MoneyPounds(Constants.maxNumeric, 0).quantity), maxCheck)
-        .verifying(Messages("calc.common.error.minimumAmount"), isPositive)
-        .verifying(Messages("calc.common.error.invalidAmount"), decimalPlacesCheck)
+        .verifying(maxMonetaryValueConstraint())
+        .verifying("calc.common.error.minimumAmount", isPositive)
+        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
     )(WorthWhenGiftedModel.apply)(WorthWhenGiftedModel.unapply)
   )
 }

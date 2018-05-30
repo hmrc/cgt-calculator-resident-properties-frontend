@@ -18,8 +18,9 @@
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.properties.gain.WorthWhenGiftedModel
+@import play.api.Application
 
-@(worthWhenGiftedForm: Form[WorthWhenGiftedModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
+@(worthWhenGiftedForm: Form[WorthWhenGiftedModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(
     title = Messages("calc.resident.properties.worthWhenGifted.question"),

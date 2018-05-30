@@ -21,26 +21,22 @@ import common.Validation._
 import models.resident.income.PersonalAllowanceModel
 import play.api.data.Forms._
 import play.api.data._
-import play.api.i18n.Messages
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 object PersonalAllowanceForm {
 
-  def validateMaxPA (maxPersonalAllowance: BigDecimal): BigDecimal => Boolean = {
-    input => if(input > maxPersonalAllowance) false else true
+  def validateMaxPA(maxPersonalAllowance: BigDecimal): BigDecimal => Boolean = {
+    input => if (input > maxPersonalAllowance) false else true
   }
 
   def personalAllowanceForm(maxPA: BigDecimal = BigDecimal(0)): Form[PersonalAllowanceModel] = Form(
     mapping(
       "amount" -> text
-        .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)
-        .verifying(Messages("calc.common.error.invalidAmountNoDecimal"), bigDecimalCheck)
+        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.common.error.invalidAmountNoDecimal", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, _.toString())
-        .verifying(Messages("calc.common.error.maxAmountExceeded", MoneyPounds(maxPA, 0).quantity), validateMaxPA(maxPA))
-        .verifying(Messages("calc.common.error.minimumAmount"), isPositive)
-        .verifying(Messages("calc.common.error.invalidAmountNoDecimal"), decimalPlacesCheckNoDecimal)
+        .verifying(maxMonetaryValueConstraint(maxPA))
+        .verifying("calc.common.error.minimumAmount", isPositive)
+        .verifying("calc.common.error.invalidAmountNoDecimal", decimalPlacesCheckNoDecimal)
     )(PersonalAllowanceModel.apply)(PersonalAllowanceModel.unapply)
   )
 

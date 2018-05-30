@@ -30,11 +30,11 @@ import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
 import org.scalatestplus.play.OneAppPerSuite
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+class WhatNextSaControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
 

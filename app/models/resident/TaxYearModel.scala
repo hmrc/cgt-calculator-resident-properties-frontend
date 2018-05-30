@@ -23,9 +23,9 @@ case class TaxYearModel (taxYearSupplied: String, isValidYear: Boolean, calculat
 object TaxYearModel {
   implicit val formats = Json.format[TaxYearModel]
 
-  def convertToSummaryFormat(taxYear: String): String = {
+  def convertToSummaryFormat(taxYear: String): Seq[String] = {
     val startYear = taxYear.take(4)
     val endYear = startYear.toInt + 1
-    startYear + " to " + endYear
+    Seq(startYear, endYear.toString)
   }
 }

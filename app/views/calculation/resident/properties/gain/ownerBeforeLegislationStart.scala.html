@@ -18,8 +18,9 @@
 @import views.html.calculation.resident.properties._
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.properties.gain.OwnerBeforeLegislationStartModel
+@import play.api.Application
 
-@(ownerBeforeLegislationStartForm: Form[OwnerBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages)
+@(ownerBeforeLegislationStartForm: Form[OwnerBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),

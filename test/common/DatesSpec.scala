@@ -16,12 +16,15 @@
 
 package common
 
-import uk.gov.hmrc.play.test.UnitSpec
 import java.time.LocalDate
-import common.Dates.formatter
-import play.api.libs.concurrent.Execution.Implicits._
 
-class DatesSpec extends UnitSpec {
+import common.Dates.formatter
+import org.scalatestplus.play.OneAppPerSuite
+import play.api.i18n.{Lang, Messages, MessagesApi}
+import play.api.libs.concurrent.Execution.Implicits._
+import uk.gov.hmrc.play.test.UnitSpec
+
+class DatesSpec extends UnitSpec with OneAppPerSuite {
 
   "Calling constructDate method" should {
 
@@ -60,6 +63,8 @@ class DatesSpec extends UnitSpec {
   }
 
   "Calling taxYearOfDateLongHand" should {
+    implicit lazy val messages: Messages = app.injector.instanceOf[MessagesApi].preferred(Seq(Lang("en")))
+
     "when called with 2016/4/6 return 2016 to 2017" in {
       Dates.taxYearOfDateLongHand(LocalDate.of(2016, 4, 6)) shouldBe "2016 to 2017"
     }

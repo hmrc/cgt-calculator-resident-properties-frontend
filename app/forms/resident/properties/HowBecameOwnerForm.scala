@@ -29,8 +29,8 @@ object HowBecameOwnerForm {
   val howBecameOwnerForm = Form(
     mapping(
       "gainedBy" -> text
-        .verifying(Messages("calc.resident.howBecameOwner.errors.mandatory"), mandatoryCheck)
-        .verifying(Messages("calc.resident.howBecameOwner.errors.mandatory"), howBecameOwnerCheck)
+        .verifying("calc.resident.howBecameOwner.errors.mandatory", mandatoryCheck)
+        .verifying("calc.resident.howBecameOwner.errors.mandatory", howBecameOwnerCheck)
     )(HowBecameOwnerModel.apply)(HowBecameOwnerModel.unapply)
   )
 }

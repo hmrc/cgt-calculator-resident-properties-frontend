@@ -34,7 +34,7 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenGiftedForm
-    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
+    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -108,7 +108,7 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenGiftedForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
+    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -129,7 +129,7 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenGiftedForm.bind(Map("amount" -> ""))
-    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages)
+    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

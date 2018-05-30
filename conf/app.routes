@@ -6,6 +6,9 @@ GET         /assets/*file           controllers.Assets.at(path="/public", file)
 #Session Timeout route
 GET         /session-timeout        controllers.TimeoutController.timeout(restartUrl: String, homeLink: String)
 
+#Language Controller
+GET         /language/:lang         @controllers.CgtLanguageController.switchToLanguage(lang: String)
+
 #Routes file for the resident routes.
 #Introduction
 GET     /                                  controllers.PropertiesController.introduction

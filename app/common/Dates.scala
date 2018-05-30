@@ -20,6 +20,9 @@ import java.time._
 import java.time.format.{DateTimeFormatter, ResolverStyle}
 import java.time.temporal.ChronoUnit
 
+import play.api.Logger
+import play.api.i18n.Messages
+
 import scala.concurrent.Future
 
 object Dates {
@@ -43,12 +46,12 @@ object Dates {
     s"$startYear/$endYear"
   }
 
-  def taxYearOfDateLongHand(date: LocalDate): String = {
+  def taxYearOfDateLongHand(date: LocalDate)(implicit messages: Messages): String = {
     if (date.isAfter(LocalDate.parse(s"${date.getYear.toString}-$taxYearEnd"))) {
-      s"${date.getYear} to ${date.plusYears(1L).getYear}"
+      Messages("calc.whatToDoNext.longTaxYear", date.getYear.toString, date.plusYears(1L).getYear.toString)
     }
     else {
-      s"${date.minusYears(1L).getYear} to ${date.getYear}"
+      Messages("calc.whatToDoNext.longTaxYear", date.minusYears(1L).getYear.toString, date.getYear.toString)
     }
   }
 
@@ -60,6 +63,21 @@ object Dates {
     }
     else {
       Future.successful(taxYearToString(year))
+    }
+  }
+
+  object TemplateImplicits {
+    implicit class RichDate(date: LocalDate) {
+      def localFormat(pattern: String)(implicit lang: play.api.i18n.Lang, messages: Messages): String = {
+        if(lang.language == "cy") {
+          val monthNum = date.getMonthValue
+          val welshFormatter = DateTimeFormatter.ofPattern(s"""d '${messages(s"calc.month.$monthNum")}' YYYY""")
+          date.format(welshFormatter)
+        } else {
+          val localFormatter = DateTimeFormatter.ofPattern(pattern, lang.toLocale)
+          date.format(localFormatter)
+        }
+      }
     }
   }
 }

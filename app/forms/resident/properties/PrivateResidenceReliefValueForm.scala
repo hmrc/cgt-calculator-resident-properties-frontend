@@ -21,22 +21,21 @@ import common.Validation._
 import models.resident.properties.PrivateResidenceReliefValueModel
 import play.api.data.Forms._
 import play.api.data._
-import play.api.i18n.Messages
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 object PrivateResidenceReliefValueForm {
 
   def privateResidenceReliefValueForm(gain: BigDecimal): Form[PrivateResidenceReliefValueModel] = Form(
     mapping(
       "amount" -> text
-        .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)
-        .verifying(Messages("calc.common.error.invalidAmount"), bigDecimalCheck)
+        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(Messages("calc.resident.properties.privateResidenceReliefValue.gainExceededError", MoneyPounds(gain, 0).quantity), maxPRRCheck(gain))
-        .verifying(Messages("calc.common.error.minimumAmount"), isPositive)
-        .verifying(Messages("calc.common.error.invalidAmount"), decimalPlacesCheck)
+        .verifying(constraintBuilder[BigDecimal]("calc.resident.properties.privateResidenceReliefValue.gainExceededError", MoneyPounds(gain, 0).quantity) {
+          maxPRRCheck(gain)
+        })
+        .verifying("calc.common.error.minimumAmount", isPositive)
+        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
     )(PrivateResidenceReliefValueModel.apply)(PrivateResidenceReliefValueModel.unapply)
   )
 }

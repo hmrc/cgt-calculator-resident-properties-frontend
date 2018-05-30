@@ -27,8 +27,8 @@ import play.api.Play.current
 object WhoDidYouGiveItToForm {
   val whoDidYouGiveItToForm = Form(
     mapping("whoDidYouGiveItTo" -> text
-        .verifying(Messages("calc.resident.whoDidYouGiveThePropertyTo.errormandatory"), mandatoryCheck)
-      .verifying(Messages("calc.resident.whoDidYouGiveThePropertyTo.errormandatory"), whoDidYouGiveItToCheck)
+        .verifying("calc.resident.whoDidYouGiveThePropertyTo.errormandatory", mandatoryCheck)
+        .verifying("calc.resident.whoDidYouGiveThePropertyTo.errormandatory", whoDidYouGiveItToCheck)
     )(WhoDidYouGiveItToModel.apply)(WhoDidYouGiveItToModel.unapply)
   )
 }

@@ -30,7 +30,7 @@ class IntroductionViewSpec extends UnitSpec with WithFakeApplication with FakeRe
 
   "Introduction view" should {
 
-    lazy val view = views.introduction()(fakeRequest, applicationMessages)
+    lazy val view = views.introduction()(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body).select("article.content__body")
 
     "have the correct title" in {

@@ -30,7 +30,7 @@ class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "Lettings Relief view" should {
 
-    lazy val view = views.lettingsRelief(lettingsReliefForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages)
+    lazy val view = views.lettingsRelief(lettingsReliefForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -133,7 +133,7 @@ class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "Lettings Relief view with pre-selected values" should {
     lazy val form = lettingsReliefForm.bind(Map(("isClaiming", "Yes")))
-    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, applicationMessages)
+    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
@@ -143,7 +143,7 @@ class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "Lettings Relief view with errors" should {
     lazy val form = lettingsReliefForm.bind(Map(("isClaiming", "")))
-    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, applicationMessages)
+    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

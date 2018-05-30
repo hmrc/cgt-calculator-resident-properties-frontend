@@ -55,7 +55,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = true)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = true)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -421,7 +421,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = false)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = false)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not have ur panel" in {

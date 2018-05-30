@@ -20,8 +20,9 @@
 @import constructors.resident.properties.SummaryConstructor._
 @import views.html.helpers.gainSummaryPartial
 @import views.html.helpers.checkYourAnswersPartial
+@import play.api.Application
 
-@(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel, totalCosts: BigDecimal, maxAea: BigDecimal)(implicit request: Request[_], messages: Messages)
+@(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel, totalCosts: BigDecimal, maxAea: BigDecimal)(implicit request: Request[_], messages: Messages, application: Application, lang: Lang)
 
 <!DOCTYPE html>
 <html>

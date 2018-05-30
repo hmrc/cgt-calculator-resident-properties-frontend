@@ -30,6 +30,7 @@ import forms.resident.properties.PrivateResidenceReliefValueForm._
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties._
 import models.resident._
+import play.api.Logger
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -38,6 +39,7 @@ import play.api.mvc.{Action, AnyContent, Result}
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{deductions => views}
 import services.SessionCacheService
+
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 

@@ -19,8 +19,9 @@
 @import views.html.helpers._
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
+@import play.api.Application
 
-@(lettingsReliefValueForm : Form[LettingsReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_], messages: Messages)
+@(lettingsReliefValueForm : Form[LettingsReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_], messages: Messages, application: Application)
 
 @additionalContent = {
     <p>@Messages("calc.resident.lettingsReliefValue.additionalContent", MoneyPounds(totalGain, 0).quantity)</p>

@@ -20,8 +20,9 @@
 @import controllers.routes.{GainController => gainRoutes}
 @import controllers.routes.{DeductionsController => deductionRoutes}
 @import controllers.routes.{IncomeController => incomeRoutes}
+@import play.api.i18n.Lang
 
-@(gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false, displayLinks: Boolean = true)(implicit messages: Messages)
+@(gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false, displayLinks: Boolean = true)(implicit messages: Messages, lang: Lang)
 
 
 <section id="yourAnswers">

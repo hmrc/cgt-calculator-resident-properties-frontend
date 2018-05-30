@@ -162,7 +162,7 @@ class LettingsReliefValueFormSpec extends UnitSpec with WithFakeApplication with
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe Messages.lettingsReliefMoreThanRemainingGain(10000)
+        form.error("amount").get.message shouldBe Messages.lettingsReliefMoreThanRemainingGain
       }
     }
 

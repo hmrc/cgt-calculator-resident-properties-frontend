@@ -18,8 +18,9 @@
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.properties.SellOrGiveAwayModel
+@import play.api.Application
 
-@(sellOrGiveAwayForm: Form[SellOrGiveAwayModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
+@(sellOrGiveAwayForm: Form[SellOrGiveAwayModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages, application: Application)
 
 
     @resident_main_template(

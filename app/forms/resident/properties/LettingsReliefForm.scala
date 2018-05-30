@@ -30,8 +30,8 @@ object LettingsReliefForm {
   def lettingsReliefForm: Form[LettingsReliefModel] = Form(
     mapping(
       "isClaiming" -> text
-        .verifying(Messages("calc.resident.lettingsRelief.errorSelect"), mandatoryCheck)
-        .verifying(Messages("calc.resident.lettingsRelief.errorSelect"), yesNoCheck)
+        .verifying("calc.resident.lettingsRelief.errorSelect", mandatoryCheck)
+        .verifying("calc.resident.lettingsRelief.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
     )(LettingsReliefModel.apply)(LettingsReliefModel.unapply)
   )
