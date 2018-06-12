@@ -21,6 +21,7 @@ import org.jsoup.Jsoup
 import views.html.helpers._
 import assets.MessageLookup.{NonResident => messages}
 import forms.resident.LossesBroughtForwardForm
+import models.resident.TaxYearModel
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
@@ -28,8 +29,11 @@ class formYesNoRadioSpec extends UnitSpec with WithFakeApplication {
 
   "formYesNoRadio" when {
 
+    val taxYearModel = TaxYearModel(taxYearSupplied = "2017/18", isValidYear = true, calculationTaxYear = "2017/18" )
+
+
     "not supplied with help text or a legend class" should {
-      lazy val helper = formYesNoRadio(LossesBroughtForwardForm.lossesBroughtForwardForm("option"), "legend")
+      lazy val helper = formYesNoRadio(LossesBroughtForwardForm.lossesBroughtForwardForm(taxYearModel)("option"), "legend")
       lazy val document = Jsoup.parse(helper.body)
 
       "contain inputs with the id option" in {
@@ -82,7 +86,7 @@ class formYesNoRadioSpec extends UnitSpec with WithFakeApplication {
     }
 
     "supplied with help text but no legend" should {
-      lazy val helper = formYesNoRadio(LossesBroughtForwardForm.lossesBroughtForwardForm("option"), "legend", helpText = Some("help"))
+      lazy val helper = formYesNoRadio(LossesBroughtForwardForm.lossesBroughtForwardForm(taxYearModel)("option"), "legend", helpText = Some("help"))
       lazy val document = Jsoup.parse(helper.body)
 
       "have some help text of help" in {
@@ -95,7 +99,7 @@ class formYesNoRadioSpec extends UnitSpec with WithFakeApplication {
     }
 
     "supplied with no help text but with a legend" should {
-      lazy val helper = formYesNoRadio(LossesBroughtForwardForm.lossesBroughtForwardForm("option"), "legend", legendClass = Some("class"))
+      lazy val helper = formYesNoRadio(LossesBroughtForwardForm.lossesBroughtForwardForm(taxYearModel)("option"), "legend", legendClass = Some("class"))
       lazy val document = Jsoup.parse(helper.body)
 
       "not have any help text" in {
@@ -108,7 +112,7 @@ class formYesNoRadioSpec extends UnitSpec with WithFakeApplication {
     }
 
     "supplied with both help text and a legend" should {
-      lazy val helper = formYesNoRadio(LossesBroughtForwardForm.lossesBroughtForwardForm("option"), "legend", helpText = Some("help"), legendClass = Some("class"))
+      lazy val helper = formYesNoRadio(LossesBroughtForwardForm.lossesBroughtForwardForm(taxYearModel)("option"), "legend", helpText = Some("help"), legendClass = Some("class"))
       lazy val document = Jsoup.parse(helper.body)
 
       "have some help text of help" in {

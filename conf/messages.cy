@@ -112,7 +112,7 @@ calc.resident.lettingsReliefValue.error.moreThanRemainingGain = Mae''r Rhyddhad 
 calc.resident.lettingsReliefValue.question = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 calc.resident.lettingsReliefValue.title = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 
-calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn
+calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}
 calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEM amdanynt.
 calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
 calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?

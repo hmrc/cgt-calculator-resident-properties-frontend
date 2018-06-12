@@ -19,12 +19,15 @@ package forms.resident
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.LossesBroughtForwardForm._
 import assets.MessageLookup.{LossesBroughtForward => messages}
+import models.resident.TaxYearModel
 
 class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
 
+  val taxYearModel = TaxYearModel(taxYearSupplied = "2017", isValidYear = true, calculationTaxYear = "2018" )
+
   "Creating the form with an empty model" should {
 
-    lazy val form = lossesBroughtForwardForm
+    lazy val form = lossesBroughtForwardForm(taxYearModel)
 
     "create an empty form" in {
       form.data.isEmpty shouldEqual true
@@ -33,7 +36,7 @@ class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
 
   "Creating a form with an valid 'yes' model" should {
 
-    lazy val form = lossesBroughtForwardForm.bind(Map("option" -> "Yes"))
+    lazy val form = lossesBroughtForwardForm(taxYearModel).bind(Map("option" -> "Yes"))
 
     "create a form with the data from the model" in {
       form.data("option") shouldEqual "Yes"
@@ -50,7 +53,7 @@ class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
 
   "Creating a form with a valid 'no' model" should {
 
-    lazy val form = lossesBroughtForwardForm.bind(Map("option" -> "No"))
+    lazy val form = lossesBroughtForwardForm(taxYearModel).bind(Map("option" -> "No"))
 
     "create a form with the data from the model" in {
       form.data("option") shouldEqual "No"
@@ -69,7 +72,7 @@ class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
 
     "supplied with no data for option" should {
 
-      lazy val form = lossesBroughtForwardForm.bind(Map("option" -> ""))
+      lazy val form = lossesBroughtForwardForm(taxYearModel).bind(Map("option" -> ""))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -85,7 +88,7 @@ class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
 
       "supplied with invalid data for option" should {
 
-        lazy val form = lossesBroughtForwardForm.bind(Map("option" -> "asdas"))
+        lazy val form = lossesBroughtForwardForm(taxYearModel).bind(Map("option" -> "asdas"))
 
         "raise form error" in {
           form.hasErrors shouldBe true
