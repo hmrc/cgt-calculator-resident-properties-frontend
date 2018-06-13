@@ -278,9 +278,9 @@ trait DeductionsController extends ValidActiveSession {
 
     def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
       sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
-        case Some(data) => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
+        case Some(data) => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm(taxYear).fill(data), lossesBroughtForwardPostAction,
           backLinkUrl, taxYear, homeLink, navTitle))
-        case _ => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl,
+        case _ => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm(taxYear), lossesBroughtForwardPostAction, backLinkUrl,
           taxYear, homeLink, navTitle))
       }
     }
@@ -311,7 +311,7 @@ trait DeductionsController extends ValidActiveSession {
   val submitLossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
-      lossesBroughtForwardForm.bindFromRequest.fold(
+      lossesBroughtForwardForm(taxYearModel).bindFromRequest.fold(
         errors => Future.successful(BadRequest(commonViews.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl,
           taxYearModel, homeLink, navTitle))),
         success => {

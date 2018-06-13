@@ -18,7 +18,7 @@ package forms.resident
 
 import common.Validation._
 import common.Transformers._
-import models.resident.LossesBroughtForwardModel
+import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.data.Forms._
 import play.api.data._
 import play.api.i18n.Messages
@@ -27,13 +27,13 @@ import play.api.Play.current
 
 object LossesBroughtForwardForm {
 
-  val lossesBroughtForwardForm = Form(
+  def lossesBroughtForwardForm(taxYear: TaxYearModel): Form[LossesBroughtForwardModel] = Form(
     mapping(
       "option" -> text
-          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", "2015/16") {
+          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", taxYear.taxYearSupplied) {
             mandatoryCheck
           })
-          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", "2015/16") {
+          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", taxYear.taxYearSupplied) {
             yesNoCheck
           })
         .transform[Boolean](stringToBoolean, booleanToString)
