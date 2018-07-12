@@ -78,11 +78,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
     }
 
     "have hint text" which {
-      lazy val hintText = doc.select("form span")
-
-      "with the class 'form-hint'" in {
-        hintText.attr("class") shouldBe "form-hint"
-      }
+      lazy val hintText = doc.select("article p")
 
       s"with the message ${messages.helpText}" in {
         hintText.text() shouldBe messages.helpText
@@ -108,7 +104,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
-      doc.body.getElementById("option-yes").parent.className should include("selected")
+      doc.body.getElementById("option-yes").parent.select("label").hasClass("selected") shouldBe true
     }
 
     "not have a drop down button" in {
@@ -122,7 +118,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'No' auto selected" in {
-      doc.body.getElementById("option-no").parent.className should include("selected")
+      doc.body.getElementById("option-no").parent.select("label").hasClass("selected") shouldBe true
     }
   }
 

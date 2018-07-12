@@ -42,6 +42,8 @@
 
     @form(action = controllers.routes.DeductionsController.submitPrivateResidenceRelief) {
 
+        <p>@helpText</p>
+
         @inputRadioGroup(
             field = privateResidenceReliefForm("isClaiming"),
             Seq(
@@ -51,7 +53,6 @@
                 '_legendID -> "option",
                 '_legendClass -> "visuallyhidden",
                 '_labelAfter -> true,
-                '_helpText -> helpText,
                 '_labelClass -> "block-label",
                 '_groupClass -> "inline form-group radio-list",
                 '_fieldsetAttributes -> "aria-details = help"
