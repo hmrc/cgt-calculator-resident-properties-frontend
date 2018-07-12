@@ -16,6 +16,7 @@
 
 @import models.resident.PrivateResidenceReliefModel
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import views.html.helpers._
 @import views.html.calculation.resident.properties.resident_properties_main_template
 @import play.api.Application
@@ -41,7 +42,7 @@
 
     @form(action = controllers.routes.DeductionsController.submitPrivateResidenceRelief) {
 
-        @formInputRadioGroup(
+        @inputRadioGroup(
             field = privateResidenceReliefForm("isClaiming"),
             Seq(
                 "Yes"->Messages("calc.base.yes"),

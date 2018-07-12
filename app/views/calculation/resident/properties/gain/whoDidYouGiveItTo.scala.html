@@ -15,6 +15,7 @@
  *@
 
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import views.html.helpers._
 @import views.html.calculation.resident.properties._
 @import models.resident.properties.gain.WhoDidYouGiveItToModel
@@ -32,7 +33,7 @@
 
     @form(action = controllers.routes.GainController.submitWhoDidYouGiveItTo) {
 
-        @formInputRadioGroup(
+        @inputRadioGroup(
             field = whoDidYouGiveItToForm("whoDidYouGiveItTo"),
             Seq(
             "Spouse"-> Messages("calc.resident.whoDidYouGiveThePropertyTo.spouse"),

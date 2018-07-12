@@ -15,6 +15,7 @@
  *@
 
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import views.html.helpers._
 @import views.html.helpers.resident._
 @import models.resident.properties.LettingsReliefModel
@@ -49,7 +50,7 @@
     @form(action = controllers.routes.DeductionsController.submitLettingsRelief) {
 
         <div class="form-group">
-            @formInputRadioGroup(
+            @inputRadioGroup(
                 field = lettingsReliefForm("isClaiming"),
                 Seq(
                 "Yes"->Messages("calc.base.yes"),

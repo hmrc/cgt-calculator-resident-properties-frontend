@@ -15,6 +15,7 @@
  *@
 
 @import views.html.helpers._
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import views.html.calculation.resident._
 @import models.resident.properties.PropertyLivedInModel
 @import models.resident.properties._
@@ -35,7 +36,7 @@
     @form(action = controllers.routes.DeductionsController.submitPropertyLivedIn) {
 
         <div id="radio-input" class="form-group">
-            @formInputRadioGroup(
+            @inputRadioGroup(
                 field = propertyLivedInForm("livedInProperty"),
                 Seq(
                 "Yes" -> Messages("calc.base.yes"),

@@ -17,6 +17,7 @@
 @import views.html.helpers._
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import models.resident.properties.SellOrGiveAwayModel
 @import play.api.Application
 
@@ -36,7 +37,7 @@
 
         @form(action = postAction) {
 
-            @formInputRadioGroup(
+            @inputRadioGroup(
                 field = sellOrGiveAwayForm("givenAway"),
                 Seq(
                     "Sold" -> Messages("calc.resident.sellOrGiveAway.sold"),
@@ -46,7 +47,7 @@
                 '_legendClass -> "visuallyhidden",
                 '_labelAfter -> true,
                 '_labelClass -> "block-label",
-                '_groupClass -> "form-group radio-list",
+                '_groupClass -> "inline form-group radio-list",
                 '_fieldsetAttributes -> "aria-details = help"
             )
 
