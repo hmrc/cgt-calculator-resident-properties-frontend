@@ -15,6 +15,7 @@
  *@
 
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import views.html.helpers._
 @import models.resident._
 @import views.html.calculation.resident._
@@ -38,7 +39,9 @@
 
     @form(action = postAction) {
 
-        @formInputRadioGroup(
+        <p class="form-hint">@Messages("calc.resident.lossesBroughtForward.helpText")</p>
+
+        @inputRadioGroup(
             field = lossesBroughtForwardForm("option"),
             Seq(
             "Yes"->Messages("calc.base.yes"),
@@ -48,8 +51,7 @@
             '_legendClass -> "visuallyhidden",
             '_labelAfter -> true,
             '_labelClass -> "block-label",
-            '_groupClass -> "inline form-group radio-list",
-            '_helpText -> Messages("calc.resident.lossesBroughtForward.helpText")
+            '_groupClass -> "inline form-group radio-list"
         )
 
         <input type="hidden" name="option" value="" />

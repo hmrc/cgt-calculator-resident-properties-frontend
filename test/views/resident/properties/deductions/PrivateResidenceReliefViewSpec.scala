@@ -71,7 +71,7 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
 
     "have a help text with the link that" should {
 
-      lazy val helptext = doc.select("span.form-hint")
+      lazy val helptext = doc.select("article p")
 
       s"have the text ${messages.helpTextLink}" in {
         helptext.text() should include(messages.helpTextLink)
@@ -90,33 +90,33 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
       "the link should have a set of attributes" which {
 
         "has the external link class" in {
-          doc.select("#privateResidenceReliefQuestionLink").hasClass("external-link") shouldEqual true
+          doc.select("article p a").hasClass("external-link") shouldEqual true
         }
 
         "has the attribute rel" in {
-          doc.select("#privateResidenceReliefQuestionLink").hasAttr("rel") shouldEqual true
+          doc.select("article p a").hasAttr("rel") shouldEqual true
         }
 
         "rel has the value of external" in {
-          doc.select("#privateResidenceReliefQuestionLink").attr("rel") shouldEqual "external"
+          doc.select("article p a").attr("rel") shouldEqual "external"
         }
 
         "has a target attribute" in {
-          doc.select("#privateResidenceReliefQuestionLink").hasAttr("target") shouldEqual true
+          doc.select("article p a").hasAttr("target") shouldEqual true
         }
 
         "has a target value of _blank" in {
-          doc.select("#privateResidenceReliefQuestionLink").attr("target") shouldEqual "_blank"
+          doc.select("article p a").attr("target") shouldEqual "_blank"
         }
       }
 
       "record GA statistics" which {
         "has a data-journey-click attribute" in {
-          doc.select("#privateResidenceReliefQuestionLink").hasAttr("data-journey-click") shouldEqual true
+          doc.select("article p a").hasAttr("data-journey-click") shouldEqual true
         }
 
         "with the GA value of help:govUK:rtt-properties-privateReliefQuestionHelp" in {
-          doc.select("#privateResidenceReliefQuestionLink").attr("data-journey-click") shouldEqual "help:govUK:rtt-properties-privateResidenceReliefQuestionHelp"
+          doc.select("article p a").attr("data-journey-click") shouldEqual "help:govUK:rtt-properties-privateResidenceReliefQuestionHelp"
         }
       }
     }
@@ -161,15 +161,15 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "has id option-yes" in {
-            yesButton.select("input").attr("id") shouldEqual "isClaiming-yes"
+            yesButton.parents().first().select("input").attr("id") shouldEqual "isClaiming-yes"
           }
 
           "has a name of 'isClaiming'" in {
-            yesButton.select("input").attr("name") shouldEqual "isClaiming"
+            yesButton.parents().first().select("input").attr("name") shouldEqual "isClaiming"
           }
 
           "has a value of 'Yes'" in {
-            yesButton.select("input").attr("value") shouldEqual "Yes"
+            yesButton.parents().first().select("input").attr("value") shouldEqual "Yes"
           }
         }
 
@@ -182,15 +182,15 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "has id option-no" in {
-            noButton.select("input").attr("id") shouldEqual "isClaiming-no"
+            noButton.parents().first().select("input").attr("id") shouldEqual "isClaiming-no"
           }
 
           "has a name of 'isClaiming'" in {
-            noButton.select("input").attr("name") shouldEqual "isClaiming"
+            noButton.parents().first().select("input").attr("name") shouldEqual "isClaiming"
           }
 
           "has a value of 'No'" in {
-            noButton.select("input").attr("value") shouldEqual "No"
+            noButton.parents().first().select("input").attr("value") shouldEqual "No"
           }
         }
       }

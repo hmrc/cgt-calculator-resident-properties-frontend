@@ -17,6 +17,7 @@
 @import views.html.helpers._
 @import views.html.calculation.resident.properties._
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 @import play.api.Application
 
@@ -33,7 +34,7 @@
 
     @form(action = controllers.routes.GainController.submitOwnerBeforeLegislationStart) {
 
-        @formInputRadioGroup(
+        @inputRadioGroup(
                 field = ownerBeforeLegislationStartForm("ownedBeforeLegislationStart"),
                 Seq(
                     "Yes"->Messages("calc.base.yes"),

@@ -15,6 +15,7 @@
  *@
 
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import views.html.helpers._
 @import views.html.helpers.resident._
 @import models.resident.properties.LettingsReliefModel
@@ -33,7 +34,7 @@
 }
 
 @helpText = {
-    <p>@Messages("calc.resident.lettingsRelief.help") @lettingsReliefLink</p>
+    <p class="form-hint">@Messages("calc.resident.lettingsRelief.help") @lettingsReliefLink</p>
 }
 
 @resident_main_template(
@@ -48,8 +49,10 @@
 
     @form(action = controllers.routes.DeductionsController.submitLettingsRelief) {
 
+        <p>@helpText</p>
+
         <div class="form-group">
-            @formInputRadioGroup(
+            @inputRadioGroup(
                 field = lettingsReliefForm("isClaiming"),
                 Seq(
                 "Yes"->Messages("calc.base.yes"),
@@ -57,7 +60,6 @@
                 '_legend -> Messages("calc.resident.lettingsRelief.title"),
                 '_legendID -> "isClaiming",
                 '_legendClass -> "visuallyhidden",
-                '_helpText -> helpText,
                 '_labelAfter -> true,
                 '_labelClass -> "block-label",
                 '_groupClass -> "inline"

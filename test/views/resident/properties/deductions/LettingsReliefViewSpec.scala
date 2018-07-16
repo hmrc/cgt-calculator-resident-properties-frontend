@@ -65,7 +65,7 @@ class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with Fake
     }
 
     s"have the help text ${messages.help}" in {
-      doc.select("span.form-hint p").text shouldEqual messages.help
+      doc.select("article p").text should include(messages.help)
     }
 
     s"should contain a help text link to the market value info page" which {
@@ -137,7 +137,7 @@ class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with Fake
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
-      doc.body.getElementById("isClaiming-yes").parent.className should include("selected")
+      doc.body.getElementById("isClaiming-yes").parent.select("label").hasClass("selected") shouldBe true
     }
   }
 

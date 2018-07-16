@@ -16,6 +16,7 @@
 
 @import models.resident.PrivateResidenceReliefModel
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import views.html.helpers._
 @import views.html.calculation.resident.properties.resident_properties_main_template
 @import play.api.Application
@@ -41,7 +42,9 @@
 
     @form(action = controllers.routes.DeductionsController.submitPrivateResidenceRelief) {
 
-        @formInputRadioGroup(
+        <p class="form-hint">@helpText</p>
+
+        @inputRadioGroup(
             field = privateResidenceReliefForm("isClaiming"),
             Seq(
                 "Yes"->Messages("calc.base.yes"),
@@ -50,7 +53,6 @@
                 '_legendID -> "option",
                 '_legendClass -> "visuallyhidden",
                 '_labelAfter -> true,
-                '_helpText -> helpText,
                 '_labelClass -> "block-label",
                 '_groupClass -> "inline form-group radio-list",
                 '_fieldsetAttributes -> "aria-details = help"
