@@ -42,7 +42,7 @@
 
     @form(action = controllers.routes.DeductionsController.submitPrivateResidenceRelief) {
 
-        <p>@helpText</p>
+        <p class="form-hint">@helpText</p>
 
         @inputRadioGroup(
             field = privateResidenceReliefForm("isClaiming"),
