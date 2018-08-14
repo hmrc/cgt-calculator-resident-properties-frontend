@@ -46,6 +46,6 @@ object DisposalDateForm {
         .verifying("calc.resident.disposalDate.invalidYearRangeError", validYearRangeCheck)
     )(DisposalDateModel.apply)(DisposalDateModel.unapply)
       .verifying("calc.common.date.error.invalidDate", fields => isValidDate(fields.day, fields.month, fields.year))
-      .verifying("calc.common.date.error.beforeMinimum", fields => dateAfterMinimum(fields.day, fields.month, fields.year, minimumDate.toLocalDate))
+      .verifying(dateAfterMinimumConstraint(minimumDate))
   )
 }

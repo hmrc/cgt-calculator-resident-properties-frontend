@@ -20,6 +20,7 @@ import java.time.LocalDate
 
 import common.Validation._
 import org.joda.time.DateTime
+import play.api.data.validation.{Invalid, Valid, ValidationError}
 import uk.gov.hmrc.play.test.UnitSpec
 
 class ValidationSpec extends UnitSpec {
@@ -325,26 +326,26 @@ class ValidationSpec extends UnitSpec {
     "return a true" when {
 
       "provided with form data after the supplied minimum date" in {
-        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe true
+        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe Valid
       }
 
       "provided with an invalid date" in {
-        Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe true
+        Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"5 4 2015")))
       }
     }
 
     "return a false" when {
 
       "provided with form data for the supplied minimum date" in {
-        Validation.dateAfterMinimum(5, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe false
+        Validation.dateAfterMinimum(5, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"5 4 2015")))
       }
 
       "provided with form data before the supplied minimum date" in {
-        Validation.dateAfterMinimum(4, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe false
+        Validation.dateAfterMinimum(4, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"5 4 2015")))
       }
 
       "provided with a different minimum date making the form date invalid" in {
-        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-08")) shouldBe false
+        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-08")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"8 4 2015")))
       }
     }
   }
