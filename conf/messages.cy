@@ -292,6 +292,8 @@ calc.whatToDoNext.noGain.reportNowInfo = Bydd angen cyfrif Porth y Llywodraeth a
 calc.whatToDoNext.reportNow = Rhowch wybod nawr
 calc.whatToDoNext.title = Yr hyn i''w wneud nesaf
 calc.whatToDoNext.longTaxYear = {0} i {1}
+calc.whatToDoNext.exitSurveyMessage = Os nad ydych am roi gwybod am enillion cyfalaf ar hyn o bryd, gallwch adael y dudalen nawr neu
+calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifiannell Treth Enillion Cyfalaf (mae’n cymryd 2 funud).
 
 calc.yourOptions.title = Eich opsiynau
 
