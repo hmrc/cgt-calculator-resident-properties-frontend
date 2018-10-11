@@ -59,6 +59,7 @@ class WhatNextSaControllerSpec extends UnitSpec with WithFakeApplication with Fa
         override val reportAProblemPartialUrl: String = ""
         override val contactFormServiceIdentifier: String = ""
         override val urBannerLink: String = ""
+        override val feedbackSurvey: String = ""
       }
     }
   }
