@@ -53,15 +53,15 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
     }
 
     "have an input box for day" in {
-      doc.body.getElementById("disposalDateDay").parent.text shouldBe messages.day
+      doc.body.getElementById("disposalDate.day").parent.text shouldBe messages.day
     }
 
     "have an input box for month" in {
-      doc.body.getElementById("disposalDateMonth").parent.text shouldBe messages.month
+      doc.body.getElementById("disposalDate.month").parent.text shouldBe messages.month
     }
 
     "have an input box for year" in {
-      doc.body.getElementById("disposalDateYear").parent.text shouldBe messages.year
+      doc.body.getElementById("disposalDate.year").parent.text shouldBe messages.year
     }
 
     "have a button with the text 'Continue'" in {
@@ -84,15 +84,15 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
     lazy val doc = Jsoup.parse(view.body)
 
     "have a value auto-filled in the day input" in {
-      doc.body.getElementById("disposalDateDay").`val`() shouldBe "10"
+      doc.body.getElementById("disposalDate.day").`val`() shouldBe "10"
     }
 
     "have a value auto-filled in the month input" in {
-      doc.body.getElementById("disposalDateMonth").`val`() shouldBe "6"
+      doc.body.getElementById("disposalDate.month").`val`() shouldBe "6"
     }
 
     "have a value auto-filled in the year input" in {
-      doc.body.getElementById("disposalDateYear").`val`() shouldBe "2016"
+      doc.body.getElementById("disposalDate.year").`val`() shouldBe "2016"
     }
   }
 }
