@@ -19,7 +19,7 @@
 @import models.resident.SellForLessModel
 @import models.resident.properties._
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
+@import uk.gov.hmrc.play.views.html.helpers.input_radio_group
 @import play.api.Application
 
 @(sellForLessForm: Form[SellForLessModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, application: Application)
@@ -36,7 +36,7 @@ navTitle = Messages("calc.base.resident.properties.home")){
 @form(action = controllers.routes.GainController.submitSellForLess) {
 
 <div id="radio-input" class="form-group">
-    @inputRadioGroup(
+    @input_radio_group(
     field = sellForLessForm("sellForLess"),
     Seq(
     "Yes" -> Messages("calc.base.yes"),

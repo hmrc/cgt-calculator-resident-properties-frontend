@@ -145,7 +145,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     "when there is a valid form" should {
 
       lazy val dateResponse = TaxYearModel("2016/17", true, "2016/17")
-      lazy val request = FakePOSTRequest(dateResponse, ("disposalDateDay", "28"), ("disposalDateMonth", "4"), ("disposalDateYear", "2016"))
+      lazy val request = FakePOSTRequest(dateResponse, ("disposalDate.day", "28"), ("disposalDate.month", "4"), ("disposalDate.year", "2016"))
 
       "return a status of 303" in {
         status(request.result) shouldBe 303
@@ -171,7 +171,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     "when there is an invalid form" should {
 
       lazy val dateResponse = TaxYearModel("2016/17", true, "2016/17")
-      lazy val request = FakePOSTRequest(dateResponse, ("disposalDateDay", "32"), ("disposalDateMonth", "4"), ("disposalDateYear", "2016"))
+      lazy val request = FakePOSTRequest(dateResponse, ("disposalDate.day", "32"), ("disposalDate.month", "4"), ("disposalDate.year", "2016"))
 
       "return a status of 400 with an invalid POST" in {
         status(request.result) shouldBe 400
@@ -185,7 +185,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     "when there is a date that is greater than any specified tax year" should {
 
       lazy val dateResponse = TaxYearModel("2019/20", false, "2016/17")
-      lazy val request = FakePOSTRequest(dateResponse, ("disposalDateDay", "30"), ("disposalDateMonth", "4"), ("disposalDateYear", "2019"))
+      lazy val request = FakePOSTRequest(dateResponse, ("disposalDate.day", "30"), ("disposalDate.month", "4"), ("disposalDate.year", "2019"))
 
       "return a status of 303" in {
         status(request.result) shouldBe 303
@@ -198,7 +198,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     "when there is a date that is less than any specified tax year" should {
 
       lazy val dateResponse = TaxYearModel("2013/14", false, "2015/16")
-      lazy val request = FakePOSTRequest(dateResponse, ("disposalDateDay", "12"), ("disposalDateMonth", "4"), ("disposalDateYear", "2013"))
+      lazy val request = FakePOSTRequest(dateResponse, ("disposalDate.day", "12"), ("disposalDate.month", "4"), ("disposalDate.year", "2013"))
 
       "return a status of 400" in {
         status(request.result) shouldBe 400

@@ -18,8 +18,7 @@ package connectors
 
 import java.time.LocalDate
 
-
-import config.WSHttp
+import config.{WSHttp, WiringConfig}
 import constructors.resident.{properties => propertyConstructor}
 import models.resident._
 import models.resident.properties._
@@ -30,15 +29,15 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.hmrc.http.{HeaderCarrier, HttpGet}
 
-object CalculatorConnector extends CalculatorConnector with ServicesConfig {
-  override val http = WSHttp
-  override val serviceUrl = baseUrl("capital-gains-calculator")
+object CalculatorConnector extends CalculatorConnector with ServicesConfig with WiringConfig {
+  override val http: WSHttp.type = WSHttp
+  override val serviceUrl: String = baseUrl("capital-gains-calculator")
 }
 
 trait CalculatorConnector {
   val http: HttpGet
   val serviceUrl: String
-  lazy val homeLink = controllers.routes.GainController.disposalDate().url
+  lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 
