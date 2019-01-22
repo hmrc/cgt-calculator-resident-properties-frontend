@@ -24,9 +24,8 @@ import uk.gov.hmrc.http.hooks.HttpHooks
 import uk.gov.hmrc.http.{HttpDelete, HttpGet, HttpPost, HttpPut}
 import uk.gov.hmrc.play.audit.http.HttpAuditing
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector => Auditing}
+import uk.gov.hmrc.play.bootstrap.config.LoadAuditingConfig
 import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
-import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
-import uk.gov.hmrc.play.frontend.config.LoadAuditingConfig
 import uk.gov.hmrc.play.http.ws.{WSDelete, WSGet, WSPost, WSPut}
 
 trait WiringConfig {
@@ -36,7 +35,7 @@ trait WiringConfig {
 }
 
 object FrontendAuditConnector extends Auditing with AppName with WiringConfig {
-  override lazy val auditingConfig = LoadAuditingConfig(s"auditing")
+  override lazy val auditingConfig = LoadAuditingConfig(appNameConfiguration, mode, "auditing")
 }
 
 trait Hooks extends HttpHooks with HttpAuditing {
@@ -49,11 +48,6 @@ object WSHttp extends WSHttp with WiringConfig {
   override val configuration = Some(appNameConfiguration.underlying)
 
   override protected def actorSystem: ActorSystem = Play.current.actorSystem
-}
-
-object FrontendAuthConnector extends AuthConnector with ServicesConfig with WiringConfig {
-  val serviceUrl: String = baseUrl("auth")
-  lazy val http: WSHttp.type = WSHttp
 }
 
 object CalculatorSessionCache extends SessionCache with ServicesConfig with AppName with WiringConfig {

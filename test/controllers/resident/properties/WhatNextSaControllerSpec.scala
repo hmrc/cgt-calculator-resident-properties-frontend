@@ -18,6 +18,8 @@ package controllers.resident.properties
 
 import java.time._
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup
 import config.{AppConfig, ApplicationConfig}
 import connectors.{CalculatorConnector, SessionCacheConnector}
@@ -37,6 +39,9 @@ import scala.concurrent.Future
 class WhatNextSaControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
 

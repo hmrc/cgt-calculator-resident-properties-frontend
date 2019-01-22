@@ -17,40 +17,36 @@
 package config
 
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import config.FrontendGlobal._
+import org.scalatest.mockito.MockitoSugar
+import play.api.Configuration
+import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class FrontendGlobalSpec extends UnitSpec with WithFakeApplication {
+class FrontendGlobalSpec extends UnitSpec with WithFakeApplication with MockitoSugar {
 
-  //############# Tests for homeLink ##########################
+  val cgtErrorHandler: CgtErrorHandler = new CgtErrorHandler(fakeApplication.injector.instanceOf[MessagesApi], mock[Configuration])
+
   "Rendering the error_template by causing an error" when {
-
     "on the resident/properties journey" should {
-
       s"have a link to the resident/properties start journey '${controllers.routes.PropertiesController.introduction().url}'" in {
-
         val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/resident/properties/error").withSession(SessionKeys.sessionId -> "12345")
-        val result = standardErrorTemplate("test", "teat-heading", "test-message")(fakeRequest)
+        val result = cgtErrorHandler.standardErrorTemplate("test", "teat-heading", "test-message")(fakeRequest)
         val doc = Jsoup.parse(result.body)
 
         doc.getElementById("homeNavHref").attr("href") shouldBe controllers.routes.PropertiesController.introduction().url
       }
-
     }
 
     "on a journey which does not exist" should {
-
       "have a link to the non-resident start journey" in {
-
         val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/error").withSession(SessionKeys.sessionId -> "12345")
-        val result = standardErrorTemplate("test", "teat-heading", "test-message")(fakeRequest)
+        val result = cgtErrorHandler.standardErrorTemplate("test", "teat-heading", "test-message")(fakeRequest)
         val doc = Jsoup.parse(result.body)
 
         doc.getElementById("homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/"
       }
-
     }
   }
 }

@@ -16,6 +16,9 @@
 
 package controllers.resident.properties
 
+import akka.actor.ActorSystem
+import akka.stream.StreamRefMessages.ActorRef
+import akka.stream.{ActorMaterializer, Materializer}
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -38,7 +41,9 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
-  implicit val hc = new HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget
   (

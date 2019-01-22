@@ -16,6 +16,8 @@
 
 package controllers.resident.properties
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.{MessageLookup, ModelsAsset}
 import connectors.CalculatorConnector
 import controllers.SaUserController
@@ -34,6 +36,9 @@ import uk.gov.hmrc.play.test.UnitSpec
 import scala.concurrent.Future
 
 class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupController(yourAnswersSummaryModel: YourAnswersSummaryModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
                       taxOwed: BigDecimal): SaUserController = {

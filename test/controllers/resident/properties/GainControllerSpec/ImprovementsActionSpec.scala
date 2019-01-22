@@ -16,6 +16,8 @@
 
 package controllers.GainControllerSpec
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.Resident.Properties.{ImprovementsView => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import config.AppConfig
@@ -36,6 +38,9 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   val summaryModel = mock[YourAnswersSummaryModel]
 

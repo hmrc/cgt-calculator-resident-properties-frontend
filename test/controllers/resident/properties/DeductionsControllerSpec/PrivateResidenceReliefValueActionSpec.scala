@@ -16,6 +16,8 @@
 
 package controllers.resident.properties.DeductionsControllerSpec
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{PrivateResidenceReliefValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import config.AppConfig
@@ -35,6 +37,9 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class PrivateResidenceReliefValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[PrivateResidenceReliefValueModel], totalGain: BigDecimal): DeductionsController = {
 

@@ -16,6 +16,8 @@
 
 package controllers.GainControllerSpec
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -30,7 +32,10 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import services.SessionCacheService
 
-class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar{
+class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(disposalDateModel: Option[DisposalDateModel], taxYearModel: Option[TaxYearModel]): GainController = {
 

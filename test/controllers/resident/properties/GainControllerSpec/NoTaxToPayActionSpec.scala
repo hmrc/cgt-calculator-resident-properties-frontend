@@ -16,6 +16,8 @@
 
 package controllers.GainControllerSpec
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import config.{AppConfig, ApplicationConfig}
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
@@ -34,6 +36,9 @@ import services.SessionCacheService
 import scala.concurrent.Future
 
 class NoTaxToPayActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(givenTo: String): GainController = {
 

@@ -16,6 +16,8 @@
 
 package controllers
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.i18n.Messages
@@ -26,6 +28,9 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 class TimeoutControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   class fakeRequestTo(url : String, controllerAction : Action[AnyContent]) {
     val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/" + url)

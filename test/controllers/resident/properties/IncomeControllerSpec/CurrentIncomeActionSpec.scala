@@ -16,6 +16,8 @@
 
 package controllers.IncomeControllerSpec
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{CurrentIncome => messages}
 import common.Dates
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
@@ -36,6 +38,9 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(storedData: Option[CurrentIncomeModel],
                   otherProperties: Boolean = true,

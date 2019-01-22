@@ -16,6 +16,8 @@
 
 package controllers.GainControllerSpec
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import config.{AppConfig, ApplicationConfig}
 import connectors.{CalculatorConnector, SessionCacheConnector}
@@ -35,6 +37,9 @@ import services.SessionCacheService
 import scala.concurrent.Future
 
 class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[WorthWhenInheritedModel]): GainController= {
 
