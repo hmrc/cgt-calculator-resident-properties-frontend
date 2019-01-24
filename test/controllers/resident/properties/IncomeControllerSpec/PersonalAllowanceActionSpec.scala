@@ -16,6 +16,8 @@
 
 package controllers.IncomeControllerSpec
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.DateAsset
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import connectors.{CalculatorConnector, SessionCacheConnector}
@@ -38,6 +40,8 @@ import scala.concurrent.Future
 
 class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[PersonalAllowanceModel],
                   maxPersonalAllowance: Option[BigDecimal] = Some(BigDecimal(11100)),

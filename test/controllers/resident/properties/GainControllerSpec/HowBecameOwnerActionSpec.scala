@@ -16,22 +16,27 @@
 
 package controllers.GainControllerSpec
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
+import assets.MessageLookup.{HowBecameOwner => messages}
 import config.AppConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.GainController
+import controllers.helpers.FakeRequestHelper
 import models.resident.properties.HowBecameOwnerModel
-import org.mockito.ArgumentMatchers
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
-import uk.gov.hmrc.http.cache.client.CacheMap
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import assets.MessageLookup.{HowBecameOwner => messages}
 import org.jsoup.Jsoup
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito._
+import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
 import services.SessionCacheService
+import uk.gov.hmrc.http.cache.client.CacheMap
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class HowBecameOwnerActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[HowBecameOwnerModel]): GainController = {
 

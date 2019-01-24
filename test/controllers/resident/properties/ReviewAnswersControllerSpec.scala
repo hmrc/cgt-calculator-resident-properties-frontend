@@ -18,6 +18,8 @@ package controllers.resident.properties
 
 import java.time.LocalDate
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import akka.util.Timeout
 import assets.MessageLookup
 import common.resident.HowYouBecameTheOwnerKeys
@@ -41,6 +43,9 @@ import scala.concurrent.duration.Duration
 import uk.gov.hmrc.http.HeaderCarrier
 
 class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
   val totalLossModel: YourAnswersSummaryModel = YourAnswersSummaryModel(date, Some(100000), None, None, None, 1000, Some(150000),

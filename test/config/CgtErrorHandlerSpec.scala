@@ -26,12 +26,11 @@ import play.api.mvc.{Action, Request, Result, Results}
 import play.api.routing.Router
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
+import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 import uk.gov.hmrc.play.test.UnitSpec
+
 import scala.concurrent.ExecutionContext.Implicits.global
-
 import scala.concurrent.Future
-
 
 class CgtErrorHandlerSpec extends UnitSpec with OneServerPerSuite {
 
@@ -55,7 +54,7 @@ class CgtErrorHandlerSpec extends UnitSpec with OneServerPerSuite {
         Results.Ok("OK")
       }
       case GET(p"/application-exception") => Action.async { request =>
-        throw new ApplicationException("", Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)), "Test excetion thrown")
+        throw ApplicationException("", Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)), "Test excetion thrown")
       }
       case GET(p"/other-error") => Action.async { request =>
         throw new IllegalArgumentException("Other Excetption Thrown")

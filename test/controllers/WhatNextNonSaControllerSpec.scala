@@ -16,6 +16,8 @@
 
 package controllers
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup
 import config.AppConfig
 import controllers.helpers.FakeRequestHelper
@@ -28,6 +30,9 @@ import org.scalatestplus.play.OneAppPerSuite
 import scala.concurrent.duration.Duration
 
 class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with OneAppPerSuite {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   implicit val timeout: Timeout = new Timeout(Duration.create(20, "seconds"))
 

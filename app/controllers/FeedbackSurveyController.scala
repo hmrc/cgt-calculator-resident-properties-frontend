@@ -19,7 +19,7 @@ package controllers
 import config.ApplicationConfig
 import controllers.predicates.ValidActiveSession
 import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
 

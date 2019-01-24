@@ -18,6 +18,8 @@ package controllers.GainControllerSpec
 
 import java.time.LocalDate
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
@@ -37,6 +39,9 @@ import uk.gov.hmrc.http.cache.client.CacheMap
 import scala.concurrent.Future
 
 class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[DisposalDateModel]): GainController = {
 

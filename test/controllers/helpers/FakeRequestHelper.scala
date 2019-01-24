@@ -16,14 +16,13 @@
 
 package controllers.helpers
 
-import play.api.mvc.AnyContentAsFormUrlEncoded
+import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.SessionKeys
-import uk.gov.hmrc.play.frontend.filters.MicroserviceFilterSupport
 
-trait FakeRequestHelper extends MicroserviceFilterSupport {
+trait FakeRequestHelper {
   lazy val fakeRequest = FakeRequest()
-  lazy val fakeRequestWithSession = fakeRequest.withSession((SessionKeys.sessionId, ""))
+  lazy val fakeRequestWithSession: FakeRequest[AnyContentAsEmpty.type] = fakeRequest.withSession((SessionKeys.sessionId, ""))
 
   def fakeRequestToPOSTWithSession (input: (String, String)*): FakeRequest[AnyContentAsFormUrlEncoded] =
     fakeRequestWithSession.withFormUrlEncodedBody(input: _*)

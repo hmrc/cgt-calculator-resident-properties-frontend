@@ -16,29 +16,21 @@
 
 package services
 
-import java.time.LocalDate
-import java.util.{NoSuchElementException, UUID}
+import java.util.NoSuchElementException
 
-import assets.MessageLookup.SellForLess
-import play.api.mvc._
-import common.Dates.constructDate
 import common.KeystoreKeys
-import common.KeystoreKeys.ResidentPropertyKeys
 import connectors.SessionCacheConnector
 import models.resident
-import models.resident.{DisposalDateModel, IncomeAnswersModel, SellForLessModel}
-import models.resident.income.CurrentIncomeModel
-import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import models.resident.properties._
+import models.resident.properties.gain.OwnerBeforeLegislationStartModel
+import models.resident.{DisposalDateModel, IncomeAnswersModel, SellForLessModel}
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.when
 import org.scalatest.mockito.MockitoSugar
-import play.api.http.HttpEntity
 import play.api.mvc.Results.Redirect
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.cache.client.SessionCache
-import uk.gov.hmrc.http.logging.SessionId
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
+import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future

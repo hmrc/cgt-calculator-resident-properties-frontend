@@ -16,6 +16,8 @@
 
 package controllers.GainControllerSpec
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
@@ -34,8 +36,10 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import services.SessionCacheService
 
+class WhoDidYouGiveItToActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
-class WhoDidYouGiveItToActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar{
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[WhoDidYouGiveItToModel]) : GainController = {
     val mockCalcConnector = mock[CalculatorConnector]
