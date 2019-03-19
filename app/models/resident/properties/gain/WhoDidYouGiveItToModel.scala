@@ -20,6 +20,6 @@ import play.api.libs.json.Json
 
 case class WhoDidYouGiveItToModel(option: String)
 
-object WhoDidYouGiveItToModel{
+object WhoDidYouGiveItToModel {
   implicit val format = Json.format[WhoDidYouGiveItToModel]
 }

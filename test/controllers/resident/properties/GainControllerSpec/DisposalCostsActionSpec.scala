@@ -20,25 +20,22 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{DisposalCosts => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.GainController
-import models.resident.DisposalCostsModel
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.properties.SellOrGiveAwayModel
-import models.resident.SellForLessModel
+import models.resident.{DisposalCostsModel, SellForLessModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class DisposalCostsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class DisposalCostsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -48,10 +45,6 @@ class DisposalCostsActionSpec extends UnitSpec with WithFakeApplication with Fak
                    sellOrGiveAwayData: Option[SellOrGiveAwayModel] = None,
                    sellForLessData: Option[SellForLessModel] = None
                  ): GainController = {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[SellOrGiveAwayModel](ArgumentMatchers.eq(keystoreKeys.sellOrGiveAway))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -67,12 +60,7 @@ class DisposalCostsActionSpec extends UnitSpec with WithFakeApplication with Fak
     when(mockSessionCacheConnector.saveFormData[DisposalCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val sessionCacheService = mockSessionCacheService
-      val config: AppConfig = mock[AppConfig]
-    }
+    testingGainController
   }
 
   "Calling .disposalCosts from the GainCalculationController with session" when {

@@ -16,8 +16,7 @@
 
 package forms.resident
 
-import assets.MessageLookup.{Resident => messages}
-import assets.MessageLookup.{LettingsReliefValue => Messages}
+import assets.MessageLookup.{LettingsReliefValue => Messages, Resident => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.LettingsReliefValueForm._
 import models.resident.properties.LettingsReliefValueModel

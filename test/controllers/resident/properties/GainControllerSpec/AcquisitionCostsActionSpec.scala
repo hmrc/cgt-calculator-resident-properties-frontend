@@ -20,25 +20,23 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{AcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.GainController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.AcquisitionCostsModel
-import models.resident.properties.{BoughtForLessThanWorthModel, HowBecameOwnerModel}
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
+import models.resident.properties.{BoughtForLessThanWorthModel, HowBecameOwnerModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -48,10 +46,6 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
                   howBecameOwner: Option[HowBecameOwnerModel] = None,
                   boughtForLess: Option[BoughtForLessThanWorthModel] = None
                  ): GainController = {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel](ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -72,12 +66,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
     when(mockSessionCacheConnector.saveFormData[AcquisitionCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val sessionCacheService = mockSessionCacheService
-      val config: AppConfig = mock[AppConfig]
-    }
+    testingGainController
   }
 
   "Calling .acquisitionCosts from the GainCalculationController" when {
@@ -149,7 +138,8 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
     }
 
     "the origin page was worthWhenBoughtForLess" should {
-      lazy val target = setupTarget(None, Some(OwnerBeforeLegislationStartModel(false)), Some(HowBecameOwnerModel("Bought")), Some(BoughtForLessThanWorthModel(true)))
+      lazy val target =
+        setupTarget(None, Some(OwnerBeforeLegislationStartModel(false)), Some(HowBecameOwnerModel("Bought")), Some(BoughtForLessThanWorthModel(true)))
       lazy val result = target.acquisitionCosts(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(bodyOf(result))
 
@@ -159,7 +149,8 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
     }
 
     "the origin page was acquisitionValue" should {
-      lazy val target = setupTarget(None, Some(OwnerBeforeLegislationStartModel(false)), Some(HowBecameOwnerModel("Bought")), Some(BoughtForLessThanWorthModel(false)))
+      lazy val target =
+        setupTarget(None, Some(OwnerBeforeLegislationStartModel(false)), Some(HowBecameOwnerModel("Bought")), Some(BoughtForLessThanWorthModel(false)))
       lazy val result = target.acquisitionCosts(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(bodyOf(result))
 
@@ -171,7 +162,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
 
   "request has an invalid session" should {
 
-    lazy val result = GainController.acquisitionCosts(fakeRequest)
+    lazy val result = testingGainController.acquisitionCosts(fakeRequest)
 
     "return a status of 303" in {
       status(result) shouldBe 303

@@ -17,8 +17,8 @@
 package models.resident.properties
 
 import java.time.LocalDate
-import common.Dates._
 
+import common.Dates._
 import play.api.libs.json._
 
 case class YourAnswersSummaryModel(

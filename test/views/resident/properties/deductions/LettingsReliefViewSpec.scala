@@ -16,21 +16,18 @@
 
 package views.resident.properties.deductions
 
-import assets.MessageLookup.{Resident => commonMessages}
-import assets.MessageLookup.{LettingsRelief => messages}
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup.{LettingsRelief => messages, Resident => commonMessages}
 import forms.resident.properties.LettingsReliefForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{deductions => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Lettings Relief view" should {
 
-    lazy val view = views.lettingsRelief(lettingsReliefForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.lettingsRelief(lettingsReliefForm, "home-link", Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -133,7 +130,7 @@ class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "Lettings Relief view with pre-selected values" should {
     lazy val form = lettingsReliefForm.bind(Map(("isClaiming", "Yes")))
-    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
@@ -143,7 +140,7 @@ class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "Lettings Relief view with errors" should {
     lazy val form = lettingsReliefForm.bind(Map(("isClaiming", "")))
-    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.lettingsRelief(form, "home-link", Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

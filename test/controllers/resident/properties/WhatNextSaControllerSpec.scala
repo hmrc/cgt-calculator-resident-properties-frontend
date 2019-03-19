@@ -21,22 +21,19 @@ import java.time._
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup
-import config.{AppConfig, ApplicationConfig}
-import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.WhatNextSAController
-import controllers.helpers.FakeRequestHelper
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import org.scalatestplus.play.OneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class WhatNextSaControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class WhatNextSaControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
 
@@ -44,29 +41,16 @@ class WhatNextSaControllerSpec extends UnitSpec with WithFakeApplication with Fa
   implicit val mat: Materializer = ActorMaterializer()
 
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
-
-    val mockConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
 
-    new WhatNextSAController {
-      override val calcConnector: CalculatorConnector = mockConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val appConfig: AppConfig = new AppConfig {
-        override val assetsPrefix: String = ""
-        override val residentIFormUrl: String = "iform-url"
-        override val reportAProblemNonJSUrl: String = ""
-        override val contactFrontendPartialBaseUrl: String = ""
-        override val analyticsHost: String = ""
-        override val analyticsToken: String = ""
-        override val reportAProblemPartialUrl: String = ""
-        override val contactFormServiceIdentifier: String = ""
-        override val urBannerLink: String = ""
-        override val feedbackSurvey: String = ""
-      }
-    }
+    when(mockAppConfig.analyticsToken)
+      .thenReturn("test-token")
+
+    when(mockAppConfig.analyticsHost)
+      .thenReturn("analyticsHost")
+
+    new WhatNextSAController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents, mockAppConfig)
   }
 
   "Calling .whatNextSAOverFourTimesAEA" when {

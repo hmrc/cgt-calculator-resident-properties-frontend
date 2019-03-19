@@ -17,9 +17,9 @@
 package forms.resident
 
 import assets.MessageLookup.{Resident => messages}
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.income.CurrentIncomeForm._
 import models.resident.income.CurrentIncomeModel
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class CurrentIncomeFormSpec extends UnitSpec with WithFakeApplication {
 

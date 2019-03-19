@@ -17,10 +17,10 @@
 package forms.resident
 
 import assets.MessageLookup.{Resident => messages}
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import models.resident.AcquisitionCostsModel
-import forms.resident.AcquisitionCostsForm._
 import controllers.helpers.FakeRequestHelper
+import forms.resident.AcquisitionCostsForm._
+import models.resident.AcquisitionCostsModel
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class AcquisitionCostsFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 

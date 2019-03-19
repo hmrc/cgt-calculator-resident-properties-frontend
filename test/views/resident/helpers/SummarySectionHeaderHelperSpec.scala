@@ -18,11 +18,13 @@ package views.resident.helpers
 
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.helpers.resident.summarySectionHeaderHelper
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class SummarySectionHeaderHelperSpec extends UnitSpec with WithFakeApplication {
+class SummarySectionHeaderHelperSpec extends UnitSpec with WithFakeApplication  with BaseViewSpec {
+
+  implicit val messages = testingMessages
+  implicit val lang = messages.lang
 
   lazy val TestObject = summarySectionHeaderHelper("Heading")
   lazy val h2 = Jsoup.parse(TestObject.body).select("H2")

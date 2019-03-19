@@ -16,22 +16,19 @@
 
 package views.resident.properties.deductions
 
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{deductions => views}
-import assets.MessageLookup.{PropertyLivedIn => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{PropertyLivedIn => messages, Resident => commonMessages}
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties.PropertyLivedInModel
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import org.jsoup.Jsoup
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{deductions => views}
 
-class PropertyLivedInViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PropertyLivedInViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Property lived in view with an empty form" should {
 
-    lazy val view = views.propertyLivedIn(propertyLivedInForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.propertyLivedIn(propertyLivedInForm, "home-link", Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -203,7 +200,7 @@ class PropertyLivedInViewSpec extends UnitSpec with WithFakeApplication with Fak
   }
 
   "Property lived in view with a filled form" which {
-    lazy val view = views.propertyLivedIn(propertyLivedInForm.fill(PropertyLivedInModel(true)), "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.propertyLivedIn(propertyLivedInForm.fill(PropertyLivedInModel(true)), "home-link", Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -219,7 +216,7 @@ class PropertyLivedInViewSpec extends UnitSpec with WithFakeApplication with Fak
   "Property Lived In view with form errors" should {
 
     lazy val form = propertyLivedInForm.bind(Map("livedInProperty" -> ""))
-    lazy val view = views.propertyLivedIn(form, "home", Some("back"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.propertyLivedIn(form, "home", Some("back"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

@@ -16,14 +16,13 @@
 
 package connectors
 
-import org.asynchttpclient.exception.RemotelyClosedException
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.when
-import uk.gov.hmrc.http.HttpResponse
-import play.api.libs.json.Json
-import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import org.scalatest.mockito.MockitoSugar
-import uk.gov.hmrc.http.HeaderCarrier
+import play.api.libs.json.Json
+import play.shaded.ahc.org.asynchttpclient.exception.RemotelyClosedException
+import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future

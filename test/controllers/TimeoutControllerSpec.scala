@@ -18,16 +18,16 @@ package controllers
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
-import controllers.helpers.FakeRequestHelper
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.jsoup.Jsoup
+import org.mockito.Mockito.when
+import org.scalatest.mockito.MockitoSugar
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class TimeoutControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class TimeoutControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -38,11 +38,24 @@ class TimeoutControllerSpec extends UnitSpec with WithFakeApplication with FakeR
     val jsoupDoc = Jsoup.parse(bodyOf(result))
   }
 
+  lazy val timeoutController = new TimeoutController(
+    mockMessagesControllerComponents,
+    mockAppConfig
+  )
+
   "TimeoutController.timeout" should {
 
     "when called with no session" should {
 
-      object timeoutTestDataItem extends fakeRequestTo("", TimeoutController.timeout("test", "test2"))
+      when(mockAppConfig.analyticsToken)
+        .thenReturn("test-token")
+
+      when(mockAppConfig.analyticsHost)
+        .thenReturn("analyticsHost")
+
+      object timeoutTestDataItem extends fakeRequestTo("", timeoutController.timeout("test", "test2"))
+
+      implicit lazy val messages: Messages = mockMessagesControllerComponents.messagesApi.preferred(fakeRequest).messages
 
       "return a 200" in {
         status(timeoutTestDataItem.result) shouldBe 200

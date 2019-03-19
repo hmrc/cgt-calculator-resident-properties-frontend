@@ -14,8 +14,8 @@
  * limitations under the License.
  *@
 
-@import config.ApplicationConfig
 @import play.api.Application
+@import config.AppConfig
 
 @(title: String,
   sidebarLinks: Option[Html] = None,
@@ -26,12 +26,11 @@
   articleLayout: Boolean = true,
   backLink: Option[String] = None,
   homeLink: String,
-  navTitle: String
-)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application)
+  navTitle: String,
+  appConfig: config.AppConfig
+)(mainContent: Html)(implicit request : Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html.layouts
-
-@lc = @{Application.instanceCache[CgtLanguageController].apply(application)}
 
 @serviceInfoContent = {}
 
@@ -63,10 +62,13 @@
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
 
-    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
+    <div class="float--right">@views.html.helpers.language_selection(Map(
+        "english" -> Lang("en"),
+        "cymraeg" -> Lang("cy")
+    ), controllers.routes.CgtLanguageController.switchToLanguage, None)</div>
 }
 
-@govuk_wrapper(appConfig = ApplicationConfig,
+@govuk_wrapper(appdConfig = appConfig,
                title = title,
                mainClass = mainClass,
                bodyClasses = bodyClasses,

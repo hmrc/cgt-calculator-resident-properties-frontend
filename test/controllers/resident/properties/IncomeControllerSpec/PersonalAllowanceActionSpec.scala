@@ -18,27 +18,24 @@ package controllers.IncomeControllerSpec
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
-import assets.DateAsset
+import assets.MessageLookup.{PersonalAllowance => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.{IncomeController, routes}
+import models.resident.income.PersonalAllowanceModel
+import models.resident.{DisposalDateModel, TaxYearModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import assets.MessageLookup.{PersonalAllowance => messages}
-import common.Dates
-import models.resident.{DisposalDateModel, TaxYearModel}
-import models.resident.income.PersonalAllowanceModel
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -71,11 +68,13 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(taxYearModel)))
 
+    when(mockAppConfig.analyticsToken)
+      .thenReturn("test-token")
 
-    new IncomeController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-    }
+    when(mockAppConfig.analyticsHost)
+      .thenReturn("analyticsHost")
+
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents, mockAppConfig)
   }
 
   "Calling .personalAllowance from the IncomeController" when {

@@ -28,7 +28,7 @@ import scala.util.Try
 package object utils {
   implicit class RecoverableFuture(future: Future[Result]) extends Future[Result] {
 
-    override def onComplete[U](f: (Try[Result]) => U)(implicit executor: ExecutionContext): Unit = future.onComplete(f)
+    override def onComplete[U](f: Try[Result] => U)(implicit executor: ExecutionContext): Unit = future.onComplete(f)
     override def isCompleted: Boolean = future.isCompleted
     override def value: Option[Try[Result]] = future.value
     override def ready(atMost: Duration)(implicit permit: CanAwait): RecoverableFuture.this.type = ready(atMost)
@@ -39,9 +39,8 @@ package object utils {
         case e: NoSuchElementException =>
           Logger.warn(s"TEST TEST ${request.uri} resulted in None.get, user redirected to start")
           throw ApplicationException(
-            "cgt-calculator-resident-properties-frontend",
             Redirect(controllers.routes.TimeoutController.timeout(homeLink, sessionTimeoutUrl)),
-            e.getMessage
+            "cgt-calculator-resident-properties-frontend" + e.getMessage
           )
       }
   }

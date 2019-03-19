@@ -16,28 +16,26 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{Resident => commonMessages}
-import assets.MessageLookup.{DisposalValue => messages}
+import assets.MessageLookup.{DisposalValue => messages, Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.DisposalValueForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with BaseViewSpec {
 
   case class FakePOST(value: String) {
     lazy val request = fakeRequestToPOSTWithSession(("amount", value))
     lazy val form = disposalValueForm.bind(Map(("amount", value)))
-    lazy val view = views.disposalValue(form)(request, applicationMessages, fakeApplication)
+    lazy val view = views.disposalValue(form)(request, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
   }
 
   "Disposal Value View" should {
 
-    lazy val view = views.disposalValue(disposalValueForm)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalValue(disposalValueForm)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -80,7 +78,7 @@ class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeR
   "Disposal Value View with form without errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> "100"))
-    lazy val view = views.disposalValue(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalValue(form)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -99,7 +97,7 @@ class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeR
   "Disposal Value View with form with errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.disposalValue(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalValue(form)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

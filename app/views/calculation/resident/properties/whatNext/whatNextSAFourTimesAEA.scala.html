@@ -16,10 +16,15 @@
 
 @import views.html.calculation.resident.properties._
 @import play.api.Application
+@import config.AppConfig
 
-@(backUrl: String)(implicit request : Request[_], messages: Messages, application: Application)
+@(backUrl: String)(implicit request : Request[_], messages: Messages, appConfig: AppConfig)
 
-@resident_properties_main_template(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
+@resident_properties_main_template(
+    title = Messages("calc.whatToDoNext.title"),
+    backLink = Some(backUrl),
+    appConfig = appConfig
+) {
 
     <h1>@Messages("calc.whatToDoNext.title")</h1>
 

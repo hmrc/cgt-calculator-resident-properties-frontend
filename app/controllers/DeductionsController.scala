@@ -17,7 +17,7 @@
 package controllers
 
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.{AppConfig, ApplicationConfig}
+import config.AppConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
@@ -28,35 +28,33 @@ import forms.resident.properties.LettingsReliefValueForm._
 import forms.resident.properties.PrivateResidenceReliefForm._
 import forms.resident.properties.PrivateResidenceReliefValueForm._
 import forms.resident.properties.PropertyLivedInForm._
-import models.resident.properties._
+import javax.inject.{Singleton, Inject}
 import models.resident._
-import play.api.Logger
-import play.api.Play.current
+import models.resident.properties._
 import play.api.data.Form
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Result}
+import play.api.i18n.{I18nSupport, Messages}
+import play.api.mvc._
+import services.SessionCacheService
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{deductions => views}
-import services.SessionCacheService
 
-import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
+import scala.concurrent.{ExecutionContext, Future}
 
-object DeductionsController extends DeductionsController {
-  lazy val calcConnector = CalculatorConnector
-  lazy val sessionCacheConnector = SessionCacheConnector
-  lazy val sessionCacheService = SessionCacheService
-  lazy val config = ApplicationConfig
-}
+@Singleton
+class DeductionsController @Inject()(
+                                      val calcConnector: CalculatorConnector,
+                                      val sessionCacheConnector: SessionCacheConnector,
+                                      val sessionCacheService: SessionCacheService,
+                                      val messagesControllerComponents: MessagesControllerComponents,
+                                      implicit val appConfig: AppConfig
+                                    ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
-trait DeductionsController extends ValidActiveSession {
-  val calcConnector: CalculatorConnector
-  val sessionCacheConnector: SessionCacheConnector
-  val sessionCacheService: SessionCacheService
-  val config: AppConfig
+  private def navTitle(implicit request : Request[_]): String =
+    Messages("calc.base.resident.properties.home")(messagesControllerComponents.messagesApi.preferred(request))
 
-  val navTitle = Messages("calc.base.resident.properties.home")
+  implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
   def getDisposalDate(implicit hc: HeaderCarrier): Future[Option[DisposalDateModel]] = {
     sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
@@ -70,8 +68,8 @@ trait DeductionsController extends ValidActiveSession {
 
   def answerSummary(hc: HeaderCarrier): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers(hc)
 
-  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl: String = homeLink
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val sessionTimeoutUrl: String = homeLink
 
 
   //################# Property Lived In Actions #############################
@@ -87,7 +85,7 @@ trait DeductionsController extends ValidActiveSession {
 
   val submitPropertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
 
-    lazy val backLink = Some(controllers.GainController.improvements.toString())
+    lazy val backLink = Some(routes.GainController.improvements().url)
 
     def errorAction(errors: Form[PropertyLivedInModel]) = Future.successful(BadRequest(commonViews.properties.deductions.propertyLivedIn(
       errors, homeLink, backLink
@@ -176,7 +174,7 @@ trait DeductionsController extends ValidActiveSession {
   }
 
   //############## Lettings Relief Actions ##################
-  private val lettingsReliefBackUrl = routes.DeductionsController.privateResidenceReliefValue().url
+  private lazy val lettingsReliefBackUrl = routes.DeductionsController.privateResidenceReliefValue().url
 
   val lettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
     sessionCacheConnector.fetchAndGetFormData[LettingsReliefModel](keystoreKeys.lettingsRelief).map {
@@ -263,7 +261,7 @@ trait DeductionsController extends ValidActiveSession {
 
 
   //################# Brought Forward Losses Actions ############################
-  private val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
+  private lazy val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
 
   def lossesBroughtForwardBackUrl(implicit hc: HeaderCarrier): Future[String] = {
     for {
@@ -340,8 +338,8 @@ trait DeductionsController extends ValidActiveSession {
 
 
   //################# Brought Forward Losses Value Actions ##############################
-  private val lossesBroughtForwardValueBackLink = routes.DeductionsController.lossesBroughtForward().url
-  private val lossesBroughtForwardValuePostAction = routes.DeductionsController.submitLossesBroughtForwardValue()
+  private lazy val lossesBroughtForwardValueBackLink = routes.DeductionsController.lossesBroughtForward().url
+  private lazy val lossesBroughtForwardValuePostAction = routes.DeductionsController.submitLossesBroughtForwardValue()
 
   val lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 

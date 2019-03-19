@@ -18,11 +18,11 @@ package forms.resident
 
 import java.time.{LocalDate, ZoneId}
 
-import models.resident.DisposalDateModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.DisposalDateForm._
 import assets.MessageLookup.{DisposalDate => messages}
 import controllers.helpers.FakeRequestHelper
+import forms.resident.DisposalDateForm._
+import models.resident.DisposalDateModel
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 

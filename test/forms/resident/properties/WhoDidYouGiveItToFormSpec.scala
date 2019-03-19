@@ -17,9 +17,9 @@
 package forms.resident.properties
 
 import assets.MessageLookup.WhoDidYouGiveItTo
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.resident.properties.gain.WhoDidYouGiveItToForm._
 import models.resident.properties.gain.WhoDidYouGiveItToModel
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class WhoDidYouGiveItToFormSpec extends UnitSpec with WithFakeApplication {
   "Creating the form from an empty model" should {

@@ -19,15 +19,15 @@ package views.resident.helpers
 import assets.MessageLookup.{Resident => commonMessages}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.scalatestplus.play.OneAppPerSuite
-import play.api.i18n.{I18nSupport, MessagesApi}
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.play.test.UnitSpec
+import views.BaseViewSpec
 import views.html.helpers.resident.summaryTextRowHelper
 
-class SummaryTextRowHelperSpec extends UnitSpec with OneAppPerSuite with I18nSupport {
+class SummaryTextRowHelperSpec extends UnitSpec with BaseViewSpec {
 
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val messages = testingMessages
+  implicit val lang = messages.lang
 
   "The Summary Text Row Helper" when {
 

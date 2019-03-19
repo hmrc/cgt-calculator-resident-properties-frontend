@@ -20,34 +20,26 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{LettingsRelief => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident.properties.LettingsReliefModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class LettingsReliefActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class LettingsReliefActionSpec extends UnitSpec with WithFakeApplication
+  with FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[LettingsReliefModel]): DeductionsController = {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-    val mockAppConfig = mock[AppConfig]
-
     when(mockSessionCacheConnector.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -55,12 +47,7 @@ class LettingsReliefActionSpec extends UnitSpec with WithFakeApplication with Fa
     when(mockSessionCacheConnector.saveFormData[LettingsReliefModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new DeductionsController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val sessionCacheService = mockSessionCacheService
-      val config = mockAppConfig
-    }
+    testingDeductionsController
   }
 
   "Calling .lettingsRelief from the resident DeductionsController" when {

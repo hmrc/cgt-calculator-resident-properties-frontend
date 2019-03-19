@@ -23,21 +23,20 @@ import common.Dates
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.IncomeController
-import controllers.helpers.FakeRequestHelper
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
 import models.resident.income._
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -72,10 +71,13 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(CacheMap("",Map.empty)))
 
-    new IncomeController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-    }
+    when(mockAppConfig.analyticsToken)
+      .thenReturn("test-token")
+
+    when(mockAppConfig.analyticsHost)
+      .thenReturn("analyticsHost")
+
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents, mockAppConfig)
   }
 
   "Calling .currentIncome from the IncomeController with a session" when {
@@ -167,8 +169,9 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
   }
 
   "Calling .currentIncome from the IncomeController with no session" should {
-
-    lazy val result = IncomeController.currentIncome(fakeRequest)
+    lazy val target = setupTarget(None, otherProperties = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
+      taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
+    lazy val result = target.currentIncome(fakeRequest)
 
     "return a status of 303" in {
       status(result) shouldBe 303

@@ -16,9 +16,9 @@
 
 package routes.properties
 
+import controllers.routes._
 import org.scalatest._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import controllers.routes._
 
 class RoutesSpec extends UnitSpec with WithFakeApplication with Matchers {
 

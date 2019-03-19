@@ -16,16 +16,20 @@
 
 package controllers
 
-import views.html.warnings._
-import play.api.mvc.{AnyContent, Action}
+import config.AppConfig
+import javax.inject.{Inject, Singleton}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import views.html.warnings._
+
 import scala.concurrent.Future
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-object TimeoutController extends TimeoutController
-
-trait TimeoutController extends FrontendController {
+@Singleton
+class TimeoutController @Inject()(
+                                   val messagesControllerComponents: MessagesControllerComponents,
+                                   implicit val appConfig: AppConfig
+                                 ) extends FrontendController(messagesControllerComponents) with I18nSupport {
 
   def timeout(restartUrl: String, homeLink: String) : Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok(sessionTimeout(restartUrl, homeLink)))

@@ -18,20 +18,19 @@ package views.resident.properties.whatNext
 
 import assets.MessageLookup
 import assets.MessageLookup.{SaUser => messages}
-import controllers.helpers.FakeRequestHelper
 import forms.resident.SaUserForm
 import org.jsoup.Jsoup
-import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.whatNext.saUser
 
-class SaUserViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class SaUserViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "SaUserView" when {
     implicit lazy val fakeApp = fakeApplication
 
     "no errors are present" should {
-      lazy val view = saUser(SaUserForm.saUserForm)(messages = applicationMessages, request = fakeRequestWithSession, application = fakeApp)
+      lazy val view = saUser(SaUserForm.saUserForm)(fakeRequest, testingMessages, mockAppConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title of ${messages.title}" in {
@@ -111,7 +110,7 @@ class SaUserViewSpec extends UnitSpec with WithFakeApplication with FakeRequestH
 
     "errors are present" should {
       lazy val form = SaUserForm.saUserForm.bind(Map("isInSa" -> ""))
-      lazy val view = saUser(form)(messages = applicationMessages, request = fakeRequestWithSession, application = fakeApp)
+      lazy val view = saUser(form)(fakeRequest, testingMessages, mockAppConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

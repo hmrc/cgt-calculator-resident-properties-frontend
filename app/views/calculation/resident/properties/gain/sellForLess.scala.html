@@ -21,13 +21,17 @@
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import uk.gov.hmrc.play.views.html.helpers.input_radio_group
 @import play.api.Application
+@import config.AppConfig
 
-@(sellForLessForm: Form[SellForLessModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, application: Application)
+@(sellForLessForm: Form[SellForLessModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@resident_main_template(title = Messages("calc.resident.properties.sellForLess.title"),
-backLink = navBackLink,
-homeLink = navHomeLink,
-navTitle = Messages("calc.base.resident.properties.home")){
+@resident_main_template(
+    title = Messages("calc.resident.properties.sellForLess.title"),
+    backLink = navBackLink,
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.properties.home"),
+    appConfig = appConfig
+) {
 
 @errorSummary(sellForLessForm, "sell-for-less")
 

@@ -21,15 +21,17 @@
 @import views.html.helpers.resident._
 @import play.api.mvc.Call
 @import play.api.Application
+@import config.AppConfig
 
-@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages, application: Application)
+@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @resident_main_template(
     title = Messages("calc.resident.lossesBroughtForward.title",
     taxYear.taxYearSupplied),
     backLink = Some(backLinkUrl),
     homeLink = navHomeLink,
-    navTitle = navTitle
+    navTitle = navTitle,
+    appConfig = appConfig
 ) {
 
     @errorSummary(lossesBroughtForwardForm, "option")

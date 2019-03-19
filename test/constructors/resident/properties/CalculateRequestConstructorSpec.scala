@@ -16,8 +16,6 @@
 
 package constructors.resident.properties
 
-import javax.xml.soap.SOAPConstants
-
 import common.Dates
 import common.resident.HowYouBecameTheOwnerKeys._
 import models.resident._

@@ -19,7 +19,6 @@ package common
 import java.time.LocalDate
 
 import common.Validation._
-import org.joda.time.DateTime
 import play.api.data.validation.{Invalid, Valid, ValidationError}
 import uk.gov.hmrc.play.test.UnitSpec
 

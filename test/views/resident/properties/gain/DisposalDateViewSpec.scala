@@ -18,22 +18,20 @@ package views.resident.properties.gain
 
 import java.time.{LocalDate, ZoneId}
 
-import assets.MessageLookup.{DisposalDate => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{DisposalDate => messages, Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.DisposalDateForm._
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper  with BaseViewSpec {
 
   "Disposal Date view" should {
 
-    lazy val view = views.disposalDate(disposalDateForm(LocalDate.parse("2014-04-06").atStartOfDay(ZoneId.of("Europe/London"))))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalDate(disposalDateForm(LocalDate.parse("2014-04-06").atStartOfDay(ZoneId.of("Europe/London"))))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -80,7 +78,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
   "Disposal Date view with a pre-filled form" should {
 
     lazy val form = disposalDateForm(LocalDate.parse("2014-04-06").atStartOfDay(ZoneId.of("Europe/London"))).fill(DisposalDateModel(10, 6, 2016))
-    lazy val view = views.disposalDate(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalDate(form)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a value auto-filled in the day input" in {

@@ -16,20 +16,18 @@
 
 package views.resident.properties.whatNext
 
-import assets.MessageLookup.{WhatNextPages => commonMessages}
+import _root_.views.BaseViewSpec
 import assets.MessageLookup.WhatNextPages.{WhatNextNoGain => pageMessages}
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup.{WhatNextPages => commonMessages}
 import org.jsoup.Jsoup
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{whatNext => views}
 
-class WhatNextSANoGainViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WhatNextSANoGainViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "The whatNextSaNoGain view" should {
 
-    lazy val view = views.whatNextSaNoGain("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.whatNextSaNoGain("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {

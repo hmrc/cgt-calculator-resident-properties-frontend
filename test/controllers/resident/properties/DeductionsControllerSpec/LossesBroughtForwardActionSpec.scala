@@ -20,24 +20,24 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
+import connectors.CalculatorConnector
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.DeductionsControllerSpec.DeductionsControllerBaseSpec
 import controllers.{DeductionsController, routes}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, LettingsReliefModel, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
-import org.scalatest.mock.MockitoSugar
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper
+  with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -56,11 +56,6 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
                   privateResidenceReliefModel: Option[PrivateResidenceReliefModel] = None,
                   lettingsReliefModel: Option[LettingsReliefModel] = None
                  ): DeductionsController = {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-
     when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(lossesBroughtForwardData))
@@ -98,12 +93,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(CacheMap("",Map.empty)))
 
-    new DeductionsController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-      val config = mock[AppConfig]
-    }
+    testingDeductionsController
   }
 
   "Calling .lossesBroughtForward from the resident DeductionsController" when {

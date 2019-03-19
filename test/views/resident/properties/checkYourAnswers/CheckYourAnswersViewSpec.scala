@@ -16,28 +16,26 @@
 
 package views.resident.properties.checkYourAnswers
 
-import controllers.helpers.FakeRequestHelper
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import views.html.calculation.resident.properties.{checkYourAnswers => views}
 import assets.MessageLookup.NonResident.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.ModelsAsset._
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.i18n.Lang
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{checkYourAnswers => views}
 
-class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   val dummyBackLink = "backLink"
   val dummyPostCall: Call = Call("POST", "/dummy-url")
   val fakeLang: Lang = Lang("en")
 
   lazy val view: HtmlFormat.Appendable = views.checkYourAnswers(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
-    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, testingMessages, mockAppConfig, fakeLang)
   lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {

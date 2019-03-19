@@ -16,21 +16,19 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{DisposalCosts => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{DisposalCosts => messages, Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.DisposalCostsForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper  with BaseViewSpec {
 
   "Disposal Costs view" should {
 
-    lazy val view = views.disposalCosts(disposalCostsForm,"backlink")(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalCosts(disposalCostsForm,"backlink")(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -170,7 +168,7 @@ class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeR
     "is due to mandatory field error" should {
 
       lazy val form = disposalCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.disposalCosts(form, "backlink")(fakeRequest, applicationMessages, fakeApplication)
+      lazy val view = views.disposalCosts(form, "backlink")(fakeRequest, testingMessages, mockAppConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

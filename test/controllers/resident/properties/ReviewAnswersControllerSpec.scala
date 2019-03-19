@@ -25,24 +25,24 @@ import assets.MessageLookup
 import common.resident.HowYouBecameTheOwnerKeys
 import connectors.CalculatorConnector
 import controllers.ReviewAnswersController
-import controllers.helpers.FakeRequestHelper
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties._
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
-import org.scalatestplus.play.OneAppPerSuite
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
-import uk.gov.hmrc.http.HeaderCarrier
 
-class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+class ReviewAnswersControllerSpec extends UnitSpec with FakeRequestHelper
+  with MockitoSugar with CommonMocks  with WithFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -64,7 +64,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
     Some(PropertyLivedInModel(false)), None, None, None, None)
   val incomeAnswersModel: IncomeAnswersModel = IncomeAnswersModel(Some(CurrentIncomeModel(25000)), Some(PersonalAllowanceModel(11000)))
   implicit val timeout: Timeout = Timeout.apply(Duration.create(20, "seconds"))
-  implicit val hc: HeaderCarrier = new HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
 
   def setupController(gainResponse: YourAnswersSummaryModel,
                       deductionsResponse: ChargeableGainAnswers,
@@ -85,10 +85,18 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
     when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(incomeAnswersModel)
 
-    new ReviewAnswersController {
-      override val calculatorConnector: CalculatorConnector = mockConnector
-      override val sessionCacheService = mockSessionCacheService
-    }
+    when(mockAppConfig.analyticsToken)
+      .thenReturn("test-token")
+
+    when(mockAppConfig.analyticsHost)
+      .thenReturn("analyticsHost")
+
+    new ReviewAnswersController(
+      mockConnector,
+      mockSessionCacheService,
+      mockMessagesControllerComponents,
+      mockAppConfig
+    )
   }
 
   "Calling .reviewGainAnswers" when {

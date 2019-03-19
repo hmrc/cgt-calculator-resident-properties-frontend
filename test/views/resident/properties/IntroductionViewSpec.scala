@@ -16,21 +16,17 @@
 
 package views.resident.properties
 
-import assets.MessageLookup.{IntroductionView => messages}
-import assets.MessageLookup.{Resident => commonMessages}
-import controllers.helpers.FakeRequestHelper
-import controllers.routes.{GainController => routes}
+import assets.MessageLookup.{IntroductionView => messages, Resident => commonMessages}
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.{properties => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class IntroductionViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class IntroductionViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Introduction view" should {
 
-    lazy val view = views.introduction()(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.introduction()(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body).select("article.content__body")
 
     "have the correct title" in {
@@ -103,7 +99,7 @@ class IntroductionViewSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       "take the user to disposal date page" in {
-        hyperlink.attr("href") shouldBe routes.disposalDate().toString
+        hyperlink.attr("href") shouldBe controllers.routes.GainController.disposalDate().url
       }
 
       "have the id continue-button" in {

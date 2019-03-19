@@ -18,11 +18,13 @@ package views.resident.helpers
 
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.helpers.resident.summaryGainAndRateHelper
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication {
+class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+
+  implicit val messages = testingMessages
+  implicit val lang = messages.lang
 
   lazy val rowSingle = summaryGainAndRateHelper("testID","testQ", 1000, 18, None, None)
   lazy val docSingle = Jsoup.parse(rowSingle.body)

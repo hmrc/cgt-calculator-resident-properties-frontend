@@ -19,14 +19,16 @@
 @import views.html.calculation.resident._
 @import models.resident._
 @import play.api.Application
+@import config.AppConfig
 
-@(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, navHomeLink: String, continueUrl: String, navTitle: String)(implicit request: Request[_], messages: Messages, application: Application)
+@(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, navHomeLink: String, continueUrl: String, navTitle: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @resident_main_template(
     Messages("calc.resident.outsideTaxYears.title"),
     backLink = if(isAfterApril15){Some(navBackLink)} else { None },
     homeLink = navHomeLink,
-    navTitle = navTitle
+    navTitle = navTitle,
+    appConfig = appConfig
 ) {
 
     <h1 class="heading-large">@Messages("calc.resident.outsideTaxYears.title")</h1>

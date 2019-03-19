@@ -17,34 +17,35 @@
 package connectors
 
 import config.CalculatorSessionCache
-import org.asynchttpclient.exception.RemotelyClosedException
+import javax.inject.Inject
 import play.api.Logger
 import play.api.libs.json.Format
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+import play.shaded.ahc.org.asynchttpclient.exception.RemotelyClosedException
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object SessionCacheConnector extends SessionCacheConnector {
-  val sessionCache = CalculatorSessionCache
+class SessionCacheConnectorImpl @Inject()(val sessionCache: CalculatorSessionCache) extends SessionCacheConnector {
   lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
 }
 
-trait SessionCacheConnector{
+trait SessionCacheConnector {
   val sessionCache: SessionCache
   val homeLink: String
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 
   def saveFormData[T](key: String, data: T)(implicit hc: HeaderCarrier, formats: Format[T]): Future[CacheMap] = {
-    sessionCache.cache(key, data).recoverWith{
+    sessionCache.cache(key, data) recoverWith {
       case e: Exception => Logger.warn(s"Keystore failed to save data: $data to this key: $key with message: ${e.getMessage}", e)
         throw e
     }
   }
 
   def fetchAndGetFormData[T](key: String)(implicit hc: HeaderCarrier, formats: Format[T]): Future[Option[T]] = {
-    sessionCache.fetchAndGetEntry(key).recoverWith{
+    sessionCache.fetchAndGetEntry(key) recoverWith {
       case e: RemotelyClosedException => Logger.warn(s"Remotely closed exception from keystore on fetch: ${e.getMessage}", e)
         throw e
     }

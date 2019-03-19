@@ -20,10 +20,10 @@
 @import views.html.helpers._
 @import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
-@import play.api.Application
+@import config.AppConfig
 
 @import common.Dates
-@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, application: Application)
+@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(
@@ -31,7 +31,7 @@
         else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { question =>
 
 
-        @resident_main_template(title = question, backLink = backLink, homeLink = homeLink, navTitle = navTitle) {
+        @resident_main_template(title = question, backLink = backLink, homeLink = homeLink, navTitle = navTitle, appConfig = appConfig) {
 
             @errorSummary(personalAllowanceForm, "amount")
 

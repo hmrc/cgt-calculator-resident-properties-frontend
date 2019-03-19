@@ -16,19 +16,17 @@
 
 package views.resident.helpers
 
+import _root_.views.BaseViewSpec
+import assets.MessageLookup.{SummaryDetails => summaryMessages}
 import common.Dates
-import controllers.helpers.FakeRequestHelper
-import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident._
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits.applicationMessages
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import assets.MessageLookup.{SummaryDetails => summaryMessages}
 import views.html.{helpers => views}
 
-class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "FinalSummaryPartial" when {
 
@@ -88,7 +86,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a banner" which {
@@ -387,7 +385,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for worth when sold for less" which {
@@ -453,7 +451,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
-        None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a numeric output row and a tax rate" which {
@@ -533,7 +531,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
 
@@ -599,7 +597,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for brought forward losses used" which {
@@ -668,7 +666,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -732,7 +730,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -795,7 +793,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -858,7 +856,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -923,7 +921,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for value when the property was given away" which {
@@ -989,7 +987,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"display a notice summary with text ${summaryMessages.noticeSummary}" in {
@@ -1048,7 +1046,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
 
 
       lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, None, None, 100, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have no taxable rate section" in {

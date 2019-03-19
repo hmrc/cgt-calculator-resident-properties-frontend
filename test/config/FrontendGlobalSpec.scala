@@ -18,7 +18,6 @@ package config
 
 import org.jsoup.Jsoup
 import org.scalatest.mockito.MockitoSugar
-import play.api.Configuration
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.SessionKeys
@@ -26,7 +25,10 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class FrontendGlobalSpec extends UnitSpec with WithFakeApplication with MockitoSugar {
 
-  val cgtErrorHandler: CgtErrorHandler = new CgtErrorHandler(fakeApplication.injector.instanceOf[MessagesApi], mock[Configuration])
+  val cgtErrorHandler: CgtErrorHandler = new CgtErrorHandler(
+    fakeApplication.injector.instanceOf[MessagesApi],
+    fakeApplication.injector.instanceOf[AppConfig]
+  )
 
   "Rendering the error_template by causing an error" when {
     "on the resident/properties journey" should {

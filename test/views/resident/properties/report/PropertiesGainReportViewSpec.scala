@@ -16,21 +16,17 @@
 
 package views.resident.properties.report
 
-import assets.MessageLookup.Resident.{Properties => propertiesMessages}
-import assets.{MessageLookup => commonMessages}
 import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates._
-import controllers.helpers.FakeRequestHelper
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{report => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.i18n.Lang
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{report => views}
 
-class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   val fakeLang: Lang = Lang("en")
 
@@ -59,7 +55,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000, 2000)(fakeRequest, applicationMessages, fakeApplication, fakeLang)
+    lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000, 2000)(fakeRequest, testingMessages, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -123,7 +119,7 @@ class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication wit
       Some(false)
     )
 
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 1000, 4000)(fakeRequest, applicationMessages, fakeApplication, fakeLang)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 1000, 4000)(fakeRequest, testingMessages, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a banner for tax owed" in {

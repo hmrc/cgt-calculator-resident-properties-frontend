@@ -20,24 +20,22 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar{
+class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplication with
+  FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -47,10 +45,6 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
     def setGetTarget(getData: Option[LossesBroughtForwardValueModel],
                      disposalDateModel: DisposalDateModel,
                      taxYearModel: TaxYearModel): DeductionsController = {
-
-      val mockCalcConnector = mock[CalculatorConnector]
-      val mockSessionCacheConnector = mock[SessionCacheConnector]
-      val mockSessionCacheService = mock[SessionCacheService]
 
       when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -63,12 +57,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      new DeductionsController {
-        override val calcConnector = mockCalcConnector
-        override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-        override val sessionCacheService: SessionCacheService = mockSessionCacheService
-        val config = mock[AppConfig]
-      }
+      testingDeductionsController
     }
 
     "request has a valid session with no keystore data" should {
@@ -115,7 +104,10 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
     }
 
     "request has an invalid session" should {
-      lazy val result = DeductionsController.lossesBroughtForwardValue(fakeRequest)
+      lazy val disposalDateModel = DisposalDateModel(10, 10, 2014)
+      lazy val taxYearModel = TaxYearModel("2014/15", false, "2015/16")
+      lazy val target = setGetTarget(Some(LossesBroughtForwardValueModel(BigDecimal(1000))), disposalDateModel, taxYearModel)
+      lazy val result = target.lossesBroughtForwardValue(fakeRequest)
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -138,10 +130,6 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
                       disposalDateModel: DisposalDateModel,
                       taxYearModel: TaxYearModel): DeductionsController = {
 
-      val mockCalcConnector = mock[CalculatorConnector]
-      val mockSessionCacheConnector = mock[SessionCacheConnector]
-      val mockSessionCacheService = mock[SessionCacheService]
-
       when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
         .thenReturn(Future.successful(gainAnswers))
 
@@ -162,12 +150,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(CacheMap("",Map.empty)))
 
-      new DeductionsController {
-        override val calcConnector = mockCalcConnector
-        override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-        override val sessionCacheService: SessionCacheService = mockSessionCacheService
-        val config = mock[AppConfig]
-      }
+      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMessagesControllerComponents, mockAppConfig)
+
     }
 
     "given a valid form" when {

@@ -16,19 +16,17 @@
 
 package views.resident.properties.summary
 
-import assets.MessageLookup.{Resident => residentMessages, SummaryPage => messages, SummaryDetails => summaryMessages}
+import _root_.views.BaseViewSpec
+import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates
-import controllers.helpers.FakeRequestHelper
-import controllers.routes
 import models.resident._
 import models.resident.properties._
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import org.mockito.Mockito.when
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{summary => views}
 
-class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Properties Deductions Summary view" should {
     val gainAnswers = YourAnswersSummaryModel(
@@ -77,8 +75,11 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
 
     val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
+    when(mockAppConfig.urBannerLink)
+      .thenReturn(summaryMessages.bannerPanelLinkURL)
+
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, None, None, 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication)
+      taxYearModel, None, None, 100, showUserResearchPanel = true)(fakeRequest, testingMessages, mockAppConfig)
 
     lazy val doc = Jsoup.parse(view.body)
 
@@ -389,7 +390,7 @@ class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplicat
     val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, None, None, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+      taxYearModel, None, None, 100, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not have ur panel" in {

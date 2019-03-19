@@ -24,32 +24,32 @@ import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import it.innove.play.pdf.PdfGenerator
+import javax.inject.{Singleton, Inject}
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
-import play.api.i18n.Messages
-import play.api.mvc.RequestHeader
-import views.html.calculation.resident.properties.{report => views}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.{I18nSupport, Messages}
+import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService
-
-import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import views.html.calculation.resident.properties.{report => views}
 
-object ReportController extends ReportController {
-  val calcConnector = CalculatorConnector
-  val sessionCacheService = SessionCacheService
-}
+import scala.concurrent.{ExecutionContext, Future}
 
-trait ReportController extends ValidActiveSession {
-
-  val calcConnector: CalculatorConnector
-  val sessionCacheService : SessionCacheService
+@Singleton
+class ReportController @Inject()(
+                                  val calcConnector: CalculatorConnector,
+                                  val sessionCacheService : SessionCacheService,
+                                  val messagesControllerComponents: MessagesControllerComponents
+                                ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
   val pdfGenerator = new PdfGenerator
 
-  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl: String = homeLink
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val sessionTimeoutUrl: String = homeLink
+
+  implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
   def host(implicit request: RequestHeader): String = {
     s"http://${request.host}/"
@@ -71,6 +71,8 @@ trait ReportController extends ValidActiveSession {
   }
 
   val gainSummaryReport = ValidateSession.async { implicit request =>
+    implicit val lang = messagesControllerComponents.messagesApi.preferred(request).lang
+
     (for {
       answers <- sessionCacheService.getPropertyGainAnswers
       costs <- calcConnector.getPropertyTotalCosts(answers)
@@ -92,6 +94,8 @@ trait ReportController extends ValidActiveSession {
 
   //#####Deductions summary actions#####\\
   val deductionsReport = ValidateSession.async { implicit request =>
+    implicit val lang = messagesControllerComponents.messagesApi.preferred(request).lang
+
     (for {
       answers <- sessionCacheService.getPropertyGainAnswers
       totalCosts <- getPropertyTotalCosts(answers)
@@ -116,6 +120,7 @@ trait ReportController extends ValidActiveSession {
   //#####Final summary actions#####\\
 
   val finalSummaryReport = ValidateSession.async { implicit request =>
+    implicit val lang = messagesControllerComponents.messagesApi.preferred(request).lang
 
     def getTotalDeductions(prrUsed: BigDecimal, lettingsReliefUsed: BigDecimal, lossesUsed: BigDecimal, aeaUsed: BigDecimal): Future[BigDecimal] = {
       Future.successful(prrUsed + lettingsReliefUsed + lossesUsed + aeaUsed)

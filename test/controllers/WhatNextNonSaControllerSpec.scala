@@ -18,18 +18,18 @@ package controllers
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
-import assets.MessageLookup
-import config.AppConfig
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import play.api.test.Helpers.redirectLocation
-import uk.gov.hmrc.play.test.UnitSpec
 import akka.util.Timeout
-import org.scalatestplus.play.OneAppPerSuite
+import assets.MessageLookup
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import org.jsoup.Jsoup
+import org.mockito.Mockito.when
+import org.scalatest.mockito.MockitoSugar
+import play.api.test.Helpers.redirectLocation
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.duration.Duration
 
-class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with OneAppPerSuite {
+class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with CommonMocks with MockitoSugar with WithFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -37,21 +37,16 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with O
   implicit val timeout: Timeout = new Timeout(Duration.create(20, "seconds"))
 
   def setupController(): WhatNextNonSaController = {
+    when(mockAppConfig.analyticsToken)
+      .thenReturn("test-token")
 
-    new WhatNextNonSaController {
-      override val applicationConfig: AppConfig = new AppConfig {
-        override val assetsPrefix: String = ""
-        override val residentIFormUrl: String = "iform-url"
-        override val reportAProblemNonJSUrl: String = ""
-        override val contactFrontendPartialBaseUrl: String = ""
-        override val analyticsHost: String = ""
-        override val analyticsToken: String = ""
-        override val reportAProblemPartialUrl: String = ""
-        override val contactFormServiceIdentifier: String = ""
-        override val urBannerLink: String = ""
-        override val feedbackSurvey: String = ""
-      }
-    }
+    when(mockAppConfig.analyticsHost)
+      .thenReturn("analyticsHost")
+
+    when(mockAppConfig.residentIFormUrl)
+      .thenReturn("iform-url")
+
+    new WhatNextNonSaController(mockMessagesControllerComponents, mockAppConfig)
   }
 
   "Calling .whatNextNonSaGain" when {

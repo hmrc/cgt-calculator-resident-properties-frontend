@@ -16,13 +16,17 @@
 
 @import views.html.calculation.resident._
 @import play.api.Application
+@import config.AppConfig
 
-@(forCharity: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
+@(forCharity: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@resident_main_template(title = Messages("calc.resident.noTaxToPay.title"),
-                        backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().url),
-                        homeLink = controllers.routes.PropertiesController.introduction().url,
-                        navTitle=Messages("calc.base.resident.properties.home")) {
+@resident_main_template(
+    title = Messages("calc.resident.noTaxToPay.title"),
+    backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().url),
+    homeLink = controllers.routes.PropertiesController.introduction().url,
+    navTitle=Messages("calc.base.resident.properties.home"),
+    appConfig = appConfig
+) {
 
     <h1 class="heading-large">@Messages("calc.resident.noTaxToPay.title")</h1>
 

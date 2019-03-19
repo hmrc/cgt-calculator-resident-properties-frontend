@@ -16,10 +16,10 @@
 
 package forms.resident
 
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.LossesBroughtForwardForm._
 import assets.MessageLookup.{LossesBroughtForward => messages}
+import forms.resident.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
 
