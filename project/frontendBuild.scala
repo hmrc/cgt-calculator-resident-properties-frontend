@@ -68,7 +68,7 @@ private object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
-        "uk.gov.hmrc" %% "hmrctest" % "3.4.0-play-25" % scope,
+        "uk.gov.hmrc" %% "hmrctest" % "3.6.0-play-26" % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % scope,
         "org.mockito" % "mockito-core" % "2.13.0" % scope,
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
