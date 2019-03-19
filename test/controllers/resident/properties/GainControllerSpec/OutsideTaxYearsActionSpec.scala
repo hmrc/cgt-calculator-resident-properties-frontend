@@ -18,43 +18,32 @@ package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
-import controllers.helpers.FakeRequestHelper
-import controllers.GainController
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import play.api.test.Helpers._
 import assets.MessageLookup.{OutsideTaxYears => messages}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import controllers.GainController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.{DisposalDateModel, TaxYearModel}
 import org.jsoup.Jsoup
-import org.scalatest.mock.MockitoSugar
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import services.SessionCacheService
+import org.scalatest.mockito.MockitoSugar
+import play.api.test.Helpers._
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class OutsideTaxYearsActionSpec extends UnitSpec with
+  WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(disposalDateModel: Option[DisposalDateModel], taxYearModel: Option[TaxYearModel]): GainController = {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDateModel)
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYearModel)
 
-    new GainController {
-      val calcConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val sessionCacheService = mockSessionCacheService
-      val config: AppConfig = mock[AppConfig]
-    }
+    testingGainController
   }
 
   "Calling .outsideTaxYears from the GainCalculationController" when {
@@ -81,7 +70,8 @@ class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with F
     }
 
     "there is no valid session" should {
-      lazy val result = GainController.outsideTaxYears(fakeRequest)
+      lazy val target = setupTarget(Some(DisposalDateModel(10, 10, 2018)), Some(TaxYearModel("2018/19", false, "2018/19")))
+      lazy val result = target.outsideTaxYears(fakeRequest)
 
       "return a 303" in {
         status(result) shouldBe 303

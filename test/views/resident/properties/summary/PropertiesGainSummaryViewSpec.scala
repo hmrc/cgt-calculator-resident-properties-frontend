@@ -16,19 +16,18 @@
 
 package views.resident.properties.summary
 
+import _root_.views.BaseViewSpec
 import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates._
-import controllers.helpers.FakeRequestHelper
 import controllers.routes
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import org.mockito.Mockito._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{summary => views}
 
-class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Summary view" should {
 
@@ -55,7 +54,10 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = true)(fakeRequest, applicationMessages, fakeApplication)
+    when(mockAppConfig.urBannerLink)
+      .thenReturn(summaryMessages.bannerPanelLinkURL)
+
+    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = true)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -421,7 +423,7 @@ class PropertiesGainSummaryViewSpec extends UnitSpec with WithFakeApplication wi
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = false)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not have ur panel" in {

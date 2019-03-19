@@ -17,20 +17,16 @@
 package views.resident.properties.report
 
 import assets.MessageLookup.{SummaryPage => messages}
-import assets.{MessageLookup => commonMessages}
-import assets.MessageLookup.Resident.{Properties => propertiesMessages}
 import common.Dates
-import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.properties._
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{report => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.i18n.Lang
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{report => views}
 
-class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
   val fakeLang: Lang = Lang("en")
 
   "Deductions Report view" should {
@@ -77,7 +73,7 @@ class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplicati
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
+    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, testingMessages, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -161,7 +157,7 @@ class PropertiesDeductionsReportViewSpec extends UnitSpec with WithFakeApplicati
 
     lazy val taxYearModel = TaxYearModel("2013/14", false, "2015/16")
 
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 5000)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
+    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 5000)(fakeRequestWithSession, testingMessages, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
 

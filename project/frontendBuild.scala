@@ -35,16 +35,29 @@ private object AppDependencies {
   import play.core.PlayVersion
   import play.sbt.PlayImport._
 
-  val compile = Seq(
+  val bootstrapVersion        = "0.37.0"
+  val jsonJodaVersion         = "2.6.10"
+  val govUKTemplateVersion    = "5.30.0-play-26"
+  val playUiVersion           = "7.33.0-play-26"
+  val playPartialsVersion     = "6.5.0"
+  val httpCachingVersion      = "8.1.0"
+  val mongoCachingVersion     = "6.1.0-play-26"
+  val playLanguageVersion     = "3.4.0"
+  val play2PdfVersion         = "1.5.1"
+  val playJavaVersion         = "2.6.12"
+
+  val compile: Seq[ModuleID] = Seq(
     ws,
-    "uk.gov.hmrc" %% "bootstrap-play-25" % "4.7.0",
-    "uk.gov.hmrc" %% "govuk-template" % "5.27.0-play-25",
-    "uk.gov.hmrc" %% "play-ui" % "7.30.0-play-25",
-    "uk.gov.hmrc" %% "play-partials" % "6.3.0",
-    "uk.gov.hmrc" %% "http-caching-client" % "8.0.0",
-    "uk.gov.hmrc" %% "mongo-caching" % "5.6.0",
-    "uk.gov.hmrc" %% "play-language" % "3.4.0",
-    "it.innove" % "play2-pdf" % "1.5.1"
+    "uk.gov.hmrc"       %% "bootstrap-play-26"    % bootstrapVersion,
+    "com.typesafe.play" %% "play-json-joda"       % jsonJodaVersion,
+    "uk.gov.hmrc"       %% "govuk-template"       % govUKTemplateVersion,
+    "uk.gov.hmrc"       %% "play-ui"              % playUiVersion,
+    "uk.gov.hmrc"       %% "play-partials"        % playPartialsVersion,
+    "uk.gov.hmrc"       %% "http-caching-client"  % httpCachingVersion,
+    "uk.gov.hmrc"       %% "mongo-caching"        % mongoCachingVersion,
+    "uk.gov.hmrc"       %% "play-language"        % playLanguageVersion,
+    "it.innove"         %  "play2-pdf"            % play2PdfVersion,
+    "com.typesafe.play" %% "play-java"            % playJavaVersion
   )
 
   trait TestDependencies {
@@ -55,12 +68,13 @@ private object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
-        "uk.gov.hmrc" %% "hmrctest" % "3.4.0-play-25" % scope,
+        "uk.gov.hmrc" %% "hmrctest" % "3.6.0-play-26" % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % scope,
         "org.mockito" % "mockito-core" % "2.13.0" % scope,
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.10.2" % scope,
-        "com.typesafe.play" %% "play-test" % PlayVersion.current % scope
+        "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
+        "uk.gov.hmrc" %% "bootstrap-play-26" % bootstrapVersion % scope
       )
     }.test
   }

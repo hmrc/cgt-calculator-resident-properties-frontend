@@ -16,19 +16,16 @@
 
 package views.resident.properties.gain
 
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup.{NoTaxToPay => messages, Resident => commonMessages}
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
-import assets.MessageLookup.{NoTaxToPay => messages}
-import assets.MessageLookup.{Resident => commonMessages}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class NoTaxToPayViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class NoTaxToPayViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "No Tax to Pay View when gifted to spouse" should {
-    lazy val view = views.noTaxToPay(false)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.noTaxToPay(false)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -61,7 +58,7 @@ class NoTaxToPayViewSpec extends UnitSpec with WithFakeApplication with FakeRequ
   }
 
   "No Tax to Pay View when gifted to charity" should {
-    lazy val view = views.noTaxToPay(true)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.noTaxToPay(true)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have text explaining why tax is not owed" in {

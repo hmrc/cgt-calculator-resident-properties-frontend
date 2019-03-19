@@ -14,42 +14,40 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation.resident._
+@import config.AppConfig
 @import models.resident.properties.BoughtForLessThanWorthModel
-@import models.resident.properties._
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import uk.gov.hmrc.play.views.html.helpers.input_radio_group
-@import play.api.Application
+@import uk.gov.hmrc.play.views.html.helpers.{form, input_radio_group}
+@import views.html.calculation.resident._
+@import views.html.helpers._
 
-@(boughtForLessThanWorthForm: Form[BoughtForLessThanWorthModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, application: Application)
+@(boughtForLessThanWorthForm: Form[BoughtForLessThanWorthModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@resident_main_template(title = Messages("calc.resident.properties.boughtForLessThanWorth.title"),
-backLink = navBackLink,
-homeLink = navHomeLink,
-navTitle = Messages("calc.base.resident.properties.home")){
+@resident_main_template(
+    title = Messages("calc.resident.properties.boughtForLessThanWorth.title"),
+    backLink = navBackLink,
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.properties.home"),
+    appConfig = appConfig
+) {
+    @errorSummary(boughtForLessThanWorthForm, "bought-for-less-than-worth")
 
-@errorSummary(boughtForLessThanWorthForm, "bought-for-less-than-worth")
+    <h1 class="heading-large">@Messages("calc.resident.properties.boughtForLessThanWorth.title")</h1>
 
-<h1 class="heading-large">@Messages("calc.resident.properties.boughtForLessThanWorth.title")</h1>
+    @form(action = controllers.routes.GainController.submitBoughtForLessThanWorth) {
+        <div id="radio-input" class="form-group">
+            @input_radio_group(
+            field = boughtForLessThanWorthForm("boughtForLessThanWorth"),
+            Seq(
+            "Yes" -> Messages("calc.base.yes"),
+            "No" -> Messages("calc.base.no")),
+            '_legend -> Messages("calc.resident.properties.boughtForLessThanWorth.title"),
+            '_labelClass -> "block-label",
+            '_legendClass -> "visuallyhidden",
+            '_groupClass -> "inline"
+            )
+        </div>
 
-@form(action = controllers.routes.GainController.submitBoughtForLessThanWorth) {
-
-<div id="radio-input" class="form-group">
-    @input_radio_group(
-    field = boughtForLessThanWorthForm("boughtForLessThanWorth"),
-    Seq(
-    "Yes" -> Messages("calc.base.yes"),
-    "No" -> Messages("calc.base.no")),
-    '_legend -> Messages("calc.resident.properties.boughtForLessThanWorth.title"),
-    '_labelClass -> "block-label",
-    '_legendClass -> "visuallyhidden",
-    '_groupClass -> "inline"
-    )
-</div>
-
-<input type="hidden" name="boughtForLessThanWorth" value="" />
-<button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
-}
-
+        <input type="hidden" name="boughtForLessThanWorth" value="" />
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
 }

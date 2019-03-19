@@ -22,8 +22,9 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation.resident._
 @import play.api.Application
+@import config.AppConfig
 
-@(lettingsReliefForm: Form[LettingsReliefModel], navHomeLink: String, backLink: Option[String])(implicit request: Request[_], messages: Messages, application: Application)
+@(lettingsReliefForm: Form[LettingsReliefModel], navHomeLink: String, backLink: Option[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @lettingsReliefLink = {
     <a id="lettingsReliefLink" class="external-link" rel="external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016#letting-relief"
@@ -41,7 +42,8 @@
     title = Messages("calc.resident.lettingsRelief.title"),
     backLink = backLink,
     homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.properties.home")) {
+    navTitle = Messages("calc.base.resident.properties.home"),
+    appConfig = appConfig) {
 
     @errorSummary(lettingsReliefForm, "lettingsRelief")
 

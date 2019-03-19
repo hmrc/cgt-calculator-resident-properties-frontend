@@ -18,34 +18,28 @@ package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup
+import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.properties.gain.WhoDidYouGiveItToModel
+import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.scalatest.mock.MockitoSugar
+import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
+import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
-import org.mockito.Mockito._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
-import uk.gov.hmrc.http.cache.client.CacheMap
-import assets.MessageLookup
-import org.jsoup.Jsoup
-import play.api.test.Helpers._
-import services.SessionCacheService
 
-class WhoDidYouGiveItToActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class WhoDidYouGiveItToActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[WhoDidYouGiveItToModel]) : GainController = {
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-
     when(mockSessionCacheConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(keystoreKeys.whoDidYouGiveItTo))
       (ArgumentMatchers.any(), ArgumentMatchers.any())).
       thenReturn(Future.successful(getData))
@@ -53,12 +47,7 @@ class WhoDidYouGiveItToActionSpec extends UnitSpec with WithFakeApplication with
     when(mockSessionCacheConnector.saveFormData[WhoDidYouGiveItToModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val sessionCacheService = mockSessionCacheService
-      val config: AppConfig = mock[AppConfig]
-    }
+    testingGainController
   }
 
   "Calling .whoDidYouGiveItTo from the GainsController" when {

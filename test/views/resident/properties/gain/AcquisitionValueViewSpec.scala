@@ -16,21 +16,18 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{AcquisitionValue => messages}
-import assets.MessageLookup.{Resident => commonMessages}
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup.{AcquisitionValue => messages, Resident => commonMessages}
 import forms.resident.AcquisitionValueForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Acquisition Value view" should {
 
-    lazy val view = views.acquisitionValue(acquisitionValueForm)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.acquisitionValue(acquisitionValueForm)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -142,7 +139,7 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
 
   "Acquisition Value View with form with errors" should {
     lazy val form = acquisitionValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.acquisitionValue(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.acquisitionValue(form)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

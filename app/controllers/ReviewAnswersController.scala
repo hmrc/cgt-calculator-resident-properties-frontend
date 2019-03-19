@@ -20,32 +20,35 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates.requestFormatter
+import config.AppConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
+import javax.inject.{Inject, Singleton}
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.i18n.{I18nSupport, Lang}
+import play.api.mvc._
 import services.SessionCacheService
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.calculation.resident.properties.checkYourAnswers.checkYourAnswers
 
-import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
+import scala.concurrent.{ExecutionContext, Future}
 
-object ReviewAnswersController extends ReviewAnswersController {
-  val calculatorConnector = CalculatorConnector
-  val sessionCacheService = SessionCacheService
-}
+@Singleton
+class ReviewAnswersController @Inject()(
+                                         val calculatorConnector: CalculatorConnector,
+                                         val sessionCacheService: SessionCacheService,
+                                         val messagesControllerComponents: MessagesControllerComponents,
+                                         implicit val appConfig: AppConfig
+                                       ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
-trait ReviewAnswersController extends ValidActiveSession {
 
-  val calculatorConnector: CalculatorConnector
-  val sessionCacheService: SessionCacheService
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val sessionTimeoutUrl: String = homeLink
 
-  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl: String = homeLink
+  implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
     calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map {
@@ -56,8 +59,11 @@ trait ReviewAnswersController extends ValidActiveSession {
 
   def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[ChargeableGainAnswers] = sessionCacheService.getPropertyDeductionAnswers
 
-  val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
-    implicit request =>
+  private def languageRequest(body : Lang => Future[Result])(implicit request: Request[_]): Future[Result] =
+    body(messagesControllerComponents.messagesApi.preferred(request).lang)
+
+  val reviewGainAnswers: Action[AnyContent] = ValidateSession.async { implicit request =>
+    languageRequest { implicit lang =>
       getGainAnswers.map { answers =>
         Ok(checkYourAnswers(
           routes.SummaryController.summary(),
@@ -66,6 +72,7 @@ trait ReviewAnswersController extends ValidActiveSession {
           None,
           None))
       }.recoverToStart(homeLink, sessionTimeoutUrl)
+    }
   }
 
   val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
@@ -78,39 +85,43 @@ trait ReviewAnswersController extends ValidActiveSession {
     }
 
     implicit request =>
-      (for {
-        gainAnswers <- getGainAnswers
-        deductionsAnswers <- getDeductionsAnswers
-        taxYear <- getTaxYear(gainAnswers.disposalDate)
-        url <- generateBackUrl(deductionsAnswers)
-      } yield {
-        Ok(checkYourAnswers(
-          routes.SummaryController.summary(),
-          url, gainAnswers,
-          Some(deductionsAnswers),
-          Some(taxYear)))
-      }).recoverToStart(homeLink, sessionTimeoutUrl)
+      languageRequest { implicit lang =>
+        (for {
+          gainAnswers <- getGainAnswers
+          deductionsAnswers <- getDeductionsAnswers
+          taxYear <- getTaxYear(gainAnswers.disposalDate)
+          url <- generateBackUrl(deductionsAnswers)
+        } yield {
+          Ok(checkYourAnswers(
+            routes.SummaryController.summary(),
+            url, gainAnswers,
+            Some(deductionsAnswers),
+            Some(taxYear)))
+        }).recoverToStart(homeLink, sessionTimeoutUrl)
+      }
   }
 
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
-      val getCurrentTaxYear = Dates.getCurrentTaxYear
-      val getIncomeAnswers = sessionCacheService.getPropertyIncomeAnswers
+      languageRequest { implicit lang =>
+        val getCurrentTaxYear = Dates.getCurrentTaxYear
+        val getIncomeAnswers = sessionCacheService.getPropertyIncomeAnswers
 
-      (for {
-        gainAnswers <- getGainAnswers
-        deductionsAnswers <- getDeductionsAnswers
-        incomeAnswers <- getIncomeAnswers
-        taxYear <- getTaxYear(gainAnswers.disposalDate)
-        currentTaxYear <- getCurrentTaxYear
-      } yield {
-        Ok(checkYourAnswers(routes.SummaryController.summary(),
-          routes.IncomeController.personalAllowance().url,
-          gainAnswers,
-          Some(deductionsAnswers),
-          Some(taxYear),
-          Some(incomeAnswers),
-          taxYear.taxYearSupplied == currentTaxYear))
-      }).recoverToStart(homeLink, sessionTimeoutUrl)
+        (for {
+          gainAnswers <- getGainAnswers
+          deductionsAnswers <- getDeductionsAnswers
+          incomeAnswers <- getIncomeAnswers
+          taxYear <- getTaxYear(gainAnswers.disposalDate)
+          currentTaxYear <- getCurrentTaxYear
+        } yield {
+          Ok(checkYourAnswers(routes.SummaryController.summary(),
+            routes.IncomeController.personalAllowance().url,
+            gainAnswers,
+            Some(deductionsAnswers),
+            Some(taxYear),
+            Some(incomeAnswers),
+            taxYear.taxYearSupplied == currentTaxYear))
+        }).recoverToStart(homeLink, sessionTimeoutUrl)
+      }
   }
 }

@@ -17,29 +17,28 @@
 package controllers.resident.properties
 
 import akka.actor.ActorSystem
-import akka.stream.StreamRefMessages.ActorRef
 import akka.stream.{ActorMaterializer, Materializer}
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import play.api.test.Helpers._
 import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
 import connectors.CalculatorConnector
 import controllers.SummaryController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
 import models.resident.income._
 import models.resident.properties._
+import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
+import play.api.test.Helpers._
 import services.SessionCacheService
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
 
 
-class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val system: ActorSystem = ActorSystem()
@@ -88,11 +87,13 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
     when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000)))
 
-    new SummaryController {
-      override val calculatorConnector: CalculatorConnector = mockCalculatorConnector
-      override val sessionCacheService = mockSessionCacheService
+    when(mockAppConfig.analyticsToken)
+      .thenReturn("test-token")
 
-    }
+    when(mockAppConfig.analyticsHost)
+      .thenReturn("analyticsHost")
+
+    new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents, mockAppConfig)
   }
 
   "Calling .summary from the SummaryController" when {
@@ -715,8 +716,44 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
 
 
   "Calling .summary from the SummaryController with no session" should {
+    lazy val yourAnswersSummaryModel = YourAnswersSummaryModel(Dates.constructDate(12, 1, 2016),
+      Some(30000),
+      Some(500),
+      whoDidYouGiveItTo = None,
+      worthWhenGaveAway = None,
+      0,
+      Some(10000),
+      worthWhenInherited = None,
+      worthWhenGifted = None,
+      worthWhenBoughtForLess = None,
+      0,
+      0,
+      false,
+      Some(true),
+      false,
+      None,
+      Some("Bought"),
+      Some(false)
+    )
 
-    lazy val result = SummaryController.summary(fakeRequest)
+    lazy val chargeableGainAnswers = ChargeableGainAnswers(Some(LossesBroughtForwardModel(false)), None,
+      Some(PropertyLivedInModel(true)), Some(PrivateResidenceReliefModel(true)), Some(PrivateResidenceReliefValueModel(2000)),
+      Some(LettingsReliefModel(true)), Some(LettingsReliefValueModel(1000)))
+    lazy val chargeableGainResultModel = ChargeableGainResultModel(20000, 20000, 11100, 0, 11100, BigDecimal(0),
+      BigDecimal(0), Some(BigDecimal(0)), Some(BigDecimal(0)), 0, 0)
+    lazy val incomeAnswersModel = IncomeAnswersModel(Some(CurrentIncomeModel(20000)), Some(PersonalAllowanceModel(10000)))
+    lazy val totalGainAndTaxOwedModel = TotalGainAndTaxOwedModel(20000, 20000, 11100, 11100, 3600, 20000, 18,
+      None, None, Some(BigDecimal(0)), Some(BigDecimal(0)), 0, 0)
+    lazy val target = setupTarget(
+      yourAnswersSummaryModel,
+      10000,
+      chargeableGainAnswers,
+      Some(chargeableGainResultModel),
+      incomeAnswersModel,
+      Some(totalGainAndTaxOwedModel),
+      taxYearModel = Some(TaxYearModel("2015/2016", true, "2015/16"))
+    )
+    lazy val result = target.summary()(fakeRequest)
 
     "return a status of 303" in {
       status(result) shouldBe 303

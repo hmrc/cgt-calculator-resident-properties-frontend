@@ -27,12 +27,11 @@
   scriptElem: Option[Html] = None,
   isUserResearchBannerVisible: Boolean = false,
   articleLayout: Boolean = true,
-  backLink: Option[String] = None
-)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application)
+  backLink: Option[String] = None,
+  appConfig: config.AppConfig
+)(mainContent: Html)(implicit request : Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html.layouts
-
-@lc = @{Application.instanceCache[CgtLanguageController].apply(application)}
 
 @serviceInfoContent = {}
 
@@ -64,7 +63,10 @@
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
 
-    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
+    <div class="float--right">@views.html.helpers.language_selection(Map(
+        "english" -> Lang("en"),
+        "cymraeg" -> Lang("cy")
+    ), controllers.routes.CgtLanguageController.switchToLanguage, None)</div>
 }
 
 @afterHeader = {
@@ -73,7 +75,7 @@
         @full_width_banner(Some(full_width_banner_content_ur(
                 messages("calc.summary.userResearchLink.title"),
                 messages("calc.summary.userResearchLink.link"),
-                ApplicationConfig.urBannerLink,
+                appConfig.urBannerLink,
                 Some(messages("calc.summary.userResearchLink.text"))
                 )
             )
@@ -81,7 +83,7 @@
     }
 }
 
-@govuk_wrapper(appConfig = ApplicationConfig,
+@govuk_wrapper(appdConfig = appConfig,
                title = title,
                mainClass = mainClass,
                bodyClasses = bodyClasses,

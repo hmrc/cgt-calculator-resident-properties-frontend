@@ -16,11 +16,11 @@
 
 package forms.resident
 
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import models.resident.DisposalCostsModel
-import forms.resident.DisposalCostsForm._
 import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
+import forms.resident.DisposalCostsForm._
+import models.resident.DisposalCostsModel
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class DisposalCostsFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 

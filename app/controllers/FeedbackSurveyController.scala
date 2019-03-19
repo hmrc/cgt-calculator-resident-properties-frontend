@@ -18,16 +18,19 @@ package controllers
 
 import config.ApplicationConfig
 import controllers.predicates.ValidActiveSession
-import play.api.mvc.{Action, AnyContent}
+import javax.inject.{Singleton, Inject}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
 
-object FeedbackSurveyController extends FeedbackSurveyController
-
-trait FeedbackSurveyController  extends FrontendController with ValidActiveSession {
+@Singleton
+class FeedbackSurveyController @Inject()(
+                                          val messagesControllerComponents: MessagesControllerComponents,
+                                          val applicationConfig: ApplicationConfig
+                                        ) extends FrontendController(messagesControllerComponents) with ValidActiveSession {
 
   def redirectExitSurvey: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Redirect(ApplicationConfig.feedbackSurvey).withNewSession)
+    Future.successful(Redirect(applicationConfig.feedbackSurvey).withNewSession)
   }
 }

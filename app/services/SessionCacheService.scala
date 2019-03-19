@@ -19,6 +19,7 @@ package services
 import common.Dates.constructDate
 import common.KeystoreKeys.ResidentPropertyKeys
 import connectors.SessionCacheConnector
+import javax.inject.Inject
 import models.resident._
 import models.resident.properties._
 import models.resident.properties.gain.{OwnerBeforeLegislationStartModel, WhoDidYouGiveItToModel, WorthWhenGiftedModel}
@@ -29,20 +30,14 @@ import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object SessionCacheService extends SessionCacheService{
-   lazy val sessionCacheConnector = SessionCacheConnector
-}
-
-trait SessionCacheService {
-  val sessionCacheConnector: SessionCacheConnector
-
-  //scalastyle:off
+class SessionCacheService @Inject()(val sessionCacheConnector: SessionCacheConnector) {
   def getPropertyGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = {
     val disposalDate = sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
       constructDate(formData.get.day, formData.get.month, formData.get.year))
 
     //This is a proposed alternate method of writing the map without needing the case statement, need a judgement on whether
     //to use this method or older ones. Fold automatically handles the None/Some cases without matching manually
+
     val disposalValue = sessionCacheConnector.fetchAndGetFormData[DisposalValueModel](ResidentPropertyKeys.disposalValue).map(_.map(_.amount))
 
     val worthWhenSoldForLess = sessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ResidentPropertyKeys.worthWhenSoldForLess).map(_.map(_.amount))
@@ -119,13 +114,10 @@ trait SessionCacheService {
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calculator-resident-properties-frontend",
         Redirect(controllers.routes.TimeoutController.timeout(sessionCacheConnector.homeLink, sessionCacheConnector.homeLink)),
-        e.getMessage
+        "cgt-calculator-resident-properties-frontend" + e.getMessage
       )
   }
-
-  //scalastyle:on
 
   def getPropertyDeductionAnswers(implicit hc: HeaderCarrier): Future[ChargeableGainAnswers] = {
     val broughtForwardModel = sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ResidentPropertyKeys.lossesBroughtForward)
@@ -158,9 +150,8 @@ trait SessionCacheService {
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calculator-resident-properties-frontend",
         Redirect(controllers.routes.TimeoutController.timeout(sessionCacheConnector.homeLink, sessionCacheConnector.homeLink)),
-        e.getMessage
+        "cgt-calculator-resident-properties-frontend" + e.getMessage
       )
   }
 
@@ -177,9 +168,8 @@ trait SessionCacheService {
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calculator-resident-properties-frontend",
         Redirect(controllers.routes.TimeoutController.timeout(sessionCacheConnector.homeLink, sessionCacheConnector.homeLink)),
-        e.getMessage
+        "cgt-calculator-resident-properties-frontend" + e.getMessage
       )
   }
 }

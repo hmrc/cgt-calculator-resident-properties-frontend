@@ -16,39 +16,38 @@
 
 package controllers
 
-import controllers.predicates.ValidActiveSession
-import play.api.mvc.{Action, AnyContent}
-import common.Dates._
 import java.time._
 
-import controllers.utils.RecoverableFuture
+import common.Dates._
 import common.KeystoreKeys
-import config.{AppConfig, ApplicationConfig}
+import config.AppConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
+import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
+import javax.inject.{Singleton, Inject}
 import models.resident.DisposalDateModel
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-
-import scala.concurrent.Future
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-object WhatNextSAController extends WhatNextSAController {
-  val calcConnector = CalculatorConnector
-  val sessionCacheConnector = SessionCacheConnector
-  val appConfig = ApplicationConfig
-}
+import scala.concurrent.{ExecutionContext, Future}
 
-trait WhatNextSAController extends ValidActiveSession {
+@Singleton
+class WhatNextSAController @Inject()(
+                                      val calcConnector: CalculatorConnector,
+                                      val sessionCacheConnector: SessionCacheConnector,
+                                      val messagesControllerComponents: MessagesControllerComponents,
+                                      implicit val appConfig: AppConfig
+                                    ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
-  val calcConnector: CalculatorConnector
-  val sessionCacheConnector : SessionCacheConnector
-  val appConfig: AppConfig
+  implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  val backLink: String = routes.SaUserController.saUser().url
+  lazy val backLink: String = routes.SaUserController.saUser().url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
-  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl: String = homeLink
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val sessionTimeoutUrl: String = homeLink
 
   def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
     sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentPropertyKeys.disposalDate).map {

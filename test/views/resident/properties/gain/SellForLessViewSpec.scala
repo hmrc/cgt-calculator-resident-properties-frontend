@@ -16,22 +16,20 @@
 
 package views.resident.properties.gain
 
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{gain => views}
 import assets.MessageLookup.Resident.Properties.{SellForLess => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import forms.resident.properties.SellForLessForm._
 import models.resident.SellForLessModel
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import org.jsoup.Jsoup
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{gain => views}
 
-class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class SellForLessViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Sell for less view with an empty form" should {
 
-    lazy val view = views.sellForLess(sellForLessForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.sellForLess(sellForLessForm, "home-link", Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -212,7 +210,7 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
   }
 
   "Sell for less view with a filled form" which {
-    lazy val view = views.sellForLess(sellForLessForm.fill(SellForLessModel(true)), "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.sellForLess(sellForLessForm.fill(SellForLessModel(true)), "home-link", Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -228,7 +226,7 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
   "Sell for less view with form errors" should {
 
     lazy val form = sellForLessForm.bind(Map("sellForLess" -> ""))
-    lazy val view = views.sellForLess(form, "home", Some("back"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.sellForLess(form, "home", Some("back"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

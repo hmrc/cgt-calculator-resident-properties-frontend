@@ -16,22 +16,19 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.Properties.{WorthWhenSoldForLess => messages}
-import assets.MessageLookup.Resident.Shares.WorthWhenSoldForLess
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup.{Resident => commonMessages}
 import forms.resident.WorthWhenSoldForLessForm._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{gain => views}
 import org.jsoup.Jsoup
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{gain => views}
 
-class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "The Property Worth When Sold View when supplied with an empty form" should {
 
-    lazy val view = views.worthWhenSoldForLess(worthWhenSoldForLessForm)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.worthWhenSoldForLess(worthWhenSoldForLessForm)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -144,7 +141,7 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
   "The Property Worth When Sold View when supplied with a correct form" should {
 
     lazy val form = worthWhenSoldForLessForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenSoldForLess(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.worthWhenSoldForLess(form)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form in the input" in {
@@ -163,7 +160,7 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
   "The Property Worth When Sold View when supplied with an incorrect form" should {
 
     lazy val form = worthWhenSoldForLessForm.bind(Map("amount" -> "adsa"))
-    lazy val view = views.worthWhenSoldForLess(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.worthWhenSoldForLess(form)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

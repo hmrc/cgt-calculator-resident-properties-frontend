@@ -16,28 +16,27 @@
 
 package controllers
 
-import config.{AppConfig, ApplicationConfig}
+import config.AppConfig
 import controllers.predicates.ValidActiveSession
-import play.api.mvc.{Action, AnyContent}
+import javax.inject.{Inject, Singleton}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.calculation.resident.properties.{whatNext => views}
 
 import scala.concurrent.Future
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-object WhatNextNonSaController extends WhatNextNonSaController {
-  override val applicationConfig: AppConfig = ApplicationConfig
-}
-
-trait WhatNextNonSaController extends ValidActiveSession {
-
-  val applicationConfig: AppConfig
+@Singleton
+class WhatNextNonSaController @Inject()(
+                                       val messagesControllerComponents: MessagesControllerComponents,
+                                       implicit val appConfig: AppConfig
+                                       ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
   val whatNextNonSaGain: Action[AnyContent] = ValidateSession.async { implicit request =>
-    Future.successful(Ok(views.whatNextNonSaGain(applicationConfig.residentIFormUrl)))
+    Future.successful(Ok(views.whatNextNonSaGain(appConfig.residentIFormUrl)))
   }
 
   val whatNextNonSaLoss: Action[AnyContent] = ValidateSession.async { implicit request =>
-    Future.successful(Ok(views.whatNextNonSaLoss(applicationConfig.residentIFormUrl)))
+    Future.successful(Ok(views.whatNextNonSaLoss(appConfig.residentIFormUrl)))
   }
 }

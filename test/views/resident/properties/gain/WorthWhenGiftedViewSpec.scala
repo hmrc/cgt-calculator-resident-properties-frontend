@@ -16,25 +16,23 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{Resident => commonMessages}
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{gain => views}
-import forms.resident.properties.gain.WorthWhenGiftedForm._
 import assets.MessageLookup.Resident.Properties.{WorthWhenGifted => messages}
+import assets.MessageLookup.{Resident => commonMessages}
+import forms.resident.properties.gain.WorthWhenGiftedForm._
+import org.jsoup.Jsoup
 import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{gain => views}
 
-class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "worthWhenGifted view" should {
     val backLink = Some("back-link")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenGiftedForm
-    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -108,7 +106,7 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenGiftedForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -129,7 +127,7 @@ class WorthWhenGiftedViewSpec extends UnitSpec with WithFakeApplication with Fak
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenGiftedForm.bind(Map("amount" -> ""))
-    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

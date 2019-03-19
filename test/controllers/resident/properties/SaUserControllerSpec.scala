@@ -19,32 +19,26 @@ package controllers.resident.properties
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.{MessageLookup, ModelsAsset}
-import connectors.CalculatorConnector
 import controllers.SaUserController
-import controllers.helpers.FakeRequestHelper
-import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident.properties.YourAnswersSummaryModel
+import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
-import org.scalatestplus.play.OneAppPerSuite
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+class SaUserControllerSpec extends UnitSpec with FakeRequestHelper with MockitoSugar with CommonMocks with WithFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
 
   def setupController(yourAnswersSummaryModel: YourAnswersSummaryModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
                       taxOwed: BigDecimal): SaUserController = {
-    val mockConnector = mock[CalculatorConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-
     when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
@@ -54,32 +48,36 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
     when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(ModelsAsset.incomeAnswers))
 
-    when(mockConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    when(mockConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(ChargeableGainResultModel(totalGain, chargeableGain, 0, 0, 0, 0, 0, None, None, 0, 0))))
 
-    when(mockConnector.calculateRttPropertyTotalGainAndTax(ArgumentMatchers.any(), ArgumentMatchers.any(),
+    when(mockCalcConnector.calculateRttPropertyTotalGainAndTax(ArgumentMatchers.any(), ArgumentMatchers.any(),
       ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
     .thenReturn(Future.successful(Some(TotalGainAndTaxOwedModel(totalGain, chargeableGain, 11000, 0, 5000, 10000, 5, None, None, None, None, 0, 0))))
 
-    when(mockConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
     .thenReturn(Future.successful(Some(BigDecimal(11000))))
 
-    when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
     .thenReturn(Future.successful(Some(ModelsAsset.taxYearModel)))
 
-    new SaUserController {
-      override val calculatorConnector: CalculatorConnector = mockConnector
-      override val sessionCacheService = mockSessionCacheService
-    }
+    when(mockAppConfig.analyticsToken)
+      .thenReturn("test-token")
+
+    when(mockAppConfig.analyticsHost)
+      .thenReturn("analyticsHost")
+
+    new SaUserController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, mockAppConfig)
   }
 
   "Calling .saUser" when {
 
     "no session is provided" should {
-      lazy val result = SaUserController.saUser(fakeRequest)
+      lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+      lazy val result = controller.saUser(fakeRequest)
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -91,7 +89,8 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
     }
 
     "a session is provided" should {
-      lazy val result = SaUserController.saUser(fakeRequestWithSession)
+      lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+      lazy val result = controller.saUser(fakeRequestWithSession)
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -106,7 +105,8 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
   "Calling .submitSaUser" when {
 
     "no session is provided" should {
-      lazy val result = SaUserController.submitSaUser(fakeRequest)
+      lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+      lazy val result = controller.submitSaUser(fakeRequest)
 
       "return a status of 303" in {
         status(result) shouldBe 303

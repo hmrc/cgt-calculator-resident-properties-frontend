@@ -16,22 +16,18 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{AcquisitionCosts => messages}
-import assets.MessageLookup.{Resident => commonMessages}
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup.{AcquisitionCosts => messages, Resident => commonMessages}
 import forms.resident.AcquisitionCostsForm._
 import org.jsoup.Jsoup
-import org.scalatestplus.play.OneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Acquisition Costs view" should {
 
-    lazy val view = views.acquisitionCosts(acquisitionCostsForm, Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.acquisitionCosts(acquisitionCostsForm, Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -60,7 +56,7 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementById("homeNavHref").attr("href") shouldEqual controllers.routes.PropertiesController.introduction().toString()
+      doc.getElementById("homeNavHref").attr("href") shouldEqual controllers.routes.PropertiesController.introduction().toString
     }
 
     "have a H1 tag that" should {
@@ -174,7 +170,7 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
     "is due to mandatory field error" should {
 
       lazy val form = acquisitionCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.acquisitionCosts(form, Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+      lazy val view = views.acquisitionCosts(form, Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

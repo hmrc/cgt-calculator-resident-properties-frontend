@@ -20,24 +20,22 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.Resident.Properties.{ImprovementsView => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import controllers.{GainController, routes}
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import models.resident.properties.{ImprovementsModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -49,11 +47,6 @@ class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with Fake
                   totalGain: BigDecimal,
                   prrEnabled: Boolean = true,
                   ownerBeforeAprilNineteenEightyTwo: Boolean = false): GainController = {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-    val mockConfig = mock[AppConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[ImprovementsModel](ArgumentMatchers.eq(keystoreKeys.improvements))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -72,12 +65,7 @@ class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockSessionCacheConnector.saveFormData[ImprovementsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val sessionCacheService = mockSessionCacheService
-      val config: AppConfig = mockConfig
-    }
+    testingGainController
   }
 
   "Calling .improvements from the GainCalculationController" when {
@@ -137,8 +125,8 @@ class ImprovementsActionSpec extends UnitSpec with WithFakeApplication with Fake
   }
 
   "request has an invalid session" should {
-
-    lazy val result = GainController.improvements(fakeRequest)
+    lazy val target = setupTarget(Some(ImprovementsModel(1000)), summaryModel, BigDecimal(0), ownerBeforeAprilNineteenEightyTwo = true)
+    lazy val result = target.improvements(fakeRequest)
 
     "return a status of 303" in {
       status(result) shouldBe 303

@@ -16,11 +16,11 @@
 
 package forms.resident
 
+import assets.MessageLookup.{SaUser => messages}
+import forms.resident.SaUserForm._
 import models.resident.SaUserModel
 import org.scalatestplus.play.OneAppPerSuite
 import uk.gov.hmrc.play.test.UnitSpec
-import forms.resident.SaUserForm._
-import assets.MessageLookup.{SaUser => messages}
 
 class SaUserFormSpec extends UnitSpec with OneAppPerSuite {
 

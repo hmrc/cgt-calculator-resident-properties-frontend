@@ -16,24 +16,22 @@
 
 package controllers.ReportControllerSpec
 
+import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.ReportController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
+import models.resident.properties._
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.mvc.RequestHeader
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import assets.MessageLookup.{SummaryPage => messages}
-import models.resident.properties._
-import services.SessionCacheService
 
 import scala.concurrent.Future
 
-class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
 
   def setupTarget
   (
@@ -44,35 +42,29 @@ class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with
     taxYearModel: Option[TaxYearModel]
   ): ReportController = {
 
-    lazy val mockCalculatorConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-
     when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
-    when(mockCalculatorConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
 
     when(mockSessionCacheService.getPropertyDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
-    when(mockCalculatorConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())
+    when(mockCalcConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())
     (ArgumentMatchers.any()))
       .thenReturn(chargeableGainResultModel)
 
-    when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
-    when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
-    when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
     .thenReturn(Future.successful(BigDecimal(10000)))
 
-    new ReportController {
-      override val calcConnector: CalculatorConnector = mockCalculatorConnector
-      override val sessionCacheService = mockSessionCacheService
+    new ReportController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

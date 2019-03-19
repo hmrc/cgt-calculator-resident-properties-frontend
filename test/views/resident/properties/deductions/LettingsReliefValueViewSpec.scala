@@ -16,22 +16,19 @@
 
 package views.resident.properties.deductions
 
-import assets.MessageLookup.{Resident => commonMessages}
-import assets.MessageLookup.{LettingsReliefValue => messages}
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup.{LettingsReliefValue => messages, Resident => commonMessages}
 import forms.resident.properties.LettingsReliefValueForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{deductions => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class LettingsReliefValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class LettingsReliefValueViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Reliefs Value view" should {
 
     lazy val form = lettingsReliefValueForm(1000,100).bind(Map("amount" -> "10"))
-    lazy val view = views.lettingsReliefValue(form, "home-link", 1000)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.lettingsReliefValue(form, "home-link", 1000)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -82,7 +79,7 @@ class LettingsReliefValueViewSpec extends UnitSpec with WithFakeApplication with
   "Reliefs Value View with form without errors" should {
 
     lazy val form = lettingsReliefValueForm(1000,150).bind(Map("amount" -> "100"))
-    lazy val view = views.lettingsReliefValue(form, "home-link", 2000)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.lettingsReliefValue(form, "home-link", 2000)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -113,7 +110,7 @@ class LettingsReliefValueViewSpec extends UnitSpec with WithFakeApplication with
   "Reliefs Value View with form with errors" should {
 
     lazy val form = lettingsReliefValueForm(1000,100).bind(Map("amount" -> ""))
-    lazy val view = views.lettingsReliefValue(form, "home-link", 3000)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.lettingsReliefValue(form, "home-link", 3000)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {

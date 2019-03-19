@@ -17,7 +17,6 @@
 package models.resident.properties
 
 import models.resident._
-import constructors.resident.properties.CalculateRequestConstructor._
 
 
 case class ChargeableGainAnswers (broughtForwardModel: Option[LossesBroughtForwardModel],

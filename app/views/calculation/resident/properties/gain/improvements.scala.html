@@ -20,8 +20,9 @@
 @import views.html.helpers.resident._
 @import views.html.calculation.resident.properties._
 @import play.api.Application
+@import config.AppConfig
 
-@(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
+@(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @hiddenHelpTextContent = {
     <p>@Messages("calc.resident.properties.improvements.additionalContent.one")</p>
@@ -30,7 +31,7 @@
 
 @resident_properties_main_template(title = if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
     else Messages("calc.resident.properties.improvements.question"),
-    backLink = Some(controllers.routes.GainController.acquisitionCosts().toString)) {
+    backLink = Some(controllers.routes.GainController.acquisitionCosts().toString), appConfig = appConfig) {
 
     @errorSummary(improvementsForm, "improvements")
 

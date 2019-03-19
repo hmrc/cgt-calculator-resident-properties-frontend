@@ -20,8 +20,9 @@
 @import views.html.helpers._
 @import views.html.calculation.resident.properties.resident_properties_main_template
 @import play.api.Application
+@import config.AppConfig
 
-@(privateResidenceReliefForm : Form[PrivateResidenceReliefModel])(implicit request: Request[_], messages: Messages, application: Application)
+@(privateResidenceReliefForm : Form[PrivateResidenceReliefModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @helpText = {
     @Messages("calc.resident.properties.privateResidenceRelief.helpText")
@@ -34,7 +35,8 @@
 
 @resident_properties_main_template(
     title = Messages("calc.resident.properties.privateResidenceRelief.title"),
-    backLink = Some(controllers.routes.DeductionsController.propertyLivedIn().url)) {
+    backLink = Some(controllers.routes.DeductionsController.propertyLivedIn().url),
+    appConfig = appConfig) {
 
     @errorSummary(privateResidenceReliefForm, "isClaiming")
 

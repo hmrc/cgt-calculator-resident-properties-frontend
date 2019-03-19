@@ -16,20 +16,18 @@
 
 package views.resident.properties.whatNext
 
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{whatNext => views}
 import assets.MessageLookup.WhatNextPages.{FourTimesAEA => pageMessages}
 import assets.MessageLookup.{WhatNextPages => commonMessages}
+import org.jsoup.Jsoup
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{whatNext => views}
 
-class WhatNextSAFourTimesAEAViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WhatNextSAFourTimesAEAViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "The whatNextSAFourTimesAEA view" should {
 
-    lazy val view = views.whatNextSAFourTimesAEA("back-link")(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.whatNextSAFourTimesAEA("back-link")(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {

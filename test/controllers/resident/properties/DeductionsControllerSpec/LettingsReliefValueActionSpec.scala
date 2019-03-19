@@ -20,23 +20,21 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{LettingsReliefValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.DeductionsControllerSpec.DeductionsControllerBaseSpec
 import models.resident.properties.{LettingsReliefValueModel, PrivateResidenceReliefValueModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class LettingsReliefValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class LettingsReliefValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -46,11 +44,6 @@ class LettingsReliefValueActionSpec extends UnitSpec with WithFakeApplication wi
                    prrValue: Option[PrivateResidenceReliefValueModel],
                    totalGain: BigDecimal
                  ): DeductionsController = {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-    val mockAppConfig = mock[AppConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[LettingsReliefValueModel](ArgumentMatchers.eq(keystoreKeys.lettingsReliefValue))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -70,12 +63,7 @@ class LettingsReliefValueActionSpec extends UnitSpec with WithFakeApplication wi
     when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    new DeductionsController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-      val config = mockAppConfig
-    }
+    testingDeductionsController
   }
 
   "Calling .lettingsReliefValue from the resident DeductionsController" when {

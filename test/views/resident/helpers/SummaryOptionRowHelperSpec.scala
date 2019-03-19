@@ -16,16 +16,18 @@
 
 package views.resident.helpers
 
-import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.helpers.resident.summaryOptionRowHelper
 import assets.MessageLookup.{Resident => commonMessages}
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.helpers.resident.summaryOptionRowHelper
 
-class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication {
+class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication  with BaseViewSpec {
+
+  implicit val messages = testingMessages
+  implicit val lang = messages.lang
 
   "The Summary Numeric Row Helper" when {
 

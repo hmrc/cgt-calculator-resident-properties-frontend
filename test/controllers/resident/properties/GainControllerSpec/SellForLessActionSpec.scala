@@ -18,47 +18,35 @@ package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
-import config.{AppConfig, ApplicationConfig}
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
-import controllers.GainController
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
-import org.mockito.ArgumentMatchers
 import assets.MessageLookup.Resident.Properties.{SellForLess => messages}
+import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
+import controllers.GainController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.SellForLessModel
 import org.jsoup.Jsoup
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[SellForLessModel]): GainController= {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-
     when(mockSessionCacheConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keyStoreKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheConnector.saveFormData[SellForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val sessionCacheService = mockSessionCacheService
-      override val config: AppConfig = ApplicationConfig
-    }
+    testingGainController
   }
 
   "Calling .sellForLess from the resident GainController" when {

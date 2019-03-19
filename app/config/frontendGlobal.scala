@@ -20,20 +20,19 @@ import com.typesafe.config.Config
 import javax.inject.Inject
 import models.CGTClientException
 import net.ceedubs.ficus.Ficus._
-import play.api.Play.current
+import play.api.Play
 import play.api.http.Status.{BAD_REQUEST, NOT_FOUND}
 import play.api.i18n.MessagesApi
 import play.api.mvc.Results.{BadRequest, NotFound}
 import play.api.mvc.{Request, RequestHeader, Result}
-import play.api.{Configuration, DefaultGlobal, Play}
 import play.twirl.api.Html
+import uk.gov.hmrc.play.bootstrap.config.ControllerConfig
 import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler
-import uk.gov.hmrc.play.config.ControllerConfig
 
 import scala.concurrent.Future
 
 class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
-                                val configuration: Configuration) extends FrontendErrorHandler {
+                                implicit val config: AppConfig) extends FrontendErrorHandler {
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
     val url = """^(.*[\/])""".r findFirstIn request.path
@@ -47,13 +46,13 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
     views.html.error_template(pageTitle, heading, message, homeNavLink)
   }
 
-  val homeLink: String = controllers.routes.GainController.disposalDate().url
+  lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
 
   override def onClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] = {
     statusCode match {
       case BAD_REQUEST => Future.successful(BadRequest(badRequestTemplate(Request(request, ""))))
       case NOT_FOUND   => Future.successful(NotFound(notFoundTemplate(Request(request, ""))))
-      case _           => DefaultGlobal.onError(request, CGTClientException(s"Client Error Occurred with Status $statusCode and message $message"))
+      case _           => onServerError(request, CGTClientException(s"Client Error Occurred with Status $statusCode and message $message"))
     }
   }
 }

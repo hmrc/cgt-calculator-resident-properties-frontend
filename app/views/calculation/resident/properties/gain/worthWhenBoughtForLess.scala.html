@@ -19,12 +19,14 @@
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.properties.WorthWhenBoughtForLessModel
 @import play.api.Application
+@import config.AppConfig
 
-@(worthWhenBoughtForLessForm: Form[WorthWhenBoughtForLessModel])(implicit request: Request[_], messages: Messages, application: Application)
+@(worthWhenBoughtForLessForm: Form[WorthWhenBoughtForLessModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.properties.worthWhenBoughtForLess.question"),
-    backLink = Some(controllers.routes.GainController.boughtForLessThanWorth().url)
+    backLink = Some(controllers.routes.GainController.boughtForLessThanWorth().url),
+    appConfig = appConfig
     ) {
 
     @errorSummary(worthWhenBoughtForLessForm, "amount")

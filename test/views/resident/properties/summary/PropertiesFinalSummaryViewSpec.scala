@@ -18,17 +18,16 @@ package views.resident.properties.summary
 
 import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates
-import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties._
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import org.mockito.Mockito.when
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{summary => views}
 
-class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "PropertiesFinalSummaryView" when {
     val incomeAnswers = IncomeAnswersModel(
@@ -89,8 +88,11 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
+      when(mockAppConfig.urBannerLink)
+        .thenReturn(summaryMessages.bannerPanelLinkURL)
+
       lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl,
-        taxYearModel, None, None, 100, 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication)
+        taxYearModel, None, None, 100, 100, showUserResearchPanel = true)(fakeRequest, testingMessages, mockAppConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -519,7 +521,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl,
-        taxYearModel, None, None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+        taxYearModel, None, None, 100, 100, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "does not have ur panel" in {
@@ -584,7 +586,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "not have PRR GA metrics when PRR is not in scope" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+          None, None, 100, 100, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
@@ -593,7 +595,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "not have lettings relief GA metrics when it is not in scope" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+          None, None, 100, 100, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0
@@ -602,7 +604,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have PRR GA metrics when PRR is used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          Some(true), None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+          Some(true), None, 100, 100, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 1
@@ -611,7 +613,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "not have lettings relief GA metrics when it is used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, Some(true), 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+          None, Some(true), 100, 100, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 1
@@ -620,7 +622,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have PRR GA metrics when PRR is not used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          Some(false), None, 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+          Some(false), None, 100, 100, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:prr:yes\"]").size shouldBe 0
@@ -629,7 +631,7 @@ class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication w
 
       "have lettings relief GA metrics when it is not used" in {
         val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel,
-          None, Some(false), 100, 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+          None, Some(false), 100, 100, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
         val doc = Jsoup.parse(view.body)
 
         doc.select("[data-metrics=\"rtt-properties-summary:lettingsRelief:yes\"]").size shouldBe 0

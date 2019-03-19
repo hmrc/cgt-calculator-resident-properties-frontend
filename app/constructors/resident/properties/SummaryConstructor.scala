@@ -18,21 +18,12 @@ package constructors.resident.properties
 
 import models.resident._
 import models.resident.properties._
-import play.api.i18n.Messages
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.math.BigDecimal.RoundingMode
 
 object SummaryConstructor {
-
-  def gainMessage (result: BigDecimal): String = {
-    if (result >= 0) Messages("calc.resident.summary.totalGain")
-    else Messages("calc.resident.summary.totalLoss")
-  }
-
-  def broughtForwardLossesUsed (input: ChargeableGainAnswers): String = {
+  def broughtForwardLossesUsed(input: ChargeableGainAnswers): String = {
     input.broughtForwardModel match {
       case Some(LossesBroughtForwardModel(true)) => MoneyPounds(input.broughtForwardValueModel.get.amount.setScale(0, RoundingMode.UP), 0).quantity
       case _ => MoneyPounds(0,0).quantity

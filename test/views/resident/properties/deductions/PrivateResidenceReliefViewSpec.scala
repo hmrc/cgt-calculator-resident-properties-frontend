@@ -16,21 +16,18 @@
 
 package views.resident.properties.deductions
 
-import controllers.helpers.FakeRequestHelper
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import assets.MessageLookup.{PrivateResidenceRelief => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{PrivateResidenceRelief => messages, Resident => commonMessages}
 import forms.resident.properties.PrivateResidenceReliefForm._
 import org.jsoup.Jsoup
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
 import views.html.calculation.resident.properties.{deductions => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "Private Residence Relief view" should {
 
-    lazy val view = views.privateResidenceRelief(privateResidenceReliefForm)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.privateResidenceRelief(privateResidenceReliefForm)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -219,7 +216,7 @@ class PrivateResidenceReliefViewSpec extends UnitSpec with WithFakeApplication w
     "is due to mandatory field error" should {
 
       lazy val form = privateResidenceReliefForm.bind(Map("amount" -> ""))
-      lazy val view = views.privateResidenceRelief(form)(fakeRequest, applicationMessages, fakeApplication)
+      lazy val view = views.privateResidenceRelief(form)(fakeRequest, testingMessages, mockAppConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

@@ -16,10 +16,10 @@
 
 package forms.resident.deductions
 
+import assets.MessageLookup.{PropertyLivedIn => messages}
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties.PropertyLivedInModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import assets.MessageLookup.{PropertyLivedIn => messages}
 
 class PropertyLivedInFormSpec extends UnitSpec with WithFakeApplication {
 

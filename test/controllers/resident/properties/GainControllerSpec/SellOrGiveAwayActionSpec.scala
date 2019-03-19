@@ -18,46 +18,34 @@ package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup.{PropertiesSellOrGiveAway => messages}
 import controllers.GainController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.properties.SellOrGiveAwayModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import assets.MessageLookup.{PropertiesSellOrGiveAway => messages}
-import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class SellOrGiveAwayActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class SellOrGiveAwayActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[SellOrGiveAwayModel]): GainController = {
-
-    val mockConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-
     when(mockSessionCacheConnector.fetchAndGetFormData[SellOrGiveAwayModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheConnector.saveFormData[SellOrGiveAwayModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val sessionCacheService = mockSessionCacheService
-      override val config: AppConfig = mock[AppConfig]
-    }
+    testingGainController
   }
 
   "Calling .sellOrGiveAway action" when {

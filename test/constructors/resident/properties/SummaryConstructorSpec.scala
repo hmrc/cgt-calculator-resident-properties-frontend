@@ -16,37 +16,11 @@
 
 package constructors.resident.properties
 
-import assets.MessageLookup.{SummaryPage => messages}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class SummaryConstructorSpec extends UnitSpec with WithFakeApplication {
-
-  "Calling the .gainMessage function" when {
-
-    "result is a loss" should {
-
-      s"return the message '${messages.totalLoss}'" in {
-        SummaryConstructor.gainMessage(BigDecimal(-1000)) shouldBe messages.totalLoss
-      }
-    }
-
-    "result is a gain" should {
-
-      s"return the message '${messages.totalGain}'" in {
-        SummaryConstructor.gainMessage(BigDecimal(1000)) shouldBe messages.totalGain
-      }
-    }
-
-    "result is 0" should {
-
-      s"return the message '${messages.totalGain}'" in {
-        SummaryConstructor.gainMessage(BigDecimal(0)) shouldBe messages.totalGain
-      }
-    }
-  }
-
   "Calling the .broughtForwardLossesUsed function" when {
 
     "no brought forward losses are claimed" should {

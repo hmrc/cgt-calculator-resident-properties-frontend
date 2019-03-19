@@ -20,34 +20,36 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates._
+import config.AppConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
+import javax.inject.{Singleton, Inject}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
-import play.api.mvc.Result
-import views.html.calculation.resident.properties.{summary => views}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.I18nSupport
+import play.api.mvc.{MessagesControllerComponents, Result}
 import services.SessionCacheService
-import scala.util.Random
-import play.api.Logger
-
-import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import views.html.calculation.resident.properties.{summary => views}
 
-object SummaryController extends SummaryController {
-  val calculatorConnector = CalculatorConnector
-  val sessionCacheService = SessionCacheService
-}
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Random
 
-trait SummaryController extends ValidActiveSession {
+@Singleton
+class SummaryController @Inject()(
+                                   val calculatorConnector: CalculatorConnector,
+                                   val sessionCacheService: SessionCacheService,
+                                   val messagesControllerComponents: MessagesControllerComponents,
+                                   implicit val appConfig: AppConfig
+                                 ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
-  val calculatorConnector: CalculatorConnector
-  val sessionCacheService: SessionCacheService
+  implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl: String = homeLink
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val sessionTimeoutUrl: String = homeLink
 
   val summary = ValidateSession.async { implicit request =>
 

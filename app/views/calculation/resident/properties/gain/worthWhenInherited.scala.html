@@ -19,14 +19,16 @@
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.WorthWhenInheritedModel
 @import play.api.Application
+@import config.AppConfig
 
-@(worthWhenInheritedForm: Form[WorthWhenInheritedModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages, application: Application)
+@(worthWhenInheritedForm: Form[WorthWhenInheritedModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @resident_main_template(
     title = Messages("calc.resident.properties.worthWhenInherited.question"),
     backLink = backLink,
     homeLink = homeLink,
-    navTitle = Messages("calc.base.resident.properties.home")
+    navTitle = Messages("calc.base.resident.properties.home"),
+    appConfig = appConfig
     ) {
 
     @errorSummary(worthWhenInheritedForm, "amount")

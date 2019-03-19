@@ -20,28 +20,28 @@ import java.time.LocalDate
 import java.util.UUID
 
 import common.Dates
-import models.resident.{IncomeAnswersModel, TaxYearModel}
+import constructors.resident.{properties => propertyConstructor}
+import controllers.helpers.CommonMocks
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
+import models.resident.{IncomeAnswersModel, TaxYearModel}
 import org.joda.time.DateTime
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.mockito.stubbing.OngoingStubbing
-import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
-import constructors.resident.{properties => propertyConstructor}
-import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
+import org.scalatest.mockito.MockitoSugar
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.logging.SessionId
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{HeaderCarrier, HttpGet}
-import uk.gov.hmrc.http.logging.SessionId
 
-class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
+class CalculatorConnectorSpec extends UnitSpec with MockitoSugar with CommonMocks with WithFakeApplication {
 
-  val mockHttp: HttpGet = mock[HttpGet]
   val sessionId = UUID.randomUUID.toString
 
   object TargetCalculatorConnector extends CalculatorConnector {
-    override val http = mockHttp
+    override val http = mockHttpClient
     override val serviceUrl = "capital-gains-calculator"
   }
 
@@ -49,7 +49,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
   "Calling .getMinimumDate" should {
     def mockDate(result: Future[DateTime]): OngoingStubbing[Future[DateTime]] =
-      when(mockHttp.GET[DateTime](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[DateTime](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(result)
 
     "return a DateTime which matches the returned LocalDate" in {
@@ -65,7 +65,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
   "Calling .getFullAEA" should{
     "return Some(BigDecimal(100.0))" in{
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=2017"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=2017"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(BigDecimal(100.0))))
 
       val result = TargetCalculatorConnector.getFullAEA(2017)
@@ -73,7 +73,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
     }
 
     "return None" in{
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=0"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=0"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(None))
 
       val result = TargetCalculatorConnector.getFullAEA(0)
@@ -83,7 +83,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
   "Calling .getPartialAEA" should{
     "return Some(BigDecimal(200.0))" in{
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=2017"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=2017"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(BigDecimal(200.0))))
 
       val result = TargetCalculatorConnector.getPartialAEA(2017)
@@ -91,7 +91,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
     }
 
     "return None" in{
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=1"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=1"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(None))
 
       val result = TargetCalculatorConnector.getPartialAEA(1)
@@ -102,7 +102,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
   "Calling .getPA" should{
     "return Some(BigDecimal(300.0)) when isEligibleBlindPersonsAllowance = true" in{
       val req = "capital-gains-calculator/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=2017&isEligibleBlindPersonsAllowance=true"
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.eq(req))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[Option[BigDecimal]](ArgumentMatchers.eq(req))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(BigDecimal(300.0))))
 
       val result = TargetCalculatorConnector.getPA(2017,isEligibleBlindPersonsAllowance = true)
@@ -111,7 +111,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
     "return Some(BigDecimal(350.0)) when isEligibleBlindPersonsAllowance = false" in{
       val req = "capital-gains-calculator/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=2017"
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.eq(req))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[Option[BigDecimal]](ArgumentMatchers.eq(req))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(BigDecimal(350.0))))
 
       val result = TargetCalculatorConnector.getPA(2017,isEligibleBlindPersonsAllowance = false)
@@ -119,7 +119,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
     }
 
     "return None" in{
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=2"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[Option[BigDecimal]](ArgumentMatchers.contains("taxYear=2"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(None))
 
       val result = TargetCalculatorConnector.getPA(2, isEligibleBlindPersonsAllowance = true)
@@ -131,7 +131,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
     "return Some(TaxYearModel)" in{
       val model = TaxYearModel(taxYearSupplied = "testYearSupplied", isValidYear = true, calculationTaxYear = "testCalcTaxYear")
 
-      when(mockHttp.GET[Option[TaxYearModel]](ArgumentMatchers.contains("date=2017"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[Option[TaxYearModel]](ArgumentMatchers.contains("date=2017"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(model)))
 
       val result = TargetCalculatorConnector.getTaxYear("2017")
@@ -139,7 +139,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
     }
 
     "return None" in{
-      when(mockHttp.GET[Option[TaxYearModel]](ArgumentMatchers.contains("date=3"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[Option[TaxYearModel]](ArgumentMatchers.contains("date=3"))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(None))
 
       val result = TargetCalculatorConnector.getTaxYear("3")
@@ -190,7 +190,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
       val req = s"capital-gains-calculator/capital-gains-calculator/calculate-total-gain" +
         s"${propertyConstructor.CalculateRequestConstructor.totalGainRequestString(testYourAnswersSummaryModel)}"
 
-      when(mockHttp.GET[BigDecimal](ArgumentMatchers.eq(req))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[BigDecimal](ArgumentMatchers.eq(req))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(BigDecimal(400.0)))
 
       val result = TargetCalculatorConnector.calculateRttPropertyGrossGain(testYourAnswersSummaryModel)
@@ -200,7 +200,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
   "Calling .calculateRttPropertyChargeableGain" should{
     "return BigDecimal(500.0)" in{
-      when(mockHttp.GET[BigDecimal](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[BigDecimal](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(BigDecimal(500.0)))
 
       val result = TargetCalculatorConnector.calculateRttPropertyChargeableGain(testYourAnswersSummaryModel, testChargeableGainAnswersModel, BigDecimal(123.45))
@@ -210,7 +210,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
   "Calling .calculateRttPropertyTotalGainAndTax" should{
     "return BigDecimal(600.0)" in{
-      when(mockHttp.GET[BigDecimal](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[BigDecimal](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(BigDecimal(600.0)))
 
       val result = TargetCalculatorConnector.calculateRttPropertyTotalGainAndTax(testYourAnswersSummaryModel,
@@ -225,7 +225,7 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
     lazy val result = TargetCalculatorConnector.getPropertyTotalCosts(testYourAnswersSummaryModel)
 
     "return 1000" in {
-      when(mockHttp.GET[BigDecimal](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttpClient.GET[BigDecimal](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(BigDecimal(1000.0)))
 
       await(result) shouldBe 1000

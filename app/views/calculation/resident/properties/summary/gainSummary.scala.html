@@ -25,13 +25,15 @@
 @import controllers.routes.{GainController => routes}
 @import views.html.calculation.resident.properties._
 @import play.api.Application
+@import config.AppConfig
 
-@(answers: YourAnswersSummaryModel, gain: BigDecimal, totalCosts: BigDecimal, taxYear: TaxYearModel, maxAEA: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
+@(answers: YourAnswersSummaryModel, gain: BigDecimal, totalCosts: BigDecimal, taxYear: TaxYearModel, maxAEA: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @resident_properties_main_template(
     title = Messages("calc.resident.summary.title"),
     backLink = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers().url),
-    isUserResearchBannerVisible = showUserResearchPanel
+    isUserResearchBannerVisible = showUserResearchPanel,
+    appConfig = appConfig
 ) {
 
     <!-- Google Analytics -->

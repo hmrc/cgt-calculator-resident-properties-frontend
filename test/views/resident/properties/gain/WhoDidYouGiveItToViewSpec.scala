@@ -16,20 +16,17 @@
 
 package views.resident.properties.gain
 
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{gain => views}
-import controllers.helpers.FakeRequestHelper
+import assets.MessageLookup.{Resident => commonMessages, WhoDidYouGiveItTo => messages}
 import forms.resident.properties.gain.WhoDidYouGiveItToForm._
 import org.jsoup.Jsoup
-import assets.MessageLookup.{WhoDidYouGiveItTo => messages}
-import assets.MessageLookup.{Resident => commonMessages}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{gain => views}
 
-class WhoDidYouGiveItToViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WhoDidYouGiveItToViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
   "Property Recipient view" should {
 
-  lazy val view = views.whoDidYouGiveItTo(whoDidYouGiveItToForm)(fakeRequest, applicationMessages, fakeApplication)
+  lazy val view = views.whoDidYouGiveItTo(whoDidYouGiveItToForm)(fakeRequest, testingMessages, mockAppConfig)
   lazy val doc = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {
@@ -112,7 +109,7 @@ class WhoDidYouGiveItToViewSpec extends UnitSpec with WithFakeApplication with F
 
   "WhoDidYouGiveItToView with form with errors" should {
     lazy val form = whoDidYouGiveItToForm.bind(Map("whoDidYouGiveItTo" -> ""))
-    lazy val view = views.whoDidYouGiveItTo(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.whoDidYouGiveItTo(form)(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message regarding incorrect value being inputted" in {

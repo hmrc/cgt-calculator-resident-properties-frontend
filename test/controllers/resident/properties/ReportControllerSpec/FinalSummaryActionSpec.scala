@@ -16,25 +16,25 @@
 
 package controllers.ReportControllerSpec
 
+import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
 import connectors.CalculatorConnector
-import controllers.helpers.FakeRequestHelper
 import controllers.ReportController
-import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
+import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import play.api.mvc.RequestHeader
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import assets.MessageLookup.{SummaryPage => messages}
-import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
 import services.SessionCacheService
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar {
 
   def setupTarget
   (
@@ -79,9 +79,7 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000)))
 
-    new ReportController {
-      override val calcConnector: CalculatorConnector = mockCalculatorConnector
-      override val sessionCacheService = mockSessionCacheService
+    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

@@ -20,35 +20,28 @@ import java.time.LocalDate
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
-import controllers.GainController
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import assets.MessageLookup.{DisposalDate => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import controllers.GainController
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.{DisposalDateModel, TaxYearModel}
+import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
-import services.SessionCacheService
+import org.scalatest.mockito.MockitoSugar
+import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
 
   def setupTarget(getData: Option[DisposalDateModel]): GainController = {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -59,22 +52,12 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector =  mockSessionCacheConnector
-      override val sessionCacheService = mockSessionCacheService
-      val config: AppConfig = mock[AppConfig]
-    }
+    testingGainController
   }
 
   case class FakePOSTRequest (dateResponse: TaxYearModel, inputOne: (String, String), inputTwo: (String, String), inputThree: (String, String)) {
 
     def setupTarget(): GainController = {
-
-      val mockCalcConnector = mock[CalculatorConnector]
-      val mockSessionCacheConnector = mock[SessionCacheConnector]
-      val mockSessionCacheService = mock[SessionCacheService]
-
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(dateResponse)))
 
@@ -84,12 +67,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
         .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-      new GainController {
-        override val calcConnector: CalculatorConnector = mockCalcConnector
-        override val sessionCacheConnector =  mockSessionCacheConnector
-        override val sessionCacheService = mockSessionCacheService
-        val config: AppConfig = mock[AppConfig]
-      }
+      testingGainController
     }
 
     val target = setupTarget()
@@ -162,7 +140,8 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     }
 
     "when there is no session" should {
-      lazy val result = GainController.submitDisposalDate(fakeRequest)
+      lazy val target = setupTarget(None)
+      lazy val result = target.submitDisposalDate(fakeRequest)
 
       "return a status of 303" in {
         status(result) shouldBe 303

@@ -19,35 +19,34 @@ package controllers
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.resident.JourneyKeys
 import common.{Dates, TaxDates}
+import config.AppConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.resident.income.CurrentIncomeForm._
 import forms.resident.income.PersonalAllowanceForm._
+import javax.inject.{Singleton, Inject}
 import models.resident._
 import models.resident.income._
 import play.api.data.Form
-import play.api.i18n.Messages
-import play.api.mvc.{Action, AnyContent, Result}
+import play.api.i18n.{I18nSupport, Messages}
+import play.api.mvc._
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{income => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
+import scala.concurrent.{ExecutionContext, Future}
 
-object IncomeController extends IncomeController {
-  val calcConnector = CalculatorConnector
-  val sessionCacheConnector = SessionCacheConnector
-}
+@Singleton
+class IncomeController @Inject()(
+                                  val calcConnector: CalculatorConnector,
+                                  val sessionCacheConnector: SessionCacheConnector,
+                                  val messagesControllerComponents: MessagesControllerComponents,
+                                  implicit val appConfig: AppConfig
+                                ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
-trait IncomeController extends ValidActiveSession {
-
-  val calcConnector: CalculatorConnector
-  val sessionCacheConnector: SessionCacheConnector
-
-  val navTitle = Messages("calc.base.resident.properties.home")
+  implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
   def lossesBroughtForwardResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
     sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
@@ -64,8 +63,8 @@ trait IncomeController extends ValidActiveSession {
     Future.successful(s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}")
   }
 
-  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl: String = homeLink
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val sessionTimeoutUrl: String = homeLink
 
   //################################# Current Income Actions ##########################################
 
@@ -130,8 +129,8 @@ trait IncomeController extends ValidActiveSession {
     Future.successful(TaxDates.taxYearStringToInteger(taxYear))
   }
 
-  private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome().toString)
-  private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance()
+  lazy private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome().toString)
+  lazy private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance()
 
   val personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
@@ -145,7 +144,7 @@ trait IncomeController extends ValidActiveSession {
     def routeRequest(taxYearModel: TaxYearModel, standardPA: BigDecimal, formData: Form[PersonalAllowanceModel], currentTaxYear: String):
     Future[Result] = {
       Future.successful(Ok(commonViews.personalAllowance(formData, taxYearModel, standardPA, homeLink,
-        postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, navTitle, currentTaxYear)))
+        postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, Messages("calc.base.resident.properties.home"), currentTaxYear)))
     }
     (for {
       disposalDate <- getDisposalDate
@@ -168,7 +167,7 @@ trait IncomeController extends ValidActiveSession {
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
       personalAllowanceForm(maxPA).bindFromRequest.fold(
         errors => Future.successful(BadRequest(commonViews.personalAllowance(errors, taxYearModel, standardPA, homeLink,
-          postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, navTitle, currentTaxYear))),
+          postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, Messages("calc.base.resident.properties.home"), currentTaxYear))),
         success => {
           sessionCacheConnector.saveFormData(keystoreKeys.personalAllowance, success)
             .map(_ => Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))

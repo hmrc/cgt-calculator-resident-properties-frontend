@@ -16,29 +16,27 @@
 
 package views.resident.helpers
 
-import controllers.helpers.FakeRequestHelper
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import views.html.helpers.checkYourAnswersPartial
 import assets.MessageLookup.NonResident.{ReviewAnswers => messages}
 import assets.MessageLookup.Resident.{Properties => propertiesMessages}
 import assets.MessageLookup.{Resident => residentMessages}
-import assets.{MessageLookup => commonMessages}
 import assets.ModelsAsset._
+import assets.{MessageLookup => commonMessages}
 import controllers.routes
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.i18n.Lang
 import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.helpers.checkYourAnswersPartial
 
-class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
   val fakeLang = Lang("en")
 
   "The check your answers partial with as much filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(applicationMessages, fakeLang)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(testingMessages, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     s"have a section for Your answers" which {
@@ -384,7 +382,7 @@ class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication 
 
   "The check your answers partial with display links set to false" should {
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(applicationMessages, fakeLang)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(testingMessages, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "have no links" in {
@@ -395,7 +393,7 @@ class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication 
   "The check your answers partial with as little filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
-      Some(deductionAnswersLeastPossibles), Some(taxYearModel), Some(incomeAnswers))(applicationMessages, fakeLang)
+      Some(deductionAnswersLeastPossibles), Some(taxYearModel), Some(incomeAnswers))(testingMessages, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     s"have a section for Your answers" which {

@@ -19,10 +19,9 @@ package controllers
 import java.time.{LocalDate, ZoneId}
 import java.util.UUID
 
-import akka.actor.Status.Success
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.{Dates, TaxDates}
-import config.{AppConfig, ApplicationConfig}
+import config.AppConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
@@ -44,38 +43,40 @@ import forms.resident.properties.WorthWhenGaveAwayForm._
 import forms.resident.properties.gain.OwnerBeforeLegislationStartForm._
 import forms.resident.properties.gain.WhoDidYouGiveItToForm._
 import forms.resident.properties.gain.WorthWhenGiftedForm._
+import javax.inject.{Inject, Singleton}
 import models.resident._
 import models.resident.properties._
 import models.resident.properties.gain.{OwnerBeforeLegislationStartModel, WhoDidYouGiveItToModel, WorthWhenGiftedModel}
 import play.api.data.Form
-import play.api.i18n.Messages
-import play.api.mvc.{Action, AnyContent, Result}
+import play.api.i18n.{I18nSupport, Messages, MessagesProvider}
+import play.api.mvc._
+import services.SessionCacheService
+import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import services.SessionCacheService
 
-import scala.concurrent.Future
-import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
+import scala.concurrent.{ExecutionContext, Future}
 
-object GainController extends GainController {
-  val calcConnector = CalculatorConnector
-  val sessionCacheConnector = SessionCacheConnector
-  val sessionCacheService =  SessionCacheService
-  val config = ApplicationConfig
-}
+@Singleton
+class GainController @Inject()(
+                                val calcConnector: CalculatorConnector,
+                                val sessionCacheConnector: SessionCacheConnector,
+                                val sessionCacheService: SessionCacheService,
+                                val messagesControllerComponents: MessagesControllerComponents,
+                                implicit val appConfig: AppConfig
+                              ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
-trait GainController extends ValidActiveSession {
+  implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  val calcConnector: CalculatorConnector
-  val sessionCacheConnector: SessionCacheConnector
-  val sessionCacheService: SessionCacheService
-  val config: AppConfig
+  implicit val mccMessages: Request[AnyContent] => Messages = request =>
+    messagesControllerComponents.messagesApi.preferred(request)
+  lazy val messagesProvider: Request[AnyContent] => MessagesProvider = request => new MessagesProvider {
+    override def messages: Messages = mccMessages(request)
+  }
 
-  val navTitle = Messages("calc.base.resident.properties.home")
-  override val homeLink: String = controllers.routes.PropertiesController.introduction().url
-  override val sessionTimeoutUrl: String = homeLink
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val sessionTimeoutUrl: String = homeLink
 
   //################# Disposal Date Actions ####################
   val disposalDate: Action[AnyContent] = Action.async { implicit request =>
@@ -125,8 +126,8 @@ trait GainController extends ValidActiveSession {
   }
 
   //################ Sell or Give Away Actions ######################
-  val sellOrGiveAwayBackUrl = routes.GainController.disposalDate().url
-  val sellOrGiveAwayPostAction = controllers.routes.GainController.submitSellOrGiveAway()
+  lazy val sellOrGiveAwayBackUrl = routes.GainController.disposalDate().url
+  lazy val sellOrGiveAwayPostAction = controllers.routes.GainController.submitSellOrGiveAway()
 
   val sellOrGiveAway: Action[AnyContent] = ValidateSession.async { implicit request =>
 
@@ -206,7 +207,7 @@ trait GainController extends ValidActiveSession {
         navBackLink = routes.GainController.disposalDate().url,
         navHomeLink = homeLink,
         continueUrl = routes.GainController.sellOrGiveAway().url,
-        navTitle = navTitle
+        navTitle = Messages("calc.base.resident.properties.home")
       ))
     }).recoverToStart(homeLink, sessionTimeoutUrl)
   }
@@ -214,8 +215,8 @@ trait GainController extends ValidActiveSession {
 
   //################# Worth When Gave Away Actions ############################
 
-  private val worthWhenGaveAwayPostAction = controllers.routes.GainController.submitWorthWhenGaveAway()
-  private val worthWhenGaveAwayBackLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString)
+  private lazy val worthWhenGaveAwayPostAction = controllers.routes.GainController.submitWorthWhenGaveAway()
+  private lazy val worthWhenGaveAwayBackLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString)
 
   val worthWhenGaveAway: Action[AnyContent] = ValidateSession.async { implicit request =>
     sessionCacheConnector.fetchAndGetFormData[WorthWhenGaveAwayModel](keystoreKeys.worthWhenGaveAway).map {
@@ -235,7 +236,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //############## Sell for Less Actions ##################
-  val sellForLessBackLink = Some(controllers.routes.GainController.sellOrGiveAway().url)
+  lazy val sellForLessBackLink = Some(controllers.routes.GainController.sellOrGiveAway().url)
 
   val sellForLess: Action[AnyContent] = ValidateSession.async {implicit request =>
     sessionCacheConnector.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess).map{
@@ -387,8 +388,8 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# How Became Owner Actions ########################
-  val howBecameOwnerBackLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url)
-  val howBecameOwnerPostAction = controllers.routes.GainController.submitHowBecameOwner()
+  lazy val howBecameOwnerBackLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url)
+  lazy val howBecameOwnerPostAction = controllers.routes.GainController.submitHowBecameOwner()
 
   val howBecameOwner: Action[AnyContent] = ValidateSession.async { implicit request =>
 
@@ -414,7 +415,7 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Bought For Less Than Worth Actions ########################
-  val boughtForLessThanWorthBackLink = Some(controllers.routes.GainController.howBecameOwner().url)
+  lazy val boughtForLessThanWorthBackLink = Some(controllers.routes.GainController.howBecameOwner().url)
 
   val boughtForLessThanWorth: Action[AnyContent] = ValidateSession.async {implicit request =>
     sessionCacheConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](keystoreKeys.boughtForLessThanWorth).map {
@@ -443,8 +444,8 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Worth When Inherited Actions ########################
-  val worthWhenInheritedBackLink = Some(controllers.routes.GainController.howBecameOwner().url)
-  val worthWhenInheritedPostAction = controllers.routes.GainController.submitWorthWhenInherited()
+  lazy val worthWhenInheritedBackLink = Some(controllers.routes.GainController.howBecameOwner().url)
+  lazy val worthWhenInheritedPostAction = controllers.routes.GainController.submitWorthWhenInherited()
 
   val worthWhenInherited: Action[AnyContent] = ValidateSession.async {implicit request =>
     sessionCacheConnector.fetchAndGetFormData[WorthWhenInheritedModel](keystoreKeys.worthWhenInherited).map {
@@ -464,8 +465,8 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Worth When Gifted Actions ########################
-  val worthWhenGiftedBackLink = Some(controllers.routes.GainController.howBecameOwner().url)
-  val worthWhenGiftedPostAction = controllers.routes.GainController.submitWorthWhenGifted()
+  lazy val worthWhenGiftedBackLink = Some(controllers.routes.GainController.howBecameOwner().url)
+  lazy val worthWhenGiftedPostAction = controllers.routes.GainController.submitWorthWhenGifted()
 
   val worthWhenGifted: Action[AnyContent] = ValidateSession.async {implicit request =>
     sessionCacheConnector.fetchAndGetFormData[WorthWhenGiftedModel](keystoreKeys.worthWhenGifted).map {

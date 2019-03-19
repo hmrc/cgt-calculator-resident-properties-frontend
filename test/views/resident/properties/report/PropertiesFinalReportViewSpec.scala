@@ -16,20 +16,18 @@
 
 package views.resident.properties.report
 
+import _root_.views.BaseViewSpec
 import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
-import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties._
 import org.jsoup.Jsoup
-import play.api.Play.current
 import play.api.i18n.Lang
-import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.properties.{report => views}
 
-class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   val fakeLang: Lang = Lang("en")
 
@@ -86,7 +84,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
     lazy val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
     lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results,
-      taxYearModel, isCurrentTaxYear = false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
+      taxYearModel, isCurrentTaxYear = false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, testingMessages, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {

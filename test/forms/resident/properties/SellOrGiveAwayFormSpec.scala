@@ -16,10 +16,10 @@
 
 package forms.resident.properties
 
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import assets.MessageLookup.{PropertiesSellOrGiveAway => messages}
 import forms.resident.properties.SellOrGiveAwayForm._
 import models.resident.properties.SellOrGiveAwayModel
-import assets.MessageLookup.{PropertiesSellOrGiveAway => messages}
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class SellOrGiveAwayFormSpec extends UnitSpec with WithFakeApplication {
 

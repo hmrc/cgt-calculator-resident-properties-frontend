@@ -15,10 +15,15 @@
  *@
 
 @import play.api.Application
+@import config.AppConfig
+@import views.html.calculation.resident.properties.resident_properties_main_template
 
-@()(implicit request : Request[_], messages: Messages, application: Application)
+@()(implicit request : Request[_], messages: Messages, appdConfig: AppConfig)
 
-@resident_properties_main_template(title = Messages("calc.resident.properties.introduction.title")) {
+@resident_properties_main_template(
+    title = Messages("calc.resident.properties.introduction.title"),
+    appConfig = appdConfig
+) {
     <h1>@Messages("calc.resident.properties.introduction.title")</h1>
     <h2 class="form-label-bold">@Messages("calc.resident.properties.introduction.subheading")</h2>
     <p>@Messages("calc.resident.properties.introduction.paragraph")</p>

@@ -14,7 +14,13 @@
  * limitations under the License.
  *@
 
-@(appConfig: config.AppConfig,
+@import layouts.{govuk_template => hmrcGovUkTemplate}
+@import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
+@import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
+@import views.html.helpers._
+@import play.twirl.api.HtmlFormat
+
+@(appdConfig: config.AppConfig,
   title: String,
   mainClass: Option[String] = None,
   mainDataAttributes: Option[Html] = None,
@@ -28,11 +34,6 @@
   homeLink: String,
   navTitle: String = "Calculate your Capital Gains Tax"
 )(implicit request: Request[_], messages: Messages)
-
-@import layouts.{govuk_template => hmrcGovUkTemplate}
-@import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
-@import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
-@import views.html.helpers._
 
 @scriptElement = {
     <script type="text/javascript" src='@routes.Assets.versioned("javascripts/cgt.js")'></script>
@@ -64,8 +65,8 @@
 
 @bodyEnd = {
     @uiLayouts.footer(
-      analyticsToken = Some(appConfig.analyticsToken),
-      analyticsHost = appConfig.analyticsHost,
+      analyticsToken = Some(appdConfig.analyticsToken),
+      analyticsHost = appdConfig.analyticsHost,
       ssoUrl = None,
       scriptElem = Some(scriptElement),
       gaCalls = None)
@@ -89,7 +90,7 @@
     }
 }
 
-@getHelpForm = @{uiHelpers.reportAProblemLink(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
+@getHelpForm = @{uiHelpers.reportAProblemLink(appdConfig.reportAProblemPartialUrl, appdConfig.reportAProblemNonJSUrl)}
 
 @content = {
     @uiLayouts.main_content(

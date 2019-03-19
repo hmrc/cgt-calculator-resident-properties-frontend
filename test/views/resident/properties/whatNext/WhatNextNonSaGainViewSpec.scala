@@ -16,19 +16,17 @@
 
 package views.resident.properties.whatNext
 
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import play.api.i18n.Messages.Implicits.applicationMessages
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.resident.properties.{whatNext => views}
 import assets.MessageLookup.{WhatNextNonSaGain => messages}
-import play.api.Play.current
+import org.jsoup.Jsoup
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.BaseViewSpec
+import views.html.calculation.resident.properties.{whatNext => views}
 
-class WhatNextNonSaGainViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WhatNextNonSaGainViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
 
   "whatNextNonSaGain view" should {
 
-    lazy val view = views.whatNextNonSaGain("iFormUrl")(fakeRequestWithSession, applicationMessages, fakeApplication)
+    lazy val view = views.whatNextNonSaGain("iFormUrl")(fakeRequest, testingMessages, mockAppConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {

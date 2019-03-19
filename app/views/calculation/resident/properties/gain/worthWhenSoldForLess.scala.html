@@ -20,11 +20,13 @@
 @import views.html.helpers.resident._
 @import views.html.calculation.resident.properties._
 @import play.api.Application
+@import config.AppConfig
 
-@(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages, application: Application)
+@(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@resident_properties_main_template(title = Messages("calc.resident.properties.worthWhenSoldForLess.question"),
-                                   backLink = Some(controllers.routes.GainController.sellForLess().toString())) {
+@resident_properties_main_template( title = Messages("calc.resident.properties.worthWhenSoldForLess.question"),
+                                    backLink = Some(controllers.routes.GainController.sellForLess().toString),
+                                    appConfig = appConfig) {
 
     @errorSummary(worthWhenSoldForLessForm, "amount")
 

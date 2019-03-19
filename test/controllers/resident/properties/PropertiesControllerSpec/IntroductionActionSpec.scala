@@ -20,32 +20,45 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{IntroductionView => messages}
 import controllers.PropertiesController
-import controllers.helpers.FakeRequestHelper
+import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.jsoup.Jsoup
-import org.scalatest.mock.MockitoSugar
+import org.mockito.Mockito.when
+import org.scalatest.mockito.MockitoSugar
+import play.api.mvc.Result
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class IntroductionActionSpec extends UnitSpec with WithFakeApplication with MockitoSugar with FakeRequestHelper {
+import scala.concurrent.Future
+
+class IntroductionActionSpec extends UnitSpec with MockitoSugar with FakeRequestHelper with CommonMocks with WithFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
 
+  class Setup() {
+    when(mockAppConfig.analyticsToken)
+      .thenReturn("test-token")
+
+    when(mockAppConfig.analyticsHost)
+      .thenReturn("analyticsHost")
+
+    val controller = new PropertiesController(mockMessagesControllerComponents, mockAppConfig)
+  }
+
   "Calling the introduction action" should {
-
-    lazy val result = PropertiesController.introduction(fakeRequest)
-
-    "return a status of 200" in {
+    "return a status of 200" in new Setup() {
+      lazy val result: Future[Result] = controller.introduction(fakeRequest)
       status(result) shouldBe 200
     }
 
-    "return some html" in {
+    "return some html" in new Setup() {
+      lazy val result: Future[Result] = controller.introduction(fakeRequest)
       contentType(result) shouldBe Some("text/html")
     }
 
-    "display the introduction view" in {
+    "display the introduction view" in new Setup() {
+      lazy val result: Future[Result] = controller.introduction(fakeRequest)
       Jsoup.parse(bodyOf(result)).title shouldBe messages.title
     }
-
   }
 }
