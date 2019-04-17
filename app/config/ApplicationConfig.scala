@@ -50,7 +50,7 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
   override lazy val contactFormServiceIdentifier = "CGT"
   override lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   override lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
-  override lazy val feedbackSurvey: String = loadConfig(s"feedback-survey-frontend.url")
+  override lazy val feedbackSurvey: String = loadConfig(s"feedback-frontend.url")
 
   override lazy val urBannerLink =
     "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_resident_properties_summary&utm_source=Survey_Banner&utm_medium=other&t=HMRC&id=117"
