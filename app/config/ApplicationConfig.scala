@@ -32,6 +32,7 @@ trait AppConfig {
   val residentIFormUrl: String
   val urBannerLink: String
   val feedbackSurvey: String
+  val googleTagManagerId: String
   def isWelshEnabled: Boolean
 }
 
@@ -57,4 +58,8 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
   override lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
 
   def isWelshEnabled: Boolean = servicesConfig.getBoolean("features.welsh-translation")
+
+  lazy val googleTagManagerId = loadConfig(s"google-tag-manager.id")
+
+
 }
