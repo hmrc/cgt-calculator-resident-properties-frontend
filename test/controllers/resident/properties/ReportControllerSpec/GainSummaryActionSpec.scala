@@ -20,6 +20,8 @@ import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
 import controllers.ReportController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import it.innove.play.pdf.PdfGenerator
+import javax.inject.Inject
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.mockito.ArgumentMatchers
@@ -31,7 +33,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class GainSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
+class GainSummaryActionSpec @Inject()(val pdfGenerator: PdfGenerator) extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
 
   def setupTarget
   (
@@ -54,7 +56,7 @@ class GainSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeR
     when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(10000))))
 
-    new ReportController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents) {
+    new ReportController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

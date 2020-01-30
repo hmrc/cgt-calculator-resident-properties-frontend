@@ -41,10 +41,9 @@ import scala.concurrent.{ExecutionContext, Future}
 class ReportController @Inject()(
                                   val calcConnector: CalculatorConnector,
                                   val sessionCacheService : SessionCacheService,
-                                  val messagesControllerComponents: MessagesControllerComponents
+                                  val messagesControllerComponents: MessagesControllerComponents,
+                                  pdfGenerator : PdfGenerator
                                 ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
-
-  val pdfGenerator = new PdfGenerator
 
   override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
   override lazy val sessionTimeoutUrl: String = homeLink

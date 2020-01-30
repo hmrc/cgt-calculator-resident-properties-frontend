@@ -21,6 +21,8 @@ import common.Dates
 import connectors.CalculatorConnector
 import controllers.ReportController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import it.innove.play.pdf.PdfGenerator
+import javax.inject.Inject
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
@@ -34,7 +36,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar {
+class FinalSummaryActionSpec @Inject()(val pdfGenerator: PdfGenerator) extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar {
 
   def setupTarget
   (
@@ -79,7 +81,7 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000)))
 
-    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents) {
+    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

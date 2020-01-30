@@ -16,35 +16,31 @@
 
 package controllers
 
-import config.AppConfig
-import javax.inject.Inject
+import com.google.inject.Inject
+import play.api.Configuration
 import play.api.i18n.{I18nSupport, Lang}
-import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
-import play.api.{Environment, Play}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import uk.gov.hmrc.play.language.LanguageUtils
+import play.api.mvc._
+import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
 
 class CgtLanguageController @Inject()(
-                                       messagesControllerComponents: MessagesControllerComponents,
-                                       appConfig : AppConfig,
-                                       environment : Environment
-                                     ) extends FrontendController(messagesControllerComponents) with I18nSupport {
+                                          configuration: Configuration,
+                                          val controllerComponents: MessagesControllerComponents
+                                        ) extends FrontendBaseController with I18nSupport {
+  def switchToLanguage(language: String): Action[AnyContent] = Action {
+    implicit request =>
 
-  def langToCall(lang: String): Call = controllers.routes.CgtLanguageController.switchToLanguage(lang)
+      val lang = languageMap.getOrElse(language, Lang.defaultLang)
 
-  def switchToLanguage(language: String): Action[AnyContent] = Action { implicit request =>
-    val enabled = appConfig.isWelshEnabled
-    val lang =
-      if (enabled) languageMap.getOrElse(language, LanguageUtils.getCurrentLang)
-      else Lang("en")
-    val redirectURL = request.headers.get(REFERER).getOrElse(fallbackURL)
-
-    Redirect(redirectURL).withLang(Lang.apply(lang.code)).flashing(LanguageUtils.FlashWithSwitchIndicator)
+      val redirectURL = request.headers.get(REFERER).getOrElse(fallbackURL)
+      Redirect(redirectURL).withLang(Lang.apply(lang.code))
   }
 
-  def fallbackURL: String = Play.current.configuration.getString(s"${environment.mode}.language.fallbackUrl").getOrElse("/")
-  def languageMap: Map[String, Lang] = Map(
+
+  private def fallbackURL: String = configuration.getOptional[String](s"language.fallbackUrl").getOrElse("/")
+
+  private def languageMap: Map[String, Lang] = Map(
     "english" -> Lang("en"),
     "cymraeg" -> Lang("cy")
   )
 }
+

@@ -15,36 +15,20 @@
  */
 
 import sbt._
-import uk.gov.hmrc.SbtAutoBuildPlugin
-import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
-import uk.gov.hmrc.versioning.SbtGitVersioning
+import play.core.PlayVersion
+import play.sbt.PlayImport._
 
-object FrontendBuild extends Build with MicroService {
+object AppDependencies {
 
-  val appName = "cgt-calculator-resident-properties-frontend"
-
-  override lazy val plugins: Seq[Plugins] = Seq(
-    SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin
-  )
-
-  override lazy val appDependencies: Seq[ModuleID] = AppDependencies()
-}
-
-private object AppDependencies {
-
-  import play.core.PlayVersion
-  import play.sbt.PlayImport._
-
-  val bootstrapVersion        = "1.1.0"
-  val jsonJodaVersion         = "2.6.10"
-  val govUKTemplateVersion    = "5.43.0-play-26"
-  val playUiVersion           = "8.3.0-play-26"
+  val bootstrapVersion        = "1.3.0"
+  val jsonJodaVersion         = "2.7.4"
+  val govUKTemplateVersion    = "5.48.0-play-26"
+  val playUiVersion           = "8.7.0-play-26"
   val playPartialsVersion     = "6.9.0-play-26"
   val httpCachingVersion      = "9.0.0-play-26"
-  val mongoCachingVersion     = "6.6.0-play-26"
-  val playLanguageVersion     = "3.4.0"
-  val play2PdfVersion         = "1.5.1"
-  val playJavaVersion         = "2.6.12"
+  val mongoCachingVersion     = "6.8.0-play-26"
+  val playLanguageVersion     = "4.2.0-play-26"
+  val play2PdfVersion         = "1.9.1"
 
   val compile: Seq[ModuleID] = Seq(
     ws,
@@ -56,8 +40,7 @@ private object AppDependencies {
     "uk.gov.hmrc"       %% "http-caching-client"  % httpCachingVersion,
     "uk.gov.hmrc"       %% "mongo-caching"        % mongoCachingVersion,
     "uk.gov.hmrc"       %% "play-language"        % playLanguageVersion,
-    "it.innove"         %  "play2-pdf"            % play2PdfVersion,
-    "com.typesafe.play" %% "play-java"            % playJavaVersion
+    "it.innove"         %  "play2-pdf"            % play2PdfVersion exclude("com.typesafe.play","*")
   )
 
   trait TestDependencies {
@@ -69,10 +52,10 @@ private object AppDependencies {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
         "uk.gov.hmrc" %% "hmrctest" % "3.9.0-play-26" % scope,
-        "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.1" % scope,
-        "org.mockito" % "mockito-core" % "3.1.0" % scope,
+        "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.3" % scope,
+        "org.mockito" % "mockito-core" % "3.2.4" % scope,
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
-        "org.jsoup" % "jsoup" % "1.10.2" % scope,
+        "org.jsoup" % "jsoup" % "1.12.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
         "uk.gov.hmrc" %% "bootstrap-play-26" % bootstrapVersion % scope
       )
