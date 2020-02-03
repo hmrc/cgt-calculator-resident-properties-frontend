@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
 import controllers.ReportController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import it.innove.play.pdf.PdfGenerator
+import javax.inject.Inject
 import models.resident._
 import models.resident.properties._
 import org.mockito.ArgumentMatchers
@@ -31,7 +33,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
+class DeductionsSummaryActionSpec @Inject()(val pdfGenerator: PdfGenerator) extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
 
   def setupTarget
   (
@@ -64,7 +66,7 @@ class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with
     when(mockCalcConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
     .thenReturn(Future.successful(BigDecimal(10000)))
 
-    new ReportController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents) {
+    new ReportController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }
