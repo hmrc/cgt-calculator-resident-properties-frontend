@@ -84,7 +84,7 @@ class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication wi
     lazy val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
     lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results,
-      taxYearModel, isCurrentTaxYear = false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, testingMessages, fakeApplication, fakeLang)
+      taxYearModel, isCurrentTaxYear = false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, testingMessages, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {

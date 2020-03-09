@@ -27,7 +27,6 @@ import it.innove.play.pdf.PdfGenerator
 import javax.inject.{Singleton, Inject}
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
-import play.api.Play.current
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService

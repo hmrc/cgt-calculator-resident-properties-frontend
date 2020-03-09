@@ -19,7 +19,7 @@ package views
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.mockito.Mockito.when
 import org.scalatest.Suite
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages
 import uk.gov.hmrc.play.test.WithFakeApplication
 

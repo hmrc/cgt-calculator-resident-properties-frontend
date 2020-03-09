@@ -18,7 +18,7 @@ package connectors
 
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.when
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.libs.json.Json
 import play.shaded.ahc.org.asynchttpclient.exception.RemotelyClosedException
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}

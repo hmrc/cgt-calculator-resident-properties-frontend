@@ -19,12 +19,13 @@ package common
 import java.time.LocalDate
 
 import common.Dates.formatter
-import org.scalatestplus.play.OneAppPerSuite
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
-import play.api.libs.concurrent.Execution.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
 
-class DatesSpec extends UnitSpec with OneAppPerSuite {
+import scala.concurrent.ExecutionContext
+
+class DatesSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Calling constructDate method" should {
 
@@ -56,6 +57,7 @@ class DatesSpec extends UnitSpec with OneAppPerSuite {
 
   "Calling getCurrent Tax Year" should {
     "return the current tax year in the form YYYY/YY" in {
+      implicit val ec: ExecutionContext = app.injector.instanceOf[ExecutionContext]
       for {
         date <- Dates.getCurrentTaxYear
       } yield date.length shouldEqual 7
