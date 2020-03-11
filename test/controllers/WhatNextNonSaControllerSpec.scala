@@ -23,7 +23,7 @@ import assets.MessageLookup
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.jsoup.Jsoup
 import org.mockito.Mockito.when
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers.redirectLocation
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 

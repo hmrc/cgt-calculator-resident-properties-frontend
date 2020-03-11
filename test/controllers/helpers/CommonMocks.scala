@@ -18,7 +18,7 @@ package controllers.helpers
 
 import config.AppConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.MessagesApi
 import play.api.mvc._
 import play.api.test.Helpers._

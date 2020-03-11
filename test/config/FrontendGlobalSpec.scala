@@ -17,7 +17,7 @@
 package config
 
 import org.jsoup.Jsoup
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.SessionKeys

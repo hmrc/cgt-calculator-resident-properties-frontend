@@ -19,10 +19,10 @@ package forms.resident
 import assets.MessageLookup.{SaUser => messages}
 import forms.resident.SaUserForm._
 import models.resident.SaUserModel
-import org.scalatestplus.play.OneAppPerSuite
+import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.play.test.UnitSpec
 
-class SaUserFormSpec extends UnitSpec with OneAppPerSuite {
+class SaUserFormSpec extends UnitSpec with GuiceOneAppPerSuite {
 
   "Creating a form using a valid model" should {
 

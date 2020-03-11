@@ -26,7 +26,7 @@ import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.RequestHeader
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

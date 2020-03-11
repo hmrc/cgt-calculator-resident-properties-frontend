@@ -67,7 +67,3 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
   }
 
 }
-
-object ControllerConfiguration extends ControllerConfig {
-  lazy val controllerConfigs: Config = Play.current.configuration.underlying.as[Config]("controllers")
-}
