@@ -16,14 +16,11 @@
 
 package forms.resident
 
-import common.Validation._
 import common.Transformers._
+import common.Validation._
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.data.Forms._
 import play.api.data._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 object LossesBroughtForwardForm {
 

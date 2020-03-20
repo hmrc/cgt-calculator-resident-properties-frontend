@@ -16,16 +16,11 @@
 
 package forms.resident
 
-import common.Constants
 import common.Transformers._
+import common.Validation._
+import models.resident.DisposalCostsModel
 import play.api.data.Forms._
 import play.api.data._
-import models.resident.DisposalCostsModel
-import play.api.i18n.Messages
-import common.Validation._
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 object DisposalCostsForm {
 

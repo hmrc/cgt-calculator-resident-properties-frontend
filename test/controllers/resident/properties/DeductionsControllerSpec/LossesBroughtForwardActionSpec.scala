@@ -20,7 +20,6 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import connectors.CalculatorConnector
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.resident.properties.DeductionsControllerSpec.DeductionsControllerBaseSpec
 import controllers.{DeductionsController, routes}
@@ -219,7 +218,6 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
       lazy val result = target.submitLossesBroughtForward(request)
 
-      val mockCalcConnector = mock[CalculatorConnector]
       "return a 303" in {
 
         status(result) shouldBe 303

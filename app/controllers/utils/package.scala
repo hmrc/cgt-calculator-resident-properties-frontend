@@ -16,9 +16,8 @@
 
 package controllers
 
-import play.api.Logger
+import play.api.mvc.Result
 import play.api.mvc.Results._
-import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 
 import scala.concurrent.duration.Duration
@@ -34,7 +33,7 @@ package object utils {
     override def ready(atMost: Duration)(implicit permit: CanAwait): RecoverableFuture.this.type = ready(atMost)
     override def result(atMost: Duration)(implicit permit: CanAwait): Result = future.result(atMost)
 
-    def recoverToStart(homeLink:String, sessionTimeoutUrl: String)(implicit request: Request[_], ec: ExecutionContext): Future[Result] =
+    def recoverToStart(homeLink:String, sessionTimeoutUrl: String)(implicit ec: ExecutionContext): Future[Result] =
       future.recover {
         case e: NoSuchElementException =>
           throw ApplicationException(
@@ -42,5 +41,9 @@ package object utils {
             "cgt-calculator-resident-properties-frontend" + e.getMessage
           )
       }
+
+    override def transform[S](f: Try[Result] => Try[S])(implicit executor: ExecutionContext): Future[S] = future.transform(f)
+
+    override def transformWith[S](f: Try[Result] => Future[S])(implicit executor: ExecutionContext): Future[S] = future.transformWith(f)
   }
 }

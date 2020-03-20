@@ -24,10 +24,9 @@ import config.AppConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
-import play.api.Play.current
 import play.api.i18n.I18nSupport
 import play.api.mvc.{MessagesControllerComponents, Result}
 import services.SessionCacheService
@@ -61,7 +60,7 @@ class SummaryController @Inject()(
       else Future.successful(None)
     }
 
-    def totalTaxableGain(chargeableGain: Option[ChargeableGainResultModel] = None,
+    def totalTaxableGain(chargeableGain: Option[ChargeableGainResultModel],
                          yourAnswersSummaryModel: YourAnswersSummaryModel,
                          chargeableGainAnswers: ChargeableGainAnswers,
                          incomeAnswersModel: IncomeAnswersModel,
@@ -85,7 +84,7 @@ class SummaryController @Inject()(
                      currentTaxYear: String,
                      totalCosts: BigDecimal,
                      maxAEA: BigDecimal,
-                     showUserResearchPanel: Boolean)(implicit hc: HeaderCarrier): Future[Result] = {
+                     showUserResearchPanel: Boolean): Future[Result] = {
 
       //These lazy vals are called only when the values are determined to be available
       lazy val isPrrUsed = if (chargeableGainAnswers.propertyLivedInModel.get.livedInProperty) {
