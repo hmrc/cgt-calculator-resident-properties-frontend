@@ -26,7 +26,7 @@ object AppDependencies {
   val playUiVersion           = "8.8.0-play-26"
   val playPartialsVersion     = "6.9.0-play-26"
   val httpCachingVersion      = "9.0.0-play-26"
-  val mongoCachingVersion     = "6.10.0-play-26"
+  val mongoCachingVersion     = "6.8.0-play-26"
   val playLanguageVersion     = "4.2.0-play-26"
   val play2PdfVersion         = "1.10.0"
 
