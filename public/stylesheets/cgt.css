@@ -244,6 +244,10 @@ article p {
     bottom: 1.25em;
 }
 
+.transaction-banner--complete {
+  background-color: #006435;
+}
+
 .pdf .summary-underline {
     padding-bottom: 0.75em;
     border-bottom: 2px solid #BFC1C3;
