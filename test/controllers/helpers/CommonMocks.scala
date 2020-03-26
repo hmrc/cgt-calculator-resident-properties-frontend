@@ -53,23 +53,23 @@ trait CommonMocks {
     ExecutionContext.global
   )
 
-  val controllerMocks: Seq[_] = Seq(
+  val controllerMocks: Seq[Any] = Seq(
     mockCalcConnector
   )
 
-  val connectorMocks: Seq[_] = Seq(
+  val connectorMocks: Seq[Any] = Seq(
     mockSessionCacheConnector
   )
 
-  val serviceMocks: Seq[_] = Seq(
+  val serviceMocks: Seq[Any] = Seq(
     mockSessionCacheService
   )
 
-  val otherMocks: Seq[_] = Seq(
+  val otherMocks: Seq[Any] = Seq(
     mockAppConfig,
     mockHttpClient,
     mockMessagesControllerComponents
   )
 
-  val allMocks: Seq[_] = controllerMocks ++ connectorMocks ++ serviceMocks ++ otherMocks
+  val allMocks: Seq[Any] = controllerMocks ++ connectorMocks ++ serviceMocks ++ otherMocks
 }

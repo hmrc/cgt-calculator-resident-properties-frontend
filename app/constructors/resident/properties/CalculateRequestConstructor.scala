@@ -16,13 +16,10 @@
 
 package constructors.resident.properties
 
-import java.net.URLEncoder
-
 import common.Dates._
 import common.resident.HowYouBecameTheOwnerKeys._
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
-import org.omg.CosNaming.NamingContextExtPackage.URLStringHelper
 
 object CalculateRequestConstructor {
 

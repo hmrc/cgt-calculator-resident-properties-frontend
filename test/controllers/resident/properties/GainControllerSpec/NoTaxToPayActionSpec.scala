@@ -87,7 +87,6 @@ class NoTaxToPayActionSpec extends UnitSpec with WithFakeApplication with FakeRe
     "An invalid session is provided" should {
       lazy val target = setupTarget("Other")
       lazy val result = target.noTaxToPay(fakeRequest)
-      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 303" in {
         status(result) shouldBe 303

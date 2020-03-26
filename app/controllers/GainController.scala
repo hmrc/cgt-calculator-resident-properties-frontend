@@ -167,7 +167,7 @@ class GainController @Inject()(
         sessionCacheConnector.saveFormData[WhoDidYouGiveItToModel](keystoreKeys.whoDidYouGiveItTo, success).flatMap(_ =>
         success match {
           case WhoDidYouGiveItToModel("Spouse" | "Charity") => Future.successful(Redirect(routes.GainController.noTaxToPay()))
-          case WhoDidYouGiveItToModel("Other") => Future.successful(Redirect(routes.GainController.worthWhenGaveAway()))
+          case _ => Future.successful(Redirect(routes.GainController.worthWhenGaveAway()))
         }
         )
       }

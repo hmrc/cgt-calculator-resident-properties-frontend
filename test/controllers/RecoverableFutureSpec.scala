@@ -19,8 +19,7 @@ package controllers.utils
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.{Matchers, WordSpec}
 import play.api.http.Status
-import play.api.mvc.{AnyContent, Request, Result}
-import play.api.test.FakeRequest
+import play.api.mvc.Result
 import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -31,7 +30,6 @@ class RecoverableFutureSpec extends WordSpec with ScalaFutures with Matchers wit
   ".recoverToStart" should {
     "convert a `NoSuchElementException` into an `ApplicationException`" in {
 
-      implicit val request: Request[AnyContent] = FakeRequest()
       val homeLink = controllers.routes.GainController.disposalDate().url
       val sessionTimeoutUrl = homeLink
 
@@ -48,7 +46,6 @@ class RecoverableFutureSpec extends WordSpec with ScalaFutures with Matchers wit
 
     "not convert any other exception into an `ApplicationException`" in {
 
-      implicit val request: Request[AnyContent] = FakeRequest()
       val homeLink = controllers.routes.GainController.disposalDate().url
       val sessionTimeoutUrl = homeLink
       val ex = new IllegalArgumentException("test message")

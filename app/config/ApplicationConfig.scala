@@ -20,8 +20,6 @@ import javax.inject.Inject
 import play.api.Environment
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
-import scala.util.Try
-
 trait AppConfig {
   val assetsPrefix: String
   val analyticsToken: String
@@ -40,7 +38,6 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
                                   environment: Environment) extends AppConfig {
 
   private def loadConfig(key: String) = servicesConfig.getString(key)
-  private def getFeature(key: String) = Try(servicesConfig.getBoolean(key)).getOrElse(true)
 
   lazy val contactHost = servicesConfig.getConfString("contact-frontend.www", "")
 

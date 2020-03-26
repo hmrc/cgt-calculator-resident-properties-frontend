@@ -21,9 +21,7 @@ import play.api.data.Forms._
 import common.Transformers._
 import common.Validation._
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 
 object OwnerBeforeLegislationStartForm {
 

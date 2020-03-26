@@ -16,16 +16,12 @@
 
 package forms.resident.properties.gain
 
-import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.properties.gain.WorthWhenGiftedModel
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 
 object WorthWhenGiftedForm {
 

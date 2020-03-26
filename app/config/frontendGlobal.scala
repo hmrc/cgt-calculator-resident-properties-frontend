@@ -16,20 +16,15 @@
 
 package config
 
-import com.typesafe.config.Config
 import javax.inject.Inject
 import models.CGTClientException
-import net.ceedubs.ficus.Ficus._
-import play.api.Play
 import play.api.http.HeaderNames.CACHE_CONTROL
-import play.api.Logger
 import play.api.http.Status.{BAD_REQUEST, NOT_FOUND}
 import play.api.i18n.MessagesApi
 import play.api.mvc.Results.{BadRequest, NotFound}
 import play.api.mvc.{Request, RequestHeader, Result}
 import play.twirl.api.Html
-import uk.gov.hmrc.play.bootstrap.config.ControllerConfig
-import uk.gov.hmrc.play.bootstrap.http.{FrontendErrorHandler, ApplicationException}
+import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, FrontendErrorHandler}
 
 import scala.concurrent.Future
 
