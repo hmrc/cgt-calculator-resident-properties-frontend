@@ -20,15 +20,15 @@ import play.sbt.PlayImport._
 
 object AppDependencies {
 
-  val bootstrapVersion        = "1.8.0"
-  val jsonJodaVersion         = "2.7.4"
-  val govUKTemplateVersion    = "5.55.0-play-26"
-  val playUiVersion           = "8.10.0-play-26"
-  val playPartialsVersion     = "6.11.0-play-26"
-  val httpCachingVersion      = "9.0.0-play-26"
-  val mongoCachingVersion     = "6.12.0-play-26"
-  val playLanguageVersion     = "4.3.0-play-26"
-  val play2PdfVersion         = "1.10.0"
+  val bootstrapVersion         = "1.13.0"
+  val jsonJodaVersion          = "2.9.0"
+  val govUKTemplateVersion     = "5.55.0-play-26"
+  val playUiVersion            = "8.11.0-play-26"
+  val playPartialsVersion      = "6.11.0-play-26"
+  val httpCachingClientVersion = "9.1.0-play-26"
+  val mongoCachingVersion      = "6.15.0-play-26"
+  val playLanguageVersion      = "4.3.0-play-26"
+  val play2PdfVersion          = "1.10.0"
 
   val compile: Seq[ModuleID] = Seq(
     ws,
@@ -37,7 +37,7 @@ object AppDependencies {
     "uk.gov.hmrc"       %% "govuk-template"       % govUKTemplateVersion,
     "uk.gov.hmrc"       %% "play-ui"              % playUiVersion,
     "uk.gov.hmrc"       %% "play-partials"        % playPartialsVersion,
-    "uk.gov.hmrc"       %% "http-caching-client"  % httpCachingVersion,
+    "uk.gov.hmrc"       %% "http-caching-client"  % httpCachingClientVersion,
     "uk.gov.hmrc"       %% "mongo-caching"        % mongoCachingVersion,
     "uk.gov.hmrc"       %% "play-language"        % playLanguageVersion,
     "it.innove"         %  "play2-pdf"            % play2PdfVersion exclude("com.typesafe.play","*")
