@@ -23,7 +23,7 @@ object AppDependencies {
   val bootstrapVersion         = "1.13.0"
   val jsonJodaVersion          = "2.9.0"
   val govUKTemplateVersion     = "5.55.0-play-26"
-  val playUiVersion            = "8.11.0-play-26"
+  val playUiVersion            = "8.12.0-play-26"
   val playPartialsVersion      = "6.11.0-play-26"
   val httpCachingClientVersion = "9.1.0-play-26"
   val mongoCachingVersion      = "6.15.0-play-26"
