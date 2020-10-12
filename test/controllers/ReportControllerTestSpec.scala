@@ -29,12 +29,12 @@ class ReportControllerTestSpec extends UnitSpec with FakeRequestHelper with Mock
   }
 
   "host" should {
-    "return the `platform frontend host` when it has been set in configuration" in {
+    "return a `https` host when `platform frontend host` has been set in configuration (indicates a MDTP environment)" in {
       implicit val application: Application = buildApp(Map("platform.frontend.host" -> "https://www.qa.tax.service.gov.uk/"))
       val controller = application.injector.instanceOf[ReportController]
-      controller.host(fakeRequest) shouldBe "https://www.qa.tax.service.gov.uk/"
+      controller.host(fakeRequest) shouldBe "https://localhost"
     }
-    "return the request host when the `platform frontend host` isn't present in configuration" in {
+    "return a `http` host when `platform frontend host` has NOT been set in configuration (indicates localhost)" in {
       implicit val application: Application = buildApp(Map.empty)
       val controller = application.injector.instanceOf[ReportController]
       controller.host(fakeRequest) shouldBe "http://localhost"
