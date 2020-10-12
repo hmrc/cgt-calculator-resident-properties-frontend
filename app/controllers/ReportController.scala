@@ -56,6 +56,7 @@ class ReportController @Inject()(
   def host(implicit request: RequestHeader): String = {
     val host = platformHost.getOrElse(s"http://${request.host}")
     Logger.info(s"[ReportController][host] host = $host")
+    Logger.info(s"[ReportController][host] request.host = ${request.host}")
     host
   }
 
