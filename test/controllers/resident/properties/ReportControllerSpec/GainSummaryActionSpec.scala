@@ -56,7 +56,7 @@ class GainSummaryActionSpec @Inject()(val pdfGenerator: PdfGenerator) extends Un
     when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(10000))))
 
-    new ReportController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
+    new ReportController(fakeApplication.configuration, mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

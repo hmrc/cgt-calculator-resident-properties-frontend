@@ -27,6 +27,7 @@ import it.innove.play.pdf.PdfGenerator
 import javax.inject.{Singleton, Inject}
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
+import play.api.Configuration
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService
@@ -38,6 +39,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class ReportController @Inject()(
+                                  val config: Configuration,
                                   val calcConnector: CalculatorConnector,
                                   val sessionCacheService : SessionCacheService,
                                   val messagesControllerComponents: MessagesControllerComponents,
@@ -47,11 +49,11 @@ class ReportController @Inject()(
   override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
   override lazy val sessionTimeoutUrl: String = homeLink
 
+  lazy val platformHost: Option[String] = config.getOptional[String]("platform.frontend.host")
+
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  def host(implicit request: RequestHeader): String = {
-    s"http://${request.host}/"
-  }
+  def host(implicit request: RequestHeader): String = platformHost.getOrElse(s"http://${request.host}")
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] =
     calcConnector.getTaxYear(disposalDate.format(requestFormatter))
