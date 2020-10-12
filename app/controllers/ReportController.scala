@@ -24,10 +24,10 @@ import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import it.innove.play.pdf.PdfGenerator
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
-import play.api.Configuration
+import play.api.{Configuration, Logger}
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService
@@ -53,7 +53,11 @@ class ReportController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  def host(implicit request: RequestHeader): String = platformHost.getOrElse(s"http://${request.host}")
+  def host(implicit request: RequestHeader): String = {
+    val host = platformHost.getOrElse(s"http://${request.host}")
+    Logger.info(s"[ReportController][host] host = $host")
+    host
+  }
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] =
     calcConnector.getTaxYear(disposalDate.format(requestFormatter))
