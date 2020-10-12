@@ -66,7 +66,7 @@ class DeductionsSummaryActionSpec @Inject()(val pdfGenerator: PdfGenerator) exte
     when(mockCalcConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
     .thenReturn(Future.successful(BigDecimal(10000)))
 
-    new ReportController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
+    new ReportController(fakeApplication.configuration, mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

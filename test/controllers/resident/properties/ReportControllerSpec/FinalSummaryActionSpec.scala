@@ -81,7 +81,7 @@ class FinalSummaryActionSpec @Inject()(val pdfGenerator: PdfGenerator) extends U
     when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000)))
 
-    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
+    new ReportController(fakeApplication.configuration, mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }
