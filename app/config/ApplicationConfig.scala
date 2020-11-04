@@ -16,6 +16,8 @@
 
 package config
 
+import java.time.LocalDate
+import common.Dates.formatter
 import javax.inject.Inject
 import play.api.Environment
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
@@ -31,6 +33,7 @@ trait AppConfig {
   val urBannerLink: String
   val feedbackSurvey: String
   val googleTagManagerId: String
+  val selfAssessmentActivateDate: LocalDate
   def isWelshEnabled: Boolean
 }
 
@@ -44,6 +47,8 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
   override lazy val assetsPrefix = loadConfig(s"assets.url") + loadConfig(s"assets.version")
   override lazy val analyticsToken = loadConfig(s"google-analytics.token")
   override lazy val analyticsHost = loadConfig(s"google-analytics.host")
+
+  override val selfAssessmentActivateDate = LocalDate.parse(loadConfig(s"selfAssessmentActivate.date"), formatter)
 
   override lazy val contactFormServiceIdentifier = "CGT"
   override lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"

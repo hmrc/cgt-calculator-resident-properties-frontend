@@ -18,6 +18,7 @@ package services
 
 import common.Dates.constructDate
 import common.KeystoreKeys.ResidentPropertyKeys
+import config.AppConfig
 import connectors.SessionCacheConnector
 import javax.inject.Inject
 import models.resident._
@@ -30,7 +31,8 @@ import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class SessionCacheService @Inject()(val sessionCacheConnector: SessionCacheConnector) {
+class SessionCacheService @Inject()(val sessionCacheConnector: SessionCacheConnector,
+                                    implicit val appConfig: AppConfig) {
   def getPropertyGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = {
     val disposalDate = sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
       constructDate(formData.get.day, formData.get.month, formData.get.year))
@@ -171,5 +173,12 @@ class SessionCacheService @Inject()(val sessionCacheConnector: SessionCacheConne
         Redirect(controllers.routes.TimeoutController.timeout(sessionCacheConnector.homeLink, sessionCacheConnector.homeLink)),
         "cgt-calculator-resident-properties-frontend" + e.getMessage
       )
+  }
+
+  def shouldSelfAssessmentBeConsidered()(implicit hc: HeaderCarrier): Future[Boolean] = {
+    val disposalDate = sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
+      constructDate(formData.get.day, formData.get.month, formData.get.year))
+    val selfAssessmentActivateDate = appConfig.selfAssessmentActivateDate
+    disposalDate.map(_.isBefore(selfAssessmentActivateDate))
   }
 }

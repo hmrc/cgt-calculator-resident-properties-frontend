@@ -22,11 +22,16 @@ import akka.util.Timeout
 import assets.MessageLookup
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.jsoup.Jsoup
+import org.mockito.{ArgumentMatcher, ArgumentMatchers}
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers.redirectLocation
+import services.SessionCacheService
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
+import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
 class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with CommonMocks with MockitoSugar with WithFakeApplication {
@@ -37,16 +42,19 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with C
   implicit val timeout: Timeout = new Timeout(Duration.create(20, "seconds"))
 
   def setupController(): WhatNextNonSaController = {
-    when(mockAppConfig.analyticsToken)
-      .thenReturn("test-token")
 
-    when(mockAppConfig.analyticsHost)
-      .thenReturn("analyticsHost")
+    implicit val headerCarrier = HeaderCarrier()
 
-    when(mockAppConfig.residentIFormUrl)
-      .thenReturn("iform-url")
+    when(mockAppConfig.analyticsToken).thenReturn("test-token")
 
-    new WhatNextNonSaController(mockMessagesControllerComponents, mockAppConfig)
+    when(mockAppConfig.analyticsHost).thenReturn("analyticsHost")
+
+    when(mockAppConfig.residentIFormUrl).thenReturn("iform-url")
+
+    when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(true))
+
+    new WhatNextNonSaController(mockMessagesControllerComponents, mockSessionCacheService, mockAppConfig)
   }
 
   "Calling .whatNextNonSaGain" when {

@@ -21,22 +21,43 @@ import controllers.predicates.ValidActiveSession
 import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import services.SessionCacheService
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.calculation.resident.properties.{whatNext => views}
-
-import scala.concurrent.Future
+import scala.concurrent.ExecutionContext
 
 @Singleton
 class WhatNextNonSaController @Inject()(
                                        val messagesControllerComponents: MessagesControllerComponents,
+                                       val sessionCacheService: SessionCacheService,
                                        implicit val appConfig: AppConfig
                                        ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
+  implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
+
   val whatNextNonSaGain: Action[AnyContent] = ValidateSession.async { implicit request =>
-    Future.successful(Ok(views.whatNextNonSaGain(appConfig.residentIFormUrl)))
+    for {
+      selfAssessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
+    } yield {
+      selfAssessmentRequired match {
+        case true => {
+          Ok(views.whatNextNonSaGain(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser().url))
+        }
+        case false => {
+          Ok(views.whatNextNonSaGain(appConfig.residentIFormUrl, controllers.routes.SummaryController.summary().url))
+        }
+      }
+    }
   }
 
   val whatNextNonSaLoss: Action[AnyContent] = ValidateSession.async { implicit request =>
-    Future.successful(Ok(views.whatNextNonSaLoss(appConfig.residentIFormUrl)))
+    for {
+      selfAssessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
+    } yield {
+      selfAssessmentRequired match {
+        case true => Ok(views.whatNextNonSaLoss(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser().url))
+        case false => Ok(views.whatNextNonSaLoss(appConfig.residentIFormUrl, controllers.routes.SummaryController.summary().url))
+      }
+    }
   }
 }

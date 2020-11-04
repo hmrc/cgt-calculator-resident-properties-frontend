@@ -48,13 +48,24 @@ class SaUserController @Inject()(
   override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
   override lazy val sessionTimeoutUrl: String = homeLink
 
-  val saUser: Action[AnyContent] = ValidateSession.async {
-    implicit request =>
-      Future.successful(Ok(views.html.calculation.resident.properties.whatNext.saUser(SaUserForm.saUserForm)))
+  val saUser: Action[AnyContent] = ValidateSession.async { implicit request =>
+    for {
+      assessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
+      whereToNext <- {
+        if(assessmentRequired) {
+          Future(Ok(views.html.calculation.resident.properties.whatNext.saUser(SaUserForm.saUserForm)))
+        } else{
+          submitSaUserImpl(assessmentRequired)
+        }
+      }
+    } yield whereToNext
   }
 
   val submitSaUser: Action[AnyContent] = ValidateSession.async { implicit request =>
+    submitSaUserImpl(true)
+  }
 
+  private def submitSaUserImpl(selfAssessmentRequired: Boolean)(implicit request: play.api.mvc.Request[_]): Future[Result] = {
     def chargeableGain(grossGain: BigDecimal,
                        yourAnswersSummaryModel: YourAnswersSummaryModel,
                        chargeableGainAnswers: ChargeableGainAnswers,
@@ -94,11 +105,21 @@ class SaUserController @Inject()(
       }
     }
 
-    def routeAction(saUserModel: SaUserModel, totalGainAndTaxOwedModel: Option[TotalGainAndTaxOwedModel],
+    def routeAction(selfAssessmentRequired: Boolean, saUserModel: SaUserModel, totalGainAndTaxOwedModel: Option[TotalGainAndTaxOwedModel],
                     maxAEA: BigDecimal, disposalValue: BigDecimal): Future[Result] = {
-      val taxOwed = totalGainAndTaxOwedModel.map {_.taxOwed}
-      if (saUserModel.isInSa) saAction(disposalValue, taxOwed, maxAEA)
-      else nonSaAction(taxOwed)
+      val taxOwed = totalGainAndTaxOwedModel.map {
+        _.taxOwed
+      }
+
+      if(selfAssessmentRequired) {
+        if (saUserModel.isInSa) {
+          saAction(disposalValue, taxOwed, maxAEA)
+        } else {
+          nonSaAction(taxOwed)
+        }
+      }else {
+        nonSaAction(taxOwed)
+      }
     }
 
     def errorAction(form: Form[SaUserModel]) = {
@@ -116,10 +137,14 @@ class SaUserController @Inject()(
         chargeableGain <- chargeableGain(grossGain, answers, deductionAnswers, maxAEA.get)
         incomeAnswers <- sessionCacheService.getPropertyIncomeAnswers
         finalResult <- totalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
-        route <- routeAction(model, finalResult, maxAEA.get, CalculateRequestConstructor.determineDisposalValueToUse(answers))
+        route <- routeAction(selfAssessmentRequired, model, finalResult, maxAEA.get, CalculateRequestConstructor.determineDisposalValueToUse(answers))
       } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
     }
 
-    SaUserForm.saUserForm.bindFromRequest().fold(errorAction, successAction)
+    if(selfAssessmentRequired) {
+      SaUserForm.saUserForm.bindFromRequest().fold(errorAction, successAction)
+    }else {
+      SaUserForm.optionalsaUserForm.bindFromRequest().fold(errorAction, successAction)
+    }
   }
 }
