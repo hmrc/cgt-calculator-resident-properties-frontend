@@ -38,7 +38,7 @@ class SaUserControllerSpec extends UnitSpec with FakeRequestHelper with MockitoS
   implicit val mat: Materializer = ActorMaterializer()
 
   def setupController(yourAnswersSummaryModel: YourAnswersSummaryModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
-                      taxOwed: BigDecimal): SaUserController = {
+                      taxOwed: BigDecimal, assessmentRequired: Boolean = true): SaUserController = {
     when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
@@ -70,6 +70,9 @@ class SaUserControllerSpec extends UnitSpec with FakeRequestHelper with MockitoS
     when(mockAppConfig.analyticsHost)
       .thenReturn("analyticsHost")
 
+    when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(assessmentRequired))
+
     new SaUserController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, mockAppConfig)
   }
 
@@ -98,6 +101,45 @@ class SaUserControllerSpec extends UnitSpec with FakeRequestHelper with MockitoS
 
       "load the saUser page" in {
         Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.SaUser.title
+      }
+
+      "a session is provided" should {
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+        lazy val result = controller.saUser(fakeRequestWithSession)
+
+        "return a status of 200" in {
+          status(result) shouldBe 200
+        }
+
+        "load the saUser page" in {
+          Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.SaUser.title
+        }
+
+        "should jump to what next when self assessment not required and no tax liability" should {
+          lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0, false)
+          lazy val result = controller.saUser(fakeRequestWithSession)
+
+          "return a status of 303" in {
+            status(result) shouldBe 303
+          }
+
+          "redirect to the nonSa loss what next page" in {
+            redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss().url)
+          }
+        }
+
+        "should jump to what next when self assessment not required and a tax liability" should {
+          lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000, false)
+          lazy val result = controller.saUser(fakeRequestWithSession)
+
+          "return a status of 303" in {
+            status(result) shouldBe 303
+          }
+
+          "redirect to the nonSa gain what next page" in {
+            redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaGain().url)
+          }
+        }
       }
     }
   }

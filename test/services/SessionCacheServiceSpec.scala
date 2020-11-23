@@ -19,6 +19,7 @@ package services
 import java.util.NoSuchElementException
 
 import common.KeystoreKeys
+import config.AppConfig
 import controllers.helpers.CommonMocks
 import models.resident
 import models.resident.properties._
@@ -31,12 +32,16 @@ import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import java.time.LocalDate
+
+import common.Dates.constructDate
+import common.KeystoreKeys.ResidentPropertyKeys
 
 import scala.concurrent.Future
 
 class SessionCacheServiceSpec extends UnitSpec with MockitoSugar with CommonMocks with WithFakeApplication {
 
-  val mockSessionCacheConnectorService = new SessionCacheService(mockSessionCacheConnector)
+  val mockSessionCacheConnectorService = new SessionCacheService(mockSessionCacheConnector, mock[AppConfig])
 
   val hc = mock[HeaderCarrier]
   val homeLink = mockSessionCacheConnector.homeLink
@@ -202,6 +207,42 @@ class SessionCacheServiceSpec extends UnitSpec with MockitoSugar with CommonMock
       ApplicationException(Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
         "cgt-calculator-resident-properties-frontend" + "error message"
       )
+    }
+
+    "Self Assessment Be Considered should be date dependant" should {
+
+      val mockAppConfig = mock[AppConfig]
+      val mockCacheService = new SessionCacheService(mockSessionCacheConnector, mockAppConfig)
+      val boundaryDate = LocalDate.of(2020, 4, 6)
+
+      when(mockAppConfig.selfAssessmentActivateDate).thenReturn(boundaryDate)
+
+      "should Self Assessment be Considered before self assessment cut off date" in {
+        when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalDateModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.disposalDate))
+          (ArgumentMatchers.any(), ArgumentMatchers.any()))
+          .thenReturn(Future.successful(Some(DisposalDateModel(5, 4, 2020))))
+
+        val result = mockCacheService.shouldSelfAssessmentBeConsidered()(hc)
+        await(result) shouldBe true
+      }
+
+      "should Self Assessment be Considered on self assessment cut off date" in {
+        when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalDateModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.disposalDate))
+          (ArgumentMatchers.any(), ArgumentMatchers.any()))
+          .thenReturn(Future.successful(Some(DisposalDateModel(5, 4, 2020))))
+
+        val result = mockCacheService.shouldSelfAssessmentBeConsidered()(hc)
+        await(result) shouldBe true
+      }
+
+      "should Self Assessment be Considered after self assessment cut off date" in {
+        when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalDateModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.disposalDate))
+          (ArgumentMatchers.any(), ArgumentMatchers.any()))
+          .thenReturn(Future.successful(Some(DisposalDateModel(7, 4, 2020))))
+
+        val result = mockCacheService.shouldSelfAssessmentBeConsidered()(hc)
+        await(result) shouldBe false
+      }
     }
   }
 }
