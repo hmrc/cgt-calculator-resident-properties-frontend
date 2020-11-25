@@ -16,6 +16,8 @@
 
 package config
 
+import java.time.LocalDate
+import common.Dates.formatter
 import javax.inject.Inject
 import play.api.Environment
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
@@ -28,9 +30,11 @@ trait AppConfig {
   val reportAProblemPartialUrl: String
   val reportAProblemNonJSUrl: String
   val residentIFormUrl: String
+  val capitalGainsReportingFormUrl: String
   val urBannerLink: String
   val feedbackSurvey: String
   val googleTagManagerId: String
+  val selfAssessmentActivateDate: LocalDate
   def isWelshEnabled: Boolean
 }
 
@@ -45,6 +49,8 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
   override lazy val analyticsToken = loadConfig(s"google-analytics.token")
   override lazy val analyticsHost = loadConfig(s"google-analytics.host")
 
+  override val selfAssessmentActivateDate = LocalDate.parse(loadConfig(s"selfAssessmentActivate.date"), formatter)
+
   override lazy val contactFormServiceIdentifier = "CGT"
   override lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   override lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
@@ -53,6 +59,8 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
   override lazy val urBannerLink =
     "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_resident_properties_summary&utm_source=Survey_Banner&utm_medium=other&t=HMRC&id=117"
   override lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
+
+  override lazy val capitalGainsReportingFormUrl: String = loadConfig(s"resident-iForm.capitalGainsReportingFormUrl")
 
   def isWelshEnabled: Boolean = servicesConfig.getBoolean("features.welsh-translation")
 
