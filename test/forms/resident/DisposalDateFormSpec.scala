@@ -22,9 +22,9 @@ import assets.MessageLookup.{DisposalDate => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.DisposalDateForm._
 import models.resident.DisposalDateModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DisposalDateFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   "Creating the form for the disposal date" should {
     "return a populated form using .fill" in {

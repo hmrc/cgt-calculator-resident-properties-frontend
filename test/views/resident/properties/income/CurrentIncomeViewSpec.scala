@@ -20,11 +20,11 @@ import assets.MessageLookup.{CurrentIncome => messages, Resident => commonMessag
 import forms.resident.income.CurrentIncomeForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{income => views}
 
-class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "Current Income view" should {
 

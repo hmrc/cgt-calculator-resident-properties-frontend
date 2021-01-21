@@ -20,9 +20,9 @@ import common.Dates
 import common.resident.HowYouBecameTheOwnerKeys._
 import models.resident._
 import models.resident.properties._
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class CalculateRequestConstructorSpec extends UnitSpec {
+class CalculateRequestConstructorSpec extends CommonPlaySpec {
 
   "Calling determineDisposalValueToUse" when {
 

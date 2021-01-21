@@ -19,9 +19,9 @@ package forms.resident.deductions
 import assets.MessageLookup.{PropertyLivedIn => messages}
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties.PropertyLivedInModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class PropertyLivedInFormSpec extends UnitSpec with WithFakeApplication {
+class PropertyLivedInFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the PropertyLivedIn form from valid inputs" should {
 

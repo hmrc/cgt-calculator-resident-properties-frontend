@@ -30,16 +30,13 @@ import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.http.ApplicationException
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import java.time.LocalDate
-
-import common.Dates.constructDate
-import common.KeystoreKeys.ResidentPropertyKeys
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.Future
 
-class SessionCacheServiceSpec extends UnitSpec with MockitoSugar with CommonMocks with WithFakeApplication {
+class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar with CommonMocks with WithCommonFakeApplication {
 
   val mockSessionCacheConnectorService = new SessionCacheService(mockSessionCacheConnector, mock[AppConfig])
 

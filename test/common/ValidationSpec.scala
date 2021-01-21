@@ -20,9 +20,8 @@ import java.time.LocalDate
 
 import common.Validation._
 import play.api.data.validation.{Invalid, Valid, ValidationError}
-import uk.gov.hmrc.play.test.UnitSpec
 
-class ValidationSpec extends UnitSpec {
+class ValidationSpec extends CommonPlaySpec {
 
   //############# Tests for isValidDate function ##########################################
   "calling common.Validation.isValidDate(day, month, year) " should {

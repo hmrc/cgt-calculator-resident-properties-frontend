@@ -20,9 +20,9 @@ import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.WorthWhenInheritedForm._
 import models.resident.WorthWhenInheritedModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class WorthWhenInheritedFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WorthWhenInheritedFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   "Creating a form using an empty model" should {
     lazy val form = worthWhenInheritedForm

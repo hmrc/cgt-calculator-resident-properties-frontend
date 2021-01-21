@@ -19,11 +19,11 @@ package views.resident.properties.deductions
 import assets.MessageLookup.{PrivateResidenceReliefValue => messages, Resident => commonMessages}
 import forms.resident.properties.PrivateResidenceReliefValueForm._
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{deductions => views}
 
-class PrivateResidenceReliefValueViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "Reliefs Value view" should {
 

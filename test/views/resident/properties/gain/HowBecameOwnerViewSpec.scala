@@ -20,11 +20,11 @@ import assets.MessageLookup.{HowBecameOwner => messages, Resident => commonMessa
 import forms.resident.properties.HowBecameOwnerForm._
 import org.jsoup.Jsoup
 import play.api.mvc.Call
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
 
-class HowBecameOwnerViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "howBecameOwner view" should {
     val backLink = Some("back-link")

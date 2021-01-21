@@ -18,10 +18,10 @@ package views.resident.helpers
 
 import org.jsoup.Jsoup
 import play.twirl.api.Html
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.helpers.expandableHelpTextHelper
 
-class ExpandableHelpTextHelperSpec extends UnitSpec with WithFakeApplication {
+class ExpandableHelpTextHelperSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   val content = expandableHelpTextHelper("testQ", Html("someHtml"))
   val doc = Jsoup.parse(content.body)

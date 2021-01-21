@@ -19,9 +19,9 @@ package forms.resident
 import assets.MessageLookup.{LettingsRelief => messages}
 import forms.resident.properties.LettingsReliefForm._
 import models.resident.properties.LettingsReliefModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class LettingsReliefFormSpec extends UnitSpec with WithFakeApplication {
+class LettingsReliefFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the form for Lettings Relief from a valid selection" should {
     "return a populated form using .fill" in {

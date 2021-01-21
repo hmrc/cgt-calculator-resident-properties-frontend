@@ -27,7 +27,7 @@ import it.innove.play.pdf.PdfGenerator
 import javax.inject.{Inject, Singleton}
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
-import play.api.{Configuration, Logger}
+import play.api.{Configuration, Logger, Logging}
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService
@@ -44,7 +44,7 @@ class ReportController @Inject()(
                                   val sessionCacheService : SessionCacheService,
                                   val messagesControllerComponents: MessagesControllerComponents,
                                   pdfGenerator : PdfGenerator
-                                ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
+                                ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport with Logging {
 
   override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
   override lazy val sessionTimeoutUrl: String = homeLink
@@ -60,7 +60,7 @@ class ReportController @Inject()(
       s"http://${request.host}"
     }
 
-    Logger.info(s"[ReportController][host] host = $host")
+    logger.info(s"[ReportController][host] host = $host")
 
     host
   }

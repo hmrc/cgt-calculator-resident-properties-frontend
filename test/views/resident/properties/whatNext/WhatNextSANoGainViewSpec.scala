@@ -20,10 +20,10 @@ import _root_.views.BaseViewSpec
 import assets.MessageLookup.WhatNextPages.{WhatNextNoGain => pageMessages}
 import assets.MessageLookup.{WhatNextPages => commonMessages}
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.calculation.resident.properties.{whatNext => views}
 
-class WhatNextSANoGainViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "The whatNextSaNoGain view" should {
 

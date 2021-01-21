@@ -18,9 +18,9 @@ package forms.resident
 
 import forms.resident.properties.BoughtForLessThanWorthForm._
 import models.resident.properties.BoughtForLessThanWorthModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class BoughtForLessThanWorthFormSpec extends UnitSpec with WithFakeApplication {
+class BoughtForLessThanWorthFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the BoughtForLessThanWorth form from valid inputs" should {
 

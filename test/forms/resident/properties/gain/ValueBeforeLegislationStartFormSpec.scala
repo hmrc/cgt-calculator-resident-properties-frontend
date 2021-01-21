@@ -19,9 +19,9 @@ package forms.resident.properties.gain
 import assets.MessageLookup.{Resident => messages}
 import forms.resident.properties.ValueBeforeLegislationStartForm._
 import models.resident.properties.ValueBeforeLegislationStartModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class ValueBeforeLegislationStartFormSpec extends UnitSpec with WithFakeApplication {
+class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating a form using an empty model" should {
 

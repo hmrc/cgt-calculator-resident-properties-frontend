@@ -19,9 +19,9 @@ package forms.resident.properties
 import assets.MessageLookup.{Resident => messages}
 import forms.resident.properties.WorthWhenGaveAwayForm._
 import models.resident.properties.WorthWhenGaveAwayModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class WorthWhenGaveAwayFormSpec extends UnitSpec with WithFakeApplication {
+class WorthWhenGaveAwayFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating a form using an empty model" should {
 

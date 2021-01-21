@@ -22,10 +22,10 @@ import common.Dates
 import models.resident._
 import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.{helpers => views}
 
-class GainSummaryPartialViewSpec extends UnitSpec with  WithFakeApplication with BaseViewSpec {
+class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeApplication with BaseViewSpec {
 
   "the property was sold for less than worth" should {
 

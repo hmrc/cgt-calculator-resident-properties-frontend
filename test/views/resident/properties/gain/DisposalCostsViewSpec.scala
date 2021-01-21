@@ -20,11 +20,11 @@ import assets.MessageLookup.{DisposalCosts => messages, Resident => commonMessag
 import controllers.helpers.FakeRequestHelper
 import forms.resident.DisposalCostsForm._
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
 
-class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper  with BaseViewSpec {
+class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper  with BaseViewSpec {
 
   "Disposal Costs view" should {
 

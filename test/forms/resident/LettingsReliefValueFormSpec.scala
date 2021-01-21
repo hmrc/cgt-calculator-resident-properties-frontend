@@ -20,9 +20,9 @@ import assets.MessageLookup.{LettingsReliefValue => Messages, Resident => messag
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.LettingsReliefValueForm._
 import models.resident.properties.LettingsReliefValueModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class LettingsReliefValueFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class LettingsReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   "Creating a form using an empty model" should {
 

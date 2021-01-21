@@ -20,11 +20,11 @@ import assets.MessageLookup.{LossesBroughtForward => messages, Resident => commo
 import forms.resident.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.{resident => views}
 
-class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   val taxYearModel = TaxYearModel(taxYearSupplied = "2017/18", isValidYear = true, calculationTaxYear = "2017/18" )
 

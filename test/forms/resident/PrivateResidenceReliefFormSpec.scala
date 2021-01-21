@@ -18,9 +18,9 @@ package forms.resident
 
 import assets.MessageLookup.{PrivateResidenceRelief => messages}
 import forms.resident.properties.PrivateResidenceReliefForm._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class PrivateResidenceReliefFormSpec extends UnitSpec with WithFakeApplication {
+class PrivateResidenceReliefFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the form with an empty model" should {
 

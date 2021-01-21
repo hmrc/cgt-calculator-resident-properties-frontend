@@ -20,11 +20,11 @@ import assets.MessageLookup.{PropertiesSellOrGiveAway => messages, Resident => c
 import forms.resident.properties.SellOrGiveAwayForm._
 import org.jsoup.Jsoup
 import play.api.mvc.Call
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
 
-class SellOrGiveAwayViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "sellOrGiveAway view" should {
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")

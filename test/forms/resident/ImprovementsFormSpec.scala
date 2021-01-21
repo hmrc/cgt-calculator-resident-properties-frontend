@@ -20,9 +20,9 @@ import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.ImprovementsForm._
 import models.resident.properties.ImprovementsModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class ImprovementsFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   "Creating a form using an empty model" should {
 

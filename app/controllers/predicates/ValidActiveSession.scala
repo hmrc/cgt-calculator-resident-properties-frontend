@@ -18,10 +18,10 @@ package controllers.predicates
 
 import controllers.routes
 import play.api.mvc._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 trait ValidActiveSession extends FrontendController {
 

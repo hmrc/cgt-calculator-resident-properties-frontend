@@ -19,9 +19,9 @@ package forms.resident.properties
 import assets.MessageLookup.{HowBecameOwner => messages}
 import forms.resident.properties.HowBecameOwnerForm._
 import models.resident.properties.HowBecameOwnerModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class HowBecameOwnerFormSpec extends UnitSpec with WithFakeApplication {
+class HowBecameOwnerFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the form from a model" should {
 

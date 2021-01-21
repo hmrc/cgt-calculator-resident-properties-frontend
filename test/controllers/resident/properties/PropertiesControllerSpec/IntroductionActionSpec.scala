@@ -26,11 +26,11 @@ import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Result
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
 
-class IntroductionActionSpec extends UnitSpec with MockitoSugar with FakeRequestHelper with CommonMocks with WithFakeApplication {
+class IntroductionActionSpec extends CommonPlaySpec with MockitoSugar with FakeRequestHelper with CommonMocks with WithCommonFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()

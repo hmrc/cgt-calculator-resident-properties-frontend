@@ -17,9 +17,9 @@
 package models
 
 import models.resident.TaxYearModel
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class TaxYearModelSpec extends UnitSpec {
+class TaxYearModelSpec extends CommonPlaySpec {
 
   "TaxYearModel .convertToSummaryFormat" should {
 

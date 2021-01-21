@@ -19,9 +19,9 @@ package forms.resident.properties
 import assets.MessageLookup.{PropertiesSellOrGiveAway => messages}
 import forms.resident.properties.SellOrGiveAwayForm._
 import models.resident.properties.SellOrGiveAwayModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class SellOrGiveAwayFormSpec extends UnitSpec with WithFakeApplication {
+class SellOrGiveAwayFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the form from a model" should {
 

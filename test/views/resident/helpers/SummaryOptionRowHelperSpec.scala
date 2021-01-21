@@ -20,11 +20,11 @@ import assets.MessageLookup.{Resident => commonMessages}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.helpers.resident.summaryOptionRowHelper
 
-class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication  with BaseViewSpec {
+class SummaryOptionRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication  with BaseViewSpec {
 
   implicit val messages = testingMessages
   implicit val lang = messages.lang

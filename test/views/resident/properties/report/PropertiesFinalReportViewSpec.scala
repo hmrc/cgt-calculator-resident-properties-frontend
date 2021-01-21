@@ -24,10 +24,10 @@ import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties._
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.calculation.resident.properties.{report => views}
 
-class PropertiesFinalReportViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class PropertiesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   val fakeLang: Lang = Lang("en")
 

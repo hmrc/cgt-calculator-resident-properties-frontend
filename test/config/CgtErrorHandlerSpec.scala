@@ -19,9 +19,9 @@ package config
 import org.scalatest.MustMatchers._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class CgtErrorHandlerSpec extends UnitSpec with WithFakeApplication {
+class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   lazy val errorHandler: CgtErrorHandler = fakeApplication.injector.instanceOf[CgtErrorHandler]
 

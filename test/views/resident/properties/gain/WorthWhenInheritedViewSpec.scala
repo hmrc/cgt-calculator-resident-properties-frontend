@@ -21,11 +21,11 @@ import assets.MessageLookup.{Resident => commonMessages}
 import forms.resident.WorthWhenInheritedForm._
 import org.jsoup.Jsoup
 import play.api.mvc.Call
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
 
-class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "worthWhenInherited view" should {
     val backLink = Some("back-link")

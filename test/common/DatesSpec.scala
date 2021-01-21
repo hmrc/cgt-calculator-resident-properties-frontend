@@ -21,11 +21,10 @@ import java.time.LocalDate
 import common.Dates.formatter
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
-import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.ExecutionContext
 
-class DatesSpec extends UnitSpec with GuiceOneAppPerSuite {
+class DatesSpec extends CommonPlaySpec with GuiceOneAppPerSuite {
 
   "Calling constructDate method" should {
 

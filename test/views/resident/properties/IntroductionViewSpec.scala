@@ -18,11 +18,11 @@ package views.resident.properties
 
 import assets.MessageLookup.{IntroductionView => messages, Resident => commonMessages}
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.{properties => views}
 
-class IntroductionViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class IntroductionViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "Introduction view" should {
 

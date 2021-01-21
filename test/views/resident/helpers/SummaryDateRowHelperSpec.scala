@@ -19,11 +19,11 @@ package views.resident.helpers
 import assets.MessageLookup.{Resident => commonMessages}
 import common.Dates._
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 import views.BaseViewSpec
 import views.html.helpers.resident.summaryDateRowHelper
 
-class SummaryDateRowHelperSpec extends UnitSpec with BaseViewSpec {
+class SummaryDateRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
 
   implicit val messages = testingMessages
   implicit val lang = messages.lang

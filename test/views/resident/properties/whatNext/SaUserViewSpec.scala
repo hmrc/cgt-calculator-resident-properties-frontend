@@ -20,11 +20,11 @@ import assets.MessageLookup
 import assets.MessageLookup.{SaUser => messages}
 import forms.resident.SaUserForm
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.whatNext.saUser
 
-class SaUserViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "SaUserView" when {
     implicit lazy val fakeApp = fakeApplication

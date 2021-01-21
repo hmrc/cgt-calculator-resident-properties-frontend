@@ -19,9 +19,9 @@ package forms.resident
 import assets.MessageLookup.{Resident => messages}
 import forms.resident.DisposalValueForm._
 import models.resident.DisposalValueModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 
-class DisposalValueFormSpec extends UnitSpec with WithFakeApplication {
+class DisposalValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating a form using an empty model" should {
 

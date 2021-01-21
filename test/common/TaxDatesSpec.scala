@@ -16,9 +16,7 @@
 
 package common
 
-import uk.gov.hmrc.play.test.UnitSpec
-
-class TaxDatesSpec extends UnitSpec {
+class TaxDatesSpec extends CommonPlaySpec {
 
   "Calling taxYearStringToInteger" should {
     "return 2016 from 2015/16 tax year" in {

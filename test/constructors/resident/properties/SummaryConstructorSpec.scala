@@ -18,9 +18,9 @@ package constructors.resident.properties
 
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel}
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class SummaryConstructorSpec extends UnitSpec with WithFakeApplication {
+class SummaryConstructorSpec extends CommonPlaySpec with WithCommonFakeApplication {
   "Calling the .broughtForwardLossesUsed function" when {
 
     "no brought forward losses are claimed" should {

@@ -22,19 +22,16 @@ import akka.util.Timeout
 import assets.MessageLookup
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.jsoup.Jsoup
-import org.mockito.{ArgumentMatcher, ArgumentMatchers}
-import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers.redirectLocation
-import services.SessionCacheService
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
-class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with CommonMocks with MockitoSugar with WithFakeApplication {
+class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper with CommonMocks with MockitoSugar with WithCommonFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()
@@ -42,8 +39,6 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with C
   implicit val timeout: Timeout = new Timeout(Duration.create(20, "seconds"))
 
   def setupController(): WhatNextNonSaController = {
-
-    implicit val headerCarrier = HeaderCarrier()
 
     when(mockAppConfig.analyticsToken).thenReturn("test-token")
 

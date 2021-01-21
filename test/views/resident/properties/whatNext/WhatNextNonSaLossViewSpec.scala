@@ -18,11 +18,11 @@ package views.resident.properties.whatNext
 
 import assets.MessageLookup.{WhatNextNonSaLoss => messages}
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{whatNext => views}
 
-class WhatNextNonSaLossViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "whatNextNonSaLoss view" should {
 

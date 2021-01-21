@@ -19,11 +19,11 @@ package views.resident.properties.whatNext
 import assets.MessageLookup.WhatNextPages.{FourTimesAEA => pageMessages}
 import assets.MessageLookup.{WhatNextPages => commonMessages}
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{whatNext => views}
 
-class WhatNextSAFourTimesAEAViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "The whatNextSAFourTimesAEA view" should {
 

@@ -19,9 +19,9 @@ package forms.resident
 import assets.MessageLookup.{Resident => messages}
 import forms.resident.income.CurrentIncomeForm._
 import models.resident.income.CurrentIncomeModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class CurrentIncomeFormSpec extends UnitSpec with WithFakeApplication {
+class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating a form using an empty model" should {
 

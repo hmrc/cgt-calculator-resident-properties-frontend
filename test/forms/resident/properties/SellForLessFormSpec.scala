@@ -18,9 +18,9 @@ package forms.resident.properties
 
 import forms.resident.properties.SellForLessForm._
 import models.resident.SellForLessModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class SellForLessFormSpec extends UnitSpec with WithFakeApplication {
+class SellForLessFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the SellForLess form from valid inputs" should {
 

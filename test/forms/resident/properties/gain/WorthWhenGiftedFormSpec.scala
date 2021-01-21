@@ -20,9 +20,9 @@ import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.gain.WorthWhenGiftedForm._
 import models.resident.properties.gain.WorthWhenGiftedModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class WorthWhenGiftedFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WorthWhenGiftedFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   "Creating a form using an empty model" should {
     lazy val form = worthWhenGiftedForm

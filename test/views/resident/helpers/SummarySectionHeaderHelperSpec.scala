@@ -17,11 +17,11 @@
 package views.resident.helpers
 
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.helpers.resident.summarySectionHeaderHelper
 
-class SummarySectionHeaderHelperSpec extends UnitSpec with WithFakeApplication  with BaseViewSpec {
+class SummarySectionHeaderHelperSpec extends CommonPlaySpec with WithCommonFakeApplication  with BaseViewSpec {
 
   implicit val messages = testingMessages
   implicit val lang = messages.lang

@@ -26,11 +26,11 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.i18n.Lang
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.helpers.checkYourAnswersPartial
 
-class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
   val fakeLang = Lang("en")
 
   "The check your answers partial with as much filled in as possible" should {

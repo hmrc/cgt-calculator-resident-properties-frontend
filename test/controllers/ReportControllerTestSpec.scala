@@ -20,9 +20,10 @@ import controllers.helpers.FakeRequestHelper
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class ReportControllerTestSpec extends UnitSpec with FakeRequestHelper with MockitoSugar {
+
+class ReportControllerTestSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar {
 
   def buildApp(properties: Map[String, String]): Application = {
     new GuiceApplicationBuilder().configure(properties + ("metrics.enabled" -> "false")).build()

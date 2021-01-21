@@ -21,11 +21,11 @@ import assets.MessageLookup.{Resident => commonMessages}
 import forms.resident.properties.gain.OwnerBeforeLegislationStartForm._
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
 
-class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "The Owner Before Legislation Start view" should {
 

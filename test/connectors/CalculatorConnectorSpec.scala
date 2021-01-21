@@ -32,11 +32,11 @@ import org.mockito.stubbing.OngoingStubbing
 import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
 
-class CalculatorConnectorSpec extends UnitSpec with MockitoSugar with CommonMocks with WithFakeApplication {
+class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with CommonMocks with WithCommonFakeApplication {
 
   val sessionId = UUID.randomUUID.toString
 

@@ -20,9 +20,9 @@ import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.LossesBroughtForwardValueForm._
 import models.resident.LossesBroughtForwardValueModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class LossesBroughtForwardValueFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   "Creating a form using a valid model" should {
 

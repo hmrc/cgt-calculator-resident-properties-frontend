@@ -16,14 +16,14 @@
 
 package views
 
+import common.WithCommonFakeApplication
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.mockito.Mockito.when
 import org.scalatest.Suite
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages
-import uk.gov.hmrc.play.test.WithFakeApplication
 
-trait BaseViewSpec extends MockitoSugar with CommonMocks with FakeRequestHelper with WithFakeApplication {
+trait BaseViewSpec extends MockitoSugar with CommonMocks with FakeRequestHelper with WithCommonFakeApplication {
   self: Suite =>
 
   when(mockAppConfig.analyticsToken)

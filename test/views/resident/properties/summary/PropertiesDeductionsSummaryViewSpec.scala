@@ -23,10 +23,10 @@ import models.resident._
 import models.resident.properties._
 import org.jsoup.Jsoup
 import org.mockito.Mockito.when
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.calculation.resident.properties.{summary => views}
 
-class PropertiesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "Properties Deductions Summary view" should {
     val gainAnswers = YourAnswersSummaryModel(
