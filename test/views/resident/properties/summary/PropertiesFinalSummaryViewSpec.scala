@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties._
 import org.jsoup.Jsoup
 import org.mockito.Mockito.when
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{summary => views}
 
-class PropertiesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "PropertiesFinalSummaryView" when {
     val incomeAnswers = IncomeAnswersModel(

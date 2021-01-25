@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 package views.resident.helpers
 
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.helpers.resident.summaryGainAndRateHelper
 
-class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class SummaryGainAndRateHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   implicit val messages = testingMessages
   implicit val lang = messages.lang

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,11 +29,11 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
 
-class WhatNextSaControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
+class WhatNextSaControllerSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
 

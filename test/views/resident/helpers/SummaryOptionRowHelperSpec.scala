@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@ import assets.MessageLookup.{Resident => commonMessages}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.helpers.resident.summaryOptionRowHelper
 
-class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication  with BaseViewSpec {
+class SummaryOptionRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication  with BaseViewSpec {
 
   implicit val messages = testingMessages
   implicit val lang = messages.lang

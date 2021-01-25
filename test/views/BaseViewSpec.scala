@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,14 @@
 
 package views
 
+import common.WithCommonFakeApplication
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.mockito.Mockito.when
 import org.scalatest.Suite
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages
-import uk.gov.hmrc.play.test.WithFakeApplication
 
-trait BaseViewSpec extends MockitoSugar with CommonMocks with FakeRequestHelper with WithFakeApplication {
+trait BaseViewSpec extends MockitoSugar with CommonMocks with FakeRequestHelper with WithCommonFakeApplication {
   self: Suite =>
 
   when(mockAppConfig.analyticsToken)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
 package models
 
 import models.resident.TaxYearModel
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class TaxYearModelSpec extends UnitSpec {
+class TaxYearModelSpec extends CommonPlaySpec {
 
   "TaxYearModel .convertToSummaryFormat" should {
 

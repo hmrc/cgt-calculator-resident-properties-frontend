@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,9 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.SessionKeys
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class FrontendGlobalSpec extends UnitSpec with WithFakeApplication with MockitoSugar {
+class FrontendGlobalSpec extends CommonPlaySpec with WithCommonFakeApplication with MockitoSugar {
 
   val cgtErrorHandler: CgtErrorHandler = new CgtErrorHandler(
     fakeApplication.injector.instanceOf[MessagesApi],

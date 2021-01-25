@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ package forms.resident
 import assets.MessageLookup.{Resident => messages}
 import forms.resident.AcquisitionValueForm._
 import models.resident.AcquisitionValueModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class AcquisitionValueFormSpec extends UnitSpec with WithFakeApplication {
+class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the form for Acquisition Value from a valid input" should {
     "return a populated form using .fill" in {

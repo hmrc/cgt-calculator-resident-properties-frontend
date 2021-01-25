@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ import play.api.libs.json.Json
 import play.shaded.ahc.org.asynchttpclient.exception.RemotelyClosedException
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
 import scala.concurrent.Future
 
-class SessionCacheConnectorSpec extends UnitSpec with MockitoSugar{
+class SessionCacheConnectorSpec extends CommonPlaySpec with MockitoSugar{
   val mockSessionCache = mock[SessionCache]
 
   val mockSessionCacheConnector = new SessionCacheConnector {
@@ -38,7 +38,7 @@ class SessionCacheConnectorSpec extends UnitSpec with MockitoSugar{
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 
   val testCache: CacheMap = CacheMap.apply("testId", Map("someString" -> Json.toJson[String]("someJsValue")))
-  val testHttpResponse: AnyRef with HttpResponse = HttpResponse.apply(responseStatus = 200, responseJson = None, responseHeaders = Map(), responseString = None)
+  val testHttpResponse: AnyRef with HttpResponse = HttpResponse.apply(200, "")
 
   "calling saveFormData" should{
     "return a Future.Successful CacheMap" in{
@@ -69,7 +69,7 @@ class SessionCacheConnectorSpec extends UnitSpec with MockitoSugar{
 
     "throw an exception" in{
       when(mockSessionCache.fetchAndGetEntry(ArgumentMatchers.eq("testFailingKey"))(ArgumentMatchers.any(), ArgumentMatchers.any(),ArgumentMatchers.any()))
-        .thenReturn(Future.failed(new RemotelyClosedException))
+        .thenReturn(Future.failed(RemotelyClosedException.INSTANCE))
 
       the[RemotelyClosedException] thrownBy await(mockSessionCacheConnector.fetchAndGetFormData[String]("testFailingKey")) should have message
         "Remotely closed"

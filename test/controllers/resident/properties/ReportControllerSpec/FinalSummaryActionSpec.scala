@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,11 +32,11 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.RequestHeader
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
 
-class FinalSummaryActionSpec @Inject()(val pdfGenerator: PdfGenerator) extends UnitSpec with WithFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar {
+class FinalSummaryActionSpec @Inject()(val pdfGenerator: PdfGenerator) extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar {
 
   def setupTarget
   (

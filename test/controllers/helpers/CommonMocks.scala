@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package controllers.helpers
 
+import common.WithCommonFakeApplication
 import config.AppConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import org.scalatestplus.mockito.MockitoSugar
@@ -23,14 +24,13 @@ import play.api.i18n.MessagesApi
 import play.api.mvc._
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.play.bootstrap.http.HttpClient
-import uk.gov.hmrc.play.test.WithFakeApplication
+import uk.gov.hmrc.http.HttpClient
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
 
 trait CommonMocks {
-  self: MockitoSugar with WithFakeApplication =>
+  self: MockitoSugar with WithCommonFakeApplication =>
 
   val mockCalcConnector: CalculatorConnector = mock[CalculatorConnector]
   val mockSessionCacheConnector: SessionCacheConnector = mock[SessionCacheConnector]

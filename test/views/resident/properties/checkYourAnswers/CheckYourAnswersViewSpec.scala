@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,11 @@ import org.jsoup.nodes.Document
 import play.api.i18n.Lang
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{checkYourAnswers => views}
 
-class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   val dummyBackLink = "backLink"
   val dummyPostCall: Call = Call("POST", "/dummy-url")

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ package forms.resident.deductions
 import assets.MessageLookup.{PropertyLivedIn => messages}
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties.PropertyLivedInModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class PropertyLivedInFormSpec extends UnitSpec with WithFakeApplication {
+class PropertyLivedInFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the PropertyLivedIn form from valid inputs" should {
 

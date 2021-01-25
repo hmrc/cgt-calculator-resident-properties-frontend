@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ package forms.resident
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import forms.resident.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
+class LossesBroughtForwardFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   val taxYearModel = TaxYearModel(taxYearSupplied = "2017", isValidYear = true, calculationTaxYear = "2018" )
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,13 +36,13 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
-class ReviewAnswersControllerSpec extends UnitSpec with FakeRequestHelper
-  with MockitoSugar with CommonMocks  with WithFakeApplication {
+class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
+  with MockitoSugar with CommonMocks  with WithCommonFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = ActorMaterializer()

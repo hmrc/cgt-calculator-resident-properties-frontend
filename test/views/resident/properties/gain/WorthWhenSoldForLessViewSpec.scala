@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@ import assets.MessageLookup.Resident.Properties.{WorthWhenSoldForLess => message
 import assets.MessageLookup.{Resident => commonMessages}
 import forms.resident.WorthWhenSoldForLessForm._
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{gain => views}
 
-class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "The Property Worth When Sold View when supplied with an empty form" should {
 

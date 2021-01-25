@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,11 @@ import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{report => views}
 
-class PropertiesGainReportViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class PropertiesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   val fakeLang: Lang = Lang("en")
 

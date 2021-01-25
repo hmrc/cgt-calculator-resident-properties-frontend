@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ package forms.resident.properties.gain
 import assets.MessageLookup.{Resident => messages}
 import forms.resident.WorthWhenSoldForLessForm._
 import models.resident.WorthWhenSoldForLessModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class WorthWhenSoldForLessFormSpec extends UnitSpec with WithFakeApplication {
+class WorthWhenSoldForLessFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating a form using an empty model" should {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,11 @@ import common.resident.JourneyKeys
 import forms.resident.income.PersonalAllowanceForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.{resident => views}
 
-class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   val postAction = controllers.routes.IncomeController.submitPersonalAllowance()
 

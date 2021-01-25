@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,11 @@ import controllers.routes
 import forms.resident.LossesBroughtForwardValueForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.{resident => views}
 
-class LossesBroughtForwardValueViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "Losses Brought Forward Value view" when {
 

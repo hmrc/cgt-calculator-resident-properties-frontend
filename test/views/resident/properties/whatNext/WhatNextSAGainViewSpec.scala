@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import _root_.views.BaseViewSpec
 import assets.MessageLookup.WhatNextPages.{WhatNextGain => pageMessages}
 import assets.MessageLookup.{WhatNextPages => commonMessages}
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.calculation.resident.properties.{whatNext => views}
 
-class WhatNextSAGainViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "The whatNextSAGain view" should {
 

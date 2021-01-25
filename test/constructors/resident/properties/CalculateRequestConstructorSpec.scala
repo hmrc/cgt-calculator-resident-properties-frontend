@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import common.Dates
 import common.resident.HowYouBecameTheOwnerKeys._
 import models.resident._
 import models.resident.properties._
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class CalculateRequestConstructorSpec extends UnitSpec {
+class CalculateRequestConstructorSpec extends CommonPlaySpec {
 
   "Calling determineDisposalValueToUse" when {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ package routes.properties
 
 import controllers.routes._
 import org.scalatest._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class RoutesSpec extends UnitSpec with WithFakeApplication with Matchers {
+class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matchers {
 
   "The URL for the introduction Action" should {
     "be equal to /calculate-your-capital-gains/resident/properties/" in {

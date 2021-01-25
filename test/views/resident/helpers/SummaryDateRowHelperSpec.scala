@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ package views.resident.helpers
 import assets.MessageLookup.{Resident => commonMessages}
 import common.Dates._
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 import views.BaseViewSpec
 import views.html.helpers.resident.summaryDateRowHelper
 
-class SummaryDateRowHelperSpec extends UnitSpec with BaseViewSpec {
+class SummaryDateRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
 
   implicit val messages = testingMessages
   implicit val lang = messages.lang

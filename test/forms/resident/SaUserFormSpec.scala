@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import assets.MessageLookup.{SaUser => messages}
 import forms.resident.SaUserForm._
 import models.resident.SaUserModel
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import uk.gov.hmrc.play.test.UnitSpec
+import common.CommonPlaySpec
 
-class SaUserFormSpec extends UnitSpec with GuiceOneAppPerSuite {
+class SaUserFormSpec extends CommonPlaySpec with GuiceOneAppPerSuite {
 
   "Creating a form using a valid model" should {
 

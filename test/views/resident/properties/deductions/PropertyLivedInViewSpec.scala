@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@ import assets.MessageLookup.{PropertyLivedIn => messages, Resident => commonMess
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties.PropertyLivedInModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{deductions => views}
 
-class PropertyLivedInViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "Property lived in view with an empty form" should {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.ImprovementsForm._
 import models.resident.properties.ImprovementsModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 
-class ImprovementsFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   "Creating a form using an empty model" should {
 

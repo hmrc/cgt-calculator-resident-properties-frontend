@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,10 @@ import java.time.LocalDate
 import common.Dates.formatter
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
-import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.ExecutionContext
 
-class DatesSpec extends UnitSpec with GuiceOneAppPerSuite {
+class DatesSpec extends CommonPlaySpec with GuiceOneAppPerSuite {
 
   "Calling constructDate method" should {
 

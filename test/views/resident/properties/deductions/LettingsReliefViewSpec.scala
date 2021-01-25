@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ package views.resident.properties.deductions
 import assets.MessageLookup.{LettingsRelief => messages, Resident => commonMessages}
 import forms.resident.properties.LettingsReliefForm._
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.{deductions => views}
 
-class LettingsReliefViewSpec extends UnitSpec with WithFakeApplication with BaseViewSpec {
+class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "Lettings Relief view" should {
 
