@@ -27,12 +27,12 @@ import it.innove.play.pdf.PdfGenerator
 import javax.inject.{Inject, Singleton}
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
-import play.api.{Configuration, Logger, Logging}
+import play.api.{Configuration, Logging}
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.resident.properties.{report => views}
 
 import scala.concurrent.{ExecutionContext, Future}

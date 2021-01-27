@@ -20,7 +20,7 @@ import com.google.inject.Inject
 import play.api.Configuration
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 class CgtLanguageController @Inject()(
                                           configuration: Configuration,
