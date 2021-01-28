@@ -52,7 +52,7 @@ import play.api.i18n.{I18nSupport, Messages, MessagesProvider}
 import play.api.mvc._
 import services.SessionCacheService
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.{resident => commonViews}
 import views.html.calculation.resident.properties.{gain => views}
 

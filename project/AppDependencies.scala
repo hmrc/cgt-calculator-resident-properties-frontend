@@ -54,7 +54,6 @@ object AppDependencies {
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.13.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "uk.gov.hmrc" %% "bootstrap-frontend-play-27" % bootstrapVersion % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3"  % "test",
         "org.mockito" %% "mockito-scala-scalatest" % "1.14.8" % "test"
       )
