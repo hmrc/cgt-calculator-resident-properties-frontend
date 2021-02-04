@@ -37,12 +37,14 @@ lazy val microservice = Project(appName, file("."))
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
     evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
+    Global / lintUnusedKeysOnLoad := false,
     pipelineStages in Assets := Seq(digest),
-    scalacOptions += "-P:silencer:pathFilters=views;play.mvc.Http.Contexts",
+    scalacOptions += "-P:silencer:pathFilters=routes;views;play.mvc.Http.Contexts",
     libraryDependencies ++= Seq(
       compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.7.1" cross CrossVersion.full),
       "com.github.ghik" % "silencer-lib" % "1.7.1" % Provided cross CrossVersion.full
     ),
+    scalacOptions += "-feature",
   )
   .configs(IntegrationTest)
   .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)

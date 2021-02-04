@@ -22,7 +22,7 @@ import akka.stream.Materializer
 import akka.util.ByteString
 import org.scalatest.{Matchers, OptionValues, WordSpecLike}
 import play.api.mvc.Result
-import scala.language.implicitConversions
+import scala.language.{implicitConversions, postfixOps}
 
 trait CommonPlaySpec extends WordSpecLike with Matchers with OptionValues {
 
