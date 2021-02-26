@@ -85,11 +85,6 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
     when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(incomeAnswersModel)
 
-    when(mockAppConfig.analyticsToken)
-      .thenReturn("test-token")
-
-    when(mockAppConfig.analyticsHost)
-      .thenReturn("analyticsHost")
 
     new ReviewAnswersController(
       mockConnector,

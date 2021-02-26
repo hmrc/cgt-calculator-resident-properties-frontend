@@ -68,12 +68,6 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(taxYearModel)))
 
-    when(mockAppConfig.analyticsToken)
-      .thenReturn("test-token")
-
-    when(mockAppConfig.analyticsHost)
-      .thenReturn("analyticsHost")
-
     new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents, mockAppConfig)
   }
 

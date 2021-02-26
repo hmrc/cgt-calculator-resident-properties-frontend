@@ -22,7 +22,6 @@ import assets.MessageLookup.{IntroductionView => messages}
 import controllers.PropertiesController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.jsoup.Jsoup
-import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Result
 import play.api.test.Helpers._
@@ -36,11 +35,6 @@ class IntroductionActionSpec extends CommonPlaySpec with MockitoSugar with FakeR
   implicit val mat: Materializer = ActorMaterializer()
 
   class Setup() {
-    when(mockAppConfig.analyticsToken)
-      .thenReturn("test-token")
-
-    when(mockAppConfig.analyticsHost)
-      .thenReturn("analyticsHost")
 
     val controller = new PropertiesController(mockMessagesControllerComponents, mockAppConfig)
   }

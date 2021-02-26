@@ -44,15 +44,7 @@
 }
 
 @head = {
-    @if(appdConfig.googleTagManagerId != "N/A") {
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','@appdConfig.googleTagManagerId');
-        </script>
-    }
-    @uiLayouts.head(
+    @uiLayouts.headWithTrackingConsent(
       linkElem = Some(linksElement),
       headScripts = None)
     <meta name="format-detection" content="telephone=no" />
@@ -64,11 +56,6 @@
 }
 
 @insideHeader = {
-    @if(appdConfig.googleTagManagerId != "N/A") {
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=@appdConfig.googleTagManagerId" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    }
     @uiLayouts.header_nav(
       navTitle = Some(navTitle),
       navTitleLink = None,
@@ -78,8 +65,8 @@
 
 @bodyEnd = {
     @uiLayouts.footer(
-      analyticsToken = Some(appdConfig.analyticsToken),
-      analyticsHost = appdConfig.analyticsHost,
+      analyticsToken = None,
+      analyticsHost = "",
       ssoUrl = None,
       scriptElem = Some(scriptElement),
       gaCalls = None)

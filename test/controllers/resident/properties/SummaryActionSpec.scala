@@ -87,12 +87,6 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
     when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000)))
 
-    when(mockAppConfig.analyticsToken)
-      .thenReturn("test-token")
-
-    when(mockAppConfig.analyticsHost)
-      .thenReturn("analyticsHost")
-
     new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents, mockAppConfig)
   }
 

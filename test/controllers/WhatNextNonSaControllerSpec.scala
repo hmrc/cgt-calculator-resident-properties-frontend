@@ -40,10 +40,6 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
 
   def setupController(): WhatNextNonSaController = {
 
-    when(mockAppConfig.analyticsToken).thenReturn("test-token")
-
-    when(mockAppConfig.analyticsHost).thenReturn("analyticsHost")
-
     when(mockAppConfig.residentIFormUrl).thenReturn("iform-url")
 
     when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(ArgumentMatchers.any()))

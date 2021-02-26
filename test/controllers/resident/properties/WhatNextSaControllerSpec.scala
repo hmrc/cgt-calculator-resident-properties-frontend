@@ -44,12 +44,6 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with WithCommonFakeApplica
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
 
-    when(mockAppConfig.analyticsToken)
-      .thenReturn("test-token")
-
-    when(mockAppConfig.analyticsHost)
-      .thenReturn("analyticsHost")
-
     new WhatNextSAController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents, mockAppConfig)
   }
 

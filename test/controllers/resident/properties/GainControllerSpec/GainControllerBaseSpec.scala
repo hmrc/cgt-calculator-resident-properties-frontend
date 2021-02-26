@@ -18,7 +18,6 @@ package controllers.resident.properties.GainControllerSpec
 
 import controllers.GainController
 import controllers.helpers.CommonMocks
-import org.mockito.Mockito._
 
 trait GainControllerBaseSpec {
   self: CommonMocks =>
@@ -31,9 +30,4 @@ trait GainControllerBaseSpec {
     mockAppConfig
   )
 
-  when(mockAppConfig.analyticsToken)
-    .thenReturn("test-token")
-
-  when(mockAppConfig.analyticsHost)
-    .thenReturn("analyticsHost")
 }
