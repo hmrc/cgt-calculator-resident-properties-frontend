@@ -20,7 +20,6 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.jsoup.Jsoup
-import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent}
@@ -47,11 +46,6 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "when called with no session" should {
 
-      when(mockAppConfig.analyticsToken)
-        .thenReturn("test-token")
-
-      when(mockAppConfig.analyticsHost)
-        .thenReturn("analyticsHost")
 
       object timeoutTestDataItem extends fakeRequestTo("", timeoutController.timeout("test", "test2"))
 

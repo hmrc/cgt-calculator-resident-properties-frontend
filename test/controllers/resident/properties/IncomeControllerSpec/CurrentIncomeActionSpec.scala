@@ -71,11 +71,6 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(CacheMap("",Map.empty)))
 
-    when(mockAppConfig.analyticsToken)
-      .thenReturn("test-token")
-
-    when(mockAppConfig.analyticsHost)
-      .thenReturn("analyticsHost")
 
     new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents, mockAppConfig)
   }

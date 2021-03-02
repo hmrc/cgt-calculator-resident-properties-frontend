@@ -26,11 +26,5 @@ import play.api.i18n.Messages
 trait BaseViewSpec extends MockitoSugar with CommonMocks with FakeRequestHelper with WithCommonFakeApplication {
   self: Suite =>
 
-  when(mockAppConfig.analyticsToken)
-    .thenReturn("test-token")
-
-  when(mockAppConfig.analyticsHost)
-    .thenReturn("analyticsHost")
-
   val testingMessages: Messages = mockMessagesControllerComponents.messagesApi.preferred(fakeRequest)
 }

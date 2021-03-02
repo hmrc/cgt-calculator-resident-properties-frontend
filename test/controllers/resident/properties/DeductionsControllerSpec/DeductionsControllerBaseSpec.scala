@@ -18,7 +18,6 @@ package controllers.resident.properties.DeductionsControllerSpec
 
 import controllers.DeductionsController
 import controllers.helpers.CommonMocks
-import org.mockito.Mockito.when
 
 trait DeductionsControllerBaseSpec {
   self: CommonMocks =>
@@ -31,9 +30,4 @@ trait DeductionsControllerBaseSpec {
     mockAppConfig
   )
 
-  when(mockAppConfig.analyticsToken)
-    .thenReturn("test-token")
-
-  when(mockAppConfig.analyticsHost)
-    .thenReturn("analyticsHost")
 }

@@ -64,12 +64,6 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
     .thenReturn(Future.successful(Some(ModelsAsset.taxYearModel)))
 
-    when(mockAppConfig.analyticsToken)
-      .thenReturn("test-token")
-
-    when(mockAppConfig.analyticsHost)
-      .thenReturn("analyticsHost")
-
     when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(assessmentRequired))
 

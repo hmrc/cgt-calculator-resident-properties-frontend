@@ -24,8 +24,6 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 trait AppConfig {
   val assetsPrefix: String
-  val analyticsToken: String
-  val analyticsHost: String
   val contactFormServiceIdentifier: String
   val reportAProblemPartialUrl: String
   val reportAProblemNonJSUrl: String
@@ -33,7 +31,6 @@ trait AppConfig {
   val capitalGainsReportingFormUrl: String
   val urBannerLink: String
   val feedbackSurvey: String
-  val googleTagManagerId: String
   val selfAssessmentActivateDate: LocalDate
   def isWelshEnabled: Boolean
 }
@@ -46,8 +43,6 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
   lazy val contactHost = servicesConfig.getConfString("contact-frontend.www", "")
 
   override lazy val assetsPrefix = loadConfig(s"assets.url") + loadConfig(s"assets.version")
-  override lazy val analyticsToken = loadConfig(s"google-analytics.token")
-  override lazy val analyticsHost = loadConfig(s"google-analytics.host")
 
   override val selfAssessmentActivateDate = LocalDate.parse(loadConfig(s"selfAssessmentActivate.date"), formatter)
 
@@ -63,8 +58,6 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
   override lazy val capitalGainsReportingFormUrl: String = loadConfig(s"resident-iForm.capitalGainsReportingFormUrl")
 
   def isWelshEnabled: Boolean = servicesConfig.getBoolean("features.welsh-translation")
-
-  lazy val googleTagManagerId = loadConfig(s"google-tag-manager.id")
 
 
 }
