@@ -22,13 +22,14 @@ import forms.resident.properties.WorthWhenBoughtForLessForm._
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.worthWhenBoughtForLess
 
 class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val worthWhenBoughtForLessView = fakeApplication.injector.instanceOf[worthWhenBoughtForLess]
   "worthWhenBought view" should {
     lazy val form = worthWhenBoughtForLessForm
-    lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = worthWhenBoughtForLessView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -103,7 +104,7 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
 
   "Disposal Value View with form without errors" should {
     lazy val form = worthWhenBoughtForLessForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = worthWhenBoughtForLessView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -121,7 +122,7 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
 
   "Disposal Value View with form with errors" should {
     lazy val form = worthWhenBoughtForLessForm.bind(Map("amount" -> ""))
-    lazy val view = views.worthWhenBoughtForLess(form)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = worthWhenBoughtForLessView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

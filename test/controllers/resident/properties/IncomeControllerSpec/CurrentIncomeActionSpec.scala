@@ -33,6 +33,8 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
+import views.html.calculation.resident.properties.income.currentIncome
+import views.html.calculation.resident.personalAllowance
 
 import scala.concurrent.Future
 
@@ -72,7 +74,9 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       .thenReturn(Future.successful(CacheMap("",Map.empty)))
 
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents, mockAppConfig)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents,
+      fakeApplication.injector.instanceOf[currentIncome],
+      fakeApplication.injector.instanceOf[personalAllowance])
   }
 
   "Calling .currentIncome from the IncomeController with a session" when {

@@ -29,6 +29,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.http.{ApplicationException, FrontendE
 import scala.concurrent.Future
 
 class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
+                                errorTemplateView: views.html.error_template,
                                 implicit val config: AppConfig) extends FrontendErrorHandler {
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
@@ -40,7 +41,7 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
         controllers.routes.GainController.disposalDate().url
       case _ => "/calculate-your-capital-gains/"
     }
-    views.html.error_template(pageTitle, heading, message, homeNavLink)
+    errorTemplateView(pageTitle, heading, message, homeNavLink)
   }
 
   lazy val homeLink: String = controllers.routes.GainController.disposalDate().url

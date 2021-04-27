@@ -41,20 +41,22 @@ trait CalculatorConnector extends JodaReads {
   val serviceUrl: String
   lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
 
-  implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
+  implicit val hc: HeaderCarrier = HeaderCarrier()
+
+  val headers = Seq("Accept" -> "application/vnd.hmrc.1.0+json")
 
   def getMinimumDate()(implicit hc : HeaderCarrier): Future[LocalDate] = {
-    http.GET[DateTime](s"$serviceUrl/capital-gains-calculator/minimum-date").map { date =>
+    http.GET[DateTime](s"$serviceUrl/capital-gains-calculator/minimum-date", headers = headers).map { date =>
       LocalDate.of(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
     }
   }
 
   def getFullAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
-    http.GET[Option[BigDecimal]](s"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=$taxYear")
+    http.GET[Option[BigDecimal]](s"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=$taxYear", headers = headers)
   }
 
   def getPartialAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
-    http.GET[Option[BigDecimal]](s"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=$taxYear")
+    http.GET[Option[BigDecimal]](s"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=$taxYear", headers = headers)
   }
 
   def getPA(taxYear: Int, isEligibleBlindPersonsAllowance: Boolean = false)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
@@ -63,11 +65,11 @@ trait CalculatorConnector extends JodaReads {
         if (isEligibleBlindPersonsAllowance) s"&isEligibleBlindPersonsAllowance=true"
         else ""
       }"
-    )
+      , headers = headers)
   }
 
   def getTaxYear(taxYear: String)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] = {
-    http.GET[Option[TaxYearModel]](s"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear")
+    http.GET[Option[TaxYearModel]](s"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear", headers = headers)
   }
 
 
@@ -75,7 +77,7 @@ trait CalculatorConnector extends JodaReads {
   def calculateRttPropertyGrossGain(input: YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/calculate-total-gain" +
       propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
-    )
+      , headers = headers)
   }
 
   def calculateRttPropertyChargeableGain(totalGainInput: YourAnswersSummaryModel,
@@ -84,8 +86,7 @@ trait CalculatorConnector extends JodaReads {
     http.GET[Option[ChargeableGainResultModel]](s"$serviceUrl/capital-gains-calculator/calculate-chargeable-gain" +
       propertyConstructor.CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
       propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
-
-    )
+      , headers = headers)
   }
 
   def calculateRttPropertyTotalGainAndTax(totalGainInput: YourAnswersSummaryModel,
@@ -96,12 +97,12 @@ trait CalculatorConnector extends JodaReads {
       propertyConstructor.CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
       propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA) +
       propertyConstructor.CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
-    )
+      , headers = headers)
   }
 
   def getPropertyTotalCosts(input: YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/calculate-total-costs" +
       propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
-    )
+      , headers = headers)
   }
 }

@@ -30,7 +30,9 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import views.html.calculation.resident.{lossesBroughtForward, lossesBroughtForwardValue}
+import views.html.calculation.resident.properties.deductions.{lettingsRelief, lettingsReliefValue, privateResidenceRelief, privateResidenceReliefValue, propertyLivedIn}
 
 import scala.concurrent.Future
 
@@ -150,7 +152,14 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(CacheMap("",Map.empty)))
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMessagesControllerComponents, mockAppConfig)
+      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMessagesControllerComponents,
+        fakeApplication.injector.instanceOf[propertyLivedIn],
+        fakeApplication.injector.instanceOf[privateResidenceRelief],
+        fakeApplication.injector.instanceOf[privateResidenceReliefValue],
+        fakeApplication.injector.instanceOf[lettingsRelief],
+        fakeApplication.injector.instanceOf[lettingsReliefValue],
+        fakeApplication.injector.instanceOf[lossesBroughtForward],
+        fakeApplication.injector.instanceOf[lossesBroughtForwardValue])
 
     }
 

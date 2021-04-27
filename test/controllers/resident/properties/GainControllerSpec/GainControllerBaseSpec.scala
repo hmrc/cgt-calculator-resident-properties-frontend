@@ -16,18 +16,40 @@
 
 package controllers.resident.properties.GainControllerSpec
 
+import common.WithCommonFakeApplication
 import controllers.GainController
 import controllers.helpers.CommonMocks
+import views.html.calculation.resident.properties.gain._
+import views.html.calculation.resident.outsideTaxYear
 
 trait GainControllerBaseSpec {
-  self: CommonMocks =>
+  self: CommonMocks with WithCommonFakeApplication =>
 
   lazy val testingGainController: GainController = new GainController(
     mockCalcConnector,
     mockSessionCacheConnector,
     mockSessionCacheService,
     mockMessagesControllerComponents,
-    mockAppConfig
-  )
+    fakeApplication.injector.instanceOf[disposalCosts],
+    fakeApplication.injector.instanceOf[disposalDate],
+    fakeApplication.injector.instanceOf[disposalValue],
+    fakeApplication.injector.instanceOf[worthWhenInherited],
+    fakeApplication.injector.instanceOf[worthWhenGifted],
+    fakeApplication.injector.instanceOf[worthWhenGaveAway],
+    fakeApplication.injector.instanceOf[worthWhenBoughtForLess],
+    fakeApplication.injector.instanceOf[worthWhenSoldForLess],
+    fakeApplication.injector.instanceOf[sellForLess],
+    fakeApplication.injector.instanceOf[buyForLess],
+    fakeApplication.injector.instanceOf[ownerBeforeLegislationStart],
+    fakeApplication.injector.instanceOf[valueBeforeLegislationStart],
+    fakeApplication.injector.instanceOf[acquisitionValue],
+    fakeApplication.injector.instanceOf[acquisitionCosts],
+    fakeApplication.injector.instanceOf[sellOrGiveAway],
+    fakeApplication.injector.instanceOf[whoDidYouGiveItTo],
+    fakeApplication.injector.instanceOf[noTaxToPay],
+    fakeApplication.injector.instanceOf[howBecameOwner],
+    fakeApplication.injector.instanceOf[improvements],
+    fakeApplication.injector.instanceOf[outsideTaxYear],
+    )
 
 }

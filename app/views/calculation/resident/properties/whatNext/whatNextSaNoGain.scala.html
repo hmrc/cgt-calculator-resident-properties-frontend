@@ -16,11 +16,14 @@
 
 @import views.html.calculation.resident.properties._
 @import play.api.Application
-@import config.AppConfig
 
-@(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template
+)
 
-@resident_properties_main_template(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl), appConfig = appConfig) {
+@(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages)
+
+@residentPropertiesMainTemplate(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
 
     <h1>@Messages("calc.whatToDoNext.title")</h1>
 

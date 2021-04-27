@@ -14,20 +14,21 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation.resident.properties._
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import uk.gov.hmrc.play.views.html.helpers.input_radio_group
 @import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 @import play.api.Application
-@import config.AppConfig
 
-@(ownerBeforeLegislationStartForm: Form[OwnerBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
+    errorSummary: helpers.errorSummary,
+    form: FormWithCSRF,
+    inputRadioGroup: InputRadioGroup
+)
 
-@resident_properties_main_template(
+@(ownerBeforeLegislationStartForm: Form[OwnerBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages)
+
+@residentPropertiesMainTemplate(
     title = Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),
-    backLink = Some(controllers.routes.GainController.disposalCosts().toString),
-    appConfig = appConfig
+    backLink = Some(controllers.routes.GainController.disposalCosts().toString)
 ) {
 
     @errorSummary(ownerBeforeLegislationStartForm, "ownedBeforeLegislationStart")
@@ -36,7 +37,7 @@
 
     @form(action = controllers.routes.GainController.submitOwnerBeforeLegislationStart) {
 
-        @input_radio_group(
+        @inputRadioGroup(
                 field = ownerBeforeLegislationStartForm("ownedBeforeLegislationStart"),
                 Seq(
                     "Yes"->Messages("calc.base.yes"),

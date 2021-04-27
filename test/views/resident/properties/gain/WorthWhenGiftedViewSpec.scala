@@ -23,16 +23,17 @@ import org.jsoup.Jsoup
 import play.api.mvc.Call
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.worthWhenGifted
 
 class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val worthWhenGiftedView = fakeApplication.injector.instanceOf[worthWhenGifted]
   "worthWhenGifted view" should {
     val backLink = Some("back-link")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenGiftedForm
-    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = worthWhenGiftedView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -106,7 +107,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenGiftedForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = worthWhenGiftedView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -127,7 +128,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenGiftedForm.bind(Map("amount" -> ""))
-    lazy val view = views.worthWhenGifted(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = worthWhenGiftedView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

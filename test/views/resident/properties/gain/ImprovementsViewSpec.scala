@@ -21,13 +21,14 @@ import forms.resident.properties.ImprovementsForm._
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.improvements
 
 class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val improvementsView = fakeApplication.injector.instanceOf[improvements]
   "Improvements view" should {
 
-    lazy val view = views.improvements(improvementsForm, false)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = improvementsView(improvementsForm, false)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -92,7 +93,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   }
 
   "Improvements View with a property acquired before April 1982" should {
-    lazy val view = views.improvements(improvementsForm, true)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = improvementsView(improvementsForm, true)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title of ${messages.questionBefore}" in {
@@ -126,7 +127,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   "Improvements View with form without errors" should {
 
     lazy val form = improvementsForm.bind(Map("amount" -> "100"))
-    lazy val view = views.improvements(form, false)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = improvementsView(form, false)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -145,7 +146,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   "Improvements View with form with errors" should {
 
     lazy val form = improvementsForm.bind(Map("amount" -> ""))
-    lazy val view = views.improvements(form, false)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = improvementsView(form, false)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

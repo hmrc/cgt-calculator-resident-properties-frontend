@@ -27,6 +27,7 @@ import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers.redirectLocation
 import common.{CommonPlaySpec, WithCommonFakeApplication}
+import views.html.calculation.resident.properties.whatNext.{whatNextNonSaGain, whatNextNonSaLoss}
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
@@ -45,7 +46,11 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
     when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(true))
 
-    new WhatNextNonSaController(mockMessagesControllerComponents, mockSessionCacheService, mockAppConfig)
+    new WhatNextNonSaController(mockMessagesControllerComponents,
+      mockSessionCacheService,
+      fakeApplication.injector.instanceOf[whatNextNonSaGain],
+      fakeApplication.injector.instanceOf[whatNextNonSaLoss],
+      mockAppConfig)
   }
 
   "Calling .whatNextNonSaGain" when {

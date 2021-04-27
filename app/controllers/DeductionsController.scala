@@ -17,7 +17,6 @@
 package controllers
 
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import config.AppConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
@@ -37,8 +36,9 @@ import play.api.mvc._
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.{resident => commonViews}
-import views.html.calculation.resident.properties.{deductions => views}
+import views.html.calculation.resident.properties.deductions._
+import views.html.calculation.resident._
+
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -48,7 +48,13 @@ class DeductionsController @Inject()(
                                       val sessionCacheConnector: SessionCacheConnector,
                                       val sessionCacheService: SessionCacheService,
                                       val messagesControllerComponents: MessagesControllerComponents,
-                                      implicit val appConfig: AppConfig
+                                      propertyLivedInView: propertyLivedIn,
+                                      privateResidenceReliefView: privateResidenceRelief,
+                                      privateResidenceReliefValueView: privateResidenceReliefValue,
+                                      lettingsReliefView: lettingsRelief,
+                                      lettingsReliefValueView: lettingsReliefValue,
+                                      lossesBroughtForwardView: lossesBroughtForward,
+                                      lossesBroughtForwardValueView: lossesBroughtForwardValue
                                     ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
   private def navTitle(implicit request : Request[_]): String =
@@ -78,8 +84,8 @@ class DeductionsController @Inject()(
     val backLink = Some(controllers.routes.GainController.improvements().toString)
 
     sessionCacheConnector.fetchAndGetFormData[PropertyLivedInModel](keystoreKeys.propertyLivedIn).map {
-      case Some(data) => Ok(commonViews.properties.deductions.propertyLivedIn(propertyLivedInForm.fill(data), homeLink, backLink))
-      case _ => Ok(commonViews.properties.deductions.propertyLivedIn(propertyLivedInForm, homeLink, backLink))
+      case Some(data) => Ok(propertyLivedInView(propertyLivedInForm.fill(data), homeLink, backLink))
+      case _ => Ok(propertyLivedInView(propertyLivedInForm, homeLink, backLink))
     }
   }
 
@@ -87,7 +93,7 @@ class DeductionsController @Inject()(
 
     lazy val backLink = Some(routes.GainController.improvements().url)
 
-    def errorAction(errors: Form[PropertyLivedInModel]) = Future.successful(BadRequest(commonViews.properties.deductions.propertyLivedIn(
+    def errorAction(errors: Form[PropertyLivedInModel]) = Future.successful(BadRequest(propertyLivedInView(
       errors, homeLink, backLink
     )))
 
@@ -110,14 +116,14 @@ class DeductionsController @Inject()(
   //########## Private Residence Relief Actions ##############
   val privateResidenceRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
     sessionCacheConnector.fetchAndGetFormData[PrivateResidenceReliefModel](keystoreKeys.privateResidenceRelief).map {
-      case Some(data) => Ok(views.privateResidenceRelief(privateResidenceReliefForm.fill(data)))
-      case _ => Ok(views.privateResidenceRelief(privateResidenceReliefForm))
+      case Some(data) => Ok(privateResidenceReliefView(privateResidenceReliefForm.fill(data)))
+      case _ => Ok(privateResidenceReliefView(privateResidenceReliefForm))
     }
   }
 
   val submitPrivateResidenceRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
 
-    def errorAction(errors: Form[PrivateResidenceReliefModel]) = Future.successful(BadRequest(views.privateResidenceRelief(errors)))
+    def errorAction(errors: Form[PrivateResidenceReliefModel]) = Future.successful(BadRequest(privateResidenceReliefView(errors)))
 
     def routeRequest(model: PrivateResidenceReliefModel) = {
       if (model.isClaiming) Future.successful(Redirect(routes.DeductionsController.privateResidenceReliefValue()))
@@ -140,8 +146,8 @@ class DeductionsController @Inject()(
 
     def routeRequest(totalGain: BigDecimal) = {
       sessionCacheConnector.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue).map {
-        case Some(data) => Ok(views.privateResidenceReliefValue(privateResidenceReliefValueForm(totalGain).fill(data), homeLink, totalGain))
-        case None => Ok(views.privateResidenceReliefValue(privateResidenceReliefValueForm(totalGain), homeLink, totalGain))
+        case Some(data) => Ok(privateResidenceReliefValueView(privateResidenceReliefValueForm(totalGain).fill(data), homeLink, totalGain))
+        case None => Ok(privateResidenceReliefValueView(privateResidenceReliefValueForm(totalGain), homeLink, totalGain))
       }
     }
 
@@ -162,7 +168,7 @@ class DeductionsController @Inject()(
 
     def routeRequest(gain: BigDecimal): Future[Result] = {
       privateResidenceReliefValueForm(gain).bindFromRequest.fold(
-        errors => Future.successful(BadRequest(views.privateResidenceReliefValue(errors, homeLink, gain))),
+        errors => Future.successful(BadRequest(privateResidenceReliefValueView(errors, homeLink, gain))),
         success => successAction(success)
       )
     }
@@ -178,15 +184,15 @@ class DeductionsController @Inject()(
 
   val lettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
     sessionCacheConnector.fetchAndGetFormData[LettingsReliefModel](keystoreKeys.lettingsRelief).map {
-      case Some(data) => Ok(views.lettingsRelief(lettingsReliefForm.fill(data), homeLink, Some(lettingsReliefBackUrl)))
-      case None => Ok(views.lettingsRelief(lettingsReliefForm, homeLink, Some(lettingsReliefBackUrl)))
+      case Some(data) => Ok(lettingsReliefView(lettingsReliefForm.fill(data), homeLink, Some(lettingsReliefBackUrl)))
+      case None => Ok(lettingsReliefView(lettingsReliefForm, homeLink, Some(lettingsReliefBackUrl)))
     }
   }
 
   val submitLettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def errorAction(form: Form[LettingsReliefModel]) = {
-      Future.successful(BadRequest(views.lettingsRelief(form, homeLink, Some(lettingsReliefBackUrl))))
+      Future.successful(BadRequest(lettingsReliefView(form, homeLink, Some(lettingsReliefBackUrl))))
     }
 
     def routeRequest(model: LettingsReliefModel) = {
@@ -226,8 +232,8 @@ class DeductionsController @Inject()(
 
     def routeRequest(totalGain: BigDecimal, prrValue: BigDecimal): Future[Result] = {
       sessionCacheConnector.fetchAndGetFormData[LettingsReliefValueModel](keystoreKeys.lettingsReliefValue).map {
-        case Some(data) => Ok(views.lettingsReliefValue(lettingsReliefValueForm(totalGain, prrValue).fill(data), homeLink, totalGain))
-        case None => Ok(views.lettingsReliefValue(lettingsReliefValueForm(totalGain, prrValue), homeLink, totalGain))
+        case Some(data) => Ok(lettingsReliefValueView(lettingsReliefValueForm(totalGain, prrValue).fill(data), homeLink, totalGain))
+        case None => Ok(lettingsReliefValueView(lettingsReliefValueForm(totalGain, prrValue), homeLink, totalGain))
       }
     }
 
@@ -243,7 +249,7 @@ class DeductionsController @Inject()(
 
     def routeRequest(totalGain: BigDecimal, prrValue: BigDecimal) = {
       lettingsReliefValueForm(totalGain, prrValue).bindFromRequest().fold(
-        errors => Future.successful(BadRequest(views.lettingsReliefValue(errors, homeLink, totalGain))),
+        errors => Future.successful(BadRequest(lettingsReliefValueView(errors, homeLink, totalGain))),
         success => {
           sessionCacheConnector.saveFormData[LettingsReliefValueModel](keystoreKeys.lettingsReliefValue, success).map (_ =>
             Redirect(routes.DeductionsController.lossesBroughtForward()))
@@ -276,9 +282,9 @@ class DeductionsController @Inject()(
 
     def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
       sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
-        case Some(data) => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm(taxYear).fill(data), lossesBroughtForwardPostAction,
+        case Some(data) => Ok(lossesBroughtForwardView(lossesBroughtForwardForm(taxYear).fill(data), lossesBroughtForwardPostAction,
           backLinkUrl, taxYear, homeLink, navTitle))
-        case _ => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm(taxYear), lossesBroughtForwardPostAction, backLinkUrl,
+        case _ => Ok(lossesBroughtForwardView(lossesBroughtForwardForm(taxYear), lossesBroughtForwardPostAction, backLinkUrl,
           taxYear, homeLink, navTitle))
       }
     }
@@ -310,7 +316,7 @@ class DeductionsController @Inject()(
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       lossesBroughtForwardForm(taxYearModel).bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl,
+        errors => Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, backUrl,
           taxYearModel, homeLink, navTitle))),
         success => {
           sessionCacheConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
@@ -351,7 +357,7 @@ class DeductionsController @Inject()(
     }
 
     def routeRequest(taxYear: TaxYearModel, formData: Form[LossesBroughtForwardValueModel]): Future[Result] = {
-      Future.successful(Ok(commonViews.lossesBroughtForwardValue(
+      Future.successful(Ok(lossesBroughtForwardValueView(
         formData,
         taxYear,
         navBackLink = lossesBroughtForwardValueBackLink,
@@ -379,7 +385,7 @@ class DeductionsController @Inject()(
           disposalDateString <- formatDisposalDate(disposalDate.get)
           taxYear <- calcConnector.getTaxYear(disposalDateString)
         } yield {
-          BadRequest(commonViews.lossesBroughtForwardValue(
+          BadRequest(lossesBroughtForwardValueView(
             errors,
             taxYear.get,
             navBackLink = lossesBroughtForwardValueBackLink,

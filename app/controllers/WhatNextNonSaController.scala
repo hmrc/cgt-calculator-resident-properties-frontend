@@ -23,14 +23,16 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionCacheService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.resident.properties.{whatNext => views}
 import scala.concurrent.ExecutionContext
+import views.html.calculation.resident.properties.whatNext._
 
 @Singleton
 class WhatNextNonSaController @Inject()(
                                        val messagesControllerComponents: MessagesControllerComponents,
                                        val sessionCacheService: SessionCacheService,
-                                       implicit val appConfig: AppConfig
+                                       whatNextNonSaGainView: whatNextNonSaGain,
+                                       whatNextNonSaLossView: whatNextNonSaLoss,
+                                       val appConfig: AppConfig
                                        ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
@@ -41,10 +43,10 @@ class WhatNextNonSaController @Inject()(
     } yield {
       selfAssessmentRequired match {
         case true => {
-          Ok(views.whatNextNonSaGain(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser().url))
+          Ok(whatNextNonSaGainView(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser().url))
         }
         case false => {
-          Ok(views.whatNextNonSaGain(appConfig.capitalGainsReportingFormUrl, controllers.routes.SummaryController.summary().url))
+          Ok(whatNextNonSaGainView(appConfig.capitalGainsReportingFormUrl, controllers.routes.SummaryController.summary().url))
         }
       }
     }
@@ -55,8 +57,8 @@ class WhatNextNonSaController @Inject()(
       selfAssessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
     } yield {
       selfAssessmentRequired match {
-        case true => Ok(views.whatNextNonSaLoss(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser().url))
-        case false => Ok(views.whatNextNonSaLoss(appConfig.capitalGainsReportingFormUrl, controllers.routes.SummaryController.summary().url))
+        case true => Ok(whatNextNonSaLossView(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser().url))
+        case false => Ok(whatNextNonSaLossView(appConfig.capitalGainsReportingFormUrl, controllers.routes.SummaryController.summary().url))
       }
     }
   }

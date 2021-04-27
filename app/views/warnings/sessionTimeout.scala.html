@@ -17,11 +17,14 @@
 @import views.html.helpers._
 @import views.html.calculation.resident._
 @import play.api.Application
-@import config.AppConfig
 
-@(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+ residentMainTemplate: resident_main_template
+)
 
-@resident_main_template(Messages("session.timeout.message"), homeLink = homeLink, navTitle = Messages("calc.base.calculate.tax.heading"), appConfig = appConfig) {
+@(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(Messages("session.timeout.message"), homeLink = homeLink, navTitle = Messages("calc.base.calculate.tax.heading")) {
 
     <h1 class="heading-large">@Messages("session.timeout.message")</h1>
 

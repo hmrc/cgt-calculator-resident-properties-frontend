@@ -18,16 +18,25 @@ package controllers.resident.properties.DeductionsControllerSpec
 
 import controllers.DeductionsController
 import controllers.helpers.CommonMocks
+import views.html.calculation.resident.properties.deductions._
+import views.html.calculation.resident._
+import common.WithCommonFakeApplication
 
-trait DeductionsControllerBaseSpec {
-  self: CommonMocks =>
+
+trait DeductionsControllerBaseSpec  {
+  self: CommonMocks with WithCommonFakeApplication =>
 
   lazy val testingDeductionsController: DeductionsController = new DeductionsController(
     mockCalcConnector,
     mockSessionCacheConnector,
     mockSessionCacheService,
     mockMessagesControllerComponents,
-    mockAppConfig
-  )
+    fakeApplication.injector.instanceOf[propertyLivedIn],
+    fakeApplication.injector.instanceOf[privateResidenceRelief],
+    fakeApplication.injector.instanceOf[privateResidenceReliefValue],
+    fakeApplication.injector.instanceOf[lettingsRelief],
+    fakeApplication.injector.instanceOf[lettingsReliefValue],
+    fakeApplication.injector.instanceOf[lossesBroughtForward],
+    fakeApplication.injector.instanceOf[lossesBroughtForwardValue])
 
 }

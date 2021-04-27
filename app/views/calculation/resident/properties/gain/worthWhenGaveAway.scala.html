@@ -14,24 +14,25 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.properties._
-@import views.html.helpers._
-@import views.html.calculation.resident._
 @import play.api.Application
-@import config.AppConfig
-@import config.AppConfig
 @import models.resident.properties.WorthWhenGaveAwayModel
 
-@(worthWhenGaveAwayForm: Form[WorthWhenGaveAwayModel], navBackLink: Option[String], navHomeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    form: FormWithCSRF,
+    residentMainTemplate: calculation.resident.resident_main_template,
+    errorSummary: helpers.errorSummary,
+    formInputMoney: helpers.formInputMoney
+)
+
+@(worthWhenGaveAwayForm: Form[WorthWhenGaveAwayModel], navBackLink: Option[String], navHomeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
 
 
-@resident_main_template(
+@residentMainTemplate(
 title = Messages("calc.resident.properties.worthWhenGaveAway.title"),
 backLink = navBackLink,
 homeLink = navHomeLink,
-navTitle = Messages("calc.base.resident.properties.home"),
- appConfig = appConfig
+navTitle = Messages("calc.base.resident.properties.home")
 ){
 
 @errorSummary(worthWhenGaveAwayForm, "amount")

@@ -21,14 +21,15 @@ import forms.resident.properties.PrivateResidenceReliefValueForm._
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{deductions => views}
+import views.html.calculation.resident.properties.deductions.privateResidenceReliefValue
 
 class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val privateResidenceReliefValueView = fakeApplication.injector.instanceOf[privateResidenceReliefValue]
   "Reliefs Value view" should {
 
     lazy val form = privateResidenceReliefValueForm(100000).bind(Map("amount" -> "10"))
-    lazy val view = views.privateResidenceReliefValue(form, "home-link", 1000)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = privateResidenceReliefValueView(form, "home-link", 1000)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -91,7 +92,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
   "Reliefs Value View with form without errors" should {
 
     lazy val form = privateResidenceReliefValueForm(100000).bind(Map("amount" -> "100"))
-    lazy val view = views.privateResidenceReliefValue(form, "home-link", 2000)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = privateResidenceReliefValueView(form, "home-link", 2000)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -122,7 +123,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
   "Reliefs Value View with form with errors" should {
 
     lazy val form = privateResidenceReliefValueForm(100000).bind(Map("amount" -> ""))
-    lazy val view = views.privateResidenceReliefValue(form, "home-link", 3000)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = privateResidenceReliefValueView(form, "home-link", 3000)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {

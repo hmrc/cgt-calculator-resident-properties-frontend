@@ -21,13 +21,14 @@ import forms.resident.properties.PrivateResidenceReliefForm._
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{deductions => views}
+import views.html.calculation.resident.properties.deductions.privateResidenceRelief
 
 class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val privateResidenceReliefView = fakeApplication.injector.instanceOf[privateResidenceRelief]
   "Private Residence Relief view" should {
 
-    lazy val view = views.privateResidenceRelief(privateResidenceReliefForm)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = privateResidenceReliefView(privateResidenceReliefForm)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -216,7 +217,7 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
     "is due to mandatory field error" should {
 
       lazy val form = privateResidenceReliefForm.bind(Map("amount" -> ""))
-      lazy val view = views.privateResidenceRelief(form)(fakeRequest, testingMessages, mockAppConfig)
+      lazy val view = privateResidenceReliefView(form)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

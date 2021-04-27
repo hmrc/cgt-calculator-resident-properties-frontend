@@ -24,12 +24,13 @@ import org.jsoup.Jsoup
 import play.api.i18n.Lang
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{report => views}
+import views.html.calculation.resident.properties.report.gainSummaryReport
 
 class PropertiesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   val fakeLang: Lang = Lang("en")
 
+  lazy val gainSummaryReportView = fakeApplication.injector.instanceOf[gainSummaryReport]
   "Summary view" should {
 
     val testModel = YourAnswersSummaryModel(
@@ -55,7 +56,7 @@ class PropertiesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000, 2000)(fakeRequest, testingMessages, fakeLang)
+    lazy val view = gainSummaryReportView(testModel, -2000, taxYearModel, 1000, 2000)(fakeRequest, testingMessages, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -119,7 +120,7 @@ class PropertiesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApp
       Some(false)
     )
 
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 1000, 4000)(fakeRequest, testingMessages, fakeLang)
+    lazy val view = gainSummaryReportView(testModel, 0, taxYearModel, 1000, 4000)(fakeRequest, testingMessages, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a banner for tax owed" in {

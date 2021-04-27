@@ -14,14 +14,18 @@
  * limitations under the License.
  *@
 
-@(field: Field, radioOptions: Seq[(String, String, String, Option[String])], args: (Symbol, Any)*)(implicit messages: Messages)
-
 @import play.api.i18n._
-@import views.html.helper._
 @import scala.concurrent.Future
-@import scala.concurrent.ExecutionContext.Implicits.global
+@import scala.concurrent.ExecutionContext
 @import uk.gov.hmrc.play.views.formatting.Money._
-@import uk.gov.hmrc.play.views.helpers._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
+@import helper.FieldElements
+
+@this(
+    implicit val ec: ExecutionContext
+)
+
+@(field: Field, radioOptions: Seq[(String, String, String, Option[String])], args: (Symbol, Any)*)(implicit messages: Messages)
 
 @elements = @{new FieldElements(field.id, field, null, args.toMap, messages) }
 @fieldsetClass = {@elements.args.get('_groupClass)}

@@ -21,13 +21,14 @@ import assets.MessageLookup.WhatNextPages.{WhatNextGain => pageMessages}
 import assets.MessageLookup.{WhatNextPages => commonMessages}
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
-import views.html.calculation.resident.properties.{whatNext => views}
+import views.html.calculation.resident.properties.whatNext.whatNextSaGain
 
 class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val whatNextSaGainView = fakeApplication.injector.instanceOf[whatNextSaGain]
   "The whatNextSAGain view" should {
 
-    lazy val view = views.whatNextSaGain("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = whatNextSaGainView("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.yourOptionsTitle}" in {

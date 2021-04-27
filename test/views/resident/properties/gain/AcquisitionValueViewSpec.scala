@@ -21,13 +21,14 @@ import forms.resident.AcquisitionValueForm._
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.acquisitionValue
 
 class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]
   "Acquisition Value view" should {
 
-    lazy val view = views.acquisitionValue(acquisitionValueForm)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = acquisitionValueView(acquisitionValueForm)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -139,7 +140,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   "Acquisition Value View with form with errors" should {
     lazy val form = acquisitionValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.acquisitionValue(form)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = acquisitionValueView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

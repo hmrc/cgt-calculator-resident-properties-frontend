@@ -36,7 +36,8 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import views.html.calculation.resident.properties.checkYourAnswers.checkYourAnswers
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
@@ -90,8 +91,7 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
       mockConnector,
       mockSessionCacheService,
       mockMessagesControllerComponents,
-      mockAppConfig
-    )
+      fakeApplication.injector.instanceOf[checkYourAnswers])
   }
 
   "Calling .reviewGainAnswers" when {

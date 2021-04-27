@@ -28,7 +28,8 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import views.html.calculation.resident.properties.whatNext.saUser
 
 import scala.concurrent.Future
 
@@ -67,7 +68,8 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
     when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(assessmentRequired))
 
-    new SaUserController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, mockAppConfig)
+    new SaUserController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents,
+      fakeApplication.injector.instanceOf[saUser])
   }
 
   "Calling .saUser" when {

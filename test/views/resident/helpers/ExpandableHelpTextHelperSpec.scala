@@ -23,7 +23,8 @@ import views.html.helpers.expandableHelpTextHelper
 
 class ExpandableHelpTextHelperSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
-  val content = expandableHelpTextHelper("testQ", Html("someHtml"))
+  val expandableHelpTextHelperView = fakeApplication.injector.instanceOf[expandableHelpTextHelper]
+  val content = expandableHelpTextHelperView("testQ", Html("someHtml"))
   val doc = Jsoup.parse(content.body)
 
   "Expandable Help Text Helper" should {

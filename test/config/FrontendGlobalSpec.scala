@@ -18,17 +18,13 @@ package config
 
 import org.jsoup.Jsoup
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.i18n.MessagesApi
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.SessionKeys
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class FrontendGlobalSpec extends CommonPlaySpec with WithCommonFakeApplication with MockitoSugar {
 
-  val cgtErrorHandler: CgtErrorHandler = new CgtErrorHandler(
-    fakeApplication.injector.instanceOf[MessagesApi],
-    fakeApplication.injector.instanceOf[AppConfig]
-  )
+  val cgtErrorHandler: CgtErrorHandler = fakeApplication.injector.instanceOf[CgtErrorHandler]
 
   "Rendering the error_template by causing an error" when {
     "on the resident/properties journey" should {

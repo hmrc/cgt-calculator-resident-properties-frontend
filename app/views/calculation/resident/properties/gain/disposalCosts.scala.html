@@ -15,18 +15,20 @@
  *@
 
 @import models.resident.DisposalCostsModel
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import views.html.helpers._
-@import views.html.calculation.resident.properties._
 @import play.api.Application
-@import config.AppConfig
 
-@(disposalCostsForm: Form[DisposalCostsModel], navBackLink: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    form: FormWithCSRF,
+    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
+    errorSummary: helpers.errorSummary,
+    formInputMoney: helpers.formInputMoney
+)
 
-@resident_properties_main_template(
+@(disposalCostsForm: Form[DisposalCostsModel], navBackLink: String)(implicit request: Request[_], messages: Messages)
+
+@residentPropertiesMainTemplate(
     Messages("calc.resident.disposalCosts.title"),
-    backLink = Some(navBackLink),
-    appConfig = appConfig){
+    backLink = Some(navBackLink)){
 
     @errorSummary(disposalCostsForm, "disposal-costs")
 

@@ -17,9 +17,11 @@
 @import models.resident._
 @import models.resident.properties._
 @import config.ApplicationConfig
-@import views.html.helpers.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
+@this(
+    summaryNumericRow: helpers.resident.summaryNumericRow
+)
 
 @(gainAnswers: YourAnswersSummaryModel,
   deductionAnswers: ChargeableGainAnswers,

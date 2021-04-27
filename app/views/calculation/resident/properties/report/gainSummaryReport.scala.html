@@ -14,13 +14,15 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers.resident._
 @import models.resident._
 @import models.resident.properties._
 @import constructors.resident.properties.SummaryConstructor._
-@import views.html.helpers.gainSummaryPartial
-@import views.html.helpers.checkYourAnswersPartial
 @import play.api.Application
+
+@this(
+    gainSummaryPartial: helpers.gainSummaryPartial,
+    checkYourAnswersPartial: helpers.checkYourAnswersPartial
+)
 
 @(answers: YourAnswersSummaryModel, gain: BigDecimal, taxYear: TaxYearModel, totalCosts: BigDecimal, maxAea: BigDecimal)(implicit request: Request[_], messages: Messages, lang: Lang)
 

@@ -22,20 +22,21 @@ import forms.resident.DisposalValueForm._
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.disposalValue
 
 class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with BaseViewSpec {
 
+  lazy val disposalValueView = fakeApplication.injector.instanceOf[disposalValue]
   case class FakePOST(value: String) {
     lazy val request = fakeRequestToPOSTWithSession(("amount", value))
     lazy val form = disposalValueForm.bind(Map(("amount", value)))
-    lazy val view = views.disposalValue(form)(request, testingMessages, mockAppConfig)
+    lazy val view = disposalValueView(form)(request, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
   }
 
   "Disposal Value View" should {
 
-    lazy val view = views.disposalValue(disposalValueForm)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = disposalValueView(disposalValueForm)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -78,7 +79,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   "Disposal Value View with form without errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> "100"))
-    lazy val view = views.disposalValue(form)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = disposalValueView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -97,7 +98,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   "Disposal Value View with form with errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.disposalValue(form)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = disposalValueView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

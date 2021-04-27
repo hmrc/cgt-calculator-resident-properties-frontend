@@ -20,13 +20,13 @@ import assets.MessageLookup.{IntroductionView => messages, Resident => commonMes
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.{properties => views}
+import views.html.calculation.resident.properties.introduction
 
 class IntroductionViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "Introduction view" should {
-
-    lazy val view = views.introduction()(fakeRequest, testingMessages, mockAppConfig)
+    lazy val introductionView = fakeApplication.injector.instanceOf[introduction]
+    lazy val view = introductionView()(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body).select("article.content__body")
 
     "have the correct title" in {

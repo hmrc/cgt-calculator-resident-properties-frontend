@@ -20,23 +20,28 @@
 @import views.html.helpers.errorSummary
 @import uk.gov.hmrc.play.views.html.helpers.input_radio_group
 @import play.api.Application
-@import config.AppConfig
 
-@(saUserForm: Form[SaUserModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    residentMainTemplate: calculation.resident.resident_main_template,
+    form: FormWithCSRF,
+    inputRadioGroup: InputRadioGroup,
+    errorSummary: helpers.errorSummary
+)
 
-@resident_main_template(
+@(saUserForm: Form[SaUserModel])(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(
     title = Messages("calc.resident.saUser.title"),
     homeLink = "",
     navTitle = "",
-    backLink = Some(controllers.routes.SummaryController.summary().url),
-    appConfig = appConfig) {
+    backLink = Some(controllers.routes.SummaryController.summary().url)) {
 
     @errorSummary(saUserForm, "isInSa")
 
     <h1 class="heading-large">@Messages("calc.resident.saUser.title")</h1>
 
     @form(action = controllers.routes.SaUserController.submitSaUser()) {
-        @input_radio_group(
+        @inputRadioGroup(
             saUserForm("isInSa"),
             Seq(
                 "Yes" -> Messages("calc.base.yes"),

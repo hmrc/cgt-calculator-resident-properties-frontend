@@ -26,16 +26,16 @@ import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{checkYourAnswers => views}
+import views.html.calculation.resident.properties.checkYourAnswers.checkYourAnswers
 
 class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   val dummyBackLink = "backLink"
   val dummyPostCall: Call = Call("POST", "/dummy-url")
   val fakeLang: Lang = Lang("en")
-
-  lazy val view: HtmlFormat.Appendable = views.checkYourAnswers(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
-    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, testingMessages, mockAppConfig, fakeLang)
+  lazy val checkYourAnswersView = fakeApplication.injector.instanceOf[checkYourAnswers]
+  lazy val view: HtmlFormat.Appendable = checkYourAnswersView(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, testingMessages, fakeLang)
   lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {

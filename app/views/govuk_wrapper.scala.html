@@ -14,25 +14,34 @@
  * limitations under the License.
  *@
 
-@import layouts.{govuk_template => hmrcGovUkTemplate}
-@import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
-@import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
-@import views.html.helpers._
 @import play.twirl.api.HtmlFormat
+@import config.AppConfig
 
-@(appdConfig: config.AppConfig,
-  title: String,
-  mainClass: Option[String] = None,
-  mainDataAttributes: Option[Html] = None,
-  bodyClasses: Option[String] = None,
-  sidebar: Html = HtmlFormat.empty,
-  contentHeader: Option[Html] = None,
-  mainContent: Html = HtmlFormat.empty,
-  serviceInfoContent: Html = HtmlFormat.empty,
-  scriptElem: Option[Html] = None,
-  afterHeader: Html = HtmlFormat.empty,
-  homeLink: String,
-  navTitle: String = "Calculate your Capital Gains Tax"
+@this(
+    appConfig: AppConfig,
+    headWithTrackingConsent: HeadWithTrackingConsent,
+    headerNav: HeaderNav,
+    footer: Footer,
+    uiServiceInfo: ServiceInfo,
+    uiMainContentHeader: MainContentHeader,
+    uiMainContent: MainContent,
+    uiFooterLinks: FooterLinks,
+    reportAProblemLink: ReportAProblemLink,
+    hmrcGovUkTemplate: layouts.GovUkTemplate
+)
+
+@(  title: String,
+    mainClass: Option[String] = None,
+    mainDataAttributes: Option[Html] = None,
+    bodyClasses: Option[String] = None,
+    sidebar: Html = HtmlFormat.empty,
+    contentHeader: Option[Html] = None,
+    mainContent: Html = HtmlFormat.empty,
+    serviceInfoContent: Html = HtmlFormat.empty,
+    scriptElem: Option[Html] = None,
+    afterHeader: Html = HtmlFormat.empty,
+    homeLink: String,
+    navTitle: String = "Calculate your Capital Gains Tax"
 )(implicit request: Request[_], messages: Messages)
 
 @scriptElement = {
@@ -44,72 +53,71 @@
 }
 
 @head = {
-    @uiLayouts.headWithTrackingConsent(
-      linkElem = Some(linksElement),
-      headScripts = None)
+    @headWithTrackingConsent(
+        linkElem = Some(linksElement),
+        headScripts = None)
     <meta name="format-detection" content="telephone=no" />
 }
 
 @headerNavLinks = {
-  <li><a id="homeNavHref" href="@homeLink"
-         data-journey-click="primary-navigation:Click:Home">@Messages("calc.base.home")</a></li>
+    <li><a id="homeNavHref" href="@homeLink"
+       data-journey-click="primary-navigation:Click:Home">@Messages("calc.base.home")</a></li>
 }
 
 @insideHeader = {
-    @uiLayouts.header_nav(
-      navTitle = Some(navTitle),
-      navTitleLink = None,
-      showBetaLink = false,
-      navLinks = Some(headerNavLinks))
+    @headerNav(
+        navTitle = Some(navTitle),
+        navTitleLink = None,
+        showBetaLink = false,
+        navLinks = Some(headerNavLinks))
 }
 
 @bodyEnd = {
-    @uiLayouts.footer(
-      analyticsToken = None,
-      analyticsHost = "",
-      ssoUrl = None,
-      scriptElem = Some(scriptElement),
-      gaCalls = None)
+    @footer(
+        analyticsToken = None,
+        analyticsHost = "",
+        ssoUrl = None,
+        scriptElem = Some(scriptElement),
+        gaCalls = None)
 }
 
 @footerTop = {}
 @footerLinks = {}
 
 @serviceInfo = {
-    @uiLayouts.serviceInfo(
-      betaBanner = HtmlFormat.empty,
-      includeGridWrapper = false,
-      serviceInfoContent = Some(serviceInfoContent),
-      includeHMRCBranding = true,
-      setLang = messages.lang.code)
+    @uiServiceInfo(
+        betaBanner = HtmlFormat.empty,
+        includeGridWrapper = false,
+        serviceInfoContent = Some(serviceInfoContent),
+        includeHMRCBranding = true,
+        setLang = messages.lang.code)
 }
 
 @mainContentHeader = {
     @if(contentHeader.isDefined) {
-        @uiLayouts.main_content_header(contentHeader = contentHeader.get)
+        @uiMainContentHeader(contentHeader = contentHeader.get)
     }
 }
 
-@getHelpForm = @{uiHelpers.reportAProblemLink(appdConfig.reportAProblemPartialUrl, appdConfig.reportAProblemNonJSUrl)}
+@getHelpForm = @{reportAProblemLink(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
 
 @content = {
-    @uiLayouts.main_content(
-      article = mainContent,
-      mainClass = mainClass,
-      mainDataAttributes = mainDataAttributes,
-      mainContentHeader = mainContentHeader,
-      serviceInfo = serviceInfo,
-      getHelpForm = getHelpForm,
-      sidebar = sidebar)
+    @uiMainContent(
+    article = mainContent,
+    mainClass = mainClass,
+    mainDataAttributes = mainDataAttributes,
+    mainContentHeader = mainContentHeader,
+    serviceInfo = serviceInfo,
+    getHelpForm = getHelpForm,
+    sidebar = sidebar)
 }
 
-@hmrcGovUkTemplate(Some(title), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(uiLayouts.footer_links()), true)(content)
+@hmrcGovUkTemplate(Some(title), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(uiFooterLinks()), true)(content)
 
 @isWelsh = @{
     if(messages.lang.code == "cy"){
         true
-    }
-    else {
+    } else {
         false
     }
 }

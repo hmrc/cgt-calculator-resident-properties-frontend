@@ -31,7 +31,9 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import views.html.calculation.resident.personalAllowance
+import views.html.calculation.resident.properties.income.currentIncome
 
 import scala.concurrent.Future
 
@@ -68,7 +70,9 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(taxYearModel)))
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents, mockAppConfig)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents,
+      fakeApplication.injector.instanceOf[currentIncome],
+      fakeApplication.injector.instanceOf[personalAllowance])
   }
 
   "Calling .personalAllowance from the IncomeController" when {

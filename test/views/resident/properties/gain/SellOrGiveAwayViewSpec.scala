@@ -22,16 +22,17 @@ import org.jsoup.Jsoup
 import play.api.mvc.Call
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.sellOrGiveAway
 
 class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val sellOrGiveAwayView = fakeApplication.injector.instanceOf[sellOrGiveAway]
   "sellOrGiveAway view" should {
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = sellOrGiveAwayForm
-    lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = sellOrGiveAwayView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -96,7 +97,7 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Sold")))
-    lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = sellOrGiveAwayView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Sold' auto selected" in {
@@ -109,7 +110,7 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Given")))
-    lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = sellOrGiveAwayView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Given' auto selected" in {
@@ -124,7 +125,7 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       val homeLink = "homeLink"
       val call = new Call("POST", "postAction")
       lazy val form = sellOrGiveAwayForm.bind(Map("givenAway" -> ""))
-      lazy val view = views.sellOrGiveAway(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+      lazy val view = sellOrGiveAwayView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

@@ -16,11 +16,17 @@
 
 @import models.resident._
 @import models.resident.properties._
-@import views.html.helpers.resident._
 @import controllers.routes.{GainController => gainRoutes}
 @import controllers.routes.{DeductionsController => deductionRoutes}
 @import controllers.routes.{IncomeController => incomeRoutes}
 @import play.api.i18n.Lang
+
+@this(
+    summaryDateRowHelper: helpers.resident.summaryDateRowHelper,
+    summaryTextRowHelper: helpers.resident.summaryTextRowHelper,
+    summaryNumericRowHelper: helpers.resident.summaryNumericRowHelper,
+    summaryOptionRowHelper: helpers.resident.summaryOptionRowHelper
+)
 
 @(gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false, displayLinks: Boolean = true)(implicit messages: Messages, lang: Lang)
 

@@ -14,16 +14,17 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers.resident._
-@import views.html.calculation.resident.properties._
 @import models.resident._
 @import models.resident.properties._
 @import common.Dates._
 @import common.TaxDates._
-@import views.html.helpers.finalSummaryPartial
 @import config.ApplicationConfig
 @import play.api.Application
-@import config.AppConfig
+
+@this(
+residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
+finalSummaryPartial: helpers.finalSummaryPartial
+)
 
 @(gainAnswers: YourAnswersSummaryModel,
         deductionAnswers: ChargeableGainAnswers,
@@ -35,13 +36,12 @@
         lettingsReliefUsed: Option[Boolean] = None,
         totalCosts: BigDecimal,
         totalDeductions: BigDecimal,
-        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
 
-@resident_properties_main_template(
+@residentPropertiesMainTemplate(
     title = Messages("calc.resident.summary.title"),
     backLink = Some(backUrl),
-    isUserResearchBannerVisible = showUserResearchPanel,
-    appConfig = appConfig
+    isUserResearchBannerVisible = showUserResearchPanel
 ) {
 
     <!-- Google Analytics -->

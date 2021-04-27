@@ -23,16 +23,17 @@ import org.jsoup.Jsoup
 import play.api.mvc.Call
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.worthWhenInherited
 
 class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val worthWhenInheritedView = fakeApplication.injector.instanceOf[worthWhenInherited]
   "worthWhenInherited view" should {
     val backLink = Some("back-link")
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenInheritedForm
-    lazy val view = views.worthWhenInherited(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = worthWhenInheritedView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -97,7 +98,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenInherited(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = worthWhenInheritedView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -118,7 +119,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
-    lazy val view = views.worthWhenInherited(form, backLink, homeLink, call)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = worthWhenInheritedView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

@@ -22,14 +22,15 @@ import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{income => views}
+import views.html.calculation.resident.properties.income.currentIncome
 
 class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
   "Current Income view" should {
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-    lazy val view = views.currentIncome(currentIncomeForm, "", taxYearModel, false)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = currentIncomeView(currentIncomeForm, "", taxYearModel, false)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -124,7 +125,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = views.currentIncome(form, "", taxYearModel, false)(fakeRequest, testingMessages, mockAppConfig)
+      lazy val view = currentIncomeView(form, "", taxYearModel, false)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

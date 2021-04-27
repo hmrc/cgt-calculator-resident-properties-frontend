@@ -26,6 +26,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Result
 import play.api.test.Helpers._
 import common.{CommonPlaySpec,WithCommonFakeApplication}
+import views.html.calculation.resident.properties.introduction
 
 import scala.concurrent.Future
 
@@ -36,7 +37,8 @@ class IntroductionActionSpec extends CommonPlaySpec with MockitoSugar with FakeR
 
   class Setup() {
 
-    val controller = new PropertiesController(mockMessagesControllerComponents, mockAppConfig)
+    val controller = new PropertiesController(mockMessagesControllerComponents,
+      fakeApplication.injector.instanceOf[introduction])
   }
 
   "Calling the introduction action" should {

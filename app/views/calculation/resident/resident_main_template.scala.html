@@ -15,7 +15,13 @@
  *@
 
 @import play.api.Application
-@import config.AppConfig
+
+@this(
+    govukWrapper: govuk_wrapper,
+    uiSidebar: Sidebar,
+    article: Article,
+    languageSelection: helpers.language_selection
+)
 
 @(title: String,
   sidebarLinks: Option[Html] = None,
@@ -26,11 +32,8 @@
   articleLayout: Boolean = true,
   backLink: Option[String] = None,
   homeLink: String,
-  navTitle: String,
-  appConfig: config.AppConfig
+  navTitle: String
 )(mainContent: Html)(implicit request : Request[_], messages: Messages)
-
-@import uk.gov.hmrc.play.views.html.layouts
 
 @serviceInfoContent = {}
 
@@ -43,14 +46,14 @@
 
 @sidebar = {
     @if(sidebarLinks.isDefined) {
-        @layouts.sidebar(sidebarContent, Some("sidebar"))
+        @uiSidebar(sidebarContent, Some("sidebar"))
     }
 }
 
 @contentLayout = {
     <div class="resident">
         @if(articleLayout) {
-            @layouts.article(mainContent)
+            @article(mainContent)
         } else {
             @mainContent
         }
@@ -62,14 +65,13 @@
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
 
-    <div class="float--right">@views.html.helpers.language_selection(Map(
+    <div class="float--right">@languageSelection(Map(
         "english" -> Lang("en"),
         "cymraeg" -> Lang("cy")
     ), controllers.routes.CgtLanguageController.switchToLanguage, None)</div>
 }
 
-@govuk_wrapper(appdConfig = appConfig,
-               title = title,
+@govukWrapper( title = title,
                mainClass = mainClass,
                bodyClasses = bodyClasses,
                sidebar = sidebar,

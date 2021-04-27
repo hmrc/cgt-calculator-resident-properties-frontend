@@ -29,11 +29,12 @@ class SummaryDateRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
   implicit val lang = messages.lang
 
   "The Summary Date Row Helper" when {
+    lazy val summaryDateRowHelperView = fakeApplication.injector.instanceOf[summaryDateRowHelper]
     val testDate = constructDate(12, 9, 1990)
     val formattedTestDate = datePageFormatNoZero.format(testDate)
 
     "not provided with any change links" should {
-      lazy val row = summaryDateRowHelper("testID", "testQ", testDate)
+      lazy val row = summaryDateRowHelperView("testID", "testQ", testDate)
       lazy val doc = Jsoup.parse(row.body)
 
       "have a question section" which {
@@ -60,7 +61,7 @@ class SummaryDateRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
     }
 
     "provided with a change link" should {
-      lazy val row = summaryDateRowHelper("testID", "testQ", testDate, Some("link"))
+      lazy val row = summaryDateRowHelperView("testID", "testQ", testDate, Some("link"))
       lazy val doc = Jsoup.parse(row.body)
 
       "have a question section" which {

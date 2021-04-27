@@ -21,13 +21,14 @@ import forms.resident.AcquisitionCostsForm._
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.acquisitionCosts
 
 class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
   "Acquisition Costs view" should {
 
-    lazy val view = views.acquisitionCosts(acquisitionCostsForm, Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = acquisitionCostsView(acquisitionCostsForm, Some("back-link"))(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -170,7 +171,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     "is due to mandatory field error" should {
 
       lazy val form = acquisitionCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.acquisitionCosts(form, Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
+      lazy val view = acquisitionCostsView(form, Some("back-link"))(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

@@ -29,7 +29,8 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.RequestHeader
 import play.api.test.Helpers._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import views.html.calculation.resident.properties.report.{deductionsSummaryReport, finalSummaryReport, gainSummaryReport}
 
 import scala.concurrent.Future
 
@@ -56,7 +57,11 @@ class GainSummaryActionSpec @Inject()(val pdfGenerator: PdfGenerator) extends Co
     when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(10000))))
 
-    new ReportController(fakeApplication.configuration, mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents, pdfGenerator) {
+    new ReportController(fakeApplication.configuration, mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents,
+      fakeApplication.injector.instanceOf[deductionsSummaryReport],
+      fakeApplication.injector.instanceOf[gainSummaryReport],
+      fakeApplication.injector.instanceOf[finalSummaryReport],
+      pdfGenerator) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

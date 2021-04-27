@@ -20,12 +20,13 @@ import assets.MessageLookup.{NoTaxToPay => messages, Resident => commonMessages}
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.noTaxToPay
 
 class NoTaxToPayViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val noTaxToPayView = fakeApplication.injector.instanceOf[noTaxToPay]
   "No Tax to Pay View when gifted to spouse" should {
-    lazy val view = views.noTaxToPay(false)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = noTaxToPayView(false)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -58,7 +59,7 @@ class NoTaxToPayViewSpec extends CommonPlaySpec with WithCommonFakeApplication w
   }
 
   "No Tax to Pay View when gifted to charity" should {
-    lazy val view = views.noTaxToPay(true)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = noTaxToPayView(true)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have text explaining why tax is not owed" in {

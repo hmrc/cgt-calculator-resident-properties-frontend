@@ -34,6 +34,7 @@ import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import common.{CommonPlaySpec, WithCommonFakeApplication}
+import views.html.calculation.resident.properties.summary.{deductionsSummary, finalSummary, gainSummary}
 
 import scala.concurrent.Future
 
@@ -87,7 +88,10 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
     when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000)))
 
-    new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents, mockAppConfig)
+    new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents,
+      fakeApplication.injector.instanceOf[finalSummary],
+      fakeApplication.injector.instanceOf[deductionsSummary],
+      fakeApplication.injector.instanceOf[gainSummary])
   }
 
   "Calling .summary from the SummaryController" when {

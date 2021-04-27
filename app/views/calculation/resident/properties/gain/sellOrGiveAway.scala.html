@@ -14,22 +14,23 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation.resident._
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import uk.gov.hmrc.play.views.html.helpers.input_radio_group
 @import models.resident.properties.SellOrGiveAwayModel
 @import play.api.Application
-@import config.AppConfig
 
-@(sellOrGiveAwayForm: Form[SellOrGiveAwayModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    residentMainTemplate: calculation.resident.resident_main_template,
+    errorSummary: helpers.errorSummary,
+    form: FormWithCSRF,
+    inputRadioGroup: InputRadioGroup
+)
 
-    @resident_main_template(
+@(sellOrGiveAwayForm: Form[SellOrGiveAwayModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
+
+    @residentMainTemplate(
         title = Messages("calc.resident.sellOrGiveAway.title"),
         backLink = backLink,
         homeLink = homeLink,
-        navTitle = Messages("calc.base.resident.properties.home"),
-        appConfig = appConfig
+        navTitle = Messages("calc.base.resident.properties.home")
     ) {
 
         @errorSummary(sellOrGiveAwayForm, "givenAway")
@@ -38,7 +39,7 @@
 
         @form(action = postAction) {
 
-            @input_radio_group(
+            @inputRadioGroup(
                 field = sellOrGiveAwayForm("givenAway"),
                 Seq(
                     "Sold" -> Messages("calc.resident.sellOrGiveAway.sold"),

@@ -26,10 +26,12 @@ class SummaryGainAndRateHelperSpec extends CommonPlaySpec with WithCommonFakeApp
   implicit val messages = testingMessages
   implicit val lang = messages.lang
 
-  lazy val rowSingle = summaryGainAndRateHelper("testID","testQ", 1000, 18, None, None)
+  lazy val summaryGainAndRateHelperView = fakeApplication.injector.instanceOf[summaryGainAndRateHelper]
+
+  lazy val rowSingle = summaryGainAndRateHelperView("testID","testQ", 1000, 18, None, None)
   lazy val docSingle = Jsoup.parse(rowSingle.body)
 
-  lazy val rowDouble = summaryGainAndRateHelper("testID","testQ", 1000, 18, Some(2000), Some(28))
+  lazy val rowDouble = summaryGainAndRateHelperView("testID","testQ", 1000, 18, Some(2000), Some(28))
   lazy val docDouble = Jsoup.parse(rowDouble.body)
 
   "The Summary Gain and Rate Row Helper" should {

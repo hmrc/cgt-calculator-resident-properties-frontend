@@ -23,12 +23,12 @@ import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
-import views.html.{helpers => views}
+import views.html.helpers.deductionsSummaryPartial
 
 class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   "DeductionsSummaryPartial" when {
-
+    lazy val deductionsSummaryPartialView = fakeApplication.injector.instanceOf[deductionsSummaryPartial]
     "the property was sold inside tax years, bought after legislation start," +
       " with no reliefs or brought forward losses, with £0 taxable gain and AEA remaining" should {
 
@@ -76,7 +76,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -344,7 +344,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -406,7 +406,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -467,7 +467,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -533,7 +533,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -605,7 +605,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -666,7 +666,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -728,7 +728,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -782,7 +782,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -842,7 +842,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -902,7 +902,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100)(fakeRequestWithSession, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 

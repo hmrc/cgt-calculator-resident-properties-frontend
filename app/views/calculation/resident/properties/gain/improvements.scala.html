@@ -15,23 +15,26 @@
  *@
 
 @import models.resident.properties.ImprovementsModel
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import views.html.helpers._
-@import views.html.helpers.resident._
-@import views.html.calculation.resident.properties._
 @import play.api.Application
-@import config.AppConfig
 
-@(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    form: FormWithCSRF,
+    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
+    errorSummary: helpers.errorSummary,
+    formInputMoney: helpers.formInputMoney,
+    expandableHelpTextHelper: helpers.expandableHelpTextHelper
+)
+
+@(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_], messages: Messages)
 
 @hiddenHelpTextContent = {
     <p>@Messages("calc.resident.properties.improvements.additionalContent.one")</p>
     <p>@Messages("calc.resident.properties.improvements.additionalContent.two")</p>
 }
 
-@resident_properties_main_template(title = if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
+@residentPropertiesMainTemplate(title = if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
     else Messages("calc.resident.properties.improvements.question"),
-    backLink = Some(controllers.routes.GainController.acquisitionCosts().toString), appConfig = appConfig) {
+    backLink = Some(controllers.routes.GainController.acquisitionCosts().toString)) {
 
     @errorSummary(improvementsForm, "improvements")
 

@@ -19,8 +19,9 @@
 @import common.Dates.TemplateImplicits._
 @import play.api.i18n.Lang
 
-@(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages, lang: Lang)
+@this()
 
+@(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages, lang: Lang)
 
 @if(displayLink && link.isDefined) {
     <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline @extraClass">
