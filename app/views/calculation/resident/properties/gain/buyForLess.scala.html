@@ -14,20 +14,25 @@
  * limitations under the License.
  *@
 
-@import config.AppConfig
 @import models.resident.properties.BoughtForLessThanWorthModel
 @import uk.gov.hmrc.play.views.html.helpers.{form, input_radio_group}
 @import views.html.calculation.resident._
 @import views.html.helpers._
 
-@(boughtForLessThanWorthForm: Form[BoughtForLessThanWorthModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    form: FormWithCSRF,
+    inputRadioGroup: InputRadioGroup,
+    errorSummary: helpers.errorSummary,
+    residentMainTemplate: calculation.resident.resident_main_template
+)
 
-@resident_main_template(
+@(boughtForLessThanWorthForm: Form[BoughtForLessThanWorthModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(
     title = Messages("calc.resident.properties.boughtForLessThanWorth.title"),
     backLink = navBackLink,
     homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.properties.home"),
-    appConfig = appConfig
+    navTitle = Messages("calc.base.resident.properties.home")
 ) {
     @errorSummary(boughtForLessThanWorthForm, "bought-for-less-than-worth")
 
@@ -35,7 +40,7 @@
 
     @form(action = controllers.routes.GainController.submitBoughtForLessThanWorth) {
         <div id="radio-input" class="form-group">
-            @input_radio_group(
+            @inputRadioGroup(
             field = boughtForLessThanWorthForm("boughtForLessThanWorth"),
             Seq(
             "Yes" -> Messages("calc.base.yes"),

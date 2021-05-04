@@ -15,14 +15,16 @@
  *@
 
 @import models.resident.PrivateResidenceReliefModel
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import uk.gov.hmrc.play.views.html.helpers.input_radio_group
-@import views.html.helpers._
-@import views.html.calculation.resident.properties.resident_properties_main_template
 @import play.api.Application
-@import config.AppConfig
 
-@(privateResidenceReliefForm : Form[PrivateResidenceReliefModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    form: FormWithCSRF,
+    inputRadioGroup: InputRadioGroup,
+    errorSummary: helpers.errorSummary,
+    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template
+)
+
+@(privateResidenceReliefForm : Form[PrivateResidenceReliefModel])(implicit request: Request[_], messages: Messages)
 
 @helpText = {
     @Messages("calc.resident.properties.privateResidenceRelief.helpText")
@@ -33,10 +35,9 @@
     </a>
 }
 
-@resident_properties_main_template(
+@residentPropertiesMainTemplate(
     title = Messages("calc.resident.properties.privateResidenceRelief.title"),
-    backLink = Some(controllers.routes.DeductionsController.propertyLivedIn().url),
-    appConfig = appConfig) {
+    backLink = Some(controllers.routes.DeductionsController.propertyLivedIn().url)) {
 
     @errorSummary(privateResidenceReliefForm, "isClaiming")
 
@@ -46,7 +47,7 @@
 
         <p class="form-hint">@helpText</p>
 
-        @input_radio_group(
+        @inputRadioGroup(
             field = privateResidenceReliefForm("isClaiming"),
             Seq(
                 "Yes"->Messages("calc.base.yes"),

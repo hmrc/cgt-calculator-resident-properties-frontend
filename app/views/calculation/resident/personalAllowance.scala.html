@@ -16,14 +16,18 @@
 
 @import models.resident.income.PersonalAllowanceModel
 @import models.resident.TaxYearModel
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import views.html.helpers._
-@import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
-@import config.AppConfig
 
 @import common.Dates
-@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@this(
+    form: FormWithCSRF,
+    errorSummary: helpers.errorSummary,
+    residentMainTemplate: calculation.resident.resident_main_template,
+    formInputMoney: helpers.formInputMoney
+)
+
+@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages)
 
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(
@@ -31,7 +35,7 @@
         else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { question =>
 
 
-        @resident_main_template(title = question, backLink = backLink, homeLink = homeLink, navTitle = navTitle, appConfig = appConfig) {
+        @residentMainTemplate(title = question, backLink = backLink, homeLink = homeLink, navTitle = navTitle) {
 
             @errorSummary(personalAllowanceForm, "amount")
 

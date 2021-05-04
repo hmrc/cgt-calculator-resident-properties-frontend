@@ -15,25 +15,27 @@
  *@
 
 @import models.resident.properties.LettingsReliefValueModel
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import views.html.helpers._
-@import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import play.api.Application
-@import config.AppConfig
 
-@(lettingsReliefValueForm : Form[LettingsReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    form: FormWithCSRF,
+    residentMainTemplate: views.html.calculation.resident.resident_main_template,
+    formInputMoney: helpers.formInputMoney,
+    errorSummary: helpers.errorSummary
+)
+
+@(lettingsReliefValueForm : Form[LettingsReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @additionalContent = {
     <p>@Messages("calc.resident.lettingsReliefValue.additionalContent", MoneyPounds(totalGain, 0).quantity)</p>
 }
 
-@resident_main_template(
+@residentMainTemplate(
     title = Messages("calc.resident.lettingsReliefValue.title"),
     backLink = Some(controllers.routes.DeductionsController.lettingsRelief().toString),
     homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.properties.home"),
-    appConfig = appConfig) {
+    navTitle = Messages("calc.base.resident.properties.home")) {
 
     @errorSummary(lettingsReliefValueForm, "lettings-relief-value")
 

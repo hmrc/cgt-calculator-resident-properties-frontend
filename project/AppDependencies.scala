@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@ import play.sbt.PlayImport._
 
 object AppDependencies {
 
-  val bootstrapVersion         = "3.4.0"
+  val bootstrapVersion         = "5.0.0"
   val jsonJodaVersion          = "2.9.0"
   val govUKTemplateVersion     = "5.61.0-play-27"
   val playUiVersion            = "8.21.0-play-27"
-  val playPartialsVersion      = "7.1.0-play-27"
-  val httpCachingClientVersion = "9.2.0-play-27"
+  val playPartialsVersion      = "8.1.0-play-27"
+  val httpCachingClientVersion = "9.4.0-play-27"
   val mongoCachingVersion      = "6.16.0-play-27"
-  val playLanguageVersion      = "4.10.0-play-27"
+  val playLanguageVersion      = "4.12.0-play-27"
   val play2PdfVersion          = "1.10.0"
 
   val compile: Seq[ModuleID] = Seq(

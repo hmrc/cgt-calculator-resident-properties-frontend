@@ -14,13 +14,16 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers.resident._
-@import views.html.helpers._
 @import models.resident._
 @import models.resident.properties._
 @import constructors.resident.properties.SummaryConstructor._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import play.api.Application
+
+@this(
+    finalSummaryPartial: helpers.finalSummaryPartial,
+    checkYourAnswersPartial: helpers.checkYourAnswersPartial
+)
 
 @(gainAnswers: YourAnswersSummaryModel,
     deductionAnswers: ChargeableGainAnswers,

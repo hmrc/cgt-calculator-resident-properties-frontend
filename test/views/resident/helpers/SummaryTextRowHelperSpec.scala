@@ -30,9 +30,10 @@ class SummaryTextRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
   implicit val lang = messages.lang
 
   "The Summary Text Row Helper" when {
+    lazy val summaryTextRowHelperView = fakeApplication.injector.instanceOf[summaryTextRowHelper]
 
     "not provided with any change links" should {
-      lazy val row: HtmlFormat.Appendable = summaryTextRowHelper("testID", "testQ", "testValue")
+      lazy val row: HtmlFormat.Appendable = summaryTextRowHelperView("testID", "testQ", "testValue")
       lazy val doc: Document = Jsoup.parse(row.body)
 
       "have a question section" which {
@@ -60,7 +61,7 @@ class SummaryTextRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
 
     "provided with a change link " should {
 
-      lazy val row: HtmlFormat.Appendable = summaryTextRowHelper("testID", "testQ", "testValue", Some("link"))
+      lazy val row: HtmlFormat.Appendable = summaryTextRowHelperView("testID", "testQ", "testValue", Some("link"))
       lazy val doc: Document = Jsoup.parse(row.body)
 
       "have a question section" which {

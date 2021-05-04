@@ -24,11 +24,12 @@ import org.jsoup.Jsoup
 import play.api.i18n.Lang
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{report => views}
+import views.html.calculation.resident.properties.report.deductionsSummaryReport
 
 class PropertiesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
   val fakeLang: Lang = Lang("en")
 
+  lazy val deductionsSummaryReportView = fakeApplication.injector.instanceOf[deductionsSummaryReport]
   "Deductions Report view" should {
     lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
       None,
@@ -73,7 +74,7 @@ class PropertiesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonF
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, testingMessages, fakeLang)
+    lazy val view = deductionsSummaryReportView(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, testingMessages, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -157,7 +158,7 @@ class PropertiesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonF
 
     lazy val taxYearModel = TaxYearModel("2013/14", false, "2015/16")
 
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 5000)(fakeRequestWithSession, testingMessages, fakeLang)
+    lazy val view = deductionsSummaryReportView(gainAnswers, deductionAnswers, results, taxYearModel, 5000)(fakeRequestWithSession, testingMessages, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
 

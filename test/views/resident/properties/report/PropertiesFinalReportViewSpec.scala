@@ -25,12 +25,12 @@ import models.resident.properties._
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
 import common.{CommonPlaySpec,WithCommonFakeApplication}
-import views.html.calculation.resident.properties.{report => views}
+import views.html.calculation.resident.properties.report.finalSummaryReport
 
 class PropertiesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   val fakeLang: Lang = Lang("en")
-
+  lazy val finalSummaryReportView = fakeApplication.injector.instanceOf[finalSummaryReport]
   "Final Summary view" should {
 
     lazy val gainAnswers = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2015),
@@ -83,7 +83,7 @@ class PropertiesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeAp
 
     lazy val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results,
+    lazy val view = finalSummaryReportView(gainAnswers, deductionAnswers, incomeAnswers, results,
       taxYearModel, isCurrentTaxYear = false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, testingMessages, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 

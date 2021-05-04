@@ -33,7 +33,7 @@ import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.resident.properties.{report => views}
+import views.html.calculation.resident.properties.report._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -43,6 +43,9 @@ class ReportController @Inject()(
                                   val calcConnector: CalculatorConnector,
                                   val sessionCacheService : SessionCacheService,
                                   val messagesControllerComponents: MessagesControllerComponents,
+                                  deductionsSummaryReportView : deductionsSummaryReport,
+                                  gainSummaryReportView: gainSummaryReport,
+                                  finalSummaryReportView: finalSummaryReport,
                                   pdfGenerator : PdfGenerator
                                 ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport with Logging {
 
@@ -91,7 +94,7 @@ class ReportController @Inject()(
       maxAEA <- getMaxAEA(taxYearInt)(hc)
       grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
     } yield {
-      pdfGenerator.ok(views.gainSummaryReport(
+      pdfGenerator.ok(gainSummaryReportView(
         answers,
         grossGain,
         taxYear.get,
@@ -116,7 +119,7 @@ class ReportController @Inject()(
       grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
       chargeableGain <- calcConnector.calculateRttPropertyChargeableGain(answers, deductionAnswers, maxAEA.get)
     } yield {
-      pdfGenerator.ok(views.deductionsSummaryReport(
+      pdfGenerator.ok(deductionsSummaryReportView(
         answers,
         deductionAnswers,
         chargeableGain.get,
@@ -164,7 +167,7 @@ class ReportController @Inject()(
 
       val aeaLeftOver = aeaRemaining(maxAEA.getOrElse(0), totalGainAndTax.get.aeaUsed)
 
-      pdfGenerator.ok(views.finalSummaryReport(
+      pdfGenerator.ok(finalSummaryReportView(
         gainAnswers,
         deductionAnswers,
         incomeAnswers,

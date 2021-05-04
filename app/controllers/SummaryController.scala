@@ -20,7 +20,6 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates._
-import config.AppConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
@@ -32,8 +31,7 @@ import play.api.mvc.{MessagesControllerComponents, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.resident.properties.{summary => views}
-
+import views.html.calculation.resident.properties.summary._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
 
@@ -42,7 +40,9 @@ class SummaryController @Inject()(
                                    val calculatorConnector: CalculatorConnector,
                                    val sessionCacheService: SessionCacheService,
                                    val messagesControllerComponents: MessagesControllerComponents,
-                                   implicit val appConfig: AppConfig
+                                   finalSummaryView: finalSummary,
+                                   deductionsSummaryView: deductionsSummary,
+                                   gainSummaryView: gainSummary
                                  ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
@@ -97,7 +97,7 @@ class SummaryController @Inject()(
       }
 
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 && incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined)
-        Future.successful(Ok(views.finalSummary(
+        Future.successful(Ok(finalSummaryView(
           totalGainAnswers,
           chargeableGainAnswers,
           incomeAnswers,
@@ -111,7 +111,7 @@ class SummaryController @Inject()(
           showUserResearchPanel = false
         )))
       else if (grossGain > 0)
-        Future.successful(Ok(views.deductionsSummary(
+        Future.successful(Ok(deductionsSummaryView(
           totalGainAnswers,
           chargeableGainAnswers,
           chargeableGain.get,
@@ -123,7 +123,7 @@ class SummaryController @Inject()(
           showUserResearchPanel
         )))
       else
-        Future.successful(Ok(views.gainSummary(
+        Future.successful(Ok(gainSummaryView(
           totalGainAnswers,
           grossGain,
           totalCosts,

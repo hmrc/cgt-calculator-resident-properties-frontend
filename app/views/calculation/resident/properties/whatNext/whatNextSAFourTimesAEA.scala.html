@@ -14,16 +14,17 @@
  * limitations under the License.
  *@
 
-@import views.html.calculation.resident.properties._
 @import play.api.Application
-@import config.AppConfig
 
-@(backUrl: String)(implicit request : Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template
+)
 
-@resident_properties_main_template(
+@(backUrl: String)(implicit request : Request[_], messages: Messages)
+
+@residentPropertiesMainTemplate(
     title = Messages("calc.whatToDoNext.title"),
-    backLink = Some(backUrl),
-    appConfig = appConfig
+    backLink = Some(backUrl)
 ) {
 
     <h1>@Messages("calc.whatToDoNext.title")</h1>

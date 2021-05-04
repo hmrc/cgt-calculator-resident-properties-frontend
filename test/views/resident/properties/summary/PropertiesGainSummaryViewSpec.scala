@@ -25,10 +25,11 @@ import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
 import org.mockito.Mockito._
 import common.{CommonPlaySpec,WithCommonFakeApplication}
-import views.html.calculation.resident.properties.{summary => views}
+import views.html.calculation.resident.properties.summary.gainSummary
 
 class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val gainSummaryView = fakeApplication.injector.instanceOf[gainSummary]
   "Summary view" should {
 
     val testModel = YourAnswersSummaryModel(
@@ -57,7 +58,7 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
     when(mockAppConfig.urBannerLink)
       .thenReturn(summaryMessages.bannerPanelLinkURL)
 
-    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = true)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = gainSummaryView(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = true)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -423,7 +424,7 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-    lazy val view = views.gainSummary(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = gainSummaryView(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = false)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not have ur panel" in {

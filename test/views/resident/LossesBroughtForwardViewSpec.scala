@@ -22,19 +22,19 @@ import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.{resident => views}
+import views.html.calculation.resident.lossesBroughtForward
 
 class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   val taxYearModel = TaxYearModel(taxYearSupplied = "2017/18", isValidYear = true, calculationTaxYear = "2017/18" )
 
-
+  lazy val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
   lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
 
   "Reliefs view" should {
 
-    lazy val view = views.lossesBroughtForward (
-      lossesBroughtForwardForm(taxYearModel), postAction, "", TaxYearModel("2017/18", true, "2017/18"), "home-link", "navTitle")(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = lossesBroughtForwardView(
+      lossesBroughtForwardForm(taxYearModel), postAction, "", TaxYearModel("2017/18", true, "2017/18"), "home-link", "navTitle")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -97,7 +97,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
   "Losses Brought Forward view with pre-selected value of yes" should {
     lazy val form = lossesBroughtForwardForm(taxYearModel).bind(Map(("option", "Yes")))
-    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2017/18", true, "2017/18"), "home", "navTitle")(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2017/18", true, "2017/18"), "home", "navTitle")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
@@ -111,7 +111,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
   "Losses Brought Forward view with pre-selected value of no" should {
     lazy val form = lossesBroughtForwardForm(taxYearModel).bind(Map(("option", "No")))
-    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2017/18", true, "2017/18"), "home", "navTitle")(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2017/18", true, "2017/18"), "home", "navTitle")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'No' auto selected" in {
@@ -121,7 +121,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
   "Losses Brought Forward view with errors" should {
     lazy val form = lossesBroughtForwardForm(taxYearModel).bind(Map(("option", "")))
-    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2017/18", true, "2017/18"), "home", "navTitle")(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2017/18", true, "2017/18"), "home", "navTitle")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

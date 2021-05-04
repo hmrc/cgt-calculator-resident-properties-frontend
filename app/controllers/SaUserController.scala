@@ -17,7 +17,6 @@
 package controllers
 
 import common.Dates.requestFormatter
-import config.AppConfig
 import connectors.CalculatorConnector
 import constructors.resident.properties.CalculateRequestConstructor
 import controllers.predicates.ValidActiveSession
@@ -32,6 +31,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import views.html.calculation.resident.properties.whatNext.saUser
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -40,7 +40,7 @@ class SaUserController @Inject()(
                                   val calculatorConnector: CalculatorConnector,
                                   val sessionCacheService: SessionCacheService,
                                   val messagesControllerComponents: MessagesControllerComponents,
-                                  implicit val appConfig: AppConfig
+                                  saUserView: saUser
                                 ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
@@ -53,7 +53,7 @@ class SaUserController @Inject()(
       assessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
       whereToNext <- {
         if(assessmentRequired) {
-          Future(Ok(views.html.calculation.resident.properties.whatNext.saUser(SaUserForm.saUserForm)))
+          Future(Ok(saUserView(SaUserForm.saUserForm)))
         } else{
           submitSaUserImpl(assessmentRequired)
         }
@@ -123,7 +123,7 @@ class SaUserController @Inject()(
     }
 
     def errorAction(form: Form[SaUserModel]) = {
-      Future.successful(BadRequest(views.html.calculation.resident.properties.whatNext.saUser(form)))
+      Future.successful(BadRequest(saUserView(form)))
     }
 
     def successAction(model: SaUserModel) = {

@@ -26,7 +26,7 @@ import common.CommonPlaySpec
 class ReportControllerTestSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar {
 
   def buildApp(properties: Map[String, String]): Application = {
-    new GuiceApplicationBuilder().configure(properties + ("metrics.enabled" -> "false")).build()
+    new GuiceApplicationBuilder().configure(properties + ("metrics.enabled" -> "false", "auditing.enabled" -> "false")).build()
   }
 
   "host" should {

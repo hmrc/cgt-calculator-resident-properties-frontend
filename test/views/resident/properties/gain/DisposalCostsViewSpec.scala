@@ -22,13 +22,14 @@ import forms.resident.DisposalCostsForm._
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.disposalCosts
 
 class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper  with BaseViewSpec {
 
+  lazy val disposalCostsView = fakeApplication.injector.instanceOf[disposalCosts]
   "Disposal Costs view" should {
 
-    lazy val view = views.disposalCosts(disposalCostsForm,"backlink")(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = disposalCostsView(disposalCostsForm,"backlink")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -168,7 +169,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     "is due to mandatory field error" should {
 
       lazy val form = disposalCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.disposalCosts(form, "backlink")(fakeRequest, testingMessages, mockAppConfig)
+      lazy val view = disposalCostsView(form, "backlink")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

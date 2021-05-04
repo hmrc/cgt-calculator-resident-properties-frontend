@@ -26,11 +26,12 @@ import views.html.calculation.resident.properties.whatNext.saUser
 
 class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val saUserView = fakeApplication.injector.instanceOf[saUser]
   "SaUserView" when {
     implicit lazy val fakeApp = fakeApplication
 
     "no errors are present" should {
-      lazy val view = saUser(SaUserForm.saUserForm)(fakeRequest, testingMessages, mockAppConfig)
+      lazy val view = saUserView(SaUserForm.saUserForm)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title of ${messages.title}" in {
@@ -110,7 +111,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
 
     "errors are present" should {
       lazy val form = SaUserForm.saUserForm.bind(Map("isInSa" -> ""))
-      lazy val view = saUser(form)(fakeRequest, testingMessages, mockAppConfig)
+      lazy val view = saUserView(form)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

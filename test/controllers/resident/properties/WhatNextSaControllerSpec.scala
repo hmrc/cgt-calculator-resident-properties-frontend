@@ -29,7 +29,8 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import views.html.calculation.resident.properties.whatNext.{whatNextSAFourTimesAEA, whatNextSaGain, whatNextSaNoGain}
 
 import scala.concurrent.Future
 
@@ -44,7 +45,11 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with WithCommonFakeApplica
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
 
-    new WhatNextSAController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents, mockAppConfig)
+    new WhatNextSAController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents,
+      fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA],
+      fakeApplication.injector.instanceOf[whatNextSaNoGain],
+      fakeApplication.injector.instanceOf[whatNextSaGain],
+      mockAppConfig)
   }
 
   "Calling .whatNextSAOverFourTimesAEA" when {

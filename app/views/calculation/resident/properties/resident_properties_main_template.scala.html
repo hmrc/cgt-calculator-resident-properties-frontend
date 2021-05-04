@@ -14,10 +14,18 @@
  * limitations under the License.
  *@
 
-@import config.ApplicationConfig
-@import helpers.full_width_banner
-@import helpers.full_width_banner_content_ur
 @import play.api.Application
+@import config.AppConfig
+
+@this(
+    appConfig: AppConfig,
+    fullWidthBanner: helpers.full_width_banner,
+    fullWidthBannerContentUR: helpers.full_width_banner_content_ur,
+    languageSelection: helpers.language_selection,
+    uiPartial: Sidebar,
+    article: Article,
+    govukWrapper: govuk_wrapper
+)
 
 @(title: String,
   sidebarLinks: Option[Html] = None,
@@ -27,11 +35,8 @@
   scriptElem: Option[Html] = None,
   isUserResearchBannerVisible: Boolean = false,
   articleLayout: Boolean = true,
-  backLink: Option[String] = None,
-  appConfig: config.AppConfig
+  backLink: Option[String] = None
 )(mainContent: Html)(implicit request : Request[_], messages: Messages)
-
-@import uk.gov.hmrc.play.views.html.layouts
 
 @serviceInfoContent = {}
 
@@ -44,14 +49,14 @@
 
 @sidebar = {
     @if(sidebarLinks.isDefined) {
-     @layouts.sidebar(sidebarContent, Some("sidebar"))
+     @uiPartial(sidebarContent, Some("sidebar"))
     }
 }
 
 @contentLayout = {
 <div class="resident">
     @if(articleLayout) {
-        @layouts.article(mainContent)
+        @article(mainContent)
     } else {
         @mainContent
     }
@@ -63,7 +68,7 @@
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
 
-    <div class="float--right">@views.html.helpers.language_selection(Map(
+    <div class="float--right">@languageSelection(Map(
         "english" -> Lang("en"),
         "cymraeg" -> Lang("cy")
     ), controllers.routes.CgtLanguageController.switchToLanguage, None)</div>
@@ -72,7 +77,7 @@
 @afterHeader = {
     @if(isUserResearchBannerVisible) {
 
-        @full_width_banner(Some(full_width_banner_content_ur(
+        @fullWidthBanner(Some(fullWidthBannerContentUR(
                 messages("calc.summary.userResearchLink.title"),
                 messages("calc.summary.userResearchLink.link"),
                 appConfig.urBannerLink,
@@ -83,8 +88,7 @@
     }
 }
 
-@govuk_wrapper(appdConfig = appConfig,
-               title = title,
+@govukWrapper( title = title,
                mainClass = mainClass,
                bodyClasses = bodyClasses,
                sidebar = sidebar,

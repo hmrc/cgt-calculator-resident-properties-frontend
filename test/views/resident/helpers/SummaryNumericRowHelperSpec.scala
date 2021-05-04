@@ -28,9 +28,10 @@ class SummaryNumericRowHelperSpec extends CommonPlaySpec with WithCommonFakeAppl
   implicit val lang = messages.lang
 
   "The Summary Numeric Row Helper" when {
+    lazy val summaryNumericRowHelperView = fakeApplication.injector.instanceOf[summaryNumericRowHelper]
 
     "provided with no link" should {
-      lazy val row = summaryNumericRowHelper("testID","testQ",2000)
+      lazy val row = summaryNumericRowHelperView("testID","testQ",2000)
       lazy val doc = Jsoup.parse(row.body)
 
       "have a question section" which {
@@ -57,7 +58,7 @@ class SummaryNumericRowHelperSpec extends CommonPlaySpec with WithCommonFakeAppl
     }
 
     "provided with a change link " should {
-      lazy val row = summaryNumericRowHelper("testID","testQ",2000,Some("link"))
+      lazy val row = summaryNumericRowHelperView("testID","testQ",2000,Some("link"))
       lazy val doc = Jsoup.parse(row.body)
 
 

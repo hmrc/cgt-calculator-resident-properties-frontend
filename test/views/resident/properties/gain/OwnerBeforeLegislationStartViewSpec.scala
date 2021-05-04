@@ -23,14 +23,15 @@ import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.ownerBeforeLegislationStart
 
 class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val ownerBeforeLegislationStartView = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
   "The Owner Before Legislation Start view" should {
 
 
-    lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -216,7 +217,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "ownedBeforeLegislationStart view with a filled form" which {
 
     "for the option 'Yes'" should {
-      lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(true)))(fakeRequest, testingMessages, mockAppConfig)
+      lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(true)))(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val YesRadioOption = doc.select(".block-label[for=ownedBeforeLegislationStart-yes]")
 
@@ -226,7 +227,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     "for the option 'No'" should {
-      lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(false)))(fakeRequest, testingMessages, mockAppConfig)
+      lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(false)))(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val NoRadioOption = doc.select(".block-label[for=ownedBeforeLegislationStart-no]")
 
@@ -239,7 +240,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "ownedBeforeLegislationStart view with form errors" should {
 
     lazy val form = ownerBeforeLegislationStartForm.bind(Map("ownedBeforeLegislationStart" -> ""))
-    lazy val view = views.ownerBeforeLegislationStart(form)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = ownerBeforeLegislationStartView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

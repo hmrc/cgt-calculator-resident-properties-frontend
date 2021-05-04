@@ -16,22 +16,21 @@
 
 package controllers
 
-import config.AppConfig
 import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.resident.{properties => views}
+import views.html.calculation.resident.properties.introduction
 
 import scala.concurrent.Future
 
 @Singleton
 class PropertiesController @Inject()(
                                       val messagesControllerComponents: MessagesControllerComponents,
-                                      implicit val appConfig: AppConfig
+                                      introductionView: introduction
                                     ) extends FrontendController(messagesControllerComponents) with I18nSupport {
 
   val introduction: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(views.introduction()))
+    Future.successful(Ok(introductionView()))
   }
 }

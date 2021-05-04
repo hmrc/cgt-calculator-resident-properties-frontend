@@ -39,8 +39,7 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
   lazy val timeoutController = new TimeoutController(
     mockMessagesControllerComponents,
-    mockAppConfig
-  )
+    fakeApplication.injector.instanceOf[views.html.warnings.sessionTimeout])
 
   "TimeoutController.timeout" should {
 

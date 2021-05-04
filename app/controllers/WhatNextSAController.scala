@@ -30,6 +30,7 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import views.html.calculation.resident.properties.whatNext._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -38,7 +39,10 @@ class WhatNextSAController @Inject()(
                                       val calcConnector: CalculatorConnector,
                                       val sessionCacheConnector: SessionCacheConnector,
                                       val messagesControllerComponents: MessagesControllerComponents,
-                                      implicit val appConfig: AppConfig
+                                      whatNextSAFourTimesAEAView: whatNextSAFourTimesAEA,
+                                      whatNextSaNoGainView: whatNextSaNoGain,
+                                      whatNextSaGainView: whatNextSaGain,
+                                      val appConfig: AppConfig
                                     ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
@@ -56,18 +60,18 @@ class WhatNextSAController @Inject()(
   }
 
   val whatNextSAOverFourTimesAEA: Action[AnyContent] = ValidateSession.async { implicit request =>
-    Future.successful(Ok(views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA(backLink)))
+    Future.successful(Ok(whatNextSAFourTimesAEAView(backLink)))
   }
 
   val whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate().map {
-      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaNoGain(backLink, iFormUrl, taxYearOfDateLongHand(date)))
+      date => Ok(whatNextSaNoGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }.recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate().map {
-      date => Ok(views.html.calculation.resident.properties.whatNext.whatNextSaGain(backLink, iFormUrl, taxYearOfDateLongHand(date)))
+      date => Ok(whatNextSaGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }.recoverToStart(homeLink, sessionTimeoutUrl)
   }
 }

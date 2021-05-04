@@ -16,6 +16,10 @@
 
 @import uk.gov.hmrc.play.views.html.helpers.{errorSummary => summary}
 
+@this(
+    errorSummary: ErrorSummary
+)
+
 @(form: Form[_], page: String, errorKey: String = "")(implicit messages: Messages)
 
-@(if(form.hasErrors) summary(Messages("calc.error.summary.heading"), form))
+@(if(form.hasErrors) errorSummary(Messages("calc.error.summary.heading"), form))

@@ -20,13 +20,14 @@ import assets.MessageLookup.{WhatNextNonSaLoss => messages}
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{whatNext => views}
+import views.html.calculation.resident.properties.whatNext.whatNextNonSaLoss
 
 class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val whatNextNonSaLossView = fakeApplication.injector.instanceOf[whatNextNonSaLoss]
   "whatNextNonSaLoss view" should {
 
-    lazy val view = views.whatNextNonSaLoss("iFormUrl", "BackLinkUrl")(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = whatNextNonSaLossView("iFormUrl", "BackLinkUrl")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {

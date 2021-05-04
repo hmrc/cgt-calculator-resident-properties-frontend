@@ -21,13 +21,14 @@ import assets.MessageLookup.{WhatNextPages => commonMessages}
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{whatNext => views}
+import views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA
 
 class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val whatNextSAFourTimesAEAView = fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA]
   "The whatNextSAFourTimesAEA view" should {
 
-    lazy val view = views.whatNextSAFourTimesAEA("back-link")(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = whatNextSAFourTimesAEAView("back-link")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {

@@ -21,12 +21,14 @@ import forms.resident.properties.gain.WhoDidYouGiveItToForm._
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{gain => views}
+import views.html.calculation.resident.properties.gain.whoDidYouGiveItTo
 
 class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+  lazy val whoDidYouGiveItToView = fakeApplication.injector.instanceOf[whoDidYouGiveItTo]
+
   "Property Recipient view" should {
 
-  lazy val view = views.whoDidYouGiveItTo(whoDidYouGiveItToForm)(fakeRequest, testingMessages, mockAppConfig)
+  lazy val view = whoDidYouGiveItToView(whoDidYouGiveItToForm)(fakeRequest, testingMessages)
   lazy val doc = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {
@@ -109,7 +111,7 @@ class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
   "WhoDidYouGiveItToView with form with errors" should {
     lazy val form = whoDidYouGiveItToForm.bind(Map("whoDidYouGiveItTo" -> ""))
-    lazy val view = views.whoDidYouGiveItTo(form)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = whoDidYouGiveItToView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message regarding incorrect value being inputted" in {

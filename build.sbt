@@ -22,7 +22,7 @@ lazy val scoverageSettings = {
 }
 
 lazy val microservice = Project(appName, file("."))
-  .enablePlugins(Seq(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory) ++ plugins : _*)
+  .enablePlugins(Seq(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin) ++ plugins : _*)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(scoverageSettings : _*)
   .settings(majorVersion := 1)
@@ -48,6 +48,11 @@ lazy val microservice = Project(appName, file("."))
   )
   .configs(IntegrationTest)
   .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
-  .settings(resolvers ++= Seq(Resolver.bintrayRepo("hmrc", "releases"), Resolver.jcenterRepo))
+  .settings(resolvers += Resolver.jcenterRepo)
   .settings(integrationTestSettings())
+  .settings(TwirlKeys.templateImports ++= Seq(
+    "uk.gov.hmrc.play.views.html.helpers._",
+    "uk.gov.hmrc.play.views.html.layouts._"
+  ))
+
 fork in run := true

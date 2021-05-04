@@ -24,10 +24,11 @@ import models.resident.properties._
 import org.jsoup.Jsoup
 import org.mockito.Mockito.when
 import common.{CommonPlaySpec,WithCommonFakeApplication}
-import views.html.calculation.resident.properties.{summary => views}
+import views.html.calculation.resident.properties.summary.deductionsSummary
 
 class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val deductionsSummaryView = fakeApplication.injector.instanceOf[deductionsSummary]
   "Properties Deductions Summary view" should {
     val gainAnswers = YourAnswersSummaryModel(
       disposalDate = Dates.constructDate(10, 10, 2015),
@@ -78,8 +79,8 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
     when(mockAppConfig.urBannerLink)
       .thenReturn(summaryMessages.bannerPanelLinkURL)
 
-    lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, None, None, 100, showUserResearchPanel = true)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
+      taxYearModel, None, None, 100, showUserResearchPanel = true)(fakeRequest, testingMessages)
 
     lazy val doc = Jsoup.parse(view.body)
 
@@ -389,8 +390,8 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
 
     val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
-    lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, None, None, 100, showUserResearchPanel = false)(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
+      taxYearModel, None, None, 100, showUserResearchPanel = false)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not have ur panel" in {

@@ -22,13 +22,14 @@ import models.resident.properties.PropertyLivedInModel
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.calculation.resident.properties.{deductions => views}
+import views.html.calculation.resident.properties.deductions.propertyLivedIn
 
 class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
+  lazy val propertyLivedInView = fakeApplication.injector.instanceOf[propertyLivedIn]
   "Property lived in view with an empty form" should {
 
-    lazy val view = views.propertyLivedIn(propertyLivedInForm, "home-link", Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = propertyLivedInView(propertyLivedInForm, "home-link", Some("back-link"))(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -200,7 +201,7 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
   }
 
   "Property lived in view with a filled form" which {
-    lazy val view = views.propertyLivedIn(propertyLivedInForm.fill(PropertyLivedInModel(true)), "home-link", Some("back-link"))(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = propertyLivedInView(propertyLivedInForm.fill(PropertyLivedInModel(true)), "home-link", Some("back-link"))(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -216,7 +217,7 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
   "Property Lived In view with form errors" should {
 
     lazy val form = propertyLivedInForm.bind(Map("livedInProperty" -> ""))
-    lazy val view = views.propertyLivedIn(form, "home", Some("back"))(fakeRequest, testingMessages, mockAppConfig)
+    lazy val view = propertyLivedInView(form, "home", Some("back"))(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

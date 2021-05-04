@@ -20,7 +20,6 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates.requestFormatter
-import config.AppConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
@@ -41,7 +40,7 @@ class ReviewAnswersController @Inject()(
                                          val calculatorConnector: CalculatorConnector,
                                          val sessionCacheService: SessionCacheService,
                                          val messagesControllerComponents: MessagesControllerComponents,
-                                         implicit val appConfig: AppConfig
+                                         checkYourAnswersView: checkYourAnswers
                                        ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
 
@@ -65,7 +64,7 @@ class ReviewAnswersController @Inject()(
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async { implicit request =>
     languageRequest { implicit lang =>
       getGainAnswers.map { answers =>
-        Ok(checkYourAnswers(
+        Ok(checkYourAnswersView(
           routes.SummaryController.summary(),
           controllers.routes.GainController.improvements().url,
           answers,
@@ -92,7 +91,7 @@ class ReviewAnswersController @Inject()(
           taxYear <- getTaxYear(gainAnswers.disposalDate)
           url <- generateBackUrl(deductionsAnswers)
         } yield {
-          Ok(checkYourAnswers(
+          Ok(checkYourAnswersView(
             routes.SummaryController.summary(),
             url, gainAnswers,
             Some(deductionsAnswers),
@@ -114,7 +113,7 @@ class ReviewAnswersController @Inject()(
           taxYear <- getTaxYear(gainAnswers.disposalDate)
           currentTaxYear <- getCurrentTaxYear
         } yield {
-          Ok(checkYourAnswers(routes.SummaryController.summary(),
+          Ok(checkYourAnswersView(routes.SummaryController.summary(),
             routes.IncomeController.personalAllowance().url,
             gainAnswers,
             Some(deductionsAnswers),

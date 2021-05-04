@@ -14,24 +14,25 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers.{form, input_radio_group}
-@import views.html.helpers._
 @import models.resident._
-@import views.html.calculation.resident._
-@import views.html.helpers.resident._
 @import play.api.mvc.Call
 @import play.api.Application
-@import config.AppConfig
 
-@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    residentMainTemplate: calculation.resident.resident_main_template,
+    errorSummary: helpers.errorSummary,
+    form: FormWithCSRF,
+    inputRadioGroup: InputRadioGroup
+)
 
-@resident_main_template(
+@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(
     title = Messages("calc.resident.lossesBroughtForward.title",
     taxYear.taxYearSupplied),
     backLink = Some(backLinkUrl),
     homeLink = navHomeLink,
-    navTitle = navTitle,
-    appConfig = appConfig
+    navTitle = navTitle
 ) {
 
     @errorSummary(lossesBroughtForwardForm, "option")
@@ -42,7 +43,7 @@
 
         <p class="form-hint">@Messages("calc.resident.lossesBroughtForward.helpText")</p>
 
-        @input_radio_group(
+        @inputRadioGroup(
             field = lossesBroughtForwardForm("option"),
             Seq(
             "Yes"->Messages("calc.base.yes"),

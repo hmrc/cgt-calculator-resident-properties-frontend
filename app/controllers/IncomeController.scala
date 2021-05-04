@@ -19,7 +19,6 @@ package controllers
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.resident.JourneyKeys
 import common.{Dates, TaxDates}
-import config.AppConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
@@ -33,8 +32,8 @@ import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.{resident => commonViews}
-import views.html.calculation.resident.properties.{income => views}
+import views.html.calculation.resident.properties.income.currentIncome
+import views.html.calculation.resident.personalAllowance
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -43,7 +42,8 @@ class IncomeController @Inject()(
                                   val calcConnector: CalculatorConnector,
                                   val sessionCacheConnector: SessionCacheConnector,
                                   val messagesControllerComponents: MessagesControllerComponents,
-                                  implicit val appConfig: AppConfig
+                                  currentIncomeView: currentIncome,
+                                  personalAllowanceView: personalAllowance
                                 ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
@@ -82,8 +82,8 @@ class IncomeController @Inject()(
       val inCurrentTaxYear = taxYear.taxYearSupplied == currentTaxYear
 
       sessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
-        case Some(data) => Ok(views.currentIncome(currentIncomeForm.fill(data), backUrl, taxYear, inCurrentTaxYear))
-        case None => Ok(views.currentIncome(currentIncomeForm, backUrl, taxYear, inCurrentTaxYear))
+        case Some(data) => Ok(currentIncomeView(currentIncomeForm.fill(data), backUrl, taxYear, inCurrentTaxYear))
+        case None => Ok(currentIncomeView(currentIncomeForm, backUrl, taxYear, inCurrentTaxYear))
       }
     }
 
@@ -104,7 +104,7 @@ class IncomeController @Inject()(
       val inCurrentTaxYear = taxYearModel.taxYearSupplied == currentTaxYear
 
       currentIncomeForm.bindFromRequest.fold(
-        errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(views.currentIncome(errors, url, taxYearModel, inCurrentTaxYear)))),
+        errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(currentIncomeView(errors, url, taxYearModel, inCurrentTaxYear)))),
         success => {
           sessionCacheConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
             .map(_ => Redirect(routes.IncomeController.personalAllowance()))
@@ -143,7 +143,7 @@ class IncomeController @Inject()(
 
     def routeRequest(taxYearModel: TaxYearModel, standardPA: BigDecimal, formData: Form[PersonalAllowanceModel], currentTaxYear: String):
     Future[Result] = {
-      Future.successful(Ok(commonViews.personalAllowance(formData, taxYearModel, standardPA, homeLink,
+      Future.successful(Ok(personalAllowanceView(formData, taxYearModel, standardPA, homeLink,
         postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, Messages("calc.base.resident.properties.home"), currentTaxYear)))
     }
     (for {
@@ -166,7 +166,7 @@ class IncomeController @Inject()(
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
       personalAllowanceForm(maxPA).bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.personalAllowance(errors, taxYearModel, standardPA, homeLink,
+        errors => Future.successful(BadRequest(personalAllowanceView(errors, taxYearModel, standardPA, homeLink,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, Messages("calc.base.resident.properties.home"), currentTaxYear))),
         success => {
           sessionCacheConnector.saveFormData(keystoreKeys.personalAllowance, success)

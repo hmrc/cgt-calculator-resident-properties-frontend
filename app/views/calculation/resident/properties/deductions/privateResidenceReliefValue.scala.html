@@ -15,21 +15,23 @@
  *@
 
 @import models.resident.properties.PrivateResidenceReliefValueModel
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import views.html.helpers._
-@import views.html.calculation.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import play.api.Application
-@import config.AppConfig
 
-@(privateResidenceReliefValueForm : Form[PrivateResidenceReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    form: FormWithCSRF,
+    residentMainTemplate: calculation.resident.resident_main_template,
+    errorSummary: helpers.errorSummary,
+    formInputMoney: helpers.formInputMoney
+)
 
-@resident_main_template(
+@(privateResidenceReliefValueForm : Form[PrivateResidenceReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(
     title = Messages("calc.resident.privateResidenceReliefValue.title"),
     backLink = Some(controllers.routes.DeductionsController.privateResidenceRelief().url),
     homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.properties.home"),
-    appConfig = appConfig
+    navTitle = Messages("calc.base.resident.properties.home")
 ) {
 
     @errorSummary(privateResidenceReliefValueForm, "reliefs-value")

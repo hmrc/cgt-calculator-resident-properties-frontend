@@ -14,18 +14,19 @@
  * limitations under the License.
  *@
 
-@import views.html.calculation.resident._
 @import play.api.Application
-@import config.AppConfig
 
-@(forCharity: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    residentMainTemplate: calculation.resident.resident_main_template
+)
 
-@resident_main_template(
+@(forCharity: Boolean)(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(
     title = Messages("calc.resident.noTaxToPay.title"),
     backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().url),
     homeLink = controllers.routes.PropertiesController.introduction().url,
-    navTitle=Messages("calc.base.resident.properties.home"),
-    appConfig = appConfig
+    navTitle=Messages("calc.base.resident.properties.home")
 ) {
 
     <h1 class="heading-large">@Messages("calc.resident.noTaxToPay.title")</h1>

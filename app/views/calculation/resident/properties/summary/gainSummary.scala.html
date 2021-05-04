@@ -14,26 +14,26 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers.resident._
 @import models.SummaryDataItemModel
 @import models.resident._
 @import models.resident.properties._
 @import common.TaxDates._
 @import common.Dates._
-@import views.html.helpers.gainSummaryPartial
 @import constructors.resident.properties.SummaryConstructor._
 @import controllers.routes.{GainController => routes}
-@import views.html.calculation.resident.properties._
 @import play.api.Application
-@import config.AppConfig
 
-@(answers: YourAnswersSummaryModel, gain: BigDecimal, totalCosts: BigDecimal, taxYear: TaxYearModel, maxAEA: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@this(
+    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
+    gainSummaryPartial: helpers.gainSummaryPartial
+)
 
-@resident_properties_main_template(
+@(answers: YourAnswersSummaryModel, gain: BigDecimal, totalCosts: BigDecimal, taxYear: TaxYearModel, maxAEA: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
+
+@residentPropertiesMainTemplate(
     title = Messages("calc.resident.summary.title"),
     backLink = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers().url),
-    isUserResearchBannerVisible = showUserResearchPanel,
-    appConfig = appConfig
+    isUserResearchBannerVisible = showUserResearchPanel
 ) {
 
     <!-- Google Analytics -->
