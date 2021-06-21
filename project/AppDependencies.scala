@@ -20,19 +20,19 @@ import play.sbt.PlayImport._
 
 object AppDependencies {
 
-  val bootstrapVersion         = "5.0.0"
+  val bootstrapVersion         = "5.4.0"
   val jsonJodaVersion          = "2.9.0"
-  val govUKTemplateVersion     = "5.61.0-play-27"
-  val playUiVersion            = "8.21.0-play-27"
-  val playPartialsVersion      = "8.1.0-play-27"
-  val httpCachingClientVersion = "9.4.0-play-27"
-  val mongoCachingVersion      = "6.16.0-play-27"
-  val playLanguageVersion      = "4.12.0-play-27"
+  val govUKTemplateVersion     = "5.68.0-play-28"
+  val playUiVersion            = "9.5.0-play-28"
+  val playPartialsVersion      = "8.1.0-play-28"
+  val httpCachingClientVersion = "9.5.0-play-28"
+  val mongoCachingVersion      = "7.0.0-play-28"
+  val playLanguageVersion      = "4.12.0-play-28"
   val play2PdfVersion          = "1.10.0"
 
   val compile: Seq[ModuleID] = Seq(
     ws,
-    "uk.gov.hmrc"       %% "bootstrap-frontend-play-27"    % bootstrapVersion,
+    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"    % bootstrapVersion,
     "com.typesafe.play" %% "play-json-joda"       % jsonJodaVersion,
     "uk.gov.hmrc"       %% "govuk-template"       % govUKTemplateVersion,
     "uk.gov.hmrc"       %% "play-ui"              % playUiVersion,
@@ -54,8 +54,11 @@ object AppDependencies {
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.13.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-        "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3"  % "test",
-        "org.mockito" %% "mockito-scala-scalatest" % "1.14.8" % "test"
+        "com.vladsch.flexmark"    %  "flexmark-all"               % "0.35.10",
+        "org.scalatestplus"       %% "scalatestplus-mockito"      % "1.0.0-M2",
+        "org.scalatestplus"       %% "scalatestplus-scalacheck"   % "3.1.0.0-RC2",
+        "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0"  % "test",
+        "org.mockito" %% "mockito-scala-scalatest" % "1.16.37" % "test"
       )
     }.test
   }

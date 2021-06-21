@@ -40,7 +40,7 @@
     @form(action = controllers.routes.DeductionsController.submitPropertyLivedIn) {
 
         <div id="radio-input" class="form-group">
-            @input_radio_group(
+            @inputRadioGroup(
                 field = propertyLivedInForm("livedInProperty"),
                 Seq(
                 "Yes" -> Messages("calc.base.yes"),

@@ -15,7 +15,7 @@ lazy val scoverageSettings = {
   Seq(
     // Semicolon-separated list of regexs matching classes to exclude
     ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;.*AuthService.*;models\\.data\\..*;views.html.helpers.*;uk.gov.hmrc.BuildInfo;app.*;nr.*;res.*;prod.*;config.*;controllers.SessionCacheController",
-    ScoverageKeys.coverageMinimum := 90,
+    ScoverageKeys.coverageMinimumStmtTotal := 90,
     ScoverageKeys.coverageFailOnMinimum := false,
     ScoverageKeys.coverageHighlighting := true
   )
@@ -54,5 +54,8 @@ lazy val microservice = Project(appName, file("."))
     "uk.gov.hmrc.play.views.html.helpers._",
     "uk.gov.hmrc.play.views.html.layouts._"
   ))
+  .settings(
+    isPublicArtefact := true
+  )
 
 fork in run := true

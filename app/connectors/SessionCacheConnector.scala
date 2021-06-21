@@ -18,7 +18,7 @@ package connectors
 
 import config.CalculatorSessionCache
 import javax.inject.Inject
-import play.api.Logger.logger
+import play.api.Logging
 import play.api.libs.json.Format
 import play.shaded.ahc.org.asynchttpclient.exception.RemotelyClosedException
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
@@ -31,7 +31,7 @@ class SessionCacheConnectorImpl @Inject()(val sessionCache: CalculatorSessionCac
   lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
 }
 
-trait SessionCacheConnector {
+trait SessionCacheConnector extends Logging{
   val sessionCache: SessionCache
   val homeLink: String
 
