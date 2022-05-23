@@ -54,10 +54,10 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(true))(ArgumentMatchers.any()))
+    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(true), ArgumentMatchers.eq(true))(ArgumentMatchers.any()))
           .thenReturn(Future.successful(maxPersonalAllowance))
 
-    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(false))(ArgumentMatchers.any()))
+    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(false), ArgumentMatchers.eq(false))(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxPersonalAllowance))
 
     when(mockSessionCacheConnector.saveFormData[PersonalAllowanceModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
