@@ -17,7 +17,7 @@
 package controllers.resident.properties.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.DeductionsController
@@ -40,7 +40,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
   FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 
@@ -172,7 +172,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
           ChargeableGainResultModel(2000, 0, 0, 0, 2000, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
             Some(BigDecimal(0)), 0, 0), disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
         lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-        lazy val result = target.submitLossesBroughtForwardValue(request)
+        lazy val result = target.submitLossesBroughtForwardValue(request.withMethod("POST"))
 
         "return a status of 303" in {
           status(result) shouldBe 303
@@ -190,7 +190,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
           ChargeableGainResultModel(2000, -1000, 0, 0, 3000, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
             Some(BigDecimal(0)), 0, 0), disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
         lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-        lazy val result = target.submitLossesBroughtForwardValue(request)
+        lazy val result = target.submitLossesBroughtForwardValue(request.withMethod("POST"))
 
 
         "return a status of 303" in {
@@ -209,7 +209,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
           ChargeableGainResultModel(1000, 1000, 0, 0, 0, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
             Some(BigDecimal(0)), 0, 0), disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
         lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-        lazy val result = target.submitLossesBroughtForwardValue(request)
+        lazy val result = target.submitLossesBroughtForwardValue(request.withMethod("POST"))
 
         "return a status of 303" in {
           status(result) shouldBe 303

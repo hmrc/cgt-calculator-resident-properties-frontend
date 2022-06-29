@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.Resident.Properties.{ImprovementsView => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -38,7 +38,7 @@ import scala.concurrent.Future
 class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   val summaryModel = mock[YourAnswersSummaryModel]
 
@@ -142,7 +142,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     "a valid form is submitted with a zero gain result" should {
       lazy val target = setupTarget(None, summaryModel, BigDecimal(0))
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-      lazy val result = target.submitImprovements(request)
+      lazy val result = target.submitImprovements(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303
@@ -156,7 +156,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     "a valid form is submitted with a negative gain result" should {
       lazy val target = setupTarget(None, summaryModel, BigDecimal(-1000))
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-      lazy val result = target.submitImprovements(request)
+      lazy val result = target.submitImprovements(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303
@@ -170,7 +170,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     "a valid form is submitted with a positive gain result" should {
       lazy val target = setupTarget(None, summaryModel, BigDecimal(1000), false)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-      lazy val result = target.submitImprovements(request)
+      lazy val result = target.submitImprovements(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303

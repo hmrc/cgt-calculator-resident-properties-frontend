@@ -17,7 +17,7 @@
 package controllers.resident.properties.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{PropertyLivedIn => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import controllers.DeductionsController
@@ -36,7 +36,7 @@ import scala.concurrent.Future
 class PropertyLivedInActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[PropertyLivedInModel]): DeductionsController= {
     when(mockSessionCacheConnector.fetchAndGetFormData[PropertyLivedInModel](ArgumentMatchers.eq(keyStoreKeys.propertyLivedIn))
@@ -102,7 +102,7 @@ class PropertyLivedInActionSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("livedInProperty", "Yes"))
-      lazy val result = target.submitPropertyLivedIn(request)
+      lazy val result = target.submitPropertyLivedIn(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -117,7 +117,7 @@ class PropertyLivedInActionSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("livedInProperty", "No"))
-      lazy val result = target.submitPropertyLivedIn(request)
+      lazy val result = target.submitPropertyLivedIn(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303

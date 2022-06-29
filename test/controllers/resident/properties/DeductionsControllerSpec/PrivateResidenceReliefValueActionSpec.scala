@@ -17,7 +17,7 @@
 package controllers.resident.properties.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{PrivateResidenceReliefValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.DeductionsController
@@ -36,7 +36,7 @@ import scala.concurrent.Future
 class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[PrivateResidenceReliefValueModel], totalGain: BigDecimal): DeductionsController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.eq(keystoreKeys.prrValue))
@@ -60,7 +60,7 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
     "there is no keystore data" should {
 
       lazy val target = setupTarget(None, 10000)
-      lazy val result = target.privateResidenceReliefValue(fakeRequestWithSession)
+      lazy val result = target.privateResidenceReliefValue(fakeRequestWithSession.withMethod("POST"))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -78,7 +78,7 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
     "there is some keystore data" should {
 
       lazy val target = setupTarget(Some(PrivateResidenceReliefValueModel(1000)), 2500)
-      lazy val result = target.privateResidenceReliefValue(fakeRequestWithSession)
+      lazy val result = target.privateResidenceReliefValue(fakeRequestWithSession.withMethod("POST"))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -113,7 +113,7 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
     "a valid form is submitted" should {
       lazy val target = setupTarget(None, 10000)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-      lazy val result = target.submitPrivateResidenceReliefValue(request)
+      lazy val result = target.submitPrivateResidenceReliefValue(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303
@@ -127,7 +127,7 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
     "an invalid form is submitted" should {
       lazy val target = setupTarget(None, 1000000)
       lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
-      lazy val result = target.submitPrivateResidenceReliefValue(request)
+      lazy val result = target.submitPrivateResidenceReliefValue(request.withMethod("POST"))
       lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a 400" in {

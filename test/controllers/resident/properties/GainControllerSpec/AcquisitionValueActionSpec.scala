@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{AcquisitionValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[AcquisitionValueModel]): GainController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionValueModel](ArgumentMatchers.eq(keystoreKeys.acquisitionValue))
@@ -107,7 +107,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
     "a valid form is submitted" should {
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-      lazy val result = target.submitAcquisitionValue(request)
+      lazy val result = target.submitAcquisitionValue(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303

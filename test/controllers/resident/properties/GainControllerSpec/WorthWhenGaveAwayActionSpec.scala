@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class WorthWhenGaveAwayActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[WorthWhenGaveAwayModel]): GainController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenGaveAwayModel](ArgumentMatchers.eq(keystoreKeys.worthWhenGaveAway))
@@ -98,7 +98,7 @@ class WorthWhenGaveAwayActionSpec extends CommonPlaySpec with WithCommonFakeAppl
   "Calling .submitWorthWhenGaveAway from the GainController" should {
     lazy val target = setupTarget(None)
     lazy val request = fakeRequestToPOSTWithSession(("amount", "100"))
-    lazy val result = target.submitWorthWhenGaveAway(request)
+    lazy val result = target.submitWorthWhenGaveAway(request.withMethod("POST"))
 
     "re-direct to the disposal Costs page with a status of 303" in {
       status(result) shouldEqual 303

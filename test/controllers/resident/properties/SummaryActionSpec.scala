@@ -17,7 +17,7 @@
 package controllers.resident.properties
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
 import connectors.CalculatorConnector
@@ -43,7 +43,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget
   (

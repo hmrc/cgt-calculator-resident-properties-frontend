@@ -17,7 +17,7 @@
 package controllers.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{LettingsReliefValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.DeductionsController
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class LettingsReliefValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(
                    getData: Option[LettingsReliefValueModel],
@@ -124,7 +124,7 @@ class LettingsReliefValueActionSpec extends CommonPlaySpec with WithCommonFakeAp
     "a valid form is submitted" should {
       lazy val target = setupTarget(None, Some(PrivateResidenceReliefValueModel(10000)), 100000)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-      lazy val result = target.submitLettingsReliefValue(request)
+      lazy val result = target.submitLettingsReliefValue(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303

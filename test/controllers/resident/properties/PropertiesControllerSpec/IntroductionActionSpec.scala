@@ -17,7 +17,7 @@
 package controllers.PropertiesControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{IntroductionView => messages}
 import controllers.PropertiesController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -33,7 +33,7 @@ import scala.concurrent.Future
 class IntroductionActionSpec extends CommonPlaySpec with MockitoSugar with FakeRequestHelper with CommonMocks with WithCommonFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   class Setup() {
 

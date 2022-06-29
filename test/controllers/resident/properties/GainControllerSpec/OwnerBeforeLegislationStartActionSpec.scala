@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.Resident.Properties.{OwnerBeforeLegislationStart => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import controllers.GainController
@@ -38,7 +38,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
   with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[OwnerBeforeLegislationStartModel]): GainController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(
@@ -100,7 +100,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("ownedBeforeLegislationStart", "Yes"))
-      lazy val result = target.submitOwnerBeforeLegislationStart(request)
+      lazy val result = target.submitOwnerBeforeLegislationStart(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -115,7 +115,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("ownedBeforeLegislationStart", "No"))
-      lazy val result = target.submitOwnerBeforeLegislationStart(request)
+      lazy val result = target.submitOwnerBeforeLegislationStart(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303

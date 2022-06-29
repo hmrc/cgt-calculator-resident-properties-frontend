@@ -20,14 +20,14 @@ import play.sbt.PlayImport._
 
 object AppDependencies {
 
-  val bootstrapVersion         = "5.4.0"
-  val jsonJodaVersion          = "2.9.0"
-  val govUKTemplateVersion     = "5.68.0-play-28"
-  val playUiVersion            = "9.5.0-play-28"
-  val playPartialsVersion      = "8.1.0-play-28"
-  val httpCachingClientVersion = "9.5.0-play-28"
-  val mongoCachingVersion      = "7.0.0-play-28"
-  val playLanguageVersion      = "4.12.0-play-28"
+  val bootstrapVersion         = "5.24.0"
+  val jsonJodaVersion          = "2.9.2"
+  val govUKTemplateVersion     = "5.77.0-play-28"
+  val playUiVersion            = "9.10.0-play-28"
+  val playPartialsVersion      = "8.3.0-play-28"
+  val httpCachingClientVersion = "9.6.0-play-28"
+  val mongoCachingVersion      = "7.1.0-play-28"
+  val playLanguageVersion      = "5.3.0-play-28"
   val play2PdfVersion          = "1.10.0"
 
   val compile: Seq[ModuleID] = Seq(

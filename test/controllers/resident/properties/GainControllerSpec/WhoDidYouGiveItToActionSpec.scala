@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class WhoDidYouGiveItToActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[WhoDidYouGiveItToModel]) : GainController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(keystoreKeys.whoDidYouGiveItTo))
@@ -96,7 +96,7 @@ class WhoDidYouGiveItToActionSpec extends CommonPlaySpec with WithCommonFakeAppl
   "Calling .submitWhoDidYouGiveItTo from the GainController with a Charity value" should {
     lazy val target = setupTarget(None)
     lazy val request = fakeRequestToPOSTWithSession(("whoDidYouGiveItTo","Charity"))
-    lazy val result = target.submitWhoDidYouGiveItTo(request)
+    lazy val result = target.submitWhoDidYouGiveItTo(request.withMethod("POST"))
 
     "when supplied with a valid form" which {
       "redirects" in {
@@ -112,7 +112,7 @@ class WhoDidYouGiveItToActionSpec extends CommonPlaySpec with WithCommonFakeAppl
   "Calling .submitWhoDidYouGiveItTo from the GainController with a Spouse value" should {
     lazy val target = setupTarget(None)
     lazy val request = fakeRequestToPOSTWithSession(("whoDidYouGiveItTo", "Spouse"))
-    lazy val result = target.submitWhoDidYouGiveItTo(request)
+    lazy val result = target.submitWhoDidYouGiveItTo(request.withMethod("POST"))
 
     "when supplied with a valid form" which {
       "redirects" in {
@@ -128,7 +128,7 @@ class WhoDidYouGiveItToActionSpec extends CommonPlaySpec with WithCommonFakeAppl
   "Calling .submitWhoDidYouGiveItTo from the GainController with a Someone Else value" should {
     lazy val target = setupTarget(None)
     lazy val request = fakeRequestToPOSTWithSession(("whoDidYouGiveItTo", "Other"))
-    lazy val result = target.submitWhoDidYouGiveItTo(request)
+    lazy val result = target.submitWhoDidYouGiveItTo(request.withMethod("POST"))
 
     "when supplied with a valid form" which{
       "redirect" in {

@@ -17,7 +17,7 @@
 package controllers
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import akka.util.Timeout
 import assets.MessageLookup
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -35,7 +35,7 @@ import scala.concurrent.duration.Duration
 class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper with CommonMocks with MockitoSugar with WithCommonFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   implicit val timeout: Timeout = new Timeout(Duration.create(20, "seconds"))
 

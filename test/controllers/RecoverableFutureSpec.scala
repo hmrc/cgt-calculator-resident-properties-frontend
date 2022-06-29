@@ -17,7 +17,8 @@
 package controllers.utils
 
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import play.api.http.Status
 import play.api.mvc.Result
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
@@ -25,7 +26,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class RecoverableFutureSpec extends WordSpec with ScalaFutures with Matchers with IntegrationPatience with Status {
+class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers with IntegrationPatience with Status {
 
   ".recoverToStart" should {
     "convert a `NoSuchElementException` into an `ApplicationException`" in {

@@ -17,7 +17,7 @@
 package controllers.IncomeControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{PersonalAllowance => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import connectors.{CalculatorConnector, SessionCacheConnector}
@@ -40,7 +40,7 @@ import scala.concurrent.Future
 class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[PersonalAllowanceModel],
                   maxPersonalAllowance: Option[BigDecimal] = Some(BigDecimal(11100)),
@@ -142,7 +142,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
       lazy val target = setupTarget(Some(PersonalAllowanceModel(1000)), disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
-      lazy val result = target.submitPersonalAllowance(request)
+      lazy val result = target.submitPersonalAllowance(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303

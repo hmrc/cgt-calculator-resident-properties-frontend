@@ -17,7 +17,7 @@
 package controllers.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -39,7 +39,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
   with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   val gainModel = mock[YourAnswersSummaryModel]
   val summaryModel = mock[ChargeableGainAnswers]
@@ -199,7 +199,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         summaryModel, ChargeableGainResultModel(1000, 1000, 0, 0, 0, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
           Some(BigDecimal(0)), 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
-      lazy val result = target.submitLossesBroughtForward(request)
+      lazy val result = target.submitLossesBroughtForward(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303
@@ -216,7 +216,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         summaryModel, ChargeableGainResultModel(1000, 0, 0, 0, 1000, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
           Some(BigDecimal(0)), 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
-      lazy val result = target.submitLossesBroughtForward(request)
+      lazy val result = target.submitLossesBroughtForward(request.withMethod("POST"))
 
       "return a 303" in {
 
@@ -234,7 +234,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         summaryModel, ChargeableGainResultModel(1000, -1000, 0, 0, 2000, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
           Some(BigDecimal(0)), 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
-      lazy val result = target.submitLossesBroughtForward(request)
+      lazy val result = target.submitLossesBroughtForward(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303
@@ -251,7 +251,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0), BigDecimal(0), Some(BigDecimal(0)),
           Some(BigDecimal(0)), 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val request = fakeRequestToPOSTWithSession(("option", "Yes"))
-      lazy val result = target.submitLossesBroughtForward(request)
+      lazy val result = target.submitLossesBroughtForward(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303

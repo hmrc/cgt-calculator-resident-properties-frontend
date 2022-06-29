@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{DisposalCosts => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
@@ -38,7 +38,7 @@ import scala.concurrent.Future
 class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(
                    disposalCostsData: Option[DisposalCostsModel] = None,
@@ -159,7 +159,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
         Some(SellForLessModel(true))
       )
       lazy val request = fakeRequestToPOSTWithSession(("amount", "100.99"))
-      lazy val result = target.submitDisposalCosts(request)
+      lazy val result = target.submitDisposalCosts(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303

@@ -19,7 +19,7 @@ package controllers.resident.properties
 import java.time._
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup
 import controllers.WhatNextSAController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -39,7 +39,7 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with WithCommonFakeApplica
   val date: LocalDate = LocalDate.of(2016, 5, 8)
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))

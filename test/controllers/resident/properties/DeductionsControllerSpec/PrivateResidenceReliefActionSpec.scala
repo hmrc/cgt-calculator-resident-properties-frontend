@@ -17,7 +17,7 @@
 package controllers.resident.properties.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{PrivateResidenceRelief => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import controllers.DeductionsController
@@ -36,7 +36,7 @@ import scala.concurrent.Future
 class PrivateResidenceReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[PrivateResidenceReliefModel]): DeductionsController= {
     when(mockSessionCacheConnector.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keyStoreKeys.privateResidenceRelief))
@@ -103,7 +103,7 @@ class PrivateResidenceReliefActionSpec extends CommonPlaySpec with WithCommonFak
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("isClaiming", "Yes"))
-      lazy val result = target.submitPrivateResidenceRelief(request)
+      lazy val result = target.submitPrivateResidenceRelief(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -118,7 +118,7 @@ class PrivateResidenceReliefActionSpec extends CommonPlaySpec with WithCommonFak
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("isClaiming", "No"))
-      lazy val result = target.submitPrivateResidenceRelief(request)
+      lazy val result = target.submitPrivateResidenceRelief(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303

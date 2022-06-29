@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{PropertiesSellOrGiveAway => messages}
 import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -36,7 +36,7 @@ import scala.concurrent.Future
 class SellOrGiveAwayActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[SellOrGiveAwayModel]): GainController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[SellOrGiveAwayModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -111,7 +111,7 @@ class SellOrGiveAwayActionSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "a valid form with the answer 'Sold' is submitted" should {
       lazy val target = setupTarget(None)
-      lazy val result = target.submitSellOrGiveAway(fakeRequestToPOSTWithSession(("givenAway", "Sold")))
+      lazy val result = target.submitSellOrGiveAway(fakeRequestToPOSTWithSession(("givenAway", "Sold")).withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -124,7 +124,7 @@ class SellOrGiveAwayActionSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "a valid form with the answer 'Given' is submitted" should {
       lazy val target = setupTarget(None)
-      lazy val result = target.submitSellOrGiveAway(fakeRequestToPOSTWithSession(("givenAway", "Given")))
+      lazy val result = target.submitSellOrGiveAway(fakeRequestToPOSTWithSession(("givenAway", "Given")).withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303

@@ -16,12 +16,13 @@
 
 package config
 
-import org.scalatest.MustMatchers._
+import org.scalatest.matchers.must.Matchers
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import common.WithCommonFakeApplication
+import org.scalatest.wordspec.AnyWordSpecLike
 
-class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication {
+class CgtErrorHandlerSpec extends AnyWordSpecLike with WithCommonFakeApplication with Matchers {
 
   lazy val errorHandler: CgtErrorHandler = fakeApplication.injector.instanceOf[CgtErrorHandler]
 

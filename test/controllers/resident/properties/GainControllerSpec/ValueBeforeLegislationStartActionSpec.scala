@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[ValueBeforeLegislationStartModel]): GainController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))
@@ -99,7 +99,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
   "Calling .submitWorthOn from the GainController" should {
     lazy val target = setupTarget(None)
     lazy val request = fakeRequestToPOSTWithSession(("amount", "100"))
-    lazy val result = target.submitValueBeforeLegislationStart(request)
+    lazy val result = target.submitValueBeforeLegislationStart(request.withMethod("POST"))
 
     "re-direct to the acquisition Costs page with a status of 303" in {
       status(result) shouldEqual 303
@@ -113,7 +113,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
   "Calling .submitWorthOn from the GainController" should {
     lazy val target = setupTarget(None)
     lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
-    lazy val result = target.submitValueBeforeLegislationStart(request)
+    lazy val result = target.submitValueBeforeLegislationStart(request.withMethod("POST"))
 
     "render with a status of 400" in {
       status(result) shouldEqual 400

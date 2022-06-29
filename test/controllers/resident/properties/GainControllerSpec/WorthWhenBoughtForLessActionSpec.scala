@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.Resident.Properties.{WorthWhenBoughtForLess => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import controllers.GainController
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class WorthWhenBoughtForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[WorthWhenBoughtForLessModel]): GainController= {
     when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenBoughtForLessModel](ArgumentMatchers.eq(keyStoreKeys.worthWhenBoughtForLess))
@@ -98,7 +98,7 @@ class WorthWhenBoughtForLessActionSpec extends CommonPlaySpec with WithCommonFak
 
     "a valid form with the answer '100' is submitted" should {
       lazy val target = setupTarget(None)
-      lazy val result = target.submitWorthWhenBoughtForLess(fakeRequestToPOSTWithSession(("amount", "100")))
+      lazy val result = target.submitWorthWhenBoughtForLess(fakeRequestToPOSTWithSession(("amount", "100")).withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303
