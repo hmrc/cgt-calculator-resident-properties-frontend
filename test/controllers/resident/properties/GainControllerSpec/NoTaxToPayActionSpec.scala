@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{NoTaxToPay => messages}
 import common.KeystoreKeys.ResidentPropertyKeys
 import controllers.GainController
@@ -36,7 +36,7 @@ import scala.concurrent.Future
 class NoTaxToPayActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(givenTo: String): GainController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(ResidentPropertyKeys.whoDidYouGiveItTo))

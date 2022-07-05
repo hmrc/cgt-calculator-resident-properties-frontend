@@ -17,7 +17,7 @@
 package controllers
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import org.jsoup.Jsoup
 import org.scalatestplus.mockito.MockitoSugar
@@ -29,7 +29,7 @@ import common.{CommonPlaySpec,WithCommonFakeApplication}
 class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   class fakeRequestTo(url : String, controllerAction : Action[AnyContent]) {
     val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/" + url)

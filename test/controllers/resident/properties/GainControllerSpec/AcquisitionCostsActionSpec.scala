@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{AcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
@@ -39,7 +39,7 @@ import scala.concurrent.Future
 class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[AcquisitionCostsModel],
                   ownerBefore: Option[OwnerBeforeLegislationStartModel] = None,
@@ -162,7 +162,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
 
   "request has an invalid session" should {
 
-    lazy val result = testingGainController.acquisitionCosts(fakeRequest)
+    lazy val result = testingGainController.acquisitionCosts(fakeRequest.withMethod("POST"))
 
     "return a status of 303" in {
       status(result) shouldBe 303
@@ -178,7 +178,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
     "a valid form is submitted" should {
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-      lazy val result = target.submitAcquisitionCosts(request)
+      lazy val result = target.submitAcquisitionCosts(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303

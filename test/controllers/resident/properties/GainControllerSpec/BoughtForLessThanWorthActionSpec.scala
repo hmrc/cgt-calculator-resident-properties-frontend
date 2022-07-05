@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{BoughtForLessThanWorth => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import controllers.GainController
@@ -38,7 +38,7 @@ class BoughtForLessThanWorthActionSpec extends CommonPlaySpec with FakeRequestHe
   with CommonMocks with WithCommonFakeApplication with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[BoughtForLessThanWorthModel]): GainController= {
     when(mockSessionCacheConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](ArgumentMatchers.eq(keyStoreKeys.boughtForLessThanWorth))
@@ -101,7 +101,7 @@ class BoughtForLessThanWorthActionSpec extends CommonPlaySpec with FakeRequestHe
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("boughtForLessThanWorth", "Yes"))
-      lazy val result = target.submitBoughtForLessThanWorth(request)
+      lazy val result = target.submitBoughtForLessThanWorth(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -116,7 +116,7 @@ class BoughtForLessThanWorthActionSpec extends CommonPlaySpec with FakeRequestHe
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("boughtForLessThanWorth", "No"))
-      lazy val result = target.submitBoughtForLessThanWorth(request)
+      lazy val result = target.submitBoughtForLessThanWorth(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303

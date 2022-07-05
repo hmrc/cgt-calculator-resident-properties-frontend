@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.Resident.Properties.{SellForLess => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import controllers.GainController
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[SellForLessModel]): GainController= {
     when(mockSessionCacheConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keyStoreKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -98,7 +98,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("sellForLess", "Yes"))
-      lazy val result = target.submitSellForLess(request)
+      lazy val result = target.submitSellForLess(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -113,7 +113,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("sellForLess", "No"))
-      lazy val result = target.submitSellForLess(request)
+      lazy val result = target.submitSellForLess(request.withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303

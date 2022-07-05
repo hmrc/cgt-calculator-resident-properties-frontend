@@ -19,7 +19,7 @@ package controllers.GainControllerSpec
 import java.time.LocalDate
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{DisposalDate => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
@@ -39,7 +39,7 @@ import scala.concurrent.Future
 class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[DisposalDateModel]): GainController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
@@ -71,7 +71,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     val target = setupTarget()
-    val result = target.submitDisposalDate(fakeRequestToPOSTWithSession(inputOne, inputTwo, inputThree))
+    val result = target.submitDisposalDate(fakeRequestToPOSTWithSession(inputOne, inputTwo, inputThree).withMethod("POST"))
     val doc = Jsoup.parse(bodyOf(result))
   }
 

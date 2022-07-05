@@ -17,7 +17,7 @@
 package controllers.resident.properties.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{LettingsRelief => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.DeductionsController
@@ -37,7 +37,7 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
   with FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[LettingsReliefModel]): DeductionsController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
@@ -98,7 +98,7 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
     "a valid form 'Yes' is submitted" should {
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("isClaiming", "Yes"))
-      lazy val result = target.submitLettingsRelief(request)
+      lazy val result = target.submitLettingsRelief(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303
@@ -112,7 +112,7 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
     "a valid form 'No' is submitted" should {
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("isClaiming", "No"))
-      lazy val result = target.submitLettingsRelief(request)
+      lazy val result = target.submitLettingsRelief(request.withMethod("POST"))
 
       "return a 303" in {
         status(result) shouldBe 303
@@ -126,7 +126,7 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
     "an invalid form is submitted" should {
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("isClaiming", ""))
-      lazy val result = target.submitLettingsRelief(request)
+      lazy val result = target.submitLettingsRelief(request.withMethod("POST"))
       lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a 400" in {

@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.Resident.Properties.{WorthWhenGifted => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import controllers.GainController
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[WorthWhenGiftedModel]): GainController= {
     when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenGiftedModel](ArgumentMatchers.eq(keyStoreKeys.worthWhenGifted))
@@ -113,7 +113,7 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "a valid form with the answer '100' is submitted" should {
       lazy val target = setupTarget(None)
-      lazy val result = target.submitWorthWhenGifted(fakeRequestToPOSTWithSession(("amount", "100")))
+      lazy val result = target.submitWorthWhenGifted(fakeRequestToPOSTWithSession(("amount", "100")).withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303

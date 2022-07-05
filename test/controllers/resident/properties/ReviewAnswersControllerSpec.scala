@@ -19,7 +19,7 @@ package controllers.resident.properties
 import java.time.LocalDate
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import akka.util.Timeout
 import assets.MessageLookup
 import common.resident.HowYouBecameTheOwnerKeys
@@ -46,7 +46,7 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
   with MockitoSugar with CommonMocks  with WithCommonFakeApplication {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
   val totalLossModel: YourAnswersSummaryModel = YourAnswersSummaryModel(date, Some(100000), None, None, None, 1000, Some(150000),

@@ -17,7 +17,7 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val mat: Materializer = ActorMaterializer()
+  implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[DisposalValueModel]): GainController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalValueModel](ArgumentMatchers.eq(keystoreKeys.disposalValue))
@@ -98,7 +98,7 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
   "Calling .submitDisposalValue from the GainController" should {
     lazy val target = setupTarget(None)
     lazy val request = fakeRequestToPOSTWithSession(("amount", "100"))
-    lazy val result = target.submitDisposalValue(request)
+    lazy val result = target.submitDisposalValue(request.withMethod("POST"))
 
     "re-direct to the disposal Costs page when supplied with a valid form" in {
       status(result) shouldEqual 303
