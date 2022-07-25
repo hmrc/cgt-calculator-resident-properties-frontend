@@ -596,7 +596,8 @@ object MessageLookup {
   //########################################################################################
 
   object IntroductionView {
-    val title = "Work out how much Capital Gains Tax you owe"
+    val title = "Work out how much Capital Gains Tax you owe - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "Work out how much Capital Gains Tax you owe"
     val subheading = "Do you need to use this calculator?"
     val paragraph = "You probably don't need to pay Capital Gains Tax if the property you've sold is your own home. You may be entitled to a tax relief called Private Residence Relief."
     val entitledLinkText = "Find out if you're entitled to Private Residence Relief (opens in a new window)."
@@ -605,7 +606,8 @@ object MessageLookup {
 
   //Disposal Date messages
   object DisposalDate {
-    val title = "When did you sell or give away the property?"
+    val title = "When did you sell or give away the property? - Calculate your Capital Gains Tax - GOV.UK"
+    val errorTitle = "Error: When did you sell or give away the property? - Calculate your Capital Gains Tax - GOV.UK"
     val question = "When did you sell or give away the property?"
     val helpText = "For example, 4 9 2016"
     val day = "Day"

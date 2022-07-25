@@ -21,6 +21,7 @@ import play.sbt.PlayImport._
 object AppDependencies {
 
   val bootstrapVersion         = "5.24.0"
+  val playFrontendVersion      = "0.88.0-play-28"
   val jsonJodaVersion          = "2.9.2"
   val govUKTemplateVersion     = "5.77.0-play-28"
   val playUiVersion            = "9.10.0-play-28"
@@ -33,6 +34,7 @@ object AppDependencies {
   val compile: Seq[ModuleID] = Seq(
     ws,
     "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"    % bootstrapVersion,
+    "uk.gov.hmrc"       %% "play-frontend-hmrc"   % playFrontendVersion,
     "com.typesafe.play" %% "play-json-joda"       % jsonJodaVersion,
     "uk.gov.hmrc"       %% "govuk-template"       % govUKTemplateVersion,
     "uk.gov.hmrc"       %% "play-ui"              % playUiVersion,
