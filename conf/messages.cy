@@ -1,3 +1,5 @@
+service.name = Cyfrifo''ch Treth Enillion Cyfalaf
+
 calc.base.back = Yn ôl
 calc.base.button.continue = Yn eich blaen
 calc.base.calculate.tax.heading = Cyfrifo''ch Treth Enillion Cyfalaf
@@ -18,6 +20,7 @@ calc.base.summary.dateWarning = Mae''r ffigurau hyn yn seiliedig ar y cyfraddau 
 calc.base.taxStart = 06 April 2015
 calc.base.undefinedMessage = Neges heb ei diffinio
 calc.base.yes = Iawn
+site.title.error = Gwall: {0}
 
 calc.calculationElection.based = Yn seiliedig ar
 

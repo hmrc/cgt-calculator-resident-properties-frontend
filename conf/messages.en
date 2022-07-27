@@ -1,3 +1,5 @@
+service.name = Calculate your Capital Gains Tax
+
 ## Base ##
 calc.base.pageHeading = Calculate your non-resident Capital Gains Tax
 calc.base.continue = Continue
@@ -21,6 +23,7 @@ calc.base.hmrc = HM Revenue &amp; Customs
 calc.base.home = Home
 calc.base.period = .
 calc.error.summary.heading = This page has errors
+site.title.error = Error: {0}
 
 ## Common date Messages ##
 ## Use common messages if some but not all pages use these messages. ##

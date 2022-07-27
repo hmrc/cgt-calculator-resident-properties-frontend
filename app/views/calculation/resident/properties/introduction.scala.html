@@ -14,24 +14,28 @@
  * limitations under the License.
  *@
 
-@import play.api.Application
-
 @this(
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template
+    layout: Layout,
+    govukButton : GovukButton
 )
 
 @()(implicit request : Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(
-    title = Messages("calc.resident.properties.introduction.title")
+@layout(
+    pageTitle = Messages("calc.resident.properties.introduction.title"),
+    backLinkEnabled = false
 ) {
-    <h1>@Messages("calc.resident.properties.introduction.title")</h1>
-    <h2 class="form-label-bold">@Messages("calc.resident.properties.introduction.subheading")</h2>
-    <p>@Messages("calc.resident.properties.introduction.paragraph")</p>
-    <a id="privateResidenceReliefStartPageLink" class="external-link" rel="external" href="https://www.gov.uk/tax-relief-selling-home"
+    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.introduction.title")</h1>
+    <h2 class="govuk-heading-m">@Messages("calc.resident.properties.introduction.subheading")</h2>
+    <p class="govuk-body">@Messages("calc.resident.properties.introduction.paragraph")</p>
+    <a id="privateResidenceReliefStartPageLink" class="govuk-link" rel="noreferrer noopener" href="https://www.gov.uk/tax-relief-selling-home"
     target="_blank" data-journey-click="help:govUK:rtt-properties-privateResidenceReliefStartPageLink">
-    @Messages("calc.resident.properties.introduction.entitledLinkText")
+        @Messages("calc.resident.properties.introduction.entitledLinkText")
     </a>
-    <p>@Messages("calc.resident.properties.introduction.continuationInstructions")</p>
-    <a id="continue-button" href="@controllers.routes.GainController.disposalDate.toString" class="button">@Messages("calc.base.button.continue")</a>
+    <p class="govuk-body">@Messages("calc.resident.properties.introduction.continuationInstructions")</p>
+    @govukButton(Button(
+        href = Some(controllers.routes.GainController.disposalDate.toString),
+        isStartButton = true,
+        content = Text(Messages("calc.base.button.continue"))
+    ))
 }
