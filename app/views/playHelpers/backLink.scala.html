@@ -18,10 +18,12 @@
 
 @this(govukBackLink : GovukBackLink)
 
-@()(implicit messages: Messages)
+@(
+    href: String
+)(implicit messages: Messages)
 
 @govukBackLink(BackLink(
-    href = "javascript:history.back()",
+    href = href,
     content = Text(messages("calc.base.back")),
     attributes = Map(
         "id" -> "back-link"

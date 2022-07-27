@@ -914,7 +914,8 @@ object MessageLookup {
   }
 
   object PropertiesSellOrGiveAway {
-    val title = "Did you sell the property or give it away?"
+    val title = "Did you sell the property or give it away? - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "Did you sell the property or give it away?"
     val errorMandatory = "calc.resident.sellOrGiveAway.errors.mandatory"
     val sold = "Sold it"
     val gift = "Gave it away"

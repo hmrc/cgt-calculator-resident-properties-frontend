@@ -32,7 +32,7 @@
 
 @(
     pageTitle: String,
-    backLinkEnabled: Boolean = true
+    backLinkHref: Option[String] = None
 )(
     contentBlock: Html
 )(
@@ -44,7 +44,7 @@
 
     @hmrcLanguageSelectHelper()
 
-    @if(backLinkEnabled) { @backLink() }
+    @if(backLinkHref.nonEmpty) { @backLink(backLinkHref.get) }
 }
 
 
