@@ -535,7 +535,8 @@ object MessageLookup {
       }
 
       object SellForLess {
-        val title = "Did you sell the property for less than it was worth to help the buyer?"
+        val title = "Did you sell the property for less than it was worth to help the buyer? - Calculate your Capital Gains Tax - GOV.UK"
+        val heading = "Did you sell the property for less than it was worth to help the buyer?"
       }
     }
 
