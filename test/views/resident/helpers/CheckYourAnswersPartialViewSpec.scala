@@ -163,7 +163,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
       "has an option output row for owner before april 1982" which {
 
         s"should have the question text '${propertiesMessages.OwnerBeforeLegislationStart.title}'" in {
-          doc.select("#ownerBeforeLegislationStart-question").text shouldBe propertiesMessages.OwnerBeforeLegislationStart.title
+          doc.select("#ownerBeforeLegislationStart-question").text shouldBe propertiesMessages.OwnerBeforeLegislationStart.heading
         }
 
         "should have the value 'Yes'" in {
@@ -176,12 +176,12 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
         "has the question as part of the link" in {
           doc.select("#ownerBeforeLegislationStart-change-link a").text shouldBe
-            s"${residentMessages.change} ${propertiesMessages.OwnerBeforeLegislationStart.title}"
+            s"${residentMessages.change} ${propertiesMessages.OwnerBeforeLegislationStart.heading}"
         }
 
         "has the question component of the link as visuallyhidden" in {
           doc.select("#ownerBeforeLegislationStart-change-link a span.visuallyhidden").text shouldBe
-            propertiesMessages.OwnerBeforeLegislationStart.title
+            propertiesMessages.OwnerBeforeLegislationStart.heading
         }
       }
 
