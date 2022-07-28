@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package controllers.GainControllerSpec
+package controllers.resident.properties.GainControllerSpec
 
 import akka.actor.ActorSystem
 import akka.stream.Materializer
-import assets.MessageLookup.{DisposalCosts => messages}
+import assets.MessageLookup.{DisposalCosts => messages, Resident => commonMessages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -80,7 +80,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "display the Disposal Costs view" in {
-        doc.title shouldBe messages.title
+        doc.title shouldBe s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
       }
 
       s"have a back link to '${controllers.routes.GainController.disposalValue().url}'" in {

@@ -20,25 +20,33 @@
 
 @this(
     form: FormWithCSRF,
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    errorSummary: helpers.errorSummary,
-    formInputMoney: helpers.formInputMoney
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    formInputMoney: playHelpers.formInputMoney,
+    govukInsetText : GovukInsetText,
+    submitButton: playHelpers.submitButton
 )
 
 @(disposalCostsForm: Form[DisposalCostsModel], navBackLink: String)(implicit request: Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(
-    Messages("calc.resident.disposalCosts.title"),
-    backLink = Some(navBackLink)){
+@title = @{
+    if(disposalCostsForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.disposalCosts.title"))
+    else Messages("calc.resident.disposalCosts.title")
+}
 
-    @errorSummary(disposalCostsForm, "disposal-costs")
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(navBackLink)
+) {
 
-    <h1 class="heading-large">@Messages("calc.resident.disposalCosts.pageHeading")</h1>
+    @errorSummary(disposalCostsForm.errors, Some("disposal-costs"))
 
-    <div class="form-hint">
-        <p>@Messages("calc.resident.disposalCosts.bulletTitle")</p>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.disposalCosts.pageHeading")</h1>
 
-        <ul class="bullets">
+    <div>
+        <p class="govuk-body govuk-hint">@Messages("calc.resident.disposalCosts.bulletTitle")</p>
+
+        <ul class="govuk-list govuk-list--bullet govuk-hint">
             <li>@Messages("calc.resident.disposalCosts.bulletOne")</li>
             <li>@Messages("calc.resident.disposalCosts.bulletTwo")</li>
             <li>@Messages("calc.resident.disposalCosts.bulletThree")</li>
@@ -46,16 +54,16 @@
         </ul>
     </div>
 
-
-    <div class="panel-indent panel-indent--wide panel-indent--gutter">
-        <p>@Messages("calc.resident.disposalCosts.helpText")</p>
-    </div>
+    @govukInsetText(InsetText(
+        content = Text(Messages("calc.resident.disposalCosts.helpText"))
+    ))
 
     @form(action = controllers.routes.GainController.submitDisposalCosts){
-
-        @formInputMoney(disposalCostsForm, "amount", Messages("calc.resident.disposalCosts.pageHeading"), None, hideLabel = true)
-
-        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
-
+        @formInputMoney(
+            disposalCostsForm("amount"),
+            Messages("calc.resident.disposalCosts.pageHeading"),
+            hideLabel = true,
+        )
+        @submitButton()
     }
 }
