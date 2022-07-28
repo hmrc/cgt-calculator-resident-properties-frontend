@@ -73,8 +73,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
       "has an option output row for sell or give away" which {
 
-        s"should have the question text '${commonMessages.PropertiesSellOrGiveAway.title}'" in {
-          doc.select("#sellOrGiveAway-question").text shouldBe commonMessages.PropertiesSellOrGiveAway.title
+        s"should have the question text '${commonMessages.PropertiesSellOrGiveAway.heading}'" in {
+          doc.select("#sellOrGiveAway-question").text shouldBe commonMessages.PropertiesSellOrGiveAway.heading
         }
 
         "should have the value 'Gave it away'" in {
@@ -86,11 +86,11 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question as part of the link" in {
-          doc.select("#sellOrGiveAway-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.PropertiesSellOrGiveAway.title}"
+          doc.select("#sellOrGiveAway-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.PropertiesSellOrGiveAway.heading}"
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#sellOrGiveAway-change-link a span.visuallyhidden").text shouldBe commonMessages.PropertiesSellOrGiveAway.title
+          doc.select("#sellOrGiveAway-change-link a span.visuallyhidden").text shouldBe commonMessages.PropertiesSellOrGiveAway.heading
         }
       }
 

@@ -30,8 +30,10 @@
 @title = @{
     if (disposalDateForm.errors.nonEmpty) messages("site.title.error", Messages("calc.resident.disposalDate.question")) else Messages("calc.resident.disposalDate.question")
 }
+
 @layout(
-    pageTitle = title
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.PropertiesController.introduction().toString)
 ){
     @errorSummary(disposalDateForm.errors)
 

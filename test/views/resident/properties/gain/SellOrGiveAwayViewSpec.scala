@@ -44,11 +44,11 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     s"have a nav title of 'navTitle'" in {
-      doc.select("span.header__menu__proposition-name").text() shouldBe commonMessages.homeText
+      doc.select("body > header > div > div > div.govuk-header__content > a").text() shouldBe commonMessages.homeText
     }
 
     s"have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.select("a#homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     s"have a title of ${messages.title}" in {
@@ -56,7 +56,7 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     s"have a question of ${messages.title}" in {
-      doc.select("h1.heading-large").text() shouldBe messages.title
+      doc.select(".govuk-fieldset__heading").text() shouldBe messages.heading
     }
 
     "have a form tag" in {
@@ -67,54 +67,24 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       doc.select("form").attr("action") shouldBe "postAction"
     }
 
-    s"have a visually hidden legend for an input with text ${messages.title}" in {
-      doc.select("legend.visuallyhidden").text() shouldBe messages.title
-    }
-
-    s"have an input field with id gaveAway-sold " in {
-      doc.select("input#givenAway-sold").size() shouldBe 1
+    s"have an input field with id gaveAway" in {
+      doc.select("#givenAway").size() shouldBe 1
     }
 
     s"have a label for sold of ${messages.sold}" in {
-      doc.select("label[for=givenAway-sold]").text() shouldBe messages.sold
+      doc.select("#main-content > div > div > form > div > fieldset > div > div:nth-child(1) > label").text() shouldBe messages.sold
     }
 
-    s"have an input field with id gaveAway-given " in {
-      doc.select("input#givenAway-given").size() shouldBe 1
+    s"have an input field with id gaveAway-2 " in {
+      doc.select("#givenAway-2").size() shouldBe 1
     }
 
     s"have a label for sold of ${messages.gift}" in {
-      doc.select("label[for=givenAway-given]").text() shouldBe messages.gift
+      doc.select("#main-content > div > div > form > div > fieldset > div > div:nth-child(2) > label").text() shouldBe messages.gift
     }
 
     "have a continue button " in {
-      doc.select("#continue-button").text shouldBe commonMessages.continue
-    }
-  }
-
-  "Sell Or Give Away view with pre-selected value of Sold" should {
-    val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
-    val homeLink = "homeLink"
-    val call = new Call("POST", "postAction")
-    lazy val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Sold")))
-    lazy val view = sellOrGiveAwayView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "have the option 'Sold' auto selected" in {
-      doc.select("label[for=givenAway-sold]").attr("class") shouldBe "block-label selected"
-    }
-  }
-
-  "Sell Or Give Away view with pre-selected value of Given" should {
-    val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
-    val homeLink = "homeLink"
-    val call = new Call("POST", "postAction")
-    lazy val form = sellOrGiveAwayForm.bind(Map(("givenAway", "Given")))
-    lazy val view = sellOrGiveAwayView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "have the option 'Given' auto selected" in {
-      doc.select("label[for=givenAway-given]").attr("class") shouldBe "block-label selected"
+      doc.select("#submit").text shouldBe commonMessages.continue
     }
   }
 
@@ -129,11 +99,11 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#givenAway-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary__body").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select("#givenAway-error").size shouldBe 1
       }
     }
   }

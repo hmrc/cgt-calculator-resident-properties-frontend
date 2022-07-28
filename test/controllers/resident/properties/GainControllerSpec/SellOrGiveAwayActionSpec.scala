@@ -68,7 +68,7 @@ class SellOrGiveAwayActionSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have a home link to 'homeLink'" in {
-        doc.select("a#homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a method to POST" in {
@@ -145,11 +145,11 @@ class SellOrGiveAwayActionSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "return to the page" in {
-        doc.title shouldEqual messages.title
+        doc.title shouldEqual s"Error: ${messages.title}"
       }
 
       "raise an error on the page" in {
-        doc.body.select("#givenAway-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary__body").size shouldBe 1
       }
     }
   }
