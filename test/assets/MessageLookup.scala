@@ -483,7 +483,8 @@ object MessageLookup {
       }
 
       object OwnerBeforeLegislationStart {
-        val title = "Did you become the property owner before 1 April 1982?"
+        val title = "Did you become the property owner before 1 April 1982? - Calculate your Capital Gains Tax - GOV.UK"
+        val heading = "Did you become the property owner before 1 April 1982?"
         val errorSelectAnOption = "calc.resident.properties.ownedBeforeLegislationStart.noSelectError"
       }
 
