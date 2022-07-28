@@ -477,6 +477,7 @@ object MessageLookup {
 
       object WorthWhenSoldForLess {
         val question = "What was the property worth when you sold it?"
+        val title = "What was the property worth when you sold it? - Calculate your Capital Gains Tax - GOV.UK"
         val paragraphText = "You can use a valuation from a surveyor. If you don’t know the exact value, " +
           "you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
         val extraText = "If you owned the property with someone else, only enter your share of the property value."
