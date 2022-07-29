@@ -704,7 +704,7 @@ object MessageLookup {
 
   //Acquisition Costs messages
   object AcquisitionCosts {
-    val title = "How much did you pay in costs when you became the property owner?"
+    val title = "How much did you pay in costs when you became the property owner? - Calculate your Capital Gains Tax - GOV.UK"
     val pageHeading = "How much did you pay in costs when you became the property owner?"
     val listTitle = "This is what you paid for:"
     val bulletOne = "estate agents or auctioneers"

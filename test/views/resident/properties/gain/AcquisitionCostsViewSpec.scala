@@ -41,14 +41,14 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "have a back button that" should {
 
-      lazy val backLink = doc.select("a#back-link")
+      lazy val backLink = doc.select("#back-link")
 
       "have the correct back link text" in {
         backLink.text shouldBe commonMessages.back
       }
 
       "have the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "have a link to back-link" in {
@@ -57,7 +57,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementById("homeNavHref").attr("href") shouldEqual controllers.routes.PropertiesController.introduction().toString
+      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual controllers.routes.PropertiesController.introduction().toString
     }
 
     "have a H1 tag that" should {
@@ -69,7 +69,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
+        h1Tag.hasClass("govuk-heading-l") shouldBe true
       }
     }
 
@@ -93,8 +93,8 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
           label.text should include(messages.pageHeading)
         }
 
-        "have the class 'visuallyhidden'" in {
-          label.select("span.visuallyhidden").size shouldBe 1
+        "have the class 'govuk-visually-hidden'" in {
+          label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
         }
 
         "have a div form-hint" which {
@@ -105,21 +105,21 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
             s"has a list" which {
               s"have the first bullet of ${messages.bulletOne}" in {
-                doc.body.select("div.form-hint ul li").get(0).text shouldBe messages.bulletOne
+                doc.body.select("#main-content > div > div > form > div.govuk-hint > ul > li:nth-child(1)").text shouldBe messages.bulletOne
               }
 
               s"have the second bullet of ${messages.bulletTwo}" in {
-                doc.body.select("div.form-hint ul li").get(1).text shouldBe messages.bulletTwo
+                doc.body.select("#main-content > div > div > form > div.govuk-hint > ul > li:nth-child(2)").text shouldBe messages.bulletTwo
               }
 
               s"have the third bullet of ${messages.bulletThree}" in {
-                doc.body.select("div.form-hint ul li").get(2).text shouldBe messages.bulletThree
+                doc.body.select("#main-content > div > div > form > div.govuk-hint > ul > li:nth-child(3)").text shouldBe messages.bulletThree
               }
 
             }
 
           s"has panel text ${messages.panelText}" in {
-            doc.select("p.panel-indent").text shouldBe messages.panelText
+            doc.getElementsByClass("govuk-inset-text").text shouldBe messages.panelText
           }
           }
         }
@@ -137,30 +137,26 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
           input.attr("name") shouldBe "amount"
         }
 
-        "is of type number" in {
-          input.attr("type") shouldBe "number"
-        }
-
-        "has a step value of '0.01'" in {
-          input.attr("step") shouldBe "0.01"
+        "is of type text" in {
+          input.attr("type") shouldBe "text"
         }
 
       }
 
     "have a continue button that" should {
 
-      lazy val continueButton = doc.select("button#continue-button")
+      lazy val continueButton = doc.getElementsByTag("button")
 
       s"have the button text '${commonMessages.continue}'" in {
         continueButton.text shouldBe commonMessages.continue
       }
 
       "be of type submit" in {
-        continueButton.attr("type") shouldBe "submit"
+        continueButton.attr("id") shouldBe "submit"
       }
 
       "have the class 'button'" in {
-        continueButton.hasClass("button") shouldBe true
+        continueButton.hasClass("govuk-button") shouldBe true
       }
 
     }
@@ -175,11 +171,11 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#amount-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary__body").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select(".govuk-error-message").size shouldBe 1
       }
     }
   }

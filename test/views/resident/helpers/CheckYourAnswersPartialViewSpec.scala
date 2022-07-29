@@ -213,7 +213,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
       "has a numeric output row for the Acquisition Costs" which {
 
         s"should have the question text '${commonMessages.AcquisitionCosts.title}'" in {
-          doc.select("#acquisitionCosts-question").text shouldBe commonMessages.AcquisitionCosts.title
+          doc.select("#acquisitionCosts-question").text shouldBe commonMessages.AcquisitionCosts.pageHeading
         }
 
         "should have the value '£10,000'" in {
