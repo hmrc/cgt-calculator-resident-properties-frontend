@@ -20,33 +20,44 @@
 
 @this(
     form: FormWithCSRF,
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    errorSummary: helpers.errorSummary,
-    formInputMoney: helpers.formInputMoney
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton
 )
 
 @(acquisitionCostsForm: Form[AcquisitionCostsModel], backLink: Option[String])(implicit request: Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(Messages("calc.resident.acquisitionCosts.title"), backLink = backLink) {
+@title = @{
+    if (acquisitionCostsForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.acquisitionCosts.title")) else Messages("calc.resident.acquisitionCosts.title")
+}
+@layout(
+    pageTitle = title,
+    backLinkHref = backLink
+) {
 
-    @errorSummary(acquisitionCostsForm, "amount")
+    @errorSummary(acquisitionCostsForm.errors, Some("amount"))
 
-    <h1 class="heading-large">@Messages("calc.resident.acquisitionCosts.question")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.acquisitionCosts.question")</h1>
 
     @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
-        <div class="form-hint">
+        <div class="govuk-hint">
             <p id="listTitle">@Messages("calc.resident.acquisitionCosts.listTitle")</p>
-            <ul class="list list-bullet">
+            <ul>
                 <li>@Messages("calc.resident.acquisitionCosts.bulletOne")</li>
                 <li>@Messages("calc.resident.acquisitionCosts.bulletTwo")</li>
                 <li>@Messages("calc.resident.acquisitionCosts.bulletThree")</li>
             </ul>
         </div>
 
-        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.acquisitionCosts.panelText")</p>
+        <p class="govuk-inset-text">@Messages("calc.resident.acquisitionCosts.panelText")</p>
 
-        @formInputMoney(acquisitionCostsForm, "amount", Messages("calc.resident.acquisitionCosts.question"), hideLabel = true)
+        @formInputMoney(
+            field = acquisitionCostsForm("amount"),
+            question = Messages("calc.resident.acquisitionCosts.question"),
+            hideLabel = true
+        )
 
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 }
