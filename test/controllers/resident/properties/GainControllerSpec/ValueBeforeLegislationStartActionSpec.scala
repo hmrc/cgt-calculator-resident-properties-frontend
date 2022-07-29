@@ -118,9 +118,5 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
     "render with a status of 400" in {
       status(result) shouldEqual 400
     }
-
-    "render the worth when gave away page when supplied with an invalid form" in {
-      Jsoup.parse(bodyOf(result)).title() shouldEqual MessageLookup.Resident.Properties.ValueBeforeLegislationStart.question
-    }
   }
 }
