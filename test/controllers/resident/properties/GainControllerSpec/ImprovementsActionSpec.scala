@@ -84,7 +84,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "display the improvements view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.question
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
 
@@ -102,7 +102,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "display the Improvements view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.question
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
 
@@ -119,7 +119,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "display the Improvements view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.questionBefore
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.titleBefore
       }
     }
   }
@@ -192,7 +192,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "render the Improvements page" in {
-        doc.title() shouldEqual messages.question
+        doc.title() shouldEqual s"Error: ${messages.title}"
       }
     }
   }

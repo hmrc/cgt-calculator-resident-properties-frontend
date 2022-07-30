@@ -526,8 +526,10 @@ object MessageLookup {
       }
 
       object ImprovementsView {
+        val title = "How much have you spent on improvements since you became the property owner? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "How much have you spent on improvements since you became the property owner?"
         val label = "How much have you spent on improvements since you became the property owner?"
+        val titleBefore = "How much have you spent on improvements since 31 March 1982? - Calculate your Capital Gains Tax - GOV.UK"
         val questionBefore = "How much have you spent on improvements since 31 March 1982?"
         val hint = "Improvements are permanent changes that raise the value of a property, like adding " +
           "extensions or garages. Normal maintenance costs don't count."

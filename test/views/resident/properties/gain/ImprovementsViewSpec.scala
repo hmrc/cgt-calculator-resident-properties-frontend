@@ -35,8 +35,8 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       doc.charset.toString shouldBe "UTF-8"
     }
 
-    s"have a title of ${messages.question}" in {
-      doc.title shouldBe messages.question
+    s"have a title of ${messages.title}" in {
+      doc.title shouldBe messages.title
     }
 
     "have a H1 tag that" should {
@@ -48,16 +48,16 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       }
 
       "have the heading-large class" in {
-        heading.hasClass("heading-large") shouldBe true
+        heading.hasClass("govuk-heading-l") shouldBe true
       }
     }
 
     "have the correct hint" in {
-      doc.select("div.form-hint p").text shouldBe messages.hint
+      doc.select(".govuk-hint").text shouldBe messages.hint
     }
 
     s"has the joint ownership text ${messages.jointOwner}" in {
-      doc.select("article > div.panel-indent > p").text shouldEqual messages.jointOwner
+      doc.select(".govuk-inset-text").text shouldEqual messages.jointOwner
     }
 
     "have the correct label" in {
@@ -66,29 +66,29 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a hidden label" in {
-      val label = doc.select("label > span")
-      label.hasClass("visuallyhidden") shouldBe true
+      val label = doc.select("label")
+      label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
     }
 
-    s"have a drop down button with the text ${messages.improvementsHelpButton}" in {
-      doc.body.getElementsByTag("summary").attr("role") shouldBe "button"
+    s"have a drop down link with the text ${messages.improvementsHelpButton}" in {
+      doc.body.getElementsByTag("summary").hasClass("govuk-details__summary") shouldBe true
       doc.body.getElementsByTag("summary").text shouldEqual messages.improvementsHelpButton
     }
 
     s"have an additional line help line one ${messages.improvementsAdditionalContentOne}" in {
-      doc.body.getElementsByTag("p").text() should include(messages.improvementsAdditionalContentOne)
+      doc.body.getElementsByClass("govuk-details__text").text() should include(messages.improvementsAdditionalContentOne)
     }
 
     s"have an additional line help line two ${messages.improvementsAdditionalContentTwo}" in {
-      doc.body.getElementsByTag("p").text() should include(messages.improvementsAdditionalContentTwo)
+      doc.body.getElementsByClass("govuk-details__text").text() should include(messages.improvementsAdditionalContentTwo)
     }
 
     "not display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 0
+      doc.body.select(".govuk-error-summary").size shouldBe 0
     }
 
     "not display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 0
+      doc.body.select(".govuk-error-message").size shouldBe 0
     }
   }
 
@@ -96,8 +96,8 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     lazy val view = improvementsView(improvementsForm, true)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
-    s"have a title of ${messages.questionBefore}" in {
-      doc.title shouldBe messages.questionBefore
+    s"have a title of ${messages.titleBefore}" in {
+      doc.title shouldBe messages.titleBefore
     }
 
     "have a H1 tag that" should {
@@ -109,7 +109,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       }
 
       "have the heading-large class" in {
-        heading.hasClass("heading-large") shouldBe true
+        heading.hasClass("govuk-heading-l") shouldBe true
       }
     }
 
@@ -119,8 +119,8 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a hidden label" in {
-      val label = doc.select("label > span.visuallyhidden")
-      label.hasClass("visuallyhidden") shouldBe true
+      val label = doc.select("label")
+      label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
     }
   }
 
@@ -135,11 +135,11 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "display no error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 0
+      doc.body.select(".govuk-error-summary").size shouldBe 0
     }
 
     "display no error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 0
+      doc.body.select(".govuk-error-message").size shouldBe 0
     }
   }
 
@@ -150,11 +150,11 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select(".govuk-error-message").size shouldBe 1
     }
   }
 
