@@ -47,7 +47,7 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     }
 
     s"have the title of the page ${messages.title}" in {
-      doc.title shouldEqual messages.title
+      doc.title shouldEqual s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
     }
 
     s"have a back link to the Who did you give it to Page with text ${commonMessages.back}" in {
@@ -63,7 +63,7 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have the heading-large class" in {
-        heading.hasClass("heading-large") shouldEqual true
+        heading.hasClass("govuk-heading-l") shouldEqual true
       }
     }
 
@@ -94,11 +94,11 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           lazy val label = doc.select("label")
 
           s"has the text ${messages.title}" in {
-            label.select("span").first().text() shouldEqual messages.title
+            label.text() shouldEqual messages.title
           }
 
           "has the class visually hidden" in {
-            label.select("span").hasClass("visuallyhidden") shouldEqual true
+            label.hasClass("govuk-visually-hidden") shouldEqual true
           }
 
           "is tied to the input field" in {
@@ -121,7 +121,7 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
           "have a p tag" which {
             s"with the extra text ${messages.extraText}" in {
-              form.select("p.panel-indent").text shouldBe messages.extraText
+              form.select(".govuk-inset-text").text shouldBe messages.extraText
             }
           }
         }
@@ -129,18 +129,14 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       "has a continue button" which {
 
-        lazy val button = doc.select("#continue-button")
+        lazy val button = doc.select("#submit")
 
         "renders as button tags" in {
           button.is("button") shouldEqual true
         }
 
-        "has type equal to 'submit'" in {
-          button.attr("type") shouldEqual "submit"
-        }
-
         "has class of button" in {
-          button.hasClass("button") shouldEqual true
+          button.hasClass("govuk-button") shouldEqual true
         }
 
         s"has the text ${commonMessages.continue}" in {
@@ -178,11 +174,11 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select("#amount-error").size shouldBe 1
     }
   }
 }

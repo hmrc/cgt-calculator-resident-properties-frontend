@@ -21,34 +21,44 @@
 
 @this(
     form: FormWithCSRF,
-    residentMainTemplate: calculation.resident.resident_main_template,
-    errorSummary: helpers.errorSummary,
-    formInputMoney: helpers.formInputMoney
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    formInputMoney: playHelpers.formInputMoney,
+    govukInsetText : GovukInsetText,
+    submitButton: playHelpers.submitButton
 )
 
 @(worthWhenGaveAwayForm: Form[WorthWhenGaveAwayModel], navBackLink: Option[String], navHomeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
 
-
-@residentMainTemplate(
-title = Messages("calc.resident.properties.worthWhenGaveAway.title"),
-backLink = navBackLink,
-homeLink = navHomeLink,
-navTitle = Messages("calc.base.resident.properties.home")
-){
-
-@errorSummary(worthWhenGaveAwayForm, "amount")
-
-<h1 class="heading-large">@Messages("calc.resident.properties.worthWhenGaveAway.title")</h1>
-
-@form(action = postAction){
-
-    <p id="guideText">@Messages("calc.resident.properties.gaveItAway.paragraphText")</p>
-
-    <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.properties.gaveItAway.hintText")</p>
-
-@formInputMoney(worthWhenGaveAwayForm, "amount", Messages("calc.resident.properties.worthWhenGaveAway.title"), hideLabel = true)
-
-<button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
-
+@title = @{
+    if(worthWhenGaveAwayForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.worthWhenGaveAway.title"))
+    else Messages("calc.resident.properties.worthWhenGaveAway.title")
 }
+
+@layout(
+    pageTitle = title,
+    backLinkHref = navBackLink
+) {
+
+    @errorSummary(worthWhenGaveAwayForm.errors, Some("amount"))
+
+    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenGaveAway.title")</h1>
+
+    @form(action = postAction){
+
+        <p class="govuk-body" id="guideText">@Messages("calc.resident.properties.gaveItAway.paragraphText")</p>
+
+        @govukInsetText(InsetText(
+            content = Text(Messages("calc.resident.properties.gaveItAway.hintText"))
+        ))
+
+        @formInputMoney(
+            worthWhenGaveAwayForm("amount"),
+            Messages("calc.resident.properties.worthWhenGaveAway.title"),
+            hideLabel = true
+        )
+
+        @submitButton()
+
+    }
 }
