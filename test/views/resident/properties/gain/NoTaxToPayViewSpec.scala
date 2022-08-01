@@ -26,15 +26,15 @@ class NoTaxToPayViewSpec extends CommonPlaySpec with WithCommonFakeApplication w
 
   lazy val noTaxToPayView = fakeApplication.injector.instanceOf[noTaxToPay]
   "No Tax to Pay View when gifted to spouse" should {
-    lazy val view = noTaxToPayView(false)(fakeRequest, testingMessages)
+    lazy val view = noTaxToPayView(forCharity = false, "/calculate-your-capital-gains/resident/properties/who-did-you-give-it-to")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    s"have a title of ${messages.title}" in {
-      doc.title() shouldBe messages.title
+    s"have a title of ${messages.title} - Calculate your Capital Gains Tax - GOV.UK" in {
+      doc.title() shouldBe messages.title + " - Calculate your Capital Gains Tax - GOV.UK"
     }
 
     "have a back link to back-link" in {
@@ -42,28 +42,28 @@ class NoTaxToPayViewSpec extends CommonPlaySpec with WithCommonFakeApplication w
     }
 
     "have a home link to home-link" in {
-      doc.body().select("a#homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.body().getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a navTitle for resident properties" in {
-      doc.body().select("span.header__menu__proposition-name").text() shouldBe commonMessages.homeText
+      doc.body().getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe commonMessages.homeText
     }
 
     s"have a header of ${messages.title}" in {
-      doc.body().select("h1.heading-large").text() shouldBe messages.title
+      doc.body().select("h1.govuk-heading-xl").text() shouldBe messages.title
     }
 
     "have text explaining why tax is not owed" in {
-      doc.body().select("article p").text() shouldBe messages.spouseText
+      doc.body().getElementsByClass("govuk-body").text() shouldBe messages.spouseText
     }
   }
 
   "No Tax to Pay View when gifted to charity" should {
-    lazy val view = noTaxToPayView(true)(fakeRequest, testingMessages)
+    lazy val view = noTaxToPayView(forCharity = true, "/calculate-your-capital-gains/resident/properties/who-did-you-give-it-to")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have text explaining why tax is not owed" in {
-      doc.body().select("article p").text() shouldBe messages.charityText
+      doc.body().getElementsByClass("govuk-body").text() shouldBe messages.charityText
     }
   }
 }

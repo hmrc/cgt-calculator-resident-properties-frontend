@@ -57,12 +57,12 @@ class NoTaxToPayActionSpec extends CommonPlaySpec with WithCommonFakeApplication
         status(result) shouldBe 200
       }
 
-      s"return some html with title of ${messages.title}" in {
-        doc.title shouldEqual messages.title
+      s"return some html with title of ${messages.title} - Calculate your Capital Gains Tax - GOV.UK" in {
+        doc.title shouldEqual messages.title + " - Calculate your Capital Gains Tax - GOV.UK"
       }
 
       "have text explaining why tax is not owed" in {
-        doc.body().select("article p").text() shouldBe messages.charityText
+        doc.body().getElementsByClass("govuk-body").text() shouldBe messages.charityText
       }
     }
 
@@ -75,12 +75,12 @@ class NoTaxToPayActionSpec extends CommonPlaySpec with WithCommonFakeApplication
         status(result) shouldBe 200
       }
 
-      s"return some html with title of ${messages.title}" in {
-        doc.title shouldEqual messages.title
+      s"return some html with title of ${messages.title} - Calculate your Capital Gains Tax - GOV.UK" in {
+        doc.title shouldEqual messages.title + " - Calculate your Capital Gains Tax - GOV.UK"
       }
 
       "have text explaining why tax is not owed" in {
-        doc.body().select("article p").text() shouldBe messages.spouseText
+        doc.body().getElementsByClass("govuk-body").text() shouldBe messages.spouseText
       }
     }
 
