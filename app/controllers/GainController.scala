@@ -204,7 +204,7 @@ class GainController @Inject()(
     }
 
     def result(input: Boolean): Future[Result] = {
-      Future.successful(Ok(noTaxToPayView(input)))
+      Future.successful(Ok(noTaxToPayView(input, routes.GainController.whoDidYouGiveItTo().url)))
     }
 
     (for {
