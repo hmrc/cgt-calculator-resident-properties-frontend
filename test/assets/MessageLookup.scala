@@ -684,7 +684,8 @@ object MessageLookup {
 
   //How Became Owner messages
   object HowBecameOwner {
-    val title = "How did you become the property owner?"
+    val title = "How did you become the property owner? - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "How did you become the property owner?"
     val errorMandatory = "calc.resident.howBecameOwner.errors.mandatory"
     val bought = "Bought it"
     val gifted = "Got it as a gift"

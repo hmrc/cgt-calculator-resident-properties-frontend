@@ -16,7 +16,8 @@
 
 @this(
     layout: Layout,
-    govukButton : GovukButton
+    govukButton : GovukButton,
+    submitButton: playHelpers.submitButton
 )
 
 @()(implicit request : Request[_], messages: Messages)
@@ -37,4 +38,5 @@
         isStartButton = true,
         content = Text(Messages("calc.base.button.continue"))
     ))
+    <br/>
 }

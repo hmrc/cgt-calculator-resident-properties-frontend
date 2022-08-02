@@ -25,7 +25,7 @@
     hmrcScripts: HmrcScripts,
     hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
-    hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
+    hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
     backLink: playHelpers.backLink,
     appConfig: ApplicationConfig
 )
@@ -50,7 +50,10 @@
 
 @mainContent = {
     @contentBlock
-    @hmrcReportTechnicalIssueHelper()
+    @hmrcReportTechnicalIssue(ReportTechnicalIssue(
+        serviceId = appConfig.contactFormServiceIdentifier,
+        baseUrl = Some(appConfig.contactHost)
+    ))
 }
 
 @govukLayout(
