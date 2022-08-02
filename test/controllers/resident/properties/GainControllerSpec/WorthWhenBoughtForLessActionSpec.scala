@@ -63,7 +63,7 @@ class WorthWhenBoughtForLessActionSpec extends CommonPlaySpec with WithCommonFak
       }
 
       s"return some html with title of ${messages.question}" in {
-        doc.title shouldEqual messages.question
+        doc.title shouldEqual messages.title
       }
     }
 
@@ -76,7 +76,7 @@ class WorthWhenBoughtForLessActionSpec extends CommonPlaySpec with WithCommonFak
       }
 
       s"return some html with title of ${messages.question}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.question
+        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title
       }
     }
 
@@ -119,11 +119,11 @@ class WorthWhenBoughtForLessActionSpec extends CommonPlaySpec with WithCommonFak
       }
 
       "return to the page" in {
-        doc.title shouldEqual messages.question
+        doc.title shouldEqual s"Error: ${messages.title}"
       }
 
       "raise an error on the page" in {
-        doc.body.select("#amount-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary__body").size shouldBe 1
       }
     }
   }
