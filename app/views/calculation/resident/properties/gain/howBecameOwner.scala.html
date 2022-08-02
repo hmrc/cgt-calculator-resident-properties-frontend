@@ -22,44 +22,42 @@
 
 @this(
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup,
-    errorSummary: helpers.errorSummary,
-    residentMainTemplate: calculation.resident.resident_main_template
+    inputRadio: playHelpers.inputRadio,
+    errorSummary: playHelpers.errorSummary,
+    layout: Layout,
+    submitButton: playHelpers.submitButton
 )
 
 @(howBecameOwnerForm: Form[HowBecameOwnerModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    title = Messages("calc.resident.howBecameOwner.title"),
-    backLink = backLink,
-    homeLink = homeLink,
-    navTitle = Messages("calc.base.resident.properties.home")
-    ) {
+@title = @{
+    if (howBecameOwnerForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.howBecameOwner.title")) else Messages("calc.resident.howBecameOwner.title")
+}
 
-    @errorSummary(howBecameOwnerForm, "gainedBy")
+@layout(
+    pageTitle = title,
+    backLinkHref = backLink
+) {
 
-    <h1 class="heading-large">@Messages("calc.resident.howBecameOwner.title")</h1>
+    @errorSummary(howBecameOwnerForm.errors, Some("gainedBy"))
 
     @form(action = postAction) {
 
-    @inputRadioGroup(
-        field = howBecameOwnerForm("gainedBy"),
-        Seq(
-            "Bought" -> Messages("calc.resident.howBecameOwner.bought"),
-            "Inherited" -> Messages("calc.resident.howBecameOwner.inherited"),
-            "Gifted" -> Messages("calc.resident.howBecameOwner.gifted")
+    @inputRadio(
+        legend = Messages("calc.resident.howBecameOwner.title"),
+        items = Seq(
+            RadioItem(content = Text(Messages("calc.resident.howBecameOwner.bought")), value = Option("Bought")),
+            RadioItem(content = Text(Messages("calc.resident.howBecameOwner.inherited")), value = Option("Inherited")),
+            RadioItem(content = Text(Messages("calc.resident.howBecameOwner.gifted")), value = Option("Gifted"))
         ),
-        '_legend -> Messages("calc.resident.howBecameOwner.title"),
-        '_legendID -> "gainedBy",
-        '_legendClass -> "visuallyhidden",
-        '_labelAfter -> true,
-        '_labelClass -> "block-label",
-        '_groupClass -> "form-group radio-list",
-        '_fieldsetAttributes -> ""
+        isPageHeading = true,
+        inLine = false,
+        field = howBecameOwnerForm("gainedBy")
     )
 
     <input type="hidden" name="gainedBy" value="" />
-    <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+    @submitButton()
 
     }
 }

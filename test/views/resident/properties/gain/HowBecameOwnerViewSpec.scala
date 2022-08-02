@@ -39,7 +39,7 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     "have a navTitle for properties" in {
-      doc.select("span.header__menu__proposition-name").text() shouldBe commonMessages.homeText
+      doc.select("body > header > div > div > div.govuk-header__content > a").text() shouldBe commonMessages.homeText
     }
 
     "have a back link to back-link" in {
@@ -47,15 +47,15 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     "have a home link to /calculate-your-capital-gains/resident/properties/" in {
-      doc.select("a#homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     s"have a title of ${messages.title}" in {
       doc.title() shouldBe messages.title
     }
 
-    s"have a header of ${messages.title}" in {
-      doc.select("h1.heading-large").text() shouldBe messages.title
+    s"have a header of ${messages.heading}" in {
+      doc.select("h1.govuk-fieldset__heading").text() shouldBe messages.heading
     }
 
     "have a form tag" in {
@@ -66,77 +66,34 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       doc.select("form").attr("action") shouldBe "post-action"
     }
 
-    s"have a visually hidden legend for an input with text ${messages.title}" in {
-      doc.select("legend.visuallyhidden").text() shouldBe messages.title
-    }
-
     s"have an input field with id gainedBy-bought " in {
-      doc.select("input#gainedBy-bought").size() shouldBe 1
+      doc.select("#gainedBy").size() shouldBe 1
     }
 
     s"have a label for bought of ${messages.bought}" in {
-      doc.select("label[for=gainedBy-bought]").text() shouldBe messages.bought
+      doc.select("label[for=gainedBy]").text() shouldBe messages.bought
     }
 
     s"have an input field with id gainedBy-gifted " in {
-      doc.select("input#gainedBy-gifted").size() shouldBe 1
+      doc.select("input#gainedBy-3").size() shouldBe 1
     }
 
     s"have a label for gifted of ${messages.gifted}" in {
-      doc.select("label[for=gainedBy-gifted]").text() shouldBe messages.gifted
+      doc.select("label[for=gainedBy-3]").text() shouldBe messages.gifted
     }
 
     s"have an input field with id gainedBy-inherited " in {
-      doc.select("input#gainedBy-inherited").size() shouldBe 1
+      doc.select("input#gainedBy-2").size() shouldBe 1
     }
 
     s"have a label for inherited of ${messages.inherited}" in {
-      doc.select("label[for=gainedBy-inherited]").text() shouldBe messages.inherited
+      doc.select("label[for=gainedBy-2]").text() shouldBe messages.inherited
     }
 
     "have a continue button " in {
-      doc.select("#continue-button").text shouldBe commonMessages.continue
+      doc.select("#submit").text shouldBe commonMessages.continue
     }
 
-  }
-
-  "howBecameOwner view with a value provided as 'Bought'" should {
-    val backLink = Some("back-link")
-    val homeLink = "home-link"
-    val postAction = new Call("POST", "post-action")
-    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "Bought")))
-    lazy val view = howBecameOwnerView(form, backLink, homeLink, postAction)(fakeRequest, testingMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "have the option 'Bought' auto-selected" in {
-      doc.select("label[for=gainedBy-bought]").attr("class") shouldBe "block-label selected"
-    }
-  }
-
-  "howBecameOwner view with a value provided as 'Inherited'" should {
-    val backLink = Some("back-link")
-    val homeLink = "home-link"
-    val postAction = new Call("POST", "post-action")
-    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "Inherited")))
-    lazy val view = howBecameOwnerView(form, backLink, homeLink, postAction)(fakeRequest, testingMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "have the option 'Inherited' auto-selected" in {
-      doc.select("label[for=gainedBy-inherited]").attr("class") shouldBe "block-label selected"
-    }
-  }
-
-  "howBecameOwner view with a value provided as 'Gifted'" should {
-    val backLink = Some("back-link")
-    val homeLink = "home-link"
-    val postAction = new Call("POST", "post-action")
-    lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "Gifted")))
-    lazy val view = howBecameOwnerView(form, backLink, homeLink, postAction)(fakeRequest, testingMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "have the option 'Gifted' auto-selected" in {
-      doc.select("label[for=gainedBy-gifted]").attr("class") shouldBe "block-label selected"
-    }
   }
 
   "howBecameOwner view with mandatory input erros" should {
@@ -148,11 +105,11 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#gainedBy-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select("#gainedBy-error").size shouldBe 1
     }
   }
 }
