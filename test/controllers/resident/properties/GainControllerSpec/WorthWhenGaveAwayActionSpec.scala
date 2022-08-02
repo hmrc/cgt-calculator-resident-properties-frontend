@@ -119,7 +119,9 @@ class WorthWhenGaveAwayActionSpec extends CommonPlaySpec with WithCommonFakeAppl
     }
 
     "render the worth when gave away page when supplied with an invalid form" in {
-      Jsoup.parse(bodyOf(result)).title() shouldEqual MessageLookup.Resident.Properties.PropertiesWorthWhenGaveAway.title
+      val serviceName = MessageLookup.Resident.homeText
+      val pageTitle = MessageLookup.Resident.Properties.PropertiesWorthWhenGaveAway.title
+      Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: $pageTitle - $serviceName - GOV.UK"
     }
   }
 }
