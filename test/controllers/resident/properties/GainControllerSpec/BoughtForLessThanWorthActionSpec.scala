@@ -18,7 +18,7 @@ package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
 import akka.stream.Materializer
-import assets.MessageLookup.{BoughtForLessThanWorth => messages}
+import assets.MessageLookup.{BoughtForLessThanWorth => messages, Resident => commonMessages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -65,7 +65,7 @@ class BoughtForLessThanWorthActionSpec extends CommonPlaySpec with FakeRequestHe
 
       s"return some html with title of ${messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title
+        Jsoup.parse(bodyOf(result)).title shouldEqual s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
       }
     }
 
@@ -139,7 +139,7 @@ class BoughtForLessThanWorthActionSpec extends CommonPlaySpec with FakeRequestHe
       }
 
       "render the Bought for Less than worth page" in {
-        doc.title() shouldEqual messages.title
+        doc.title() shouldEqual s"Error: ${messages.title} - ${commonMessages.homeText} - GOV.UK"
       }
     }
   }
