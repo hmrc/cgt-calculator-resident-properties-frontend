@@ -506,6 +506,7 @@ object MessageLookup {
       }
 
       object WorthWhenInherited {
+        val title = "What was the property worth when you inherited it? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What was the property worth when you inherited it?"
         val help = "This is the value of the property on the date the previous owner died."
         val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
