@@ -669,6 +669,7 @@ object MessageLookup {
 
   //Disposal Value messages
   object DisposalValue {
+    val title = "How much did you sell the property for? - Calculate your Capital Gains Tax - GOV.UK"
     val question = "How much did you sell the property for?"
     val helpText = "If you owned the property with someone else, only enter your share of the sale value."
   }
