@@ -128,7 +128,8 @@ object MessageLookup {
     }
 
     object ReviewAnswers {
-      val title = "Check your answers"
+      val title = "Check your answers - Calculate your Capital Gains Tax - GOV.UK"
+      val heading = "Check your answers"
       val tableHeading = "You've told us"
       val change = "Change"
       val hiddenText = "your response to the question"

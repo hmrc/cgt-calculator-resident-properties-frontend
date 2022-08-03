@@ -24,26 +24,26 @@
 @(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages, lang: Lang)
 
 @if(displayLink && link.isDefined) {
-    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline @extraClass">
-        <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+    <div id="@rowId" class="govuk-summary-list__row">
+        <dt id="@{rowId}-question" class="govuk-summary-list__key">
             @question
-        </div>
-        <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-4">
+        </dt>
+        <dd id="@{rowId}-date" class="govuk-summary-list__value">
             @date.localFormat("d MMMM yyyy")
-        </div>
-        <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
-            <a href="@link" class="bold-small">@Messages("calc.base.change")
-                <span class="visuallyhidden">@question</span>
+        </dd>
+        <dd id="@{rowId}-change-link" class="govuk-summary-list__actions">
+            <a href="@link" class="govuk-link">@Messages("calc.base.change")
+                <span class="govuk-visually-hidden">@question</span>
             </a>
-        </div>
+        </dd>
     </div>
 } else {
-    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline @extraClass">
-        <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+    <div id="@rowId" class="govuk-summary-list__row">
+        <dt id="@{rowId}-question" class="govuk-summary-list__key">
             @question
-        </div>
-        <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-2 text--right">
+        </dt>
+        <dd id="@{rowId}-date" class="govuk-summary-list__value">
             @date.localFormat("d MMMM yyyy")
-        </div>
+        </dd>
     </div>
 }
