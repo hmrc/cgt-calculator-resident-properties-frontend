@@ -22,22 +22,25 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    checkYourAnswersPartial: helpers.checkYourAnswersPartial,
-    form: FormWithCSRF
+    layout: Layout,
+    checkYourAnswersPartial: playHelpers.checkYourAnswersPartial,
+    form: FormWithCSRF,
+    submitButton: playHelpers.submitButton
 )
 
 @(postAction: Call, backUrl: String, gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages, lang: Lang)
 
-@residentPropertiesMainTemplate(title = Messages("calc.checkYourAnswers.title"), backLink = Some(backUrl), articleLayout = false) {
+@layout(
+    pageTitle = Messages("calc.checkYourAnswers.title"),
+    backLinkHref = Some(backUrl),
+    fullGrid = true
+) {
 
-    <h1 class="heading-large">@Messages("calc.checkYourAnswers.title")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.checkYourAnswers.title")</h1>
 
-    <div class="form-group">
-        @checkYourAnswersPartial(gainAnswers, deductionsAnswers, taxYear, incomeAnswers, isCurrentTaxYear)
-    </div>
+    @checkYourAnswersPartial(gainAnswers, deductionsAnswers, taxYear, incomeAnswers, isCurrentTaxYear)
 
     @form(action = postAction) {
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 }

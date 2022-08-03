@@ -22,10 +22,10 @@
 @import play.api.i18n.Lang
 
 @this(
-    summaryDateRowHelper: helpers.resident.summaryDateRowHelper,
-    summaryTextRowHelper: helpers.resident.summaryTextRowHelper,
-    summaryNumericRowHelper: helpers.resident.summaryNumericRowHelper,
-    summaryOptionRowHelper: helpers.resident.summaryOptionRowHelper
+    summaryDateRowHelper: playHelpers.resident.summaryDateRowHelper,
+    summaryTextRowHelper: playHelpers.resident.summaryTextRowHelper,
+    summaryNumericRowHelper: playHelpers.resident.summaryNumericRowHelper,
+    summaryOptionRowHelper: playHelpers.resident.summaryOptionRowHelper
 )
 
 @(gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false, displayLinks: Boolean = true)(implicit messages: Messages, lang: Lang)
@@ -33,8 +33,9 @@
 
 <section id="yourAnswers">
 
-    <h2 class="bold-medium you-told-us-title">@Messages("calc.checkYourAnswers.tableHeading")</h2>
+    <h2 class="govuk-heading-m">@Messages("calc.checkYourAnswers.tableHeading")</h2>
 
+    <dl class="govuk-summary-list">
     <!-- Gain Answers-->
     @summaryDateRowHelper("disposalDate",Messages("calc.resident.disposalDate.question"),gainAnswers.disposalDate, Some(gainRoutes.disposalDate().toString), extraClass = "summary-overline", displayLink = displayLinks)
 
@@ -142,6 +143,7 @@
         incomeAnswers.get.personalAllowanceModel.get.amount,Some(incomeRoutes.personalAllowance().toString), displayLink = displayLinks)}
 
     }
+    </dl>
 
 
 </section>
