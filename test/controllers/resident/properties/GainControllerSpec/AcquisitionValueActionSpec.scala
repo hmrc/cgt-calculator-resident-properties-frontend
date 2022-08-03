@@ -129,7 +129,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "render the acquisition value page" in {
-        doc.title() shouldEqual messages.title
+        doc.title() shouldEqual s"Error: ${messages.title}"
       }
     }
   }

@@ -702,7 +702,7 @@ object MessageLookup {
 
   //Acquisition Value messages
   object AcquisitionValue {
-    val title = "How much did you pay for the property?"
+    val title = "How much did you pay for the property? - Calculate your Capital Gains Tax - GOV.UK"
     val pageHeading = "How much did you pay for the property?"
     val jointOwnership = "If you owned the property with someone else, only enter your share of the purchase value."
   }
