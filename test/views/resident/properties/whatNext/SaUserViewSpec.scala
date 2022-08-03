@@ -34,12 +34,12 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
       lazy val view = saUserView(SaUserForm.saUserForm)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
-      s"have a title of ${messages.title}" in {
+      s"have a title of ${messages.question}" in {
         doc.title shouldBe messages.title
       }
 
       s"have a heading with the text ${messages.title}" in {
-        doc.select("h1").text() shouldBe messages.title
+        doc.select("head > title").text() shouldBe messages.title
       }
 
       "have a form" which {
@@ -57,12 +57,8 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
       "have a legend" which {
         lazy val legend = doc.select("legend")
 
-        s"has the text ${messages.title}" in {
-          legend.text() shouldBe messages.title
-        }
-
-        "has the class 'visuallyhidden'" in {
-          legend.attr("class") shouldBe "visuallyhidden"
+        s"has the text ${messages.question}" in {
+          legend.text() shouldBe messages.question
         }
       }
 
@@ -96,7 +92,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
         }
 
         "has the type 'submit'" in {
-          button.attr("type") shouldBe "submit"
+          button.attr("id") shouldBe "submit"
         }
       }
 
@@ -115,11 +111,11 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#isInSa-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary__body").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select("span.error-notification").size shouldBe 1
+        doc.getElementsByClass("govuk-error-summary").size shouldBe 1
       }
     }
   }
