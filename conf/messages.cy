@@ -9,6 +9,7 @@ calc.base.externalLink = (yn agor ffenestr newydd)
 calc.base.govUk = GOV.UK
 calc.base.hmrc = Cyllid a Thollau EM
 calc.base.home = Hafan
+calc.base.period =
 calc.base.no = Na
 calc.base.nonresident.home = Cyfrifo''ch Treth Enillion Cyfalaf
 calc.base.optionReqError = Dewiswch un o''r opsiynau

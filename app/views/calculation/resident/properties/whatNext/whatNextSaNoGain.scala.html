@@ -18,31 +18,35 @@
 @import play.api.Application
 
 @this(
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template
+    layout: Layout,
+    govukButton: GovukButton
 )
 
 @(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
+@layout(
+    pageTitle = Messages("calc.whatToDoNext.title"),
+    backLinkHref = Some(backUrl)
+) {
 
-    <h1>@Messages("calc.whatToDoNext.title")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.whatToDoNext.title")</h1>
 
-    <div class="form-group">
-        <p id="bullet-list-title">@Messages("calc.whatToDoNext.noGain.bulletTitle")</p>
+    <p id="bullet-list-title" class="govuk-body">@Messages("calc.whatToDoNext.noGain.bulletTitle")</p>
 
-        <ul class="bullets">
-            <li>@Messages("calc.whatToDoNext.noGain.bulletPointOne", disposalTaxYear)</li>
-            <li>@Messages("calc.whatToDoNext.noGain.bulletPointTwo")</li>
-        </ul>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>@Messages("calc.whatToDoNext.noGain.bulletPointOne", disposalTaxYear)</li>
+        <li>@Messages("calc.whatToDoNext.noGain.bulletPointTwo")</li>
+    </ul>
 
-        <p id="important-information" class="panel-indent panel-indent--gutter">@Messages("calc.whatToDoNext.noGain.reportImportant")</p>
+    <p id="important-information" class="govuk-inset-text">@Messages("calc.whatToDoNext.noGain.reportImportant")</p>
 
-        <p id="report-now-information">@Messages("calc.whatToDoNext.noGain.reportNowInfo")</p>
+    <p id="report-now-information" class="govuk-body">@Messages("calc.whatToDoNext.noGain.reportNowInfo")</p>
 
-        <a id="report-now-button" class="button" href="@iFormUrl">@Messages("calc.whatToDoNext.reportNow")</a>
-    </div>
+    @govukButton(Button(
+        href = Some(iFormUrl),
+        content = Text(Messages("calc.whatToDoNext.reportNow")),
+        attributes = Map("id" -> "report-now-button")
+    ))
 
-<p id="exit-survey-message">@Messages("calc.whatToDoNext.exitSurveyMessage") <a id="exit-survey-link" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>
-
-
+    <p id="exit-survey-message" class="govuk-body govuk-!-margin-bottom-9">@Messages("calc.whatToDoNext.exitSurveyMessage") <a id="exit-survey-link" class="govuk-link" rel="noreferrer noopener" target="_blank" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>
 }
