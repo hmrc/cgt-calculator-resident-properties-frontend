@@ -1038,7 +1038,8 @@ object MessageLookup {
   }
 
   object SaUser extends Common {
-    val title = "Are you currently in Self Assessment?"
+    val question = "Are you currently in Self Assessment?"
+    val title = "Are you currently in Self Assessment? - Calculate your Capital Gains Tax - GOV.UK"
     val error = "calc.resident.saUser.errorSelect"
   }
 }
