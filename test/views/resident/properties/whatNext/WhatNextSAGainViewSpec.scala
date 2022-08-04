@@ -50,11 +50,11 @@ class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       s"has a first bullet point of ${pageMessages.bulletPointOne("2016 to 2017")}" in {
-        doc.body.select("#main-content > div > div > ul > li:nth-child(1)").text() shouldBe pageMessages.bulletPointOne("2016 to 2017")
+        doc.select("ul.govuk-list li").get(0).text shouldBe pageMessages.bulletPointOne("2016 to 2017")
       }
 
       s"has a second bullet point of ${pageMessages.bulletPointTwo}" in {
-        doc.body.select("#main-content > div > div > ul > li:nth-child(2)").text() shouldBe pageMessages.bulletPointTwo
+        doc.select("ul.govuk-list li").get(1).text shouldBe pageMessages.bulletPointTwo
       }
     }
 
