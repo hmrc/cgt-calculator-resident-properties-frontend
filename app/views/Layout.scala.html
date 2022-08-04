@@ -32,7 +32,8 @@
 
 @(
     pageTitle: String,
-    backLinkHref: Option[String] = None
+    backLinkHref: Option[String] = None,
+    isUserResearchBannerVisible: Boolean = false
 )(
     contentBlock: Html
 )(
@@ -60,7 +61,8 @@
     pageTitle = Some(s"""$pageTitle - ${messages("service.name")} - GOV.UK"""),
     headBlock = Some(hmrcHead()),
     headerBlock = Some(hmrcStandardHeader(
-        serviceUrl = Some(controllers.routes.PropertiesController.introduction.url)
+        serviceUrl = Some(controllers.routes.PropertiesController.introduction.url),
+        userResearchBanner = if (isUserResearchBannerVisible) {Some(UserResearchBanner(url = appConfig.urBannerLink))} else None
     )),
     beforeContentBlock = Some(accountMenu),
     scriptsBlock = Some(hmrcScripts()),
