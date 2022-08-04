@@ -128,7 +128,8 @@ object MessageLookup {
     }
 
     object ReviewAnswers {
-      val title = "Check your answers"
+      val title = "Check your answers - Calculate your Capital Gains Tax - GOV.UK"
+      val heading = "Check your answers"
       val tableHeading = "You've told us"
       val change = "Change"
       val hiddenText = "your response to the question"
@@ -520,6 +521,7 @@ object MessageLookup {
       }
 
       object WorthWhenBoughtForLess {
+        val title = "What was the property worth when you bought it? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What was the property worth when you bought it?"
         val helpOne = "You can use a valuation from a surveyor."
         val helpTwo = "If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
@@ -669,6 +671,7 @@ object MessageLookup {
 
   //Disposal Value messages
   object DisposalValue {
+    val title = "How much did you sell the property for? - Calculate your Capital Gains Tax - GOV.UK"
     val question = "How much did you sell the property for?"
     val helpText = "If you owned the property with someone else, only enter your share of the sale value."
   }
@@ -982,7 +985,8 @@ object MessageLookup {
     val title = "What to do next"
     val finish = "Return to GOV.UK"
     val reportNow = "Report now"
-    val yourOptionsTitle = "Your options"
+    val yourOptions = "Your options"
+    val yourOptionsTitle = "Your options - Calculate your Capital Gains Tax - GOV.UK"
 
     object FourTimesAEA {
       val paragraphOne = s"You'll have to report your Capital Gains Tax figures through Self Assessment."
@@ -1035,7 +1039,8 @@ object MessageLookup {
   }
 
   object SaUser extends Common {
-    val title = "Are you currently in Self Assessment?"
+    val question = "Are you currently in Self Assessment?"
+    val title = "Are you currently in Self Assessment? - Calculate your Capital Gains Tax - GOV.UK"
     val error = "calc.resident.saUser.errorSelect"
   }
 }

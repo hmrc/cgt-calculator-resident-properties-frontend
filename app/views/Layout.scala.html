@@ -26,6 +26,7 @@
     hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
     hmrcReportTechnicalIssue: HmrcReportTechnicalIssue,
+    hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
     backLink: playHelpers.backLink,
     appConfig: ApplicationConfig
 )
@@ -33,7 +34,9 @@
 @(
     pageTitle: String,
     backLinkHref: Option[String] = None,
-    isUserResearchBannerVisible: Boolean = false
+    isUserResearchBannerVisible: Boolean = false,
+    timeoutEnabled: Boolean = true,
+    fullGrid: Boolean = false
 )(
     contentBlock: Html
 )(
@@ -48,6 +51,14 @@
     @if(backLinkHref.nonEmpty) { @backLink(backLinkHref.get) }
 }
 
+@head = {
+    @if(timeoutEnabled) {
+        @hmrcTimeoutDialogHelper(
+            signOutUrl = controllers.routes.TimeoutController.timeout(restartUrl = controllers.routes.PropertiesController.introduction.url, homeLink = controllers.routes.PropertiesController.introduction.url).url
+        )
+    }
+    <link rel="stylesheet" type="text/css" href ='@routes.Assets.versioned("stylesheets/cgt-calculator-resident-properties.css")'>
+}
 
 @mainContent = {
     @contentBlock
@@ -59,12 +70,13 @@
 
 @govukLayout(
     pageTitle = Some(s"""$pageTitle - ${messages("service.name")} - GOV.UK"""),
-    headBlock = Some(hmrcHead()),
+    headBlock = Some(hmrcHead(headBlock = Some(head))),
     headerBlock = Some(hmrcStandardHeader(
         serviceUrl = Some(controllers.routes.PropertiesController.introduction.url),
         userResearchBanner = if (isUserResearchBannerVisible) {Some(UserResearchBanner(url = appConfig.urBannerLink))} else None
     )),
     beforeContentBlock = Some(accountMenu),
+    mainContentLayout = if (fullGrid) Some(_ => Html(s"<div class='govuk-grid-row'><div class='govuk-grid-column-full'>$mainContent</div></div>")) else Some(_ => Html(s"<div class='govuk-grid-row'><div class='govuk-grid-column-two-thirds'>$mainContent</div></div>")),
     scriptsBlock = Some(hmrcScripts()),
     footerBlock = Some(hmrcStandardFooter())
 )(mainContent) 

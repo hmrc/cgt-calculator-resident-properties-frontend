@@ -23,37 +23,37 @@
 @this(
     residentMainTemplate: calculation.resident.resident_main_template,
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup,
-    errorSummary: helpers.errorSummary
+    inputRadio: playHelpers.inputRadio,
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton
 )
 
 @(saUserForm: Form[SaUserModel])(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    title = Messages("calc.resident.saUser.title"),
-    homeLink = "",
-    navTitle = "",
-    backLink = Some(controllers.routes.SummaryController.summary().url)) {
+    @title = @{
+        if (saUserForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.saUser.title")) else Messages("calc.resident.saUser.title")
+    }
 
-    @errorSummary(saUserForm, "isInSa")
+    @layout(
+        pageTitle = title,
+        backLinkHref = Some(controllers.routes.SummaryController.summary().url)
+    ) {
 
-    <h1 class="heading-large">@Messages("calc.resident.saUser.title")</h1>
+    @errorSummary(saUserForm.errors, Some("isInSa"))
 
     @form(action = controllers.routes.SaUserController.submitSaUser()) {
-        @inputRadioGroup(
-            saUserForm("isInSa"),
-            Seq(
-                "Yes" -> Messages("calc.base.yes"),
-                "No" -> Messages("calc.base.no")),
-            '_legend -> Messages("calc.resident.saUser.title"),
-            '_legendID -> "isClaiming",
-            '_legendClass -> "visuallyhidden",
-            '_labelAfter -> true,
-            '_labelClass -> "block-label",
-            '_groupClass -> "inline form-group radio-list",
-            '_fieldsetAttributes -> ""
+        @inputRadio(
+            legend = Messages("calc.resident.saUser.title"),
+            legendClass = Some("govuk-label--l"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+            ),
+            inLine = true,
+            field = saUserForm("isInSa")
         )
 
-        <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 }

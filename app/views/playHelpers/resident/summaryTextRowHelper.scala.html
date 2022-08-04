@@ -19,26 +19,26 @@
 @(rowId: String, question: String, answer: String, link: Option[String] = None, displayLink: Boolean = true)(implicit messages: Messages)
 
     @if(displayLink && link.isDefined) {
-        <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
-            <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+        <div id="@rowId" class="govuk-summary-list__row">
+            <dt id="@{rowId}-question" class="govuk-summary-list__key">
                 @question
-            </div>
-            <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-4">
+            </dt>
+            <dd id="@{rowId}-option" class="govuk-summary-list__value">
                 @answer
-            </div>
-            <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
-                <a id="@{rowId}-change-link" href="@link" class="bold-small">@Messages("calc.base.change")
-                    <span class="visuallyhidden">@question</span>
+            </dd>
+            <dd id="@{rowId}-change-link" class="govuk-summary-list__actions">
+                <a id="@{rowId}-change-link" href="@link" class="govuk-link">@Messages("calc.base.change")
+                    <span class="govuk-visually-hidden">@question</span>
                 </a>
-            </div>
+            </dd>
         </div>
     } else {
-        <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
-            <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+        <div id="@rowId" class="govuk-summary-list__row">
+            <dt id="@{rowId}-question" class="govuk-summary-list__key">
                 @question
-            </div>
-            <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-2 text--right">
+            </dt>
+            <dd id="@{rowId}-option" class="govuk-summary-list__value">
                 @answer
-            </div>
+            </dd>
         </div>
     }
