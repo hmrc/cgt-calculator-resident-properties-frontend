@@ -521,6 +521,7 @@ object MessageLookup {
       }
 
       object WorthWhenBoughtForLess {
+        val title = "What was the property worth when you bought it? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What was the property worth when you bought it?"
         val helpOne = "You can use a valuation from a surveyor."
         val helpTwo = "If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
