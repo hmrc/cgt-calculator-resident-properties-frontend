@@ -116,7 +116,7 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
       }
 
       "have a link to the iForm from app config" in {
-        doc.select("#report-now > a").attr("href") shouldBe "iform-url"
+        doc.getElementsByClass("govuk-button").attr("href") shouldBe "iform-url"
       }
     }
   }
