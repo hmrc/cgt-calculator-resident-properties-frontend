@@ -17,21 +17,28 @@
 @import play.api.Application
 
 @this(
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template
+    layout: Layout
+
 )
 
-@(backUrl: String)(implicit request : Request[_], messages: Messages)
+@(backLink: String)(implicit request : Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(
-    title = Messages("calc.whatToDoNext.title"),
-    backLink = Some(backUrl)
-) {
+    @title = @{
+        Messages("calc.whatToDoNext.title")
+    }
 
-    <h1>@Messages("calc.whatToDoNext.title")</h1>
+    @layout(
+        pageTitle = Messages("calc.whatToDoNext.title"),
+        backLinkHref = Some(backLink)
+    ) {
 
-    <p>@Messages("calc.whatToDoNext.fourAEA.information")</p>
+    <h1 class="govuk-heading-l">@Messages("calc.whatToDoNext.title")</h1>
 
-    <p>@Messages("calc.whatToDoNext.fourAEA.youMustDoThis")</p>
+    <p class="govuk-body">@Messages("calc.whatToDoNext.fourAEA.information")</p>
 
-    <a id="finish" href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>
+    <p class="govuk-body">@Messages("calc.whatToDoNext.fourAEA.youMustDoThis")</p>
+
+    <p class="govuk-link govuk-!-margin-bottom-7 govuk-!-margin-top-0">
+        <a id="finish" href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>
+    </p>
 }

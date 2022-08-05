@@ -983,6 +983,7 @@ object MessageLookup {
   object WhatNextPages {
 
     val title = "What to do next"
+    val newTitle = "What to do next - Calculate your Capital Gains Tax - GOV.UK"
     val finish = "Return to GOV.UK"
     val reportNow = "Report now"
     val yourOptions = "Your options"

@@ -77,11 +77,11 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "load the WhatNextFourTimesAEA page" in {
-        Jsoup.parse(bodyOf(result)).select("article").text should include(MessageLookup.WhatNextPages.FourTimesAEA.paragraphOne)
+        Jsoup.parse(bodyOf(result)).select("#main-content").text should include(MessageLookup.WhatNextPages.FourTimesAEA.paragraphOne)
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        Jsoup.parse(bodyOf(result)).select("#back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }
