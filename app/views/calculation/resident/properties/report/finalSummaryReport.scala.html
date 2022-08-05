@@ -21,8 +21,8 @@
 @import play.api.Application
 
 @this(
-    finalSummaryPartial: helpers.finalSummaryPartial,
-    checkYourAnswersPartial: helpers.checkYourAnswersPartial
+    finalSummaryPartial: playHelpers.finalSummaryPartial,
+    checkYourAnswersPartial: playHelpers.checkYourAnswersPartial
 )
 
 @(gainAnswers: YourAnswersSummaryModel,
@@ -42,7 +42,8 @@
     <head>
         <meta name="viewport" content="width=device-width"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/cgt.css")">
+        <link rel="stylesheet" type="text/css" href='@routes.Assets.versioned("stylesheets/cgt.css")'>
+        <link href="/calculate-your-capital-gains/resident/properties/hmrc-frontend/assets/hmrc-frontend-ie8-2.0.0.min.css" media="all" rel="stylesheet" type="text/css" />
         <title>@Messages("calc.resident.summary.title")</title>
     </head>
 
@@ -64,7 +65,7 @@
 
         <!--Summary Section-->
         @finalSummaryPartial(gainAnswers, deductionAnswers, incomeAnswers, result, taxYear, Some(prrUsed), Some(lettingsReliefUsed), totalCosts, totalDeductions)
-
+        </br>
         <!-- Your Answers Section -->
         @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), displayLinks = false)
     </span>

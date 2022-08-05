@@ -1,143 +1,144 @@
 @*
- * Copyright 2021 HM Revenue & Customs
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *@
+* Copyright 2022 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
 
 @import models.resident._
 @import models.resident.properties._
 @import config.ApplicationConfig
-@import views.html.helpers.resident._
+@import views.html.playHelpers.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 @this(
-    summaryNumericRow: summaryNumericRow
+    summaryNumericRow: summaryNumericRow,
+    govukWarningText : GovukWarningText
 )
 
 @(gainAnswers: YourAnswersSummaryModel,
-  deductionAnswers: ChargeableGainAnswers,
-  incomeAnswers: IncomeAnswersModel,
-  result: TotalGainAndTaxOwedModel,
-  taxYear: TaxYearModel,
-  prrUsed: Option[Boolean] = None,
-  lettingsReliefUsed: Option[Boolean] = None,
-  totalCosts: BigDecimal,
-  totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
+    deductionAnswers: ChargeableGainAnswers,
+    incomeAnswers: IncomeAnswersModel,
+    result: TotalGainAndTaxOwedModel,
+    taxYear: TaxYearModel,
+    prrUsed: Option[Boolean] = None,
+    lettingsReliefUsed: Option[Boolean] = None,
+    totalCosts: BigDecimal,
+    totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
 
-  <div id="tax-owed-banner" class="transaction-banner--complete">
-    <h1 class="bold-xlarge"><span>&pound;@MoneyPounds(result.taxOwed, 2).quantity</span></h1>
-    <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*)</h2>
-  </div>
+<div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
+    <h1 class="govuk-panel__title">&pound;@MoneyPounds(result.taxOwed, 2).quantity</h1>
+    <h2 class="govuk-panel__body">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*)</h2>
+</div>
 
-  @{if (!taxYear.isValidYear) {
-      <div id="notice-summary" class="notice-wrapper">
-          <div class="notice">
-              <i class="icon icon-important">
-                <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
-              </i>
-              <strong class="bold-small">
-                {Messages("calc.summary.noticeSummary")}
-              </strong>
-          </div>
-      </div>
+@{if (!taxYear.isValidYear) {
+    govukWarningText(WarningText(
+        iconFallbackText = "Warning",
+        content = Text(Messages("calc.summary.noticeSummary"))
+    ))
     }
-  }
+}
 
-    <!-- Calculation Details Section -->
+<!-- Calculation Details Section -->
 <section id="calcDetails">
-        <!-- Header -->
-    <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
+    <!-- Header -->
+    <h2 class="govuk-heading-m">@Messages("calc.summary.calculationDetails.heading")</h2>
 
-    <div id="yourTotalGain" class="resident summary-partial summary-underline summary-details-padding">
-        <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
-
+    <table id="yourTotalGain" class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTotalGain")</caption>
+        <tbody class="govuk-table__body">
         @(gainAnswers.givenAway, gainAnswers.sellForLess) match {
-            case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
-            case (false, Some(true)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
-            case (false, Some(false)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
+        case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
+        case (false, Some(true)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
+        case (false, Some(false)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
         }
 
         @{if(gainAnswers.ownerBeforeLegislationStart)
-            summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+        summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
         }
 
         @{if(gainAnswers.displayWorthWhenBought)
-            summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
+        summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
         }
 
         @{if(gainAnswers.displayWorthWhenBoughtForLess)
-            summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get)
+        summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get)
         }
 
         @{if(gainAnswers.displayWorthWhenGifted)
-            summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get)
+        summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get)
         }
 
         @{if(gainAnswers.displayWorthWhenInherited)
-            summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
+        summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
         }
 
         @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
         @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
-    </div>
+        </tbody>
+    </table>
 
-    <div id="yourDeductions" class="resident summary-partial summary-underline summary-details-padding">
-        <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
-
+    <table id="yourDeductions" class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourDeductions")</caption>
+        <tbody class="govuk-table__body">
         @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
-            @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
+        @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
         }
         @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
         @if(result.broughtForwardLossesUsed > 0) {
-            @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
+        @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
         }
         @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
-    </div>
+        </tbody>
+    </table>
 
-    <div id="yourTaxableGain" class="resident summary-partial summary-underline summary-details-padding">
-        <h3>@Messages("calc.summary.calculationDetails.yourTaxableGain")</h3>
-
+    <table id="yourTaxableGain" class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTaxableGain")</caption>
+        <tbody class="govuk-table__body">
         @summaryNumericRow("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
         @summaryNumericRow("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
         @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
-    </div>
+        </tbody>
+    </table>
 
-    <div id="yourTaxRate" class="resident summary-partial summary-underline summary-details-padding">
-        <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
-        <h4>@Messages("calc.summary.ratesHelp")</h4>
 
+    <table id="yourTaxRate" class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTaxRate")</caption>
+        <caption class="govuk-table__caption govuk-table__caption--s">@Messages("calc.summary.ratesHelp")</caption>
+        <tbody class="govuk-table__body">
         @if(result.firstBand != 0 && result.firstRate !=0) {
-            @summaryNumericRow("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
-                result.baseRateTotal)
+        @summaryNumericRow("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
+        result.baseRateTotal)
         }
 
         @if(result.secondRate.isDefined && result.secondBand.isDefined) {
-            @summaryNumericRow("secondBand", Messages("calc.summary.calculationDetails.taxRate", result.secondBand.get, result.secondRate.get),
-                result.upperRateTotal)
+        @summaryNumericRow("secondBand", Messages("calc.summary.calculationDetails.taxRate", result.secondBand.get, result.secondRate.get),
+        result.upperRateTotal)
         }
         @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), result.taxOwed, isTotal = true)
-    </div>
+        </tbody>
+    </table>
 
 </section>
 
-    <!--Remaining Details Section-->
+<!--Remaining Details Section-->
 <section id="remainingDeductions" class="summary-end-block">
 
-    <div class="resident summary-partial summary-underline">
+    <table class="govuk-table">
 
         <!-- Header -->
-        <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
-
+        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.remainingDeductions.heading")</caption>
+        <tbody class="govuk-table__body">
         @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*), 0, hintText = false)
-    </div>
+        </tbody>
+    </table>
 </section>
