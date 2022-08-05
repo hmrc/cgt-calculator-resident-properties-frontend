@@ -351,8 +351,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
       "has a numeric output row for current income" which {
 
-        s"should have the question text '${commonMessages.CurrentIncome.title("2015/16")}'" in {
-          doc.select("#currentIncome-question").text shouldBe commonMessages.CurrentIncome.title("2015/16")
+        s"should have the question text '${commonMessages.CurrentIncome.question("2015/16")}'" in {
+          doc.select("#currentIncome-question").text shouldBe commonMessages.CurrentIncome.question("2015/16")
         }
 
         "should have the value '£0'" in {

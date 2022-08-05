@@ -20,35 +20,39 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    errorSummary: helpers.errorSummary,
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
     form: FormWithCSRF,
-    formInputMoney: helpers.formInputMoney
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton
 )
 
 @(currentIncomeForm: Form[CurrentIncomeModel], backUrl: String, taxYear: TaxYearModel, inCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(if(inCurrentTaxYear) {Messages("calc.resident.currentIncome.questionCurrentYear")
-                        } else {Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)},
-                        backLink = Some(backUrl)) {
+@title = @{
+    if(inCurrentTaxYear) Messages("calc.resident.currentIncome.questionCurrentYear")
+    else Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)
+}
+@titleWithError = @{
+    if (currentIncomeForm.errors.nonEmpty) Messages("site.title.error",  title) else title
+}
+@layout(
+    pageTitle = titleWithError,
+    backLinkHref = Some(backUrl)
+) {
 
-    @errorSummary(currentIncomeForm, "current-income")
-
-
-    <h1 class="heading-large">
-        @if(inCurrentTaxYear){@Messages("calc.resident.currentIncome.questionCurrentYear")
-        } else {@Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)}
-    </h1>
+    @errorSummary(currentIncomeForm.errors, Some("current-income"))
 
     @form(action = controllers.routes.IncomeController.submitCurrentIncome){
 
-        @formInputMoney(currentIncomeForm, "amount",
-                        if(inCurrentTaxYear) {Messages("calc.resident.currentIncome.questionCurrentYear")
-                        } else {Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)},
-                        Some(Messages("calc.resident.currentIncome.helpText")),
-                        hideLabel = true)
+        @formInputMoney(
+            field = currentIncomeForm("amount"),
+            question = title,
+            hintText = Some(Messages("calc.resident.currentIncome.helpText")),
+            hideLabel = false
+        )
 
-        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 
 }
