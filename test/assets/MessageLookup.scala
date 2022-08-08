@@ -1019,14 +1019,15 @@ object MessageLookup {
   }
 
    object WhatNextNonSaGain {
-    val title = "What to do next"
+    val title = "What to do next - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "What to do next"
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
     val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
     val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
-     val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
-     val exitSurveyLink = "/calculate-your-capital-gains/resident/properties/feedback-survey"
-     val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
+    val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
+    val exitSurveyLink = "/calculate-your-capital-gains/resident/properties/feedback-survey"
+    val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
   }
 
   object WhatNextNonSaLoss {
