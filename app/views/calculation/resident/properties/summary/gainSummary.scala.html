@@ -24,15 +24,15 @@
 @import play.api.Application
 
 @this(
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    gainSummaryPartial: helpers.gainSummaryPartial
+    layout: Layout,
+    gainSummaryPartial: playHelpers.gainSummaryPartial
 )
 
 @(answers: YourAnswersSummaryModel, gain: BigDecimal, totalCosts: BigDecimal, taxYear: TaxYearModel, maxAEA: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(
-    title = Messages("calc.resident.summary.title"),
-    backLink = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers().url),
+@layout(
+    pageTitle = Messages("calc.resident.summary.title"),
+    backLinkHref = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers().url),
     isUserResearchBannerVisible = showUserResearchPanel
 ) {
 
@@ -59,23 +59,22 @@
 
     @if(taxYear.isValidYear) {
         <section id="whatToDoNext">
-            <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
-            <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
+            <h2 id="whatToDoNextTitle" class="govuk-heading-m">@Messages("calc.summary.whatToDoNext.heading")</h2>
+            <p class="govuk-body">@Messages("calc.summary.whatToDoNext.details")</p>
         </section>
     }
 
     <div id="save-as-a-pdf" class="notice download-pdf">
         <div class="icon-file-download">
-            <span class="visuallyhidden">@Messages("calc.summary.download")</span>
+            <span class="govuk-visually-hidden">@Messages("calc.summary.download")</span>
         </div>
-
-        <a class="bold-small save-pdf-link" href="@controllers.routes.ReportController.gainSummaryReport"
+        <a class="govuk-link" href="@controllers.routes.ReportController.gainSummaryReport"
         data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
+    </br>
 
     @if(taxYear.isValidYear) {
-        <div class="summary-details-padding">
-            <a class="button" href="@controllers.routes.SaUserController.saUser.url">@Messages("calc.base.button.continue")</a>
-        </div>
+        <a class="govuk-button" href="@controllers.routes.SaUserController.saUser.url">@Messages("calc.base.button.continue")</a>
+        </br>
     }
 }
