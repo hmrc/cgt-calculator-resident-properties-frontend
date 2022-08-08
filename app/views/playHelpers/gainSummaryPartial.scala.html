@@ -123,8 +123,8 @@
     <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.remainingDeductions.heading")</caption>
         <tbody class="govuk-table__body">
-        @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*), maxAEA, hintText = false)
-        @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
+            @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*), maxAEA, hintText = false)
+            @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
         </tbody>
     </table>
 

@@ -56,57 +56,57 @@
     <table id="yourTotalGain" class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTotalGain")</caption>
         <tbody class="govuk-table__body">
-        @(gainAnswers.givenAway, gainAnswers.sellForLess) match {
-        case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
-        case (false, Some(true)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
-        case (false, Some(false)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
-        }
+            @(gainAnswers.givenAway, gainAnswers.sellForLess) match {
+                case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
+                case (false, Some(true)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
+                case (false, Some(false)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
+            }
 
-        @{if(gainAnswers.ownerBeforeLegislationStart)
-        summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
-        }
+            @{if(gainAnswers.ownerBeforeLegislationStart)
+                summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+            }
 
-        @{if(gainAnswers.displayWorthWhenBought)
-        summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
-        }
+            @{if(gainAnswers.displayWorthWhenBought)
+                summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
+            }
 
-        @{if(gainAnswers.displayWorthWhenBoughtForLess)
-        summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get)
-        }
+            @{if(gainAnswers.displayWorthWhenBoughtForLess)
+                summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get)
+            }
 
-        @{if(gainAnswers.displayWorthWhenGifted)
-        summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get)
-        }
+            @{if(gainAnswers.displayWorthWhenGifted)
+                summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get)
+            }
 
-        @{if(gainAnswers.displayWorthWhenInherited)
-        summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
-        }
+            @{if(gainAnswers.displayWorthWhenInherited)
+                summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
+            }
 
-        @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
-        @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
+            @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
+            @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
         </tbody>
     </table>
 
     <table id="yourDeductions" class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourDeductions")</caption>
         <tbody class="govuk-table__body">
-        @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
-        @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
-        }
-        @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
-        @if(result.broughtForwardLossesUsed > 0) {
-        @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
-        }
-        @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
+            @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
+                @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
+            }
+            @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
+            @if(result.broughtForwardLossesUsed > 0) {
+                @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
+            }
+            @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
         </tbody>
     </table>
 
     <table id="yourTaxableGain" class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTaxableGain")</caption>
         <tbody class="govuk-table__body">
-        @summaryNumericRow("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
-        @summaryNumericRow("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
-        @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
+            @summaryNumericRow("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
+            @summaryNumericRow("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
+            @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
         </tbody>
     </table>
 
@@ -115,16 +115,16 @@
         <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTaxRate")</caption>
         <caption class="govuk-table__caption govuk-table__caption--s">@Messages("calc.summary.ratesHelp")</caption>
         <tbody class="govuk-table__body">
-        @if(result.firstBand != 0 && result.firstRate !=0) {
-        @summaryNumericRow("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
-        result.baseRateTotal)
-        }
+            @if(result.firstBand != 0 && result.firstRate !=0) {
+                @summaryNumericRow("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
+                    result.baseRateTotal)
+            }
 
-        @if(result.secondRate.isDefined && result.secondBand.isDefined) {
-        @summaryNumericRow("secondBand", Messages("calc.summary.calculationDetails.taxRate", result.secondBand.get, result.secondRate.get),
-        result.upperRateTotal)
-        }
-        @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), result.taxOwed, isTotal = true)
+            @if(result.secondRate.isDefined && result.secondBand.isDefined) {
+                @summaryNumericRow("secondBand", Messages("calc.summary.calculationDetails.taxRate", result.secondBand.get, result.secondRate.get),
+                    result.upperRateTotal)
+            }
+            @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), result.taxOwed, isTotal = true)
         </tbody>
     </table>
 
@@ -138,7 +138,7 @@
         <!-- Header -->
         <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.remainingDeductions.heading")</caption>
         <tbody class="govuk-table__body">
-        @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*), 0, hintText = false)
+            @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*), 0, hintText = false)
         </tbody>
     </table>
 </section>
