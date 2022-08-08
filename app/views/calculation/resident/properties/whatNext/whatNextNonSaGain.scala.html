@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,27 +17,26 @@
 @import play.api.Application
 
 @this(
-    residentMainTemplate: calculation.resident.resident_main_template
+    layout: Layout,
+    govukButton: GovukButton
 )
 
 @(iFormUrl: String, backLink: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    Messages("calc.resident.whatNextNonSa.gain.title"),
-    backLink = Some(backLink),
-    homeLink = controllers.routes.PropertiesController.introduction().url,
-    navTitle = Messages("calc.base.resident.properties.home")
+@layout(
+    pageTitle = Messages("calc.resident.whatNextNonSa.gain.title"),
+    backLinkHref = Some(backLink)
 ) {
 
-    <h1 class="heading-large">@Messages("calc.resident.whatNextNonSa.gain.title")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.whatNextNonSa.gain.title")</h1>
 
-    <p id="details-one">@Messages("calc.resident.whatNextNonSa.gain.detailsOne")</p>
-    <p id="details-two">@Messages("calc.resident.whatNextNonSa.gain.detailsTwo")</p>
+    <p id="details-one" class="govuk-body">@Messages("calc.resident.whatNextNonSa.gain.detailsOne")</p>
+    <p id="details-two" class="govuk-body">@Messages("calc.resident.whatNextNonSa.gain.detailsTwo")</p>
 
-    <p id="report-now">
-        <a class="button" href=@iFormUrl>@Messages("calc.resident.whatNextNonSa.gain.reportNow")</a>
-    </p>
+    @govukButton(Button(
+        href = Some(iFormUrl),
+        content = Text(Messages("calc.resident.whatNextNonSa.gain.reportNow"))
+    ))
 
-<p id="exit-survey-message">@Messages("calc.whatToDoNext.exitSurveyMessage") <a id="exit-survey-link" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>
-
+    <p id="exit-survey-message" class="govuk-body govuk-!-margin-bottom-9">@Messages("calc.whatToDoNext.exitSurveyMessage") <a id="exit-survey-link" class="govuk-link" rel="noreferrer noopener" target="_blank" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>
 }
