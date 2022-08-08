@@ -54,27 +54,27 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
     }
 
     s"have a hidden legend with the text ${messages.question}" in {
-      doc.select("label span.visuallyhidden").text shouldEqual messages.question
+      doc.select("#main-content > div > div > form > div > label").text shouldEqual messages.question
     }
 
     "render an input field for the reliefs amount" in {
       doc.select("input").attr("id") shouldBe "amount"
     }
 
-    s"have the text ${messages.additionalContent("1,000")} as the h1 tag" in {
-      doc.select("label p").text shouldEqual messages.additionalContent("1,000")
+    s"have the text ${messages.additionalContent("1,000")} as a inset text" in {
+      doc.select("#main-content > div > div > form > p").text shouldEqual messages.additionalContent("1,000")
     }
 
     "not display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 0
+      doc.body.select(".govuk-error-summary").size shouldBe 0
     }
 
     "not display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 0
+      doc.body.select(".govuk-error-message").size shouldBe 0
     }
 
     "have continue button " in {
-      doc.body.getElementById("continue-button").text shouldEqual commonMessages.continue
+      doc.body.getElementsByClass("govuk-button").text shouldEqual commonMessages.continue
     }
   }
 
@@ -93,7 +93,7 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
     }
 
     s"have a hidden legend with the text ${messages.question}" in {
-      doc.select("label span.visuallyhidden").text shouldEqual messages.question
+      doc.select("#main-content > div > div > form > div > label").text shouldEqual messages.question
     }
 
     "display the value of the form" in {
@@ -101,11 +101,11 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
     }
 
     "display no error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 0
+      doc.body.select(".govuk-error-summary").size shouldBe 0
     }
 
     "display no error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 0
+      doc.body.select(".govuk-error-message").size shouldBe 0
     }
   }
 
@@ -124,15 +124,15 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
     }
 
     s"have a hidden legend with the text ${messages.question}" in {
-      doc.select("label span.visuallyhidden").text shouldEqual messages.question
+      doc.select("#main-content > div > div > form > div > label").text shouldEqual messages.question
     }
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select(".govuk-error-message").size shouldBe 1
     }
   }
 }

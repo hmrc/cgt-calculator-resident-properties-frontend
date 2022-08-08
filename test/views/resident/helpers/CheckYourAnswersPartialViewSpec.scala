@@ -289,8 +289,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
       "has an option output row for lettings relief value" which {
 
-        s"should have the question text '${commonMessages.LettingsReliefValue.title}'" in {
-          doc.select("#lettingsReliefValue-question").text shouldBe commonMessages.LettingsReliefValue.title
+        s"should have the question text '${commonMessages.LettingsReliefValue.question}'" in {
+          doc.select("#lettingsReliefValue-question").text shouldBe commonMessages.LettingsReliefValue.question
         }
 
         "should have the value '£4500'" in {
@@ -302,11 +302,11 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question as part of the link" in {
-          doc.select("#lettingsReliefValue-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.LettingsReliefValue.title}"
+          doc.select("#lettingsReliefValue-change-link a").text shouldBe s"${residentMessages.change} ${commonMessages.LettingsReliefValue.question}"
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#lettingsReliefValue-change-link a span.visuallyhidden").text shouldBe commonMessages.LettingsReliefValue.title
+          doc.select("#lettingsReliefValue-change-link a span.visuallyhidden").text shouldBe commonMessages.LettingsReliefValue.question
         }
       }
 
