@@ -70,13 +70,13 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           label.text should include(messages.question("2015/16"))
         }
 
-        "have the class 'visuallyhidden'" in {
-          label.select("span.visuallyhidden").size shouldBe 1
+        "have the class 'govuk-label govuk-label--xl'" in {
+          label.attr("class") shouldBe "govuk-label govuk-label--xl"
         }
       }
 
       s"have the help text ${messages.helpText}" in {
-        doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
+        doc.body.getElementsByClass("govuk-hint").text shouldBe messages.helpText
       }
 
       "has a numeric input field" which {
@@ -92,28 +92,24 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         }
 
         "is of type number" in {
-          input.attr("type") shouldBe "number"
-        }
-
-        "has a step value of '0.01'" in {
-          input.attr("step") shouldBe "0.01"
+          input.attr("type") shouldBe "text"
         }
       }
 
       "have a continue button that" should {
 
-        lazy val continueButton = doc.select("button#continue-button")
+        lazy val continueButton = doc.select("button.govuk-button")
 
         s"have the button text '${commonMessages.continue}'" in {
           continueButton.text shouldBe commonMessages.continue
         }
 
-        "be of type submit" in {
-          continueButton.attr("type") shouldBe "submit"
+        "be of id submit" in {
+          continueButton.attr("id") shouldBe "submit"
         }
 
-        "have the class 'button'" in {
-          continueButton.hasClass("button") shouldBe true
+        "have the class 'govuk-button'" in {
+          continueButton.hasClass("govuk-button") shouldBe true
         }
       }
     }
@@ -129,11 +125,11 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#amount-error-summary").size shouldBe 1
+        doc.body.getElementsByClass("govuk-error-summary").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.getElementsByClass("govuk-error-message").size shouldBe 1
       }
     }
   }
