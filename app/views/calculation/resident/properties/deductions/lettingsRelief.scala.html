@@ -14,66 +14,57 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.helpers.resident._
 @import models.resident.properties.LettingsReliefModel
-@import uk.gov.hmrc.play.views.helpers.MoneyPounds
-@import play.api.Application
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup,
-    residentMainTemplate: calculation.resident.resident_main_template,
-    errorSummary: helpers.errorSummary
+    inputRadio: playHelpers.inputRadio,
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton
 )
 
 @(lettingsReliefForm: Form[LettingsReliefModel], navHomeLink: String, backLink: Option[String])(implicit request: Request[_], messages: Messages)
 
 @lettingsReliefLink = {
-    <a id="lettingsReliefLink" class="external-link" rel="external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016#letting-relief"
+    <a id="lettingsReliefLink" class="govuk-link external-link" rel="noreferrer noopener external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016#letting-relief"
        target="_blank" data-journey-click="help:govUK:rtt-properties-lettingsRelief">
         @Messages("calc.resident.lettingsRelief.helpOne")
-        <span id="opensInANewTab">@Messages("calc.base.externalLink")</span>
-    </a>
+        <span id="opensInANewTab">@Messages("calc.base.externalLink")</span></a>.
 }
 
-@helpText = {
-    <p class="form-hint">@Messages("calc.resident.lettingsRelief.help") @lettingsReliefLink</p>
+@title = @{
+    if(lettingsReliefForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.lettingsRelief.title"))
+    else Messages("calc.resident.lettingsRelief.title")
 }
 
-@residentMainTemplate(
-    title = Messages("calc.resident.lettingsRelief.title"),
-    backLink = backLink,
-    homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.properties.home")) {
+@layout(
+    pageTitle = title,
+    backLinkHref = backLink
+) {
 
-    @errorSummary(lettingsReliefForm, "lettingsRelief")
+    @errorSummary(lettingsReliefForm.errors, Some("lettingsRelief"))
 
-    <h1>@Messages("calc.resident.lettingsRelief.title")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.lettingsRelief.title")</h1>
 
     @form(action = controllers.routes.DeductionsController.submitLettingsRelief) {
 
-        <p>@helpText</p>
+        <p class="govuk-body govuk-hint">@Messages("calc.resident.lettingsRelief.help") @lettingsReliefLink</p>
 
-        <div class="form-group">
-            @inputRadioGroup(
-                field = lettingsReliefForm("isClaiming"),
-                Seq(
-                "Yes"->Messages("calc.base.yes"),
-                "No"->Messages("calc.base.no")),
-                '_legend -> Messages("calc.resident.lettingsRelief.title"),
-                '_legendID -> "isClaiming",
-                '_legendClass -> "visuallyhidden",
-                '_labelAfter -> true,
-                '_labelClass -> "block-label",
-                '_groupClass -> "inline"
-            )
-        </div>
-
+        @inputRadio(
+            Messages("calc.resident.lettingsRelief.title"),
+            legendClass = Some("govuk-visually-hidden"),
+            isPageHeading = false,
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+            ),
+            inLine = true,
+            field = lettingsReliefForm("isClaiming")
+        )
         <input type="hidden" name="isClaiming" value="" />
-
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
 
     }
 }

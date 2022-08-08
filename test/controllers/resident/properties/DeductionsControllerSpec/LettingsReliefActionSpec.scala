@@ -18,7 +18,7 @@ package controllers.resident.properties.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
 import akka.stream.Materializer
-import assets.MessageLookup.{LettingsRelief => messages}
+import assets.MessageLookup.{LettingsRelief => messages, Resident => commonMessages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.DeductionsController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -38,6 +38,7 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = Materializer(system)
+  lazy val title = s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
 
   def setupTarget(getData: Option[LettingsReliefModel]): DeductionsController = {
     when(mockSessionCacheConnector.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
@@ -62,9 +63,9 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
         status(result) shouldBe 200
       }
 
-      s"return some html with title of ${messages.title}" in {
+      s"return some html with title of $title" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title
+        Jsoup.parse(bodyOf(result)).title shouldEqual title
       }
 
       "have a back link to the PRR value page" in {
@@ -84,7 +85,7 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
 
       s"return some html with title of ${messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title
+        Jsoup.parse(bodyOf(result)).title shouldEqual title
       }
 
       "have a back link to PRR value page" in {
@@ -134,7 +135,7 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "render the lettings-relief page" in {
-        doc.title() shouldEqual messages.title
+        doc.title() shouldEqual s"Error: $title"
       }
     }
   }
