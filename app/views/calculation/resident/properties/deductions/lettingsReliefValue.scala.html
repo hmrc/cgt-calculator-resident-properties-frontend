@@ -21,31 +21,35 @@
 
 @this(
     form: FormWithCSRF,
-    residentMainTemplate: views.html.calculation.resident.resident_main_template,
-    formInputMoney: helpers.formInputMoney,
-    errorSummary: helpers.errorSummary
+    layout: Layout,
+    formInputMoney: playHelpers.formInputMoney,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton
 )
 
 @(lettingsReliefValueForm : Form[LettingsReliefValueModel], navHomeLink: String, totalGain: BigDecimal)(implicit request: Request[_], messages: Messages)
 
-@additionalContent = {
-    <p>@Messages("calc.resident.lettingsReliefValue.additionalContent", MoneyPounds(totalGain, 0).quantity)</p>
+@title = @{
+    if (lettingsReliefValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.lettingsReliefValue.title")) else Messages("calc.resident.lettingsReliefValue.title")
 }
+@layout(
+    pageTitle = Messages("calc.resident.lettingsReliefValue.title"),
+    backLinkHref = Some(controllers.routes.DeductionsController.lettingsRelief().toString)
+){
+    @errorSummary(lettingsReliefValueForm.errors, Some("lettings-relief-value"))
 
-@residentMainTemplate(
-    title = Messages("calc.resident.lettingsReliefValue.title"),
-    backLink = Some(controllers.routes.DeductionsController.lettingsRelief().toString),
-    homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.properties.home")) {
-
-    @errorSummary(lettingsReliefValueForm, "lettings-relief-value")
-
-    <h1>@Messages("calc.resident.lettingsReliefValue.question")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.lettingsReliefValue.question")</h1>
 
     @form(action = controllers.routes.DeductionsController.submitLettingsReliefValue) {
 
-    @formInputMoney(lettingsReliefValueForm, "amount", Messages("calc.resident.lettingsReliefValue.question"), additionalHTMLContent = Some(additionalContent.toString()), hideLabel = true)
+        <p class="govuk-inset-text">@Messages("calc.resident.lettingsReliefValue.additionalContent", MoneyPounds(totalGain, 0).quantity)</p>
 
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @formInputMoney(
+            field = lettingsReliefValueForm("amount"),
+            question = Messages("calc.resident.lettingsReliefValue.question"),
+            hideLabel = true
+        )
+
+        @submitButton()
     }
 }

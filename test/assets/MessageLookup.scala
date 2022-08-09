@@ -811,7 +811,7 @@ object MessageLookup {
 
   //Lettings Relief Value messages
   object LettingsReliefValue {
-    val title = s"How much Letting Relief are you entitled to?"
+    val title = s"How much Letting Relief are you entitled to? - Calculate your Capital Gains Tax - GOV.UK"
     val question = s"How much Letting Relief are you entitled to?"
     def additionalContent(input: String): String = s"We've calculated that you've made a gain of £$input on your property. " +
       s"You'll need this figure to calculate your Letting Relief."
