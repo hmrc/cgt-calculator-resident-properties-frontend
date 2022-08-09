@@ -20,51 +20,53 @@
 
 @this(
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup,
-    errorSummary: helpers.errorSummary,
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template
+    inputRadio: playHelpers.inputRadio,
+    errorSummary: playHelpers.errorSummary,
+    layout: Layout,
+    submitButton: playHelpers.submitButton
 )
 
 @(privateResidenceReliefForm : Form[PrivateResidenceReliefModel])(implicit request: Request[_], messages: Messages)
 
 @helpText = {
     @Messages("calc.resident.properties.privateResidenceRelief.helpText")
-    <a id="privateResidenceReliefQuestionLink" class="external-link" rel="external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet"
+    <a id="privateResidenceReliefQuestionLink" class="govuk-link" rel="external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet"
        target="_blank" data-journey-click="help:govUK:rtt-properties-privateResidenceReliefQuestionHelp">
         @Messages("calc.resident.properties.privateResidenceRelief.helpTextLink")
         <span>@Messages("calc.base.externalLink")</span>
     </a>
 }
 
-@residentPropertiesMainTemplate(
-    title = Messages("calc.resident.properties.privateResidenceRelief.title"),
-    backLink = Some(controllers.routes.DeductionsController.propertyLivedIn().url)) {
+@title = @{
+    if(privateResidenceReliefForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.privateResidenceRelief.title")) else Messages("calc.resident.properties.privateResidenceRelief.title")
+}
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.DeductionsController.propertyLivedIn().url)
+) {
 
-    @errorSummary(privateResidenceReliefForm, "isClaiming")
+    @errorSummary(privateResidenceReliefForm.errors, Some("isClaiming"))
 
-    <h1 class="heading-large">@Messages("calc.resident.properties.privateResidenceRelief.title")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.privateResidenceRelief.title")</h1>
 
     @form(action = controllers.routes.DeductionsController.submitPrivateResidenceRelief) {
 
-        <p class="form-hint">@helpText</p>
+        <p class="govuk-hint">@helpText</p>
 
-        @inputRadioGroup(
-            field = privateResidenceReliefForm("isClaiming"),
-            Seq(
-                "Yes"->Messages("calc.base.yes"),
-                "No"->Messages("calc.base.no")),
-                '_legend -> Messages("calc.resident.properties.privateResidenceRelief.title"),
-                '_legendID -> "option",
-                '_legendClass -> "visuallyhidden",
-                '_labelAfter -> true,
-                '_labelClass -> "block-label",
-                '_groupClass -> "inline form-group radio-list",
-                '_fieldsetAttributes -> "aria-details = help"
-            )
+        @inputRadio(
+            legend = Messages("calc.resident.properties.privateResidenceRelief.title"),
+            legendClass = Some("govuk-visually-hidden"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No")),
+            ),
+            isPageHeading = false,
+            inLine = true,
+            field = privateResidenceReliefForm("isClaiming")
+        )
 
-
-    <input type="hidden" name="isClaiming" value="" />
-    <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        <input type="hidden" name="isClaiming" value="" />
+        @submitButton()
 
     }
 

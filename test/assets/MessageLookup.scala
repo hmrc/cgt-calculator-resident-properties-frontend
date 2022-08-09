@@ -885,7 +885,8 @@ object MessageLookup {
 
   //############ Private Residence Relief messages #################//
   object PrivateResidenceRelief {
-    val title = "Are you entitled to Private Residence Relief?"
+    val title = "Are you entitled to Private Residence Relief? - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "Are you entitled to Private Residence Relief?"
     val helpTextOne = "You'll be entitled to Private Residence Relief if you've lived in the property as your main home " +
       "at some point while you owned it. Find out more about"
     val helpTextLink = "You may be entitled to Private Residence Relief if you've lived in the property as your main home at some point while you owned it. Find out more about Private Residence Relief"
