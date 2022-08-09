@@ -35,7 +35,8 @@
 
     <h2 class="govuk-heading-m">@Messages("calc.checkYourAnswers.tableHeading")</h2>
 
-    <dl class="govuk-summary-list">
+    @if(displayLinks) {<dl class="govuk-summary-list">} else {<table class="govuk-table"> <tbody class="govuk-table__body">}
+
     <!-- Gain Answers-->
     @summaryDateRowHelper("disposalDate",Messages("calc.resident.disposalDate.question"),gainAnswers.disposalDate, Some(gainRoutes.disposalDate().toString), extraClass = "summary-overline", displayLink = displayLinks)
 
@@ -143,7 +144,7 @@
         incomeAnswers.get.personalAllowanceModel.get.amount,Some(incomeRoutes.personalAllowance().toString), displayLink = displayLinks)}
 
     }
-    </dl>
+    @if(displayLinks) { </dl>} else {</tbody></table>}
 
 
 </section>
