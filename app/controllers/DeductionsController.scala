@@ -349,10 +349,10 @@ class DeductionsController @Inject()(
 
   val lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
-    def retrieveKeystoreData(): Future[Form[LossesBroughtForwardValueModel]] = {
+    def retrieveKeystoreData(taxYear: TaxYearModel): Future[Form[LossesBroughtForwardValueModel]] = {
       sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue).map {
-        case Some(data) => lossesBroughtForwardValueForm.fill(data)
-        case _ => lossesBroughtForwardValueForm
+        case Some(data) => lossesBroughtForwardValueForm(taxYear).fill(data)
+        case _ => lossesBroughtForwardValueForm(taxYear)
       }
     }
 
@@ -371,38 +371,41 @@ class DeductionsController @Inject()(
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
-      formData <- retrieveKeystoreData()
+      formData <- retrieveKeystoreData(taxYear.get)
       route <- routeRequest(taxYear.get, formData)
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
-    lossesBroughtForwardValueForm.bindFromRequest.fold(
-      errors => {
-        (for {
-          disposalDate <- getDisposalDate
-          disposalDateString <- formatDisposalDate(disposalDate.get)
-          taxYear <- calcConnector.getTaxYear(disposalDateString)
-        } yield {
-          BadRequest(lossesBroughtForwardValueView(
-            errors,
-            taxYear.get,
-            navBackLink = lossesBroughtForwardValueBackLink,
-            navHomeLink = homeLink,
-            postAction = lossesBroughtForwardValuePostAction,
-            navTitle = navTitle))
-        }).recoverToStart(homeLink, sessionTimeoutUrl)
-      },
-      success => {
-        sessionCacheConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success).flatMap(
-          _ =>  positiveChargeableGainCheck.map { positiveChargeableGain =>
-            if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-            else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
-          }
-        )
+    def routeRequest(taxYear: TaxYearModel): Future[Result] = {
+      lossesBroughtForwardValueForm(taxYear).bindFromRequest.fold(
+        errors => {
+            Future.successful(BadRequest(lossesBroughtForwardValueView(
+              errors,
+              taxYear,
+              navBackLink = lossesBroughtForwardValueBackLink,
+              navHomeLink = homeLink,
+              postAction = lossesBroughtForwardValuePostAction,
+              navTitle = navTitle)))
+        },
+        success => {
+          sessionCacheConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success).flatMap(
+            _ =>  positiveChargeableGainCheck.map { positiveChargeableGain =>
+              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+              else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+            }
+          )
+        }
+      )
+    }
 
-      }
-    )
+    (for {
+      disposalDate <- getDisposalDate
+      disposalDateString <- formatDisposalDate(disposalDate.get)
+      taxYear <- calcConnector.getTaxYear(disposalDateString)
+      route <- routeRequest(taxYear.get)
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
+
   }
 }

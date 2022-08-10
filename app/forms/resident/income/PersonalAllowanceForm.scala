@@ -21,6 +21,9 @@ import common.Validation._
 import models.resident.income.PersonalAllowanceModel
 import play.api.data.Forms._
 import play.api.data._
+import common.Formatters.text
+import common.resident.MoneyPounds
+import models.resident.TaxYearModel
 
 object PersonalAllowanceForm {
 
@@ -28,15 +31,25 @@ object PersonalAllowanceForm {
     input => if (input > maxPersonalAllowance) false else true
   }
 
-  def personalAllowanceForm(maxPA: BigDecimal = BigDecimal(0)): Form[PersonalAllowanceModel] = Form(
+  def personalAllowanceForm(taxYear: TaxYearModel, maxPA: BigDecimal = BigDecimal(0)): Form[PersonalAllowanceModel] = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmountNoDecimal", bigDecimalCheck)
+      "amount" -> text("calc.resident.personalAllowance.mandatoryAmount", taxYear.startYear, taxYear.endYear)
+        .verifying(constraintBuilder("calc.resident.personalAllowance.mandatoryAmount", taxYear.startYear, taxYear.endYear) {
+          mandatoryCheck
+        })
+        .verifying(constraintBuilder("calc.resident.personalAllowance.invalidAmount", taxYear.startYear, taxYear.endYear) {
+          bigDecimalCheck
+        })
         .transform[BigDecimal](stringToBigDecimal, _.toString())
-        .verifying(maxMonetaryValueConstraint(maxPA))
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmountNoDecimal", decimalPlacesCheckNoDecimal)
+        .verifying(constraintBuilder("calc.resident.personalAllowance.maximumAmount", taxYear.startYear, taxYear.endYear, MoneyPounds(maxPA).quantity) {
+          validateMaxPA(maxPA)
+        })
+        .verifying(constraintBuilder("calc.resident.personalAllowance.minimumAmount", taxYear.startYear, taxYear.endYear) {
+          isPositive
+        })
+        .verifying(constraintBuilder("calc.resident.personalAllowance.invalidAmount", taxYear.startYear, taxYear.endYear) {
+          decimalPlacesCheckNoDecimal
+        })
     )(PersonalAllowanceModel.apply)(PersonalAllowanceModel.unapply)
   )
 

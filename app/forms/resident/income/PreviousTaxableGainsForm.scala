@@ -21,12 +21,13 @@ import common.Validation._
 import models.resident.income.PreviousTaxableGainsModel
 import play.api.data.Forms._
 import play.api.data._
+import common.Formatters.text
 
 object PreviousTaxableGainsForm {
 
   val previousTaxableGainsForm = Form(
     mapping(
-      "amount" -> text
+      "amount" -> text("calc.common.error.mandatoryAmount")
         .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, _.toString())

@@ -16,23 +16,26 @@
 
 package forms.resident.properties
 
+import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.properties.ImprovementsModel
 import play.api.data.Forms._
 import play.api.data._
+import common.Formatters.text
+import common.resident.MoneyPounds
 
 object ImprovementsForm {
 
   val improvementsForm = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.properties.improvements.mandatoryAmount")
+        .verifying("calc.resident.properties.improvements.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.properties.improvements.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint())
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(constraintBuilder("calc.resident.properties.improvements.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
+        .verifying("calc.resident.properties.improvements.minimumAmount", isPositive)
+        .verifying("calc.resident.properties.improvements.invalidAmount", decimalPlacesCheck)
     )(ImprovementsModel.apply)(ImprovementsModel.unapply)
   )
 }

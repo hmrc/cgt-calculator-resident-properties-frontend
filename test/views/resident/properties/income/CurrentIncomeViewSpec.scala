@@ -27,10 +27,11 @@ import views.html.calculation.resident.properties.income.currentIncome
 class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   lazy val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
+  lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
+
   "Current Income view" should {
 
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-    lazy val view = currentIncomeView(currentIncomeForm, "", taxYearModel, false)(fakeRequest, testingMessages)
+    lazy val view = currentIncomeView(currentIncomeForm(taxYearModel), "", taxYearModel, false)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -119,7 +120,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "is due to mandatory field error" should {
 
-      lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
+      lazy val form = currentIncomeForm(taxYearModel).bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = currentIncomeView(form, "", taxYearModel, false)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)

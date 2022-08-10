@@ -16,23 +16,26 @@
 
 package forms.resident
 
+import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.WorthWhenSoldForLessModel
 import play.api.data.Forms._
 import play.api.data._
+import common.Formatters.text
+import common.resident.MoneyPounds
 
 object WorthWhenSoldForLessForm {
 
   val worthWhenSoldForLessForm = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.properties.worthWhenSoldForLess.mandatoryAmount")
+        .verifying("calc.resident.properties.worthWhenSoldForLess.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.properties.worthWhenSoldForLess.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint())
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(constraintBuilder("calc.resident.properties.worthWhenSoldForLess.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
+        .verifying("calc.resident.properties.worthWhenSoldForLess.minimumAmount", isPositive)
+        .verifying("calc.resident.properties.worthWhenSoldForLess.invalidAmount", decimalPlacesCheck)
     )(WorthWhenSoldForLessModel.apply)(WorthWhenSoldForLessModel.unapply)
   )
 }

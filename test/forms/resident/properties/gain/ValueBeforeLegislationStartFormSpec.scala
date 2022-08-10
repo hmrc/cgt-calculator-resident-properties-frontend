@@ -57,7 +57,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe messages.Errors.valueBeforeLegislationStartMandatoryAmount
       }
     }
 
@@ -75,7 +75,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe messages.Errors.valueBeforeLegislationStartMandatoryAmount
       }
     }
 
@@ -92,7 +92,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.valueBeforeLegislationStartInvalidAmount
       }
     }
 
@@ -109,7 +109,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.valueBeforeLegislationStartInvalidAmount
       }
     }
 
@@ -126,7 +126,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+        form.error("amount").get.message shouldBe messages.Errors.valueBeforeLegislationStartMaximumAmount
       }
     }
 
@@ -143,7 +143,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+        form.error("amount").get.message shouldBe messages.Errors.valueBeforeLegislationStartMinimumAmount
       }
     }
   }

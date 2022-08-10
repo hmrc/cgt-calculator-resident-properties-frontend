@@ -16,23 +16,37 @@
 
 package forms.resident.income
 
+import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.income.CurrentIncomeModel
 import play.api.data.Forms._
 import play.api.data._
+import common.Formatters.text
+import common.resident.MoneyPounds
+import models.resident.TaxYearModel
 
 object CurrentIncomeForm {
 
-  val currentIncomeForm = Form(
+  def currentIncomeForm(taxYear: TaxYearModel):Form[CurrentIncomeModel] = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.currentIncome.mandatoryAmount", taxYear.startYear, taxYear.endYear)
+        .verifying(constraintBuilder[String]("calc.resident.currentIncome.mandatoryAmount", taxYear.startYear, taxYear.endYear){
+          mandatoryCheck
+        })
+        .verifying(constraintBuilder[String]("calc.resident.currentIncome.invalidAmount", taxYear.startYear, taxYear.endYear) {
+          bigDecimalCheck
+        })
         .transform[BigDecimal](stringToBigDecimal, _.toString())
-        .verifying(maxMonetaryValueConstraint())
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(constraintBuilder[BigDecimal]("calc.resident.currentIncome.maximumAmount", taxYear.startYear, taxYear.endYear, MoneyPounds(Constants.maxNumeric, 0).quantity){
+          maxCheck
+        })
+        .verifying(constraintBuilder[BigDecimal]("calc.resident.currentIncome.minimumAmount", taxYear.startYear, taxYear.endYear){
+          isPositive
+        })
+        .verifying(constraintBuilder[BigDecimal]("calc.resident.currentIncome.invalidAmount", taxYear.startYear, taxYear.endYear){
+          decimalPlacesCheck
+        })
     )(CurrentIncomeModel.apply)(CurrentIncomeModel.unapply)
   )
 }

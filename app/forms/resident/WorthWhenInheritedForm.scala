@@ -16,23 +16,26 @@
 
 package forms.resident
 
+import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.WorthWhenInheritedModel
 import play.api.data.Form
 import play.api.data.Forms._
+import common.Formatters.text
+import common.resident.MoneyPounds
 
 object WorthWhenInheritedForm {
 
   val worthWhenInheritedForm = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.properties.worthWhenInherited.mandatoryAmount")
+        .verifying("calc.resident.properties.worthWhenInherited.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.properties.worthWhenInherited.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint())
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(constraintBuilder("calc.resident.properties.worthWhenInherited.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
+        .verifying("calc.resident.properties.worthWhenInherited.minimumAmount", isPositive)
+        .verifying("calc.resident.properties.worthWhenInherited.invalidAmount", decimalPlacesCheck)
     )(WorthWhenInheritedModel.apply)(WorthWhenInheritedModel.unapply)
   )
 }

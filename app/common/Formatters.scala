@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package models.resident
+package common
 
-import play.api.libs.json.Json
+import play.api.data.{FieldMapping, FormError}
+import play.api.data.format.Formatter
+import play.api.data.Forms.of
 
-case class TaxYearModel (taxYearSupplied: String, isValidYear: Boolean, calculationTaxYear: String) {
-  val startYear: String = TaxYearModel.convertToSummaryFormat(taxYearSupplied)(0)
-  val endYear: String = TaxYearModel.convertToSummaryFormat(taxYearSupplied)(1)
-}
+object Formatters {
+  def text(errorKey: String, args: String*): FieldMapping[String] = of(stringFormatter(errorKey, args:_*))
 
-object TaxYearModel {
-  implicit val formats = Json.format[TaxYearModel]
-
-  def convertToSummaryFormat(taxYear: String): Seq[String] = {
-    val startYear = taxYear.take(4)
-    val endYear = startYear.toInt + 1
-    Seq(startYear, endYear.toString)
+  def stringFormatter(errorKey: String, args: String*): Formatter[String] = new Formatter[String] {
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] =
+      data.get(key).toRight(Seq(FormError(key, errorKey, args)))
+    def unbind(key: String, value: String)           = Map(key -> value)
   }
 }

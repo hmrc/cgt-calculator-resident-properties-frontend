@@ -21,13 +21,14 @@ import play.api.data.Form
 import play.api.data.Forms._
 import common.Transformers._
 import common.Validation._
+import common.Formatters.text
 
 
 object SellOrGiveAwayForm {
 
   val sellOrGiveAwayForm = Form(
     mapping(
-      "givenAway" -> text
+      "givenAway" -> text("calc.resident.sellOrGiveAway.errors.mandatory")
         .verifying("calc.resident.sellOrGiveAway.errors.mandatory", mandatoryCheck)
         .verifying("calc.resident.sellOrGiveAway.errors.mandatory", givenAwayCheck)
         .transform(givenAwayToBoolean, booleanToGivenAway)

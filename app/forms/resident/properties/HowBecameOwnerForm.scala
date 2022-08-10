@@ -20,12 +20,13 @@ import common.Validation._
 import models.resident.properties.HowBecameOwnerModel
 import play.api.data.Form
 import play.api.data.Forms._
+import common.Formatters.text
 
 object HowBecameOwnerForm {
 
   val howBecameOwnerForm = Form(
     mapping(
-      "gainedBy" -> text
+      "gainedBy" -> text("calc.resident.howBecameOwner.errors.mandatory")
         .verifying("calc.resident.howBecameOwner.errors.mandatory", mandatoryCheck)
         .verifying("calc.resident.howBecameOwner.errors.mandatory", howBecameOwnerCheck)
     )(HowBecameOwnerModel.apply)(HowBecameOwnerModel.unapply)

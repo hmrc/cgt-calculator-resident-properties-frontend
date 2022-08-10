@@ -59,8 +59,8 @@ class WorthWhenSoldForLessFormSpec extends CommonPlaySpec with WithCommonFakeApp
         form.errors.length shouldEqual 1
       }
 
-      s"error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+      s"error with message '${messages.Errors.worthWhenSoldForLessMandatoryAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenSoldForLessMandatoryAmount
       }
     }
 
@@ -76,8 +76,8 @@ class WorthWhenSoldForLessFormSpec extends CommonPlaySpec with WithCommonFakeApp
         form.errors.length shouldEqual 1
       }
 
-      s"error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"error with message '${messages.Errors.worthWhenSoldForLessInvalidAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenSoldForLessInvalidAmount
       }
     }
 
@@ -92,8 +92,8 @@ class WorthWhenSoldForLessFormSpec extends CommonPlaySpec with WithCommonFakeApp
         form.errors.length shouldEqual 1
       }
 
-      s"return a form with the error message ${messages.maximumAmount}" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+      s"return a form with the error message ${messages.Errors.worthWhenSoldForLessMaximumAmount}" in {
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenSoldForLessMaximumAmount
       }
     }
 
@@ -109,8 +109,8 @@ class WorthWhenSoldForLessFormSpec extends CommonPlaySpec with WithCommonFakeApp
         form.errors.length shouldEqual 1
       }
 
-      s"error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+      s"error with message '${messages.Errors.worthWhenSoldForLessMinimumAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenSoldForLessMinimumAmount
       }
     }
 
@@ -126,8 +126,8 @@ class WorthWhenSoldForLessFormSpec extends CommonPlaySpec with WithCommonFakeApp
         form.errors.length shouldEqual 1
       }
 
-      s"error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"error with message '${messages.Errors.worthWhenSoldForLessInvalidAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenSoldForLessInvalidAmount
       }
     }
   }
