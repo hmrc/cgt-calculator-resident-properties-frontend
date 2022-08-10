@@ -71,7 +71,7 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
       }
 
       "display the reliefs value view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.newTitle
       }
     }
 
@@ -89,7 +89,7 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
       }
 
       "display the Reliefs Value view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.newTitle
       }
     }
   }
@@ -135,7 +135,7 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
       }
 
       "render the Reliefs Value page" in {
-        doc.title() shouldEqual messages.title
+        doc.title() shouldEqual messages.errorTitle
       }
     }
   }
