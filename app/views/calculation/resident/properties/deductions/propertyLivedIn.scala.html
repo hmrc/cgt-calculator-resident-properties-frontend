@@ -21,40 +21,41 @@
 
 @this(
     residentMainTemplate: calculation.resident.resident_main_template,
-    inputRadioGroup: InputRadioGroup,
-    errorSummary: helpers.errorSummary,
+    layout: Layout,
+    inputRadio: playHelpers.inputRadio,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton,
     form: FormWithCSRF
 )
 
 @(propertyLivedInForm: Form[PropertyLivedInModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(title = Messages("calc.resident.properties.propertyLivedIn.title"),
-    backLink = navBackLink,
-    homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.properties.home")
+@title = @{
+    if (propertyLivedInForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.propertyLivedIn.title")) else Messages("calc.resident.properties.propertyLivedIn.title")
+}
+
+@layout(
+    pageTitle = Messages("calc.resident.properties.propertyLivedIn.title"),
+    backLinkHref = Some(controllers.routes.GainController.improvements().toString)
 ) {
 
-    @errorSummary(propertyLivedInForm, "property-lived-in")
-
-    <h1 class="heading-large">@Messages("calc.resident.properties.propertyLivedIn.title")</h1>
+    @errorSummary(propertyLivedInForm.errors, Some("property-lived-in"))
 
     @form(action = controllers.routes.DeductionsController.submitPropertyLivedIn) {
-
-        <div id="radio-input" class="form-group">
-            @inputRadioGroup(
-                field = propertyLivedInForm("livedInProperty"),
-                Seq(
-                "Yes" -> Messages("calc.base.yes"),
-                "No" -> Messages("calc.base.no")),
-                '_legend -> Messages("calc.resident.properties.propertyLivedIn.title"),
-                '_labelClass -> "block-label",
-                '_legendClass -> "visuallyhidden",
-                '_groupClass -> "inline"
+         @inputRadio(
+                legend = Messages("calc.resident.properties.propertyLivedIn.title"),
+                legendClass = Some("govuk-label--l"),
+                items = Seq(
+                    RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                    RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+                ),
+                inLine = true,
+                field = propertyLivedInForm("livedInProperty")
             )
-        </div>
 
         <input type="hidden" name="livedInProperty" value="" />
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+        @submitButton()
     }
 
 }
