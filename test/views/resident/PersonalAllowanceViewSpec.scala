@@ -46,11 +46,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"have a title ${messages.question("2015/16")}" in {
-        doc.title() shouldBe messages.question("2015/16")
-      }
-
-      "have a dynamic navTitle of navTitle" in {
-        doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
+        doc.title() shouldBe messages.title("2015/16")
       }
 
       "have a back button that" should {
@@ -66,10 +62,6 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         "have a link to Current Income" in {
           backLink.attr("href") shouldBe "back-link"
         }
-      }
-
-      "have a home link to the properties disposal date" in {
-        doc.select("#homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
       s"have the page heading '${messages.question("2015/16")}'" in {
@@ -110,7 +102,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "the link should have a set of attributes" which {
 
         "has the external link class" in {
-          doc.select("#currentRatesAndAllowancesLink").hasClass("external-link") shouldEqual true
+          doc.select("#currentRatesAndAllowancesLink").hasClass("govuk-link") shouldEqual true
         }
 
         "has the attribute rel" in {
@@ -151,7 +143,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         s"have a legend for an input with text ${messages.question("2015/16")}" in {
-          doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question("2015/16")
+          doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question("2015/16")
         }
       }
 
@@ -166,23 +158,19 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         "is of type number" in {
-          input.attr("type") shouldBe "number"
-        }
-
-        "has a step value of '1'" in {
-          input.attr("step") shouldBe "1"
+          input.attr("type") shouldBe "text"
         }
       }
 
       "have a continue button that" should {
-        lazy val continueButton = doc.select("button#continue-button")
+        lazy val continueButton = doc.getElementsByClass("govuk-button")
 
         s"have the button text '${commonMessages.continue}'" in {
           continueButton.text shouldBe commonMessages.continue
         }
 
-        "be of type submit" in {
-          continueButton.attr("type") shouldBe "submit"
+        "be of id submit" in {
+          continueButton.attr("id") shouldBe "submit"
         }
       }
 
@@ -208,17 +196,15 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
+      lazy val header = doc.getElementsByClass("govuk-heading-l")
+      val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
 
-      s"have a title ${messages.currentYearQuestion}" in {
-        doc.title() shouldBe messages.currentYearQuestion
+      s"have the page heading '${messages.currentYearTitle}'" in {
+        h1Tag.text shouldBe messages.currentYearTitle
       }
 
-      s"have the page heading '${messages.currentYearQuestion}'" in {
-        h1Tag.text shouldBe messages.currentYearQuestion
-      }
-
-      s"have a legend for an input with text ${messages.currentYearQuestion}" in {
-        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.currentYearQuestion
+      s"have a legend for an input with text ${messages.currentYearTitle}" in {
+        doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.currentYearTitle
       }
     }
 
@@ -234,7 +220,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
 
       s"have a title ${messages.question(s"$nextTaxYear")}" in {
-        doc.title() shouldBe messages.question(s"$nextTaxYear")
+        doc.title() shouldBe messages.title(s"$nextTaxYear")
       }
 
       s"have the page heading '${messages.question(s"$nextTaxYear")}'" in {
@@ -242,7 +228,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
-        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question(s"$nextTaxYear")
+        doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question(s"$nextTaxYear")
       }
     }
 
@@ -256,12 +242,12 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
         lazy val doc = Jsoup.parse(view.body)
 
-        "display an error summary message for the amount" in {
-          doc.body.select("#amount-error-summary").size shouldBe 1
+        "not display an error summary message for the amount" in {
+          doc.body.select(".govuk-error-summary").size shouldBe 1
         }
 
-        "display an error message for the input" in {
-          doc.body.select(".form-group .error-notification").size shouldBe 1
+        "not display an error message for the input" in {
+          doc.body.select(".govuk-error-message").size shouldBe 1
         }
       }
     }

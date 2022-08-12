@@ -871,7 +871,9 @@ object MessageLookup {
   //Personal Allowance messages
   object PersonalAllowance {
     def question(taxYear: String = "2016/17"): String = s"In the $taxYear tax year, what was your Personal Allowance?"
-    val currentYearQuestion = "How much is your Personal Allowance?"
+    def title(taxYear: String = "2016/17"): String = s"In the $taxYear tax year, what was your Personal Allowance? - Calculate your Capital Gains Tax - GOV.UK"
+    val currentYearQuestion = "How much is your Personal Allowance - Calculate your Capital Gains Tax - GOV.UK?"
+    val currentYearTitle = "How much is your Personal Allowance?"
     val link = "Income tax rates and Personal Allowances (opens in a new window)"
     val linkText = "Find out more about"
     val help = "This is the amount of your income that you don't pay tax on."
