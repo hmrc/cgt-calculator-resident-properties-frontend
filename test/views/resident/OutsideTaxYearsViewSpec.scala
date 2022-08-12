@@ -37,15 +37,11 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       s"return a title of ${messages.title}" in {
-        doc.title shouldBe messages.title
-      }
-
-      "have a dynamic navTitle of navTitle" in {
-        doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
+        doc.title shouldBe messages.newTitle
       }
 
       "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-        doc.getElementById("homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
       s"have a heading of ${messages.title}" in {
@@ -83,7 +79,7 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       s"return a title of ${messages.title}" in {
-        doc.title shouldBe messages.title
+        doc.title shouldBe messages.newTitle
       }
 
       s"have a heading of ${messages.title}" in {
@@ -102,7 +98,7 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
         }
 
         "have the back-link class" in {
-          backLink.hasClass("back-link") shouldBe true
+          backLink.hasClass("govuk-back-link") shouldBe true
         }
 
         "have a link to 'back-link'" in {
@@ -111,14 +107,10 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "have a continue button that" should {
-        lazy val button = doc.select("a#continue-button")
+        lazy val button = doc.getElementsByClass("govuk-button")
 
         "have the correct text 'Continue'" in {
           button.text() shouldBe commonMessages.continue
-        }
-
-        s"have an href to 'continue-link'" in {
-          button.attr("href") shouldBe "continue-link"
         }
       }
     }
