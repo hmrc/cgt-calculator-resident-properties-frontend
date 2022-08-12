@@ -274,8 +274,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "render the brought forward losses page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldEqual messages.title("2015/16")
-      }
+        Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: ${messages.title("2015/16")}"      }
     }
   }
 }

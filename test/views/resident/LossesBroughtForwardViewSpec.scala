@@ -41,21 +41,17 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    "have a dynamic navTitle of navTitle" in {
-      doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
-    }
-
     s"have a title ${messages.title("2017/18")}" in {
       doc.title() shouldBe messages.title("2017/18")
     }
 
     "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.getElementById("homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a hidden legend" in {
-      val legend = doc.select("legend")
-      legend.hasClass("visuallyhidden") shouldBe true
+      val legend = doc.getElementsByClass("govuk-fieldset__legend")
+      legend.hasClass("govuk-visually-hidden") shouldBe true
     }
 
     s"have a back link with text ${commonMessages.back}" in {
@@ -63,7 +59,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     s"have the question of the page ${messages.question("2017/18")}" in {
-      doc.select("h1").text() shouldEqual messages.question("2017/18")
+      doc.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question("2017/18")
     }
 
     s"render a form tag with a POST action" in {
@@ -71,11 +67,11 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     s"have a visually hidden legend for an input with text ${messages.question("2017/18")}" in {
-      doc.select("legend.visuallyhidden").text() shouldEqual messages.question("2017/18")
+      doc.getElementsByClass("govuk-fieldset__legend govuk-visually-hidden").text() shouldEqual messages.question("2017/18")
     }
 
     "have hint text" which {
-      lazy val hintText = doc.select("article p")
+      lazy val hintText = doc.getElementsByClass("govuk-hint")
 
       s"with the message ${messages.helpText}" in {
         hintText.text() shouldBe messages.helpText
@@ -83,15 +79,15 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     s"have an input field with id option-yes " in {
-      doc.body.getElementById("option-yes").tagName() shouldEqual "input"
+      doc.body.getElementById("option").tagName() shouldEqual "input"
     }
 
     s"have an input field with id option-no " in {
-      doc.body.getElementById("option-no").tagName() shouldEqual "input"
+      doc.body.getElementById("option-2").tagName() shouldEqual "input"
     }
 
     "have a continue button " in {
-      doc.body.getElementById("continue-button").text shouldEqual commonMessages.continue
+      doc.body.getElementsByClass("govuk-button").text shouldEqual commonMessages.continue
     }
   }
 
@@ -101,7 +97,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
-      doc.body.getElementById("option-yes").parent.select("label").hasClass("selected") shouldBe true
+      doc.body.getElementById("option").hasAttr("checked") shouldBe true
     }
 
     "not have a drop down button" in {
@@ -115,7 +111,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'No' auto selected" in {
-      doc.body.getElementById("option-no").parent.select("label").hasClass("selected") shouldBe true
+      doc.body.getElementById("option-2").hasAttr("checked") shouldBe true
     }
   }
 
@@ -125,11 +121,11 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#option-error-summary").size shouldBe 1
+      doc.body.getElementsByClass("govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select("span.error-notification").size shouldBe 1
+      doc.body.getElementsByClass("govuk-error-message").size shouldBe 1
     }
   }
 }
