@@ -312,8 +312,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
       "has an option output row for brought forward losses" which {
 
-        s"should have the question text '${commonMessages.LossesBroughtForward.title("2015/16")}'" in {
-          doc.select("#broughtForwardLosses-question").text shouldBe commonMessages.LossesBroughtForward.title("2015/16")
+        s"should have the question text '${commonMessages.LossesBroughtForward.question("2015/16")}'" in {
+          doc.select("#broughtForwardLosses-question").text shouldBe commonMessages.LossesBroughtForward.question("2015/16")
         }
 
         "should have the value 'Yes'" in {
@@ -337,7 +337,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
       "has a numeric output row for brought forward losses value" which {
 
         s"should have the question text '${commonMessages.LossesBroughtForwardValue.title("2015/16")}'" in {
-          doc.select("#broughtForwardLossesValue-question").text shouldBe commonMessages.LossesBroughtForwardValue.title("2015/16")
+          doc.select("#broughtForwardLossesValue-question").text shouldBe commonMessages.LossesBroughtForwardValue.question("2015/16")
         }
 
         "should have the value '£10,000'" in {
