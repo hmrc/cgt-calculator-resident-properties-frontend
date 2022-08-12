@@ -18,35 +18,36 @@
 @import models.resident.TaxYearModel
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
-@import common.Dates
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    errorSummary: helpers.errorSummary,
-    residentMainTemplate: calculation.resident.resident_main_template,
-    formInputMoney: helpers.formInputMoney
+    errorSummary: playHelpers.errorSummary,
+    layout: Layout,
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton
 )
-
 @(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages)
 
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(
         if(taxYearValid) Messages("calc.resident.personalAllowance.currentYearQuestion")
-        else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { question =>
+        else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { title =>
 
+            @layout(
+                pageTitle = if(personalAllowanceForm.errors.nonEmpty) Messages("site.title.error",  title) else title,
+                backLinkHref = backLink
+            ) {
 
-        @residentMainTemplate(title = question, backLink = backLink, homeLink = homeLink, navTitle = navTitle) {
+            @errorSummary(personalAllowanceForm.errors, Some("amount"))
 
-            @errorSummary(personalAllowanceForm, "amount")
-
-            <h1 class="heading-large">@question</h1>
+            <h1 class="govuk-heading-l">@title</h1>
 
             @form(action = postAction) {
 
-                <p>@Messages("calc.personalAllowance.help")</p>
+                <p class="govuk-body">@Messages("calc.personalAllowance.help")</p>
 
-                <p>
+                <p class="govuk-body">
                 @{
                     val splitYear = taxYear.taxYearSupplied.split("/")
                     Messages("calc.personalAllowance.list.title",
@@ -56,29 +57,27 @@
                 }
                 </p>
 
-                <ul class="list list-bullet">
+                <ul class="govuk-list--bullet govuk-body">
                     <li>@Messages("calc.personalAllowance.list.one")</li>
                     <li>@Messages("calc.personalAllowance.list.two")</li>
                     <li>@Messages("calc.personalAllowance.list.three")</li>
                 </ul>
 
                 <div class="form-group">
-                    <span>@Messages("calc.personalAllowance.link.text")</span>
-                    <a id="currentRatesAndAllowancesLink" class="external-link" rel="external" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
+                    <span class="govuk-body">@Messages("calc.personalAllowance.link.text")</span>
+                    <a id="currentRatesAndAllowancesLink" class="govuk-link govuk-body" rel="external" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
                     target="_blank" data-journey-click="help:govUK:rtt-properties-currentRatesAndAllowancesHelp">
                     @Messages("calc.personalAllowance.link")
                     </a>
                 </div>
+                </br>
                 @formInputMoney(
-                    personalAllowanceForm,
-                    "amount",
-                    question,
-                    None,
-                    hideLabel = true,
-                    step = "1")
+                    field = personalAllowanceForm("amount"),
+                    question = title,
+                    hideLabel = true
+                )
 
-                <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
-
+                @submitButton()
             }
         }
     }
