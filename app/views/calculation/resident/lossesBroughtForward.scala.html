@@ -20,45 +20,45 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentMainTemplate: calculation.resident.resident_main_template,
-    errorSummary: helpers.errorSummary,
+    errorSummary: playHelpers.errorSummary,
+    layout: Layout,
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup
+    inputRadio: playHelpers.inputRadio,
+    submitButton: playHelpers.submitButton
 )
 
 @(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    title = Messages("calc.resident.lossesBroughtForward.title",
-    taxYear.taxYearSupplied),
-    backLink = Some(backLinkUrl),
-    homeLink = navHomeLink,
-    navTitle = navTitle
+@title = @{
+    if (lossesBroughtForwardForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied))
+    else Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied)}
+
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(backLinkUrl)
 ) {
 
-    @errorSummary(lossesBroughtForwardForm, "option")
+    @errorSummary(lossesBroughtForwardForm.errors, Some("option"))
 
-    <h1 class="heading-large">@Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied)</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied)</h1>
 
     @form(action = postAction) {
 
-        <p class="form-hint">@Messages("calc.resident.lossesBroughtForward.helpText")</p>
+        <p class="govuk-hint">@Messages("calc.resident.lossesBroughtForward.helpText")</p>
 
-        @inputRadioGroup(
-            field = lossesBroughtForwardForm("option"),
-            Seq(
-            "Yes"->Messages("calc.base.yes"),
-            "No"->Messages("calc.base.no")),
-            '_legend -> Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied),
-            '_legendID -> "option",
-            '_legendClass -> "visuallyhidden",
-            '_labelAfter -> true,
-            '_labelClass -> "block-label",
-            '_groupClass -> "inline form-group radio-list"
+        @inputRadio(
+            legend = Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied),
+            legendClass = Some("govuk-visually-hidden"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+            ),
+            inLine = true,
+            field = lossesBroughtForwardForm("option")
         )
 
         <input type="hidden" name="option" value="" />
-        <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
 
+        @submitButton()
     }
 }

@@ -167,8 +167,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "render the personal allowance page" in {
-        doc.title() shouldEqual messages.title("2015/16")
-      }
+        Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: ${messages.title("2015/16")}"      }
     }
   }
 }

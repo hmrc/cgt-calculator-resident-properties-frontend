@@ -844,7 +844,7 @@ object MessageLookup {
 
   //Losses Brought Forward messages
   object LossesBroughtForward {
-    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
+    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
     def question(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
     val helpText = "These are unused losses that are covered by Capital Gains Tax and that you've already reported to HMRC."
     val errorSelect = "calc.resident.lossesBroughtForward.errorSelect"
