@@ -22,7 +22,7 @@ import org.jsoup.nodes.Document
 import play.twirl.api.HtmlFormat
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.helpers.resident.summaryOptionRowHelper
+import views.html.playHelpers.resident.summaryOptionRowHelper
 
 class SummaryOptionRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication  with BaseViewSpec {
 
@@ -36,20 +36,10 @@ class SummaryOptionRowHelperSpec extends CommonPlaySpec with WithCommonFakeAppli
       lazy val row: HtmlFormat.Appendable = summaryOptionRowHelperView("testID","testQ",answer = true)
       lazy val doc: Document = Jsoup.parse(row.body)
 
-      "have a question section" which {
-        lazy val questionDiv = doc.select("#testID-question")
+      "have no link" in {
+        lazy val link = doc.select("#testID-change-link a")
 
-        "has the correct text" in {
-          questionDiv.text shouldBe "testQ"
-        }
-      }
-
-      "have an option section" which {
-        lazy val amountDiv = doc.select("#testID-option")
-
-        "has the correct option" in {
-          amountDiv.text shouldBe "Yes"
-        }
+        link.size() shouldBe 0
       }
     }
 
@@ -91,7 +81,7 @@ class SummaryOptionRowHelperSpec extends CommonPlaySpec with WithCommonFakeAppli
           }
 
           "is visible to only screen readers" in {
-            link.select("span").hasClass("visuallyhidden") shouldEqual true
+            link.select("span").hasClass("govuk-visually-hidden") shouldEqual true
           }
         }
       }

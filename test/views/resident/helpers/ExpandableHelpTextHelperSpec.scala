@@ -19,7 +19,7 @@ package views.resident.helpers
 import org.jsoup.Jsoup
 import play.twirl.api.Html
 import common.{CommonPlaySpec,WithCommonFakeApplication}
-import views.html.helpers.expandableHelpTextHelper
+import views.html.playHelpers.expandableHelpTextHelper
 
 class ExpandableHelpTextHelperSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
@@ -37,25 +37,18 @@ class ExpandableHelpTextHelperSpec extends CommonPlaySpec with WithCommonFakeApp
         details.attr("id") shouldBe "help"
       }
 
-      "has the role of 'group'" in {
-        details.attr("role") shouldBe "group"
-      }
     }
 
     "have a header summary" which {
 
       val summary = doc.select("summary")
 
-      "has the role 'button'" in {
-        summary.attr("role") shouldBe "button"
-      }
-
       "has 'aria-controls' of 'details-content-0" in {
-        summary.attr("aria-controls") shouldBe "details-content-0"
+        summary.hasClass("govuk-details__summary") shouldBe true
       }
 
       "has span with a class of 'summary'" in {
-        summary.select("span").hasClass("summary") shouldBe true
+        summary.select("span").hasClass("govuk-details__summary-text") shouldBe true
       }
 
       "contains text 'testQ'" in {
@@ -68,7 +61,7 @@ class ExpandableHelpTextHelperSpec extends CommonPlaySpec with WithCommonFakeApp
       val hiddenHtml = doc.select("div")
 
       "has the class 'panel-indent'" in {
-        hiddenHtml.hasClass("panel-indent") shouldBe true
+        hiddenHtml.hasClass("govuk-details__text") shouldBe true
       }
 
       "contains additional html text" in {

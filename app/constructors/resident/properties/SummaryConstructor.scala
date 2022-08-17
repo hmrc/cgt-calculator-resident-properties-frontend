@@ -18,7 +18,7 @@ package constructors.resident.properties
 
 import models.resident._
 import models.resident.properties._
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
+import common.resident.MoneyPounds
 
 import scala.math.BigDecimal.RoundingMode
 

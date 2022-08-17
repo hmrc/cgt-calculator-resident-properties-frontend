@@ -33,17 +33,7 @@ class FrontendGlobalSpec extends CommonPlaySpec with WithCommonFakeApplication w
         val result = cgtErrorHandler.standardErrorTemplate("test", "teat-heading", "test-message")(fakeRequest)
         val doc = Jsoup.parse(result.body)
 
-        doc.getElementById("homeNavHref").attr("href") shouldBe controllers.routes.PropertiesController.introduction().url
-      }
-    }
-
-    "on a journey which does not exist" should {
-      "have a link to the non-resident start journey" in {
-        val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/error").withSession(SessionKeys.sessionId -> "12345")
-        val result = cgtErrorHandler.standardErrorTemplate("test", "teat-heading", "test-message")(fakeRequest)
-        val doc = Jsoup.parse(result.body)
-
-        doc.getElementById("homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/"
+        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe controllers.routes.PropertiesController.introduction().url
       }
     }
   }

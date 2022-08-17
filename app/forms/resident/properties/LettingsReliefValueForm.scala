@@ -22,8 +22,7 @@ import common.Validation._
 import models.resident.properties.LettingsReliefValueModel
 import play.api.data.Forms._
 import play.api.data._
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
-
+import common.resident.MoneyPounds
 import scala.math._
 
 object LettingsReliefValueForm {

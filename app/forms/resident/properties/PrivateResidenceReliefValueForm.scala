@@ -21,7 +21,7 @@ import common.Validation._
 import models.resident.properties.PrivateResidenceReliefValueModel
 import play.api.data.Forms._
 import play.api.data._
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
+import common.resident.MoneyPounds
 
 object PrivateResidenceReliefValueForm {
 

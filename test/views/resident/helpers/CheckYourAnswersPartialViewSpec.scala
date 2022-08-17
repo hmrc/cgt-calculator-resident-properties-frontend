@@ -28,7 +28,7 @@ import play.api.i18n.Lang
 import play.twirl.api.HtmlFormat
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.helpers.checkYourAnswersPartial
+import views.html.playHelpers.checkYourAnswersPartial
 
 class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
   val fakeLang = Lang("en")
@@ -67,7 +67,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link is visuallyhidden" in {
-          doc.select("#disposalDate-change-link a span.visuallyhidden").text shouldBe commonMessages.DisposalDate.question
+          doc.select("#disposalDate-change-link > a > span").text shouldBe commonMessages.DisposalDate.question
         }
       }
 
@@ -90,7 +90,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#sellOrGiveAway-change-link a span.visuallyhidden").text shouldBe commonMessages.PropertiesSellOrGiveAway.heading
+          doc.select("#sellOrGiveAway-change-link > span").text shouldBe commonMessages.PropertiesSellOrGiveAway.heading
         }
       }
 
@@ -114,7 +114,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#whoDidYouGiveItTo-change-link a span.visuallyhidden").text shouldBe commonMessages.WhoDidYouGiveItTo.title
+          doc.select("#whoDidYouGiveItTo-change-link > span").text shouldBe commonMessages.WhoDidYouGiveItTo.title
         }
       }
 
@@ -138,7 +138,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#worthWhenGaveAway-change-link a span.visuallyhidden").text shouldBe
+          doc.select("#worthWhenGaveAway-change-link > a > span").text shouldBe
             propertiesMessages.PropertiesWorthWhenGaveAway.title
         }
       }
@@ -180,7 +180,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#ownerBeforeLegislationStart-change-link a span.visuallyhidden").text shouldBe
+          doc.select("#ownerBeforeLegislationStart-change-link > a > span").text shouldBe
             propertiesMessages.OwnerBeforeLegislationStart.heading
         }
       }
@@ -205,7 +205,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#valueBeforeLegislationStart-change-link a span.visuallyhidden").text shouldBe
+          doc.select("#valueBeforeLegislationStart-change-link > a > span").text shouldBe
             propertiesMessages.ValueBeforeLegislationStart.question
         }
       }
@@ -260,7 +260,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#propertyLivedIn-change-link a span.visuallyhidden").text shouldBe commonMessages.PropertyLivedIn.title
+          doc.select("#propertyLivedIn-change-link > a > span").text shouldBe commonMessages.PropertyLivedIn.title
         }
       }
 
@@ -283,7 +283,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#privateResidenceRelief-change-link a span.visuallyhidden").text shouldBe commonMessages.PrivateResidenceRelief.heading
+          doc.select("#privateResidenceRelief-change-link > a > span").text shouldBe commonMessages.PrivateResidenceRelief.heading
         }
       }
 
@@ -306,7 +306,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#lettingsReliefValue-change-link a span.visuallyhidden").text shouldBe commonMessages.LettingsReliefValue.question
+          doc.select("#lettingsReliefValue-change-link > a > span").text shouldBe commonMessages.LettingsReliefValue.question
         }
       }
 
@@ -330,7 +330,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#broughtForwardLosses-change-link a span.visuallyhidden").text shouldBe commonMessages.LossesBroughtForward.question("2015/16")
+          doc.select("#broughtForwardLosses-change-link > a > span").text shouldBe commonMessages.LossesBroughtForward.question("2015/16")
         }
       }
 
@@ -388,6 +388,55 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
     "have no links" in {
       doc.select("a").size() shouldBe 0
     }
+
+    "have a row for dates" which {
+
+      "has the correct text" in {
+        lazy val questionDiv = doc.select("#disposalDate-question")
+        questionDiv.text shouldBe commonMessages.DisposalDate.question
+      }
+
+      "has the correct value" in {
+        lazy val amountDiv = doc.select("#disposalDate-date")
+        amountDiv.text shouldBe "10 October 2016"
+      }
+    }
+
+    "have a row for numeric values" which {
+      "has the correct text" in {
+        lazy val questionDiv = doc.select("#worthWhenGaveAway-question")
+        questionDiv.text shouldBe commonMessages.NonResident.MarketValue.disposalGaveAwayQuestion
+      }
+      "has the correct value" in {
+        lazy val amountDiv = doc.select("#worthWhenGaveAway-amount")
+        amountDiv.text shouldBe "£10,000"
+
+      }
+    }
+
+    "have a row for option values" which {
+      "has the correct text" in {
+        lazy val questionDiv = doc.select("#sellOrGiveAway-question")
+        questionDiv.text shouldBe commonMessages.PropertiesSellOrGiveAway.heading
+      }
+      "has the correct value" in {
+        lazy val amountDiv = doc.select("#sellOrGiveAway-option")
+        amountDiv.text shouldBe "Gave it away"
+
+      }
+    }
+
+    "have a row for text values" which {
+      "has the correct text" in {
+        lazy val questionDiv = doc.select("#whoDidYouGiveItTo-question")
+        questionDiv.text shouldBe commonMessages.WhoDidYouGiveItTo.title
+      }
+      "has the correct value" in {
+        lazy val amountDiv = doc.select("#whoDidYouGiveItTo-option")
+        amountDiv.text shouldBe "Someone else"
+
+      }
+    }
   }
 
   "The check your answers partial with as little filled in as possible" should {
@@ -417,7 +466,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#propertyLivedIn-change-link a span.visuallyhidden").text shouldBe commonMessages.PropertyLivedIn.title
+          doc.select("#propertyLivedIn-change-link > a > span").text shouldBe commonMessages.PropertyLivedIn.title
         }
       }
 
@@ -462,7 +511,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#broughtForwardLosses-change-link a span.visuallyhidden").text shouldBe commonMessages.LossesBroughtForward.question("2015/16")
+          doc.select("#broughtForwardLosses-change-link > a > span").text shouldBe commonMessages.LossesBroughtForward.question("2015/16")
         }
       }
 

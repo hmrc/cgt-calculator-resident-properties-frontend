@@ -24,7 +24,7 @@ import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
-import views.html.helpers.finalSummaryPartial
+import views.html.playHelpers.finalSummaryPartial
 
 class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
@@ -129,7 +129,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
           "has a h3 tag" which {
 
             s"has the text '${summaryMessages.yourTotalGain}'" in {
-              div.select("h3").text shouldBe summaryMessages.yourTotalGain
+              doc.getElementsByClass("govuk-table__caption govuk-table__caption--m").text contains summaryMessages.yourTotalGain
             }
           }
 
@@ -182,7 +182,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
           "has a h3 tag" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("h3").text shouldBe summaryMessages.yourDeductions
+              doc.select("#yourDeductions > caption").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -219,12 +219,12 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
         "has a div for Taxable Gain" which {
 
-          lazy val div = doc.select("#yourTaxableGain")
+          lazy val div = doc.getElementById("yourTaxableGain")
 
           "has a h3 tag" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.select("h3").text shouldBe summaryMessages.yourTaxableGain
+              div.getElementsByClass("govuk-table__caption govuk-table__caption--m").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -261,16 +261,16 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
         "has a div for tax rate" which {
 
-          lazy val div = doc.select("#yourTaxRate")
+          lazy val div = doc.getElementById("yourTaxRate")
 
           "has a h3 tag" which {
 
             s"has the text ${summaryMessages.yourTaxRate}" in {
-              div.select("h3").text shouldBe summaryMessages.yourTaxRate
+              div.select("#yourTaxRate > caption.govuk-table__caption.govuk-table__caption--m").text shouldBe summaryMessages.yourTaxRate
             }
 
             s"has the text ${summaryMessages.ratesHelp}" in {
-              div.select("h4").text shouldBe summaryMessages.ratesHelp
+              div.select("#yourTaxRate > caption.govuk-table__caption.govuk-table__caption--s").text shouldBe summaryMessages.ratesHelp
             }
           }
 
@@ -306,12 +306,12 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
         "has a div for remaining deductions" which {
 
-          lazy val div = doc.select("#remainingDeductions")
+          lazy val div = doc.getElementById("remainingDeductions")
 
           "has a h2 tag" which {
 
             s"has the text ${summaryMessages.remainingDeductions}" in {
-              div.select("h2").text shouldBe summaryMessages.remainingDeductions
+              div.select("#remainingDeductions > table > caption").text shouldBe summaryMessages.remainingDeductions
             }
           }
 
@@ -991,7 +991,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       lazy val doc = Jsoup.parse(view.body)
 
       s"display a notice summary with text ${summaryMessages.noticeSummary}" in {
-        doc.select("div.notice-wrapper").text should include(summaryMessages.noticeSummary)
+        doc.body().select(".govuk-warning-text").text should include(summaryMessages.noticeSummary)
       }
     }
 

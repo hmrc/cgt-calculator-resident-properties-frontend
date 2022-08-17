@@ -14,16 +14,12 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation.resident.properties._
 @import models.resident.properties.gain.WhoDidYouGiveItToModel
-@import play.api.Application
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
     layout: Layout,
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
     inputRadioGroup: playHelpers.inputRadio,
     errorSummary: playHelpers.errorSummary,
     submitButton: playHelpers.submitButton
