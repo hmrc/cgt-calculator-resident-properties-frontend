@@ -21,7 +21,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.resident.income.PersonalAllowanceForm._
 import models.resident.income.PersonalAllowanceModel
 import common.{CommonPlaySpec,WithCommonFakeApplication}
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
+import common.resident.MoneyPounds
 
 class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   "Creating a form using an empty model" should {

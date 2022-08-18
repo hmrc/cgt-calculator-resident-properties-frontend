@@ -19,7 +19,7 @@ package views.resident.helpers
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.helpers.resident.summarySectionHeaderHelper
+import views.html.playHelpers.resident.summarySectionHeaderHelper
 
 class SummarySectionHeaderHelperSpec extends CommonPlaySpec with WithCommonFakeApplication  with BaseViewSpec {
 

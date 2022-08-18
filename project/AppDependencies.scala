@@ -24,7 +24,6 @@ object AppDependencies {
   val playFrontendVersion      = "0.88.0-play-28"
   val jsonJodaVersion          = "2.9.2"
   val govUKTemplateVersion     = "5.77.0-play-28"
-  val playUiVersion            = "9.10.0-play-28"
   val playPartialsVersion      = "8.3.0-play-28"
   val httpCachingClientVersion = "9.6.0-play-28"
   val mongoCachingVersion      = "7.1.0-play-28"
@@ -37,7 +36,6 @@ object AppDependencies {
     "uk.gov.hmrc"       %% "play-frontend-hmrc"   % playFrontendVersion,
     "com.typesafe.play" %% "play-json-joda"       % jsonJodaVersion,
     "uk.gov.hmrc"       %% "govuk-template"       % govUKTemplateVersion,
-    "uk.gov.hmrc"       %% "play-ui"              % playUiVersion,
     "uk.gov.hmrc"       %% "play-partials"        % playPartialsVersion,
     "uk.gov.hmrc"       %% "http-caching-client"  % httpCachingClientVersion,
     "uk.gov.hmrc"       %% "mongo-caching"        % mongoCachingVersion,
