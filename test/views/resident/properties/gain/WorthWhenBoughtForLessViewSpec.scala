@@ -50,7 +50,7 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
 
     "has a form hint" which {
 
-      lazy val formHint = doc.select("div.govuk-hint")
+      lazy val formHint = doc.getElementsByClass("govuk-body")
 
       s"has the first paragraph of ${messages.helpOne}" in {
         formHint.select("p").get(0).text shouldEqual messages.helpOne

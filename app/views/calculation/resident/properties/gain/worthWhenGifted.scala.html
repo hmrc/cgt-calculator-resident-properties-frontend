@@ -43,8 +43,11 @@
 
     <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenGifted.question")</h1>
 
-    <p class="govuk-body govuk-hint">@Messages("calc.resident.properties.worthWhenGifted.hintOne")</p>
-    <p class="govuk-body govuk-hint">@Messages("calc.resident.properties.worthWhenGifted.hintTwo")</p>
+    <div class="govuk-body">
+        <p>@Messages("calc.resident.properties.worthWhenGifted.hintOne")</p>
+        <p>@Messages("calc.resident.properties.worthWhenGifted.hintTwo")</p>
+    </div>
+
 
     @govukInsetText(InsetText(
         content = Text(Messages("calc.resident.properties.worthWhenGifted.jointOwner"))

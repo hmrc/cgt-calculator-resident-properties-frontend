@@ -98,23 +98,23 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       "has a help list of bullet points that" should {
 
         s"have the title text ${messages.bulletTitle}" in {
-          doc.body.select("div p.govuk-hint").text shouldBe messages.bulletTitle
+          doc.body.select("div p.govuk-body").text shouldBe messages.bulletTitle
         }
 
         s"have the first bullet of ${messages.bulletOne}" in {
-          doc.body.select("div ul.govuk-hint li").get(0).text shouldBe messages.bulletOne
+          doc.body.select("div ul.govuk-body li").get(0).text shouldBe messages.bulletOne
         }
 
         s"have the second bullet of ${messages.bulletTwo}" in {
-          doc.body.select("div ul.govuk-hint li").get(1).text shouldBe messages.bulletTwo
+          doc.body.select("div ul.govuk-body li").get(1).text shouldBe messages.bulletTwo
         }
 
         s"have the third bullet of ${messages.bulletThree}" in {
-          doc.body.select("div ul.govuk-hint li").get(2).text shouldBe messages.bulletThree
+          doc.body.select("div ul.govuk-body li").get(2).text shouldBe messages.bulletThree
         }
 
         s"have the fourth bullet of ${messages.bulletFour}" in {
-          doc.body.select("div ul.govuk-hint li").get(3).text shouldBe messages.bulletFour
+          doc.body.select("div ul.govuk-body li").get(3).text shouldBe messages.bulletFour
         }
       }
 

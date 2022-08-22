@@ -105,15 +105,15 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
             s"has a list" which {
               s"have the first bullet of ${messages.bulletOne}" in {
-                doc.body.select("#main-content > div > div > form > div.govuk-hint > ul > li:nth-child(1)").text shouldBe messages.bulletOne
+                doc.body.select("#main-content > div > div > form > div.govuk-body > ul > li:nth-child(1)").text shouldBe messages.bulletOne
               }
 
               s"have the second bullet of ${messages.bulletTwo}" in {
-                doc.body.select("#main-content > div > div > form > div.govuk-hint > ul > li:nth-child(2)").text shouldBe messages.bulletTwo
+                doc.body.select("#main-content > div > div > form > div.govuk-body > ul > li:nth-child(2)").text shouldBe messages.bulletTwo
               }
 
               s"have the third bullet of ${messages.bulletThree}" in {
-                doc.body.select("#main-content > div > div > form > div.govuk-hint > ul > li:nth-child(3)").text shouldBe messages.bulletThree
+                doc.body.select("#main-content > div > div > form > div.govuk-body > ul > li:nth-child(3)").text shouldBe messages.bulletThree
               }
 
             }

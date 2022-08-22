@@ -52,8 +52,8 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       }
     }
 
-    "have the correct hint" in {
-      doc.select(".govuk-hint").text shouldBe messages.hint
+    "have the correct body" in {
+      doc.select(".govuk-body").text shouldBe messages.hint
     }
 
     s"has the joint ownership text ${messages.jointOwner}" in {

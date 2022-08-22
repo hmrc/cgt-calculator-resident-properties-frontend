@@ -70,8 +70,8 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       doc.getElementsByClass("govuk-body").text should include(messages.information)
     }
 
-    s"has the hint text ${messages.hintText}" in {
-      doc.getElementsByClass("govuk-hint").text shouldEqual messages.hintText
+    s"has the body text ${messages.hintText}" in {
+      doc.select("#main-content > div > div > div.govuk-body").text shouldEqual messages.hintText
     }
 
     s"has the joint ownership text ${messages.jointOwnership}" in {
