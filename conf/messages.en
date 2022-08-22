@@ -11,7 +11,7 @@ calc.base.yes = Yes
 calc.base.no = No
 calc.base.back = Back
 calc.base.optionReqError = Choose one of the options
-calc.base.externalLink = (opens in a new window)
+calc.base.externalLink = (opens in new tab)
 calc.base.undefinedMessage = Undefined message
 calc.base.change = Change
 calc.base.nonresident.home = Calculate your Capital Gains Tax
@@ -64,7 +64,7 @@ calc.personalAllowance.list.one = earned more than £100,000
 calc.personalAllowance.list.two = claimed Blind Person''s Allowance
 calc.personalAllowance.list.three = claimed Marriage Allowance
 calc.personalAllowance.link.text = Find out more about
-calc.personalAllowance.link = Income tax rates and Personal Allowances (opens in a new window)
+calc.personalAllowance.link = Income tax rates and Personal Allowances (opens in new tab)
 
 ## Market Value ##
 calc.resident.properties.gaveItAway.hintText = If you owned the property with someone else, only enter your share of the property value.
@@ -97,7 +97,7 @@ calc.checkYourAnswers.tableHeading = You''ve told us
 calc.resident.properties.introduction.title = Work out how much Capital Gains Tax you owe
 calc.resident.properties.introduction.subheading = Do you need to use this calculator?
 calc.resident.properties.introduction.paragraph = You probably don''t need to pay Capital Gains Tax if the property you''ve sold is your own home. You may be entitled to a tax relief called Private Residence Relief.
-calc.resident.properties.introduction.entitledLinkText = Find out if you''re entitled to Private Residence Relief (opens in a new window).
+calc.resident.properties.introduction.entitledLinkText = Find out if you''re entitled to Private Residence Relief (opens in new tab).
 calc.resident.properties.introduction.continuationInstructions = Continue to use this calculator if you''ve never lived at the property, or you''re entitled to only some or no Private Residence Relief.
 
 ## Disposal Date messages
@@ -311,12 +311,6 @@ calc.summary.whatToDoNext.heading = What to do next
 calc.summary.whatToDoNext.details = Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax.
 calc.summary.noticeSummary = Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax.
 calc.summary.download = Download
-
-#Summary User Banner
-calc.summary.dismissBanner = No thanks
-calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
-calc.summary.userResearchLink.title = Help improve GOV.UK
-calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new window)
 
 ## What to do next
 calc.whatToDoNext.title = What to do next
