@@ -44,7 +44,7 @@
         @form(action = controllers.routes.DeductionsController.submitPrivateResidenceReliefValue) {
 
                 <p id="helpText" class="govuk-inset-text">@Messages("calc.resident.privateResidenceReliefValue.help", MoneyPounds(totalGain, 0).quantity)</p>
-                <a id="privateResidenceReliefAmountLink" class="govuk-link" rel="external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet"
+                <a id="privateResidenceReliefAmountLink" class="govuk-link govuk-body" rel="external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet"
                 target="_blank" data-journey-click="help:govUK:rtt-properties-privateResidenceReliefAmountHelp">
                     @Messages("calc.resident.privateResidenceReliefValue.link") @Messages("calc.base.externalLink")
                 </a>
