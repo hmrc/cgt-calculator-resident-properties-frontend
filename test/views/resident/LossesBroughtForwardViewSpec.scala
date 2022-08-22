@@ -59,7 +59,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     s"have the question of the page ${messages.question("2017/18")}" in {
-      doc.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question("2017/18")
+      doc.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2017/18")
     }
 
     s"render a form tag with a POST action" in {

@@ -44,7 +44,7 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "have the heading-large class" in {
-        h1Tag.hasClass("govuk-heading-l") shouldBe true
+        h1Tag.hasClass("govuk-heading-xl") shouldBe true
       }
     }
 

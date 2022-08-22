@@ -63,7 +63,7 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have the heading-large class" in {
-        heading.hasClass("govuk-heading-l") shouldEqual true
+        heading.hasClass("govuk-heading-xl") shouldEqual true
       }
     }
 

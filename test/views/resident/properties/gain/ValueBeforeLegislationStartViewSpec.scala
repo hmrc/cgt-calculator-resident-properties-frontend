@@ -62,7 +62,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       }
 
       "have the heading-large class" in {
-        heading.hasClass("govuk-heading-l") shouldEqual true
+        heading.hasClass("govuk-heading-xl") shouldEqual true
       }
     }
 

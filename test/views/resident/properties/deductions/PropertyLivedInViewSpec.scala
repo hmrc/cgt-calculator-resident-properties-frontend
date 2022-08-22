@@ -42,7 +42,7 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "have a H1 tag that" should {
 
-      lazy val h1Tag = doc.getElementsByClass("govuk-fieldset__legend govuk-label--l")
+      lazy val h1Tag = doc.getElementsByClass("govuk-fieldset__heading")
 
       s"have the page heading '${messages.title}'" in {
         h1Tag.text shouldBe messages.title
