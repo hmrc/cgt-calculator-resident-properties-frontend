@@ -618,7 +618,7 @@ object MessageLookup {
     val title = "When did you sell or give away the property? - Calculate your Capital Gains Tax - GOV.UK"
     val errorTitle = "Error: When did you sell or give away the property? - Calculate your Capital Gains Tax - GOV.UK"
     val question = "When did you sell or give away the property?"
-    val helpText = "For example, 4 9 2016"
+    val helpText = "For example, 4 9 2021"
     val day = "Day"
     val month = "Month"
     val year = "Year"
