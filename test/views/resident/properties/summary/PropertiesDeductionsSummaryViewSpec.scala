@@ -113,18 +113,18 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
       lazy val banner = doc.select("#tax-owed-banner")
 
       "contains a h1" which {
-        lazy val h1 = banner.select("h1")
+        lazy val h2 = banner.select("h2")
 
         s"has the text '£0.00'" in {
-          h1.text() shouldEqual "£0.00"
+          h2.text() shouldEqual "£0.00"
         }
       }
 
       "contains a h2" which {
-        lazy val h2 = banner.select("h2")
+        lazy val h1 = banner.select("h1")
 
         s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
-          h2.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
+          h1.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
         }
       }
     }

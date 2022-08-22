@@ -35,8 +35,8 @@
     totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 <div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
-    <h1 class="govuk-panel__title">&pound;@MoneyPounds(result.taxOwed, 2).quantity</h1>
-    <h2 class="govuk-panel__body">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*)</h2>
+    <h1 class="govuk-panel__title">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*)</h1>
+    <h2 class="govuk-panel__body">&pound;@MoneyPounds(result.taxOwed, 2).quantity</h2>
 </div>
 
 @{if (!taxYear.isValidYear) {
