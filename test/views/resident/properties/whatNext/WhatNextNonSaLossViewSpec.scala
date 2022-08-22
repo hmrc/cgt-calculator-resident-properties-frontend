@@ -65,7 +65,7 @@ class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "have a return to GOV.UK link" which {
 
-      lazy val govUk = doc.select("#govUk").select("a")
+      lazy val govUk = doc.body.getElementById("govUK")
 
       s"has text ${messages.govUk}" in {
         govUk.text shouldBe messages.govUk

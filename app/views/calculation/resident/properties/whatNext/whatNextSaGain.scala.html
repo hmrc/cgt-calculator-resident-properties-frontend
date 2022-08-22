@@ -46,5 +46,5 @@
         content = Text(Messages("calc.whatToDoNext.reportNow"))
     ))
 
-    <p id="exit-survey-message" class="govuk-body govuk-!-margin-bottom-9">@Messages("calc.whatToDoNext.exitSurveyMessage") <a id="exit-survey-link" class="govuk-link" rel="noreferrer noopener" target="_blank" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>
+    <p id="exit-survey-message" class="govuk-body">@Messages("calc.whatToDoNext.exitSurveyMessage") <a id="exit-survey-link" class="govuk-link govuk-body" rel="noreferrer noopener" target="_blank" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>
 }
