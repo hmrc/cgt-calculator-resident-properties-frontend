@@ -31,7 +31,7 @@
         backLinkHref = if(isAfterApril15){Some(navBackLink)} else { None },
 ) {
 
-    <h1 class="govuk-heading-l">@Messages("calc.resident.outsideTaxYears.title")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.outsideTaxYears.title")</h1>
 
     @if(isAfterApril15) {
         <p class="govuk-body-l lede">@Messages("calc.resident.outsideTaxYears.message", taxYear.calculationTaxYear)</p>

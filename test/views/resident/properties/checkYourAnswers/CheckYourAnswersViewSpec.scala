@@ -66,7 +66,7 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
   s"have a page heading" which {
 
     s"includes a secondary heading with text '${messages.heading}'" in {
-      doc.select("h1.govuk-heading-l").text shouldBe messages.heading
+      doc.select("h1.govuk-heading-xl").text shouldBe messages.heading
     }
   }
 

@@ -143,7 +143,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         s"have a legend for an input with text ${messages.question("2015/16")}" in {
-          doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question("2015/16")
+          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015/16")
         }
       }
 
@@ -196,7 +196,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
-      lazy val header = doc.getElementsByClass("govuk-heading-l")
+      lazy val header = doc.getElementsByClass("govuk-heading-xl")
       val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
 
       s"have the page heading '${messages.currentYearTitle}'" in {
@@ -204,7 +204,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"have a legend for an input with text ${messages.currentYearTitle}" in {
-        doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.currentYearTitle
+        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.currentYearTitle
       }
     }
 
@@ -228,7 +228,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
-        doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question(s"$nextTaxYear")
+        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question(s"$nextTaxYear")
       }
     }
 

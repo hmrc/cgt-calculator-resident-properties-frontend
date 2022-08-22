@@ -64,7 +64,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have the heading-large class" in {
-        heading.hasClass("govuk-heading-l") shouldBe true
+        heading.hasClass("govuk-heading-xl") shouldBe true
       }
     }
 
