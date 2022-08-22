@@ -64,7 +64,7 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     s"have the help text ${messages.help}" in {
-      doc.select("p.govuk-hint").text should include(messages.help)
+      doc.select("p.govuk-body").text should include(messages.help)
     }
 
     s"should contain a help text link to the market value info page" which {

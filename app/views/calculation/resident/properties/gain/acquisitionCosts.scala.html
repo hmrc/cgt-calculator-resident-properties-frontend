@@ -41,9 +41,9 @@
     <h1 class="govuk-heading-xl">@Messages("calc.resident.acquisitionCosts.question")</h1>
 
     @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
-        <div class="govuk-hint">
+        <div class="govuk-body">
             <p id="listTitle">@Messages("calc.resident.acquisitionCosts.listTitle")</p>
-            <ul>
+            <ul class="govuk-list govuk-list--bullet">
                 <li>@Messages("calc.resident.acquisitionCosts.bulletOne")</li>
                 <li>@Messages("calc.resident.acquisitionCosts.bulletTwo")</li>
                 <li>@Messages("calc.resident.acquisitionCosts.bulletThree")</li>

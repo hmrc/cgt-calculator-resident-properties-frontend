@@ -62,7 +62,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "has a form hint" which {
 
-      lazy val formHint = doc.select("p.govuk-hint")
+      lazy val formHint = doc.getElementsByClass("govuk-body")
 
       s"has the first paragraph of ${messages.hintOne}" in {
         formHint.select("p").get(0).text shouldEqual messages.hintOne
