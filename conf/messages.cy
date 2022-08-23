@@ -5,7 +5,7 @@ calc.base.button.continue = Yn eich blaen
 calc.base.calculate.tax.heading = Cyfrifo''ch Treth Enillion Cyfalaf
 calc.base.change = Newid
 calc.base.continue = Yn eich blaen
-calc.base.externalLink = (yn agor ffenestr newydd)
+calc.base.externalLink = (yn agor tab newydd)
 calc.base.govUk = GOV.UK
 calc.base.hmrc = Cyllid a Thollau EM
 calc.base.home = Hafan
@@ -59,7 +59,7 @@ calc.month.12 = Rhagfyr
 
 calc.personalAllowance.help = Dyma swm eich incwm nad ydych yn talu treth arno.
 calc.personalAllowance.link.text = Rhagor o wybodaeth am
-calc.personalAllowance.link = Gyfraddau Treth Incwm a Lwfansau Personol (yn agor ffenestr newydd)
+calc.personalAllowance.link = Gyfraddau Treth Incwm a Lwfansau Personol (yn agor tab newydd)
 calc.personalAllowance.list.one = ennill mwy na £100,000
 calc.personalAllowance.list.title = Yn y flwyddyn dreth {0} i {1}, £{2} oedd Lwfans Personol y DU, oni bai eich bod wedi gwneud y canlynol:
 calc.personalAllowance.list.two = hawlio Lwfans Person Dall
@@ -159,7 +159,7 @@ calc.resident.properties.improvements.question = Faint ydych wedi''i wario ar we
 calc.resident.properties.improvements.questionBefore = Faint ydych wedi''i wario ar welliannau ers 31 Mawrth 1982?
 
 calc.resident.properties.introduction.continuationInstructions = Parhewch i ddefnyddio''r gyfrifiannell hon os nad ydych erioed wedi byw yn yr eiddo, neu os oes gennych hawl i rywfaint o Lwfans Preswylfan Preifat yn unig neu os nad oes gennych hawl i Lwfans Preswylfan Preifat o gwbl.
-calc.resident.properties.introduction.entitledLinkText = Cael gwybod a oes hawl gennych i Ryddhad Preswylfan Preifat (yn agor ffenestr newydd).
+calc.resident.properties.introduction.entitledLinkText = Cael gwybod a oes hawl gennych i Ryddhad Preswylfan Preifat (yn agor tab newydd).
 calc.resident.properties.introduction.paragraph = Mae''n debyg nad oes angen i chi dalu Treth Enillion Cyfalaf os mai''ch cartref eich hun yw''r eiddo rydych wedi''i werthu. Efallai y bydd gennych hawl i ryddhad treth o''r enw Rhyddhad Preswylfan Preifat.
 calc.resident.properties.introduction.subheading = A oes angen i chi ddefnyddio''r gyfrifiannell hon?
 calc.resident.properties.introduction.title = Cyfrifo faint o Dreth Enillion Cyfalaf sydd arnoch
@@ -303,9 +303,3 @@ calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifianne
 calc.yourOptions.title = Eich opsiynau
 
 session.timeout.message = Mae''ch sesiwn wedi dod i ben
-
-#Summary User Banner
-calc.summary.dismissBanner = No thanks
-calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
-calc.summary.userResearchLink.title = Help improve GOV.UK
-calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new window)
