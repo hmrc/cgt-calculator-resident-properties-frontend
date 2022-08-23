@@ -58,17 +58,17 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
     "has a banner" which {
       lazy val banner = doc.getElementById("tax-owed-banner")
 
-      "contains a h1" which {
-        lazy val h1 = banner.select("h1")
+      "contains a h2" which {
+        lazy val h2 = banner.select("h2")
 
         s"has the text '£0.00'" in {
-          h1.text() shouldEqual "£0.00"
+          h2.text() shouldEqual "£0.00"
         }
       }
 
       "contains a paragraph" which {
         s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
-          doc.getElementsByClass("govuk-panel__body").text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
+          doc.getElementsByClass("govuk-panel__title").text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
         }
       }
     }
