@@ -309,7 +309,7 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
       }
     }
 
-    "have a section for What to do next" which {
+    "have a section for What happens next" which {
       lazy val section = doc.select("#whatToDoNext")
 
       "has a h2 tag" which {

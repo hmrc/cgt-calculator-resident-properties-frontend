@@ -381,7 +381,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
         }
       }
 
-      "have a section for What to do next" which {
+      "have a section for What happens next" which {
         lazy val section = doc.select("#whatToDoNext")
 
         "has a h2 tag" which {
