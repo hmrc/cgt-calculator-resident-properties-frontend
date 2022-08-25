@@ -225,13 +225,13 @@ calc.resident.whatNextNonSa.gain.detailsOne = Defnyddiwch ein ffurflen ar-lein i
 calc.resident.whatNextNonSa.gain.detailsTwo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 calc.resident.whatNextNonSa.gain.govUk = Yn ôl i GOV.UK
 calc.resident.whatNextNonSa.gain.reportNow = Rhowch wybod nawr
-calc.resident.whatNextNonSa.gain.title = Yr hyn i''w wneud nesaf
+calc.resident.whatNextNonSa.gain.title = Yr hyn sy’n digwydd nesaf
 
 calc.resident.whatNextNonSa.loss.detailsOne = Os ydych wedi gwneud colled yr hoffech ei defnyddio yn erbyn Treth Enillion Cyfalaf yn y dyfodol, gallwch roi gwybod amdani gan ddefnyddio ein ffurflen ar-lein.
 calc.resident.whatNextNonSa.loss.detailsTwo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 calc.resident.whatNextNonSa.loss.govUk = Yn ôl i GOV.UK
 calc.resident.whatNextNonSa.loss.reportNow = Rhowch wybod nawr
-calc.resident.whatNextNonSa.loss.title = Yr hyn i''w wneud nesaf
+calc.resident.whatNextNonSa.loss.title = Yr hyn sy’n digwydd nesaf
 
 calc.resident.whoDidYouGiveThePropertyTo.charity = Elusen
 calc.resident.whoDidYouGiveThePropertyTo.errormandatory = Rhowch wybod i ni i bwy y gwnaethoch roi''r eiddo
@@ -279,7 +279,7 @@ calc.summary.startAgain = Dechrau eto
 calc.summary.warning.taxYear = Efallai y bydd eich cyfanswm yn llai cywir oherwydd na wnaethoch werthu''ch eiddo na''i roi i ffwrdd yn y flwyddyn dreth hon
 
 calc.summary.whatToDoNext.details = Cyn i chi fynd yn eich blaen, cadwch gopi o''ch cyfrifiad. Bydd angen hwn arnoch pan fyddwch yn rhoi gwybod am eich Treth Enillion Cyfalaf.
-calc.summary.whatToDoNext.heading = Yr hyn i''w wneud nesaf
+calc.summary.whatToDoNext.heading = Yr hyn sy’n digwydd nesaf
 
 calc.whatToDoNext.finish = Yn ôl i GOV.UK
 calc.whatToDoNext.fourAEA.information = Bydd yn rhaid i chi roi gwybod am eich ffigurau Treth Enillion Cyfalaf drwy Hunanasesiad.
@@ -295,7 +295,7 @@ calc.whatToDoNext.noGain.bulletTitle = Os ydych wedi gwneud colled yr hoffech ei
 calc.whatToDoNext.noGain.reportImportant = Os byddwch yn rhoi gwybod am hyn nawr, bydd dal yn rhaid i chi ddatgan eich enillion cyfalaf drwy Hunanasesiad.
 calc.whatToDoNext.noGain.reportNowInfo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 calc.whatToDoNext.reportNow = Rhowch wybod nawr
-calc.whatToDoNext.title = Yr hyn i''w wneud nesaf
+calc.whatToDoNext.title = Yr hyn sy’n digwydd nesaf
 calc.whatToDoNext.longTaxYear = {0} i {1}
 calc.whatToDoNext.exitSurveyMessage = Os nad ydych am roi gwybod am enillion cyfalaf ar hyn o bryd, gallwch adael y dudalen nawr neu
 calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifiannell Treth Enillion Cyfalaf (mae’n cymryd 2 funud).
