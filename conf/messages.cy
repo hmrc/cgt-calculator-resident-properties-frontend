@@ -300,6 +300,6 @@ calc.whatToDoNext.longTaxYear = {0} i {1}
 calc.whatToDoNext.exitSurveyMessage = Os nad ydych am roi gwybod am enillion cyfalaf ar hyn o bryd, gallwch adael y dudalen nawr neu
 calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifiannell Treth Enillion Cyfalaf (mae’n cymryd 2 funud).
 
-calc.yourOptions.title = Eich opsiynau
+calc.yourOptions.title = Eich opsiynau ar gyfer rhoi gwybod am eich Treth Enillion Cyfalaf
 
 session.timeout.message = Mae''ch sesiwn wedi dod i ben
