@@ -28,25 +28,28 @@
 
 @(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages)
 
-@title = @{
-    if (lossesBroughtForwardForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied))
-    else Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied)}
+@title = @{Messages("calc.resident.lossesBroughtForward.question", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1))}
+
+@titleWithErrors = @{
+    if (lossesBroughtForwardForm.errors.nonEmpty) Messages("site.title.error", title)
+    else title
+}
 
 @layout(
-    pageTitle = title,
+    pageTitle = titleWithErrors,
     backLinkHref = Some(backLinkUrl)
 ) {
 
     @errorSummary(lossesBroughtForwardForm.errors, Some("option"))
 
-    <h1 class="govuk-heading-xl">@Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied)</h1>
+    <h1 class="govuk-heading-xl">@title</h1>
 
     @form(action = postAction) {
 
         <p class="govuk-hint">@Messages("calc.resident.lossesBroughtForward.helpText")</p>
 
         @inputRadio(
-            legend = Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied),
+            legend = title,
             legendClass = Some("govuk-visually-hidden"),
             items = Seq(
                 RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),

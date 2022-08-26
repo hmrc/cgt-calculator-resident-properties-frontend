@@ -86,8 +86,8 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
         doc.select("h1").text() shouldBe messages.title
       }
 
-      s"have a message of ${messages.content("2016/17")}" in {
-        doc.select("p.lede").text() shouldBe messages.content("2016/17")
+      s"have a message of ${messages.content("2017 to 2018")}" in {
+        doc.select("p.lede").text() shouldBe messages.content("2017 to 2018")
       }
 
       "have a back link that" should {

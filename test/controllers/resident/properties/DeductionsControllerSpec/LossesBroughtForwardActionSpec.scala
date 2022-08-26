@@ -112,8 +112,8 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         contentType(result) shouldBe Some("text/html")
       }
 
-      s"return a title of ${messages.title("2015/16")}" in {
-        doc.title shouldEqual messages.title("2015/16")
+      s"return a title of ${messages.title("2015 to 2016")}" in {
+        doc.title shouldEqual messages.title("2015 to 2016")
       }
     }
 
@@ -265,7 +265,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
     "an invalid form is submitted" should {
 
       lazy val target = setupTarget(Some(LossesBroughtForwardModel(true)), gainModel,
-        summaryModel, chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
+        summaryModel, chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015 to 2016", true, "2015 to 2016")))
       lazy val request = fakeRequestToPOSTWithSession(("option", ""))
       lazy val result = target.submitLossesBroughtForward(request)
 
@@ -274,7 +274,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "render the brought forward losses page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: ${messages.title("2015/16")}"      }
+        Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: ${messages.title("2015 to 2016")}"      }
     }
   }
 }

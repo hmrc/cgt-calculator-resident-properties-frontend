@@ -27,10 +27,10 @@ object LossesBroughtForwardForm {
   def lossesBroughtForwardForm(taxYear: TaxYearModel): Form[LossesBroughtForwardModel] = Form(
     mapping(
       "option" -> text
-          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", taxYear.taxYearSupplied) {
+          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1)) {
             mandatoryCheck
           })
-          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", taxYear.taxYearSupplied) {
+          .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1)) {
             yesNoCheck
           })
         .transform[Boolean](stringToBoolean, booleanToString)

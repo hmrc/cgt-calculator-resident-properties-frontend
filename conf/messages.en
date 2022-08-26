@@ -109,7 +109,7 @@ calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct f
 
 ## Outside Tax Years messages
 calc.resident.outsideTaxYears.title = The date you''ve entered isn''t supported by this calculator
-calc.resident.outsideTaxYears.message = You can continue to use it, but we''ll use the tax rates from the {0} tax year.
+calc.resident.outsideTaxYears.message = You can continue to use it, but we''ll use the tax rates from the {0} to {1} tax year.
 calc.resident.outsideTaxYears.message.tooEarly = You can use this calculator if you''ve sold a property since 5 April 2015.
 calc.resident.shares.outsideTaxYears.message.tooEarly = You can use this calculator if you''ve sold shares since 5 April 2015.
 calc.resident.outsideTaxYears.changeDate = Change your date
@@ -250,21 +250,21 @@ calc.resident.lossesBroughtForward.title = Are there any previous losses you wan
 calc.resident.lossesBroughtForward.helpText = These are unused losses that are covered by Capital Gains Tax and that you''ve already reported to HMRC.
 
 ##Losses Brought Forward messages
-calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForward.question = Are you claiming any Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before {0}
+calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0} to {1}?
+calc.resident.lossesBroughtForward.question = Are you claiming any Capital Gains Tax losses from tax years before {0} to {1}?
+calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before {0} to {1}
 
 ##Losses Brought Forward Value messages
-calc.resident.lossesBroughtForwardValue.title = What''s the total value of your Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForwardValue.pageHeading = What''s the total value of your Capital Gains Tax losses from tax years before {0}?
+calc.resident.lossesBroughtForwardValue.title = What''s the total value of your Capital Gains Tax losses from tax years before {0} to {1}?
+calc.resident.lossesBroughtForwardValue.pageHeading = What''s the total value of your Capital Gains Tax losses from tax years before {0} to {1}?
 
 ## Current Income messages
-calc.resident.currentIncome.question = In the {0} tax year, what was your income?
+calc.resident.currentIncome.question = In the {0} to {1} tax year, what was your income?
 calc.resident.currentIncome.questionCurrentYear = How much do you expect your income to be in this tax year?
 calc.resident.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the property.
 
 ## Personal Allowance messages
-calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
+calc.resident.personalAllowance.question = In the {0} to {1} tax year, what was your Personal Allowance?
 calc.resident.personalAllowance.currentYearQuestion = How much is your Personal Allowance?
 
 ###############################################################################################

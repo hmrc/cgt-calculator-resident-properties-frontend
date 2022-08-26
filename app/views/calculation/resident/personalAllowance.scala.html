@@ -31,10 +31,14 @@
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(
         if(taxYearValid) Messages("calc.resident.personalAllowance.currentYearQuestion")
-        else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { title =>
+        else Messages("calc.resident.personalAllowance.question", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1))) { title =>
+
+            @defining(
+                if(personalAllowanceForm.errors.nonEmpty) Messages("site.title.error",  title) else title
+            ){ titleWithError =>
 
             @layout(
-                pageTitle = if(personalAllowanceForm.errors.nonEmpty) Messages("site.title.error",  title) else title,
+                pageTitle = titleWithError,
                 backLinkHref = backLink
             ) {
 
@@ -77,6 +81,7 @@
                 )
 
                 @submitButton()
+                }
             }
         }
     }

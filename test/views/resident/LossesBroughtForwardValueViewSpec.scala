@@ -41,8 +41,8 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.title("2015/16")}" in {
-        doc.title() shouldBe messages.title("2015/16")
+      s"have a title ${messages.title("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
 
       "have a dynamic navTitle with text Calculate your Capital Gains Tax" in {
@@ -74,8 +74,8 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
         lazy val h1Tag = doc.select("H1")
 
-        s"have the page heading '${messages.question("2015/16")}'" in {
-          h1Tag.text shouldBe messages.question("2015/16")
+        s"have the page heading '${messages.question("2015 to 2016")}'" in {
+          h1Tag.text shouldBe messages.question("2015 to 2016")
         }
 
         "have the govuk-label-wrapper class" in {
@@ -98,8 +98,8 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
           lazy val label = doc.body.getElementsByTag("label")
 
-          s"have the question ${messages.question("2015/16")}" in {
-            label.text should include(messages.question("2015/16"))
+          s"have the question ${messages.question("2015 to 2016")}" in {
+            label.text should include(messages.question("2015 to 2016"))
           }
 
         }
@@ -147,16 +147,16 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
         "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
-      s"have a title ${messages.title("2014/15")}" in {
-        doc.title() shouldBe messages.title("2014/15")
+      s"have a title ${messages.title("2014 to 2015")}" in {
+        doc.title() shouldBe messages.title("2014 to 2015")
       }
 
       "have a H1 tag that" should {
 
         lazy val h1Tag = doc.select("H1")
 
-        s"have the page heading '${messages.question("2014/15")}'" in {
-          h1Tag.text shouldBe messages.question("2014/15")
+        s"have the page heading '${messages.question("2014 to 2015")}'" in {
+          h1Tag.text shouldBe messages.question("2014 to 2015")
         }
 
         "have the govuk-label-wrapper class" in {
@@ -168,8 +168,8 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
         lazy val label = doc.body.getElementsByTag("label")
 
-        s"have the question ${messages.question("2014/15")}" in {
-          label.text should include(messages.question("2014/15"))
+        s"have the question ${messages.question("2014 to 2015")}" in {
+          label.text should include(messages.question("2014 to 2015"))
         }
 
       }

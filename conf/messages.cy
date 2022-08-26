@@ -78,7 +78,7 @@ calc.resident.acquisitionValue.question = Faint y gwnaethoch ei dalu am yr eiddo
 calc.resident.acquisitionValue.title = Faint y gwnaethoch ei dalu am yr eiddo?
 
 calc.resident.currentIncome.helpText = Dylech gynnwys eich cyflog cyn treth, ac unrhyw beth arall rydych yn talu treth incwm arno, ond nid yr arian a wnaethoch wrth werthu''r eiddo.
-calc.resident.currentIncome.question = Yn y flwyddyn dreth {0}, beth oedd eich incwm?
+calc.resident.currentIncome.question = Yn y flwyddyn dreth {0} i {1}, beth oedd eich incwm?
 calc.resident.currentIncome.questionCurrentYear = Faint ydych yn disgwyl i''ch incwm fod yn y flwyddyn dreth hon?
 
 calc.resident.disposal.value.helpText = Os oeddech yn berchen ar yr eiddo gyda rhywun arall, dylech ond nodi''ch cyfran chi o''r pris gwerthu.
@@ -117,13 +117,13 @@ calc.resident.lettingsReliefValue.error.moreThanRemainingGain = Mae''r Rhyddhad 
 calc.resident.lettingsReliefValue.question = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 calc.resident.lettingsReliefValue.title = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 
-calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}
+calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0} i {1}
 calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEM amdanynt.
-calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
-calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
+calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0} i {1}?
+calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0} i {1}?
 
-calc.resident.lossesBroughtForwardValue.pageHeading = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
-calc.resident.lossesBroughtForwardValue.title = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
+calc.resident.lossesBroughtForwardValue.pageHeading = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0} i {1}?
+calc.resident.lossesBroughtForwardValue.title = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0} i {1}?
 
 calc.resident.noTaxToPay.charityText = Y rheswm am hyn yw nid yw Treth Enillion Cyfalaf yn gymwys os ydych yn rhoi eiddo i elusen.
 calc.resident.noTaxToPay.spouseText = Y rheswm am hyn yw nid yw Treth Enillion Cyfalaf yn gymwys os ydych yn rhoi eiddo i''ch priod neu bartner sifil.
@@ -131,11 +131,11 @@ calc.resident.noTaxToPay.title = Does dim treth i''w thalu
 
 calc.resident.outsideTaxYears.changeDate = Newid eich dyddiad
 calc.resident.outsideTaxYears.message.tooEarly = Gallwch ddefnyddio''r gyfrifiannell hon os ydych wedi gwerthu eiddo ers 5 Ebrill 2015.
-calc.resident.outsideTaxYears.message = Gallwch barhau i''w defnyddio, ond byddwn yn defnyddio''r cyfraddau treth o''r flwyddyn dreth {0}.
+calc.resident.outsideTaxYears.message = Gallwch barhau i''w defnyddio, ond byddwn yn defnyddio''r cyfraddau treth o''r flwyddyn dreth {0} i {1}.
 calc.resident.outsideTaxYears.title = Nid yw''r gyfrifiannell hon yn cefnogi''r dyddiad rydych wedi''i nodi
 
 calc.resident.personalAllowance.currentYearQuestion = Faint yw''ch Lwfans Personol?
-calc.resident.personalAllowance.question = Yn y flwyddyn dreth {0}, faint oedd eich Lwfans Personol?
+calc.resident.personalAllowance.question = Yn y flwyddyn dreth {0} i {1}, faint oedd eich Lwfans Personol?
 
 calc.resident.privateResidenceRelief.errorSelect = Rhowch wybod i ni a ydych am hawlio Rhyddhad Preswylfan Preifat
 

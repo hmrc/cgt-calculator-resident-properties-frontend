@@ -37,16 +37,16 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    s"have a title ${messages.title("2015/16")}" in {
-      doc.title() shouldBe messages.title("2015/16")
+    s"have a title ${messages.title("2015 to 2016")}" in {
+      doc.title() shouldBe messages.title("2015 to 2016")
     }
 
     s"have a back link with text ${commonMessages.back}" in {
       doc.select("#back-link").text() shouldEqual "Back"
     }
 
-    s"have the question of the page ${messages.question("2015/16")}" in {
-      doc.select("h1").text shouldEqual messages.question("2015/16")
+    s"have the question of the page ${messages.question("2015 to 2016")}" in {
+      doc.select("h1").text shouldEqual messages.question("2015 to 2016")
     }
 
     "have a form" which {
@@ -66,8 +66,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
         lazy val label = doc.body.getElementsByTag("label")
 
-        s"have the question ${messages.question("2015/16")}" in {
-          label.text should include(messages.question("2015/16"))
+        s"have the question ${messages.question("2015 to 2016")}" in {
+          label.text should include(messages.question("2015 to 2016"))
         }
 
         "have the class 'govuk-label govuk-label--xl'" in {
