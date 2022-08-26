@@ -31,7 +31,7 @@
 
 @title = @{
     if(inCurrentTaxYear) Messages("calc.resident.currentIncome.questionCurrentYear")
-    else Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)
+    else Messages("calc.resident.currentIncome.question", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1))
 }
 @titleWithError = @{
     if (currentIncomeForm.errors.nonEmpty) Messages("site.title.error",  title) else title

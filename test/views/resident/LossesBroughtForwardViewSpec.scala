@@ -41,8 +41,8 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    s"have a title ${messages.title("2017/18")}" in {
-      doc.title() shouldBe messages.title("2017/18")
+    s"have a title ${messages.title("2017 to 2018")}" in {
+      doc.title() shouldBe messages.title("2017 to 2018")
     }
 
     "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
@@ -58,16 +58,16 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.select("#back-link").text shouldEqual commonMessages.back
     }
 
-    s"have the question of the page ${messages.question("2017/18")}" in {
-      doc.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2017/18")
+    s"have the question of the page ${messages.question("2017 to 2018")}" in {
+      doc.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2017 to 2018")
     }
 
     s"render a form tag with a POST action" in {
       doc.select("form").attr("method") shouldEqual "POST"
     }
 
-    s"have a visually hidden legend for an input with text ${messages.question("2017/18")}" in {
-      doc.getElementsByClass("govuk-fieldset__legend govuk-visually-hidden").text() shouldEqual messages.question("2017/18")
+    s"have a visually hidden legend for an input with text ${messages.question("2017 to 2018")}" in {
+      doc.getElementsByClass("govuk-fieldset__legend govuk-visually-hidden").text() shouldEqual messages.question("2017 to 2018")
     }
 
     "have hint text" which {

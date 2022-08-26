@@ -45,8 +45,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.question("2015/16")}" in {
-        doc.title() shouldBe messages.title("2015/16")
+      s"have a title ${messages.question("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
 
       "have a back button that" should {
@@ -64,8 +64,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
       }
 
-      s"have the page heading '${messages.question("2015/16")}'" in {
-        doc.select("h1").text shouldBe messages.question("2015/16")
+      s"have the page heading '${messages.question("2015 to 2016")}'" in {
+        doc.select("h1").text shouldBe messages.question("2015 to 2016")
       }
 
       s"have the help text ${messages.help}" in {
@@ -142,8 +142,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           form.attr("method") shouldBe "POST"
         }
 
-        s"have a legend for an input with text ${messages.question("2015/16")}" in {
-          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015/16")
+        s"have a legend for an input with text ${messages.question("2015 to 2016")}" in {
+          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015 to 2016")
         }
       }
 
@@ -220,15 +220,15 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
 
       s"have a title ${messages.question(s"$nextTaxYear")}" in {
-        doc.title() shouldBe messages.title(s"$nextTaxYear")
+        doc.title() shouldBe messages.title("2023 to 2024")
       }
 
       s"have the page heading '${messages.question(s"$nextTaxYear")}'" in {
-        h1Tag.text shouldBe messages.question(s"$nextTaxYear")
+        h1Tag.text shouldBe messages.question("2023 to 2024")
       }
 
       s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
-        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question(s"$nextTaxYear")
+        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2023 to 2024")
       }
     }
 
