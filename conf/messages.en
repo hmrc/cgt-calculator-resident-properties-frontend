@@ -105,8 +105,8 @@ calc.resident.disposalDate.invalidYearError = Enter a year
 calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2015
 
 ## Outside Tax Years messages
-calc.resident.outsideTaxYears.title = The date you''ve entered isn''t supported by this calculator
-calc.resident.outsideTaxYears.message = You can continue to use it, but we''ll use the tax rates from the {0} tax year.
+calc.resident.outsideTaxYears.title = You can continue but the date you have entered is not in the current tax year
+calc.resident.outsideTaxYears.message = We will calculate your expected Capital Gains Tax based on the current tax year {0}.
 calc.resident.outsideTaxYears.message.tooEarly = You can use this calculator if you''ve sold a property since 5 April 2015.
 calc.resident.shares.outsideTaxYears.message.tooEarly = You can use this calculator if you''ve sold shares since 5 April 2015.
 calc.resident.outsideTaxYears.changeDate = Change your date
