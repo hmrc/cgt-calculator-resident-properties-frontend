@@ -27,13 +27,13 @@ import views.html.calculation.resident.lossesBroughtForwardValue
 
 class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
   lazy val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
-
+  lazy val testTaxYear = TaxYearModel("2016/17", isValidYear = true, "2016/17")
   "Losses Brought Forward Value view" when {
 
     "provided with a date in the 2015/16 tax year" should {
 
       lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm, taxYear, "back-link",
+      lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm(testTaxYear), taxYear, "back-link",
         "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -143,7 +143,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     "provided with a date in the 2014/15 tax year" should {
 
       lazy val taxYear = TaxYearModel("2014/15", false, "2015/16")
-      lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm, taxYear, "back-link",
+      lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm(testTaxYear), taxYear, "back-link",
         "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -177,7 +177,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
   }
 
   "Losses Brought Forward Value view with stored values" should {
-    lazy val form = lossesBroughtForwardValueForm.bind(Map(("amount", "1000")))
+    lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map(("amount", "1000")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
       "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
@@ -190,7 +190,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
   }
 
   "Losses Brought Forward Value view with errors" should {
-    lazy val form = lossesBroughtForwardValueForm.bind(Map(("amount", "")))
+    lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map(("amount", "")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
       "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)

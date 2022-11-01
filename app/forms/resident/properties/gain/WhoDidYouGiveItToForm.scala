@@ -20,11 +20,11 @@ import common.Validation._
 import models.resident.properties.gain.WhoDidYouGiveItToModel
 import play.api.data.Forms._
 import play.api.data._
-
+import common.Formatters.text
 
 object WhoDidYouGiveItToForm {
   val whoDidYouGiveItToForm = Form(
-    mapping("whoDidYouGiveItTo" -> text
+    mapping("whoDidYouGiveItTo" -> text("calc.resident.whoDidYouGiveThePropertyTo.errormandatory")
         .verifying("calc.resident.whoDidYouGiveThePropertyTo.errormandatory", mandatoryCheck)
         .verifying("calc.resident.whoDidYouGiveThePropertyTo.errormandatory", whoDidYouGiveItToCheck)
     )(WhoDidYouGiveItToModel.apply)(WhoDidYouGiveItToModel.unapply)

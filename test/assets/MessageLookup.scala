@@ -35,14 +35,84 @@ object MessageLookup {
 
     val readMore = "Read more"
 
-    val mandatoryAmount = "calc.common.error.mandatoryAmount"
-    val minimumAmount = "calc.common.error.minimumAmount"
-    val maximumAmount = "calc.common.error.maxAmountExceeded"
-    val errorRequired = "This field is required"
+    object Errors {
+      val commonMandatoryAmount = "calc.common.error.mandatoryAmount"
+      val commonMinimumAmount = "calc.common.error.minimumAmount"
+      val commonMaximumAmount = "calc.common.error.maxAmountExceeded"
+      val commonErrorRequired = "This field is required"
+      val commonInvalidAmount = "calc.common.error.invalidAmount"
+
+      val worthWhenGaveAwayMandatoryAmount = "calc.resident.properties.worthWhenGaveAway.mandatoryAmount"
+      val disposalValueMandatoryAmount = "calc.resident.disposal.value.mandatoryAmount"
+      val worthWhenSoldForLessMandatoryAmount = "calc.resident.properties.worthWhenSoldForLess.mandatoryAmount"
+      val disposalCostsMandatoryAmount = "calc.resident.disposalCosts.mandatoryAmount"
+      val valueBeforeLegislationStartMandatoryAmount = "calc.resident.properties.valueBeforeLegislationStart.mandatoryAmount"
+      val worthWhenInheritedMandatoryAmount = "calc.resident.properties.worthWhenInherited.mandatoryAmount"
+      val worthWhenBoughtForLessMandatoryAmount = "calc.resident.properties.worthWhenBoughtForLess.mandatoryAmount"
+      val worthWhenGiftedMandatoryAmount = "calc.resident.properties.worthWhenGifted.mandatoryAmount"
+      val acquisitionValueMandatoryAmount = "calc.resident.acquisitionValue.mandatoryAmount"
+      val acquisitionCostsMandatoryAmount = "calc.resident.acquisitionCosts.mandatoryAmount"
+      val improvementsMandatoryAmount = "calc.resident.properties.improvements.mandatoryAmount"
+      val privateResidenceReliefValueMandatoryAmount = "calc.resident.properties.privateResidenceReliefValue.mandatoryAmount"
+      val lettingsReliefValueMandatoryAmount = "calc.resident.lettingsReliefValue.mandatoryAmount"
+      val lossesBroughtForwardValueMandatoryAmount = "calc.resident.lossesBroughtForwardValue.mandatoryAmount"
+      val currentIncomeMandatoryAmount = "calc.resident.currentIncome.mandatoryAmount"
+      val personalAllowanceMandatoryAmount = "calc.resident.personalAllowance.mandatoryAmount"
+
+      val worthWhenGaveAwayInvalidAmount = "calc.resident.properties.worthWhenGaveAway.invalidAmount"
+      val disposalValueInvalidAmount = "calc.resident.disposal.value.invalidAmount"
+      val worthWhenSoldForLessInvalidAmount = "calc.resident.properties.worthWhenSoldForLess.invalidAmount"
+      val disposalCostsInvalidAmount = "calc.resident.disposalCosts.invalidAmount"
+      val valueBeforeLegislationStartInvalidAmount = "calc.resident.properties.valueBeforeLegislationStart.invalidAmount"
+      val worthWhenInheritedInvalidAmount = "calc.resident.properties.worthWhenInherited.invalidAmount"
+      val worthWhenBoughtForLessInvalidAmount = "calc.resident.properties.worthWhenBoughtForLess.invalidAmount"
+      val worthWhenGiftedInvalidAmount = "calc.resident.properties.worthWhenGifted.invalidAmount"
+      val acquisitionValueInvalidAmount = "calc.resident.acquisitionValue.invalidAmount"
+      val acquisitionCostsInvalidAmount = "calc.resident.acquisitionCosts.invalidAmount"
+      val improvementsInvalidAmount = "calc.resident.properties.improvements.invalidAmount"
+      val privateResidenceReliefValueInvalidAmount = "calc.resident.properties.privateResidenceReliefValue.invalidAmount"
+      val lettingsReliefValueInvalidAmount = "calc.resident.lettingsReliefValue.invalidAmount"
+      val lossesBroughtForwardValueInvalidAmount = "calc.resident.lossesBroughtForwardValue.invalidAmount"
+      val currentIncomeInvalidAmount = "calc.resident.currentIncome.invalidAmount"
+      val personalAllowanceInvalidAmount = "calc.resident.personalAllowance.invalidAmount"
+
+      val worthWhenGaveAwayMaximumAmount = "calc.resident.properties.worthWhenGaveAway.maximumAmount"
+      val disposalValueMaximumAmount = "calc.resident.disposal.value.maximumAmount"
+      val worthWhenSoldForLessMaximumAmount = "calc.resident.properties.worthWhenSoldForLess.maximumAmount"
+      val disposalCostsMaximumAmount = "calc.resident.disposalCosts.maximumAmount"
+      val valueBeforeLegislationStartMaximumAmount = "calc.resident.properties.valueBeforeLegislationStart.maximumAmount"
+      val worthWhenInheritedMaximumAmount = "calc.resident.properties.worthWhenInherited.maximumAmount"
+      val worthWhenBoughtForLessMaximumAmount = "calc.resident.properties.worthWhenBoughtForLess.maximumAmount"
+      val worthWhenGiftedMaximumAmount = "calc.resident.properties.worthWhenGifted.maximumAmount"
+      val acquisitionValueMaximumAmount = "calc.resident.acquisitionValue.maximumAmount"
+      val acquisitionCostsMaximumAmount = "calc.resident.acquisitionCosts.maximumAmount"
+      val improvementsMaximumAmount = "calc.resident.properties.improvements.maximumAmount"
+      val lettingsReliefValueMaximumAmount = "calc.resident.lettingsReliefValue.maximumAmount"
+      val lossesBroughtForwardValueMaximumAmount = "calc.resident.lossesBroughtForwardValue.maximumAmount"
+      val currentIncomeMaximumAmount = "calc.resident.currentIncome.maximumAmount"
+      val personalAllowanceMaximumAmount = "calc.resident.personalAllowance.maximumAmount"
+
+      val worthWhenGaveAwayMinimumAmount = "calc.resident.properties.worthWhenGaveAway.minimumAmount"
+      val disposalValueMinimumAmount = "calc.resident.disposal.value.minimumAmount"
+      val worthWhenSoldForLessMinimumAmount = "calc.resident.properties.worthWhenSoldForLess.minimumAmount"
+      val disposalCostsMinimumAmount = "calc.resident.disposalCosts.minimumAmount"
+      val valueBeforeLegislationStartMinimumAmount = "calc.resident.properties.valueBeforeLegislationStart.minimumAmount"
+      val worthWhenInheritedMinimumAmount = "calc.resident.properties.worthWhenInherited.minimumAmount"
+      val worthWhenBoughtForLessMinimumAmount = "calc.resident.properties.worthWhenBoughtForLess.minimumAmount"
+      val worthWhenGiftedMinimumAmount = "calc.resident.properties.worthWhenGifted.minimumAmount"
+      val acquisitionValueMinimumAmount = "calc.resident.acquisitionValue.minimumAmount"
+      val acquisitionCostsMinimumAmount = "calc.resident.acquisitionCosts.minimumAmount"
+      val improvementsMinimumAmount = "calc.resident.properties.improvements.minimumAmount"
+      val privateResidenceReliefValueMinimumAmount = "calc.resident.properties.privateResidenceReliefValue.minimumAmount"
+      val lettingsReliefValueMinimumAmount = "calc.resident.lettingsReliefValue.minimumAmount"
+      val lossesBroughtForwardValueMinimumAmount = "calc.resident.lossesBroughtForwardValue.minimumAmount"
+      val currentIncomeMinimumAmount = "calc.resident.currentIncome.minimumAmount"
+      val personalAllowanceMinimumAmount = "calc.resident.personalAllowance.minimumAmount"
+    }
+
 
     def maximumLimit(limit: String): String = s"calc.common.error.maxAmountExceeded £$limit calc.common.error.maxAmountExceeded.orLess"
 
-    val invalidAmount = "calc.common.error.invalidAmount"
     val invalidAmountNoDecimal = "calc.common.error.invalidAmountNoDecimal"
     val numericPlayErrorOverride = "Enter a number without commas, for example 10000.00"
     val optionReqError = "Choose one of the options"
@@ -853,15 +923,15 @@ object MessageLookup {
 
   //Losses Brought Forward Value messages
   object LossesBroughtForwardValue {
-    def title(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
-    def question(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input?"
+    def title(input: String): String = s"What is the total value of your Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
+    def question(input: String): String = s"What is the total value of your Capital Gains Tax losses from tax years before $input?"
   }
 
 
   //Current Income messages
   object CurrentIncome {
-    def title(input: String): String = s"In the $input tax year, what was your income? - Calculate your Capital Gains Tax - GOV.UK"
-    def question(input: String): String = s"In the $input tax year, what was your income?"
+    def title(input: String): String = s"What was your income for the $input tax year? - Calculate your Capital Gains Tax - GOV.UK"
+    def question(input: String): String = s"What was your income for the $input tax year?"
     val currentYearTitle = "How much do you expect your income to be in this tax year? - Calculate your Capital Gains Tax - GOV.UK"
     val currentYearQuestion = "How much do you expect your income to be in this tax year?"
     val helpText = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the property."
@@ -871,8 +941,8 @@ object MessageLookup {
 
   //Personal Allowance messages
   object PersonalAllowance {
-    def question(taxYear: String = "2016/17"): String = s"In the $taxYear tax year, what was your Personal Allowance?"
-    def title(taxYear: String = "2016/17"): String = s"In the $taxYear tax year, what was your Personal Allowance? - Calculate your Capital Gains Tax - GOV.UK"
+    def question(taxYear: String = "2016/17"): String = s"What was your Personal Allowance for the $taxYear tax year?"
+    def title(taxYear: String = "2016 to 2017"): String = s"What was your Personal Allowance for the $taxYear tax year? - Calculate your Capital Gains Tax - GOV.UK"
     val currentYearQuestion = "How much is your Personal Allowance - Calculate your Capital Gains Tax - GOV.UK?"
     val currentYearTitle = "How much is your Personal Allowance?"
     val link = "Income tax rates and Personal Allowances (opens in new tab)"

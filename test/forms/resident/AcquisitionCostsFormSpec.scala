@@ -52,8 +52,8 @@ class AcquisitionCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+      s"error with message '${messages.Errors.acquisitionCostsMandatoryAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionCostsMandatoryAmount
       }
     }
 
@@ -65,8 +65,8 @@ class AcquisitionCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"error with message '${messages.Errors.acquisitionCostsInvalidAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionCostsInvalidAmount
       }
     }
 
@@ -77,8 +77,8 @@ class AcquisitionCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"return a form with the error message ${messages.maximumAmount}" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+      s"return a form with the error message ${messages.Errors.acquisitionCostsMaximumAmount}" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionCostsMaximumAmount
       }
     }
 
@@ -90,8 +90,8 @@ class AcquisitionCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+      s"error with message '${messages.Errors.acquisitionCostsMinimumAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionCostsMinimumAmount
       }
     }
 
@@ -103,8 +103,8 @@ class AcquisitionCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"error with message '${messages.Errors.acquisitionCostsInvalidAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionCostsInvalidAmount
       }
     }
   }

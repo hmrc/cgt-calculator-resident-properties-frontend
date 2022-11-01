@@ -21,13 +21,13 @@ import play.api.data.Forms._
 import common.Transformers._
 import common.Validation._
 import models.resident.properties.PropertyLivedInModel
-
+import common.Formatters.text
 
 object PropertyLivedInForm {
 
   val propertyLivedInForm = Form(
     mapping(
-      "livedInProperty" -> text
+      "livedInProperty" -> text("calc.resident.properties.propertyLivedIn.noSelectError")
         .verifying("calc.resident.properties.propertyLivedIn.noSelectError", mandatoryCheck)
         .verifying("calc.resident.properties.propertyLivedIn.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)

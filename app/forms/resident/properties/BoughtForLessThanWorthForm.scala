@@ -21,12 +21,13 @@ import common.Validation._
 import models.resident.properties.BoughtForLessThanWorthModel
 import play.api.data.Form
 import play.api.data.Forms._
+import common.Formatters.text
 
 object BoughtForLessThanWorthForm {
 
   val boughtForLessThanWorthForm = Form(
     mapping(
-      "boughtForLessThanWorth" -> text
+      "boughtForLessThanWorth" -> text("calc.resident.properties.boughtForLessThanWorth.noSelectError")
         .verifying("calc.resident.properties.boughtForLessThanWorth.noSelectError", mandatoryCheck)
         .verifying("calc.resident.properties.boughtForLessThanWorth.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)

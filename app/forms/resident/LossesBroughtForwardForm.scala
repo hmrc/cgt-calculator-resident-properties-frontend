@@ -21,12 +21,13 @@ import common.Validation._
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.data.Forms._
 import play.api.data._
+import common.Formatters.text
 
 object LossesBroughtForwardForm {
 
   def lossesBroughtForwardForm(taxYear: TaxYearModel): Form[LossesBroughtForwardModel] = Form(
     mapping(
-      "option" -> text
+      "option" -> text("calc.resident.lossesBroughtForward.errorSelect", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1))
           .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForward.errorSelect", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1)) {
             mandatoryCheck
           })

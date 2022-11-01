@@ -59,7 +59,7 @@ class LettingsReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe messages.Errors.lettingsReliefValueMandatoryAmount
       }
     }
 
@@ -76,7 +76,7 @@ class LettingsReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe messages.Errors.lettingsReliefValueMandatoryAmount
       }
     }
 
@@ -93,7 +93,7 @@ class LettingsReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.lettingsReliefValueInvalidAmount
       }
     }
 
@@ -110,7 +110,7 @@ class LettingsReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.lettingsReliefValueInvalidAmount
       }
     }
 
@@ -178,7 +178,7 @@ class LettingsReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+        form.error("amount").get.message shouldBe messages.Errors.lettingsReliefValueMinimumAmount
       }
     }
   }

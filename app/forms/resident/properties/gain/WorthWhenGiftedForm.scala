@@ -16,24 +16,26 @@
 
 package forms.resident.properties.gain
 
+import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.properties.gain.WorthWhenGiftedModel
 import play.api.data.Form
 import play.api.data.Forms._
-
+import common.Formatters.text
+import common.resident.MoneyPounds
 
 object WorthWhenGiftedForm {
 
   val worthWhenGiftedForm = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.properties.worthWhenGifted.mandatoryAmount")
+        .verifying("calc.resident.properties.worthWhenGifted.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.properties.worthWhenGifted.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint())
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(constraintBuilder("calc.resident.properties.worthWhenGifted.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
+        .verifying("calc.resident.properties.worthWhenGifted.minimumAmount", isPositive)
+        .verifying("calc.resident.properties.worthWhenGifted.invalidAmount", decimalPlacesCheck)
     )(WorthWhenGiftedModel.apply)(WorthWhenGiftedModel.unapply)
   )
 }

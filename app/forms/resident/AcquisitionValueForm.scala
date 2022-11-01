@@ -16,23 +16,28 @@
 
 package forms.resident
 
+import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.AcquisitionValueModel
 import play.api.data.Form
 import play.api.data.Forms._
+import common.Formatters.text
+import common.resident.MoneyPounds
 
 object AcquisitionValueForm {
 
   val acquisitionValueForm = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.acquisitionValue.mandatoryAmount")
+        .verifying("calc.resident.acquisitionValue.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.acquisitionValue.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint())
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(constraintBuilder("calc.resident.acquisitionValue.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity){
+          maxCheck
+        })
+        .verifying("calc.resident.acquisitionValue.minimumAmount", isPositive)
+        .verifying("calc.resident.acquisitionValue.invalidAmount", decimalPlacesCheck)
     )(AcquisitionValueModel.apply)(AcquisitionValueModel.unapply)
   )
 }

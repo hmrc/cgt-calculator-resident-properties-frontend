@@ -21,13 +21,13 @@ import play.api.data.Forms._
 import common.Transformers._
 import common.Validation._
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
-
+import common.Formatters.text
 
 object OwnerBeforeLegislationStartForm {
 
   val ownerBeforeLegislationStartForm = Form(
     mapping(
-      "ownedBeforeLegislationStart" -> text
+      "ownedBeforeLegislationStart" -> text("calc.resident.properties.ownedBeforeLegislationStart.noSelectError")
         .verifying("calc.resident.properties.ownedBeforeLegislationStart.noSelectError", mandatoryCheck)
         .verifying("calc.resident.properties.ownedBeforeLegislationStart.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package controllers.IncomeControllerSpec
+package controllers.resident.properties.IncomeControllerSpec
 
 import akka.actor.ActorSystem
 import akka.stream.Materializer

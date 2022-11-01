@@ -21,13 +21,13 @@ import common.Validation._
 import models.resident.PrivateResidenceReliefModel
 import play.api.data.Form
 import play.api.data.Forms._
-
+import common.Formatters.text
 
 object PrivateResidenceReliefForm {
 
   val privateResidenceReliefForm: Form[PrivateResidenceReliefModel] = Form(
     mapping(
-      "isClaiming" -> text
+      "isClaiming" -> text("calc.resident.privateResidenceRelief.errorSelect")
         .verifying("calc.resident.privateResidenceRelief.errorSelect", mandatoryCheck)
         .verifying("calc.resident.privateResidenceRelief.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
