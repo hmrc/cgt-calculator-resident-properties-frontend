@@ -70,11 +70,11 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.getElementsByClass("govuk-fieldset__legend govuk-visually-hidden").text() shouldEqual messages.question("2017 to 2018")
     }
 
-    "have hint text" which {
-      lazy val hintText = doc.getElementsByClass("govuk-hint")
+    "have body text" which {
+      lazy val bodyText = doc.getElementsByClass("govuk-body")
 
       s"with the message ${messages.helpText}" in {
-        hintText.text() shouldBe messages.helpText
+        bodyText.text() shouldBe messages.helpText
       }
     }
 

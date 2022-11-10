@@ -71,13 +71,13 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           label.text should include(messages.question("2015 to 2016"))
         }
 
-        "have the class 'govuk-label govuk-label--xl'" in {
-          label.attr("class") shouldBe "govuk-label govuk-label--xl"
+        "have the class 'govuk-visually-hidden'" in {
+          label.attr("class") shouldBe "govuk-label govuk-visually-hidden"
         }
       }
 
       s"have the help text ${messages.helpText}" in {
-        doc.body.getElementsByClass("govuk-hint").text shouldBe messages.helpText
+        doc.body.getElementsByClass("govuk-body").text shouldBe messages.helpText
       }
 
       "has a numeric input field" which {
