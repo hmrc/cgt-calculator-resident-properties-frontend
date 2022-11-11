@@ -41,13 +41,6 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
     s"have a section for Your answers" which {
 
-      s"has a h2 tag" which {
-
-        s"should have the title '${messages.tableHeading}'" in {
-          doc.select("section#yourAnswers h2").text shouldBe messages.tableHeading
-        }
-      }
-
       "has a date output row for the Disposal Date" which {
 
         s"should have the question text '${commonMessages.DisposalDate.question}'" in {
