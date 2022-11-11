@@ -37,15 +37,15 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       s"return a title of ${messages.title}" in {
-        doc.title shouldBe messages.newTitle
+        doc.title shouldBe messages.title
       }
 
       "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
         doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
-      s"have a heading of ${messages.title}" in {
-        doc.select("h1").text() shouldBe messages.title
+      s"have a heading of ${messages.heading}" in {
+        doc.select("h1").text() shouldBe messages.heading
       }
 
       s"have a message of ${messages.tooEarly}" in {
@@ -79,15 +79,15 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       s"return a title of ${messages.title}" in {
-        doc.title shouldBe messages.newTitle
+        doc.title shouldBe messages.title
       }
 
-      s"have a heading of ${messages.title}" in {
-        doc.select("h1").text() shouldBe messages.title
+      s"have a heading of ${messages.heading}" in {
+        doc.select("h1").text() shouldBe messages.heading
       }
 
-      s"have a message of ${messages.content("2017 to 2018")}" in {
-        doc.select("p.lede").text() shouldBe messages.content("2017 to 2018")
+      s"have a message of ${messages.content("2016 to 2017")}" in {
+        doc.select("p.lede").text() shouldBe messages.content("2016 to 2017")
       }
 
       "have a back link that" should {

@@ -159,8 +159,8 @@ calc.resident.noTaxToPay.title = Does dim treth i''w thalu
 
 calc.resident.outsideTaxYears.changeDate = Newid eich dyddiad
 calc.resident.outsideTaxYears.message.tooEarly = Gallwch ddefnyddio''r gyfrifiannell hon os ydych wedi gwerthu eiddo ers 5 Ebrill 2015.
-calc.resident.outsideTaxYears.message = Gallwch barhau i''w defnyddio, ond byddwn yn defnyddio''r cyfraddau treth o''r flwyddyn dreth {0} i {1}.
-calc.resident.outsideTaxYears.title = Nid yw''r gyfrifiannell hon yn cefnogi''r dyddiad rydych wedi''i nodi
+calc.resident.outsideTaxYears.message = Byddwn yn cyfrifo eich Treth Enillion Cyfalaf disgwyliedig yn seiliedig ar y flwyddyn dreth bresennol, sef {0} i {1}.
+calc.resident.outsideTaxYears.title = Gallwch fynd yn eich blaen ond nid yw''r dyddiad yr ydych wedi ei nodi yn y flwyddyn dreth bresennol
 
 calc.resident.personalAllowance.currentYearQuestion = Faint yw''ch Lwfans Personol?
 calc.resident.personalAllowance.question = Beth oedd eich Lwfans Personol ar gyfer blwyddyn dreth {0} i {1}?
