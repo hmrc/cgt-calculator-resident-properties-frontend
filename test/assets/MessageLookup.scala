@@ -701,12 +701,12 @@ object MessageLookup {
 
   //Outside Tax Years messages
   object OutsideTaxYears {
-    val title = "The date you've entered isn't supported by this calculator"
-    val newTitle = "The date you've entered isn't supported by this calculator - Calculate your Capital Gains Tax - GOV.UK"
+    val title = "You can continue but the date you have entered is not in the current tax year - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "You can continue but the date you have entered is not in the current tax year"
     val tooEarly = "You can use this calculator if you've sold a property since 5 April 2015."
     val sharesTooEarly = "You can use this calculator if you've sold shares since 5 April 2015."
     val changeDate = "Change your date"
-    def content(year: String): String = s"You can continue to use it, but we'll use the tax rates from the $year tax year."
+    def content(year: String): String = s"We will calculate your expected Capital Gains Tax based on the current tax year $year."
   }
 
   //No Tax To Pay messages
