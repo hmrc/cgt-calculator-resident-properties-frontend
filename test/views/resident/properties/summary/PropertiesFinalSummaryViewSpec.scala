@@ -100,8 +100,8 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
+      s"have a title ${messages.newTitle}" in {
+        doc.title() shouldBe messages.newTitle
       }
 
       "have a back button" which {
@@ -125,18 +125,18 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
         lazy val banner = doc.select("#tax-owed-banner")
 
         "contains a h1" which {
-          lazy val h1 = banner.select("h1")
+          lazy val h2 = banner.select("h2")
 
           s"has the text '£3,600.00'" in {
-            h1.text() shouldEqual "£3,600.00"
+            h2.text() shouldEqual "£3,600.00"
           }
         }
 
         "contains a h2" which {
-          lazy val h2 = banner.select("h2")
+          lazy val h1 = banner.select("h1")
 
           s"has the text ${messages.cgtToPay("2015 to 2016")}" in {
-            h2.text() shouldEqual messages.cgtToPay("2015 to 2016")
+            h1.text() shouldEqual messages.cgtToPay("2015 to 2016")
           }
         }
       }
@@ -158,10 +158,10 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
           lazy val div = doc.select("#yourTotalGain")
 
-          "has a h3 tag" which {
+          "has a caption" which {
 
             s"has the text '${summaryMessages.yourTotalGain}'" in {
-              div.select("h3").text shouldBe summaryMessages.yourTotalGain
+              div.select("#yourTotalGain > caption").text shouldBe summaryMessages.yourTotalGain
             }
           }
 
@@ -211,10 +211,10 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
           lazy val div = doc.select("#yourDeductions")
 
-          "has a h3 tag" which {
+          "has a caption" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("h3").text shouldBe summaryMessages.yourDeductions
+              div.select("#yourDeductions > caption").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -265,10 +265,10 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
           lazy val div = doc.select("#yourTaxableGain")
 
-          "has a h3 tag" which {
+          "has a caption" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.select("h3").text shouldBe summaryMessages.yourTaxableGain
+              div.select("#yourTaxableGain > caption").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -307,10 +307,10 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
           lazy val div = doc.select("#yourTaxRate")
 
-          "has a h3 tag" which {
+          "has a caption" which {
 
             s"has the text ${summaryMessages.yourTaxRate}" in {
-              div.select("h3").text shouldBe summaryMessages.yourTaxRate
+              div.select("#yourTaxRate > caption.govuk-table__caption.govuk-table__caption--m").text shouldBe summaryMessages.yourTaxRate
             }
           }
 
@@ -354,10 +354,10 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
           lazy val div = doc.select("#remainingDeductions")
 
-          "has a h2 tag" which {
+          "has a caption" which {
 
             s"has the text ${summaryMessages.remainingDeductions}" in {
-              div.select("h2").text shouldBe summaryMessages.remainingDeductions
+              div.select("table > caption").text shouldBe summaryMessages.remainingDeductions
             }
           }
 
@@ -381,7 +381,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
         }
       }
 
-      "have a section for What to do next" which {
+      "have a section for What happens next" which {
         lazy val section = doc.select("#whatToDoNext")
 
         "has a h2 tag" which {
@@ -399,11 +399,11 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
       "has a continue button" which {
         s"has the text ${summaryMessages.continue}" in {
-          doc.select("a.button").text shouldBe summaryMessages.continue
+          doc.select(".govuk-button").text shouldBe summaryMessages.continue
         }
 
         "has a link to the what next section" in {
-          doc.select("a.button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+          doc.select(".govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
         }
       }
 
@@ -423,8 +423,8 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
             lazy val informationTag = icon.select("span")
 
-            "has the class visuallyhidden" in {
-              informationTag.hasClass("visuallyhidden") shouldBe true
+            "has the class govuk-visually-hidden" in {
+              informationTag.hasClass("govuk-visually-hidden") shouldBe true
             }
 
             "has the text Download" in {
@@ -436,12 +436,8 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
             lazy val link = savePDFSection.select("a")
 
-            "has the class bold-small" in {
-              link.hasClass("bold-small") shouldBe true
-            }
-
-            "has the class save-pdf-link" in {
-              link.hasClass("save-pdf-link") shouldBe true
+            "has the class govuk-link" in {
+              link.hasClass("govuk-link") shouldBe true
             }
 
             s"links to ${controllers.routes.ReportController.finalSummaryReport()}" in {
@@ -455,17 +451,10 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
         }
       }
 
-      "does have ur panel" in {
-        doc.select("div#ur-panel").size() shouldBe 1
-
-        doc.select(".banner-panel__close").size() shouldBe 1
-        doc.select(".banner-panel__title").text() shouldBe summaryMessages.bannerPanelTitle
-
-        doc.select("section > a").first().attr("href") shouldBe summaryMessages.bannerPanelLinkURL
-        doc.select("section > a").first().text() shouldBe summaryMessages.bannerPanelLinkText
-
-        doc.select("a > span").first().text() shouldBe summaryMessages.bannerPanelCloseVisibleText
-        doc.select("a > span").eq(1).text() shouldBe summaryMessages.bannerPanelCloseHiddenText
+      "has UR panel" in {
+        doc.toString.contains(summaryMessages.bannerPanelTitle)
+        doc.toString.contains(summaryMessages.bannerPanelLinkText)
+        doc.toString.contains(summaryMessages.bannerPanelCloseVisibleText)
 
       }
 

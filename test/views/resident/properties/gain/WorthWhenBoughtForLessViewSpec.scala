@@ -40,25 +40,17 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
       doc.select("#back-link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/bought-for-less-than-worth"
     }
 
-    s"have a nav title of 'navTitle'" in {
-      doc.select("span.header__menu__proposition-name").text() shouldBe commonMessages.homeText
-    }
-
-    s"have a home link to 'homeLink'" in {
-      doc.select("a#homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
-    }
-
     s"have a title of ${messages.question}" in {
-      doc.title() shouldBe messages.question
+      doc.title() shouldBe messages.title
     }
 
     s"have a question of ${messages.question}" in {
-      doc.select("h1.heading-large").text() shouldBe messages.question
+      doc.getElementsByClass("govuk-heading-xl").text() shouldBe messages.question
     }
 
     "has a form hint" which {
 
-      lazy val formHint = doc.select("div.form-hint")
+      lazy val formHint = doc.getElementsByClass("govuk-body")
 
       s"has the first paragraph of ${messages.helpOne}" in {
         formHint.select("p").get(0).text shouldEqual messages.helpOne
@@ -70,7 +62,7 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
     }
 
     s"has the joint ownership text ${messages.jointOwner}" in {
-      doc.select("article > div.panel-indent > p").text shouldEqual messages.jointOwner
+      doc.select(".govuk-inset-text").text shouldEqual messages.jointOwner
     }
 
     "have a form tag" in {
@@ -86,11 +78,12 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
     }
 
     "have a visually hidden label for the question" in {
-      doc.select("label[for=amount] > span").attr("class") shouldBe "visuallyhidden"
+      val label = doc.select("label")
+      label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
     }
 
     s"have a label for an input with text ${messages.question}" in {
-      doc.select("label[for=amount] > span").first().text() shouldEqual messages.question
+      doc.select("label").first().text() shouldEqual messages.question
     }
 
     s"have an input field with id amount " in {
@@ -98,7 +91,7 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
     }
 
     "have a continue button " in {
-      doc.select("#continue-button").text shouldBe commonMessages.continue
+      doc.select("#submit").text shouldBe commonMessages.continue
     }
   }
 
@@ -112,11 +105,11 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
     }
 
     "display no error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 0
+      doc.body.select(".govuk-error-summary__body").size shouldBe 0
     }
 
     "display no error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 0
+      doc.body.select("#amount-error").size shouldBe 0
     }
   }
 
@@ -126,11 +119,11 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary__body").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select("#amount-error").size shouldBe 1
     }
   }
 }

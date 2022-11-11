@@ -16,13 +16,18 @@
 
 @this()
 
-@(fullWidthBannerContent: Option[Html])(implicit messages: Messages)
+@(
+    helpTextTitle: String,
+    content: Html
+)
 
-<div id="ur-panel" class="banner-panel">
-    <section class="centered-content visible banner-panel__container" aria-hidden="false">
-        @fullWidthBannerContent
-        <a class="banner-panel__close" href="#" role="button"
-           data-journey-click="link - click:UR Banner:Dismiss"
-        ><span aria-hidden="true">@Messages("calc.summary.dismissBanner")</span><span class="visually-hidden">@Messages("calc.summary.dismissBanner.screenreader")</span></a>
-    </section>
-</div>
+<details id="help" class="govuk-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+        @helpTextTitle
+    </span>
+    </summary>
+    <div class="govuk-details__text">
+        @{content}
+    </div>
+</details>

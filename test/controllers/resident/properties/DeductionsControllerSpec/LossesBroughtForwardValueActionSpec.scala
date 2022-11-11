@@ -76,8 +76,8 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         contentType(result) shouldBe Some("text/html")
       }
 
-      s"return a title of ${messages.title("2015/16")}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2015/16")
+      s"return a title of ${messages.title("2015 to 2016")}" in {
+        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2015 to 2016")
       }
 
       s"have a back link to '${controllers.routes.DeductionsController.lossesBroughtForward().url}'" in {
@@ -100,8 +100,8 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         contentType(result) shouldBe Some("text/html")
       }
 
-      s"return a title of ${messages.title("2015/15")}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2014/15")
+      s"return a title of ${messages.title("2014 to 2015")}" in {
+        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2014 to 2015")
       }
     }
 
@@ -234,8 +234,8 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         status(result) shouldBe 400
       }
 
-      s"return a title of ${messages.title("2015/16")}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2015/16")
+      s"return a title of ${messages.title("2015 to 2016")}" in {
+        Jsoup.parse(bodyOf(result)).title shouldEqual s"Error: ${messages.title("2015 to 2016")}"
       }
     }
   }

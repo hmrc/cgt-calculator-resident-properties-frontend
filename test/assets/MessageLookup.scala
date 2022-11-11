@@ -22,7 +22,7 @@ object MessageLookup {
 
   trait Common {
 
-    val externalLink = "(opens in a new window)"
+    val externalLink = "(opens in new tab)"
     val change = "Change"
     val back = "Back"
     val continue = "Continue"
@@ -35,14 +35,84 @@ object MessageLookup {
 
     val readMore = "Read more"
 
-    val mandatoryAmount = "calc.common.error.mandatoryAmount"
-    val minimumAmount = "calc.common.error.minimumAmount"
-    val maximumAmount = "calc.common.error.maxAmountExceeded"
-    val errorRequired = "This field is required"
+    object Errors {
+      val commonMandatoryAmount = "calc.common.error.mandatoryAmount"
+      val commonMinimumAmount = "calc.common.error.minimumAmount"
+      val commonMaximumAmount = "calc.common.error.maxAmountExceeded"
+      val commonErrorRequired = "This field is required"
+      val commonInvalidAmount = "calc.common.error.invalidAmount"
+
+      val worthWhenGaveAwayMandatoryAmount = "calc.resident.properties.worthWhenGaveAway.mandatoryAmount"
+      val disposalValueMandatoryAmount = "calc.resident.disposal.value.mandatoryAmount"
+      val worthWhenSoldForLessMandatoryAmount = "calc.resident.properties.worthWhenSoldForLess.mandatoryAmount"
+      val disposalCostsMandatoryAmount = "calc.resident.disposalCosts.mandatoryAmount"
+      val valueBeforeLegislationStartMandatoryAmount = "calc.resident.properties.valueBeforeLegislationStart.mandatoryAmount"
+      val worthWhenInheritedMandatoryAmount = "calc.resident.properties.worthWhenInherited.mandatoryAmount"
+      val worthWhenBoughtForLessMandatoryAmount = "calc.resident.properties.worthWhenBoughtForLess.mandatoryAmount"
+      val worthWhenGiftedMandatoryAmount = "calc.resident.properties.worthWhenGifted.mandatoryAmount"
+      val acquisitionValueMandatoryAmount = "calc.resident.acquisitionValue.mandatoryAmount"
+      val acquisitionCostsMandatoryAmount = "calc.resident.acquisitionCosts.mandatoryAmount"
+      val improvementsMandatoryAmount = "calc.resident.properties.improvements.mandatoryAmount"
+      val privateResidenceReliefValueMandatoryAmount = "calc.resident.properties.privateResidenceReliefValue.mandatoryAmount"
+      val lettingsReliefValueMandatoryAmount = "calc.resident.lettingsReliefValue.mandatoryAmount"
+      val lossesBroughtForwardValueMandatoryAmount = "calc.resident.lossesBroughtForwardValue.mandatoryAmount"
+      val currentIncomeMandatoryAmount = "calc.resident.currentIncome.mandatoryAmount"
+      val personalAllowanceMandatoryAmount = "calc.resident.personalAllowance.mandatoryAmount"
+
+      val worthWhenGaveAwayInvalidAmount = "calc.resident.properties.worthWhenGaveAway.invalidAmount"
+      val disposalValueInvalidAmount = "calc.resident.disposal.value.invalidAmount"
+      val worthWhenSoldForLessInvalidAmount = "calc.resident.properties.worthWhenSoldForLess.invalidAmount"
+      val disposalCostsInvalidAmount = "calc.resident.disposalCosts.invalidAmount"
+      val valueBeforeLegislationStartInvalidAmount = "calc.resident.properties.valueBeforeLegislationStart.invalidAmount"
+      val worthWhenInheritedInvalidAmount = "calc.resident.properties.worthWhenInherited.invalidAmount"
+      val worthWhenBoughtForLessInvalidAmount = "calc.resident.properties.worthWhenBoughtForLess.invalidAmount"
+      val worthWhenGiftedInvalidAmount = "calc.resident.properties.worthWhenGifted.invalidAmount"
+      val acquisitionValueInvalidAmount = "calc.resident.acquisitionValue.invalidAmount"
+      val acquisitionCostsInvalidAmount = "calc.resident.acquisitionCosts.invalidAmount"
+      val improvementsInvalidAmount = "calc.resident.properties.improvements.invalidAmount"
+      val privateResidenceReliefValueInvalidAmount = "calc.resident.properties.privateResidenceReliefValue.invalidAmount"
+      val lettingsReliefValueInvalidAmount = "calc.resident.lettingsReliefValue.invalidAmount"
+      val lossesBroughtForwardValueInvalidAmount = "calc.resident.lossesBroughtForwardValue.invalidAmount"
+      val currentIncomeInvalidAmount = "calc.resident.currentIncome.invalidAmount"
+      val personalAllowanceInvalidAmount = "calc.resident.personalAllowance.invalidAmount"
+
+      val worthWhenGaveAwayMaximumAmount = "calc.resident.properties.worthWhenGaveAway.maximumAmount"
+      val disposalValueMaximumAmount = "calc.resident.disposal.value.maximumAmount"
+      val worthWhenSoldForLessMaximumAmount = "calc.resident.properties.worthWhenSoldForLess.maximumAmount"
+      val disposalCostsMaximumAmount = "calc.resident.disposalCosts.maximumAmount"
+      val valueBeforeLegislationStartMaximumAmount = "calc.resident.properties.valueBeforeLegislationStart.maximumAmount"
+      val worthWhenInheritedMaximumAmount = "calc.resident.properties.worthWhenInherited.maximumAmount"
+      val worthWhenBoughtForLessMaximumAmount = "calc.resident.properties.worthWhenBoughtForLess.maximumAmount"
+      val worthWhenGiftedMaximumAmount = "calc.resident.properties.worthWhenGifted.maximumAmount"
+      val acquisitionValueMaximumAmount = "calc.resident.acquisitionValue.maximumAmount"
+      val acquisitionCostsMaximumAmount = "calc.resident.acquisitionCosts.maximumAmount"
+      val improvementsMaximumAmount = "calc.resident.properties.improvements.maximumAmount"
+      val lettingsReliefValueMaximumAmount = "calc.resident.lettingsReliefValue.maximumAmount"
+      val lossesBroughtForwardValueMaximumAmount = "calc.resident.lossesBroughtForwardValue.maximumAmount"
+      val currentIncomeMaximumAmount = "calc.resident.currentIncome.maximumAmount"
+      val personalAllowanceMaximumAmount = "calc.resident.personalAllowance.maximumAmount"
+
+      val worthWhenGaveAwayMinimumAmount = "calc.resident.properties.worthWhenGaveAway.minimumAmount"
+      val disposalValueMinimumAmount = "calc.resident.disposal.value.minimumAmount"
+      val worthWhenSoldForLessMinimumAmount = "calc.resident.properties.worthWhenSoldForLess.minimumAmount"
+      val disposalCostsMinimumAmount = "calc.resident.disposalCosts.minimumAmount"
+      val valueBeforeLegislationStartMinimumAmount = "calc.resident.properties.valueBeforeLegislationStart.minimumAmount"
+      val worthWhenInheritedMinimumAmount = "calc.resident.properties.worthWhenInherited.minimumAmount"
+      val worthWhenBoughtForLessMinimumAmount = "calc.resident.properties.worthWhenBoughtForLess.minimumAmount"
+      val worthWhenGiftedMinimumAmount = "calc.resident.properties.worthWhenGifted.minimumAmount"
+      val acquisitionValueMinimumAmount = "calc.resident.acquisitionValue.minimumAmount"
+      val acquisitionCostsMinimumAmount = "calc.resident.acquisitionCosts.minimumAmount"
+      val improvementsMinimumAmount = "calc.resident.properties.improvements.minimumAmount"
+      val privateResidenceReliefValueMinimumAmount = "calc.resident.properties.privateResidenceReliefValue.minimumAmount"
+      val lettingsReliefValueMinimumAmount = "calc.resident.lettingsReliefValue.minimumAmount"
+      val lossesBroughtForwardValueMinimumAmount = "calc.resident.lossesBroughtForwardValue.minimumAmount"
+      val currentIncomeMinimumAmount = "calc.resident.currentIncome.minimumAmount"
+      val personalAllowanceMinimumAmount = "calc.resident.personalAllowance.minimumAmount"
+    }
+
 
     def maximumLimit(limit: String): String = s"calc.common.error.maxAmountExceeded £$limit calc.common.error.maxAmountExceeded.orLess"
 
-    val invalidAmount = "calc.common.error.invalidAmount"
     val invalidAmountNoDecimal = "calc.common.error.invalidAmountNoDecimal"
     val numericPlayErrorOverride = "Enter a number without commas, for example 10000.00"
     val optionReqError = "Choose one of the options"
@@ -128,8 +198,8 @@ object MessageLookup {
     }
 
     object ReviewAnswers {
-      val title = "Check your answers"
-      val tableHeading = "You've told us"
+      val title = "Check your answers - Calculate your Capital Gains Tax - GOV.UK"
+      val heading = "Check your answers"
       val change = "Change"
       val hiddenText = "your response to the question"
     }
@@ -438,7 +508,7 @@ object MessageLookup {
       val propertyDetailsTitle = "Property details"
       val salesDetailsTitle = "Selling or giving away the property"
       val deductionsTitle = "Deductions"
-      val whatToDoNextText = "What to do next"
+      val whatToDoNextText = "What happens next"
       val whatToDoNextContent = "You need to"
       val whatToDoNextLink = "tell HMRC about the property"
       val startAgain = "Start again"
@@ -477,13 +547,15 @@ object MessageLookup {
 
       object WorthWhenSoldForLess {
         val question = "What was the property worth when you sold it?"
+        val title = "What was the property worth when you sold it? - Calculate your Capital Gains Tax - GOV.UK"
         val paragraphText = "You can use a valuation from a surveyor. If you don’t know the exact value, " +
           "you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
         val extraText = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object OwnerBeforeLegislationStart {
-        val title = "Did you become the property owner before 1 April 1982?"
+        val title = "Did you become the property owner before 1 April 1982? - Calculate your Capital Gains Tax - GOV.UK"
+        val heading = "Did you become the property owner before 1 April 1982?"
         val errorSelectAnOption = "calc.resident.properties.ownedBeforeLegislationStart.noSelectError"
       }
 
@@ -496,6 +568,7 @@ object MessageLookup {
 
       object ValueBeforeLegislationStart {
         val question = "What was the property worth on 31 March 1982?"
+        val title = "What was the property worth on 31 March 1982? - Calculate your Capital Gains Tax - GOV.UK"
         val information = "If you had your property before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax. After this date, use the original cost."
         val hintText = "If you don't know the exact value, you must provide a realistic estimate. " +
           "You might have to pay more if we think your estimate is unrealistic."
@@ -503,6 +576,7 @@ object MessageLookup {
       }
 
       object WorthWhenInherited {
+        val title = "What was the property worth when you inherited it? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What was the property worth when you inherited it?"
         val help = "This is the value of the property on the date the previous owner died."
         val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
@@ -516,6 +590,7 @@ object MessageLookup {
       }
 
       object WorthWhenBoughtForLess {
+        val title = "What was the property worth when you bought it? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What was the property worth when you bought it?"
         val helpOne = "You can use a valuation from a surveyor."
         val helpTwo = "If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
@@ -523,8 +598,10 @@ object MessageLookup {
       }
 
       object ImprovementsView {
+        val title = "How much have you spent on improvements since you became the property owner? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "How much have you spent on improvements since you became the property owner?"
         val label = "How much have you spent on improvements since you became the property owner?"
+        val titleBefore = "How much have you spent on improvements since 31 March 1982? - Calculate your Capital Gains Tax - GOV.UK"
         val questionBefore = "How much have you spent on improvements since 31 March 1982?"
         val hint = "Improvements are permanent changes that raise the value of a property, like adding " +
           "extensions or garages. Normal maintenance costs don't count."
@@ -535,7 +612,8 @@ object MessageLookup {
       }
 
       object SellForLess {
-        val title = "Did you sell the property for less than it was worth to help the buyer?"
+        val title = "Did you sell the property for less than it was worth to help the buyer? - Calculate your Capital Gains Tax - GOV.UK"
+        val heading = "Did you sell the property for less than it was worth to help the buyer?"
       }
     }
 
@@ -596,18 +674,20 @@ object MessageLookup {
   //########################################################################################
 
   object IntroductionView {
-    val title = "Work out how much Capital Gains Tax you owe"
+    val title = "Work out how much Capital Gains Tax you owe - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "Work out how much Capital Gains Tax you owe"
     val subheading = "Do you need to use this calculator?"
     val paragraph = "You probably don't need to pay Capital Gains Tax if the property you've sold is your own home. You may be entitled to a tax relief called Private Residence Relief."
-    val entitledLinkText = "Find out if you're entitled to Private Residence Relief (opens in a new window)."
+    val entitledLinkText = "Find out if you're entitled to Private Residence Relief (opens in new tab)."
     val continuationInstructions = "Continue to use this calculator if you've never lived at the property, or you're entitled to only some or no Private Residence Relief."
   }
 
   //Disposal Date messages
   object DisposalDate {
-    val title = "When did you sell or give away the property?"
+    val title = "When did you sell or give away the property? - Calculate your Capital Gains Tax - GOV.UK"
+    val errorTitle = "Error: When did you sell or give away the property? - Calculate your Capital Gains Tax - GOV.UK"
     val question = "When did you sell or give away the property?"
-    val helpText = "For example, 4 9 2016"
+    val helpText = "For example, 4 9 2021"
     val day = "Day"
     val month = "Month"
     val year = "Year"
@@ -621,11 +701,12 @@ object MessageLookup {
 
   //Outside Tax Years messages
   object OutsideTaxYears {
-    val title = "You can continue but the date you have entered is not in the current tax year"
+    val title = "The date you've entered isn't supported by this calculator"
+    val newTitle = "The date you've entered isn't supported by this calculator - Calculate your Capital Gains Tax - GOV.UK"
     val tooEarly = "You can use this calculator if you've sold a property since 5 April 2015."
     val sharesTooEarly = "You can use this calculator if you've sold shares since 5 April 2015."
     val changeDate = "Change your date"
-    def content(year: String): String = s"We will calculate your expected Capital Gains Tax based on the current tax year $year."
+    def content(year: String): String = s"You can continue to use it, but we'll use the tax rates from the $year tax year."
   }
 
   //No Tax To Pay messages
@@ -660,6 +741,7 @@ object MessageLookup {
 
   //Disposal Value messages
   object DisposalValue {
+    val title = "How much did you sell the property for? - Calculate your Capital Gains Tax - GOV.UK"
     val question = "How much did you sell the property for?"
     val helpText = "If you owned the property with someone else, only enter your share of the sale value."
   }
@@ -678,7 +760,8 @@ object MessageLookup {
 
   //How Became Owner messages
   object HowBecameOwner {
-    val title = "How did you become the property owner?"
+    val title = "How did you become the property owner? - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "How did you become the property owner?"
     val errorMandatory = "calc.resident.howBecameOwner.errors.mandatory"
     val bought = "Bought it"
     val gifted = "Got it as a gift"
@@ -692,14 +775,14 @@ object MessageLookup {
 
   //Acquisition Value messages
   object AcquisitionValue {
-    val title = "How much did you pay for the property?"
+    val title = "How much did you pay for the property? - Calculate your Capital Gains Tax - GOV.UK"
     val pageHeading = "How much did you pay for the property?"
     val jointOwnership = "If you owned the property with someone else, only enter your share of the purchase value."
   }
 
   //Acquisition Costs messages
   object AcquisitionCosts {
-    val title = "How much did you pay in costs when you became the property owner?"
+    val title = "How much did you pay in costs when you became the property owner? - Calculate your Capital Gains Tax - GOV.UK"
     val pageHeading = "How much did you pay in costs when you became the property owner?"
     val listTitle = "This is what you paid for:"
     val bulletOne = "estate agents or auctioneers"
@@ -716,6 +799,7 @@ object MessageLookup {
   //Summary messages
   object SummaryPage {
     val title = "Summary"
+    val newTitle = "Summary - Calculate your Capital Gains Tax - GOV.UK"
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
     val pageHeading = "Tax owed"
     val secondaryHeading = "You owe"
@@ -731,7 +815,7 @@ object MessageLookup {
     val taxRate = "Tax rate"
     def noticeWarning(input: String): String = s"These figures are based on the tax rates from the $input tax year"
     val warning = "Warning"
-    val whatToDoNextTitle = "What to do next"
+    val whatToDoNextTitle = "What happens next"
     val whatToDoNextText = "You can tell us about this loss so that you might need to pay less tax in the future."
     val whatNextYouCan = "You can "
     val whatNextLink = "tell us about this loss "
@@ -763,6 +847,8 @@ object MessageLookup {
   //Private Residence Relief Value messages
   object PrivateResidenceReliefValue {
     val title = "How much Private Residence Relief are you entitled to?"
+    val newTitle = "How much Private Residence Relief are you entitled to? - Calculate your Capital Gains Tax - GOV.UK"
+    val errorTitle= "Error: How much Private Residence Relief are you entitled to? - Calculate your Capital Gains Tax - GOV.UK"
     val question = title
     val link = "Find out how much you're entitled to"
     def help(value: String): String = s"We've calculated that you've made a gain of £$value on your property. " +
@@ -797,7 +883,7 @@ object MessageLookup {
 
   //Lettings Relief Value messages
   object LettingsReliefValue {
-    val title = s"How much Letting Relief are you entitled to?"
+    val title = s"How much Letting Relief are you entitled to? - Calculate your Capital Gains Tax - GOV.UK"
     val question = s"How much Letting Relief are you entitled to?"
     def additionalContent(input: String): String = s"We've calculated that you've made a gain of £$input on your property. " +
       s"You'll need this figure to calculate your Letting Relief."
@@ -818,8 +904,8 @@ object MessageLookup {
   //Lettings Relief messages
   object LettingsRelief {
     val title = "Are you entitled to Letting Relief?"
-    val help = "You may be able entitled to Letting Relief if you've rented out the property. Find out more about Letting Relief (opens in a new window)"
-    val helpOne = "Letting Relief (opens in a new window)"
+    val help = "You may be able entitled to Letting Relief if you've rented out the property. Find out more about Letting Relief (opens in new tab)"
+    val helpOne = "Letting Relief (opens in new tab)"
     val helpLink = "https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016#letting-relief"
     val errorSelect = "calc.resident.lettingsRelief.errorSelect"
   }
@@ -827,7 +913,7 @@ object MessageLookup {
 
   //Losses Brought Forward messages
   object LossesBroughtForward {
-    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
+    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
     def question(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
     val helpText = "These are unused losses that are covered by Capital Gains Tax and that you've already reported to HMRC."
     val errorSelect = "calc.resident.lossesBroughtForward.errorSelect"
@@ -836,16 +922,16 @@ object MessageLookup {
 
   //Losses Brought Forward Value messages
   object LossesBroughtForwardValue {
-    def title(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input?"
-    def question(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input?"
+    def title(input: String): String = s"What is the total value of your Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
+    def question(input: String): String = s"What is the total value of your Capital Gains Tax losses from tax years before $input?"
   }
 
 
   //Current Income messages
   object CurrentIncome {
-    def title(input: String): String = s"In the $input tax year, what was your income?"
-    def question(input: String): String = s"In the $input tax year, what was your income?"
-    val currentYearTitle = "How much do you expect your income to be in this tax year?"
+    def title(input: String): String = s"What was your income for the $input tax year? - Calculate your Capital Gains Tax - GOV.UK"
+    def question(input: String): String = s"What was your income for the $input tax year?"
+    val currentYearTitle = "How much do you expect your income to be in this tax year? - Calculate your Capital Gains Tax - GOV.UK"
     val currentYearQuestion = "How much do you expect your income to be in this tax year?"
     val helpText = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the property."
     val helpTextShares = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares."
@@ -854,9 +940,11 @@ object MessageLookup {
 
   //Personal Allowance messages
   object PersonalAllowance {
-    def question(taxYear: String = "2016/17"): String = s"In the $taxYear tax year, what was your Personal Allowance?"
-    val currentYearQuestion = "How much is your Personal Allowance?"
-    val link = "Income tax rates and Personal Allowances (opens in a new window)"
+    def question(taxYear: String = "2016/17"): String = s"What was your Personal Allowance for the $taxYear tax year?"
+    def title(taxYear: String = "2016 to 2017"): String = s"What was your Personal Allowance for the $taxYear tax year? - Calculate your Capital Gains Tax - GOV.UK"
+    val currentYearQuestion = "How much is your Personal Allowance - Calculate your Capital Gains Tax - GOV.UK?"
+    val currentYearTitle = "How much is your Personal Allowance?"
+    val link = "Income tax rates and Personal Allowances (opens in new tab)"
     val linkText = "Find out more about"
     val help = "This is the amount of your income that you don't pay tax on."
     def listTitle(yearOne: String, yearTwo: String, value: String): String =
@@ -871,7 +959,8 @@ object MessageLookup {
 
   //############ Private Residence Relief messages #################//
   object PrivateResidenceRelief {
-    val title = "Are you entitled to Private Residence Relief?"
+    val title = "Are you entitled to Private Residence Relief? - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "Are you entitled to Private Residence Relief?"
     val helpTextOne = "You'll be entitled to Private Residence Relief if you've lived in the property as your main home " +
       "at some point while you owned it. Find out more about"
     val helpTextLink = "You may be entitled to Private Residence Relief if you've lived in the property as your main home at some point while you owned it. Find out more about Private Residence Relief"
@@ -881,6 +970,7 @@ object MessageLookup {
   //############ Property Lived In messages #################//
   object PropertyLivedIn {
     val title = "Have you ever lived in the property since you became the owner?"
+    val titleNew = "Have you ever lived in the property since you became the owner? - Calculate your Capital Gains Tax - GOV.UK"
     val errorNoSelect = "calc.resident.properties.propertyLivedIn.noSelectError"
   }
 
@@ -912,7 +1002,8 @@ object MessageLookup {
   }
 
   object PropertiesSellOrGiveAway {
-    val title = "Did you sell the property or give it away?"
+    val title = "Did you sell the property or give it away? - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "Did you sell the property or give it away?"
     val errorMandatory = "calc.resident.sellOrGiveAway.errors.mandatory"
     val sold = "Sold it"
     val gift = "Gave it away"
@@ -954,24 +1045,25 @@ object MessageLookup {
     def remainingAnnualExemptAmount(taxYear: String): String = s"Annual Exempt Amount left for the $taxYear tax year"
     val lossesToCarryForwardFromCalculation = "Losses you can carry forward from this calculation"
     val broughtForwardLossesRemaining = "Losses to carry forward from previous tax years"
-    val whatToDoNext = "What to do next"
+    val whatToDoNext = "What happens next"
     val whatToDoNextDetails = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
     val noticeSummary: String = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
 
-    val bannerPanelTitle = "Help improve GOV.UK"
+    val bannerPanelTitle = "Help improve HMRC services"
     val bannerPanelLinkURL = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_resident_properties_summary&utm_source=Survey_Banner&utm_medium=other&t=HMRC&id=117"
-    val bannerPanelLinkText = "Help improve this digital service by joining the HMRC user panel (opens in new window)"
+    val bannerPanelLinkText = "Sign up to take part in user research (opens in new tab)"
     val bannerPanelCloseVisibleText = "No thanks"
-    val bannerPanelCloseHiddenText = "I don't want to answer any questions about joining the research panel"
   }
 
   object WhatNextPages {
 
-    val title = "What to do next"
+    val title = "What happens next"
+    val newTitle = "What happens next - Calculate your Capital Gains Tax - GOV.UK"
     val finish = "Return to GOV.UK"
     val reportNow = "Report now"
-    val yourOptionsTitle = "Your options"
+    val yourOptions = "Your options for reporting your Capital Gains Tax"
+    val yourOptionsTitle = "Your options for reporting your Capital Gains Tax - Calculate your Capital Gains Tax - GOV.UK"
 
     object FourTimesAEA {
       val paragraphOne = s"You'll have to report your Capital Gains Tax figures through Self Assessment."
@@ -1004,18 +1096,20 @@ object MessageLookup {
   }
 
    object WhatNextNonSaGain {
-    val title = "What to do next"
+    val title = "What happens next - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "What happens next"
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
     val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
     val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
-     val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
-     val exitSurveyLink = "/calculate-your-capital-gains/resident/properties/feedback-survey"
-     val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
+    val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
+    val exitSurveyLink = "/calculate-your-capital-gains/resident/properties/feedback-survey"
+    val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
   }
 
   object WhatNextNonSaLoss {
-    val title = "What to do next"
+    val title = "What happens next - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "What happens next"
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
     val detailsOne = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can report it using our online form."
@@ -1024,7 +1118,8 @@ object MessageLookup {
   }
 
   object SaUser extends Common {
-    val title = "Are you currently in Self Assessment?"
+    val question = "Are you currently in Self Assessment?"
+    val title = "Are you currently in Self Assessment? - Calculate your Capital Gains Tax - GOV.UK"
     val error = "calc.resident.saUser.errorSelect"
   }
 }

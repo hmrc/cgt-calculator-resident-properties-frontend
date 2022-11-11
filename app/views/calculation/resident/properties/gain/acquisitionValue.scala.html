@@ -16,29 +16,42 @@
 
 @import models.resident.AcquisitionValueModel
 @import play.api.Application
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    errorSummary: helpers.errorSummary,
-    formInputMoney: helpers.formInputMoney
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton
 )
 
 @(acquisitionValueForm: Form[AcquisitionValueModel])(implicit request: Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(Messages("calc.resident.acquisitionValue.title"), backLink = Some(controllers.routes.GainController.boughtForLessThanWorth().toString)) {
+@title = @{
+    if (acquisitionValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.acquisitionValue.title")) else Messages("calc.resident.acquisitionValue.title")
+}
 
-    @errorSummary(acquisitionValueForm, "amount")
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.GainController.boughtForLessThanWorth().toString)
+) {
 
-    <h1 class="heading-large">@Messages("calc.resident.acquisitionValue.question")</h1>
+    @errorSummary(acquisitionValueForm.errors, Some("amount"))
+
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.acquisitionValue.question")</h1>
 
     @form(action = controllers.routes.GainController.submitAcquisitionValue) {
 
-        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.acquisitionValue.jointOwnership")</p>
+        <p class="govuk-inset-text">@Messages("calc.resident.acquisitionValue.jointOwnership")</p>
 
-        @formInputMoney(acquisitionValueForm, "amount", Messages("calc.resident.acquisitionValue.question"), hideLabel = true)
+        @formInputMoney(
+            field = acquisitionValueForm("amount"),
+            question = Messages("calc.resident.acquisitionValue.question"),
+            hideLabel = true
+        )
 
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 
 }

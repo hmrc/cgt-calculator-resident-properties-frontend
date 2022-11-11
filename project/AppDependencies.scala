@@ -21,9 +21,9 @@ import play.sbt.PlayImport._
 object AppDependencies {
 
   val bootstrapVersion         = "5.24.0"
+  val playFrontendVersion      = "0.88.0-play-28"
   val jsonJodaVersion          = "2.9.2"
   val govUKTemplateVersion     = "5.77.0-play-28"
-  val playUiVersion            = "9.10.0-play-28"
   val playPartialsVersion      = "8.3.0-play-28"
   val httpCachingClientVersion = "9.6.0-play-28"
   val mongoCachingVersion      = "7.1.0-play-28"
@@ -33,14 +33,14 @@ object AppDependencies {
   val compile: Seq[ModuleID] = Seq(
     ws,
     "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"    % bootstrapVersion,
-    "com.typesafe.play" %% "play-json-joda"                % jsonJodaVersion,
-    "uk.gov.hmrc"       %% "govuk-template"                % govUKTemplateVersion,
-    "uk.gov.hmrc"       %% "play-ui"                       % playUiVersion,
-    "uk.gov.hmrc"       %% "play-partials"                 % playPartialsVersion,
-    "uk.gov.hmrc"       %% "http-caching-client"           % httpCachingClientVersion,
-    "uk.gov.hmrc"       %% "mongo-caching"                 % mongoCachingVersion,
-    "uk.gov.hmrc"       %% "play-language"                 % playLanguageVersion,
-    "it.innove"         %  "play2-pdf"                     % play2PdfVersion exclude("com.typesafe.play","*")
+    "uk.gov.hmrc"       %% "play-frontend-hmrc"   % playFrontendVersion,
+    "com.typesafe.play" %% "play-json-joda"       % jsonJodaVersion,
+    "uk.gov.hmrc"       %% "govuk-template"       % govUKTemplateVersion,
+    "uk.gov.hmrc"       %% "play-partials"        % playPartialsVersion,
+    "uk.gov.hmrc"       %% "http-caching-client"  % httpCachingClientVersion,
+    "uk.gov.hmrc"       %% "mongo-caching"        % mongoCachingVersion,
+    "uk.gov.hmrc"       %% "play-language"        % playLanguageVersion,
+    "it.innove"         %  "play2-pdf"            % play2PdfVersion exclude("com.typesafe.play","*")
   )
 
   trait TestDependencies {
@@ -51,15 +51,15 @@ object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
-        "org.pegdown"              % "pegdown"                     % "1.6.0",
-        "org.jsoup"                % "jsoup"                       % "1.13.1",
-        "com.typesafe.play"       %% "play-test"                   % PlayVersion.current,
-        "com.vladsch.flexmark"     %  "flexmark-all"               % "0.35.10",
-        "org.scalatestplus"       %% "scalatestplus-mockito"       % "1.0.0-M2",
-        "org.scalatestplus"       %% "scalatestplus-scalacheck"    % "3.1.0.0-RC2",
-        "org.scalatestplus.play"  %% "scalatestplus-play"          % "5.1.0",
-        "org.mockito"             %% "mockito-scala-scalatest"     % "1.16.37"
-      ).map(_ % scope)
+        "org.pegdown" % "pegdown" % "1.6.0" % scope,
+        "org.jsoup" % "jsoup" % "1.13.1" % scope,
+        "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
+        "com.vladsch.flexmark"    %  "flexmark-all"               % "0.35.10",
+        "org.scalatestplus"       %% "scalatestplus-mockito"      % "1.0.0-M2",
+        "org.scalatestplus"       %% "scalatestplus-scalacheck"   % "3.1.0.0-RC2",
+        "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0"  % "test",
+        "org.mockito" %% "mockito-scala-scalatest" % "1.16.37" % "test"
+      )
     }.test
   }
 

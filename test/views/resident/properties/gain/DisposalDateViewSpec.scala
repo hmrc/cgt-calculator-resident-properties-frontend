@@ -48,7 +48,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have the helptext 'For example, 4 9 2016'" in {
-      doc.body.getElementsByClass("form-hint").text should include(messages.helpText)
+      doc.body.getElementsByClass("govuk-hint").text should include(messages.helpText)
     }
 
     "have an input box for day" in {
@@ -64,7 +64,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a button with the text 'Continue'" in {
-      doc.body.getElementById("continue-button").text shouldBe commonMessages.continue
+      doc.body.getElementById("submit").text shouldBe commonMessages.continue
     }
 
     "have a back link" in {

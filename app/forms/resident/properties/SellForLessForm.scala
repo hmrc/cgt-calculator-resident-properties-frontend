@@ -21,13 +21,14 @@ import play.api.data.Forms._
 import common.Transformers._
 import common.Validation._
 import models.resident.SellForLessModel
+import common.Formatters.text
 
 
 object SellForLessForm {
 
   val sellForLessForm = Form(
     mapping(
-      "sellForLess" -> text
+      "sellForLess" -> text("calc.resident.properties.sellForLess.noSelectError")
         .verifying("calc.resident.properties.sellForLess.noSelectError", mandatoryCheck)
         .verifying("calc.resident.properties.sellForLess.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)

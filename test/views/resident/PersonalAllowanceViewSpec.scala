@@ -29,6 +29,7 @@ import views.BaseViewSpec
 import views.html.calculation.resident.personalAllowance
 
 class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+  lazy val testTaxYear = TaxYearModel("2016/17", isValidYear = true, "2016/17")
 
   val postAction = controllers.routes.IncomeController.submitPersonalAllowance()
 
@@ -37,7 +38,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     "supplied with a 2015/16 tax year" should {
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = personalAllowanceView(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
+      lazy val view = personalAllowanceView(personalAllowanceForm(testTaxYear), taxYearModel, BigDecimal(10600), "home", postAction,
         Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -45,12 +46,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.question("2015/16")}" in {
-        doc.title() shouldBe messages.question("2015/16")
-      }
-
-      "have a dynamic navTitle of navTitle" in {
-        doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
+      s"have a title ${messages.question("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
 
       "have a back button that" should {
@@ -68,12 +65,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
       }
 
-      "have a home link to the properties disposal date" in {
-        doc.select("#homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
-      }
-
-      s"have the page heading '${messages.question("2015/16")}'" in {
-        doc.select("h1").text shouldBe messages.question("2015/16")
+      s"have the page heading '${messages.question("2015 to 2016")}'" in {
+        doc.select("h1").text shouldBe messages.question("2015 to 2016")
       }
 
       s"have the help text ${messages.help}" in {
@@ -110,7 +103,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "the link should have a set of attributes" which {
 
         "has the external link class" in {
-          doc.select("#currentRatesAndAllowancesLink").hasClass("external-link") shouldEqual true
+          doc.select("#currentRatesAndAllowancesLink").hasClass("govuk-link") shouldEqual true
         }
 
         "has the attribute rel" in {
@@ -150,8 +143,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           form.attr("method") shouldBe "POST"
         }
 
-        s"have a legend for an input with text ${messages.question("2015/16")}" in {
-          doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question("2015/16")
+        s"have a legend for an input with text ${messages.question("2015 to 2016")}" in {
+          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015 to 2016")
         }
       }
 
@@ -166,30 +159,26 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         "is of type number" in {
-          input.attr("type") shouldBe "number"
-        }
-
-        "has a step value of '1'" in {
-          input.attr("step") shouldBe "1"
+          input.attr("type") shouldBe "text"
         }
       }
 
       "have a continue button that" should {
-        lazy val continueButton = doc.select("button#continue-button")
+        lazy val continueButton = doc.getElementsByClass("govuk-button")
 
         s"have the button text '${commonMessages.continue}'" in {
           continueButton.text shouldBe commonMessages.continue
         }
 
-        "be of type submit" in {
-          continueButton.attr("type") shouldBe "submit"
+        "be of id submit" in {
+          continueButton.attr("id") shouldBe "submit"
         }
       }
 
 
       "Personal Allowance view with stored values" should {
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-        lazy val form = personalAllowanceForm().bind(Map(("amount", "1000")))
+        lazy val form = personalAllowanceForm(testTaxYear).bind(Map(("amount", "1000")))
         lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(10600), "home", postAction,
           Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
         lazy val doc = Jsoup.parse(view.body)
@@ -204,21 +193,19 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     "supplied with a the current tax year" should {
 
       lazy val taxYearModel = TaxYearModel(await(Dates.getCurrentTaxYear), true, await(Dates.getCurrentTaxYear))
-      lazy val view = personalAllowanceView(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
+      lazy val view = personalAllowanceView(personalAllowanceForm(testTaxYear), taxYearModel, BigDecimal(11000), "home", postAction,
         Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
+      lazy val header = doc.getElementsByClass("govuk-heading-xl")
+      val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
 
-      s"have a title ${messages.currentYearQuestion}" in {
-        doc.title() shouldBe messages.currentYearQuestion
+      s"have the page heading '${messages.currentYearTitle}'" in {
+        h1Tag.text shouldBe messages.currentYearTitle
       }
 
-      s"have the page heading '${messages.currentYearQuestion}'" in {
-        h1Tag.text shouldBe messages.currentYearQuestion
-      }
-
-      s"have a legend for an input with text ${messages.currentYearQuestion}" in {
-        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.currentYearQuestion
+      s"have a legend for an input with text ${messages.currentYearTitle}" in {
+        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.currentYearTitle
       }
     }
 
@@ -226,7 +213,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       lazy val nextTaxYearEndInt = await(Dates.getCurrentTaxYear).take(4).toInt + 2
       lazy val taxYearModel = TaxYearModel(Dates.taxYearToString(nextTaxYearEndInt), false, "2016/17")
-      lazy val view = personalAllowanceView(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
+      lazy val view = personalAllowanceView(personalAllowanceForm(testTaxYear), taxYearModel, BigDecimal(11000), "home", postAction,
         Some("back-link"), JourneyKeys.properties, "navTitle", "2016/17")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
@@ -234,15 +221,15 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
 
       s"have a title ${messages.question(s"$nextTaxYear")}" in {
-        doc.title() shouldBe messages.question(s"$nextTaxYear")
+        doc.title() shouldBe messages.title("2023 to 2024")
       }
 
       s"have the page heading '${messages.question(s"$nextTaxYear")}'" in {
-        h1Tag.text shouldBe messages.question(s"$nextTaxYear")
+        h1Tag.text shouldBe messages.question("2023 to 2024")
       }
 
       s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
-        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question(s"$nextTaxYear")
+        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2023 to 2024")
       }
     }
 
@@ -251,17 +238,17 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "is due to mandatory field error" should {
 
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-        lazy val form = personalAllowanceForm().bind(Map("amount" -> ""))
+        lazy val form = personalAllowanceForm(testTaxYear).bind(Map("amount" -> ""))
         lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(11000), "home", postAction,
           Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
         lazy val doc = Jsoup.parse(view.body)
 
-        "display an error summary message for the amount" in {
-          doc.body.select("#amount-error-summary").size shouldBe 1
+        "not display an error summary message for the amount" in {
+          doc.body.select(".govuk-error-summary").size shouldBe 1
         }
 
-        "display an error message for the input" in {
-          doc.body.select(".form-group .error-notification").size shouldBe 1
+        "not display an error message for the input" in {
+          doc.body.select(".govuk-error-message").size shouldBe 1
         }
       }
     }

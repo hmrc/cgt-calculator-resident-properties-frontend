@@ -37,7 +37,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     "have the correct page title" in {
-      doc.title shouldBe messages.title
+      doc.title shouldBe s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
     }
 
     "have a back button that" should {
@@ -49,7 +49,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "have the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "have a link to Disposal Value" in {
@@ -66,7 +66,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
+        h1Tag.hasClass("govuk-heading-xl") shouldBe true
       }
     }
 
@@ -90,36 +90,36 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           label.text should include(messages.pageHeading)
         }
 
-        "have the class 'visuallyhidden'" in {
-          label.select("span.visuallyhidden").size shouldBe 1
+        "have the class 'govuk-visually-hidden'" in {
+          doc.body.select("label.govuk-visually-hidden").size shouldBe 1
         }
       }
 
       "has a help list of bullet points that" should {
 
         s"have the title text ${messages.bulletTitle}" in {
-          doc.body.select("div.form-hint p").text shouldBe messages.bulletTitle
+          doc.body.select("div p.govuk-body").text shouldBe messages.bulletTitle
         }
 
         s"have the first bullet of ${messages.bulletOne}" in {
-          doc.body.select("div.form-hint ul li").get(0).text shouldBe messages.bulletOne
+          doc.body.select("div ul.govuk-body li").get(0).text shouldBe messages.bulletOne
         }
 
         s"have the second bullet of ${messages.bulletTwo}" in {
-          doc.body.select("div.form-hint ul li").get(1).text shouldBe messages.bulletTwo
+          doc.body.select("div ul.govuk-body li").get(1).text shouldBe messages.bulletTwo
         }
 
         s"have the third bullet of ${messages.bulletThree}" in {
-          doc.body.select("div.form-hint ul li").get(2).text shouldBe messages.bulletThree
+          doc.body.select("div ul.govuk-body li").get(2).text shouldBe messages.bulletThree
         }
 
         s"have the fourth bullet of ${messages.bulletFour}" in {
-          doc.body.select("div.form-hint ul li").get(3).text shouldBe messages.bulletFour
+          doc.body.select("div ul.govuk-body li").get(3).text shouldBe messages.bulletFour
         }
       }
 
       s"has the important text ${messages.helpText}" in {
-        doc.select("article > div.panel-indent > p").text shouldEqual messages.helpText
+        doc.select("div.govuk-inset-text").text shouldEqual messages.helpText
       }
 
       "has a numeric input field" which {
@@ -133,32 +133,19 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         "has the name 'amount'" in {
           input.attr("name") shouldBe "amount"
         }
-
-        "is of type number" in {
-          input.attr("type") shouldBe "number"
-        }
-
-        "has a step value of '0.01'" in {
-          input.attr("step") shouldBe "0.01"
-        }
-
       }
     }
 
     "have a continue button that" should {
 
-      lazy val continueButton = doc.select("button#continue-button")
+      lazy val continueButton = doc.select("button#submit")
 
       s"have the button text '${commonMessages.continue}'" in {
         continueButton.text shouldBe commonMessages.continue
       }
 
-      "be of type submit" in {
-        continueButton.attr("type") shouldBe "submit"
-      }
-
       "have the class 'button'" in {
-        continueButton.hasClass("button") shouldBe true
+        continueButton.hasClass("govuk-button") shouldBe true
       }
 
     }
@@ -173,11 +160,11 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#amount-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select("#amount-error").size shouldBe 1
       }
     }
   }

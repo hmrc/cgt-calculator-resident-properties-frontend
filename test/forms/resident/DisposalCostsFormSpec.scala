@@ -53,8 +53,8 @@ class DisposalCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+      s"error with message '${messages.Errors.disposalCostsMandatoryAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.disposalCostsMandatoryAmount
       }
     }
 
@@ -66,8 +66,8 @@ class DisposalCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"error with message '${messages.Errors.disposalCostsInvalidAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.disposalCostsInvalidAmount
       }
     }
 
@@ -79,8 +79,8 @@ class DisposalCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.maximumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+      s"error with message '${messages.Errors.disposalCostsMaximumAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.disposalCostsMaximumAmount
       }
     }
 
@@ -92,8 +92,8 @@ class DisposalCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+      s"error with message '${messages.Errors.disposalCostsMinimumAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.disposalCostsMinimumAmount
       }
     }
 
@@ -105,8 +105,8 @@ class DisposalCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"error with message '${messages.Errors.disposalCostsInvalidAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.disposalCostsInvalidAmount
       }
     }
   }

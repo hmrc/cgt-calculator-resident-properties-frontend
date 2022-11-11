@@ -136,7 +136,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "render the Sell For Less page" in {
-        doc.title() shouldEqual messages.title
+        doc.title() shouldEqual s"Error: ${messages.title}"
       }
     }
   }

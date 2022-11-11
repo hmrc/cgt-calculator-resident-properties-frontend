@@ -37,7 +37,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a title ${messages.title}" in {
-      doc.title shouldBe messages.title
+      doc.title shouldBe messages.newTitle
     }
 
     s"have a back link to Private Residence Relief" which {
@@ -59,11 +59,11 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a hidden label with the text ${messages.question}" in {
-      doc.select("label span.visuallyhidden").text shouldEqual messages.question
+      doc.getElementsByClass("govuk-label govuk-visually-hidden").text shouldEqual messages.question
     }
 
     s"have an Indented Panel with the help text ${messages.help("1,000")}" in {
-      doc.select("#helpText p").text shouldEqual messages.help("1,000")
+      doc.getElementsByClass("govuk-inset-text").text shouldEqual messages.help("1,000")
     }
 
     s"have a help link" which {
@@ -85,7 +85,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     }
 
     "have continue button " in {
-      doc.body.getElementById("continue-button").text shouldEqual commonMessages.continue
+      doc.body.getElementsByClass("govuk-button").text shouldEqual commonMessages.continue
     }
   }
 
@@ -96,7 +96,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
-      doc.title shouldBe messages.title
+      doc.title shouldBe messages.newTitle
     }
 
     s"have the text ${messages.question} as the h1 tag" in {
@@ -104,7 +104,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a hidden legend with the text ${messages.question}" in {
-      doc.select("label span.visuallyhidden").text shouldEqual messages.question
+      doc.getElementsByClass("govuk-label govuk-visually-hidden").text shouldEqual messages.question
     }
 
     "display the value of the form" in {
@@ -127,7 +127,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
-      doc.title shouldBe messages.title
+      doc.title shouldBe messages.errorTitle
     }
 
     s"have the text ${messages.question} as the h1 tag" in {
@@ -135,15 +135,15 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a hidden legend with the text ${messages.question}" in {
-      doc.select("label span.visuallyhidden").text shouldEqual messages.question
+      doc.getElementsByClass("govuk-label govuk-visually-hidden").text shouldEqual messages.question
     }
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select(".govuk-error-message").size shouldBe 1
     }
   }
 }

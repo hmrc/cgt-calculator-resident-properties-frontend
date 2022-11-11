@@ -122,10 +122,6 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
       "error" in {
         status(result) shouldEqual 400
       }
-
-      "stay on the Property Worth When Sold page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldEqual MessageLookup.Resident.Properties.WorthWhenSoldForLess.question
-      }
     }
   }
 }

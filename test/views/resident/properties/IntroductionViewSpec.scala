@@ -27,23 +27,27 @@ class IntroductionViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   "Introduction view" should {
     lazy val introductionView = fakeApplication.injector.instanceOf[introduction]
     lazy val view = introductionView()(fakeRequest, testingMessages)
-    lazy val doc = Jsoup.parse(view.body).select("article.content__body")
+    lazy val doc = Jsoup.parse(view.body)
 
     "have the correct title" in {
-      doc.select("h1").text shouldBe messages.title
+      doc.title shouldBe messages.title
+    }
+
+    "have the correct heading" in {
+      doc.select(".govuk-heading-xl").text shouldBe messages.heading
     }
 
     "have the correct sub-heading" in {
-      doc.select("h2").text.trim shouldBe messages.subheading
+      doc.select(".govuk-heading-m").text.trim shouldBe messages.subheading
     }
 
     "have the correct paragraph text" in {
-      doc.select("p:nth-of-type(1)").text.trim shouldBe messages.paragraph
+      doc.select("#main-content > div > div > p:nth-child(3)").text.trim shouldBe messages.paragraph
     }
 
     "have a hyperlink to GOV.UK that" should {
 
-      lazy val hyperlink = doc.select("a:nth-of-type(1)")
+      lazy val hyperlink = doc.select("#privateResidenceReliefStartPageLink")
 
       "have the correct text" in {
         hyperlink.text.trim shouldBe messages.entitledLinkText
@@ -55,24 +59,26 @@ class IntroductionViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
     "the link should have a set of attributes" which {
 
-      "has the external link class" in {
-        doc.select("#privateResidenceReliefStartPageLink").hasClass("external-link") shouldEqual true
+      lazy val hyperlink = doc.select("#privateResidenceReliefStartPageLink")
+
+      "has correct link class" in {
+        hyperlink.hasClass("govuk-link") shouldEqual true
       }
 
       "has the attribute rel" in {
-        doc.select("#privateResidenceReliefStartPageLink").hasAttr("rel") shouldEqual true
+        hyperlink.hasAttr("rel") shouldEqual true
       }
 
-      "rel has the value of external" in {
-        doc.select("#privateResidenceReliefStartPageLink").attr("rel") shouldEqual "external"
+      "rel has the value of noreferrer noopener" in {
+        hyperlink.attr("rel") shouldEqual "noreferrer noopener"
       }
 
       "has a target attribute" in {
-        doc.select("#privateResidenceReliefStartPageLink").hasAttr("target") shouldEqual true
+        hyperlink.hasAttr("target") shouldEqual true
       }
 
       "has a target value of _blank" in {
-        doc.select("#privateResidenceReliefStartPageLink").attr("target") shouldEqual "_blank"
+        hyperlink.attr("target") shouldEqual "_blank"
       }
     }
 
@@ -87,12 +93,12 @@ class IntroductionViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have the correct continuation instructions" in {
-      doc.select("p:nth-of-type(2)").text.trim shouldBe messages.continuationInstructions
+      doc.select("#main-content > div > div > p:nth-child(5)").text.trim shouldBe messages.continuationInstructions
     }
 
     "have a continue link that" should {
 
-      lazy val hyperlink = doc.select("a:nth-of-type(2)")
+      lazy val hyperlink = doc.select("#main-content > div > div > a.govuk-button.govuk-button--start")
 
       "have the correct text" in {
         hyperlink.text.trim shouldBe commonMessages.continue
@@ -102,9 +108,6 @@ class IntroductionViewSpec extends CommonPlaySpec with WithCommonFakeApplication
         hyperlink.attr("href") shouldBe controllers.routes.GainController.disposalDate().url
       }
 
-      "have the id continue-button" in {
-        hyperlink.attr("id") shouldBe "continue-button"
-      }
     }
 
   }

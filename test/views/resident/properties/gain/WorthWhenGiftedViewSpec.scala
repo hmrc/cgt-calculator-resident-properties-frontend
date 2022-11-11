@@ -45,24 +45,24 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have a nav title of 'navTitle'" in {
-      doc.select("span.header__menu__proposition-name").text() shouldBe commonMessages.homeText
+      doc.select("a.govuk-header__link--service-name").text() shouldBe commonMessages.homeText
     }
 
     s"have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.select("a#homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.select("a.govuk-header__link--service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
-    s"have a title of ${messages.question}" in {
-      doc.title() shouldBe messages.question
+    s"have a title of ${messages.question} - ${commonMessages.homeText} - GOV.UK" in {
+      doc.title() shouldBe s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
     }
 
     s"have a question of ${messages.question}" in {
-      doc.select("h1.heading-large").text() shouldBe messages.question
+      doc.select("h1.govuk-heading-xl").text() shouldBe messages.question
     }
 
     "has a form hint" which {
 
-      lazy val formHint = doc.select("div.form-hint")
+      lazy val formHint = doc.getElementsByClass("govuk-body")
 
       s"has the first paragraph of ${messages.hintOne}" in {
         formHint.select("p").get(0).text shouldEqual messages.hintOne
@@ -74,7 +74,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"has the joint ownership text ${messages.jointOwner}" in {
-      doc.select("article > div.panel-indent > p").text shouldEqual messages.jointOwner
+      doc.select("div.govuk-inset-text").text shouldEqual messages.jointOwner
     }
 
     "have a form tag" in {
@@ -90,7 +90,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have a label for an input with text ${messages.question}" in {
-      doc.select("label > span.visuallyhidden").text() shouldEqual messages.question
+      doc.select("label.govuk-label.govuk-visually-hidden").text() shouldEqual messages.question
     }
 
     s"have an input field with id amount " in {
@@ -98,7 +98,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     "have a continue button " in {
-      doc.select("#continue-button").text shouldBe commonMessages.continue
+      doc.select("#submit").text shouldBe commonMessages.continue
     }
   }
 
@@ -132,11 +132,11 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select("#amount-error").size shouldBe 1
     }
   }
 }

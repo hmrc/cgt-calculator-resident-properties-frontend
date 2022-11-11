@@ -16,23 +16,28 @@
 
 package forms.resident
 
+import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.DisposalCostsModel
 import play.api.data.Forms._
 import play.api.data._
+import common.Formatters.text
+import common.resident.MoneyPounds
 
 object DisposalCostsForm {
 
   val disposalCostsForm = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.disposalCosts.mandatoryAmount")
+        .verifying("calc.resident.disposalCosts.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.disposalCosts.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint())
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(constraintBuilder("calc.resident.disposalCosts.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity){
+          maxCheck
+        })
+        .verifying("calc.resident.disposalCosts.minimumAmount", isPositive)
+        .verifying("calc.resident.disposalCosts.invalidAmount", decimalPlacesCheck)
     )(DisposalCostsModel.apply)(DisposalCostsModel.unapply)
   )
 }

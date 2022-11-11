@@ -39,12 +39,12 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
 
       lazy val h1Tag = doc.select("h1")
 
-      s"have the page heading '${messages.title}'" in {
-        h1Tag.text shouldBe messages.title
+      s"have the page heading '${messages.heading}'" in {
+        h1Tag.text shouldBe messages.heading
       }
 
       "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
+        h1Tag.hasClass("govuk-heading-xl") shouldBe true
       }
     }
 
@@ -55,7 +55,7 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "has the back-link class" in {
-        doc.select("#back-link").hasClass("back-link") shouldBe true
+        doc.select("#back-link").hasClass("govuk-back-link") shouldBe true
       }
 
       "and link back to the property lived in page" in {
@@ -63,20 +63,20 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
       }
     }
 
-    s"have the question of the page ${messages.title}" in {
-      doc.select("h1").text shouldEqual messages.title
+    s"have the question of the page ${messages.heading}" in {
+      doc.select("h1").text shouldEqual messages.heading
     }
 
     "have a help text with the link that" should {
 
-      lazy val helptext = doc.select("article p")
+      lazy val helptext = doc.select("#main-content > div > div > form > p")
 
       s"have the text ${messages.helpTextLink}" in {
         helptext.text() should include(messages.helpTextLink)
       }
 
       s"have an internal span with the text ${commonMessages.externalLink}" in {
-        helptext.select("a#privateResidenceReliefQuestionLink span").text() shouldEqual commonMessages.externalLink
+        helptext.select("#privateResidenceReliefQuestionLink > span").text() shouldEqual commonMessages.externalLink
       }
 
       "have the address https://www.gov.uk/government/publications/" +
@@ -87,34 +87,34 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
 
       "the link should have a set of attributes" which {
 
-        "has the external link class" in {
-          doc.select("article p a").hasClass("external-link") shouldEqual true
+        "has the govuk-link class" in {
+          doc.select("#privateResidenceReliefQuestionLink").hasClass("govuk-link") shouldEqual true
         }
 
         "has the attribute rel" in {
-          doc.select("article p a").hasAttr("rel") shouldEqual true
+          doc.select("#privateResidenceReliefQuestionLink").hasAttr("rel") shouldEqual true
         }
 
         "rel has the value of external" in {
-          doc.select("article p a").attr("rel") shouldEqual "external"
+          doc.select("#privateResidenceReliefQuestionLink").attr("rel") shouldEqual "external"
         }
 
         "has a target attribute" in {
-          doc.select("article p a").hasAttr("target") shouldEqual true
+          doc.select("#privateResidenceReliefQuestionLink").hasAttr("target") shouldEqual true
         }
 
         "has a target value of _blank" in {
-          doc.select("article p a").attr("target") shouldEqual "_blank"
+          doc.select("#privateResidenceReliefQuestionLink").attr("target") shouldEqual "_blank"
         }
       }
 
       "record GA statistics" which {
         "has a data-journey-click attribute" in {
-          doc.select("article p a").hasAttr("data-journey-click") shouldEqual true
+          doc.select("#privateResidenceReliefQuestionLink").hasAttr("data-journey-click") shouldEqual true
         }
 
         "with the GA value of help:govUK:rtt-properties-privateReliefQuestionHelp" in {
-          doc.select("article p a").attr("data-journey-click") shouldEqual "help:govUK:rtt-properties-privateResidenceReliefQuestionHelp"
+          doc.select("#privateResidenceReliefQuestionLink").attr("data-journey-click") shouldEqual "help:govUK:rtt-properties-privateResidenceReliefQuestionHelp"
         }
       }
     }
@@ -141,25 +141,25 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
             radioButtons.select("legend").size() shouldEqual 1
           }
 
-          "has the class 'visuallyhidden'" in {
-            radioButtons.select("legend").hasClass("visuallyhidden") shouldEqual true
+          "has the class 'govuk-visually-hidden'" in {
+            radioButtons.select("legend").hasClass("govuk-visually-hidden") shouldEqual true
           }
 
-          s"has the text '${messages.title}'" in {
-            radioButtons.select("legend").text() shouldEqual messages.title
+          s"has the text '${messages.heading}'" in {
+            radioButtons.select("legend").text() shouldEqual messages.heading
           }
         }
 
         "has an input for the yes option" which {
 
-          lazy val yesButton = radioButtons.select("label[for=isClaiming-yes]")
+          lazy val yesButton = radioButtons.select("label[for=isClaiming]")
 
           "has a label with text 'Yes'" in {
             yesButton.text shouldEqual "Yes"
           }
 
           "has id option-yes" in {
-            yesButton.parents().first().select("input").attr("id") shouldEqual "isClaiming-yes"
+            yesButton.parents().first().select("input").attr("id") shouldEqual "isClaiming"
           }
 
           "has a name of 'isClaiming'" in {
@@ -173,14 +173,14 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
 
         "has an input for the no option" which {
 
-          lazy val noButton = radioButtons.select("label[for=isClaiming-no]")
+          lazy val noButton = radioButtons.select("label[for=isClaiming-2]")
 
           "has a label with text 'No'" in {
             noButton.text shouldEqual "No"
           }
 
           "has id option-no" in {
-            noButton.parents().first().select("input").attr("id") shouldEqual "isClaiming-no"
+            noButton.parents().first().select("input").attr("id") shouldEqual "isClaiming-2"
           }
 
           "has a name of 'isClaiming'" in {
@@ -195,18 +195,18 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
 
       "have a continue button that" should {
 
-        lazy val continueButton = doc.select("button#continue-button")
+        lazy val continueButton = doc.select("button#submit")
 
         s"have the button text '${commonMessages.continue}'" in {
           continueButton.text shouldBe commonMessages.continue
         }
 
-        "be of type submit" in {
-          continueButton.attr("type") shouldBe "submit"
+        "have id submit" in {
+          continueButton.attr("id") shouldBe "submit"
         }
 
-        "have the class 'button'" in {
-          continueButton.hasClass("button") shouldBe true
+        "have the class 'govuk-button'" in {
+          continueButton.hasClass("govuk-button") shouldBe true
         }
       }
     }
@@ -221,11 +221,11 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#isClaiming-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select(".govuk-error-message").size shouldBe 1
       }
     }
   }

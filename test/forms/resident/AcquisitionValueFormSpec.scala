@@ -45,8 +45,8 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"return a form with the error message ${messages.mandatoryAmount}" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+      s"return a form with the error message ${messages.Errors.acquisitionValueMandatoryAmount}" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionValueMandatoryAmount
       }
     }
 
@@ -57,8 +57,8 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"return a form with the error message ${messages.invalidAmount}" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"return a form with the error message ${messages.Errors.acquisitionValueInvalidAmount}" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionValueInvalidAmount
       }
     }
 
@@ -69,8 +69,8 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"return a form with the error message ${messages.maximumAmount}" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+      s"return a form with the error message ${messages.Errors.acquisitionValueMaximumAmount}" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionValueMaximumAmount
       }
     }
 
@@ -81,8 +81,8 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"return a form with the error message ${messages.minimumAmount}" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+      s"return a form with the error message ${messages.Errors.acquisitionValueMinimumAmount}" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionValueMinimumAmount
       }
     }
 
@@ -93,8 +93,8 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"return a form with the error message ${messages.invalidAmount}" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"return a form with the error message ${messages.Errors.acquisitionValueInvalidAmount}" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionValueInvalidAmount
       }
     }
   }

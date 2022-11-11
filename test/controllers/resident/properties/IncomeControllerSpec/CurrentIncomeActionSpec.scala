@@ -94,8 +94,8 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
         contentType(result) shouldBe Some("text/html")
       }
 
-      "display the Current Income view for 2015/16" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title("2015/16")
+      "display the Current Income view for 2015 to 2016" in {
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title("2015 to 2016")
       }
 
       "supplied with no pre-existing stored data for the Current tax year" should {

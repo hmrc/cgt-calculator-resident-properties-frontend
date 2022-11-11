@@ -19,6 +19,7 @@ package views.resident.properties.whatNext
 import _root_.views.BaseViewSpec
 import assets.MessageLookup.WhatNextPages.{WhatNextNoGain => pageMessages}
 import assets.MessageLookup.{WhatNextPages => commonMessages}
+import assets.MessageLookup.{Resident => serviceMessages}
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.calculation.resident.properties.whatNext.whatNextSaNoGain
@@ -26,13 +27,14 @@ import views.html.calculation.resident.properties.whatNext.whatNextSaNoGain
 class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
   lazy val whatNextSaNoGainView = fakeApplication.injector.instanceOf[whatNextSaNoGain]
+  lazy val pageTitle = s"${commonMessages.title} - ${serviceMessages.homeText} - GOV.UK"
   "The whatNextSaNoGain view" should {
 
     lazy val view = whatNextSaNoGainView("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
-    s"have a title ${commonMessages.title}" in {
-      doc.title() shouldBe commonMessages.title
+    s"have a title $pageTitle" in {
+      doc.title() shouldBe pageTitle
     }
 
     "have a back link to 'back-link'" in {
@@ -50,11 +52,11 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       s"has a first bullet point of ${pageMessages.bulletPointOne("2016 to 2017")}" in {
-        doc.select("article.content__body ul li").get(0).text shouldBe pageMessages.bulletPointOne("2016 to 2017")
+        doc.select("ul.govuk-list li").get(0).text shouldBe pageMessages.bulletPointOne("2016 to 2017")
       }
 
       s"has a second bullet point of ${pageMessages.bulletPointTwo}" in {
-        doc.select("article.content__body ul li").get(1).text shouldBe pageMessages.bulletPointTwo
+        doc.select("ul.govuk-list li").get(1).text shouldBe pageMessages.bulletPointTwo
       }
     }
 
@@ -74,8 +76,8 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         reportNowButton.text shouldBe commonMessages.reportNow
       }
 
-      "has the class button" in {
-        reportNowButton.hasClass("button") shouldBe true
+      "has the class govuk-button" in {
+        reportNowButton.hasClass("govuk-button") shouldBe true
       }
 
       "has a link to the 'iFormUrl'" in {

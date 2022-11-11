@@ -16,50 +16,59 @@
 
 @import models.resident.properties.ImprovementsModel
 @import play.api.Application
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    errorSummary: helpers.errorSummary,
-    formInputMoney: helpers.formInputMoney,
-    expandableHelpTextHelper: helpers.expandableHelpTextHelper
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    formInputMoney: playHelpers.formInputMoney,
+    expandableHelpTextHelper: playHelpers.expandableHelpTextHelper,
+    submitButton: playHelpers.submitButton
 )
 
 @(improvementsForm : Form[ImprovementsModel], ownedBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_], messages: Messages)
 
 @hiddenHelpTextContent = {
-    <p>@Messages("calc.resident.properties.improvements.additionalContent.one")</p>
+    <p >@Messages("calc.resident.properties.improvements.additionalContent.one")</p>
     <p>@Messages("calc.resident.properties.improvements.additionalContent.two")</p>
 }
 
-@residentPropertiesMainTemplate(title = if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
-    else Messages("calc.resident.properties.improvements.question"),
-    backLink = Some(controllers.routes.GainController.acquisitionCosts().toString)) {
+@title = @{
+    if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
+    else Messages("calc.resident.properties.improvements.question")
+}
 
-    @errorSummary(improvementsForm, "improvements")
+@titleWithError = @{
+    if (improvementsForm.errors.nonEmpty) Messages("site.title.error",  title) else title
+}
 
-    <h1 class="heading-large">@{if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
-        else Messages("calc.resident.properties.improvements.question")}</h1>
+@layout(
+    pageTitle = titleWithError,
+    backLinkHref = Some(controllers.routes.GainController.acquisitionCosts().toString)
+) {
 
-    <div class="form-hint">
-        <p>@Messages("calc.resident.properties.improvements.hint")</p>
-    </div>
+    @errorSummary(improvementsForm.errors, Some("improvements"))
 
-    <div class="panel-indent panel-indent--wide form-group">
-        <p>@Messages("calc.resident.properties.improvements.jointOwner")</p>
-    </div>
+    <h1 class="govuk-heading-xl">@title</h1>
 
-    <div class ="form-group">
-    @expandableHelpTextHelper(Messages("calc.resident.properties.improvements.helpButton"), hiddenHelpTextContent)
-    </div>
+    <p class="govuk-body">@Messages("calc.resident.properties.improvements.hint")</p>
+
+    <p class="govuk-inset-text">@Messages("calc.resident.properties.improvements.jointOwner")</p>
+
+    @expandableHelpTextHelper(
+        helpTextTitle = Messages("calc.resident.properties.improvements.helpButton"),
+        content = hiddenHelpTextContent
+    )
 
     @form(action = controllers.routes.GainController.submitImprovements) {
 
-        @formInputMoney(improvementsForm, "amount",
-            if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
-            else Messages("calc.resident.properties.improvements.question"),
-            None, hideLabel = true)
+        @formInputMoney(
+            field = improvementsForm("amount"),
+            question = title,
+            hideLabel = true
+        )
 
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 }

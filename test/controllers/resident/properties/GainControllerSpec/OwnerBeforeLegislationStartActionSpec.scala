@@ -138,7 +138,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
       }
 
       "render the Sell For Less page" in {
-        doc.title() shouldEqual messages.title
+        doc.title() shouldEqual s"Error: ${messages.title}"
       }
     }
   }

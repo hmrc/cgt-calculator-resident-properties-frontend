@@ -27,13 +27,13 @@ import views.html.calculation.resident.lossesBroughtForwardValue
 
 class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
   lazy val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
-
+  lazy val testTaxYear = TaxYearModel("2016/17", isValidYear = true, "2016/17")
   "Losses Brought Forward Value view" when {
 
     "provided with a date in the 2015/16 tax year" should {
 
       lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm, taxYear, "back-link",
+      lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm(testTaxYear), taxYear, "back-link",
         "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -41,16 +41,16 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.title("2015/16")}" in {
-        doc.title() shouldBe messages.title("2015/16")
+      s"have a title ${messages.title("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
 
-      "have a dynamic navTitle of navTitle" in {
-        doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
+      "have a dynamic navTitle with text Calculate your Capital Gains Tax" in {
+        doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").text shouldEqual "Calculate your Capital Gains Tax"
       }
 
       "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-        doc.getElementById("homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+        doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a back button that" should {
@@ -62,7 +62,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
         }
 
         "have the back-link class" in {
-          backLink.hasClass("back-link") shouldBe true
+          backLink.hasClass("govuk-back-link") shouldBe true
         }
 
         "have a link to 'back-link'" in {
@@ -74,12 +74,12 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
         lazy val h1Tag = doc.select("H1")
 
-        s"have the page heading '${messages.question("2015/16")}'" in {
-          h1Tag.text shouldBe messages.question("2015/16")
+        s"have the page heading '${messages.question("2015 to 2016")}'" in {
+          h1Tag.text shouldBe messages.question("2015 to 2016")
         }
 
-        "have the heading-large class" in {
-          h1Tag.hasClass("heading-large") shouldBe true
+        "have the govuk-label-wrapper class" in {
+          h1Tag.hasClass("govuk-label-wrapper") shouldBe true
         }
       }
 
@@ -98,13 +98,10 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
           lazy val label = doc.body.getElementsByTag("label")
 
-          s"have the question ${messages.question("2015/16")}" in {
-            label.text should include(messages.question("2015/16"))
+          s"have the question ${messages.question("2015 to 2016")}" in {
+            label.text should include(messages.question("2015 to 2016"))
           }
 
-          "have the class 'visuallyhidden'" in {
-            label.select("span.visuallyhidden").size shouldBe 1
-          }
         }
 
         "has a numeric input field" which {
@@ -120,28 +117,24 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
           }
 
           "is of type number" in {
-            input.attr("type") shouldBe "number"
-          }
-
-          "has a step value of '0.01'" in {
-            input.attr("step") shouldBe "0.01"
+            input.attr("type") shouldBe "text"
           }
         }
 
         "have a continue button that" should {
 
-          lazy val continueButton = doc.select("button#continue-button")
+          lazy val continueButton = doc.select("#submit")
 
           s"have the button text '${commonMessages.continue}'" in {
             continueButton.text shouldBe commonMessages.continue
           }
 
           "be of type submit" in {
-            continueButton.attr("type") shouldBe "submit"
+            continueButton.attr("id") shouldBe "submit"
           }
 
           "have the class 'button'" in {
-            continueButton.hasClass("button") shouldBe true
+            continueButton.hasClass("govuk-button") shouldBe true
           }
         }
       }
@@ -150,24 +143,24 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     "provided with a date in the 2014/15 tax year" should {
 
       lazy val taxYear = TaxYearModel("2014/15", false, "2015/16")
-      lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm, taxYear, "back-link",
+      lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm(testTaxYear), taxYear, "back-link",
         "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
-      s"have a title ${messages.title("2014/15")}" in {
-        doc.title() shouldBe messages.title("2014/15")
+      s"have a title ${messages.title("2014 to 2015")}" in {
+        doc.title() shouldBe messages.title("2014 to 2015")
       }
 
       "have a H1 tag that" should {
 
         lazy val h1Tag = doc.select("H1")
 
-        s"have the page heading '${messages.question("2014/15")}'" in {
-          h1Tag.text shouldBe messages.question("2014/15")
+        s"have the page heading '${messages.question("2014 to 2015")}'" in {
+          h1Tag.text shouldBe messages.question("2014 to 2015")
         }
 
-        "have the heading-large class" in {
-          h1Tag.hasClass("heading-large") shouldBe true
+        "have the govuk-label-wrapper class" in {
+          h1Tag.hasClass("govuk-label-wrapper") shouldBe true
         }
       }
 
@@ -175,19 +168,16 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
         lazy val label = doc.body.getElementsByTag("label")
 
-        s"have the question ${messages.question("2014/15")}" in {
-          label.text should include(messages.question("2014/15"))
+        s"have the question ${messages.question("2014 to 2015")}" in {
+          label.text should include(messages.question("2014 to 2015"))
         }
 
-        "have the class 'visuallyhidden'" in {
-          label.select("span.visuallyhidden").size shouldBe 1
-        }
       }
     }
   }
 
   "Losses Brought Forward Value view with stored values" should {
-    lazy val form = lossesBroughtForwardValueForm.bind(Map(("amount", "1000")))
+    lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map(("amount", "1000")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
       "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
@@ -200,18 +190,18 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
   }
 
   "Losses Brought Forward Value view with errors" should {
-    lazy val form = lossesBroughtForwardValueForm.bind(Map(("amount", "")))
+    lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map(("amount", "")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
       "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select("span.error-notification").size shouldBe 1
+      doc.body.select(".govuk-error-message").size shouldBe 1
     }
   }
 }

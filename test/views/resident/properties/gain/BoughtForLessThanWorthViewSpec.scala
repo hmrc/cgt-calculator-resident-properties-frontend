@@ -37,8 +37,8 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
       doc.charset.toString shouldBe "UTF-8"
     }
 
-    s"have a title ${messages.title}" in {
-      doc.title shouldBe messages.title
+    s"have a title ${messages.title} - ${commonMessages.homeText} - GOV.UK" in {
+      doc.title shouldBe s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
     }
 
     "have a H1 tag that" should {
@@ -49,13 +49,13 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
         h1Tag.text shouldBe messages.title
       }
 
-      "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
+      "have the govuk-fieldset__heading class" in {
+        h1Tag.hasClass("govuk-fieldset__heading") shouldBe true
       }
     }
 
     s"have the home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.select("#homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+      doc.select(".govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a back button" which {
@@ -66,8 +66,8 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
         backLink.text shouldBe commonMessages.back
       }
 
-      "has the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+      "has the govuk-back-link class" in {
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "has a back link to 'back'" in {
@@ -90,92 +90,31 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
       s"contain the text ${messages.title}" in {
         legend.text should include(s"${messages.title}")
       }
-
-      "that is visually hidden" in {
-        legend.hasClass("visuallyhidden") shouldEqual true
-      }
     }
 
     "have a set of radio inputs" which {
 
       "are surrounded in a div with class form-group" in {
-        doc.select("div#radio-input").hasClass("form-group") shouldEqual true
+        doc.select("div.govuk-radios").size() shouldEqual 1
       }
 
       "for the option 'Yes'" should {
 
-        lazy val YesRadioOption = doc.select(".block-label[for=boughtForLessThanWorth-yes]")
-
-        "have a label with class 'block-label'" in {
-          YesRadioOption.hasClass("block-label") shouldEqual true
-        }
-
-        "have the property 'for'" in {
-          YesRadioOption.hasAttr("for") shouldEqual true
-        }
-
-        "the for attribute has the value boughtForLessThanWorth-Yes" in {
-          YesRadioOption.attr("for") shouldEqual "boughtForLessThanWorth-yes"
-        }
+        lazy val YesRadioOption = doc.select(".govuk-radios__item").get(0)
 
         "have the text 'Yes'" in {
-          YesRadioOption.text shouldEqual "Yes"
-        }
-
-        "have an input under the label that" should {
-
-          lazy val optionLabel = doc.select("#boughtForLessThanWorth-yes")
-
-          "have the id 'boughtForLessThanWorth-Yes'" in {
-            optionLabel.attr("id") shouldEqual "boughtForLessThanWorth-yes"
-          }
-
-          "have the value 'Yes'" in {
-            optionLabel.attr("value") shouldEqual "Yes"
-          }
-
-          "be of type radio" in {
-            optionLabel.attr("type") shouldEqual "radio"
-          }
+          YesRadioOption.text() shouldEqual "Yes"
         }
       }
 
       "for the option 'No'" should {
 
-        lazy val NoRadioOption = doc.select(".block-label[for=boughtForLessThanWorth-no]")
-
-        "have a label with class 'block-label'" in {
-          NoRadioOption.hasClass("block-label") shouldEqual true
-        }
-
-        "have the property 'for'" in {
-          NoRadioOption.hasAttr("for") shouldEqual true
-        }
-
-        "the for attribute has the value boughtForLessThanWorth-No" in {
-          NoRadioOption.attr("for") shouldEqual "boughtForLessThanWorth-no"
-        }
+        lazy val NoRadioOption = doc.select(".govuk-radios__item").get(1)
 
         "have the text 'No'" in {
-          NoRadioOption.text shouldEqual "No"
+          NoRadioOption.text() shouldEqual "No"
         }
 
-        "have an input under the label that" should {
-
-          lazy val optionLabel = doc.select("#boughtForLessThanWorth-no")
-
-          "have the id 'livedInProperty-No'" in {
-            optionLabel.attr("id") shouldEqual "boughtForLessThanWorth-no"
-          }
-
-          "have the value 'No'" in {
-            optionLabel.attr("value") shouldEqual "No"
-          }
-
-          "be of type radio" in {
-            optionLabel.attr("type") shouldEqual "radio"
-          }
-        }
       }
     }
 
@@ -183,24 +122,16 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
 
       lazy val button = doc.select("button")
 
-      "has class 'button'" in {
-        button.hasClass("button") shouldEqual true
-      }
-
-      "has attribute 'type'" in {
-        button.hasAttr("type") shouldEqual true
-      }
-
-      "has type value of 'submit'" in {
-        button.attr("type") shouldEqual "submit"
+      "has class 'govuk-button'" in {
+        button.hasClass("govuk-button") shouldEqual true
       }
 
       "has attribute id" in {
         button.hasAttr("id") shouldEqual true
       }
 
-      "has id equal to continue-button" in {
-        button.attr("id") shouldEqual "continue-button"
+      "has id equal to submit" in {
+        button.attr("id") shouldEqual "submit"
       }
 
       s"has the text ${commonMessages.continue}" in {
@@ -215,10 +146,10 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
 
     "for the option 'Yes'" should {
 
-      lazy val YesRadioOption = doc.select(".block-label[for=boughtForLessThanWorth-yes]")
+      lazy val YesRadioOption = doc.select("#boughtForLessThanWorth")
 
       "have the option auto-selected" in {
-        YesRadioOption.attr("class") shouldBe "block-label selected"
+        YesRadioOption.hasAttr("checked") shouldBe true
       }
     }
   }
@@ -231,11 +162,11 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
 
     "have an error summary" which {
       "display an error summary message for the page" in {
-        doc.body.select("#boughtForLessThanWorth-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select("#boughtForLessThanWorth-error").size shouldBe 1
       }
     }
   }

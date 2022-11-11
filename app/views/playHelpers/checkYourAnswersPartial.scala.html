@@ -22,10 +22,10 @@
 @import play.api.i18n.Lang
 
 @this(
-    summaryDateRowHelper: helpers.resident.summaryDateRowHelper,
-    summaryTextRowHelper: helpers.resident.summaryTextRowHelper,
-    summaryNumericRowHelper: helpers.resident.summaryNumericRowHelper,
-    summaryOptionRowHelper: helpers.resident.summaryOptionRowHelper
+    summaryDateRowHelper: playHelpers.resident.summaryDateRowHelper,
+    summaryTextRowHelper: playHelpers.resident.summaryTextRowHelper,
+    summaryNumericRowHelper: playHelpers.resident.summaryNumericRowHelper,
+    summaryOptionRowHelper: playHelpers.resident.summaryOptionRowHelper
 )
 
 @(gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false, displayLinks: Boolean = true)(implicit messages: Messages, lang: Lang)
@@ -33,7 +33,7 @@
 
 <section id="yourAnswers">
 
-    <h2 class="bold-medium you-told-us-title">@Messages("calc.checkYourAnswers.tableHeading")</h2>
+    @if(displayLinks) {<dl class="govuk-summary-list">} else {<table class="govuk-table"> <tbody class="govuk-table__body">}
 
     <!-- Gain Answers-->
     @summaryDateRowHelper("disposalDate",Messages("calc.resident.disposalDate.question"),gainAnswers.disposalDate, Some(gainRoutes.disposalDate().toString), extraClass = "summary-overline", displayLink = displayLinks)
@@ -121,10 +121,10 @@
             summaryNumericRowHelper("lettingsReliefValue", Messages("calc.resident.lettingsReliefValue.title"), deductionsAnswers.get.lettingsReliefValueModel.get.amount, Some(deductionRoutes.lettingsReliefValue().toString), displayLink = displayLinks)
         }
 
-        @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", taxYear.get.taxYearSupplied), deductionsAnswers.get.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString), displayLink = displayLinks)
+        @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(1)), deductionsAnswers.get.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString), displayLink = displayLinks)
 
         @{if (deductionsAnswers.get.broughtForwardModel.get.option)
-            summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.get.taxYearSupplied), deductionsAnswers.get.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString), displayLink = displayLinks)
+            summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(1)), deductionsAnswers.get.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString), displayLink = displayLinks)
         }
     }
     <!-- Deductions Answers End --->
@@ -133,15 +133,16 @@
 
         @{summaryNumericRowHelper("currentIncome",
         if(isCurrentTaxYear){Messages("calc.resident.currentIncome.questionCurrentYear")}
-        else{Messages("calc.resident.currentIncome.question", taxYear.get.taxYearSupplied)},
+        else{Messages("calc.resident.currentIncome.question", TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(1))},
         incomeAnswers.get.currentIncomeModel.get.amount,Some(incomeRoutes.currentIncome().toString), displayLink = displayLinks)}
 
         @{summaryNumericRowHelper("personalAllowance",
         {if(isCurrentTaxYear) {Messages("calc.resident.personalAllowance.currentYearQuestion")}
-        else {Messages("calc.resident.personalAllowance.question", taxYear.get.taxYearSupplied)}},
+        else {Messages("calc.resident.personalAllowance.question", TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(1))}},
         incomeAnswers.get.personalAllowanceModel.get.amount,Some(incomeRoutes.personalAllowance().toString), displayLink = displayLinks)}
 
     }
+    @if(displayLinks) { </dl>} else {</tbody></table>}
 
 
 </section>

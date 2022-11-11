@@ -18,7 +18,10 @@ package models.resident
 
 import play.api.libs.json.Json
 
-case class TaxYearModel (taxYearSupplied: String, isValidYear: Boolean, calculationTaxYear: String)
+case class TaxYearModel (taxYearSupplied: String, isValidYear: Boolean, calculationTaxYear: String) {
+  val startYear: String = TaxYearModel.convertToSummaryFormat(taxYearSupplied)(0)
+  val endYear: String = TaxYearModel.convertToSummaryFormat(taxYearSupplied)(1)
+}
 
 object TaxYearModel {
   implicit val formats = Json.format[TaxYearModel]

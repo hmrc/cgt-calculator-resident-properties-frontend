@@ -15,43 +15,39 @@
  *@
 
 @import models.resident.properties.BoughtForLessThanWorthModel
-@import views.html.calculation.resident._
-@import views.html.helpers._
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup,
-    errorSummary: helpers.errorSummary,
-    residentMainTemplate: calculation.resident.resident_main_template
+    inputRadio: playHelpers.inputRadio,
+    errorSummary: playHelpers.errorSummary,
+    layout: Layout,
+    submitButton: playHelpers.submitButton
 )
 
 @(boughtForLessThanWorthForm: Form[BoughtForLessThanWorthModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    title = Messages("calc.resident.properties.boughtForLessThanWorth.title"),
-    backLink = navBackLink,
-    homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.properties.home")
-) {
-    @errorSummary(boughtForLessThanWorthForm, "bought-for-less-than-worth")
+@title = @{
+    if (boughtForLessThanWorthForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.boughtForLessThanWorth.title"))
+    else Messages("calc.resident.properties.boughtForLessThanWorth.title")
+}
 
-    <h1 class="heading-large">@Messages("calc.resident.properties.boughtForLessThanWorth.title")</h1>
+@layout(
+    pageTitle = title,
+    backLinkHref = navBackLink,
+) {
+    @errorSummary(boughtForLessThanWorthForm.errors, Some("bought-for-less-than-worth"))
 
     @form(action = controllers.routes.GainController.submitBoughtForLessThanWorth) {
-        <div id="radio-input" class="form-group">
-            @inputRadioGroup(
-            field = boughtForLessThanWorthForm("boughtForLessThanWorth"),
-            Seq(
-            "Yes" -> Messages("calc.base.yes"),
-            "No" -> Messages("calc.base.no")),
-            '_legend -> Messages("calc.resident.properties.boughtForLessThanWorth.title"),
-            '_labelClass -> "block-label",
-            '_legendClass -> "visuallyhidden",
-            '_groupClass -> "inline"
-            )
-        </div>
-
-        <input type="hidden" name="boughtForLessThanWorth" value="" />
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @inputRadio(
+            legend = Messages("calc.resident.properties.boughtForLessThanWorth.title"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+            ),
+            inLine = true,
+            field = boughtForLessThanWorthForm("boughtForLessThanWorth")
+        )
+        @submitButton()
     }
 }

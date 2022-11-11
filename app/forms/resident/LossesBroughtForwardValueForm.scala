@@ -16,23 +16,32 @@
 
 package forms.resident
 
+import common.Constants
 import common.Transformers._
 import common.Validation._
-import models.resident.LossesBroughtForwardValueModel
+import models.resident.{LossesBroughtForwardValueModel, TaxYearModel}
 import play.api.data.Forms._
 import play.api.data._
+import common.Formatters.text
+import common.resident.MoneyPounds
 
 object LossesBroughtForwardValueForm {
 
-  val lossesBroughtForwardValueForm = Form(
+  def lossesBroughtForwardValueForm(taxYear: TaxYearModel):Form[LossesBroughtForwardValueModel] = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.lossesBroughtForward.errorSelect")
+        .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForwardValue.mandatoryAmount", taxYear.startYear, taxYear.endYear) {
+          mandatoryCheck
+        })
+        .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForwardValue.invalidAmount", taxYear.startYear, taxYear.endYear) {
+          bigDecimalCheck
+        })
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint())
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(constraintBuilder("calc.resident.lossesBroughtForwardValue.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
+        .verifying("calc.resident.lossesBroughtForwardValue.minimumAmount", isPositive)
+        .verifying(constraintBuilder("calc.resident.lossesBroughtForwardValue.invalidAmount", taxYear.startYear, taxYear.endYear) {
+          decimalPlacesCheck
+        })
     )(LossesBroughtForwardValueModel.apply)(LossesBroughtForwardValueModel.unapply)
   )
 

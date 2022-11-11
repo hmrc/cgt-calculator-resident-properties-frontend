@@ -16,32 +16,40 @@
 
 @import models.resident.WorthWhenSoldForLessModel
 @import play.api.Application
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    errorSummary: helpers.errorSummary,
-    formInputMoney: helpers.formInputMoney,
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton
 )
 
 @(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate( title = Messages("calc.resident.properties.worthWhenSoldForLess.question"),
-                                    backLink = Some(controllers.routes.GainController.sellForLess().toString)) {
+@title = @{
+        if (worthWhenSoldForLessForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.worthWhenSoldForLess.question")) else Messages("calc.resident.properties.worthWhenSoldForLess.question")
+    }
 
-    @errorSummary(worthWhenSoldForLessForm, "amount")
+    @layout(
+        pageTitle = title,
+        backLinkHref = Some(controllers.routes.GainController.sellForLess().toString)
+    ) {
 
-    <h1 class="heading-large">@Messages("calc.resident.properties.worthWhenSoldForLess.question")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.properties.worthWhenSoldForLess.question")</h1>
+
+    @errorSummary(worthWhenSoldForLessForm.errors, Some("amount"))
 
     @form(action = controllers.routes.GainController.submitWorthWhenSoldForLess) {
 
-        <p id="guideText">@Messages("calc.resident.properties.worthWhenSoldForLess.paragraphText")</p>
+        <p class="govuk-body" id="guideText">@Messages("calc.resident.properties.worthWhenSoldForLess.paragraphText")</p>
 
-        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.properties.worthWhenSoldForLess.hintText")</p>
+        <p class="govuk-inset-text">@Messages("calc.resident.properties.worthWhenSoldForLess.hintText")</p>
 
-        @formInputMoney(worthWhenSoldForLessForm, "amount", Messages("calc.resident.properties.worthWhenSoldForLess.question"), hideLabel = true)
+        @formInputMoney(worthWhenSoldForLessForm("amount"), Messages("calc.resident.properties.worthWhenSoldForLess.question"), hideLabel = true)
 
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
 
     }
 }

@@ -36,7 +36,7 @@ class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   }
 
   s"have a title of ${messages.title}" in {
-    doc.title() shouldBe messages.title
+    doc.title() shouldBe s"${messages.title} - Calculate your Capital Gains Tax - GOV.UK"
   }
 
     "have a back button that" should {
@@ -47,7 +47,7 @@ class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "have a link to Did You Sell or Give Away" in {
@@ -61,7 +61,7 @@ class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         heading.text shouldBe messages.title
       }
       "have the heading-large class" in {
-        heading.hasClass("heading-large") shouldBe true
+        heading.hasClass("govuk-fieldset__heading") shouldBe true
       }
     }
 
@@ -93,18 +93,18 @@ class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     }
 
     "has a continue button that" should {
-      lazy val continueButton = doc.select("button#continue-button")
+      lazy val continueButton = doc.getElementsByClass("govuk-button")
 
       s"have the button text '${commonMessages.continue}'" in {
         continueButton.text shouldBe commonMessages.continue
       }
 
       "be of type submit" in {
-        continueButton.attr("type") shouldBe "submit"
+        continueButton.attr("id") shouldBe "submit"
       }
 
       "have the class 'button'" in {
-        continueButton.hasClass("button") shouldBe true
+        continueButton.hasClass("govuk-button") shouldBe true
       }
     }
   }
@@ -115,7 +115,7 @@ class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message regarding incorrect value being inputted" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select(".govuk-error-summary__body").size shouldBe 1
     }
   }
 }

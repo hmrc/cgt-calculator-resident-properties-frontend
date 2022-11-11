@@ -16,23 +16,26 @@
 
 package forms.resident.properties
 
+import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.properties.ValueBeforeLegislationStartModel
 import play.api.data.Form
 import play.api.data.Forms._
+import common.Formatters.text
+import common.resident.MoneyPounds
 
 object ValueBeforeLegislationStartForm {
 
   val valueBeforeLegislationStartForm = Form(
     mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.properties.valueBeforeLegislationStart.mandatoryAmount")
+        .verifying("calc.resident.properties.valueBeforeLegislationStart.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.properties.valueBeforeLegislationStart.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint())
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(constraintBuilder("calc.resident.properties.valueBeforeLegislationStart.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
+        .verifying("calc.resident.properties.valueBeforeLegislationStart.minimumAmount", isPositive)
+        .verifying("calc.resident.properties.valueBeforeLegislationStart.invalidAmount", decimalPlacesCheck)
     )(ValueBeforeLegislationStartModel.apply)(ValueBeforeLegislationStartModel.unapply)
   )
 }

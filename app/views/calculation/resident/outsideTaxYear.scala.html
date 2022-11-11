@@ -16,30 +16,31 @@
 
 @import models.resident._
 @import play.api.Application
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    residentMainTemplate: calculation.resident.resident_main_template
+    layout: Layout,
+    submitButton: playHelpers.submitButton
 )
 
 @(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, navHomeLink: String, continueUrl: String, navTitle: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    Messages("calc.resident.outsideTaxYears.title"),
-    backLink = if(isAfterApril15){Some(navBackLink)} else { None },
-    homeLink = navHomeLink,
-    navTitle = navTitle
+    @layout(
+        pageTitle = Messages("calc.resident.outsideTaxYears.title"),
+        backLinkHref = if(isAfterApril15){Some(navBackLink)} else { None },
 ) {
 
-    <h1 class="heading-large">@Messages("calc.resident.outsideTaxYears.title")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.outsideTaxYears.title")</h1>
 
     @if(isAfterApril15) {
-        <p class="lede">@Messages("calc.resident.outsideTaxYears.message", taxYear.calculationTaxYear)</p>
-        <a href="@continueUrl" id="continue-button" class="button">@Messages("calc.base.button.continue")</a>
+        <p class="govuk-body-l lede">@Messages("calc.resident.outsideTaxYears.message", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1))</p>
     } else {
-        <p class="lede">@{if (isProperty) Messages("calc.resident.outsideTaxYears.message.tooEarly")
+        <p class="govuk-body-l lede">@{if (isProperty) Messages("calc.resident.outsideTaxYears.message.tooEarly")
             else Messages("calc.resident.shares.outsideTaxYears.message.tooEarly")}</p>
         <a id="change-date-link" class="back-link" href="@navBackLink">@Messages("calc.resident.outsideTaxYears.changeDate")</a>
     }
+
+    <p><a class="govuk-button" href="@continueUrl" id="submit">@Messages("calc.base.button.continue")</a></p>
 
 }

@@ -62,7 +62,7 @@ class PropertyLivedInActionSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       s"return some html with title of ${messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title
+        Jsoup.parse(bodyOf(result)).title shouldEqual messages.titleNew
       }
     }
 
@@ -77,7 +77,7 @@ class PropertyLivedInActionSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       s"return some html with title of ${messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title
+        Jsoup.parse(bodyOf(result)).title shouldEqual messages.titleNew
       }
     }
 
@@ -140,7 +140,7 @@ class PropertyLivedInActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "render the Property Lived In page" in {
-        doc.title() shouldEqual messages.title
+        doc.title() shouldEqual messages.titleNew
       }
     }
   }

@@ -128,7 +128,7 @@ class PropertiesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     "have a tax year notice" in {
-      doc.select("#notice-summary").size() shouldBe 1
+      doc.select(".govuk-warning-text__text").size() shouldBe 1
     }
 
     "have a calculation details section" in {

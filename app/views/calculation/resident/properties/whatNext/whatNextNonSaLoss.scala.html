@@ -17,28 +17,32 @@
 @import play.api.Application
 
 @this(
-    residentMainTemplate: calculation.resident.resident_main_template
+    govukButton: GovukButton,
+    layout: Layout
 )
 
 @(iFormUrl: String, backLink: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    Messages("calc.resident.whatNextNonSa.loss.title"),
-    backLink = Some(backLink),
-    homeLink = controllers.routes.PropertiesController.introduction().url,
-    navTitle = Messages("calc.base.resident.properties.home")
+@title = @{
+    Messages("calc.resident.whatNextNonSa.loss.title")
+}
+
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(backLink)
 ) {
 
-    <h1 class="heading-large">@Messages("calc.resident.whatNextNonSa.loss.title")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.whatNextNonSa.loss.title")</h1>
 
-    <p id="details-one">@Messages("calc.resident.whatNextNonSa.loss.detailsOne")</p>
-    <p id="details-two">@Messages("calc.resident.whatNextNonSa.loss.detailsTwo")</p>
+    <p class="govuk-body" id="details-one">@Messages("calc.resident.whatNextNonSa.loss.detailsOne")</p>
+    <p class="govuk-body" id="details-two">@Messages("calc.resident.whatNextNonSa.loss.detailsTwo")</p>
 
-    <p id="report-now">
-        <a class="button" href=@iFormUrl>@Messages("calc.resident.whatNextNonSa.loss.reportNow")</a>
-    </p>
-
-    <p id="govUk">
-        <a href="http://www.gov.uk">@Messages("calc.resident.whatNextNonSa.loss.govUk")</a>
+    @govukButton(Button(
+        href = Some(iFormUrl),
+        content = Text(Messages("calc.whatToDoNext.reportNow")),
+        attributes = Map("id" -> "report-now-button")
+    ))
+    <p>
+        <a class="govuk-link govuk-body" href="http://www.gov.uk" id="govUK">@Messages("calc.resident.whatNextNonSa.loss.govUk")</a>
     </p>
 }

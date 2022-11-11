@@ -16,43 +16,41 @@
 
 @import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 @import play.api.Application
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    errorSummary: helpers.errorSummary,
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup
+    inputRadio: playHelpers.inputRadio,
+    submitButton: playHelpers.submitButton
 )
 
 @(ownerBeforeLegislationStartForm: Form[OwnerBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(
-    title = Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),
-    backLink = Some(controllers.routes.GainController.disposalCosts().toString)
+@title = @{
+    if (ownerBeforeLegislationStartForm.errors.nonEmpty) messages("site.title.error", Messages("calc.resident.properties.ownedBeforeLegislationStart.title")) else Messages("calc.resident.properties.ownedBeforeLegislationStart.title")
+}
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.GainController.disposalCosts().toString)
 ) {
 
-    @errorSummary(ownerBeforeLegislationStartForm, "ownedBeforeLegislationStart")
-
-    <h1 class="heading-large">@Messages("calc.resident.properties.ownedBeforeLegislationStart.title")</h1>
+    @errorSummary(ownerBeforeLegislationStartForm.errors, Some("ownedBeforeLegislationStart"))
 
     @form(action = controllers.routes.GainController.submitOwnerBeforeLegislationStart) {
 
-        @inputRadioGroup(
-                field = ownerBeforeLegislationStartForm("ownedBeforeLegislationStart"),
-                Seq(
-                    "Yes"->Messages("calc.base.yes"),
-                    "No"->Messages("calc.base.no")),
-                '_legend -> Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),
-                '_legendID -> "ownedBeforeLegislationStart",
-                '_legendClass -> "visuallyhidden",
-                '_labelAfter -> true,
-                '_labelClass -> "block-label",
-                '_groupClass -> "form-group inline",
-                '_fieldsetAttributes -> ""
-            )
+        @inputRadio(
+            legend = Messages("calc.resident.properties.ownedBeforeLegislationStart.title"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+            ),
+            inLine = true,
+            field = ownerBeforeLegislationStartForm("ownedBeforeLegislationStart")
+        )
 
-        <input type="hidden" name="ownedBeforeLegislationStart" value="" />
-        <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
 
     }
 }

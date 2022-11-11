@@ -38,8 +38,8 @@ class WhatNextNonSaGainViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       doc.title shouldBe messages.title
     }
 
-    s"have a heading of ${messages.title}" in {
-      doc.select("h1").text shouldBe messages.title
+    s"have a heading of ${messages.heading}" in {
+      doc.select("h1").text shouldBe messages.heading
     }
 
     s"have a first paragraph with text ${messages.detailsOne}" in {
@@ -52,7 +52,7 @@ class WhatNextNonSaGainViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "have a report now link" which {
 
-      lazy val reportNow = doc.select("#report-now").select("a")
+      lazy val reportNow = doc.select("a.govuk-button")
 
       s"has text ${messages.reportNow}" in {
         reportNow.text shouldBe messages.reportNow

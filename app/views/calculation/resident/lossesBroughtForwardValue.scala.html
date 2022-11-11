@@ -16,33 +16,43 @@
 
 @import models.resident._
 @import play.api.Application
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentMainTemplate: calculation.resident.resident_main_template,
+    layout: Layout,
     form: FormWithCSRF,
-    errorSummary: helpers.errorSummary,
-    formInputMoney: helpers.formInputMoney
+    errorSummary: playHelpers.errorSummary,
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton
 )
 
 @(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, navHomeLink: String, postAction: Call, navTitle: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    title = Messages("calc.resident.lossesBroughtForwardValue.title",
-    taxYear.taxYearSupplied),
-    backLink = Some(navBackLink),
-    homeLink = navHomeLink,
-    navTitle = navTitle
+@title = @{
+    Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1))
+}
+
+@titleWithErrors = @{
+    if (lossesBroughtForwardValueForm.errors.nonEmpty) Messages("site.title.error", title)
+    else title
+}
+
+@layout(
+    pageTitle = titleWithErrors,
+    backLinkHref = Some(navBackLink)
 ) {
 
-    @errorSummary(lossesBroughtForwardValueForm, "losses-brought-forward-value")
-
-    <h1 class="heading-large">@Messages("calc.resident.lossesBroughtForwardValue.pageHeading", taxYear.taxYearSupplied)</h1>
+    @errorSummary(lossesBroughtForwardValueForm.errors, Some("losses-brought-forward-value"))
 
     @form(action = postAction) {
 
-        @formInputMoney(lossesBroughtForwardValueForm, "amount", Messages("calc.resident.lossesBroughtForwardValue.pageHeading", taxYear.taxYearSupplied), None, hideLabel = true)
+        @formInputMoney(
+            field = lossesBroughtForwardValueForm("amount"),
+            question = Messages("calc.resident.lossesBroughtForwardValue.pageHeading", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1)),
+            hideLabel = false
+        )
 
-        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
+        @submitButton()
 
     }
 

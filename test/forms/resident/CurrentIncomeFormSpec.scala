@@ -19,13 +19,14 @@ package forms.resident
 import assets.MessageLookup.{Resident => messages}
 import forms.resident.income.CurrentIncomeForm._
 import models.resident.income.CurrentIncomeModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import models.resident.TaxYearModel
 
 class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
+  lazy val testTaxYear = TaxYearModel("2016/17", isValidYear = true, "2016/17")
   "Creating a form using an empty model" should {
-
-    lazy val form = currentIncomeForm
+    lazy val form = currentIncomeForm(testTaxYear)
 
     "return an empty string for amount" in {
       form.data.isEmpty shouldBe true
@@ -36,7 +37,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "return a form with the data specified in the model" in {
       val model = CurrentIncomeModel(1)
-      val form = currentIncomeForm.fill(model)
+      val form = currentIncomeForm(testTaxYear).fill(model)
       form.data("amount") shouldBe "1"
     }
 
@@ -46,7 +47,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "supplied with no data for amount" should {
 
-      lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
+      lazy val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> ""))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -57,13 +58,13 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe messages.Errors.currentIncomeMandatoryAmount
       }
     }
 
     "supplied with empty space for amount" should {
 
-      lazy val form = currentIncomeForm.bind(Map("amount" -> "  "))
+      lazy val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "  "))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -75,13 +76,13 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe messages.Errors.currentIncomeMandatoryAmount
       }
     }
 
     "supplied with non numeric input for amount" should {
 
-      lazy val form = currentIncomeForm.bind(Map("amount" -> "a"))
+      lazy val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "a"))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -92,13 +93,13 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.currentIncomeInvalidAmount
       }
     }
 
     "supplied with an amount with 3 numbers after the decimal" should {
 
-      lazy val form = currentIncomeForm.bind(Map("amount" -> "1.000"))
+      lazy val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "1.000"))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -109,13 +110,13 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.currentIncomeInvalidAmount
       }
     }
 
     "supplied with an amount that's greater than the max" should {
 
-      lazy val form = currentIncomeForm.bind(Map("amount" -> "1000000000.01"))
+      lazy val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "1000000000.01"))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -126,13 +127,13 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+        form.error("amount").get.message shouldBe messages.Errors.currentIncomeMaximumAmount
       }
     }
 
     "supplied with an amount that's less than the zero" should {
 
-      lazy val form = currentIncomeForm.bind(Map("amount" -> "-0.01"))
+      lazy val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "-0.01"))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -143,7 +144,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+        form.error("amount").get.message shouldBe messages.Errors.currentIncomeMinimumAmount
       }
     }
   }
@@ -152,7 +153,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "supplied with valid amount" should {
 
-      lazy val form = currentIncomeForm.bind(Map("amount" -> "1"))
+      lazy val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "1"))
 
       "build a model with the correct amount" in {
         form.value.get shouldBe CurrentIncomeModel(BigDecimal(1))
@@ -165,28 +166,28 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "supplied with an amount with 1 number after the decimal" should {
       "not raise form error" in {
-        val form = currentIncomeForm.bind(Map("amount" -> "1.1"))
+        val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "1.1"))
         form.hasErrors shouldBe false
       }
     }
 
     "supplied with an amount with 2 numbers after the decimal" should {
       "not raise form error" in {
-        val form = currentIncomeForm.bind(Map("amount" -> "1.11"))
+        val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "1.11"))
         form.hasErrors shouldBe false
       }
     }
 
     "supplied with an amount that's equal to the max" should {
       "not raise form error" in {
-        val form = currentIncomeForm.bind(Map("amount" -> "1000000000"))
+        val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "1000000000"))
         form.hasErrors shouldBe false
       }
     }
 
     "supplied with an amount that's equal to the min" should {
       "not raise form error" in {
-        val form = currentIncomeForm.bind(Map("amount" -> "0"))
+        val form = currentIncomeForm(testTaxYear).bind(Map("amount" -> "0"))
         form.hasErrors shouldBe false
       }
     }
