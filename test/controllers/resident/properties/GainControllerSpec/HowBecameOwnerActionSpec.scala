@@ -66,7 +66,7 @@ class HowBecameOwnerActionSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have a home link to 'homeLink'" in {
-        doc.select("a#homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a method to POST" in {
@@ -150,11 +150,11 @@ class HowBecameOwnerActionSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "return to the page" in {
-      doc.title shouldEqual messages.title
+      doc.title shouldEqual s"Error: ${messages.title}"
     }
 
     "raise an error on the page" in {
-      doc.body.select("#gainedBy-error-summary").size shouldBe 1
+      doc.body.select("#error-summary-title").size shouldBe 1
     }
   }
 }

@@ -37,24 +37,20 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have a title ${messages.title}" in {
-      doc.title shouldBe messages.title
+      doc.title shouldBe messages.titleNew
     }
 
     "have a H1 tag that" should {
 
-      lazy val h1Tag = doc.select("h1")
+      lazy val h1Tag = doc.getElementsByClass("govuk-fieldset__heading")
 
       s"have the page heading '${messages.title}'" in {
         h1Tag.text shouldBe messages.title
       }
-
-      "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
-      }
     }
 
     s"have the home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.select("#homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+      doc.select(".govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a back button" which {
@@ -66,11 +62,11 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "has the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "has a back link to 'back'" in {
-        backLink.attr("href") shouldBe "back-link"
+        backLink.attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/improvements"
       }
     }
 
@@ -90,23 +86,19 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     "have a set of radio inputs" which {
 
       "are surrounded in a div with class form-group" in {
-        doc.select("div#radio-input").hasClass("form-group") shouldEqual true
+        doc.select("#main-content > div > div > form > div").hasClass("govuk-form-group") shouldEqual true
       }
 
       "for the option 'Yes'" should {
 
-        lazy val YesRadioOption = doc.select(".block-label[for=livedInProperty-yes]")
-
-        "have a label with class 'block-label'" in {
-          YesRadioOption.hasClass("block-label") shouldEqual true
-        }
+        lazy val YesRadioOption = doc.select("#main-content > div > div > form > div > fieldset > div > div:nth-child(1) > label")
 
         "have the property 'for'" in {
           YesRadioOption.hasAttr("for") shouldEqual true
         }
 
         "the for attribute has the value livedInProperty-Yes" in {
-          YesRadioOption.attr("for") shouldEqual "livedInProperty-yes"
+          YesRadioOption.attr("for") shouldEqual "livedInProperty"
         }
 
         "have the text 'Yes'" in {
@@ -115,10 +107,10 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
         "have an input under the label that" should {
 
-          lazy val optionLabel = doc.select("#livedInProperty-yes")
+          lazy val optionLabel = doc.select("#livedInProperty")
 
           "have the id 'livedInProperty-Yes'" in {
-            optionLabel.attr("id") shouldEqual "livedInProperty-yes"
+            optionLabel.attr("id") shouldEqual "livedInProperty"
           }
 
           "have the value 'Yes'" in {
@@ -133,18 +125,14 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
       "for the option 'No'" should {
 
-        lazy val NoRadioOption = doc.select(".block-label[for=livedInProperty-no]")
-
-        "have a label with class 'block-label'" in {
-          NoRadioOption.hasClass("block-label") shouldEqual true
-        }
+        lazy val NoRadioOption = doc.select("#main-content > div > div > form > div > fieldset > div > div:nth-child(2) > label")
 
         "have the property 'for'" in {
           NoRadioOption.hasAttr("for") shouldEqual true
         }
 
         "the for attribute has the value livedInProperty-No" in {
-          NoRadioOption.attr("for") shouldEqual "livedInProperty-no"
+          NoRadioOption.attr("for") shouldEqual "livedInProperty-2"
         }
 
         "have the text 'No'" in {
@@ -153,10 +141,10 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
         "have an input under the label that" should {
 
-          lazy val optionLabel = doc.select("#livedInProperty-no")
+          lazy val optionLabel = doc.select("#livedInProperty-2")
 
           "have the id 'livedInProperty-No'" in {
-            optionLabel.attr("id") shouldEqual "livedInProperty-no"
+            optionLabel.attr("id") shouldEqual "livedInProperty-2"
           }
 
           "have the value 'No'" in {
@@ -175,15 +163,7 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       lazy val button = doc.select("button")
 
       "has class 'button'" in {
-        button.hasClass("button") shouldEqual true
-      }
-
-      "has attribute 'type'" in {
-        button.hasAttr("type") shouldEqual true
-      }
-
-      "has type value of 'submit'" in {
-        button.attr("type") shouldEqual "submit"
+        button.hasClass("govuk-button") shouldEqual true
       }
 
       "has attribute id" in {
@@ -191,7 +171,7 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "has id equal to continue-button" in {
-        button.attr("id") shouldEqual "continue-button"
+        button.attr("id") shouldEqual "submit"
       }
 
       s"has the text ${commonMessages.continue}" in {
@@ -206,10 +186,10 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "for the option 'Yes'" should {
 
-      lazy val YesRadioOption = doc.select(".block-label[for=livedInProperty-yes]")
+      lazy val YesRadioOption = doc.select("#livedInProperty")
 
       "have the option auto-selected" in {
-        YesRadioOption.attr("class") shouldBe "block-label selected"
+        YesRadioOption.hasAttr("checked") shouldBe true
       }
     }
   }
@@ -222,12 +202,12 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "have an error summary" which {
       "display an error summary message for the page" in {
-        doc.body.select("#livedInProperty-error-summary").size shouldBe 1
-      }
+          doc.body.select(".govuk-error-summary").size shouldBe 1
+        }
 
-      "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
-      }
+        "display an error message for the input" in {
+          doc.body.select(".govuk-error-message").size shouldBe 1
+        }
     }
   }
 }

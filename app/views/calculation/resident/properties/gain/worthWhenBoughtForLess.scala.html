@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,40 +16,42 @@
 
 @import models.resident.properties.WorthWhenBoughtForLessModel
 @import play.api.Application
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    errorSummary: helpers.errorSummary,
-    formInputMoney: helpers.formInputMoney,
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton,
     form: FormWithCSRF
 )
 
 @(worthWhenBoughtForLessForm: Form[WorthWhenBoughtForLessModel])(implicit request: Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(
-    title = Messages("calc.resident.properties.worthWhenBoughtForLess.question"),
-    backLink = Some(controllers.routes.GainController.boughtForLessThanWorth().url)
-    ) {
+@title = @{
+    if(worthWhenBoughtForLessForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.worthWhenBoughtForLess.question"))
+    else Messages("calc.resident.properties.worthWhenBoughtForLess.question")
+}
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.GainController.boughtForLessThanWorth().url)
+) {
+    @errorSummary(worthWhenBoughtForLessForm.errors, Some("amount"))
 
-    @errorSummary(worthWhenBoughtForLessForm, "amount")
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.properties.worthWhenBoughtForLess.question")</h1>
 
-    <h1 class="heading-large">@Messages("calc.resident.properties.worthWhenBoughtForLess.question")</h1>
-
-    <div class="form-hint">
+    <div class="govuk-body">
         <p>@Messages("calc.resident.properties.worthWhenBoughtForLess.hintOne")</p>
         <p>@Messages("calc.resident.properties.worthWhenBoughtForLess.hintTwo")</p>
     </div>
+    <p class="govuk-inset-text">@Messages("calc.resident.properties.worthWhenBoughtForLess.jointOwner")</p>
 
-
-    <div class="panel-indent panel-indent--wide panel-indent--gutter">
-        <p>@Messages("calc.resident.properties.worthWhenBoughtForLess.jointOwner")</p>
-    </div>
-
-    @form(action = controllers.routes.GainController.submitWorthWhenBoughtForLess()) {
-
-        @formInputMoney(worthWhenBoughtForLessForm, "amount", Messages("calc.resident.properties.worthWhenBoughtForLess.question"), hideLabel = true)
-
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
-
+    @form(action = controllers.routes.GainController.submitWorthWhenBoughtForLess) {
+        @formInputMoney(
+            field = worthWhenBoughtForLessForm("amount"),
+            question = title,
+            hideLabel = true
+        )
+        @submitButton()
     }
 }

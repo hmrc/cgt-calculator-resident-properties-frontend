@@ -14,20 +14,21 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation.resident._
-@import play.api.Application
-
 @this(
- residentMainTemplate: resident_main_template
+  layout: Layout,
+  submitButton: playHelpers.submitButton
 )
 
 @(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(Messages("session.timeout.message"), homeLink = homeLink, navTitle = Messages("calc.base.calculate.tax.heading")) {
+@layout(
+ pageTitle = Messages("session.timeout.message"),
+ backLinkHref = Some(homeLink)
+) {
+    <h1 class="govuk-heading-xl">@Messages("session.timeout.message")</h1>
 
-    <h1 class="heading-large">@Messages("session.timeout.message")</h1>
+ <a class="govuk-button" href="@restartUrl" id="startAgain">@Messages("calc.summary.startAgain") </a>
 
-    <a id="startAgain" class="bold-medium" href="@restartUrl" data-journey-click="nav:calc:restart">@Messages("calc.summary.startAgain")</a>
+ </br></br>
 
 }

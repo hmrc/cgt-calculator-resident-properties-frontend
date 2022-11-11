@@ -1,51 +1,56 @@
 @*
- * Copyright 2021 HM Revenue & Customs
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *@
+* Copyright 2021 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
 
 @import models.resident.income.PersonalAllowanceModel
 @import models.resident.TaxYearModel
-@import uk.gov.hmrc.play.views.helpers.MoneyPounds
-
-@import common.Dates
+@import common.resident.MoneyPounds
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    errorSummary: helpers.errorSummary,
-    residentMainTemplate: calculation.resident.resident_main_template,
-    formInputMoney: helpers.formInputMoney
+    errorSummary: playHelpers.errorSummary,
+    layout: Layout,
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton
 )
-
 @(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages)
 
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(
         if(taxYearValid) Messages("calc.resident.personalAllowance.currentYearQuestion")
-        else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { question =>
+        else Messages("calc.resident.personalAllowance.question", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1))) { title =>
 
+            @defining(
+                if(personalAllowanceForm.errors.nonEmpty) Messages("site.title.error",  title) else title
+            ){ titleWithError =>
 
-        @residentMainTemplate(title = question, backLink = backLink, homeLink = homeLink, navTitle = navTitle) {
+            @layout(
+                pageTitle = titleWithError,
+                backLinkHref = backLink
+            ) {
 
-            @errorSummary(personalAllowanceForm, "amount")
+            @errorSummary(personalAllowanceForm.errors, Some("amount"))
 
-            <h1 class="heading-large">@question</h1>
+            <h1 class="govuk-heading-xl">@title</h1>
 
             @form(action = postAction) {
 
-                <p>@Messages("calc.personalAllowance.help")</p>
+                <p class="govuk-body">@Messages("calc.personalAllowance.help")</p>
 
-                <p>
+                <p class="govuk-body">
                 @{
                     val splitYear = taxYear.taxYearSupplied.split("/")
                     Messages("calc.personalAllowance.list.title",
@@ -55,29 +60,28 @@
                 }
                 </p>
 
-                <ul class="list list-bullet">
+                <ul class="govuk-list--bullet govuk-body">
                     <li>@Messages("calc.personalAllowance.list.one")</li>
                     <li>@Messages("calc.personalAllowance.list.two")</li>
                     <li>@Messages("calc.personalAllowance.list.three")</li>
                 </ul>
 
                 <div class="form-group">
-                    <span>@Messages("calc.personalAllowance.link.text")</span>
-                    <a id="currentRatesAndAllowancesLink" class="external-link" rel="external" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
+                    <span class="govuk-body">@Messages("calc.personalAllowance.link.text")</span>
+                    <a id="currentRatesAndAllowancesLink" class="govuk-link govuk-body" rel="external" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
                     target="_blank" data-journey-click="help:govUK:rtt-properties-currentRatesAndAllowancesHelp">
                     @Messages("calc.personalAllowance.link")
-                    </a>
+                    </a>.
                 </div>
+                </br>
                 @formInputMoney(
-                    personalAllowanceForm,
-                    "amount",
-                    question,
-                    None,
-                    hideLabel = true,
-                    step = "1")
+                    field = personalAllowanceForm("amount"),
+                    question = title,
+                    hideLabel = true
+                )
 
-                <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
-
+                @submitButton()
+                }
             }
         }
     }

@@ -48,7 +48,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "have a link to Bought For Less Than Worth" in {
@@ -64,7 +64,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have the heading-large class" in {
-        heading.hasClass("heading-large") shouldBe true
+        heading.hasClass("govuk-heading-xl") shouldBe true
       }
     }
 
@@ -82,7 +82,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       s"has a paragraph with the text ${messages.jointOwnership}" in {
-        doc.body().select("p.panel-indent").text shouldBe messages.jointOwnership
+        doc.body().select("p.govuk-inset-text").text shouldBe messages.jointOwnership
       }
 
       "has a label that" should {
@@ -94,7 +94,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         }
 
         "have the class 'visuallyhidden'" in {
-          label.select("span").hasClass("visuallyhidden") shouldBe true
+          label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
         }
       }
 
@@ -111,28 +111,24 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         }
 
         "have a type of number" in {
-          input.attr("type") shouldBe "number"
-        }
-
-        "have a step value of '0.01'" in {
-          input.attr("step") shouldBe "0.01"
+          input.attr("type") shouldBe "text"
         }
       }
 
       "has a continue button that" should {
 
-        lazy val continueButton = doc.select("button#continue-button")
+        lazy val continueButton = doc.select("button.govuk-button")
 
         s"have the button text '${commonMessages.continue}'" in {
           continueButton.text shouldBe commonMessages.continue
         }
 
-        "be of type submit" in {
-          continueButton.attr("type") shouldBe "submit"
+        "be of id submit" in {
+          continueButton.attr("id") shouldBe "submit"
         }
 
         "have the class 'button'" in {
-          continueButton.hasClass("button") shouldBe true
+          continueButton.hasClass("govuk-button") shouldBe true
         }
       }
     }
@@ -144,11 +140,11 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select("#amount-error").size shouldBe 1
     }
   }
 }

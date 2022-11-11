@@ -128,7 +128,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Comm
 
   "Calling .getTaxYear" should{
     "return Some(TaxYearModel)" in{
-      val model = TaxYearModel(taxYearSupplied = "testYearSupplied", isValidYear = true, calculationTaxYear = "testCalcTaxYear")
+      val model = TaxYearModel(taxYearSupplied = "2017/18", isValidYear = true, calculationTaxYear = "testCalcTaxYear")
 
       when(mockHttpClient.GET[Option[TaxYearModel]](contains("date=2017"), any(), any())(any(), any(), any()))
         .thenReturn(Future.successful(Some(model)))

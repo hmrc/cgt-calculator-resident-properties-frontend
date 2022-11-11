@@ -20,7 +20,7 @@ import assets.MessageLookup.{Resident => commonMessages}
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.helpers.resident.summaryNumericRowHelper
+import views.html.playHelpers.resident.summaryNumericRowHelper
 
 class SummaryNumericRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
@@ -33,24 +33,6 @@ class SummaryNumericRowHelperSpec extends CommonPlaySpec with WithCommonFakeAppl
     "provided with no link" should {
       lazy val row = summaryNumericRowHelperView("testID","testQ",2000)
       lazy val doc = Jsoup.parse(row.body)
-
-      "have a question section" which {
-
-        lazy val questionDiv = doc.select("#testID-question")
-
-        "has the correct text" in {
-          questionDiv.text shouldBe "testQ"
-        }
-      }
-
-      "have a value section" which {
-
-        lazy val amountDiv = doc.select("#testID-amount")
-
-        "has a correct value" in {
-          amountDiv.text shouldBe "£2,000"
-        }
-      }
 
       "have no link" in {
         doc.select("#testID-change-link").size shouldBe 0
@@ -98,7 +80,7 @@ class SummaryNumericRowHelperSpec extends CommonPlaySpec with WithCommonFakeAppl
           }
 
           "is visible to only screen readers" in {
-            link.select("span").hasClass("visuallyhidden") shouldEqual true
+            link.select("span").hasClass("govuk-visually-hidden") shouldEqual true
           }
         }
       }

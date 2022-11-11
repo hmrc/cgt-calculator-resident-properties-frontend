@@ -97,7 +97,7 @@ class PropertiesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeAp
 
     "have a page heading" which {
       "includes an amount of tax due of £3,600.00" in {
-        doc.select("h1").text should include("£3,600.00")
+        doc.select("h2").text should include("£3,600.00")
       }
     }
 

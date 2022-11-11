@@ -16,44 +16,41 @@
 
 @import models.resident.properties.SellOrGiveAwayModel
 @import play.api.Application
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentMainTemplate: calculation.resident.resident_main_template,
-    errorSummary: helpers.errorSummary,
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup
+    inputRadio: playHelpers.inputRadio,
+    submitButton: playHelpers.submitButton
 )
 
 @(sellOrGiveAwayForm: Form[SellOrGiveAwayModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
 
-    @residentMainTemplate(
-        title = Messages("calc.resident.sellOrGiveAway.title"),
-        backLink = backLink,
-        homeLink = homeLink,
-        navTitle = Messages("calc.base.resident.properties.home")
-    ) {
+@title = @{
+    if (sellOrGiveAwayForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.sellOrGiveAway.title")) else Messages("calc.resident.sellOrGiveAway.title")
+}
 
-        @errorSummary(sellOrGiveAwayForm, "givenAway")
+@layout(
+    pageTitle = title,
+    backLinkHref = backLink
+) {
 
-        <h1 class="heading-large">@Messages("calc.resident.sellOrGiveAway.title")</h1>
+    @errorSummary(sellOrGiveAwayForm.errors, Some("givenAway"))
 
-        @form(action = postAction) {
+    @form(action = postAction) {
 
-            @inputRadioGroup(
-                field = sellOrGiveAwayForm("givenAway"),
-                Seq(
-                    "Sold" -> Messages("calc.resident.sellOrGiveAway.sold"),
-                    "Given" -> Messages("calc.resident.sellOrGiveAway.given")),
-                '_legend -> Messages("calc.resident.sellOrGiveAway.title"),
-                '_legendID -> "option",
-                '_legendClass -> "visuallyhidden",
-                '_labelAfter -> true,
-                '_labelClass -> "block-label",
-                '_groupClass -> "inline form-group radio-list",
-                '_fieldsetAttributes -> ""
-            )
+        @inputRadio(
+            legend = Messages("calc.resident.sellOrGiveAway.title"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.resident.sellOrGiveAway.sold")), value = Option("Sold")),
+                RadioItem(content = Text(Messages("calc.resident.sellOrGiveAway.given")), value = Option("Given"))
+            ),
+            inLine = true,
+            field = sellOrGiveAwayForm("givenAway")
+        )
 
-            <input type="hidden" name="givenAway" value="" />
-            <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
-        }
+        @submitButton()
     }
+}

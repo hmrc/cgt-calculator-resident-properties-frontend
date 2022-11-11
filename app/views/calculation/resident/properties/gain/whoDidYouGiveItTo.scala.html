@@ -14,45 +14,44 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation.resident.properties._
 @import models.resident.properties.gain.WhoDidYouGiveItToModel
-@import play.api.Application
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template,
-    inputRadioGroup: InputRadioGroup,
-    errorSummary: helpers.errorSummary
+    layout: Layout,
+    inputRadioGroup: playHelpers.inputRadio,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton
 )
 
 @(whoDidYouGiveItToForm: Form[WhoDidYouGiveItToModel])(implicit request: Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(
-    title = Messages("calc.resident.whoDidYouGiveThePropertyTo.title"),
-    backLink = Some(controllers.routes.GainController.sellOrGiveAway().toString)) {
+@title = @{
+    if (whoDidYouGiveItToForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.whoDidYouGiveThePropertyTo.title")) else Messages("calc.resident.whoDidYouGiveThePropertyTo.title")
+}
 
-    @errorSummary(whoDidYouGiveItToForm, "whoDidYouGiveItTo")
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.GainController.sellOrGiveAway().toString)
+) {
 
-    <h1 class="heading-large">@Messages("calc.resident.whoDidYouGiveThePropertyTo.title")</h1>
+    @errorSummary(whoDidYouGiveItToForm.errors, Some("whoDidYouGiveItTo"))
 
     @form(action = controllers.routes.GainController.submitWhoDidYouGiveItTo) {
 
         @inputRadioGroup(
-            field = whoDidYouGiveItToForm("whoDidYouGiveItTo"),
-            Seq(
-            "Spouse"-> Messages("calc.resident.whoDidYouGiveThePropertyTo.spouse"),
-            "Charity"-> Messages("calc.resident.whoDidYouGiveThePropertyTo.charity"),
-            "Other"->Messages("calc.resident.whoDidYouGiveThePropertyTo.other")),
-            '_legend -> Messages("calc.resident.whoDidYouGiveThePropertyToo.title"),
-            '_legendID -> "whoDidYouGiveItTo",
-            '_legendClass -> "visuallyhidden",
-            '_labelAfter -> true,
-            '_labelClass -> "block-label",
-            '_groupClass -> "form-group radio-list",
-            '_fieldsetAttributes -> "")
+            legend = Messages("calc.resident.whoDidYouGiveThePropertyTo.title"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.resident.whoDidYouGiveThePropertyTo.spouse")), value = Option("Spouse")),
+                RadioItem(content = Text(Messages("calc.resident.whoDidYouGiveThePropertyTo.charity")), value = Option("Charity")),
+                RadioItem(content = Text(Messages("calc.resident.whoDidYouGiveThePropertyTo.other")), value = Option("Other"))
+            ),
+            inLine = false,
+            field = whoDidYouGiveItToForm("whoDidYouGiveItTo")
+        )
 
-        <input type="hidden" name="whoDidYouGiveItTo" value="" />
-        <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
+
     }
 }

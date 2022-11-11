@@ -1,5 +1,5 @@
-@*
- * Copyright 2021 HM Revenue & Customs
+/*
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,25 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import play.api.data._
+package common.resident
 
-@this(
-    formInputMoney: helpers.formInputMoney
-)
+case class MoneyPounds(value: BigDecimal, decimalPlaces: Int = 2, roundUp: Boolean = false) {
 
-@(inputForm: Form[_], inputDetails: Seq[(String, String, Option[String])])(implicit messages: Messages)
+  def isNegative = value < 0
 
-<div class="form-group">
-
-    @inputDetails.map(index => {
-                formInputMoney(
-                    inputForm,
-                    index._1, //fieldName
-                    index._2, //questionText
-                    index._3  //helpText
-                )
-    })
-
-</div>
+  def quantity =
+    s"%,.${decimalPlaces}f".format(
+      value
+        .setScale(decimalPlaces, if (roundUp) BigDecimal.RoundingMode.CEILING else BigDecimal.RoundingMode.FLOOR)
+        .abs
+    )
+}

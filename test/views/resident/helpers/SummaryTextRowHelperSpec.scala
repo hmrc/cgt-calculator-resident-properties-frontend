@@ -22,7 +22,7 @@ import org.jsoup.nodes.Document
 import play.twirl.api.HtmlFormat
 import common.CommonPlaySpec
 import views.BaseViewSpec
-import views.html.helpers.resident.summaryTextRowHelper
+import views.html.playHelpers.resident.summaryTextRowHelper
 
 class SummaryTextRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
 
@@ -35,22 +35,6 @@ class SummaryTextRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
     "not provided with any change links" should {
       lazy val row: HtmlFormat.Appendable = summaryTextRowHelperView("testID", "testQ", "testValue")
       lazy val doc: Document = Jsoup.parse(row.body)
-
-      "have a question section" which {
-        lazy val questionDiv = doc.select("#testID-question")
-
-        "has the correct text" in {
-          questionDiv.text shouldBe "testQ"
-        }
-      }
-
-      "have a text value section" which {
-        lazy val amountDiv = doc.select("#testID-option")
-
-        "has the correct option" in {
-          amountDiv.text shouldBe "testValue"
-        }
-      }
 
       "have no link" in {
         lazy val link = doc.select("#testID-change-link a")
@@ -97,7 +81,7 @@ class SummaryTextRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
           }
 
           "is visible to only screen readers" in {
-            link.select("span").hasClass("visuallyhidden") shouldEqual true
+            link.select("span").hasClass("govuk-visually-hidden") shouldEqual true
           }
         }
       }

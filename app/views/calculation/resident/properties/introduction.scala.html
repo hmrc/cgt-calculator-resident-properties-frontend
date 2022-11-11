@@ -14,24 +14,32 @@
  * limitations under the License.
  *@
 
-@import play.api.Application
-
 @this(
-    residentPropertiesMainTemplate: calculation.resident.properties.resident_properties_main_template
+    layout: Layout,
+    govukButton : GovukButton,
+    submitButton: playHelpers.submitButton
 )
 
 @()(implicit request : Request[_], messages: Messages)
 
-@residentPropertiesMainTemplate(
-    title = Messages("calc.resident.properties.introduction.title")
+@layout(
+    pageTitle = Messages("calc.resident.properties.introduction.title")
 ) {
-    <h1>@Messages("calc.resident.properties.introduction.title")</h1>
-    <h2 class="form-label-bold">@Messages("calc.resident.properties.introduction.subheading")</h2>
-    <p>@Messages("calc.resident.properties.introduction.paragraph")</p>
-    <a id="privateResidenceReliefStartPageLink" class="external-link" rel="external" href="https://www.gov.uk/tax-relief-selling-home"
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.properties.introduction.title")</h1>
+    <h2 class="govuk-heading-m">@Messages("calc.resident.properties.introduction.subheading")</h2>
+    <p class="govuk-body">@Messages("calc.resident.properties.introduction.paragraph")</p>
+    <a id="privateResidenceReliefStartPageLink" class="govuk-link govuk-body" rel="noreferrer noopener" href="https://www.gov.uk/tax-relief-selling-home"
     target="_blank" data-journey-click="help:govUK:rtt-properties-privateResidenceReliefStartPageLink">
-    @Messages("calc.resident.properties.introduction.entitledLinkText")
+        @Messages("calc.resident.properties.introduction.entitledLinkText")
     </a>
-    <p>@Messages("calc.resident.properties.introduction.continuationInstructions")</p>
-    <a id="continue-button" href="@controllers.routes.GainController.disposalDate.toString" class="button">@Messages("calc.base.button.continue")</a>
+    <p class="govuk-body">@Messages("calc.resident.properties.introduction.continuationInstructions")</p>
+
+    <a href="@controllers.routes.GainController.disposalDate.toString" id="submit" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
+        @Messages("calc.base.button.continue")
+        <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+        </svg>
+    </a>
+
+    <br/>
 }

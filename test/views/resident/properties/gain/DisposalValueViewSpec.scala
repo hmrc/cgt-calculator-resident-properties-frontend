@@ -44,7 +44,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     s"have the title of the page ${messages.question}" in {
-      doc.title shouldEqual messages.question
+      doc.title shouldEqual messages.title
     }
 
     s"have a back link to the Sell For less Page with text ${commonMessages.back}" in {
@@ -56,7 +56,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     s"has the help text ${messages.helpText}" in {
-      doc.select("article > div > p").text shouldEqual messages.helpText
+      doc.select("#main-content > div > div > div > p").text shouldEqual messages.helpText
     }
 
     "render a form tag with a submit action" in {
@@ -64,7 +64,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     s"have a label for an input with text ${messages.question}" in {
-      doc.select("label > span.visuallyhidden").text() shouldEqual messages.question
+      doc.getElementsByClass("govuk-label").text() shouldEqual messages.question
     }
 
     s"have an input field with id amount " in {
@@ -72,7 +72,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
       "have continue button " in {
-      doc.body.getElementById("continue-button").text shouldEqual commonMessages.continue
+      doc.getElementsByClass("govuk-button").text shouldEqual commonMessages.continue
     }
   }
 
@@ -102,11 +102,11 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary__body").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.getElementsByClass("govuk-error-summary").size shouldBe 1
     }
   }
 }

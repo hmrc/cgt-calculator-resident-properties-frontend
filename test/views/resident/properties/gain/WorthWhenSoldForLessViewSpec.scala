@@ -36,8 +36,8 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.charset.toString shouldBe "UTF-8"
     }
 
-    s"have a title of ${messages.question}" in {
-      doc.title shouldBe messages.question
+    s"have a title of ${messages.title}" in {
+      doc.title shouldBe messages.title
     }
 
     "have a back link" which {
@@ -62,7 +62,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
       }
 
       "have the heading-large class" in {
-        heading.hasClass("heading-large") shouldEqual true
+        heading.hasClass("govuk-heading-xl") shouldEqual true
       }
     }
 
@@ -80,27 +80,23 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
       "have an input for the amount" which {
 
-        lazy val input = doc.select("#amount")
+        lazy val input = doc.getElementById("#amount")
 
         "has a label" which {
 
           lazy val label = doc.select("label")
 
           s"has the text ${messages.question}" in {
-            label.select("span.visuallyhidden").text() shouldEqual messages.question
+            doc.select("#main-content > div > div > form > div > label").text() shouldEqual messages.question
           }
 
           "has the class visually hidden" in {
-            label.select("span.visuallyhidden").hasClass("visuallyhidden") shouldEqual true
+            doc.select("#main-content > div > div > form > div > label").hasClass("govuk-visually-hidden") shouldEqual true
           }
 
           "is tied to the input field" in {
             label.attr("for") shouldEqual "amount"
           }
-        }
-
-        "renders in input tags" in {
-          input.is("input") shouldEqual true
         }
 
         "have two paragraphs" which {
@@ -110,7 +106,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
           "have a p tag" which {
             s"with the extra text ${messages.extraText}" in {
-              form.select("p.panel-indent").text shouldBe messages.extraText
+              doc.getElementsByClass("govuk-inset-text").text shouldBe messages.extraText
             }
           }
         }
@@ -118,18 +114,18 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
       "has a continue button" which {
 
-        lazy val button = doc.select("#continue-button")
+        lazy val button = doc.getElementsByClass("govuk-button")
 
         "renders as button tags" in {
           button.is("button") shouldEqual true
         }
 
         "has type equal to 'submit'" in {
-          button.attr("type") shouldEqual "submit"
+          button.attr("id") shouldEqual "submit"
         }
 
         "has class of button" in {
-          button.hasClass("button") shouldEqual true
+          button.hasClass("govuk-button") shouldEqual true
         }
 
         s"has the text ${commonMessages.continue}" in {
@@ -165,11 +161,11 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary__body").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.getElementsByClass("govuk-error-summary").size shouldBe 1
     }
   }
 }

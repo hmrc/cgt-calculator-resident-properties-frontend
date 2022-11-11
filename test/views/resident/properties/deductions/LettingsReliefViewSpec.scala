@@ -30,13 +30,14 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
     lazy val view = lettingsReliefView(lettingsReliefForm, "home-link", Some("back-link"))(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
+    lazy val title = s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
 
     "have a charset of UTF-8" in {
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    s"have a title ${messages.title}" in {
-      doc.title() shouldBe messages.title
+    s"have a title $title" in {
+      doc.title() shouldBe title
     }
 
     "have a back link" which {
@@ -59,11 +60,11 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     s"have a legend for an input with text ${messages.title}" in {
-      doc.select("legend.visuallyhidden").text() shouldEqual messages.title
+      doc.select("legend.govuk-visually-hidden").text() shouldEqual messages.title
     }
 
     s"have the help text ${messages.help}" in {
-      doc.select("article p").text should include(messages.help)
+      doc.select("p.govuk-body").text should include(messages.help)
     }
 
     s"should contain a help text link to the market value info page" which {
@@ -87,7 +88,7 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "rel has the value of external" in {
-        link.attr("rel") shouldEqual "external"
+        link.attr("rel") contains "external"
       }
 
       "has a target attribute" in {
@@ -104,27 +105,23 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     s"have an input field with id isClaiming-yes " in {
-      doc.body.getElementById("isClaiming-yes").tagName() shouldEqual "input"
+      doc.body.getElementById("isClaiming").tagName() shouldEqual "input"
     }
 
     s"have an input field with id isClaiming-no " in {
-      doc.body.getElementById("isClaiming-no").tagName() shouldEqual "input"
+      doc.body.getElementById("isClaiming-2").tagName() shouldEqual "input"
     }
 
     "have a continue button that" should {
 
-      lazy val button = doc.body.getElementById("continue-button")
+      lazy val button = doc.body.getElementById("submit")
 
       s"have the text ${commonMessages.continue}" in {
         button.text shouldEqual commonMessages.continue
       }
 
-      "be of type submit" in {
-        button.attr("type") shouldBe "submit"
-      }
-
-      "have the class 'button'" in {
-        button.hasClass("button") shouldBe true
+      "have the class 'govuk-button'" in {
+        button.hasClass("govuk-button") shouldBe true
       }
     }
   }
@@ -135,7 +132,7 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
-      doc.body.getElementById("isClaiming-yes").parent.select("label").hasClass("selected") shouldBe true
+      doc.body.getElementById("isClaiming").hasAttr("checked") shouldBe true
     }
   }
 
@@ -145,11 +142,11 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#isClaiming-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select("span.error-notification").size shouldBe 1
+      doc.body.select("#isClaiming-error").size shouldBe 1
     }
   }
 }

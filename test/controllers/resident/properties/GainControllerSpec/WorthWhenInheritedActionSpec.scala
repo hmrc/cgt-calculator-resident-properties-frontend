@@ -62,8 +62,8 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
         status(result) shouldBe 200
       }
 
-      s"return some html with title of ${messages.question}" in {
-        doc.title shouldEqual messages.question
+      s"return some html with title of ${messages.title}" in {
+        doc.title shouldEqual messages.title
       }
 
       "have a back link to how-became-owner" in {
@@ -71,7 +71,7 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
       }
 
       "have a home link to 'homeLink'" in {
-        doc.select("a#homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a method to POST" in {
@@ -91,8 +91,8 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
         status(result) shouldBe 200
       }
 
-      s"return some html with title of ${messages.question}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.question
+      s"return some html with title of ${messages.title}" in {
+        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title
       }
     }
 
@@ -135,11 +135,11 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
       }
 
       "return to the page" in {
-        doc.title shouldEqual messages.question
+        doc.title shouldEqual s"Error: ${messages.title}"
       }
 
       "raise an error on the page" in {
-        doc.body.select("#amount-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
     }
   }

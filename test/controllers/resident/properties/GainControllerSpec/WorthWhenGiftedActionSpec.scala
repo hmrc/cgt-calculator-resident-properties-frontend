@@ -19,6 +19,7 @@ package controllers.GainControllerSpec
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.Resident.Properties.{WorthWhenGifted => messages}
+import assets.MessageLookup.{Resident => commonMessages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -62,7 +63,7 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"return some html with title of ${messages.question}" in {
-        doc.title shouldEqual messages.question
+        doc.title shouldEqual s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
       }
 
       "have a back link to how-became-owner" in {
@@ -70,7 +71,7 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a home link to 'homeLink'" in {
-        doc.select("a#homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+        doc.select("a.govuk-header__link--service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a method to POST" in {
@@ -90,8 +91,8 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
         status(result) shouldBe 200
       }
 
-      s"return some html with title of ${messages.question}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.question
+      s"return some html with title of ${messages.question} - ${commonMessages.homeText} - GOV.UK" in {
+        Jsoup.parse(bodyOf(result)).title shouldEqual s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
       }
     }
 
@@ -134,11 +135,11 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "return to the page" in {
-        doc.title shouldEqual messages.question
+        doc.title shouldEqual s"Error: ${messages.question} - ${commonMessages.homeText} - GOV.UK"
       }
 
       "raise an error on the page" in {
-        doc.body.select("#amount-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
     }
   }

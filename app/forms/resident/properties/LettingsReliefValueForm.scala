@@ -22,8 +22,8 @@ import common.Validation._
 import models.resident.properties.LettingsReliefValueModel
 import play.api.data.Forms._
 import play.api.data._
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
-
+import common.resident.MoneyPounds
+import common.Formatters.text
 import scala.math._
 
 object LettingsReliefValueForm {
@@ -39,12 +39,12 @@ object LettingsReliefValueForm {
 
   def lettingsReliefValueForm(gain: BigDecimal, prrValue: BigDecimal): Form[LettingsReliefValueModel] =
     Form(mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+      "amount" -> text("calc.resident.lettingsReliefValue.mandatoryAmount")
+        .verifying("calc.resident.lettingsReliefValue.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.lettingsReliefValue.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.lettingsReliefValue.minimumAmount", isPositive)
+        .verifying("calc.resident.lettingsReliefValue.invalidAmount", decimalPlacesCheck)
         .verifying(constraintBuilder[BigDecimal]("calc.resident.lettingsReliefValue.error.moreThanCappedAmount", MoneyPounds(maxLettingsRelief, 0).quantity) { x =>
           displayMaxLettingsRelief(x, prrValue, gain - prrValue)
         })

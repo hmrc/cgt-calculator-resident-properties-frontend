@@ -55,11 +55,11 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       s"have the home link too test2" in {
-        timeoutTestDataItem.jsoupDoc.select("#homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+        timeoutTestDataItem.jsoupDoc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have the title" in {
-        timeoutTestDataItem.jsoupDoc.getElementsByTag("title").text shouldEqual Messages("session.timeout.message")
+        timeoutTestDataItem.jsoupDoc.getElementsByTag("title").text shouldEqual s"${Messages("session.timeout.message")} - Calculate your Capital Gains Tax - GOV.UK"
       }
 
       "contain the heading 'Your session has timeed out." in {

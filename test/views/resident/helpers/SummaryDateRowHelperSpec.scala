@@ -21,7 +21,7 @@ import common.Dates._
 import org.jsoup.Jsoup
 import common.CommonPlaySpec
 import views.BaseViewSpec
-import views.html.helpers.resident.summaryDateRowHelper
+import views.html.playHelpers.resident.summaryDateRowHelper
 
 class SummaryDateRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
 
@@ -36,22 +36,6 @@ class SummaryDateRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
     "not provided with any change links" should {
       lazy val row = summaryDateRowHelperView("testID", "testQ", testDate)
       lazy val doc = Jsoup.parse(row.body)
-
-      "have a question section" which {
-        lazy val questionDiv = doc.select("#testID-question")
-
-        "has the correct text" in {
-          questionDiv.text shouldBe "testQ"
-        }
-      }
-
-      "have a text value section" which {
-        lazy val amountDiv = doc.select("#testID-date")
-
-        "has the correct option" in {
-          amountDiv.text shouldBe formattedTestDate
-        }
-      }
 
       "have no link" in {
         lazy val link = doc.select("#testID-change-link a")
@@ -97,7 +81,7 @@ class SummaryDateRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
           }
 
           "is visible to only screen readers" in {
-            link.select("span").hasClass("visuallyhidden") shouldEqual true
+            link.select("span").hasClass("govuk-visually-hidden") shouldEqual true
           }
         }
       }

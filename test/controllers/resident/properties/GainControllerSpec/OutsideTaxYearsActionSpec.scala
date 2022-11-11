@@ -61,7 +61,7 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with
       }
 
       s"return a title of ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.newTitle
       }
 
       s"have a back link to '${controllers.routes.GainController.disposalDate().url}'" in {

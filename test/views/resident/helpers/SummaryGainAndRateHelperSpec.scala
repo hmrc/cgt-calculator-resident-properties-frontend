@@ -19,7 +19,7 @@ package views.resident.helpers
 import org.jsoup.Jsoup
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
-import views.html.helpers.resident.summaryGainAndRateHelper
+import views.html.playHelpers.resident.summaryGainAndRateHelper
 
 class SummaryGainAndRateHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 

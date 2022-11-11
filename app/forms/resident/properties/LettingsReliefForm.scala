@@ -21,13 +21,13 @@ import common.Validation._
 import models.resident.properties.LettingsReliefModel
 import play.api.data.Form
 import play.api.data.Forms._
-
+import common.Formatters.text
 
 object LettingsReliefForm {
 
   def lettingsReliefForm: Form[LettingsReliefModel] = Form(
     mapping(
-      "isClaiming" -> text
+      "isClaiming" -> text("calc.resident.lettingsRelief.errorSelect")
         .verifying("calc.resident.lettingsRelief.errorSelect", mandatoryCheck)
         .verifying("calc.resident.lettingsRelief.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)

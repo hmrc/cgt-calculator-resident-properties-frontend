@@ -23,21 +23,21 @@ import common.Validation._
 import models.resident.DisposalDateModel
 import play.api.data.Forms._
 import play.api.data._
-
+import common.Formatters.text
 
 object DisposalDateForm {
 
   def disposalDateForm(minimumDate: ZonedDateTime = ZonedDateTime.now(ZoneId.of("Europe/London"))): Form[DisposalDateModel] = Form(
     mapping(
-      "disposalDate.day" -> text
+      "disposalDate.day" -> text("calc.resident.disposalDate.invalidDayError")
         .verifying("calc.resident.disposalDate.invalidDayError", mandatoryCheck)
         .verifying("calc.resident.disposalDate.invalidDayError", integerCheck)
         .transform[Int](stringToInteger, _.toString),
-      "disposalDate.month" -> text
+      "disposalDate.month" -> text("calc.resident.disposalDate.invalidMonthError")
         .verifying("calc.resident.disposalDate.invalidMonthError", mandatoryCheck)
         .verifying("calc.resident.disposalDate.invalidMonthError", integerCheck)
         .transform[Int](stringToInteger, _.toString),
-      "disposalDate.year" -> text
+      "disposalDate.year" -> text("calc.resident.disposalDate.invalidYearError")
         .verifying("calc.resident.disposalDate.invalidYearError", mandatoryCheck)
         .verifying("calc.resident.disposalDate.invalidYearError", integerCheck)
         .transform[Int](stringToInteger, _.toString)

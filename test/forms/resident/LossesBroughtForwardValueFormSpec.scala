@@ -19,16 +19,17 @@ package forms.resident
 import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.LossesBroughtForwardValueForm._
-import models.resident.LossesBroughtForwardValueModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import models.resident.{LossesBroughtForwardValueModel, TaxYearModel}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 
 class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
+  lazy val testTaxYear = TaxYearModel("2016/17", isValidYear = true, "2016/17")
   "Creating a form using a valid model" should {
 
     "return a form with the data specified in the model" in {
       val model = LossesBroughtForwardValueModel(1)
-      val form = lossesBroughtForwardValueForm.fill(model)
+      val form = lossesBroughtForwardValueForm(testTaxYear).fill(model)
       form.data("amount") shouldBe "1"
     }
   }
@@ -36,7 +37,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
   "Creating a form using map" when {
 
     "supplied with valid data" should {
-      lazy val form = lossesBroughtForwardValueForm.bind(Map(("amount", "1000")))
+      lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map(("amount", "1000")))
 
       "return a form with the mapped data" in {
         form.get shouldBe LossesBroughtForwardValueModel(BigDecimal(1000))
@@ -45,66 +46,66 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
 
     "supplied with no data for amount" should {
 
-      lazy val form = lossesBroughtForwardValueForm.bind(Map("amount" -> ""))
+      lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map("amount" -> ""))
 
       "have a form error" in {
         form.hasErrors shouldBe true
       }
 
-      s"have an error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+      s"have an error with message '${messages.Errors.lossesBroughtForwardValueMandatoryAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.lossesBroughtForwardValueMandatoryAmount
       }
     }
 
     "supplied with non-numeric data for amount" should {
 
-      lazy val form = lossesBroughtForwardValueForm.bind(Map("amount" -> "a"))
+      lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map("amount" -> "a"))
 
       "have a form error" in {
         form.hasErrors shouldBe true
       }
 
-      s"have an error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"have an error with message '${messages.Errors.lossesBroughtForwardValueInvalidAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.lossesBroughtForwardValueInvalidAmount
       }
     }
 
     "supplied with an amount that is too big" should {
 
-      lazy val form = lossesBroughtForwardValueForm.bind(Map("amount" -> "9999999999999"))
+      lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map("amount" -> "9999999999999"))
 
       "have a form error" in {
         form.hasErrors shouldBe true
       }
 
-      s"have an error with message '${messages.maximumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+      s"have an error with message '${messages.Errors.lossesBroughtForwardValueMaximumAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.lossesBroughtForwardValueMaximumAmount
       }
     }
 
     "supplied with a negative amount" should {
 
-      lazy val form = lossesBroughtForwardValueForm.bind(Map("amount" -> "-1000"))
+      lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map("amount" -> "-1000"))
 
       "have a form error" in {
         form.hasErrors shouldBe true
       }
 
-      s"have an error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+      s"have an error with message '${messages.Errors.lossesBroughtForwardValueMinimumAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.lossesBroughtForwardValueMinimumAmount
       }
     }
 
     "supplied with an amount that has too many decimal places" should {
 
-      lazy val form = lossesBroughtForwardValueForm.bind(Map("amount" -> "1000.001"))
+      lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map("amount" -> "1000.001"))
 
       "have a form error" in {
         form.hasErrors shouldBe true
       }
 
-      s"have an error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+      s"have an error with message '${messages.Errors.lossesBroughtForwardValueInvalidAmount}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.lossesBroughtForwardValueInvalidAmount
       }
     }
   }

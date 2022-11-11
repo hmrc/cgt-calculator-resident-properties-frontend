@@ -71,7 +71,7 @@ class WorthWhenInheritedFormSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenInheritedMandatoryAmount
       }
     }
 
@@ -88,7 +88,7 @@ class WorthWhenInheritedFormSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenInheritedMandatoryAmount
       }
     }
 
@@ -105,7 +105,7 @@ class WorthWhenInheritedFormSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenInheritedInvalidAmount
       }
     }
 
@@ -122,7 +122,7 @@ class WorthWhenInheritedFormSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenInheritedInvalidAmount
       }
     }
 
@@ -139,7 +139,7 @@ class WorthWhenInheritedFormSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenInheritedMaximumAmount
       }
     }
 
@@ -156,7 +156,7 @@ class WorthWhenInheritedFormSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenInheritedMinimumAmount
       }
     }
   }

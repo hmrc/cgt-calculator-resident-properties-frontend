@@ -82,8 +82,8 @@ class IncomeController @Inject()(
       val inCurrentTaxYear = taxYear.taxYearSupplied == currentTaxYear
 
       sessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
-        case Some(data) => Ok(currentIncomeView(currentIncomeForm.fill(data), backUrl, taxYear, inCurrentTaxYear))
-        case None => Ok(currentIncomeView(currentIncomeForm, backUrl, taxYear, inCurrentTaxYear))
+        case Some(data) => Ok(currentIncomeView(currentIncomeForm(taxYear).fill(data), backUrl, taxYear, inCurrentTaxYear))
+        case None => Ok(currentIncomeView(currentIncomeForm(taxYear), backUrl, taxYear, inCurrentTaxYear))
       }
     }
 
@@ -103,7 +103,7 @@ class IncomeController @Inject()(
 
       val inCurrentTaxYear = taxYearModel.taxYearSupplied == currentTaxYear
 
-      currentIncomeForm.bindFromRequest.fold(
+      currentIncomeForm(taxYearModel).bindFromRequest.fold(
         errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(currentIncomeView(errors, url, taxYearModel, inCurrentTaxYear)))),
         success => {
           sessionCacheConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
@@ -134,10 +134,10 @@ class IncomeController @Inject()(
 
   val personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
-    def fetchKeystorePersonalAllowance(): Future[Form[PersonalAllowanceModel]] = {
+    def fetchKeystorePersonalAllowance(taxYear: TaxYearModel): Future[Form[PersonalAllowanceModel]] = {
       sessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](keystoreKeys.personalAllowance).map {
-        case Some(data) => personalAllowanceForm().fill(data)
-        case _ => personalAllowanceForm()
+        case Some(data) => personalAllowanceForm(taxYear).fill(data)
+        case _ => personalAllowanceForm(taxYear)
       }
     }
 
@@ -152,7 +152,7 @@ class IncomeController @Inject()(
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       year <- taxYearValue(taxYear.get.calculationTaxYear)
       standardPA <- getStandardPA(year, hc)
-      formData <- fetchKeystorePersonalAllowance()
+      formData <- fetchKeystorePersonalAllowance(taxYear.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, standardPA.get, formData, currentTaxYear)
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
@@ -165,7 +165,7 @@ class IncomeController @Inject()(
     }
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
-      personalAllowanceForm(maxPA).bindFromRequest.fold(
+      personalAllowanceForm(taxYearModel, maxPA).bindFromRequest.fold(
         errors => Future.successful(BadRequest(personalAllowanceView(errors, taxYearModel, standardPA, homeLink,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, Messages("calc.base.resident.properties.home"), currentTaxYear))),
         success => {
