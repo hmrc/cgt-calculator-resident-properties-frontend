@@ -7,7 +7,7 @@ calc.base.change = Newid
 calc.base.continue = Yn eich blaen
 calc.base.externalLink = (yn agor tab newydd)
 calc.base.govUk = GOV.UK
-calc.base.hmrc = Cyllid a Thollau EM
+calc.base.hmrc = Cyllid a Thollau EF
 calc.base.home = Hafan
 calc.base.period =
 calc.base.no = Na
@@ -142,7 +142,7 @@ calc.resident.lettingsReliefValue.maximumAmount = Ni all faint o Ryddhad Gosod s
 calc.resident.lettingsReliefValue.minimumAmount = Mae’n rhaid i faint o Ryddhad Gosod sydd gennych hawl iddo fod yn £0 neu fwy
 
 calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0} i {1}
-calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEM amdanynt.
+calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEF amdanynt.
 calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0} i {1}?
 calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0} i {1}?
 
