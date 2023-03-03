@@ -72,7 +72,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a back link to the introduction page" in {
-      doc.body.getElementById("back-link").attr("href") shouldBe controllers.routes.PropertiesController.introduction().toString
+      doc.body.getElementById("back-link").attr("href") shouldBe controllers.routes.PropertiesController.introduction.toString
     }
   }
 

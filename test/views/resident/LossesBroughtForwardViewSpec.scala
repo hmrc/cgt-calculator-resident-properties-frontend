@@ -29,7 +29,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
   val taxYearModel = TaxYearModel(taxYearSupplied = "2017/18", isValidYear = true, calculationTaxYear = "2017/18" )
 
   lazy val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
-  lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
+  lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward
 
   "Reliefs view" should {
 
@@ -46,7 +46,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a hidden legend" in {

@@ -59,7 +59,7 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "and link back to the property lived in page" in {
-        doc.select("#back-link").attr("href") shouldEqual s"${controllers.routes.DeductionsController.propertyLivedIn().url}"
+        doc.select("#back-link").attr("href") shouldEqual s"${controllers.routes.DeductionsController.propertyLivedIn.url}"
       }
     }
 
@@ -123,8 +123,8 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
 
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.DeductionsController.privateResidenceRelief().toString}'" in {
-        form.attr("action") shouldBe controllers.routes.DeductionsController.privateResidenceRelief().toString
+      s"has the action '${controllers.routes.DeductionsController.privateResidenceRelief.toString}'" in {
+        form.attr("action") shouldBe controllers.routes.DeductionsController.privateResidenceRelief.toString
       }
 
       "has the method of POST" in {

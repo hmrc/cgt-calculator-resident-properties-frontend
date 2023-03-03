@@ -49,8 +49,8 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
           form.attr("method") shouldBe "POST"
         }
 
-        s"has an action of ${controllers.routes.SaUserController.submitSaUser().url}" in {
-          form.attr("action") shouldBe controllers.routes.SaUserController.submitSaUser().url
+        s"has an action of ${controllers.routes.SaUserController.submitSaUser.url}" in {
+          form.attr("action") shouldBe controllers.routes.SaUserController.submitSaUser.url
         }
       }
 

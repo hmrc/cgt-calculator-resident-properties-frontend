@@ -36,15 +36,15 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
     val url = """^(.*[\/])""".r findFirstIn request.path
     val homeNavLink = url match {
       case Some(path) if path == "/calculate-your-capital-gains/resident/properties/" =>
-        controllers.routes.PropertiesController.introduction().url
+        controllers.routes.PropertiesController.introduction.url
       case Some(path) if path == "/calculate-your-capital-gains/resident/shares/" =>
-        controllers.routes.GainController.disposalDate().url
+        controllers.routes.GainController.disposalDate.url
       case _ => "/calculate-your-capital-gains/"
     }
     errorTemplateView(pageTitle, heading, message, homeNavLink)
   }
 
-  lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
+  lazy val homeLink: String = controllers.routes.GainController.disposalDate.url
 
   override def onClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] = {
     statusCode match {

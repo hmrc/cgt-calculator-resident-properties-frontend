@@ -113,7 +113,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       lazy val doc = Jsoup.parse(bodyOf(result))
 
       "have a link to valueBeforeLegislationStart" in {
-        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.valueBeforeLegislationStart().url
+        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.valueBeforeLegislationStart.url
       }
     }
 
@@ -123,7 +123,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       lazy val doc = Jsoup.parse(bodyOf(result))
 
       "have a link to worthWhenInherited" in {
-        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenInherited().url
+        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenInherited.url
       }
     }
 
@@ -133,7 +133,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       lazy val doc = Jsoup.parse(bodyOf(result))
 
       "have a link to worthWhenGifted" in {
-        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenGifted().url
+        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenGifted.url
       }
     }
 
@@ -144,7 +144,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       lazy val doc = Jsoup.parse(bodyOf(result))
 
       "have a link to worthWhenBoughtForLess" in {
-        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenBoughtForLess().url
+        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenBoughtForLess.url
       }
     }
 
@@ -155,7 +155,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       lazy val doc = Jsoup.parse(bodyOf(result))
 
       "have a link to worthWhenBoughtForLess" in {
-        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.acquisitionValue().url
+        doc.select("a#back-link").attr("href") shouldBe controllers.routes.GainController.acquisitionValue.url
       }
     }
   }

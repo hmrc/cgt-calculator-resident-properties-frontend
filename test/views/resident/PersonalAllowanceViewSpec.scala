@@ -31,7 +31,7 @@ import views.html.calculation.resident.personalAllowance
 class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
   lazy val testTaxYear = TaxYearModel("2016/17", isValidYear = true, "2016/17")
 
-  val postAction = controllers.routes.IncomeController.submitPersonalAllowance()
+  val postAction = controllers.routes.IncomeController.submitPersonalAllowance
 
   "Personal Allowance view" when {
     lazy val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]

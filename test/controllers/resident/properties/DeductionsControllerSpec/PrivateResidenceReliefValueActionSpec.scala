@@ -120,7 +120,7 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
       }
 
       "redirect to the lettings relief page" in {
-        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lettingsRelief().url)
+        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lettingsRelief.url)
       }
     }
 

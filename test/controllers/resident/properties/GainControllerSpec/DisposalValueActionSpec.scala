@@ -112,7 +112,6 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
     lazy val result = target.submitDisposalValue(request)
 
     "render the disposal value page when supplied with an invalid form" in {
-      val serviceName = MessageLookup.Resident.homeText
       val pageTitle = MessageLookup.DisposalValue.title
 
       status(result) shouldEqual 400

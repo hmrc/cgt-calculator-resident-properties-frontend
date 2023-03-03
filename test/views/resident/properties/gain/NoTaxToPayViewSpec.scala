@@ -42,11 +42,11 @@ class NoTaxToPayViewSpec extends CommonPlaySpec with WithCommonFakeApplication w
     }
 
     "have a home link to home-link" in {
-      doc.body().getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.body().getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a navTitle for resident properties" in {
-      doc.body().getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe commonMessages.homeText
+      doc.body().getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text() shouldBe commonMessages.homeText
     }
 
     s"have a header of ${messages.title}" in {

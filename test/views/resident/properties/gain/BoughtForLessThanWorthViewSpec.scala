@@ -55,7 +55,7 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
     }
 
     s"have the home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.select(".govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a back button" which {

@@ -39,7 +39,7 @@ class CalculatorConnectorImpl @Inject()(val servicesConfig: ServicesConfig,
 trait CalculatorConnector extends JodaReads {
   val http: HttpClient
   val serviceUrl: String
-  lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
+  lazy val homeLink: String = controllers.routes.GainController.disposalDate.url
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
 

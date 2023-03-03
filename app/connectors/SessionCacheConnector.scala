@@ -28,7 +28,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SessionCacheConnectorImpl @Inject()(val sessionCache: CalculatorSessionCache) extends SessionCacheConnector {
-  lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
+  lazy val homeLink: String = controllers.routes.GainController.disposalDate.url
 }
 
 trait SessionCacheConnector extends Logging{

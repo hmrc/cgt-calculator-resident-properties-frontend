@@ -141,8 +141,8 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         doc.title() shouldBe messages.newTitle
       }
 
-      s"has a link to '${controllers.routes.ReviewAnswersController.reviewGainAnswers()}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewGainAnswers().url
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewGainAnswers}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewGainAnswers.url
       }
 
     }
@@ -195,8 +195,8 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         doc.title() shouldBe messages.newTitle
       }
 
-      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
       }
     }
 
@@ -249,8 +249,8 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         doc.title() shouldBe messages.newTitle
       }
 
-      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
       }
     }
 
@@ -307,8 +307,8 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         doc.title() shouldBe messages.newTitle
       }
 
-      s"has a link to '${controllers.routes.ReviewAnswersController.reviewFinalAnswers().url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewFinalAnswers.url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewFinalAnswers.url
       }
     }
   }

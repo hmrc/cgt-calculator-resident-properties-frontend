@@ -131,7 +131,7 @@ class LettingsReliefValueActionSpec extends CommonPlaySpec with WithCommonFakeAp
       }
 
       "redirect to the brought forward losses page" in {
-        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lossesBroughtForward().url)
+        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lossesBroughtForward.url)
       }
     }
 

@@ -54,8 +54,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.IncomeController.submitCurrentIncome().toString}'" in {
-        form.attr("action") shouldBe controllers.routes.IncomeController.submitCurrentIncome().toString
+      s"has the action '${controllers.routes.IncomeController.submitCurrentIncome.toString}'" in {
+        form.attr("action") shouldBe controllers.routes.IncomeController.submitCurrentIncome.toString
       }
 
       "has the method of POST" in {

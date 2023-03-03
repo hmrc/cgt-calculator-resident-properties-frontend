@@ -22,7 +22,6 @@ import assets.MessageLookup.{DisposalCosts => messages, Resident => commonMessag
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
-import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.properties.SellOrGiveAwayModel
 import models.resident.{DisposalCostsModel, SellForLessModel}
 import org.jsoup.Jsoup
@@ -83,8 +82,8 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
         doc.title shouldBe s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
       }
 
-      s"have a back link to '${controllers.routes.GainController.disposalValue().url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenGaveAway().url
+      s"have a back link to '${controllers.routes.GainController.disposalValue.url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenGaveAway.url
       }
     }
 
@@ -106,8 +105,8 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
         doc.getElementById("amount").attr("value") shouldBe "100.99"
       }
 
-      s"have a back link to '${controllers.routes.GainController.worthWhenSoldForLess().url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenSoldForLess().url
+      s"have a back link to '${controllers.routes.GainController.worthWhenSoldForLess.url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenSoldForLess.url
       }
     }
 
@@ -129,8 +128,8 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
         doc.getElementById("amount").attr("value") shouldBe "100.99"
       }
 
-      s"have a back link to '${controllers.routes.GainController.disposalValue().url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalValue().url
+      s"have a back link to '${controllers.routes.GainController.disposalValue.url}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalValue.url
       }
     }
   }
@@ -165,8 +164,8 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
         status(result) shouldBe 303
       }
 
-      s"redirect to '${controllers.routes.GainController.ownerBeforeLegislationStart().url}'" in {
-        redirectLocation(result).get shouldBe controllers.routes.GainController.ownerBeforeLegislationStart().url
+      s"redirect to '${controllers.routes.GainController.ownerBeforeLegislationStart.url}'" in {
+        redirectLocation(result).get shouldBe controllers.routes.GainController.ownerBeforeLegislationStart.url
       }
     }
 

@@ -25,7 +25,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 trait ValidActiveSession extends FrontendController {
 
-  lazy val homeLink: String = controllers.routes.GainController.disposalDate().url
+  lazy val homeLink: String = controllers.routes.GainController.disposalDate.url
   lazy val sessionTimeoutUrl: String = homeLink
 
   private type AsyncRequest = Request[AnyContent] => Future[Result]

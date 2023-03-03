@@ -45,11 +45,11 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have a nav title of 'navTitle'" in {
-      doc.select("a.govuk-header__link--service-name").text() shouldBe commonMessages.homeText
+      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text() shouldBe commonMessages.homeText
     }
 
     s"have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.select("a.govuk-header__link--service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     s"have a title of ${messages.question} - ${commonMessages.homeText} - GOV.UK" in {

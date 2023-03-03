@@ -44,7 +44,7 @@ class ReviewAnswersController @Inject()(
                                        ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
   override lazy val sessionTimeoutUrl: String = homeLink
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
@@ -65,8 +65,8 @@ class ReviewAnswersController @Inject()(
     languageRequest { implicit lang =>
       getGainAnswers.map { answers =>
         Ok(checkYourAnswersView(
-          routes.SummaryController.summary(),
-          controllers.routes.GainController.improvements().url,
+          routes.SummaryController.summary,
+          controllers.routes.GainController.improvements.url,
           answers,
           None,
           None))
@@ -77,9 +77,9 @@ class ReviewAnswersController @Inject()(
   val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
     def generateBackUrl(chargeableGainAnswers: ChargeableGainAnswers): Future[String] = {
       if (chargeableGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option) {
-        Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
+        Future.successful(routes.DeductionsController.lossesBroughtForwardValue.url)
       } else {
-        Future.successful(routes.DeductionsController.lossesBroughtForward().url)
+        Future.successful(routes.DeductionsController.lossesBroughtForward.url)
       }
     }
 
@@ -92,7 +92,7 @@ class ReviewAnswersController @Inject()(
           url <- generateBackUrl(deductionsAnswers)
         } yield {
           Ok(checkYourAnswersView(
-            routes.SummaryController.summary(),
+            routes.SummaryController.summary,
             url, gainAnswers,
             Some(deductionsAnswers),
             Some(taxYear)))
@@ -113,8 +113,8 @@ class ReviewAnswersController @Inject()(
           taxYear <- getTaxYear(gainAnswers.disposalDate)
           currentTaxYear <- getCurrentTaxYear
         } yield {
-          Ok(checkYourAnswersView(routes.SummaryController.summary(),
-            routes.IncomeController.personalAllowance().url,
+          Ok(checkYourAnswersView(routes.SummaryController.summary,
+            routes.IncomeController.personalAllowance.url,
             gainAnswers,
             Some(deductionsAnswers),
             Some(taxYear),

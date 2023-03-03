@@ -57,7 +57,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual controllers.routes.PropertiesController.introduction().toString
+      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual controllers.routes.PropertiesController.introduction.toString
     }
 
     "have a H1 tag that" should {
@@ -77,8 +77,8 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.GainController.submitAcquisitionCosts().toString}'" in {
-        form.attr("action") shouldBe controllers.routes.GainController.submitAcquisitionCosts().toString
+      s"has the action '${controllers.routes.GainController.submitAcquisitionCosts.toString}'" in {
+        form.attr("action") shouldBe controllers.routes.GainController.submitAcquisitionCosts.toString
       }
 
       "has the method of POST" in {

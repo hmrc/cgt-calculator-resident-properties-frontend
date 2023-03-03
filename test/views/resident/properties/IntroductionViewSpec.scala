@@ -105,7 +105,7 @@ class IntroductionViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       }
 
       "take the user to disposal date page" in {
-        hyperlink.attr("href") shouldBe controllers.routes.GainController.disposalDate().url
+        hyperlink.attr("href") shouldBe controllers.routes.GainController.disposalDate.url
       }
 
     }

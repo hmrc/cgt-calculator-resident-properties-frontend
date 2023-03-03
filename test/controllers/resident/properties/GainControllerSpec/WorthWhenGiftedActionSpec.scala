@@ -71,7 +71,7 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a home link to 'homeLink'" in {
-        doc.select("a.govuk-header__link--service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a method to POST" in {

@@ -149,7 +149,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "redirect to the review your answers page" in {
-        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewGainAnswers().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewGainAnswers.url
       }
     }
 
@@ -163,7 +163,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "redirect to the review your answers page" in {
-        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewGainAnswers().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewGainAnswers.url
       }
     }
 

@@ -125,7 +125,7 @@ class PrivateResidenceReliefActionSpec extends CommonPlaySpec with WithCommonFak
       }
 
       "redirect to the brought forward losses page" in {
-        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lossesBroughtForward().url)
+        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lossesBroughtForward.url)
       }
     }
 

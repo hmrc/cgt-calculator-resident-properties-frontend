@@ -74,14 +74,14 @@ class DeductionsController @Inject()(
 
   def answerSummary(hc: HeaderCarrier): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers(hc)
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
   override lazy val sessionTimeoutUrl: String = homeLink
 
 
   //################# Property Lived In Actions #############################
   val propertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
 
-    val backLink = Some(controllers.routes.GainController.improvements().toString)
+    val backLink = Some(controllers.routes.GainController.improvements.toString)
 
     sessionCacheConnector.fetchAndGetFormData[PropertyLivedInModel](keystoreKeys.propertyLivedIn).map {
       case Some(data) => Ok(propertyLivedInView(propertyLivedInForm.fill(data), homeLink, backLink))
@@ -91,15 +91,15 @@ class DeductionsController @Inject()(
 
   val submitPropertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
 
-    lazy val backLink = Some(routes.GainController.improvements().url)
+    lazy val backLink = Some(routes.GainController.improvements.url)
 
     def errorAction(errors: Form[PropertyLivedInModel]) = Future.successful(BadRequest(propertyLivedInView(
       errors, homeLink, backLink
     )))
 
     def routeRequest(model: PropertyLivedInModel) = {
-      if (model.livedInProperty) Future.successful(Redirect(routes.DeductionsController.privateResidenceRelief()))
-      else Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
+      if (model.livedInProperty) Future.successful(Redirect(routes.DeductionsController.privateResidenceRelief))
+      else Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward))
     }
 
     def successAction(model: PropertyLivedInModel) = {
@@ -126,8 +126,8 @@ class DeductionsController @Inject()(
     def errorAction(errors: Form[PrivateResidenceReliefModel]) = Future.successful(BadRequest(privateResidenceReliefView(errors)))
 
     def routeRequest(model: PrivateResidenceReliefModel) = {
-      if (model.isClaiming) Future.successful(Redirect(routes.DeductionsController.privateResidenceReliefValue()))
-      else Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
+      if (model.isClaiming) Future.successful(Redirect(routes.DeductionsController.privateResidenceReliefValue))
+      else Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward))
     }
 
     def successAction(model: PrivateResidenceReliefModel) = {
@@ -162,12 +162,12 @@ class DeductionsController @Inject()(
 
     def successAction(model: PrivateResidenceReliefValueModel) = {
       sessionCacheConnector.saveFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue, model).map (_ =>
-        Redirect(routes.DeductionsController.lettingsRelief()))
+        Redirect(routes.DeductionsController.lettingsRelief))
 
     }
 
     def routeRequest(gain: BigDecimal): Future[Result] = {
-      privateResidenceReliefValueForm(gain).bindFromRequest.fold(
+      privateResidenceReliefValueForm(gain).bindFromRequest().fold(
         errors => Future.successful(BadRequest(privateResidenceReliefValueView(errors, homeLink, gain))),
         success => successAction(success)
       )
@@ -180,7 +180,7 @@ class DeductionsController @Inject()(
   }
 
   //############## Lettings Relief Actions ##################
-  private lazy val lettingsReliefBackUrl = routes.DeductionsController.privateResidenceReliefValue().url
+  private lazy val lettingsReliefBackUrl = routes.DeductionsController.privateResidenceReliefValue.url
 
   val lettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
     sessionCacheConnector.fetchAndGetFormData[LettingsReliefModel](keystoreKeys.lettingsRelief).map {
@@ -197,8 +197,8 @@ class DeductionsController @Inject()(
 
     def routeRequest(model: LettingsReliefModel) = {
       model match {
-        case LettingsReliefModel(true) => Future.successful(Redirect(routes.DeductionsController.lettingsReliefValue()))
-        case _ => Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward()))
+        case LettingsReliefModel(true) => Future.successful(Redirect(routes.DeductionsController.lettingsReliefValue))
+        case _ => Future.successful(Redirect(routes.DeductionsController.lossesBroughtForward))
       }
     }
 
@@ -220,10 +220,10 @@ class DeductionsController @Inject()(
                                   lettingsReliefModel: Option[LettingsReliefModel]): Future[String] = {
     (propertyLivedInModel.get.livedInProperty, privateResidenceReliefModel, lettingsReliefModel) match {
       case (true, Some(PrivateResidenceReliefModel(true)), Some(LettingsReliefModel(true))) =>
-        Future.successful(routes.DeductionsController.lettingsReliefValue().url)
-      case (true, Some(PrivateResidenceReliefModel(true)), _) => Future.successful(routes.DeductionsController.lettingsRelief().url)
-      case (true, _, _) => Future.successful(routes.DeductionsController.privateResidenceRelief().url)
-      case _ => Future.successful(routes.DeductionsController.propertyLivedIn().url)
+        Future.successful(routes.DeductionsController.lettingsReliefValue.url)
+      case (true, Some(PrivateResidenceReliefModel(true)), _) => Future.successful(routes.DeductionsController.lettingsRelief.url)
+      case (true, _, _) => Future.successful(routes.DeductionsController.privateResidenceRelief.url)
+      case _ => Future.successful(routes.DeductionsController.propertyLivedIn.url)
     }
   }
 
@@ -252,7 +252,7 @@ class DeductionsController @Inject()(
         errors => Future.successful(BadRequest(lettingsReliefValueView(errors, homeLink, totalGain))),
         success => {
           sessionCacheConnector.saveFormData[LettingsReliefValueModel](keystoreKeys.lettingsReliefValue, success).map (_ =>
-            Redirect(routes.DeductionsController.lossesBroughtForward()))
+            Redirect(routes.DeductionsController.lossesBroughtForward))
         })
     }
 
@@ -267,7 +267,7 @@ class DeductionsController @Inject()(
 
 
   //################# Brought Forward Losses Actions ############################
-  private lazy val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
+  private lazy val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward
 
   def lossesBroughtForwardBackUrl(implicit hc: HeaderCarrier): Future[String] = {
     for {
@@ -315,16 +315,16 @@ class DeductionsController @Inject()(
   val submitLossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
-      lossesBroughtForwardForm(taxYearModel).bindFromRequest.fold(
+      lossesBroughtForwardForm(taxYearModel).bindFromRequest().fold(
         errors => Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, backUrl,
           taxYearModel, homeLink, navTitle))),
         success => {
           sessionCacheConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
-            _ => if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
+            _ => if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue))
             else {
               positiveChargeableGainCheck.map { positiveChargeableGain =>
-                if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-                else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+                if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome)
+                else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers)
               }
             }
           )
@@ -344,8 +344,8 @@ class DeductionsController @Inject()(
 
 
   //################# Brought Forward Losses Value Actions ##############################
-  private lazy val lossesBroughtForwardValueBackLink = routes.DeductionsController.lossesBroughtForward().url
-  private lazy val lossesBroughtForwardValuePostAction = routes.DeductionsController.submitLossesBroughtForwardValue()
+  private lazy val lossesBroughtForwardValueBackLink = routes.DeductionsController.lossesBroughtForward.url
+  private lazy val lossesBroughtForwardValuePostAction = routes.DeductionsController.submitLossesBroughtForwardValue
 
   val lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
@@ -379,7 +379,7 @@ class DeductionsController @Inject()(
   val submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(taxYear: TaxYearModel): Future[Result] = {
-      lossesBroughtForwardValueForm(taxYear).bindFromRequest.fold(
+      lossesBroughtForwardValueForm(taxYear).bindFromRequest().fold(
         errors => {
             Future.successful(BadRequest(lossesBroughtForwardValueView(
               errors,
@@ -392,8 +392,8 @@ class DeductionsController @Inject()(
         success => {
           sessionCacheConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success).flatMap(
             _ =>  positiveChargeableGainCheck.map { positiveChargeableGain =>
-              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-              else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome)
+              else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers)
             }
           )
         }

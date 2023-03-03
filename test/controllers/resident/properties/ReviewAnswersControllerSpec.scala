@@ -122,7 +122,7 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
       }
 
       "have a back link to the improvements page" in {
-        Jsoup.parse(bodyOf(result)).select("#back-link").attr("href") shouldBe controllers.routes.GainController.improvements().url
+        Jsoup.parse(bodyOf(result)).select("#back-link").attr("href") shouldBe controllers.routes.GainController.improvements.url
       }
     }
   }
@@ -161,7 +161,7 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
       }
 
       "have a back link to the brought forward losses value page" in {
-        Jsoup.parse(bodyOf(result)).select("#back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForwardValue().url
+        Jsoup.parse(bodyOf(result)).select("#back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForwardValue.url
       }
     }
 
@@ -181,7 +181,7 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
       }
 
       "have a back link to the brought forward losses page" in {
-        Jsoup.parse(bodyOf(result)).select("#back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward().url
+        Jsoup.parse(bodyOf(result)).select("#back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward.url
       }
     }
   }
@@ -220,7 +220,7 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
       }
 
       "have a back link to the personal allowance page" in {
-        Jsoup.parse(bodyOf(result)).select("#back-link").attr("href") shouldBe controllers.routes.IncomeController.personalAllowance().url
+        Jsoup.parse(bodyOf(result)).select("#back-link").attr("href") shouldBe controllers.routes.IncomeController.personalAllowance.url
       }
     }
   }

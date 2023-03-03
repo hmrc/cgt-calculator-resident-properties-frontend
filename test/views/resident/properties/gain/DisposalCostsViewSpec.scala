@@ -74,8 +74,8 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.GainController.submitDisposalCosts().toString}'" in {
-        form.attr("action") shouldBe controllers.routes.GainController.submitDisposalCosts().toString
+      s"has the action '${controllers.routes.GainController.submitDisposalCosts.toString}'" in {
+        form.attr("action") shouldBe controllers.routes.GainController.submitDisposalCosts.toString
       }
 
       "has the method of POST" in {

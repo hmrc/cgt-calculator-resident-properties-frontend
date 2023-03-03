@@ -64,8 +64,8 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with
         Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
 
-      s"have a back link to '${controllers.routes.GainController.disposalDate().url}'" in {
-        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalDate().url
+      s"have a back link to '${controllers.routes.GainController.disposalDate.url}'" in {
+        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalDate.url
       }
     }
 

@@ -51,7 +51,7 @@ class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a link to Did You Sell or Give Away" in {
-        backLink.attr("href") shouldBe controllers.routes.GainController.sellOrGiveAway().toString()
+        backLink.attr("href") shouldBe controllers.routes.GainController.sellOrGiveAway.toString()
       }
     }
     "have a H1 tag that" should {
@@ -68,8 +68,8 @@ class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     "have a form" which {
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.GainController.submitWhoDidYouGiveItTo().toString}" in {
-        form.attr("action") shouldBe controllers.routes.GainController.submitWhoDidYouGiveItTo().toString
+      s"has the action '${controllers.routes.GainController.submitWhoDidYouGiveItTo.toString}" in {
+        form.attr("action") shouldBe controllers.routes.GainController.submitWhoDidYouGiveItTo.toString
       }
 
       "has the method of POST" in {

@@ -49,7 +49,7 @@ class ReportController @Inject()(
                                   pdfGenerator : PdfGenerator
                                 ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport with Logging {
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
   override lazy val sessionTimeoutUrl: String = homeLink
 
   lazy val platformHost: Option[String] = config.getOptional[String]("platform.frontend.host")

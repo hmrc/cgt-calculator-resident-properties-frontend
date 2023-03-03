@@ -47,7 +47,7 @@ class SummaryController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
   override lazy val sessionTimeoutUrl: String = homeLink
 
   val summary = ValidateSession.async { implicit request =>
@@ -102,7 +102,7 @@ class SummaryController @Inject()(
           chargeableGainAnswers,
           incomeAnswers,
           totalGainAndTax.get,
-          routes.ReviewAnswersController.reviewFinalAnswers().url,
+          routes.ReviewAnswersController.reviewFinalAnswers.url,
           taxYear.get,
           isPrrUsed,
           isLettingsReliefUsed,
@@ -115,7 +115,7 @@ class SummaryController @Inject()(
           totalGainAnswers,
           chargeableGainAnswers,
           chargeableGain.get,
-          routes.ReviewAnswersController.reviewDeductionsAnswers().url,
+          routes.ReviewAnswersController.reviewDeductionsAnswers.url,
           taxYear.get,
           isPrrUsed,
           isLettingsReliefUsed,
