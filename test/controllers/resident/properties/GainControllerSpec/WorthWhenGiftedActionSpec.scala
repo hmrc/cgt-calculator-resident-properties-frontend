@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a home link to 'homeLink'" in {
-        doc.select("a.govuk-header__link--service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a method to POST" in {

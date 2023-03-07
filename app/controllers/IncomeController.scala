@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,15 +63,15 @@ class IncomeController @Inject()(
     Future.successful(s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}")
   }
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
   override lazy val sessionTimeoutUrl: String = homeLink
 
   //################################# Current Income Actions ##########################################
 
   def buildCurrentIncomeBackUrl(implicit hc: HeaderCarrier): Future[String] = {
     lossesBroughtForwardResponse.map { response =>
-      if (response) controllers.routes.DeductionsController.lossesBroughtForwardValue().url
-      else controllers.routes.DeductionsController.lossesBroughtForward().url
+      if (response) controllers.routes.DeductionsController.lossesBroughtForwardValue.url
+      else controllers.routes.DeductionsController.lossesBroughtForward.url
     }
   }
 
@@ -103,11 +103,11 @@ class IncomeController @Inject()(
 
       val inCurrentTaxYear = taxYearModel.taxYearSupplied == currentTaxYear
 
-      currentIncomeForm(taxYearModel).bindFromRequest.fold(
+      currentIncomeForm(taxYearModel).bindFromRequest().fold(
         errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(currentIncomeView(errors, url, taxYearModel, inCurrentTaxYear)))),
         success => {
           sessionCacheConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
-            .map(_ => Redirect(routes.IncomeController.personalAllowance()))
+            .map(_ => Redirect(routes.IncomeController.personalAllowance))
         }
       )
     }
@@ -129,8 +129,8 @@ class IncomeController @Inject()(
     Future.successful(TaxDates.taxYearStringToInteger(taxYear))
   }
 
-  lazy private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome().toString)
-  lazy private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance()
+  lazy private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome.toString)
+  lazy private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance
 
   val personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
@@ -165,12 +165,12 @@ class IncomeController @Inject()(
     }
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
-      personalAllowanceForm(taxYearModel, maxPA).bindFromRequest.fold(
+      personalAllowanceForm(taxYearModel, maxPA).bindFromRequest().fold(
         errors => Future.successful(BadRequest(personalAllowanceView(errors, taxYearModel, standardPA, homeLink,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, Messages("calc.base.resident.properties.home"), currentTaxYear))),
         success => {
           sessionCacheConnector.saveFormData(keystoreKeys.personalAllowance, success)
-            .map(_ => Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))
+            .map(_ => Redirect(routes.ReviewAnswersController.reviewFinalAnswers))
         }
       )
     }

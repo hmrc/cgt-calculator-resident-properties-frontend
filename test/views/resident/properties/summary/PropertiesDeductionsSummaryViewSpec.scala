@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
     )
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+    val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
 
     when(mockAppConfig.urBannerLink)
       .thenReturn(summaryMessages.bannerPanelLinkURL)
@@ -104,8 +104,8 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
         backLink.text shouldBe residentMessages.back
       }
 
-      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url}'" in {
-        backLink.attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url}'" in {
+        backLink.attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
       }
     }
 
@@ -381,7 +381,7 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
     )
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+    val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
       taxYearModel, None, None, 100, showUserResearchPanel = false)(fakeRequest, testingMessages)

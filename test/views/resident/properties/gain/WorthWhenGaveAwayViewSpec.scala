@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,15 +31,15 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   case class FakePOST(value: String) {
     lazy val request = fakeRequestToPOSTWithSession(("amount", value))
     lazy val form = worthWhenGaveAwayForm.bind(Map(("amount", value)))
-    lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString())
-    lazy val view = worthWhenGaveAwayView(worthWhenGaveAwayForm, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway())(fakeRequest, testingMessages)
+    lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo.toString())
+    lazy val view = worthWhenGaveAwayView(worthWhenGaveAwayForm, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
   }
 
   "Worth when gave away View" should {
 
-    lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString())
-    lazy val view = worthWhenGaveAwayView(worthWhenGaveAwayForm, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway())(fakeRequest, testingMessages)
+    lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo.toString())
+    lazy val view = worthWhenGaveAwayView(worthWhenGaveAwayForm, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -149,8 +149,8 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   "Worth When Gave Away View with form without errors" should {
 
     lazy val form = worthWhenGaveAwayForm.bind(Map("amount" -> "100"))
-    lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString())
-    lazy val view = worthWhenGaveAwayView(form, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway())(fakeRequest, testingMessages)
+    lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo.toString())
+    lazy val view = worthWhenGaveAwayView(form, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -169,8 +169,8 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   "Worth When Gave Away View with form with errors" should {
 
     lazy val form = worthWhenGaveAwayForm.bind(Map("amount" -> ""))
-    lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo().toString())
-    lazy val view = worthWhenGaveAwayView(form, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway())(fakeRequest, testingMessages)
+    lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo.toString())
+    lazy val view = worthWhenGaveAwayView(form, backLink, "home-link", routes.GainController.submitWorthWhenGaveAway)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

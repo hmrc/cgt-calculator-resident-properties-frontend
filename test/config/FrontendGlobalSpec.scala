@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,12 +28,12 @@ class FrontendGlobalSpec extends CommonPlaySpec with WithCommonFakeApplication w
 
   "Rendering the error_template by causing an error" when {
     "on the resident/properties journey" should {
-      s"have a link to the resident/properties start journey '${controllers.routes.PropertiesController.introduction().url}'" in {
+      s"have a link to the resident/properties start journey '${controllers.routes.PropertiesController.introduction.url}'" in {
         val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/resident/properties/error").withSession(SessionKeys.sessionId -> "12345")
         val result = cgtErrorHandler.standardErrorTemplate("test", "teat-heading", "test-message")(fakeRequest)
         val doc = Jsoup.parse(result.body)
 
-        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe controllers.routes.PropertiesController.introduction().url
+        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe controllers.routes.PropertiesController.introduction.url
       }
     }
   }

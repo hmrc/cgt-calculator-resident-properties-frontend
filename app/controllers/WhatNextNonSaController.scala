@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,10 +43,10 @@ class WhatNextNonSaController @Inject()(
     } yield {
       selfAssessmentRequired match {
         case true => {
-          Ok(whatNextNonSaGainView(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser().url))
+          Ok(whatNextNonSaGainView(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser.url))
         }
         case false => {
-          Ok(whatNextNonSaGainView(appConfig.capitalGainsReportingFormUrl, controllers.routes.SummaryController.summary().url))
+          Ok(whatNextNonSaGainView(appConfig.capitalGainsReportingFormUrl, controllers.routes.SummaryController.summary.url))
         }
       }
     }
@@ -57,8 +57,8 @@ class WhatNextNonSaController @Inject()(
       selfAssessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
     } yield {
       selfAssessmentRequired match {
-        case true => Ok(whatNextNonSaLossView(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser().url))
-        case false => Ok(whatNextNonSaLossView(appConfig.capitalGainsReportingFormUrl, controllers.routes.SummaryController.summary().url))
+        case true => Ok(whatNextNonSaLossView(appConfig.residentIFormUrl, controllers.routes.SaUserController.saUser.url))
+        case false => Ok(whatNextNonSaLossView(appConfig.capitalGainsReportingFormUrl, controllers.routes.SummaryController.summary.url))
       }
     }
   }

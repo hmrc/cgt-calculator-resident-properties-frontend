@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,7 +112,6 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
     lazy val result = target.submitDisposalValue(request)
 
     "render the disposal value page when supplied with an invalid form" in {
-      val serviceName = MessageLookup.Resident.homeText
       val pageTitle = MessageLookup.DisposalValue.title
 
       status(result) shouldEqual 400

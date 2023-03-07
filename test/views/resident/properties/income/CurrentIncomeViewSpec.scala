@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,8 +54,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.IncomeController.submitCurrentIncome().toString}'" in {
-        form.attr("action") shouldBe controllers.routes.IncomeController.submitCurrentIncome().toString
+      s"has the action '${controllers.routes.IncomeController.submitCurrentIncome.toString}'" in {
+        form.attr("action") shouldBe controllers.routes.IncomeController.submitCurrentIncome.toString
       }
 
       "has the method of POST" in {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,7 +120,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
           }
 
           "redirect to the nonSa loss what next page" in {
-            redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss().url)
+            redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss.url)
           }
         }
 
@@ -133,7 +133,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
           }
 
           "redirect to the nonSa gain what next page" in {
-            redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaGain().url)
+            redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaGain.url)
           }
         }
       }
@@ -167,7 +167,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
         }
 
         "redirect to the nonSa loss what next page" in {
-          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss().url)
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss.url)
         }
       }
 
@@ -180,7 +180,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
         }
 
         "redirect to the nonSa gain what next page" in {
-          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaGain().url)
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaGain.url)
         }
       }
     }
@@ -197,7 +197,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
         }
 
         "redirect to the nonSa gain what next page" in {
-          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAGain().url)
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAGain.url)
         }
       }
 
@@ -210,7 +210,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
         }
 
         "redirect to the nonSa loss what next page" in {
-          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSANoGain().url)
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSANoGain.url)
         }
       }
 
@@ -223,7 +223,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
         }
 
         "redirect to the nonSa loss with value greater than what next page" in {
-          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAOverFourTimesAEA().url)
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAOverFourTimesAEA.url)
         }
       }
     }

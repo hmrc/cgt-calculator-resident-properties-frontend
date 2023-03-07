@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,8 +137,8 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         status(result) shouldBe 200
       }
 
-      s"have a back link with the address ${controllers.routes.DeductionsController.propertyLivedIn().url}" in {
-        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.propertyLivedIn().url
+      s"have a back link with the address ${controllers.routes.DeductionsController.propertyLivedIn.url}" in {
+        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.propertyLivedIn.url
       }
     }
 
@@ -153,8 +153,8 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         status(result) shouldBe 200
       }
 
-      s"have a back link with the address ${controllers.routes.DeductionsController.privateResidenceRelief().url}" in {
-        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.privateResidenceRelief().url
+      s"have a back link with the address ${controllers.routes.DeductionsController.privateResidenceRelief.url}" in {
+        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.privateResidenceRelief.url
       }
     }
 
@@ -169,8 +169,8 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         status(result) shouldBe 200
       }
 
-      s"have a back link with the address ${controllers.routes.DeductionsController.lettingsRelief().url}" in {
-        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.lettingsRelief().url
+      s"have a back link with the address ${controllers.routes.DeductionsController.lettingsRelief.url}" in {
+        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.lettingsRelief.url
       }
     }
 
@@ -185,8 +185,8 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         status(result) shouldBe 200
       }
 
-      s"have a back link with the address ${controllers.routes.DeductionsController.lettingsReliefValue().url}" in {
-        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.lettingsReliefValue().url
+      s"have a back link with the address ${controllers.routes.DeductionsController.lettingsReliefValue.url}" in {
+        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.lettingsReliefValue.url
       }
     }
   }
@@ -224,7 +224,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "redirect to the review your answers page" in {
-        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers.url
       }
     }
 
@@ -241,7 +241,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "redirect to the review answers page" in {
-        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers.url
       }
     }
 

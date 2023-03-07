@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -149,7 +149,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "redirect to the review your answers page" in {
-        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewFinalAnswers().url
+        redirectLocation(result).get shouldBe routes.ReviewAnswersController.reviewFinalAnswers.url
       }
     }
 
@@ -160,7 +160,6 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       lazy val target = setupTarget(None, disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
       lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
       lazy val result = target.submitPersonalAllowance(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a 400" in {
         status(result) shouldBe 400

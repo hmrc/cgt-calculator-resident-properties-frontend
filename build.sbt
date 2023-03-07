@@ -29,11 +29,10 @@ lazy val microservice = Project(appName, file("."))
   .settings(playSettings : _*)
   .settings(PlayKeys.playDefaultPort := 9702)
   .settings(scalaSettings: _*)
-  .settings(publishingSettings: _*)
   .settings(defaultSettings(): _*)
   .settings(
     targetJvm := "jvm-1.8",
-    scalaVersion := "2.12.12",
+    scalaVersion := "2.13.8",
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
     evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
@@ -41,8 +40,8 @@ lazy val microservice = Project(appName, file("."))
     pipelineStages in Assets := Seq(digest),
     scalacOptions += "-P:silencer:pathFilters=routes;views;play.mvc.Http.Contexts",
     libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.7.1" cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % "1.7.1" % Provided cross CrossVersion.full
+      compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.7.12" cross CrossVersion.full),
+      "com.github.ghik" % "silencer-lib" % "1.7.12" % Provided cross CrossVersion.full
     ),
     scalacOptions += "-feature",
   )
@@ -52,7 +51,6 @@ lazy val microservice = Project(appName, file("."))
   .settings(integrationTestSettings())
   .settings(TwirlKeys.templateImports ++= Seq(
     "uk.gov.hmrc.govukfrontend.views.html.components._",
-    "uk.gov.hmrc.govukfrontend.views.html.helpers._",
     "uk.gov.hmrc.hmrcfrontend.views.html.components._",
     "uk.gov.hmrc.hmrcfrontend.views.html.helpers._",
     "uk.gov.hmrc.govukfrontend.views.html.components.implicits._"

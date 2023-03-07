@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have the home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.select(".govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a back button" which {

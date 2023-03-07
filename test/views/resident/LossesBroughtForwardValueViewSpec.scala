@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
       lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm(testTaxYear), taxYear, "back-link",
-        "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
+        "home-link", routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -46,11 +46,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       }
 
       "have a dynamic navTitle with text Calculate your Capital Gains Tax" in {
-        doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").text shouldEqual "Calculate your Capital Gains Tax"
+        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text shouldEqual "Calculate your Capital Gains Tax"
       }
 
       "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-        doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a back button that" should {
@@ -86,8 +86,8 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       "have a form" which {
         lazy val form = doc.getElementsByTag("form")
 
-        s"has the action '${routes.DeductionsController.submitLossesBroughtForwardValue().url}'" in {
-          form.attr("action") shouldBe routes.DeductionsController.submitLossesBroughtForwardValue().url
+        s"has the action '${routes.DeductionsController.submitLossesBroughtForwardValue.url}'" in {
+          form.attr("action") shouldBe routes.DeductionsController.submitLossesBroughtForwardValue.url
         }
 
         "has the method of POST" in {
@@ -144,7 +144,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
       lazy val taxYear = TaxYearModel("2014/15", false, "2015/16")
       lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm(testTaxYear), taxYear, "back-link",
-        "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
+        "home-link", routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title("2014 to 2015")}" in {
@@ -180,7 +180,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map(("amount", "1000")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
-      "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
+      "home-link", routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the value of 1000 auto-filled in the input" in {
@@ -193,7 +193,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map(("amount", "")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
-      "home-link", routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, testingMessages)
+      "home-link", routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

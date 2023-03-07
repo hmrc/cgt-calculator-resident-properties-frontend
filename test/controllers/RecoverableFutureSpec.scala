@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers 
   ".recoverToStart" should {
     "convert a `NoSuchElementException` into an `ApplicationException`" in {
 
-      val homeLink = controllers.routes.GainController.disposalDate().url
+      val homeLink = controllers.routes.GainController.disposalDate.url
       val sessionTimeoutUrl = homeLink
 
       val future: Future[Result] = Future.failed(new NoSuchElementException("test message")).recoverToStart(homeLink, sessionTimeoutUrl)
@@ -47,7 +47,7 @@ class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers 
 
     "not convert any other exception into an `ApplicationException`" in {
 
-      val homeLink = controllers.routes.GainController.disposalDate().url
+      val homeLink = controllers.routes.GainController.disposalDate.url
       val sessionTimeoutUrl = homeLink
       val ex = new IllegalArgumentException("test message")
 

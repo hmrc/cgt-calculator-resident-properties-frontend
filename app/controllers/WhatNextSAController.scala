@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,10 +47,10 @@ class WhatNextSAController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  lazy val backLink: String = routes.SaUserController.saUser().url
+  lazy val backLink: String = routes.SaUserController.saUser.url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
   override lazy val sessionTimeoutUrl: String = homeLink
 
   def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {

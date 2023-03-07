@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,9 +80,9 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2015 to 2016")
       }
 
-      s"have a back link to '${controllers.routes.DeductionsController.lossesBroughtForward().url}'" in {
+      s"have a back link to '${controllers.routes.DeductionsController.lossesBroughtForward.url}'" in {
         Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldEqual
-          controllers.routes.DeductionsController.lossesBroughtForward().url
+          controllers.routes.DeductionsController.lossesBroughtForward.url
       }
     }
 
@@ -178,8 +178,8 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
           status(result) shouldBe 303
         }
 
-        s"redirect to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url}'" in {
-          redirectLocation(result).get shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+        s"redirect to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url}'" in {
+          redirectLocation(result).get shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
         }
       }
 
@@ -197,8 +197,8 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
             status(result) shouldBe 303
         }
 
-        s"redirect to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url}'" in {
-          redirectLocation(result).get shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+        s"redirect to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url}'" in {
+          redirectLocation(result).get shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
         }
       }
 
@@ -215,8 +215,8 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
           status(result) shouldBe 303
         }
 
-        s"redirect to '${controllers.routes.SummaryController.summary().toString}'" in {
-          redirectLocation(result).get shouldBe controllers.routes.IncomeController.currentIncome().toString
+        s"redirect to '${controllers.routes.SummaryController.summary.toString}'" in {
+          redirectLocation(result).get shouldBe controllers.routes.IncomeController.currentIncome.toString
         }
       }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a back link to the introduction page" in {
-      doc.body.getElementById("back-link").attr("href") shouldBe controllers.routes.PropertiesController.introduction().toString
+      doc.body.getElementById("back-link").attr("href") shouldBe controllers.routes.PropertiesController.introduction.toString
     }
   }
 

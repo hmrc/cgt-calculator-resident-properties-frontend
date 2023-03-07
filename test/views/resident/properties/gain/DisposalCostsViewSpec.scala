@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,8 +74,8 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.GainController.submitDisposalCosts().toString}'" in {
-        form.attr("action") shouldBe controllers.routes.GainController.submitDisposalCosts().toString
+      s"has the action '${controllers.routes.GainController.submitDisposalCosts.toString}'" in {
+        form.attr("action") shouldBe controllers.routes.GainController.submitDisposalCosts.toString
       }
 
       "has the method of POST" in {

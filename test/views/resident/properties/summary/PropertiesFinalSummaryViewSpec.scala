@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
       personalAllowanceModel = Some(PersonalAllowanceModel(0))
     )
 
-    val backLinkUrl: String = controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
+    val backLinkUrl: String = controllers.routes.ReviewAnswersController.reviewFinalAnswers.url
 
     "the property was sold inside tax years, bought after legislation start," +
       " with reliefs and brought forward losses and taxed at both tax bands" should {
@@ -117,7 +117,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
         }
 
         s"has a link to final check your answers" in {
-          backLink.attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
+          backLink.attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewFinalAnswers.url
         }
       }
 
@@ -403,7 +403,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
         }
 
         "has a link to the what next section" in {
-          doc.select(".govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+          doc.select(".govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
         }
       }
 
@@ -440,8 +440,8 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
               link.hasClass("govuk-link") shouldBe true
             }
 
-            s"links to ${controllers.routes.ReportController.finalSummaryReport()}" in {
-              link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport().toString
+            s"links to ${controllers.routes.ReportController.finalSummaryReport}" in {
+              link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport.toString
             }
 
             s"has the text ${messages.saveAsPdf}" in {

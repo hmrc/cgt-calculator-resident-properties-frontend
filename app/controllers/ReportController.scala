@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ class ReportController @Inject()(
                                   pdfGenerator : PdfGenerator
                                 ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport with Logging {
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction().url
+  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
   override lazy val sessionTimeoutUrl: String = homeLink
 
   lazy val platformHost: Option[String] = config.getOptional[String]("platform.frontend.host")

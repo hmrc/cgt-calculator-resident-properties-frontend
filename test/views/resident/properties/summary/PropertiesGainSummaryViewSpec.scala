@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,8 +81,8 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
         backLink.text shouldBe residentMessages.back
       }
 
-      s"has a link to '${routes.ReviewAnswersController.reviewGainAnswers().url}'" in {
-        backLink.attr("href") shouldBe routes.ReviewAnswersController.reviewGainAnswers().url
+      s"has a link to '${routes.ReviewAnswersController.reviewGainAnswers.url}'" in {
+        backLink.attr("href") shouldBe routes.ReviewAnswersController.reviewGainAnswers.url
       }
 
     }
@@ -331,7 +331,7 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
       }
 
       "has a link to the what next section" in {
-        doc.select(".govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        doc.select(".govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
       }
     }
 
@@ -368,8 +368,8 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
             link.hasClass("govuk-link") shouldBe true
           }
 
-          s"links to ${controllers.routes.ReportController.gainSummaryReport()}" in {
-            link.attr("href") shouldBe controllers.routes.ReportController.gainSummaryReport().toString
+          s"links to ${controllers.routes.ReportController.gainSummaryReport}" in {
+            link.attr("href") shouldBe controllers.routes.ReportController.gainSummaryReport.toString
           }
 
           s"has the text ${messages.saveAsPdf}" in {

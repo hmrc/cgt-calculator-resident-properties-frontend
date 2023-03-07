@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,8 +49,8 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
           form.attr("method") shouldBe "POST"
         }
 
-        s"has an action of ${controllers.routes.SaUserController.submitSaUser().url}" in {
-          form.attr("action") shouldBe controllers.routes.SaUserController.submitSaUser().url
+        s"has an action of ${controllers.routes.SaUserController.submitSaUser.url}" in {
+          form.attr("action") shouldBe controllers.routes.SaUserController.submitSaUser.url
         }
       }
 
