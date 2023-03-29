@@ -399,11 +399,11 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
       "has a continue button" which {
         s"has the text ${summaryMessages.continue}" in {
-          doc.select(".govuk-button").text shouldBe summaryMessages.continue
+          doc.select("#main-content > div > div > a.govuk-button").text shouldBe summaryMessages.continue
         }
 
         "has a link to the what next section" in {
-          doc.select(".govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
+          doc.select("#main-content > div > div > a.govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
         }
       }
 

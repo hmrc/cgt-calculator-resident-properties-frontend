@@ -20,10 +20,10 @@ import play.sbt.PlayImport._
 
 object AppDependencies {
 
-  val bootstrapVersion         = "7.14.0"
-  val playFrontendVersion      = "6.7.0-play-28"
+  val bootstrapVersion         = "7.15.0"
+  val playFrontendVersion      = "7.3.0-play-28"
   val jsonJodaVersion          = "2.9.4"
-  val playPartialsVersion      = "8.3.0-play-28"
+  val playPartialsVersion      = "8.4.0-play-28"
   val httpCachingClientVersion = "10.0.0-play-28"
   val play2PdfVersion          = "1.11.0"
 
@@ -53,7 +53,7 @@ object AppDependencies {
         "org.scalatestplus"       %% "scalatestplus-mockito"    % "1.0.0-M2"          % scope,
         "org.scalatestplus"       %% "scalatestplus-scalacheck" % "3.1.0.0-RC2"       % scope,
         "org.scalatestplus.play"  %% "scalatestplus-play"       % "5.1.0"             % scope,
-        "org.mockito"             %% "mockito-scala-scalatest"  % "1.17.12"           % scope
+        "org.mockito"             %% "mockito-scala-scalatest"  % "1.17.14"           % scope
       )
     }.test
   }
