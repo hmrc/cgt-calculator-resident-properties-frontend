@@ -219,17 +219,19 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       lazy val h1Tag = doc.select("H1")
 
       val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
+      val nextTaxYearModel = TaxYearModel(nextTaxYear, true, "2016/17")
+      val nextYearString = s"${nextTaxYearModel.startYear} to ${nextTaxYearModel.endYear}"
 
       s"have a title ${messages.question(s"$nextTaxYear")}" in {
-        doc.title() shouldBe messages.title("2023 to 2024")
+        doc.title() shouldBe messages.title(nextYearString)
       }
 
       s"have the page heading '${messages.question(s"$nextTaxYear")}'" in {
-        h1Tag.text shouldBe messages.question("2023 to 2024")
+        h1Tag.text shouldBe messages.question(nextYearString)
       }
 
       s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
-        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2023 to 2024")
+        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question(nextYearString)
       }
     }
 
