@@ -176,7 +176,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
         button.hasAttr("id") shouldEqual true
       }
 
-      "has id equal to continue-button" in {
+      "has id equal to submit" in {
         button.attr("id") shouldEqual "submit"
       }
 
