@@ -28,11 +28,11 @@ import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class SessionCacheService @Inject()(val sessionCacheConnector: SessionCacheConnector,
-                                    implicit val appConfig: AppConfig) {
+                                    implicit val appConfig: AppConfig)
+                                   (implicit val ec: ExecutionContext) {
   def getPropertyGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = {
     val disposalDate = sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
       constructDate(formData.get.day, formData.get.month, formData.get.year))

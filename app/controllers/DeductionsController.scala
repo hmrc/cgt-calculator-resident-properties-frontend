@@ -299,11 +299,20 @@ class DeductionsController @Inject()(
 
   }
 
+  def taxYearStringToInteger(taxYear: String): Future[Int] = {
+    Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
+  }
+
   def positiveChargeableGainCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
     for {
       gainAnswers <- sessionCacheService.getPropertyGainAnswers
       chargeableGainAnswers <- sessionCacheService.getPropertyDeductionAnswers
-      chargeableGain <- calcConnector.calculateRttPropertyChargeableGain(gainAnswers, chargeableGainAnswers, 11000).map(_.get.chargeableGain)
+      disposalDate <- getDisposalDate
+      disposalDateString <- formatDisposalDate(disposalDate.get)
+      taxYear <- calcConnector.getTaxYear(disposalDateString)
+      taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
+      maxAEA <- calcConnector.getFullAEA(taxYearInt)(hc)
+      chargeableGain <- calcConnector.calculateRttPropertyChargeableGain(gainAnswers, chargeableGainAnswers, maxAEA.get).map(_.get.chargeableGain)
     } yield chargeableGain
 
     match {

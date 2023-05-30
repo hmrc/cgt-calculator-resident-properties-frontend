@@ -25,9 +25,9 @@ import play.api.mvc._
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.HttpClient
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContext.Implicits.global
 
 trait CommonMocks {
   self: MockitoSugar with WithCommonFakeApplication =>
@@ -37,6 +37,8 @@ trait CommonMocks {
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
   val mockAppConfig: AppConfig = mock[AppConfig]
   val mockHttpClient: HttpClient = mock[HttpClient]
+  val mockServiceConfig: ServicesConfig = mock[ServicesConfig]
+  implicit val ec: ExecutionContext = fakeApplication.injector.instanceOf[ExecutionContext]
 
   lazy val stubComps: ControllerComponents = stubControllerComponents()
 
@@ -50,7 +52,7 @@ trait CommonMocks {
     fakeApplication.injector.instanceOf[MessagesApi],
     cc.langs,
     cc.fileMimeTypes,
-    ExecutionContext.global
+    ec
   )
 
   val controllerMocks: Seq[Any] = Seq(
