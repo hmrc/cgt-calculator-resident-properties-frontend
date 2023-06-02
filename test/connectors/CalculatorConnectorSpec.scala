@@ -39,8 +39,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Comm
 
   val sessionId = UUID.randomUUID.toString
 
-  object TargetCalculatorConnector extends CalculatorConnector {
-    override val http = mockHttpClient
+  object TargetCalculatorConnector extends CalculatorConnector(servicesConfig = mockServiceConfig, http =  mockHttpClient) {
     override val serviceUrl = "capital-gains-calculator"
   }
 

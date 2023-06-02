@@ -19,7 +19,7 @@ package connectors
 import java.time.LocalDate
 
 import constructors.resident.{properties => propertyConstructor}
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 import models.resident._
 import models.resident.properties._
 import org.joda.time.DateTime
@@ -28,17 +28,14 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.http.HttpReads.Implicits._
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class CalculatorConnectorImpl @Inject()(val servicesConfig: ServicesConfig,
-                                        val http: HttpClient) extends CalculatorConnector {
-  override val serviceUrl: String = servicesConfig.baseUrl("capital-gains-calculator")
-}
+@Singleton
+class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
+                          val http: HttpClient)(implicit val ec: ExecutionContext) extends JodaReads {
 
-trait CalculatorConnector extends JodaReads {
-  val http: HttpClient
-  val serviceUrl: String
+  val serviceUrl: String = servicesConfig.baseUrl("capital-gains-calculator")
+
   lazy val homeLink: String = controllers.routes.GainController.disposalDate.url
 
   implicit val hc: HeaderCarrier = HeaderCarrier()

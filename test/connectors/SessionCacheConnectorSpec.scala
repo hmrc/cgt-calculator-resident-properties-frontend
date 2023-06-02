@@ -21,21 +21,22 @@ import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.libs.json.Json
 import play.shaded.ahc.org.asynchttpclient.exception.RemotelyClosedException
-import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
+import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
-import common.CommonPlaySpec
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import config.CalculatorSessionCache
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class SessionCacheConnectorSpec extends CommonPlaySpec with MockitoSugar{
-  val mockSessionCache = mock[SessionCache]
-
-  val mockSessionCacheConnector = new SessionCacheConnector {
-    override val sessionCache: SessionCache = mockSessionCache
-    override val homeLink: String = "testString"
-  }
+class SessionCacheConnectorSpec extends CommonPlaySpec with WithCommonFakeApplication with MockitoSugar{
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
+  implicit val ec: ExecutionContext = fakeApplication.injector.instanceOf[ExecutionContext]
+  val mockSessionCache = mock[CalculatorSessionCache]
+
+  val mockSessionCacheConnector = new SessionCacheConnector(mockSessionCache){
+    override lazy val homeLink: String = "testString"
+  }
 
   val testCache: CacheMap = CacheMap.apply("testId", Map("someString" -> Json.toJson[String]("someJsValue")))
   val testHttpResponse: AnyRef with HttpResponse = HttpResponse.apply(200, "")
@@ -53,7 +54,7 @@ class SessionCacheConnectorSpec extends CommonPlaySpec with MockitoSugar{
       when(mockSessionCache.cache(ArgumentMatchers.eq("testFailingKey"), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(),ArgumentMatchers.any()))
         .thenReturn(Future.failed(new Exception("Keystore failed to save data: failData to this key: testFailingKey with message: test")))
 
-      the[Exception] thrownBy await(mockSessionCacheConnector.saveFormData("testFailingKey", "testData")) should have message
+      intercept[Exception](await(mockSessionCacheConnector.saveFormData("testFailingKey", "testData"))).getMessage shouldBe
         "Keystore failed to save data: failData to this key: testFailingKey with message: test"
     }
   }
@@ -71,7 +72,7 @@ class SessionCacheConnectorSpec extends CommonPlaySpec with MockitoSugar{
       when(mockSessionCache.fetchAndGetEntry(ArgumentMatchers.eq("testFailingKey"))(ArgumentMatchers.any(), ArgumentMatchers.any(),ArgumentMatchers.any()))
         .thenReturn(Future.failed(RemotelyClosedException.INSTANCE))
 
-      the[RemotelyClosedException] thrownBy await(mockSessionCacheConnector.fetchAndGetFormData[String]("testFailingKey")) should have message
+      intercept[Exception](await(mockSessionCacheConnector.fetchAndGetFormData[String]("testFailingKey"))).getMessage shouldBe
         "Remotely closed"
     }
   }

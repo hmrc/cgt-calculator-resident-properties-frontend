@@ -16,7 +16,6 @@
 
 package config
 
-import connectors.{CalculatorConnector, CalculatorConnectorImpl, SessionCacheConnector, SessionCacheConnectorImpl}
 import play.api.inject.{Binding, Module}
 import play.api.{Configuration, Environment, inject}
 import uk.gov.hmrc.http.HttpClient
@@ -24,16 +23,11 @@ import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
 class ServicesBindings extends Module {
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
-    bindDeps() ++ bindConnectors()
+    bindDeps()
   }
 
   private def bindDeps() = Seq(
     inject.bind(classOf[AppConfig]).to(classOf[ApplicationConfig]),
     inject.bind(classOf[HttpClient]).to(classOf[DefaultHttpClient])
-  )
-
-  private def bindConnectors() = Seq(
-    inject.bind(classOf[CalculatorConnector]).to(classOf[CalculatorConnectorImpl]),
-    inject.bind(classOf[SessionCacheConnector]).to(classOf[SessionCacheConnectorImpl])
   )
 }
