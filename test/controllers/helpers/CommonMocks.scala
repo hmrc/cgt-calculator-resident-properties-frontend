@@ -18,11 +18,12 @@ package controllers.helpers
 
 import common.WithCommonFakeApplication
 import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.MessagesApi
 import play.api.mvc._
 import play.api.test.Helpers._
+import repositories.SessionRepository
 import services.SessionCacheService
 import uk.gov.hmrc.http.HttpClient
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
@@ -33,8 +34,8 @@ trait CommonMocks {
   self: MockitoSugar with WithCommonFakeApplication =>
 
   val mockCalcConnector: CalculatorConnector = mock[CalculatorConnector]
-  val mockSessionCacheConnector: SessionCacheConnector = mock[SessionCacheConnector]
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  val mockSessionRepository: SessionRepository = mock[SessionRepository]
   val mockAppConfig: AppConfig = mock[AppConfig]
   val mockHttpClient: HttpClient = mock[HttpClient]
   val mockServiceConfig: ServicesConfig = mock[ServicesConfig]
@@ -55,13 +56,15 @@ trait CommonMocks {
     ec
   )
 
+  val sessionCacheMocks: Seq[Any] = Seq(
+    mockSessionCacheService
+  )
+
+
   val controllerMocks: Seq[Any] = Seq(
     mockCalcConnector
   )
 
-  val connectorMocks: Seq[Any] = Seq(
-    mockSessionCacheConnector
-  )
 
   val serviceMocks: Seq[Any] = Seq(
     mockSessionCacheService
@@ -73,5 +76,5 @@ trait CommonMocks {
     mockMessagesControllerComponents
   )
 
-  val allMocks: Seq[Any] = controllerMocks ++ connectorMocks ++ serviceMocks ++ otherMocks
+  val allMocks: Seq[Any] = controllerMocks ++ sessionCacheMocks ++ serviceMocks ++ otherMocks
 }

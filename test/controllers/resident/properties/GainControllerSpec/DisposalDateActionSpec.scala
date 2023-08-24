@@ -31,7 +31,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -42,12 +41,12 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[DisposalDateModel]): GainController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+    when(mockSessionCacheService.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful("" -> ""))
 
     when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
@@ -61,8 +60,8 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(dateResponse)))
 
-      when(mockSessionCacheConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(mock[CacheMap]))
+      when(mockSessionCacheService.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+        .thenReturn(Future.successful("" -> ""))
 
       when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
         .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))

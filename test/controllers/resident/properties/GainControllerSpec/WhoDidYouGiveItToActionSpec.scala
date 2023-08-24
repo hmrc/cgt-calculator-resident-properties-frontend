@@ -29,7 +29,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -40,12 +39,12 @@ class WhoDidYouGiveItToActionSpec extends CommonPlaySpec with WithCommonFakeAppl
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[WhoDidYouGiveItToModel]) : GainController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(keystoreKeys.whoDidYouGiveItTo))
+    when(mockSessionCacheService.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(keystoreKeys.whoDidYouGiveItTo))
       (ArgumentMatchers.any(), ArgumentMatchers.any())).
       thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[WhoDidYouGiveItToModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(mock[CacheMap]))
+    when(mockSessionCacheService.saveFormData[WhoDidYouGiveItToModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+        .thenReturn(Future.successful("" -> ""))
 
     testingGainController
   }
@@ -87,8 +86,7 @@ class WhoDidYouGiveItToActionSpec extends CommonPlaySpec with WithCommonFakeAppl
     }
 
     "to the session timeout page" in {
-      redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/session-timeout?restartUrl=%2Fcalculate-your-capital-gains" +
-        "%2Fresident%2Fproperties%2F&homeLink=%2Fcalculate-your-capital-gains%2Fresident%2Fproperties%2F")
+      redirectLocation(result).get should include("/calculate-your-capital-gains/resident/properties/session-timeout")
     }
 
   }

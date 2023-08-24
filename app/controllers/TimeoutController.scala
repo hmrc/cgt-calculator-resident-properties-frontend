@@ -24,12 +24,11 @@ import views.html.warnings.sessionTimeout
 import scala.concurrent.Future
 
 @Singleton
-class TimeoutController @Inject()(
-                                   val messagesControllerComponents: MessagesControllerComponents,
+class TimeoutController @Inject()(val messagesControllerComponents: MessagesControllerComponents,
                                    sessionTimeoutView: sessionTimeout
                                  ) extends FrontendController(messagesControllerComponents) with I18nSupport {
 
-  def timeout(restartUrl: String, homeLink: String) : Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(sessionTimeoutView(restartUrl, homeLink)))
+  def timeout(): Action[AnyContent] = Action.async { implicit request =>
+    Future.successful(Ok(sessionTimeoutView()))
   }
 }

@@ -29,7 +29,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -45,17 +44,17 @@ class LettingsReliefValueActionSpec extends CommonPlaySpec with WithCommonFakeAp
                    totalGain: BigDecimal
                  ): DeductionsController = {
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[LettingsReliefValueModel](ArgumentMatchers.eq(keystoreKeys.lettingsReliefValue))
+    when(mockSessionCacheService.fetchAndGetFormData[LettingsReliefValueModel](ArgumentMatchers.eq(keystoreKeys.lettingsReliefValue))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.eq(keystoreKeys.prrValue))
+    when(mockSessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.eq(keystoreKeys.prrValue))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(prrValue))
 
-    when(mockSessionCacheConnector.saveFormData[LettingsReliefValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+    when(mockSessionCacheService.saveFormData[LettingsReliefValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
     when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[YourAnswersSummaryModel]))

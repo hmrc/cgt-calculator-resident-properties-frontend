@@ -29,7 +29,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -40,13 +39,13 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[ValueBeforeLegislationStartModel]): GainController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))
+    when(mockSessionCacheService.fetchAndGetFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+    when(mockSessionCacheService.saveFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.any(), ArgumentMatchers.any())
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
     testingGainController
   }

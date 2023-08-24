@@ -36,8 +36,6 @@ class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
 
   val serviceUrl: String = servicesConfig.baseUrl("capital-gains-calculator")
 
-  lazy val homeLink: String = controllers.routes.GainController.disposalDate.url
-
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
   val headers = Seq("Accept" -> "application/vnd.hmrc.1.0+json")

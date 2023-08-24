@@ -25,9 +25,6 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 trait ValidActiveSession extends FrontendController {
 
-  lazy val homeLink: String = controllers.routes.GainController.disposalDate.url
-  lazy val sessionTimeoutUrl: String = homeLink
-
   private type AsyncRequest = Request[AnyContent] => Future[Result]
 
   class ValidateSession {
@@ -35,7 +32,7 @@ trait ValidActiveSession extends FrontendController {
     def async(action: AsyncRequest): Action[AnyContent] = {
       Action.async { implicit request =>
         if (request.session.get(SessionKeys.sessionId).isEmpty) {
-          Future.successful(Redirect(routes.TimeoutController.timeout(sessionTimeoutUrl, homeLink)))
+          Future.successful(Redirect(routes.TimeoutController.timeout))
         } else {
           action(request)
         }

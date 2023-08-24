@@ -30,7 +30,7 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
   "Reliefs Value view" should {
 
     lazy val form = lettingsReliefValueForm(1000,100).bind(Map("amount" -> "10"))
-    lazy val view = lettingsReliefValueView(form, "home-link", 1000)(fakeRequest, testingMessages)
+    lazy val view = lettingsReliefValueView(form, 1000)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -81,7 +81,7 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
   "Reliefs Value View with form without errors" should {
 
     lazy val form = lettingsReliefValueForm(1000,150).bind(Map("amount" -> "100"))
-    lazy val view = lettingsReliefValueView(form, "home-link", 2000)(fakeRequest, testingMessages)
+    lazy val view = lettingsReliefValueView(form, 2000)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {
@@ -112,7 +112,7 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
   "Reliefs Value View with form with errors" should {
 
     lazy val form = lettingsReliefValueForm(1000,100).bind(Map("amount" -> ""))
-    lazy val view = lettingsReliefValueView(form, "home-link", 3000)(fakeRequest, testingMessages)
+    lazy val view = lettingsReliefValueView(form, 3000)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${messages.title}" in {

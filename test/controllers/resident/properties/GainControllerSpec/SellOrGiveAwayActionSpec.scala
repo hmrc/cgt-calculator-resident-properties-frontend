@@ -28,7 +28,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -39,11 +38,11 @@ class SellOrGiveAwayActionSpec extends CommonPlaySpec with WithCommonFakeApplica
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[SellOrGiveAwayModel]): GainController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[SellOrGiveAwayModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheService.fetchAndGetFormData[SellOrGiveAwayModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[SellOrGiveAwayModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+    when(mockSessionCacheService.saveFormData[SellOrGiveAwayModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful("" -> ""))
 
     testingGainController
   }

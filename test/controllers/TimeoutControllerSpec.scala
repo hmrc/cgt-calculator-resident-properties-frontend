@@ -30,6 +30,8 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = Materializer(system)
+  val homeLink = controllers.routes.PropertiesController.introduction.url
+
 
   class fakeRequestTo(url : String, controllerAction : Action[AnyContent]) {
     val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/" + url)
@@ -46,7 +48,7 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     "when called with no session" should {
 
 
-      object timeoutTestDataItem extends fakeRequestTo("", timeoutController.timeout("test", "test2"))
+      object timeoutTestDataItem extends fakeRequestTo("", timeoutController.timeout())
 
       implicit lazy val messages: Messages = mockMessagesControllerComponents.messagesApi.preferred(fakeRequest).messages
 
@@ -67,7 +69,7 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "have a restart link to href of 'test'" in {
-        timeoutTestDataItem.jsoupDoc.getElementById("startAgain").attr("href") shouldEqual "test"
+        timeoutTestDataItem.jsoupDoc.getElementById("startAgain").attr("href") shouldEqual homeLink
       }
     }
   }

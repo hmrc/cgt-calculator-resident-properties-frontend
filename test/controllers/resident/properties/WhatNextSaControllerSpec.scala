@@ -42,11 +42,11 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with WithCommonFakeApplica
   implicit val mat: Materializer = Materializer(system)
 
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
     when(mockAppConfig.residentIFormUrl).thenReturn("iform-url")
 
-    new WhatNextSAController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents,
+    new WhatNextSAController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents,
       fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA],
       fakeApplication.injector.instanceOf[whatNextSaNoGain],
       fakeApplication.injector.instanceOf[whatNextSaGain],

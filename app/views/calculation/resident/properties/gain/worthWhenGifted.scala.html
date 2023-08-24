@@ -27,7 +27,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(worthWhenGiftedForm: Form[WorthWhenGiftedModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
+@(worthWhenGiftedForm: Form[WorthWhenGiftedModel], backLink: Option[String], postAction: Call)(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if(worthWhenGiftedForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.worthWhenGifted.question"))

@@ -19,17 +19,19 @@ package controllers
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.resident.JourneyKeys
 import common.{Dates, TaxDates}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.resident.income.CurrentIncomeForm._
 import forms.resident.income.PersonalAllowanceForm._
-import javax.inject.{Singleton, Inject}
+
+import javax.inject.{Inject, Singleton}
 import models.resident._
 import models.resident.income._
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc._
+import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.resident.properties.income.currentIncome
@@ -40,7 +42,7 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class IncomeController @Inject()(
                                   val calcConnector: CalculatorConnector,
-                                  val sessionCacheConnector: SessionCacheConnector,
+                                  val sessionCacheService: SessionCacheService,
                                   val messagesControllerComponents: MessagesControllerComponents,
                                   currentIncomeView: currentIncome,
                                   personalAllowanceView: personalAllowance
@@ -48,27 +50,24 @@ class IncomeController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  def lossesBroughtForwardResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
-    sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
+  def lossesBroughtForwardResponse(implicit request: Request [_]): Future[Boolean] = {
+    sessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
       case Some(LossesBroughtForwardModel(response)) => response
       case None => false
     }
   }
 
-  def getDisposalDate(implicit hc: HeaderCarrier): Future[Option[DisposalDateModel]] = {
-    sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
+  def getDisposalDate(implicit request: Request [_]): Future[Option[DisposalDateModel]] = {
+    sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
   }
 
   def formatDisposalDate(disposalDateModel: DisposalDateModel): Future[String] = {
     Future.successful(s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}")
   }
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
-  override lazy val sessionTimeoutUrl: String = homeLink
-
   //################################# Current Income Actions ##########################################
 
-  def buildCurrentIncomeBackUrl(implicit hc: HeaderCarrier): Future[String] = {
+  def buildCurrentIncomeBackUrl(implicit request: Request [_]): Future[String] = {
     lossesBroughtForwardResponse.map { response =>
       if (response) controllers.routes.DeductionsController.lossesBroughtForwardValue.url
       else controllers.routes.DeductionsController.lossesBroughtForward.url
@@ -81,7 +80,7 @@ class IncomeController @Inject()(
 
       val inCurrentTaxYear = taxYear.taxYearSupplied == currentTaxYear
 
-      sessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
+      sessionCacheService.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
         case Some(data) => Ok(currentIncomeView(currentIncomeForm(taxYear).fill(data), backUrl, taxYear, inCurrentTaxYear))
         case None => Ok(currentIncomeView(currentIncomeForm(taxYear), backUrl, taxYear, inCurrentTaxYear))
       }
@@ -94,7 +93,7 @@ class IncomeController @Inject()(
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       currentTaxYear <- Dates.getCurrentTaxYear
       finalResult <- routeRequest(backUrl, taxYear.get, currentTaxYear)
-    } yield finalResult).recoverToStart(homeLink, sessionTimeoutUrl)
+    } yield finalResult).recoverToStart
   }
 
   val submitCurrentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -106,7 +105,7 @@ class IncomeController @Inject()(
       currentIncomeForm(taxYearModel).bindFromRequest().fold(
         errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(currentIncomeView(errors, url, taxYearModel, inCurrentTaxYear)))),
         success => {
-          sessionCacheConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
+          sessionCacheService.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
             .map(_ => Redirect(routes.IncomeController.personalAllowance))
         }
       )
@@ -117,7 +116,7 @@ class IncomeController @Inject()(
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, currentTaxYear)
-    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
+    } yield route).recoverToStart
   }
 
   //################################# Personal Allowance Actions ##########################################
@@ -135,7 +134,7 @@ class IncomeController @Inject()(
   val personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def fetchKeystorePersonalAllowance(taxYear: TaxYearModel): Future[Form[PersonalAllowanceModel]] = {
-      sessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](keystoreKeys.personalAllowance).map {
+      sessionCacheService.fetchAndGetFormData[PersonalAllowanceModel](keystoreKeys.personalAllowance).map {
         case Some(data) => personalAllowanceForm(taxYear).fill(data)
         case _ => personalAllowanceForm(taxYear)
       }
@@ -143,7 +142,7 @@ class IncomeController @Inject()(
 
     def routeRequest(taxYearModel: TaxYearModel, standardPA: BigDecimal, formData: Form[PersonalAllowanceModel], currentTaxYear: String):
     Future[Result] = {
-      Future.successful(Ok(personalAllowanceView(formData, taxYearModel, standardPA, homeLink,
+      Future.successful(Ok(personalAllowanceView(formData, taxYearModel, standardPA,
         postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, Messages("calc.base.resident.properties.home"), currentTaxYear)))
     }
     (for {
@@ -155,7 +154,7 @@ class IncomeController @Inject()(
       formData <- fetchKeystorePersonalAllowance(taxYear.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, standardPA.get, formData, currentTaxYear)
-    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
+    } yield route).recoverToStart
   }
 
   val submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -166,10 +165,10 @@ class IncomeController @Inject()(
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
       personalAllowanceForm(taxYearModel, maxPA).bindFromRequest().fold(
-        errors => Future.successful(BadRequest(personalAllowanceView(errors, taxYearModel, standardPA, homeLink,
+        errors => Future.successful(BadRequest(personalAllowanceView(errors, taxYearModel, standardPA,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.properties, Messages("calc.base.resident.properties.home"), currentTaxYear))),
         success => {
-          sessionCacheConnector.saveFormData(keystoreKeys.personalAllowance, success)
+          sessionCacheService.saveFormData(keystoreKeys.personalAllowance, success)
             .map(_ => Redirect(routes.ReviewAnswersController.reviewFinalAnswers))
         }
       )
@@ -184,7 +183,7 @@ class IncomeController @Inject()(
       maxPA <- getMaxPA(year)
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(maxPA.get, standardPA.get, taxYear.get, currentTaxYear)
-    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
+    } yield route).recoverToStart
   }
 
 }

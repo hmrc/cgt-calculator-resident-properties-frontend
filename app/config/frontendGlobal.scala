@@ -44,8 +44,6 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
     errorTemplateView(pageTitle, heading, message, homeNavLink)
   }
 
-  lazy val homeLink: String = controllers.routes.GainController.disposalDate.url
-
   override def onClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] = {
     statusCode match {
       case BAD_REQUEST => Future.successful(BadRequest(badRequestTemplate(Request(request, ""))))

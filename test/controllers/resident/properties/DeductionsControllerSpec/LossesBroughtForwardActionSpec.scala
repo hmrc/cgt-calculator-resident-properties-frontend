@@ -30,7 +30,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -55,7 +54,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
                   privateResidenceReliefModel: Option[PrivateResidenceReliefModel] = None,
                   lettingsReliefModel: Option[LettingsReliefModel] = None
                  ): DeductionsController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
+    when(mockSessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(lossesBroughtForwardData))
 
@@ -68,7 +67,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
     when(mockCalcConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(chargeableGain)))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDate)
 
@@ -78,22 +77,22 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
     when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(6000))))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[PropertyLivedInModel](ArgumentMatchers.eq(keystoreKeys.propertyLivedIn))
+    when(mockSessionCacheService.fetchAndGetFormData[PropertyLivedInModel](ArgumentMatchers.eq(keystoreKeys.propertyLivedIn))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(propertyLivedInModel)
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keystoreKeys.privateResidenceRelief))
+    when(mockSessionCacheService.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keystoreKeys.privateResidenceRelief))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(privateResidenceReliefModel)
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
+    when(mockSessionCacheService.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(lettingsReliefModel)
 
-    when(mockSessionCacheConnector.saveFormData[LossesBroughtForwardValueModel]
+    when(mockSessionCacheService.saveFormData[LossesBroughtForwardValueModel]
       (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward),ArgumentMatchers.any())
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(CacheMap("",Map.empty)))
+      .thenReturn(Future.successful("" -> ""))
 
     testingDeductionsController
   }

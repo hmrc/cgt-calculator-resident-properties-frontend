@@ -29,7 +29,7 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
   lazy val boughtForLessThanWorthView = fakeApplication.injector.instanceOf[buyForLess]
   "Sell for less view with an empty form" should {
 
-    lazy val view = boughtForLessThanWorthView(boughtForLessThanWorthForm, "home-link", Some("back-link"))(fakeRequest, testingMessages)
+    lazy val view = boughtForLessThanWorthView(boughtForLessThanWorthForm, Some("back-link"))(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -141,7 +141,7 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
   }
 
   "Sell for less view with a filled form" which {
-    lazy val view = boughtForLessThanWorthView(boughtForLessThanWorthForm.fill(BoughtForLessThanWorthModel(true)), "home-link", Some("back-link"))(fakeRequest, testingMessages)
+    lazy val view = boughtForLessThanWorthView(boughtForLessThanWorthForm.fill(BoughtForLessThanWorthModel(true)), Some("back-link"))(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -157,7 +157,7 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
   "Sell for less view with form errors" should {
 
     lazy val form = boughtForLessThanWorthForm.bind(Map("boughtForLessThanWorth" -> ""))
-    lazy val view = boughtForLessThanWorthView(form, "home", Some("back"))(fakeRequest, testingMessages)
+    lazy val view = boughtForLessThanWorthView(form, Some("back"))(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

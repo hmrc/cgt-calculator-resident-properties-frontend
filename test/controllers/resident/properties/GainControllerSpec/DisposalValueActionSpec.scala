@@ -29,7 +29,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -40,12 +39,12 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[DisposalValueModel]): GainController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalValueModel](ArgumentMatchers.eq(keystoreKeys.disposalValue))
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalValueModel](ArgumentMatchers.eq(keystoreKeys.disposalValue))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[DisposalValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+    when(mockSessionCacheService.saveFormData[DisposalValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful("" -> ""))
 
     testingGainController
   }

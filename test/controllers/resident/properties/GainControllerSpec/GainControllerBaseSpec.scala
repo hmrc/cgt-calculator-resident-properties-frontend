@@ -27,7 +27,6 @@ trait GainControllerBaseSpec {
 
   lazy val testingGainController: GainController = new GainController(
     mockCalcConnector,
-    mockSessionCacheConnector,
     mockSessionCacheService,
     mockMessagesControllerComponents,
     fakeApplication.injector.instanceOf[disposalCosts],

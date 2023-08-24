@@ -30,7 +30,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -48,11 +47,11 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
                   prrEnabled: Boolean = true,
                   ownerBeforeAprilNineteenEightyTwo: Boolean = false): GainController = {
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[ImprovementsModel](ArgumentMatchers.eq(keystoreKeys.improvements))
+    when(mockSessionCacheService.fetchAndGetFormData[ImprovementsModel](ArgumentMatchers.eq(keystoreKeys.improvements))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
+    when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
       (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(OwnerBeforeLegislationStartModel(ownerBeforeAprilNineteenEightyTwo))))
 
@@ -62,8 +61,8 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    when(mockSessionCacheConnector.saveFormData[ImprovementsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+    when(mockSessionCacheService.saveFormData[ImprovementsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful("" -> ""))
 
     testingGainController
   }

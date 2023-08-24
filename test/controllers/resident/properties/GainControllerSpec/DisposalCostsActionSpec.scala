@@ -29,7 +29,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -45,19 +44,19 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
                    sellForLessData: Option[SellForLessModel] = None
                  ): GainController = {
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[SellOrGiveAwayModel](ArgumentMatchers.eq(keystoreKeys.sellOrGiveAway))
+    when(mockSessionCacheService.fetchAndGetFormData[SellOrGiveAwayModel](ArgumentMatchers.eq(keystoreKeys.sellOrGiveAway))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(sellOrGiveAwayData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keystoreKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheService.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keystoreKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(sellForLessData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalCostsModel](ArgumentMatchers.eq(keystoreKeys.disposalCosts))
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalCostsModel](ArgumentMatchers.eq(keystoreKeys.disposalCosts))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(disposalCostsData))
 
-    when(mockSessionCacheConnector.saveFormData[DisposalCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+    when(mockSessionCacheService.saveFormData[DisposalCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful("" -> ""))
 
     testingGainController
   }

@@ -21,7 +21,7 @@ import akka.stream.Materializer
 import assets.MessageLookup.{CurrentIncome => messages}
 import common.Dates
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.IncomeController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
@@ -31,8 +31,8 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import services.SessionCacheService
 import views.html.calculation.resident.properties.income.currentIncome
 import views.html.calculation.resident.personalAllowance
 
@@ -51,7 +51,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
                   taxYear: Option[TaxYearModel]): IncomeController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheConnector = mock[SessionCacheService]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](ArgumentMatchers.eq(keystoreKeys.currentIncome))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -71,7 +71,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
     when(mockSessionCacheConnector.saveFormData[LossesBroughtForwardValueModel]
       (ArgumentMatchers.eq(keystoreKeys.currentIncome),ArgumentMatchers.any())
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(CacheMap("",Map.empty)))
+      .thenReturn(Future.successful("" -> ""))
 
 
     new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents,

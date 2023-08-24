@@ -28,7 +28,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(worthWhenGaveAwayForm: Form[WorthWhenGaveAwayModel], navBackLink: Option[String], navHomeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
+@(worthWhenGaveAwayForm: Form[WorthWhenGaveAwayModel], navBackLink: Option[String], postAction: Call)(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if(worthWhenGaveAwayForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.worthWhenGaveAway.title"))

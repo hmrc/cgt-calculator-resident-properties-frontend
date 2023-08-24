@@ -45,9 +45,6 @@ class SaUserController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
-  override lazy val sessionTimeoutUrl: String = homeLink
-
   val saUser: Action[AnyContent] = ValidateSession.async { implicit request =>
     for {
       assessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
@@ -138,7 +135,7 @@ class SaUserController @Inject()(
         incomeAnswers <- sessionCacheService.getPropertyIncomeAnswers
         finalResult <- totalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
         route <- routeAction(selfAssessmentRequired, model, finalResult, maxAEA.get, CalculateRequestConstructor.determineDisposalValueToUse(answers))
-      } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
+      } yield route).recoverToStart
     }
 
     if(selfAssessmentRequired) {

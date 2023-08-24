@@ -44,16 +44,15 @@
 )
 
 @accountMenu = {
-
     @hmrcLanguageSelectHelper()
-
-    @if(backLinkHref.nonEmpty) { @backLink(backLinkHref.get) }
+    @if(backLinkHref.nonEmpty) { @backLink(backLinkHref.get)
+    }
 }
 
 @head = {
     @if(timeoutEnabled) {
         @hmrcTimeoutDialogHelper(
-            signOutUrl = controllers.routes.TimeoutController.timeout(restartUrl = controllers.routes.PropertiesController.introduction.url, homeLink = controllers.routes.PropertiesController.introduction.url).url
+            signOutUrl = controllers.routes.TimeoutController.timeout.url
         )
     }
     <link rel="stylesheet" type="text/css" href ='@routes.Assets.versioned("stylesheets/cgt-calculator-resident-properties.css")'>
