@@ -47,9 +47,6 @@ class SummaryController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
-  override lazy val sessionTimeoutUrl: String = homeLink
-
   val summary = ValidateSession.async { implicit request =>
 
     def chargeableGain(grossGain: BigDecimal,
@@ -161,7 +158,7 @@ class SummaryController @Inject()(
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
         taxYear, currentTaxYear, totalCosts, maxAEA.get, showUserResearchPanel = showUserResearchPanel)
-    } yield routeRequest).recoverToStart(homeLink, sessionTimeoutUrl)
+    } yield routeRequest).recoverToStart
   }
 
   private[controllers] def setURPanelFlag(implicit hc: HeaderCarrier): Boolean = {

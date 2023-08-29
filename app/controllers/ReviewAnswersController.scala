@@ -44,9 +44,6 @@ class ReviewAnswersController @Inject()(
                                        ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
-  override lazy val sessionTimeoutUrl: String = homeLink
-
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
@@ -54,9 +51,9 @@ class ReviewAnswersController @Inject()(
       _.get
     }
 
-  def getGainAnswers(implicit hc: HeaderCarrier): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers
+  def getGainAnswers(implicit request: Request [_]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers
 
-  def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[ChargeableGainAnswers] = sessionCacheService.getPropertyDeductionAnswers
+  def getDeductionsAnswers(implicit request: Request [_]): Future[ChargeableGainAnswers] = sessionCacheService.getPropertyDeductionAnswers
 
   private def languageRequest(body : Lang => Future[Result])(implicit request: Request[_]): Future[Result] =
     body(messagesControllerComponents.messagesApi.preferred(request).lang)
@@ -70,7 +67,7 @@ class ReviewAnswersController @Inject()(
           answers,
           None,
           None))
-      }.recoverToStart(homeLink, sessionTimeoutUrl)
+      }.recoverToStart
     }
   }
 
@@ -96,7 +93,7 @@ class ReviewAnswersController @Inject()(
             url, gainAnswers,
             Some(deductionsAnswers),
             Some(taxYear)))
-        }).recoverToStart(homeLink, sessionTimeoutUrl)
+        }).recoverToStart
       }
   }
 
@@ -120,7 +117,7 @@ class ReviewAnswersController @Inject()(
             Some(taxYear),
             Some(incomeAnswers),
             taxYear.taxYearSupplied == currentTaxYear))
-        }).recoverToStart(homeLink, sessionTimeoutUrl)
+        }).recoverToStart
       }
   }
 }

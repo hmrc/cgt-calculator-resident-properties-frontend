@@ -29,10 +29,9 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
   lazy val sellOrGiveAwayView = fakeApplication.injector.instanceOf[sellOrGiveAway]
   "sellOrGiveAway view" should {
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
-    val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = sellOrGiveAwayForm
-    lazy val view = sellOrGiveAwayView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
+    lazy val view = sellOrGiveAwayView(form, backLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -92,10 +91,9 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
     "is due to mandatory field error" should {
       val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
-      val homeLink = "homeLink"
       val call = new Call("POST", "postAction")
       lazy val form = sellOrGiveAwayForm.bind(Map("givenAway" -> ""))
-      lazy val view = sellOrGiveAwayView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
+      lazy val view = sellOrGiveAwayView(form, backLink, call)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

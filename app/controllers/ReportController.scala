@@ -49,9 +49,6 @@ class ReportController @Inject()(
                                   pdfGenerator : PdfGenerator
                                 ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport with Logging {
 
-  override lazy val homeLink: String = controllers.routes.PropertiesController.introduction.url
-  override lazy val sessionTimeoutUrl: String = homeLink
-
   lazy val platformHost: Option[String] = config.getOptional[String]("platform.frontend.host")
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
@@ -102,7 +99,7 @@ class ReportController @Inject()(
         maxAEA.get),
         host
       ).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
-    }).recoverToStart(homeLink, sessionTimeoutUrl)
+    }).recoverToStart
   }
 
   //#####Deductions summary actions#####\\
@@ -127,7 +124,7 @@ class ReportController @Inject()(
         totalCosts),
         host
       ).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
-    }).recoverToStart(homeLink, sessionTimeoutUrl)
+    }).recoverToStart
   }
 
   //#####Final summary actions#####\\
@@ -181,6 +178,6 @@ class ReportController @Inject()(
         aeaLeftOver),
         host
       ).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
-    }).recoverToStart(homeLink, sessionTimeoutUrl)
+    }).recoverToStart
   }
 }

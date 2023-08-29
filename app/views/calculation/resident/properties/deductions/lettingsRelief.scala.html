@@ -25,7 +25,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(lettingsReliefForm: Form[LettingsReliefModel], navHomeLink: String, backLink: Option[String])(implicit request: Request[_], messages: Messages)
+@(lettingsReliefForm: Form[LettingsReliefModel], backLink: Option[String])(implicit request: Request[_], messages: Messages)
 
 @lettingsReliefLink = {
     <a id="lettingsReliefLink" class="govuk-link govuk-body external-link" rel="noreferrer noopener external" href="https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016#letting-relief"

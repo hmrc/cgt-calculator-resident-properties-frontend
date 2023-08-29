@@ -28,7 +28,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class HowBecameOwnerActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
@@ -37,11 +36,11 @@ class HowBecameOwnerActionSpec extends CommonPlaySpec with WithCommonFakeApplica
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[HowBecameOwnerModel]): GainController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[HowBecameOwnerModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheService.fetchAndGetFormData[HowBecameOwnerModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(getData)
 
-    when(mockSessionCacheConnector.saveFormData[HowBecameOwnerModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(mock[CacheMap])
+    when(mockSessionCacheService.saveFormData[HowBecameOwnerModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn("" -> "")
 
     testingGainController
   }

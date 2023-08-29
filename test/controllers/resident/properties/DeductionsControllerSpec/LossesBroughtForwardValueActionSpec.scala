@@ -29,7 +29,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import views.html.calculation.resident.{lossesBroughtForward, lossesBroughtForwardValue}
 import views.html.calculation.resident.properties.deductions.{lettingsRelief, lettingsReliefValue, privateResidenceRelief, privateResidenceReliefValue, propertyLivedIn}
@@ -48,11 +47,11 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
                      disposalDateModel: DisposalDateModel,
                      taxYearModel: TaxYearModel): DeductionsController = {
 
-      when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
+      when(mockSessionCacheService.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(getData)
 
-      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
+      when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
@@ -141,7 +140,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       when(mockCalcConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(chargeableGain)))
 
-      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -150,12 +149,12 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(BigDecimal(6000))))
 
-      when(mockSessionCacheConnector.saveFormData[LossesBroughtForwardValueModel]
+      when(mockSessionCacheService.saveFormData[LossesBroughtForwardValueModel]
         (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue),ArgumentMatchers.any())
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(CacheMap("",Map.empty)))
+        .thenReturn(Future.successful("" -> ""))
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMessagesControllerComponents,
+      new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents,
         fakeApplication.injector.instanceOf[propertyLivedIn],
         fakeApplication.injector.instanceOf[privateResidenceRelief],
         fakeApplication.injector.instanceOf[privateResidenceReliefValue],

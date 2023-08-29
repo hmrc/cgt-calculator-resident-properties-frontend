@@ -26,7 +26,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(worthWhenInheritedForm: Form[WorthWhenInheritedModel], backLink: Option[String], homeLink: String, postAction: Call)(implicit request: Request[_], messages: Messages)
+@(worthWhenInheritedForm: Form[WorthWhenInheritedModel], backLink: Option[String], postAction: Call)(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if (worthWhenInheritedForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.worthWhenInherited.question")) else Messages("calc.resident.properties.worthWhenInherited.question")

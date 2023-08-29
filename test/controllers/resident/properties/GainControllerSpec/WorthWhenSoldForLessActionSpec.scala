@@ -29,7 +29,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -41,13 +40,13 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[WorthWhenSoldForLessModel]): GainController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))
+    when(mockSessionCacheService.fetchAndGetFormData[WorthWhenSoldForLessModel](ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[WorthWhenSoldForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+    when(mockSessionCacheService.saveFormData[WorthWhenSoldForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
     testingGainController
   }
@@ -90,8 +89,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
     }
 
     "to the session timeout page" in {
-      redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/properties/session-timeout?restartUrl=%2Fcalculate-your-capital-gains" +
-        "%2Fresident%2Fproperties%2F&homeLink=%2Fcalculate-your-capital-gains%2Fresident%2Fproperties%2F")
+      redirectLocation(result).get should include ("/calculate-your-capital-gains/resident/properties/session-timeout")
     }
   }
 

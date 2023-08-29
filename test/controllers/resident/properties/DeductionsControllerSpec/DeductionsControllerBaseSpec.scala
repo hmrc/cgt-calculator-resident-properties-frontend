@@ -28,7 +28,6 @@ trait DeductionsControllerBaseSpec  {
 
   lazy val testingDeductionsController: DeductionsController = new DeductionsController(
     mockCalcConnector,
-    mockSessionCacheConnector,
     mockSessionCacheService,
     mockMessagesControllerComponents,
     fakeApplication.injector.instanceOf[propertyLivedIn],

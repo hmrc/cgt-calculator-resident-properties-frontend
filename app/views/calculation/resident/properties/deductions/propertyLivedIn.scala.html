@@ -27,7 +27,7 @@
     form: FormWithCSRF
 )
 
-@(propertyLivedInForm: Form[PropertyLivedInModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
+@(propertyLivedInForm: Form[PropertyLivedInModel], navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if (propertyLivedInForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.propertyLivedIn.title")) else Messages("calc.resident.properties.propertyLivedIn.title")

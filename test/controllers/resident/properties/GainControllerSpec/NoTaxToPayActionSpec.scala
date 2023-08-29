@@ -39,7 +39,7 @@ class NoTaxToPayActionSpec extends CommonPlaySpec with WithCommonFakeApplication
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(givenTo: String): GainController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(ResidentPropertyKeys.whoDidYouGiveItTo))
+    when(mockSessionCacheService.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(ResidentPropertyKeys.whoDidYouGiveItTo))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(WhoDidYouGiveItToModel(givenTo))))
 

@@ -19,15 +19,15 @@
   submitButton: playHelpers.submitButton
 )
 
-@(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages)
+@()(implicit request: Request[_], messages: Messages)
 
 @layout(
  pageTitle = Messages("session.timeout.message"),
- backLinkHref = Some(homeLink)
+ timeoutEnabled = false
 ) {
     <h1 class="govuk-heading-xl">@Messages("session.timeout.message")</h1>
 
- <a class="govuk-button" href="@restartUrl" id="startAgain">@Messages("calc.summary.startAgain") </a>
+ <a class="govuk-button" href="@controllers.routes.PropertiesController.introduction.url" id="startAgain">@Messages("calc.summary.startAgain") </a>
 
  </br></br>
 

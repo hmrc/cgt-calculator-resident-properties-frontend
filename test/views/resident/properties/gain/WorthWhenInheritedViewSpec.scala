@@ -30,10 +30,9 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
   lazy val worthWhenInheritedView = fakeApplication.injector.instanceOf[worthWhenInherited]
   "worthWhenInherited view" should {
     val backLink = Some("back-link")
-    val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenInheritedForm
-    lazy val view = worthWhenInheritedView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
+    lazy val view = worthWhenInheritedView(form, backLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -95,10 +94,9 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
   "Disposal Value View with form without errors" should {
     val backLink = Some("back-link")
-    val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
-    lazy val view = worthWhenInheritedView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
+    lazy val view = worthWhenInheritedView(form, backLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -116,10 +114,9 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
   "Disposal Value View with form with errors" should {
     val backLink = Some("back-link")
-    val homeLink = "homeLink"
     val call = new Call("POST", "postAction")
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
-    lazy val view = worthWhenInheritedView(form, backLink, homeLink, call)(fakeRequest, testingMessages)
+    lazy val view = worthWhenInheritedView(form, backLink, call)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

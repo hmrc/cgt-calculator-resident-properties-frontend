@@ -20,7 +20,7 @@ import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{PersonalAllowance => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.{IncomeController, routes}
 import models.resident.income.PersonalAllowanceModel
@@ -30,8 +30,8 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec, WithCommonFakeApplication}
+import services.SessionCacheService
 import views.html.calculation.resident.personalAllowance
 import views.html.calculation.resident.properties.income.currentIncome
 
@@ -48,9 +48,9 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
                   taxYearModel: TaxYearModel): IncomeController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](ArgumentMatchers.eq(keystoreKeys.personalAllowance))
+    when(mockSessionCacheService.fetchAndGetFormData[PersonalAllowanceModel](ArgumentMatchers.eq(keystoreKeys.personalAllowance))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
@@ -60,17 +60,17 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
     when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(false), ArgumentMatchers.eq(false))(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxPersonalAllowance))
 
-    when(mockSessionCacheConnector.saveFormData[PersonalAllowanceModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+    when(mockSessionCacheService.saveFormData[PersonalAllowanceModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful("" -> ""))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDateModel)))
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(taxYearModel)))
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMessagesControllerComponents,
+    new IncomeController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents,
       fakeApplication.injector.instanceOf[currentIncome],
       fakeApplication.injector.instanceOf[personalAllowance])
   }

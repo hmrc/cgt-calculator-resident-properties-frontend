@@ -38,7 +38,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     "supplied with a 2015/16 tax year" should {
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = personalAllowanceView(personalAllowanceForm(testTaxYear), taxYearModel, BigDecimal(10600), "home", postAction,
+      lazy val view = personalAllowanceView(personalAllowanceForm(testTaxYear), taxYearModel, BigDecimal(10600), postAction,
         Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -179,7 +179,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "Personal Allowance view with stored values" should {
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val form = personalAllowanceForm(testTaxYear).bind(Map(("amount", "1000")))
-        lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(10600), "home", postAction,
+        lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(10600), postAction,
           Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
         lazy val doc = Jsoup.parse(view.body)
 
@@ -193,7 +193,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     "supplied with a the current tax year" should {
 
       lazy val taxYearModel = TaxYearModel(await(Dates.getCurrentTaxYear), true, await(Dates.getCurrentTaxYear))
-      lazy val view = personalAllowanceView(personalAllowanceForm(testTaxYear), taxYearModel, BigDecimal(11000), "home", postAction,
+      lazy val view = personalAllowanceView(personalAllowanceForm(testTaxYear), taxYearModel, BigDecimal(11000), postAction,
         Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
@@ -213,7 +213,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       lazy val nextTaxYearEndInt = await(Dates.getCurrentTaxYear).take(4).toInt + 2
       lazy val taxYearModel = TaxYearModel(Dates.taxYearToString(nextTaxYearEndInt), false, "2016/17")
-      lazy val view = personalAllowanceView(personalAllowanceForm(testTaxYear), taxYearModel, BigDecimal(11000), "home", postAction,
+      lazy val view = personalAllowanceView(personalAllowanceForm(testTaxYear), taxYearModel, BigDecimal(11000), postAction,
         Some("back-link"), JourneyKeys.properties, "navTitle", "2016/17")(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
@@ -241,7 +241,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val form = personalAllowanceForm(testTaxYear).bind(Map("amount" -> ""))
-        lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(11000), "home", postAction,
+        lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(11000), postAction,
           Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
         lazy val doc = Jsoup.parse(view.body)
 

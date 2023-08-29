@@ -16,232 +16,145 @@
 
 package services
 
-import java.util.NoSuchElementException
-
-import common.KeystoreKeys
+import common.KeystoreKeys.{ResidentPropertyKeys => Keys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.AppConfig
 import controllers.helpers.CommonMocks
 import models.resident
+import models.resident._
 import models.resident.properties._
-import models.resident.properties.gain.OwnerBeforeLegislationStartModel
-import models.resident.{DisposalDateModel, IncomeAnswersModel, SellForLessModel}
-import org.mockito.ArgumentMatchers
+import models.resident.properties.gain.{OwnerBeforeLegislationStartModel, WhoDidYouGiveItToModel, WorthWhenGiftedModel}
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.mvc.AnyContentAsEmpty
 import play.api.mvc.Results.Redirect
-import uk.gov.hmrc.http.HeaderCarrier
-import common.{CommonPlaySpec, WithCommonFakeApplication}
-import java.time.LocalDate
-
+import play.api.test.FakeRequest
+import repositories.SessionRepository
+import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
+import uk.gov.hmrc.mongo.CurrentTimestampSupport
+import uk.gov.hmrc.mongo.test.MongoSupport
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
+import java.time.LocalDate
+import java.util.UUID
 import scala.concurrent.Future
 
-class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar with CommonMocks with WithCommonFakeApplication {
-
-
-  val mockSessionCacheConnectorService = new SessionCacheService(mockSessionCacheConnector, mock[AppConfig])
+class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar with CommonMocks with WithCommonFakeApplication with MongoSupport {
 
   val hc = mock[HeaderCarrier]
-  val homeLink = mockSessionCacheConnector.homeLink
 
-  "Calling getPropertyGainAnswers" should{
+  val sessionRepository = new SessionRepository(mongoComponent = mongoComponent,
+    config = fakeApplication.configuration, timestampSupport = new CurrentTimestampSupport())
+  val sessionId: String = UUID.randomUUID.toString
+  val sessionPair: (String, String) = SessionKeys.sessionId -> sessionId
+  implicit val request: FakeRequest[AnyContentAsEmpty.type] = FakeRequest().withSession(sessionPair)
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalDateModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.disposalDate))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(DisposalDateModel(21,5,2016))))
+  val sessionCacheService: SessionCacheService = new SessionCacheService(sessionRepository, mockAppConfig)
 
+  val disposalDate: DisposalDateModel = resident.DisposalDateModel(21, 5, 2016)
+  val disposalValue: DisposalValueModel = resident.DisposalValueModel(100000)
+  val disposalCosts: DisposalCostsModel = resident.DisposalCostsModel(7500)
+  val worthWhenSoldForLess: WorthWhenSoldForLessModel = resident.WorthWhenSoldForLessModel(400000)
+  val whoDidYouGiveItTo: WhoDidYouGiveItToModel = resident.properties.gain.WhoDidYouGiveItToModel("Person")
+  val worthWhenGaveAway: WorthWhenGaveAwayModel = resident.properties.WorthWhenGaveAwayModel(400000)
+  val acquisitionValue: AcquisitionValueModel = resident.AcquisitionValueModel(300000)
+  val worthWhenInherited: WorthWhenInheritedModel = resident.WorthWhenInheritedModel(350000)
+  val worthWhenGifted: WorthWhenGiftedModel = resident.properties.gain.WorthWhenGiftedModel(350000)
+  val worthWhenBoughtForLess: WorthWhenBoughtForLessModel = resident.properties.WorthWhenBoughtForLessModel(300000)
+  val acquisitionCosts: AcquisitionCostsModel = resident.AcquisitionCostsModel(7500)
+  val improvements: ImprovementsModel = resident.properties.ImprovementsModel(25000)
+  val sellOrGiveAway: SellOrGiveAwayModel = resident.properties.SellOrGiveAwayModel(true)
+  val sellForLess: SellForLessModel = resident.SellForLessModel(true)
+  val ownerBeforeLegislationStart: OwnerBeforeLegislationStartModel = resident.properties.gain.OwnerBeforeLegislationStartModel(true)
+  val valueBeforeLegislationStart: ValueBeforeLegislationStartModel = resident.properties.ValueBeforeLegislationStartModel(375000)
+  val howBecameOwner: HowBecameOwnerModel = resident.properties.HowBecameOwnerModel("Bought it")
+  val boughtForLessThanWorth: BoughtForLessThanWorthModel = resident.properties.BoughtForLessThanWorthModel(true)
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalValueModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.disposalValue))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.DisposalValueModel])))
+  class Setup(initializeCache: Boolean = true) {
+    await {
+      if (initializeCache) {
+        sessionCacheService.saveFormData(Keys.disposalDate, disposalDate)
+        sessionCacheService.saveFormData(Keys.disposalValue, disposalValue)
+        sessionCacheService.saveFormData(Keys.disposalCosts, disposalCosts)
+        sessionCacheService.saveFormData(Keys.worthWhenSoldForLess, worthWhenSoldForLess)
+        sessionCacheService.saveFormData(Keys.whoDidYouGiveItTo, whoDidYouGiveItTo)
+        sessionCacheService.saveFormData(Keys.worthWhenGaveAway, worthWhenGaveAway)
+        sessionCacheService.saveFormData(Keys.acquisitionValue, acquisitionValue)
+        sessionCacheService.saveFormData(Keys.worthWhenInherited, worthWhenInherited)
+        sessionCacheService.saveFormData(Keys.worthWhenGifted, worthWhenGifted)
+        sessionCacheService.saveFormData(Keys.worthWhenBoughtForLess, worthWhenBoughtForLess)
+        sessionCacheService.saveFormData(Keys.acquisitionCosts, acquisitionCosts)
+        sessionCacheService.saveFormData(Keys.improvements, improvements)
+        sessionCacheService.saveFormData(Keys.sellOrGiveAway, sellOrGiveAway)
+        sessionCacheService.saveFormData(Keys.sellForLess, sellForLess)
+        sessionCacheService.saveFormData(Keys.ownerBeforeLegislationStart, ownerBeforeLegislationStart)
+        sessionCacheService.saveFormData(Keys.valueBeforeLegislationStart, valueBeforeLegislationStart)
+        sessionCacheService.saveFormData(Keys.howBecameOwner, howBecameOwner)
+        sessionCacheService.saveFormData(Keys.boughtForLessThanWorth, boughtForLessThanWorth)
+      } else {
+        sessionRepository.clear
+      }
+    }
+  }
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.WorthWhenSoldForLessModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.worthWhenSoldForLess))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.WorthWhenSoldForLessModel])))
+  "Calling getPropertyGainAnswers" should {
+    "return a valid YourAnswersSummaryModel" in new Setup {
+      lazy val result: Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.gain.WhoDidYouGiveItToModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.whoDidYouGiveItTo))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.gain.WhoDidYouGiveItToModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.WorthWhenGaveAwayModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.worthWhenGaveAway))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.WorthWhenGaveAwayModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.AcquisitionValueModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.acquisitionValue))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AcquisitionValueModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.WorthWhenInheritedModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.worthWhenInherited))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.WorthWhenInheritedModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.gain.WorthWhenGiftedModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.worthWhenGifted))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.gain.WorthWhenGiftedModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.WorthWhenBoughtForLessModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.worthWhenBoughtForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.WorthWhenBoughtForLessModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.AcquisitionCostsModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.acquisitionCosts))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AcquisitionCostsModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalCostsModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.disposalCosts))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.DisposalCostsModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.ImprovementsModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.improvements))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.ImprovementsModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.SellOrGiveAwayModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.sellOrGiveAway))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(SellOrGiveAwayModel(true))))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.SellForLessModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.sellForLess))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(SellForLessModel(true))))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.gain.OwnerBeforeLegislationStartModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(OwnerBeforeLegislationStartModel(true))))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.ValueBeforeLegislationStartModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.ValueBeforeLegislationStartModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.HowBecameOwnerModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.howBecameOwner))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(HowBecameOwnerModel("Bought"))))
-
-    "return a valid YourAnswersSummaryModel" in{
-
-      when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.BoughtForLessThanWorthModel](ArgumentMatchers
-        .eq(KeystoreKeys.ResidentPropertyKeys.boughtForLessThanWorth))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(Some(BoughtForLessThanWorthModel(true))))
-
-      await(mockSessionCacheConnectorService.getPropertyGainAnswers(hc)).isInstanceOf[YourAnswersSummaryModel] shouldBe true
+      await(result).isInstanceOf[YourAnswersSummaryModel] shouldBe true
     }
 
-    "return an exception" in{
+    "return an exception when missing data" in new Setup(initializeCache = false) {
+      lazy val result: Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers
 
-      when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.BoughtForLessThanWorthModel](ArgumentMatchers
-        .eq(KeystoreKeys.ResidentPropertyKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.failed(new NoSuchElementException("error message")))
-
-      the[ApplicationException] thrownBy await(mockSessionCacheConnectorService.getPropertyGainAnswers(hc)) shouldBe
-        ApplicationException(Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)), "cgt-calculator-resident-properties-frontend" + "error message")
+      intercept[ApplicationException](await(result)) shouldBe ApplicationException(
+        Redirect(controllers.routes.TimeoutController.timeout), "None.get"
+      )
     }
   }
 
   "Calling getPropertyDeductionAnswers" should {
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.PropertyLivedInModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.propertyLivedIn))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(resident.properties.PropertyLivedInModel(false))))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForward))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.LossesBroughtForwardValueModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.lossesBroughtForwardValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardValueModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.LettingsReliefModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.lettingsRelief))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.LettingsReliefModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.LettingsReliefValueModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.lettingsReliefValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.properties.LettingsReliefValueModel])))
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.PrivateResidenceReliefModel](ArgumentMatchers
-      .eq(KeystoreKeys.ResidentPropertyKeys.privateResidenceRelief))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.PrivateResidenceReliefModel])))
-
-    "return a valid ChargeableGainAnswersModel" in {
-      when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.PrivateResidenceReliefValueModel](ArgumentMatchers
-        .eq(KeystoreKeys.ResidentPropertyKeys.prrValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(Some(mock[resident.properties.PrivateResidenceReliefValueModel])))
-
-      lazy val result = mockSessionCacheConnectorService.getPropertyDeductionAnswers(hc)
+    "return a valid ChargeableGainAnswersModel" in new Setup {
+      lazy val result: Future[ChargeableGainAnswers] = sessionCacheService.getPropertyDeductionAnswers
 
       await(result).isInstanceOf[ChargeableGainAnswers] shouldBe true
     }
+  }
 
-    "return an exception" in{
-      when(mockSessionCacheConnector.fetchAndGetFormData[resident.properties.PrivateResidenceReliefValueModel](ArgumentMatchers
-        .eq(KeystoreKeys.ResidentPropertyKeys.prrValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.failed(new NoSuchElementException("error message")))
+  "Calling getPropertyIncomeAnswers" should {
+    "return a valid IncomeAnswersModel" in new Setup {
+      lazy val result: Future[IncomeAnswersModel] = sessionCacheService.getPropertyIncomeAnswers
 
-      the[ApplicationException] thrownBy await(mockSessionCacheConnectorService.getPropertyDeductionAnswers(hc)) shouldBe
-        ApplicationException(Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
-          "cgt-calculator-resident-properties-frontend" + "error message"
-        )
+      await(result).isInstanceOf[IncomeAnswersModel] shouldBe true
     }
   }
 
-  "Calling getPropertyIncomeAnswers" should{
-    when(mockSessionCacheConnector.fetchAndGetFormData[resident.income.CurrentIncomeModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.currentIncome))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.income.CurrentIncomeModel])))
+  "Self Assessment Be Considered should be date dependant" should {
+    val mockAppConfig = mock[AppConfig]
+    val testCacheService = new SessionCacheService(sessionRepository, mockAppConfig)
+    val boundaryDate = LocalDate.of(2020, 4, 6)
 
-    "return a valid IncomeAnswersModel" in{
-      when(mockSessionCacheConnector.fetchAndGetFormData[resident.income.PersonalAllowanceModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.personalAllowance))
-        (ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(Some(mock[resident.income.PersonalAllowanceModel])))
+    when(mockAppConfig.selfAssessmentActivateDate).thenReturn(boundaryDate)
 
-      lazy val result = mockSessionCacheConnectorService.getPropertyIncomeAnswers(hc)
-      await(result).isInstanceOf[IncomeAnswersModel] shouldBe true
+    "should Self Assessment be Considered before self assessment cut off date" in new Setup(initializeCache = false) {
+      await(testCacheService.saveFormData(Keys.disposalDate, DisposalDateModel(5, 4, 2020)))
+
+      val result = testCacheService.shouldSelfAssessmentBeConsidered()(request)
+      await(result) shouldBe true
     }
 
-    "return an exception" in{
-      when(mockSessionCacheConnector.fetchAndGetFormData[resident.income.PersonalAllowanceModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.personalAllowance))
-        (ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.failed(new NoSuchElementException("error message")))
+    "should Self Assessment be Considered on self assessment cut off date" in new Setup(initializeCache = false) {
+      await(testCacheService.saveFormData(Keys.disposalDate, DisposalDateModel(6, 4, 2020)))
 
-      the[ApplicationException] thrownBy await(mockSessionCacheConnectorService.getPropertyIncomeAnswers(hc)) shouldBe
-      ApplicationException(Redirect(controllers.routes.TimeoutController.timeout(homeLink, homeLink)),
-        "cgt-calculator-resident-properties-frontend" + "error message"
-      )
+      val result = testCacheService.shouldSelfAssessmentBeConsidered()(request)
+      await(result) shouldBe false
     }
 
-    "Self Assessment Be Considered should be date dependant" should {
+    "should Self Assessment be Considered after self assessment cut off date" in new Setup(initializeCache = false) {
+      await(testCacheService.saveFormData(Keys.disposalDate, DisposalDateModel(7, 4, 2020)))
 
-      val mockAppConfig = mock[AppConfig]
-      val mockCacheService = new SessionCacheService(mockSessionCacheConnector, mockAppConfig)
-      val boundaryDate = LocalDate.of(2020, 4, 6)
-
-      when(mockAppConfig.selfAssessmentActivateDate).thenReturn(boundaryDate)
-
-      "should Self Assessment be Considered before self assessment cut off date" in {
-        when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalDateModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.disposalDate))
-          (ArgumentMatchers.any(), ArgumentMatchers.any()))
-          .thenReturn(Future.successful(Some(DisposalDateModel(5, 4, 2020))))
-
-        val result = mockCacheService.shouldSelfAssessmentBeConsidered()(hc)
-        await(result) shouldBe true
-      }
-
-      "should Self Assessment be Considered on self assessment cut off date" in {
-        when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalDateModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.disposalDate))
-          (ArgumentMatchers.any(), ArgumentMatchers.any()))
-          .thenReturn(Future.successful(Some(DisposalDateModel(5, 4, 2020))))
-
-        val result = mockCacheService.shouldSelfAssessmentBeConsidered()(hc)
-        await(result) shouldBe true
-      }
-
-      "should Self Assessment be Considered after self assessment cut off date" in {
-        when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalDateModel](ArgumentMatchers.eq(KeystoreKeys.ResidentPropertyKeys.disposalDate))
-          (ArgumentMatchers.any(), ArgumentMatchers.any()))
-          .thenReturn(Future.successful(Some(DisposalDateModel(7, 4, 2020))))
-
-        val result = mockCacheService.shouldSelfAssessmentBeConsidered()(hc)
-        await(result) shouldBe false
-      }
+      val result = testCacheService.shouldSelfAssessmentBeConsidered()(request)
+      await(result) shouldBe false
     }
   }
 }

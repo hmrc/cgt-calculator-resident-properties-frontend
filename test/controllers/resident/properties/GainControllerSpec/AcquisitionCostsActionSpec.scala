@@ -31,7 +31,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -47,24 +46,24 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
                   boughtForLess: Option[BoughtForLessThanWorthModel] = None
                  ): GainController = {
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel](ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))
+    when(mockSessionCacheService.fetchAndGetFormData[AcquisitionCostsModel](ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))
+    when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(ownerBefore))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[HowBecameOwnerModel](ArgumentMatchers.eq(keystoreKeys.howBecameOwner))
+    when(mockSessionCacheService.fetchAndGetFormData[HowBecameOwnerModel](ArgumentMatchers.eq(keystoreKeys.howBecameOwner))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(howBecameOwner))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[BoughtForLessThanWorthModel](ArgumentMatchers.eq(keystoreKeys.boughtForLessThanWorth))
+    when(mockSessionCacheService.fetchAndGetFormData[BoughtForLessThanWorthModel](ArgumentMatchers.eq(keystoreKeys.boughtForLessThanWorth))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(boughtForLess))
 
-    when(mockSessionCacheConnector.saveFormData[AcquisitionCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+    when(mockSessionCacheService.saveFormData[AcquisitionCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful("" -> ""))
 
     testingGainController
   }

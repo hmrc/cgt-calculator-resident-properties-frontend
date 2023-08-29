@@ -28,7 +28,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -41,12 +40,12 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
   lazy val title = s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
 
   def setupTarget(getData: Option[LettingsReliefModel]): DeductionsController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
+    when(mockSessionCacheService.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[LettingsReliefModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+    when(mockSessionCacheService.saveFormData[LettingsReliefModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful("" -> ""))
 
     testingDeductionsController
   }

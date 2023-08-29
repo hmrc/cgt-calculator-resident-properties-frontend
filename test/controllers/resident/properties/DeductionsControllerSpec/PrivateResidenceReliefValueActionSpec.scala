@@ -28,7 +28,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
 import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
@@ -39,13 +38,13 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(getData: Option[PrivateResidenceReliefValueModel], totalGain: BigDecimal): DeductionsController = {
-    when(mockSessionCacheConnector.fetchAndGetFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.eq(keystoreKeys.prrValue))
+    when(mockSessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.eq(keystoreKeys.prrValue))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+    when(mockSessionCacheService.saveFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
     when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[YourAnswersSummaryModel]))

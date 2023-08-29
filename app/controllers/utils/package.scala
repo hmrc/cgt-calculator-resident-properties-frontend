@@ -33,11 +33,11 @@ package object utils {
     override def ready(atMost: Duration)(implicit permit: CanAwait): RecoverableFuture.this.type = ready(atMost)
     override def result(atMost: Duration)(implicit permit: CanAwait): Result = future.result(atMost)
 
-    def recoverToStart(homeLink:String, sessionTimeoutUrl: String)(implicit ec: ExecutionContext): Future[Result] =
+    def recoverToStart()(implicit ec: ExecutionContext): Future[Result] =
       future.recover {
         case e: NoSuchElementException =>
           throw ApplicationException(
-            Redirect(controllers.routes.TimeoutController.timeout(homeLink, sessionTimeoutUrl)),
+            Redirect(controllers.routes.TimeoutController.timeout),
             "cgt-calculator-resident-properties-frontend" + e.getMessage
           )
       }
