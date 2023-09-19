@@ -21,12 +21,12 @@ import assets.MessageLookup.Resident.{Properties => propertiesMessages}
 import assets.MessageLookup.{Resident => residentMessages}
 import assets.ModelsAsset._
 import assets.{MessageLookup => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.routes
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.i18n.Lang
 import play.twirl.api.HtmlFormat
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.playHelpers.checkYourAnswersPartial
 
@@ -83,7 +83,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#sellOrGiveAway-change-link > span").text shouldBe commonMessages.PropertiesSellOrGiveAway.heading
+          doc.select("#sellOrGiveAway-change-link > a > span").text shouldBe commonMessages.PropertiesSellOrGiveAway.heading
         }
       }
 
@@ -107,7 +107,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         }
 
         "has the question component of the link as visuallyhidden" in {
-          doc.select("#whoDidYouGiveItTo-change-link > span").text shouldBe commonMessages.WhoDidYouGiveItTo.title
+          doc.select("#whoDidYouGiveItTo-change-link > a > span").text shouldBe commonMessages.WhoDidYouGiveItTo.title
         }
       }
 
