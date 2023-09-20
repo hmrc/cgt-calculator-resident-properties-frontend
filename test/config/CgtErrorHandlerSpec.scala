@@ -39,7 +39,7 @@ class CgtErrorHandlerSpec extends AnyWordSpecLike with WithCommonFakeApplication
   }
 
   "Handle internal server errors" in {
-    val response = errorHandler.onClientError(FakeRequest(), 503, "Internal server error")
+    val response = errorHandler.onClientError(FakeRequest(), 500, "Internal server error")
 
     status(response) must equal(INTERNAL_SERVER_ERROR)
   }
