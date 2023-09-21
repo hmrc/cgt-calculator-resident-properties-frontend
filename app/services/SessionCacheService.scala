@@ -32,7 +32,9 @@ import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class SessionCacheService @Inject()(sessionRepository: SessionRepository, implicit val appConfig: AppConfig)(implicit val ec: ExecutionContext) {
+class SessionCacheService @Inject()(sessionRepository: SessionRepository,
+                                    appConfig: AppConfig
+                                   )(implicit val ec: ExecutionContext) {
 
   def saveFormData[T](key: String, data: T)(implicit request: Request[_], formats: Format[T]): Future[(String, String)] = {
     sessionRepository.putSession[T](DataKey(key), data)
@@ -42,12 +44,9 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository, implic
     sessionRepository.getFromSession[T](DataKey(key))
   }
 
-  def getPropertyGainAnswers(implicit request: Request [_]): Future[YourAnswersSummaryModel] = {
+  def getPropertyGainAnswers(implicit request: Request[_]): Future[YourAnswersSummaryModel] = {
     val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
       constructDate(formData.get.day, formData.get.month, formData.get.year))
-
-    //This is a proposed alternate method of writing the map without needing the case statement, need a judgement on whether
-    //to use this method or older ones. Fold automatically handles the None/Some cases without matching manually
 
     val disposalValue = fetchAndGetFormData[DisposalValueModel](ResidentPropertyKeys.disposalValue).map(_.map(_.amount))
 
@@ -130,7 +129,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository, implic
       )
   }
 
-  def getPropertyDeductionAnswers(implicit request: Request [_]): Future[ChargeableGainAnswers] = {
+  def getPropertyDeductionAnswers(implicit request: Request[_]): Future[ChargeableGainAnswers] = {
     val broughtForwardModel = fetchAndGetFormData[LossesBroughtForwardModel](ResidentPropertyKeys.lossesBroughtForward)
     val broughtForwardValueModel = fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentPropertyKeys.lossesBroughtForwardValue)
     val propertyLivedInModel = fetchAndGetFormData[PropertyLivedInModel](ResidentPropertyKeys.propertyLivedIn)
@@ -166,7 +165,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository, implic
       )
   }
 
-  def getPropertyIncomeAnswers(implicit request: Request [_]): Future[IncomeAnswersModel] = {
+  def getPropertyIncomeAnswers(implicit request: Request[_]): Future[IncomeAnswersModel] = {
     val currentIncomeModel = fetchAndGetFormData[income.CurrentIncomeModel](ResidentPropertyKeys.currentIncome)
     val personalAllowanceModel = fetchAndGetFormData[income.PersonalAllowanceModel](ResidentPropertyKeys.personalAllowance)
 
@@ -184,10 +183,16 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository, implic
       )
   }
 
-  def shouldSelfAssessmentBeConsidered()(implicit request: Request [_]): Future[Boolean] = {
+  def shouldSelfAssessmentBeConsidered()(implicit request: Request[_]): Future[Boolean] = {
     val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
       constructDate(formData.get.day, formData.get.month, formData.get.year))
     val selfAssessmentActivateDate = appConfig.selfAssessmentActivateDate
     disposalDate.map(_.isBefore(selfAssessmentActivateDate))
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        Redirect(controllers.routes.TimeoutController.timeout),
+        e.getMessage
+      )
   }
 }
