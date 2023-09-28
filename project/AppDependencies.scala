@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import sbt._
 import play.core.PlayVersion
-import play.sbt.PlayImport._
+import play.sbt.PlayImport.*
+import sbt.*
 
 object AppDependencies {
 
-  val bootstrapVersion         = "7.15.0"
+  val bootstrapVersion         = "7.22.0"
   val playFrontendVersion      = "7.3.0-play-28"
   val jsonJodaVersion          = "2.9.4"
   val playPartialsVersion      = "8.4.0-play-28"
@@ -49,7 +49,7 @@ object AppDependencies {
         "uk.gov.hmrc.mongo"       %%  "hmrc-mongo-test-play-28" % hmrcMongoVersion    % scope,
         "uk.gov.hmrc"             %% "bootstrap-test-play-28"   % bootstrapVersion    % scope,
         "org.pegdown"             %  "pegdown"                  % "1.6.0"             % scope,
-        "org.jsoup"               %  "jsoup"                    % "1.15.4"            % scope,
+        "org.jsoup"               %  "jsoup"                    % "1.16.1"            % scope,
         "com.typesafe.play"       %% "play-test"                % PlayVersion.current % scope,
         "com.vladsch.flexmark"    %  "flexmark-all"             % "0.35.10"           % scope,
         "org.scalatestplus"       %% "scalatestplus-mockito"    % "1.0.0-M2"          % scope,
