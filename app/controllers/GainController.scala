@@ -113,7 +113,7 @@ class GainController @Inject()(
     }
 
     def bindForm(minimumDate: LocalDate) = {
-      disposalDateForm(minimumDate.atStartOfDay(ZoneId.of("Europe/London"))).bindFromRequest().fold(
+      disposalDateForm(minimumDate).bindFromRequest().fold(
         errors => {
           Future.successful(
           BadRequest(

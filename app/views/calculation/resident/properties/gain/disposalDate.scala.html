@@ -18,35 +18,35 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    form: FormWithCSRF,
-    dateInput: playHelpers.dateInput,
-    errorSummary: playHelpers.errorSummary,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        form: FormWithCSRF,
+        dateInput: playHelpers.dateInput,
+        errorSummary: playHelpers.errorSummary,
+        submitButton: playHelpers.submitButton
 )
 
 @(disposalDateForm: Form[DisposalDateModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if (disposalDateForm.errors.nonEmpty) messages("site.title.error", Messages("calc.resident.disposalDate.question")) else Messages("calc.resident.disposalDate.question")
+    if(disposalDateForm.errors.nonEmpty) messages("site.title.error", Messages("calc.resident.disposalDate.question")) else Messages("calc.resident.disposalDate.question")
 }
 
 @layout(
     pageTitle = title,
     backLinkHref = Some(controllers.routes.PropertiesController.introduction.toString)
-){
-    @errorSummary(disposalDateForm.errors)
+) {
+    @errorSummary(disposalDateForm.errors.headOption.toList, errorSuffixes = Some(Map("disposalDate" -> "day")))
 
-    @form(action = controllers.routes.GainController.submitDisposalDate){
+    @form(action = controllers.routes.GainController.submitDisposalDate) {
 
-    @dateInput(
-        content = Messages("calc.resident.disposalDate.question"),
-        hintContent = Some(Messages("calc.common.date.hint")),
-        field = disposalDateForm("disposalDate"),
-        pageHeading = true
-    )
+        @dateInput(
+            content = Messages("calc.resident.disposalDate.question"),
+            hintContent = Some(Messages("calc.common.date.hint")),
+            field = disposalDateForm("disposalDate"),
+            pageHeading = true
+        )
 
-    @submitButton()
+        @submitButton()
 
     }
 

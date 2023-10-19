@@ -101,11 +101,26 @@ calc.resident.properties.introduction.entitledLinkText = Find out if you''re ent
 calc.resident.properties.introduction.continuationInstructions = Continue to use this calculator if you''ve never lived at the property, or you''re entitled to only some or no Private Residence Relief.
 
 ## Disposal Date messages
-calc.resident.disposalDate.question = When did you sell or give away the property?
-calc.resident.disposalDate.invalidDayError = Enter a day
-calc.resident.disposalDate.invalidMonthError = Enter a month
-calc.resident.disposalDate.invalidYearError = Enter a year
-calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2015
+calc.resident.disposalDate.question     = When did you sell or give away the property?
+disposalDate.error.required             = Enter the day, month and year you sold or gave away your property
+disposalDate.error.required.day         = Enter the day you sold or gave away your property
+disposalDate.error.required.dayMonth    = Enter the day and month you sold or gave away your property
+disposalDate.error.required.dayYear     = Enter the day and year you sold or gave away your property
+disposalDate.error.required.month       = Enter the month you sold or gave away your property
+disposalDate.error.required.monthYear   = Enter the month and year you sold or gave away your property
+disposalDate.error.required.year        = Enter the year you sold or gave away your property
+disposalDate.error.invalid              = Enter a number, in digits, for the day, month and year you sold or gave away your property
+disposalDate.error.invalid.day          = Enter a number, in digits, for the day you sold or gave away your property
+disposalDate.error.invalid.dayMonth     = Enter a number, in digits, for the day and month you sold or gave away your property
+disposalDate.error.invalid.dayYear      = Enter a number, in digits, for the day and year you sold or gave away your property
+disposalDate.error.invalid.month        = Enter a number, in digits, for the month you sold or gave away your property
+disposalDate.error.invalid.monthYear    = Enter a number, in digits, for the month and year you sold or gave away your property
+disposalDate.error.invalid.year         = Enter a number, in digits, for the year you sold or gave away your property
+disposalDate.error.notReal              = Enter a real date for when you sold or gave away your property
+disposalDate.error.notReal.day          = Enter a real day for when you sold or gave away your property
+disposalDate.error.notReal.month        = Enter a real month for when you sold or gave away your property
+disposalDate.error.notReal.year         = Enter a real year for when you sold or gave away your property
+disposalDate.error.range.min            = The date you sold or gave away your property must be after {0}
 
 ## Outside Tax Years messages
 calc.resident.outsideTaxYears.title = You can continue but the date you have entered is not in the current tax year
