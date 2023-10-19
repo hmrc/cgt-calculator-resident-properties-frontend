@@ -691,12 +691,11 @@ object MessageLookup {
     val day = "Day"
     val month = "Month"
     val year = "Year"
-    val invalidDayError = "calc.resident.disposalDate.invalidDayError"
-    val invalidMonthError = "calc.resident.disposalDate.invalidMonthError"
-    val invalidYearError = "calc.resident.disposalDate.invalidYearError"
-    val realDateError = "calc.common.date.error.invalidDate"
-    val invalidYearRange = "calc.resident.disposalDate.invalidYearRangeError"
-    def invalidMinimumDate = "calc.common.date.error.beforeMinimum"
+    val requiredDateError = "disposalDate.error.required"
+    val invalidDateError = "disposalDate.error.invalid"
+    val realDateError = "disposalDate.error.notReal"
+    val invalidYearRange = "disposalDate.error.notReal.year"
+    val invalidMinimumDate = "disposalDate.error.range.min"
   }
 
   //Outside Tax Years messages

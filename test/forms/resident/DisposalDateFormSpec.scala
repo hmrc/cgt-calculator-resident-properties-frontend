@@ -16,76 +16,64 @@
 
 package forms.resident
 
-import java.time.{LocalDate, ZoneId}
-
 import assets.MessageLookup.{DisposalDate => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.DisposalDateForm._
 import models.resident.DisposalDateModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
+import play.api.i18n.{Messages, MessagesApi}
+
+import java.time.LocalDate
 
 class DisposalDateFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+
+  val messagesApi: MessagesApi = fakeApplication.injector.instanceOf[MessagesApi]
+  implicit val testMessages: Messages = messagesApi.preferred(fakeRequest)
 
   "Creating the form for the disposal date" should {
     "return a populated form using .fill" in {
       lazy val model = DisposalDateModel(10, 10, 2016)
-      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).fill(model)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).fill(model)
       form.value.get shouldBe DisposalDateModel(10, 10, 2016)
     }
 
     "return a Some if a model with valid inputs is supplied using .bind" in {
       lazy val map = Map(("disposalDate.day", "10"), ("disposalDate.month", "10"), ("disposalDate.year", "2016"))
-      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
       form.value shouldBe Some(DisposalDateModel(10, 10, 2016))
     }
   }
-  "Creating an invalid form for the disposal date" when {
 
+  "Creating an invalid form for the disposal date" when {
     "empty fields are entered" should {
       lazy val map = Map(("disposalDate.day", ""), ("disposalDate.month", ""), ("disposalDate.year", ""))
-      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
       }
 
-      s"have an error message for day of ${messages.invalidDayError}" in {
-        form.error("disposalDate.day").get.message shouldBe messages.invalidDayError
-      }
-
-      s"have an error message for month of ${messages.invalidMonthError}" in {
-        form.error("disposalDate.month").get.message shouldBe messages.invalidMonthError
-      }
-
-      s"have an error message for year of ${messages.invalidYearError}" in {
-        form.error("disposalDate.year").get.message shouldBe messages.invalidYearError
+      s"have an error message for entire date of ${messages.requiredDateError}" in {
+        form.error("disposalDate").get.message shouldBe messages.requiredDateError
       }
     }
 
     "non-numeric fields are entered" should {
       lazy val map = Map(("disposalDate.day", "a"), ("disposalDate.month", "b"), ("disposalDate.year", "c"))
-      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
       }
 
-      s"have an error message for day of ${messages.invalidDayError}" in {
-        form.error("disposalDate.day").get.message shouldBe messages.invalidDayError
-      }
-
-      s"have an error message for month of ${messages.invalidMonthError}" in {
-        form.error("disposalDate.month").get.message shouldBe messages.invalidMonthError
-      }
-
-      s"have an error message for year of ${messages.invalidYearError}" in {
-        form.error("disposalDate.year").get.message shouldBe messages.invalidYearError
+      s"have an error message for entire date of ${messages.invalidDateError}" in {
+        form.error("disposalDate").get.message shouldBe messages.invalidDateError
       }
     }
 
     "an invalid date is entered" should {
-      lazy val map = Map(("disposalDate.day", "32"), ("disposalDate.month", "4"), ("disposalDate.year", "2016"))
-      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
+      lazy val map = Map(("disposalDate.day", "29"), ("disposalDate.month", "2"), ("disposalDate.year", "2017"))
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
@@ -96,9 +84,9 @@ class DisposalDateFormSpec extends CommonPlaySpec with WithCommonFakeApplication
       }
     }
 
-    "a year which is less than 1900" should {
-      lazy val map = Map(("disposalDate.day", "1"), ("disposalDate.month", "1"), ("disposalDate.year", "1899"))
-      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
+    "a year which is less than 1000" should {
+      lazy val map = Map(("disposalDate.day", "1"), ("disposalDate.month", "1"), ("disposalDate.year", "999"))
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
@@ -111,7 +99,7 @@ class DisposalDateFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "a year which is greater than 9999" should {
       lazy val map = Map(("disposalDate.day", "1"), ("disposalDate.month", "1"), ("disposalDate.year", "10000"))
-      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
@@ -124,7 +112,7 @@ class DisposalDateFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "a date which is before the minimum date" should {
       lazy val map = Map(("disposalDate.day", "1"), ("disposalDate.month", "1"), ("disposalDate.year", "2014"))
-      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true

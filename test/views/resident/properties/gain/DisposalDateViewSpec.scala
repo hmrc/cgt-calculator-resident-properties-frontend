@@ -16,23 +16,23 @@
 
 package views.resident.properties.gain
 
-import java.time.{LocalDate, ZoneId}
-
 import assets.MessageLookup.{DisposalDate => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.DisposalDateForm._
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.disposalDate
 
-class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper  with BaseViewSpec {
+import java.time.LocalDate
+
+class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with BaseViewSpec {
 
   lazy val disposalDateView = fakeApplication.injector.instanceOf[disposalDate]
   "Disposal Date view" should {
 
-    lazy val view = disposalDateView(disposalDateForm(LocalDate.parse("2014-04-06").atStartOfDay(ZoneId.of("Europe/London"))))(fakeRequest, testingMessages)
+    lazy val view = disposalDateView(disposalDateForm(LocalDate.parse("2014-04-06"))(testingMessages))(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -78,7 +78,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
 
   "Disposal Date view with a pre-filled form" should {
 
-    lazy val form = disposalDateForm(LocalDate.parse("2014-04-06").atStartOfDay(ZoneId.of("Europe/London"))).fill(DisposalDateModel(10, 6, 2016))
+    lazy val form = disposalDateForm(LocalDate.parse("2014-04-06"))(testingMessages).fill(DisposalDateModel(10, 6, 2016))
     lazy val view = disposalDateView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
