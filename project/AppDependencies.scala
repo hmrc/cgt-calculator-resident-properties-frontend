@@ -21,8 +21,7 @@ import sbt.*
 object AppDependencies {
 
   val bootstrapVersion         = "7.22.0"
-  val playFrontendVersion      = "7.3.0-play-28"
-  val jsonJodaVersion          = "2.9.4"
+  val playFrontendVersion      = "7.23.0-play-28"
   val playPartialsVersion      = "8.4.0-play-28"
   val httpCachingClientVersion = "10.0.0-play-28"
   val play2PdfVersion          = "1.11.0"
@@ -33,7 +32,6 @@ object AppDependencies {
     "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"           % hmrcMongoVersion,
     "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"    % bootstrapVersion,
     "uk.gov.hmrc"       %% "play-frontend-hmrc"   % playFrontendVersion,
-    "com.typesafe.play" %% "play-json-joda"       % jsonJodaVersion,
     "uk.gov.hmrc"       %% "play-partials"        % playPartialsVersion,
     "it.innove"         %  "play2-pdf"            % play2PdfVersion exclude("com.typesafe.play","*")
   )

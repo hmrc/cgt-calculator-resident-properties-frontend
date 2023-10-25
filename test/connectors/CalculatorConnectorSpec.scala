@@ -25,7 +25,6 @@ import controllers.helpers.CommonMocks
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import models.resident.{IncomeAnswersModel, TaxYearModel}
-import org.joda.time.DateTime
 import org.mockito.ArgumentMatchers.{any, eq => equalTo, contains}
 import org.mockito.Mockito._
 import org.mockito.stubbing.OngoingStubbing
@@ -46,12 +45,12 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Comm
   implicit val hc: HeaderCarrier = HeaderCarrier(sessionId = Some(SessionId(sessionId)))
 
   "Calling .getMinimumDate" should {
-    def mockDate(result: Future[DateTime]): OngoingStubbing[Future[DateTime]] =
-      when(mockHttpClient.GET[DateTime](any(), any(), any())(any(), any(), any()))
+    def mockDate(result: Future[LocalDate]): OngoingStubbing[Future[LocalDate]] =
+      when(mockHttpClient.GET[LocalDate](any(), any(), any())(any(), any(), any()))
         .thenReturn(result)
 
     "return a DateTime which matches the returned LocalDate" in {
-      mockDate(Future.successful(DateTime.parse("2015-06-04")))
+      mockDate(Future.successful(LocalDate.parse("2015-06-04")))
       await(TargetCalculatorConnector.getMinimumDate()) shouldBe LocalDate.parse("2015-06-04")
     }
 
