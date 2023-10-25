@@ -22,8 +22,6 @@ import constructors.resident.{properties => propertyConstructor}
 import javax.inject.{Inject, Singleton}
 import models.resident._
 import models.resident.properties._
-import org.joda.time.DateTime
-import play.api.libs.json.JodaReads
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import uk.gov.hmrc.http.HttpReads.Implicits._
@@ -32,7 +30,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
-                          val http: HttpClient)(implicit val ec: ExecutionContext) extends JodaReads {
+                          val http: HttpClient)(implicit val ec: ExecutionContext) {
 
   val serviceUrl: String = servicesConfig.baseUrl("capital-gains-calculator")
 
@@ -41,9 +39,7 @@ class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
   val headers = Seq("Accept" -> "application/vnd.hmrc.1.0+json")
 
   def getMinimumDate()(implicit hc : HeaderCarrier): Future[LocalDate] = {
-    http.GET[DateTime](s"$serviceUrl/capital-gains-calculator/minimum-date", headers = headers).map { date =>
-      LocalDate.of(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
-    }
+    http.GET[LocalDate](s"$serviceUrl/capital-gains-calculator/minimum-date", headers = headers)
   }
 
   def getFullAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
