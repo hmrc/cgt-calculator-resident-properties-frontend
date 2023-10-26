@@ -38,18 +38,18 @@ object CalculateRequestConstructor {
   }
 
   def totalGainRequestString (answers: YourAnswersSummaryModel): String = {
-      s"?disposalValue=${determineDisposalValueToUse(answers)}" +
-      s"&disposalCosts=${answers.disposalCosts}" +
-      s"&acquisitionValue=${determineAcquisitionValueToUse(answers)}" +
-      s"&acquisitionCosts=${answers.acquisitionCosts}" +
-      s"&improvements=${answers.improvements}" +
+      s"?disposalValue=${determineDisposalValueToUse(answers).toDouble}" +
+      s"&disposalCosts=${answers.disposalCosts.toDouble}" +
+      s"&acquisitionValue=${determineAcquisitionValueToUse(answers).toDouble}" +
+      s"&acquisitionCosts=${answers.acquisitionCosts.toDouble}" +
+      s"&improvements=${answers.improvements.toDouble}" +
       s"&disposalDate=${answers.disposalDate.format(requestFormatter)}"
   }
 
   def prrValue(answers: ChargeableGainAnswers): Map[String, String] = {
     (answers.propertyLivedInModel, answers.privateResidenceReliefModel) match {
       case (Some(x), Some(y)) if x.livedInProperty && y.isClaiming =>
-        Map("prrValue" -> answers.privateResidenceReliefValueModel.get.amount.toString)
+        Map("prrValue" -> answers.privateResidenceReliefValueModel.get.amount.toDouble.toString)
       case _ =>
         Map.empty
     }
@@ -58,7 +58,7 @@ object CalculateRequestConstructor {
   def lettingReliefs(answers: ChargeableGainAnswers): Map[String, String] = {
     (answers.propertyLivedInModel, answers.privateResidenceReliefModel, answers.lettingsReliefModel) match {
       case (Some(x), Some(y), Some(z)) if x.livedInProperty && y.isClaiming && z.isClaiming =>
-        Map("lettingReliefs" -> answers.lettingsReliefValueModel.get.amount.toString)
+        Map("lettingReliefs" -> answers.lettingsReliefValueModel.get.amount.toDouble.toString)
       case _ =>
         Map.empty
     }
@@ -67,7 +67,7 @@ object CalculateRequestConstructor {
   def broughtForwardLosses(answers: ChargeableGainAnswers): Map[String, String] = {
     answers.broughtForwardModel match {
       case (Some(x)) if x.option =>
-        Map("broughtForwardLosses" -> answers.broughtForwardValueModel.get.amount.toString)
+        Map("broughtForwardLosses" -> answers.broughtForwardValueModel.get.amount.toDouble.toString)
       case _ =>
         Map.empty
     }
@@ -79,11 +79,11 @@ object CalculateRequestConstructor {
     }
 
   def chargeableGainRequestString(answers: ChargeableGainAnswers, maxAEA: BigDecimal): String = {
-    s"${toQS(prrValue(answers) ++ lettingReliefs(answers) ++ broughtForwardLosses(answers)) + "&annualExemptAmount=" + maxAEA}"
+    s"${toQS(prrValue(answers) ++ lettingReliefs(answers) ++ broughtForwardLosses(answers)) + "&annualExemptAmount=" + maxAEA.toDouble}"
   }
 
   def incomeAnswersRequestString (deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): String = {
-    s"&previousIncome=${answers.currentIncomeModel.get.amount}" +
-    s"&personalAllowance=${answers.personalAllowanceModel.get.amount}"
+    s"&previousIncome=${answers.currentIncomeModel.get.amount.toDouble}" +
+    s"&personalAllowance=${answers.personalAllowanceModel.get.amount.toDouble}"
   }
 }

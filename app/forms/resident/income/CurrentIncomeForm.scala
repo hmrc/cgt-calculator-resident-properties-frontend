@@ -37,7 +37,7 @@ object CurrentIncomeForm {
         .verifying(constraintBuilder[String]("calc.resident.currentIncome.invalidAmount", taxYear.startYear, taxYear.endYear) {
           bigDecimalCheck
         })
-        .transform[BigDecimal](stringToBigDecimal, _.toString())
+        .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(constraintBuilder[BigDecimal]("calc.resident.currentIncome.maximumAmount", taxYear.startYear, taxYear.endYear, MoneyPounds(Constants.maxNumeric, 0).quantity){
           maxCheck
         })
