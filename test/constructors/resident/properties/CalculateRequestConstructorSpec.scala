@@ -317,11 +317,11 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
         )
 
         val result = CalculateRequestConstructor.totalGainRequestString(answers)
-        result shouldBe s"?disposalValue=4000" +
-          s"&disposalCosts=0" +
-          s"&acquisitionValue=2000" +
-          s"&acquisitionCosts=100" +
-          s"&improvements=10" +
+        result shouldBe s"?disposalValue=4000.0" +
+          s"&disposalCosts=0.0" +
+          s"&acquisitionValue=2000.0" +
+          s"&acquisitionCosts=100.0" +
+          s"&improvements=10.0" +
           s"&disposalDate=2016-02-10"
       }
     }
@@ -343,7 +343,7 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
         )
 
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&annualExemptAmount=11100"
+        result shouldBe "&annualExemptAmount=11100.0"
 
         val prrValueResult = CalculateRequestConstructor.prrValue(answers)
         prrValueResult shouldBe Map()
@@ -369,7 +369,7 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
           None
         )
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&annualExemptAmount=11100"
+        result shouldBe "&annualExemptAmount=11100.0"
 
         val prrValueResult = CalculateRequestConstructor.prrValue(answers)
         prrValueResult shouldBe Map()
@@ -395,16 +395,16 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
           Some(LettingsReliefValueModel(4000))
         )
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result should (include("&prrValue=5000") and include("&lettingReliefs=4000") and include("&broughtForwardLosses=2000") and include("&annualExemptAmount=11100"))
+        result should (include("&prrValue=5000.0") and include("&lettingReliefs=4000.0") and include("&broughtForwardLosses=2000.0") and include("&annualExemptAmount=11100.0"))
 
         val prrValueResult = CalculateRequestConstructor.prrValue(answers)
-        prrValueResult shouldBe Map("prrValue" -> "5000")
+        prrValueResult shouldBe Map("prrValue" -> "5000.0")
 
         val lettingReliefsResult = CalculateRequestConstructor.lettingReliefs(answers)
-        lettingReliefsResult shouldBe Map("lettingReliefs" -> "4000")
+        lettingReliefsResult shouldBe Map("lettingReliefs" -> "4000.0")
 
         val broughtForwardLossesResult = CalculateRequestConstructor.broughtForwardLosses(answers)
-        broughtForwardLossesResult shouldBe Map("broughtForwardLosses" -> "2000")
+        broughtForwardLossesResult shouldBe Map("broughtForwardLosses" -> "2000.0")
       }
     }
   }

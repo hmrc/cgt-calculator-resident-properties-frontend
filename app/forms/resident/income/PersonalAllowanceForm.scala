@@ -40,7 +40,7 @@ object PersonalAllowanceForm {
         .verifying(constraintBuilder("calc.resident.personalAllowance.invalidAmount", taxYear.startYear, taxYear.endYear) {
           bigDecimalCheck
         })
-        .transform[BigDecimal](stringToBigDecimal, _.toString())
+        .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(constraintBuilder("calc.resident.personalAllowance.maximumAmount", taxYear.startYear, taxYear.endYear, MoneyPounds(maxPA).quantity) {
           validateMaxPA(maxPA)
         })

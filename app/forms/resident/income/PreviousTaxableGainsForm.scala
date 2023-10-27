@@ -30,7 +30,7 @@ object PreviousTaxableGainsForm {
       "amount" -> text("calc.common.error.mandatoryAmount")
         .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
-        .transform[BigDecimal](stringToBigDecimal, _.toString())
+        .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint())
         .verifying("calc.common.error.minimumAmount", isPositive)
         .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
