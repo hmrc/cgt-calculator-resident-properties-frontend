@@ -236,7 +236,7 @@ class DeductionsController @Inject()(
       totalGain <- totalGain(answerSummary, hc)
       prrValue <- sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue)
       route <- routeRequest(totalGain, prrValue.fold(BigDecimal(0))(_.amount))
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
   }
 
   val submitLettingsReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -255,7 +255,7 @@ class DeductionsController @Inject()(
       totalGain <- totalGain(answerSummary, hc)
       prrValue <- sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue)
       route <- routeRequest(totalGain, prrValue.fold(BigDecimal(0))(_.amount))
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
   }
 
 
@@ -289,7 +289,7 @@ class DeductionsController @Inject()(
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       finalResult <- routeRequest(backLinkUrl, taxYear.get)
-    } yield finalResult).recoverToStart
+    } yield finalResult).recoverToStart()
 
   }
 
@@ -341,7 +341,7 @@ class DeductionsController @Inject()(
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       route <- routeRequest(backUrl, taxYear.get)
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
 
   }
 
@@ -375,7 +375,7 @@ class DeductionsController @Inject()(
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       formData <- retrieveKeystoreData(taxYear.get)
       route <- routeRequest(taxYear.get, formData)
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
   }
 
   val submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -406,7 +406,7 @@ class DeductionsController @Inject()(
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       route <- routeRequest(taxYear.get)
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
 
   }
 }

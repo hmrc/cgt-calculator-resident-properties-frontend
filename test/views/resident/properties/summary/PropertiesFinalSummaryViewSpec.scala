@@ -100,8 +100,8 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.newTitle}" in {
-        doc.title() shouldBe messages.newTitle
+      s"have a title ${messages.title("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
 
       "have a back button" which {

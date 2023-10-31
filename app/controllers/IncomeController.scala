@@ -93,7 +93,7 @@ class IncomeController @Inject()(
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       currentTaxYear <- Dates.getCurrentTaxYear
       finalResult <- routeRequest(backUrl, taxYear.get, currentTaxYear)
-    } yield finalResult).recoverToStart
+    } yield finalResult).recoverToStart()
   }
 
   val submitCurrentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -116,7 +116,7 @@ class IncomeController @Inject()(
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, currentTaxYear)
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
   }
 
   //################################# Personal Allowance Actions ##########################################
@@ -154,7 +154,7 @@ class IncomeController @Inject()(
       formData <- fetchKeystorePersonalAllowance(taxYear.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, standardPA.get, formData, currentTaxYear)
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
   }
 
   val submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -183,7 +183,7 @@ class IncomeController @Inject()(
       maxPA <- getMaxPA(year)
       currentTaxYear <- Dates.getCurrentTaxYear
       route <- routeRequest(maxPA.get, standardPA.get, taxYear.get, currentTaxYear)
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
   }
 
 }

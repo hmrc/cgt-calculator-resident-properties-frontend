@@ -99,7 +99,7 @@ class ReportController @Inject()(
         maxAEA.get),
         host
       ).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
-    }).recoverToStart
+    }).recoverToStart()
   }
 
   //#####Deductions summary actions#####\\
@@ -124,7 +124,7 @@ class ReportController @Inject()(
         totalCosts),
         host
       ).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
-    }).recoverToStart
+    }).recoverToStart()
   }
 
   //#####Final summary actions#####\\
@@ -178,6 +178,6 @@ class ReportController @Inject()(
         aeaLeftOver),
         host
       ).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
-    }).recoverToStart
+    }).recoverToStart()
   }
 }

@@ -88,8 +88,8 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    s"have a title ${messages.newTitle}" in {
-      doc.title() shouldBe messages.newTitle
+    s"have a title ${messages.title("2015 to 2016")}" in {
+      doc.title() shouldBe messages.title("2015 to 2016")
     }
 
     s"have a back button" which {

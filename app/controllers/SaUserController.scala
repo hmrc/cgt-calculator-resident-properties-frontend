@@ -135,7 +135,7 @@ class SaUserController @Inject()(
         incomeAnswers <- sessionCacheService.getPropertyIncomeAnswers
         finalResult <- totalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
         route <- routeAction(selfAssessmentRequired, model, finalResult, maxAEA.get, CalculateRequestConstructor.determineDisposalValueToUse(answers))
-      } yield route).recoverToStart
+      } yield route).recoverToStart()
     }
 
     if(selfAssessmentRequired) {

@@ -67,7 +67,7 @@ class ReviewAnswersController @Inject()(
           answers,
           None,
           None))
-      }.recoverToStart
+      }.recoverToStart()
     }
   }
 
@@ -93,7 +93,7 @@ class ReviewAnswersController @Inject()(
             url, gainAnswers,
             Some(deductionsAnswers),
             Some(taxYear)))
-        }).recoverToStart
+        }).recoverToStart()
       }
   }
 
@@ -117,7 +117,7 @@ class ReviewAnswersController @Inject()(
             Some(taxYear),
             Some(incomeAnswers),
             taxYear.taxYearSupplied == currentTaxYear))
-        }).recoverToStart
+        }).recoverToStart()
       }
   }
 }

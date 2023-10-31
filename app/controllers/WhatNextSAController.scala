@@ -62,12 +62,12 @@ class WhatNextSAController @Inject()(
   val whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate().map {
       date => Ok(whatNextSaNoGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
-    }.recoverToStart
+    }.recoverToStart()
   }
 
   val whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate().map {
       date => Ok(whatNextSaGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
-    }.recoverToStart
+    }.recoverToStart()
   }
 }

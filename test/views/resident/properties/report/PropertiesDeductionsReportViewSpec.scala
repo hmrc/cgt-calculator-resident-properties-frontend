@@ -81,8 +81,8 @@ class PropertiesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonF
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    s"have a title ${messages.title}" in {
-      doc.title() shouldBe messages.title
+    s"have a title ${messages.cgtToPay("2015 to 2016")}" in {
+      doc.title() shouldBe messages.cgtToPay("2015 to 2016")
     }
 
     "have a banner for tax owed" in {

@@ -32,7 +32,7 @@ class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers 
     "convert a `NoSuchElementException` into an `ApplicationException`" in {
 
 
-      val future: Future[Result] = Future.failed(new NoSuchElementException("test message")).recoverToStart
+      val future: Future[Result] = Future.failed(new NoSuchElementException("test message")).recoverToStart()
       val url = controllers.routes.TimeoutController.timeout.url
 
       whenReady(future.failed) {
@@ -47,7 +47,7 @@ class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers 
 
       val ex = new IllegalArgumentException("test message")
 
-      val future: Future[Result] = Future.failed(ex).recoverToStart
+      val future: Future[Result] = Future.failed(ex).recoverToStart()
 
       whenReady(future.failed) {
         _ shouldBe ex

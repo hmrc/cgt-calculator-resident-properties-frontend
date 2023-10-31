@@ -51,7 +51,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.resident.outsideTaxYear
 import views.html.calculation.resident.properties.gain._
 
-import java.time.{LocalDate, ZoneId}
+import java.time.LocalDate
 import java.util.UUID
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -127,7 +127,7 @@ class GainController @Inject()(
             save <- sessionCacheService.saveFormData(keystoreKeys.disposalDate, success)
             taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
             route <- routeRequest(taxYearResult)
-          } yield route).recoverToStart
+          } yield route).recoverToStart()
         }
       )
     }
@@ -204,7 +204,7 @@ class GainController @Inject()(
     (for {
       givenToCharity <- isGivenToCharity
       result <- result(givenToCharity)
-    } yield result).recoverToStart
+    } yield result).recoverToStart()
   }
 
   //################ Outside Tax Years Actions ######################
@@ -221,7 +221,7 @@ class GainController @Inject()(
         continueUrl = routes.GainController.sellOrGiveAway.url,
         navTitle = Messages("calc.base.resident.properties.home")
       ))
-    }).recoverToStart
+    }).recoverToStart()
   }
 
 
@@ -332,7 +332,7 @@ class GainController @Inject()(
       gaveAway <- sessionCacheService.fetchAndGetFormData[SellOrGiveAwayModel](keystoreKeys.sellOrGiveAway)
       soldForLess <- sessionCacheService.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
       route <- routeRequest(disposalCostsBackLink(gaveAway.get, soldForLess))
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
   }
 
   val submitDisposalCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -350,7 +350,7 @@ class GainController @Inject()(
       gaveAway <- sessionCacheService.fetchAndGetFormData[SellOrGiveAwayModel](keystoreKeys.sellOrGiveAway)
       soldForLess <- sessionCacheService.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
       route <- routeRequest(disposalCostsBackLink(gaveAway.get, soldForLess))
-    } yield route).recoverToStart
+    } yield route).recoverToStart()
   }
 
   //################# Owner Before Legislation Start Actions ########################
@@ -572,7 +572,7 @@ class GainController @Inject()(
     (for {
       backLink <- acquisitionCostsBackLink()
       form <- createAcquisitionCostsForm()
-    } yield Ok(acquisitionCostsView(form, backLink))).recoverToStart
+    } yield Ok(acquisitionCostsView(form, backLink))).recoverToStart()
   }
 
   val submitAcquisitionCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -580,7 +580,7 @@ class GainController @Inject()(
       errors =>
         (for {
           backLink <- acquisitionCostsBackLink()
-        } yield BadRequest(acquisitionCostsView(errors, backLink))).recoverToStart,
+        } yield BadRequest(acquisitionCostsView(errors, backLink))).recoverToStart(),
       success => {
         sessionCacheService.saveFormData(keystoreKeys.acquisitionCosts, success)
           .map(_ => Redirect(routes.GainController.improvements))
@@ -605,7 +605,7 @@ class GainController @Inject()(
     (for{
       ownerBeforeAprilNineteenEightyTwo <- getOwnerBeforeAprilNineteenEightyTwo()
       improvementsForm <- getImprovementsForm()
-    } yield Ok(improvementsView(improvementsForm, ownerBeforeAprilNineteenEightyTwo))).recoverToStart
+    } yield Ok(improvementsView(improvementsForm, ownerBeforeAprilNineteenEightyTwo))).recoverToStart()
   }
 
   val submitImprovements: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -627,7 +627,7 @@ class GainController @Inject()(
         answers <- sessionCacheService.getPropertyGainAnswers
         grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
         route <- routeRequest(grossGain)
-      } yield route).recoverToStart
+      } yield route).recoverToStart()
     }
 
     improvementsForm.bindFromRequest().fold(errorAction, successAction)
