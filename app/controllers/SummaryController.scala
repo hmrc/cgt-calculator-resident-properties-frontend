@@ -158,7 +158,7 @@ class SummaryController @Inject()(
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
         taxYear, currentTaxYear, totalCosts, maxAEA.get, showUserResearchPanel = showUserResearchPanel)
-    } yield routeRequest).recoverToStart
+    } yield routeRequest).recoverToStart()
   }
 
   private[controllers] def setURPanelFlag(implicit hc: HeaderCarrier): Boolean = {

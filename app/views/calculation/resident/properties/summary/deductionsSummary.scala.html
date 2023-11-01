@@ -37,7 +37,7 @@
   showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Messages("calc.resident.summary.title"),
+    pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*),
     backLinkHref = Some(backUrl),
     isUserResearchBannerVisible = showUserResearchPanel
 ) {

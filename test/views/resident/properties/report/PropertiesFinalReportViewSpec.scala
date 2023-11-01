@@ -87,8 +87,8 @@ class PropertiesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeAp
       taxYearModel, isCurrentTaxYear = false, Some(true), Some(true), 100, 100, 0)(fakeRequestWithSession, testingMessages, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
-    s"have a title ${messages.title}" in {
-      doc.title() shouldBe messages.title
+    s"have a title ${messages.cgtToPay("2015 to 2016")}" in {
+      doc.title() shouldBe messages.cgtToPay("2015 to 2016")
     }
 
     "have the HMRC logo with the HMRC name" in {
