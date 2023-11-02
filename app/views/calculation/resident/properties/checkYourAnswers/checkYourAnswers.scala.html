@@ -19,13 +19,11 @@
 @import models.resident.TaxYearModel
 @import models.resident.IncomeAnswersModel
 @import play.api.i18n.Lang
-@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    checkYourAnswersPartial: playHelpers.checkYourAnswersPartial,
-    form: FormWithCSRF,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        checkYourAnswersPartial: playHelpers.checkYourAnswersPartial,
+        link: playHelpers.link
 )
 
 @(postAction: Call, backUrl: String, gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages, lang: Lang)
@@ -39,7 +37,11 @@
 
     @checkYourAnswersPartial(gainAnswers, deductionsAnswers, taxYear, incomeAnswers, isCurrentTaxYear)
 
-    @form(action = postAction) {
-        @submitButton()
-    }
+    @link(
+        href = postAction.url,
+        messageKey = "calc.base.button.continue",
+        isButton = true,
+        id = Some("continue-button")
+    )
+
 }

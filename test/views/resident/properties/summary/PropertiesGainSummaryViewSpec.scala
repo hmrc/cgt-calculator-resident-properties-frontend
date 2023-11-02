@@ -327,55 +327,29 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
 
     "has a continue button" which {
       s"has the text ${summaryMessages.continue}" in {
-        doc.select("#main-content > div > div > a.govuk-button").text shouldBe summaryMessages.continue
+        doc.select("#main-content > div > div > div > a.govuk-button").text shouldBe summaryMessages.continue
       }
 
       "has a link to the what next section" in {
-        doc.select("#main-content > div > div > a.govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
+        doc.select("#main-content > div > div > div > a.govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
       }
     }
 
-    "has a save as PDF Button" which {
+    "has a print Button" which {
 
-      lazy val savePDFSection = doc.select("#save-as-a-pdf")
+      lazy val printSection = doc.select("#print")
+      lazy val link = printSection.select("a")
 
-      "contains an internal div which" should {
+      "has the class bold-small" in {
+        link.hasClass("govuk-link") shouldBe true
+      }
 
-        lazy val icon = savePDFSection.select("div")
+      s"links to #" in {
+        link.attr("href") shouldBe "#"
+      }
 
-        "has class icon-file-download" in {
-          icon.hasClass("icon-file-download") shouldBe true
-        }
-
-        "contains a span" which {
-
-          lazy val informationTag = icon.select("span")
-
-          "has the class visuallyhidden" in {
-            informationTag.hasClass("govuk-visually-hidden") shouldBe true
-          }
-
-          "has the text Download" in {
-            informationTag.text shouldBe "Download"
-          }
-        }
-
-        "contains a link" which {
-
-          lazy val link = savePDFSection.select("a")
-
-          "has the class bold-small" in {
-            link.hasClass("govuk-link") shouldBe true
-          }
-
-          s"links to ${controllers.routes.ReportController.gainSummaryReport}" in {
-            link.attr("href") shouldBe controllers.routes.ReportController.gainSummaryReport.toString
-          }
-
-          s"has the text ${messages.saveAsPdf}" in {
-            link.text shouldBe messages.saveAsPdf
-          }
-        }
+      s"has the text ${messages.print}" in {
+        link.text shouldBe messages.print
       }
     }
 

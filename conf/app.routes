@@ -137,15 +137,6 @@ GET     /review-your-answers-final         controllers.ReviewAnswersController.r
 #Summary Routes
 GET     /summary                          controllers.SummaryController.summary
 
-#Gain Summary PDF Routes
-GET     /gain-report                      controllers.ReportController.gainSummaryReport
-
-#Deductions Summary PDF Routes
-GET     /deductions-report                controllers.ReportController.deductionsReport
-
-#Final Summary PDF Routes
-GET     /final-report                     controllers.ReportController.finalSummaryReport
-
 GET     /confirm-self-assessment          controllers.SaUserController.saUser
 POST    /confirm-self-assessment          controllers.SaUserController.submitSaUser
 
