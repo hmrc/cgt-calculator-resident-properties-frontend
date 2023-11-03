@@ -518,7 +518,6 @@ object MessageLookup {
       val rebasedCalculation = "How much you've gained on the property since 5 April 2015"
       val lossesCarriedForward = "Loss carried forward"
       val taxYearWarning = "Your total might be less accurate because you didn't sell or give away your property in this tax year"
-      val saveAsPdf = "Save as PDF"
 
       def basedOnYear(year: String): String = s"These figures are based on the tax rates from the $year tax year"
     }
@@ -828,7 +827,7 @@ object MessageLookup {
     val whatToDoNextPropertiesLiabilityMessage = "You can tell HMRC about the property and pay your tax using our online service"
     val whatToDoNextLiabilityAdditionalMessage = "You can use the figures on this page to help you do this."
     def aeaRemaining(taxYear: String): String = s"Capital Gains Tax allowance left for $taxYear"
-    val saveAsPdf = "Download your Capital Gains Tax calculation (PDF, under 25kB)"
+    val print = "Print your Capital Gains Tax calculation"
     def remainingAllowableLoss(taxYear: String): String = s"Remaining loss from $taxYear tax year"
     def remainingBroughtForwardLoss(taxYear: String): String = s"Remaining loss from tax years before $taxYear"
     val remainingLossHelp = "You can"

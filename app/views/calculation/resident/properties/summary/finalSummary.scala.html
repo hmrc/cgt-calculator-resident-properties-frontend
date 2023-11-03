@@ -16,17 +16,17 @@
 
 @import models.resident._
 @import models.resident.properties._
-@import common.Dates._
-@import common.TaxDates._
-@import config.ApplicationConfig
-@import play.api.Application
+@import views.html.helper.CSPNonce
 
 @this(
-    layout: Layout,
-    finalSummaryPartial: playHelpers.finalSummaryPartial
+        layout: Layout,
+        finalSummaryPartial: playHelpers.finalSummaryPartial,
+        checkYourAnswersPartial: playHelpers.checkYourAnswersPartial,
+        link: playHelpers.link
 )
 
-@(gainAnswers: YourAnswersSummaryModel,
+@(
+        gainAnswers: YourAnswersSummaryModel,
         deductionAnswers: ChargeableGainAnswers,
         incomeAnswers: IncomeAnswersModel,
         result: TotalGainAndTaxOwedModel,
@@ -36,15 +36,23 @@
         lettingsReliefUsed: Option[Boolean] = None,
         totalCosts: BigDecimal,
         totalDeductions: BigDecimal,
-        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
+        showUserResearchPanel: Boolean
+)(implicit request: Request[_], messages: Messages)
+
+@scripts = {
+    <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
+}
 
 @layout(
     pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*),
     backLinkHref = Some(backUrl),
-    isUserResearchBannerVisible = showUserResearchPanel
+    isUserResearchBannerVisible = showUserResearchPanel,
+    scripts = Some(scripts)
 ) {
 
-    <!-- Google Analytics -->
+    <link href='@routes.Assets.versioned("stylesheets/cgt-print.css")' media="print" rel="stylesheet" type="text/css" />
+
+        <!-- Google Analytics -->
     <div id="ga-reporting" class="govuk-visually-hidden">
 
             <!-- Tax Year -->
@@ -75,7 +83,8 @@
         }
     </div>
 
-    @finalSummaryPartial(gainAnswers,
+    @finalSummaryPartial(
+        gainAnswers,
         deductionAnswers,
         incomeAnswers,
         result,
@@ -83,27 +92,32 @@
         Some(prrUsed),
         Some(lettingsReliefUsed),
         totalCosts,
-        totalDeductions)
+        totalDeductions
+    )
+
+    <hr class="govuk-section-break govuk-section-break--l cgt-for-print">
+
+    <!--Print only CYA-->
+    @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), displayLinks = false, forPrint = true)
 
     @if(taxYear.isValidYear) {
-        <section id="whatToDoNext">
+        <section id="whatToDoNext" class="govuk-!-display-none-print">
             <h2 id="whatToDoNextTitle" class="govuk-heading-m">@Messages("calc.summary.whatToDoNext.heading")</h2>
             <p class="govuk-body">@Messages("calc.summary.whatToDoNext.details")</p>
         </section>
     }
 
-    <div id="save-as-a-pdf" class="notice download-pdf">
-        <div class="icon-file-download">
-            <span class="govuk-visually-hidden">@Messages("calc.summary.download")</span>
-        </div>
-
-        <a class="govuk-link govuk-body" href="@controllers.routes.ReportController.finalSummaryReport"
-        data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+    <div id="print" class="govuk-body govuk-!-display-none-print cgt-print-button">
+        <a class="govuk-link govuk-body" href="#" id="printLink">@Messages("calc.resident.summary.print")</a>
     </div>
-    </br>
 
     @if(taxYear.isValidYear) {
-        <a id="continue-button" class="govuk-button" href="@controllers.routes.SaUserController.saUser.url">@Messages("calc.base.button.continue")</a>
-        </br>
+        @link(
+            href = controllers.routes.SaUserController.saUser.url,
+            messageKey = "calc.base.button.continue",
+            isButton = true,
+            id = Some("continue-button"),
+            classes = Some("govuk-!-display-none-print")
+        )
     }
 }

@@ -28,10 +28,18 @@
     summaryOptionRowHelper: playHelpers.resident.summaryOptionRowHelper
 )
 
-@(gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false, displayLinks: Boolean = true)(implicit messages: Messages, lang: Lang)
+@(
+        gainAnswers: YourAnswersSummaryModel,
+        deductionsAnswers: Option[ChargeableGainAnswers],
+        taxYear: Option[TaxYearModel],
+        incomeAnswers: Option[IncomeAnswersModel] = None,
+        isCurrentTaxYear: Boolean = false,
+        displayLinks: Boolean = true,
+        forPrint: Boolean = false
+)(implicit messages: Messages)
 
 
-<section id="yourAnswers">
+<section id="yourAnswers" class="@{if(forPrint) "cgt-for-print" else ""}">
 
     @if(displayLinks) {<dl class="govuk-summary-list">} else {<table class="govuk-table"> <tbody class="govuk-table__body">}
 

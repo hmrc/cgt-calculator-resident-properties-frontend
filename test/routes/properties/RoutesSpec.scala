@@ -312,24 +312,6 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
     }
   }
 
-  "The URL for the gainSummaryReport action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/gain-report" in {
-      ReportController.gainSummaryReport.url shouldEqual "/calculate-your-capital-gains/resident/properties/gain-report"
-    }
-  }
-
-  "The URL for the deductionsReport action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/deductions-report" in {
-      ReportController.deductionsReport.url shouldEqual "/calculate-your-capital-gains/resident/properties/deductions-report"
-    }
-  }
-
-  "The URL for the finalSummaryReport action" should {
-    "be equal to /calculate-your-capital-gains/resident/properties/final-report" in {
-      ReportController.finalSummaryReport.url shouldEqual "/calculate-your-capital-gains/resident/properties/final-report"
-    }
-  }
-
   "The URL for the GET Private Residence Relief Value action" should {
     "be equal to /calculate-your-capital-gains/resident/properties/private-residence-relief-value" in {
       DeductionsController.privateResidenceReliefValue.url shouldEqual "/calculate-your-capital-gains/resident/properties/private-residence-relief-value"

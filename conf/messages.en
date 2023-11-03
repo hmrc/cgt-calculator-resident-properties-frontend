@@ -278,7 +278,7 @@ calc.resident.summary.totalGain = Total gain
 calc.resident.summary.totalLoss = Loss
 calc.resident.summary.chargeableGain = Taxable gain
 calc.resident.summary.warning = Warning
-calc.resident.summary.saveAsPdf = Download your Capital Gains Tax calculation (PDF, under 25kB)
+calc.resident.summary.print = Print your Capital Gains Tax calculation
 
 ## Private Residence Relief Value messages
 calc.resident.privateResidenceReliefValue.title = How much Private Residence Relief are you entitled to?

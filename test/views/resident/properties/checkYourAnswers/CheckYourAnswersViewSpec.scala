@@ -74,29 +74,16 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     doc.select("section").attr("id") shouldBe "yourAnswers"
   }
 
-  "have a form" which {
-
-    lazy val form = doc.getElementsByTag("form")
-
-    s"has the action '/dummy-url'" in {
-      form.attr("action") shouldBe "/dummy-url"
-    }
-
-    "has the method of POST" in {
-      form.attr("method") shouldBe "POST"
-    }
-  }
-
   "have a continue button that" should {
 
-    lazy val continueButton = doc.select("button")
+    lazy val continueButton = doc.select("a.govuk-button")
 
     s"have the button text '${commonMessages.continue}'" in {
       continueButton.text shouldBe commonMessages.continue
     }
 
-    "have an id of submit" in {
-      continueButton.attr("id") shouldBe "submit"
+    "have an href of '/dummy-url'" in {
+      continueButton.attr("href") shouldBe "/dummy-url"
     }
 
     "have the class 'button'" in {

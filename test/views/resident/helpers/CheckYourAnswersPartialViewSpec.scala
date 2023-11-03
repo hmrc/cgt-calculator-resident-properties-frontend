@@ -31,12 +31,11 @@ import views.BaseViewSpec
 import views.html.playHelpers.checkYourAnswersPartial
 
 class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
-  val fakeLang = Lang("en")
   lazy val checkYourAnswersPartialView = fakeApplication.injector.instanceOf[checkYourAnswersPartial]
   "The check your answers partial with as much filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(testingMessages, fakeLang)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(testingMessages)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     s"have a section for Your answers" which {
@@ -375,7 +374,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
   "The check your answers partial with display links set to false" should {
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(testingMessages, fakeLang)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(testingMessages)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "have no links" in {
@@ -435,7 +434,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
   "The check your answers partial with as little filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
-      Some(deductionAnswersLeastPossibles), Some(taxYearModel), Some(incomeAnswers))(testingMessages, fakeLang)
+      Some(deductionAnswersLeastPossibles), Some(taxYearModel), Some(incomeAnswers))(testingMessages)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     s"have a section for Your answers" which {

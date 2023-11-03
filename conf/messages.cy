@@ -292,7 +292,7 @@ calc.resident.sellOrGiveAway.title = A wnaethoch werthu''r eiddo neu ei roi i ff
 calc.resident.shares.outsideTaxYears.message.tooEarly = Gallwch ddefnyddio''r gyfrifiannell hon os ydych wedi gwerthu cyfranddaliadau ers 5 Ebrill 2015.
 
 calc.resident.summary.chargeableGain = Enillion trethadwy
-calc.resident.summary.saveAsPdf = Lawrlwytho''ch cyfrifiad Treth Enillion Cyfalaf (PDF, llai na 25kB)
+calc.resident.summary.print = Argraffwch eich cyfrifiad Treth Enillion Cyfalaf
 calc.resident.summary.title = Crynodeb
 calc.resident.summary.totalGain = Cyfanswm enillion
 calc.resident.summary.totalLoss = Colledion
