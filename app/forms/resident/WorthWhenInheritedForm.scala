@@ -30,6 +30,7 @@ object WorthWhenInheritedForm {
   val worthWhenInheritedForm = Form(
     mapping(
       "amount" -> text("calc.resident.properties.worthWhenInherited.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.properties.worthWhenInherited.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.properties.worthWhenInherited.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

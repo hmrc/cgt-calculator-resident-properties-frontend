@@ -40,6 +40,7 @@ object LettingsReliefValueForm {
   def lettingsReliefValueForm(gain: BigDecimal, prrValue: BigDecimal): Form[LettingsReliefValueModel] =
     Form(mapping(
       "amount" -> text("calc.resident.lettingsReliefValue.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.lettingsReliefValue.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.lettingsReliefValue.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

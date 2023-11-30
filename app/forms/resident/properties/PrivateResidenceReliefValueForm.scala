@@ -29,6 +29,7 @@ object PrivateResidenceReliefValueForm {
   def privateResidenceReliefValueForm(gain: BigDecimal): Form[PrivateResidenceReliefValueModel] = Form(
     mapping(
       "amount" -> text("calc.resident.properties.privateResidenceReliefValue.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.properties.privateResidenceReliefValue.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.properties.privateResidenceReliefValue.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

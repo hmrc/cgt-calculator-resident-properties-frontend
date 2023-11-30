@@ -30,6 +30,7 @@ object WorthWhenSoldForLessForm {
   val worthWhenSoldForLessForm = Form(
     mapping(
       "amount" -> text("calc.resident.properties.worthWhenSoldForLess.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.properties.worthWhenSoldForLess.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.properties.worthWhenSoldForLess.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

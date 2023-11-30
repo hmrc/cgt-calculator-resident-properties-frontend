@@ -30,6 +30,7 @@ object DisposalCostsForm {
   val disposalCostsForm = Form(
     mapping(
       "amount" -> text("calc.resident.disposalCosts.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.disposalCosts.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.disposalCosts.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

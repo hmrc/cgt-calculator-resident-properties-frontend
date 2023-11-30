@@ -30,6 +30,7 @@ object ImprovementsForm {
   val improvementsForm = Form(
     mapping(
       "amount" -> text("calc.resident.properties.improvements.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.properties.improvements.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.properties.improvements.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
