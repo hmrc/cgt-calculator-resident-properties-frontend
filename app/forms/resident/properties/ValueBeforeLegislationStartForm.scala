@@ -30,6 +30,7 @@ object ValueBeforeLegislationStartForm {
   val valueBeforeLegislationStartForm = Form(
     mapping(
       "amount" -> text("calc.resident.properties.valueBeforeLegislationStart.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.properties.valueBeforeLegislationStart.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.properties.valueBeforeLegislationStart.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

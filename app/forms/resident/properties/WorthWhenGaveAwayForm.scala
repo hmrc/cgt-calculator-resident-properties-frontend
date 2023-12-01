@@ -30,6 +30,7 @@ object WorthWhenGaveAwayForm {
   val worthWhenGaveAwayForm = Form(
     mapping(
       "amount" -> text("calc.resident.properties.worthWhenGaveAway.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.properties.worthWhenGaveAway.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.properties.worthWhenGaveAway.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

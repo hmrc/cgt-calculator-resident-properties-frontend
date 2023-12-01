@@ -34,6 +34,7 @@ object PersonalAllowanceForm {
   def personalAllowanceForm(taxYear: TaxYearModel, maxPA: BigDecimal = BigDecimal(0)): Form[PersonalAllowanceModel] = Form(
     mapping(
       "amount" -> text("calc.resident.personalAllowance.mandatoryAmount", taxYear.startYear, taxYear.endYear)
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying(constraintBuilder("calc.resident.personalAllowance.mandatoryAmount", taxYear.startYear, taxYear.endYear) {
           mandatoryCheck
         })

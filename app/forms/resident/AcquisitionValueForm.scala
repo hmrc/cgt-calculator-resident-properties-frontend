@@ -30,6 +30,7 @@ object AcquisitionValueForm {
   val acquisitionValueForm = Form(
     mapping(
       "amount" -> text("calc.resident.acquisitionValue.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.acquisitionValue.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.acquisitionValue.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

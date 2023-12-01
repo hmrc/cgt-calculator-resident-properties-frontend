@@ -28,6 +28,7 @@ object PreviousTaxableGainsForm {
   val previousTaxableGainsForm = Form(
     mapping(
       "amount" -> text("calc.common.error.mandatoryAmount")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

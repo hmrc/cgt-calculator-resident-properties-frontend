@@ -30,6 +30,7 @@ object LossesBroughtForwardValueForm {
   def lossesBroughtForwardValueForm(taxYear: TaxYearModel):Form[LossesBroughtForwardValueModel] = Form(
     mapping(
       "amount" -> text("calc.resident.lossesBroughtForward.errorSelect")
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying(constraintBuilder[String]("calc.resident.lossesBroughtForwardValue.mandatoryAmount", taxYear.startYear, taxYear.endYear) {
           mandatoryCheck
         })

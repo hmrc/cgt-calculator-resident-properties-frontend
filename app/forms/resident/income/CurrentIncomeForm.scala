@@ -31,6 +31,7 @@ object CurrentIncomeForm {
   def currentIncomeForm(taxYear: TaxYearModel):Form[CurrentIncomeModel] = Form(
     mapping(
       "amount" -> text("calc.resident.currentIncome.mandatoryAmount", taxYear.startYear, taxYear.endYear)
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying(constraintBuilder[String]("calc.resident.currentIncome.mandatoryAmount", taxYear.startYear, taxYear.endYear){
           mandatoryCheck
         })
