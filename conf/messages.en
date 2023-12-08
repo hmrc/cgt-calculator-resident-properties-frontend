@@ -83,7 +83,6 @@ calc.calculationElection.based = Based on
 ## Summary ##
 calc.summary.startAgain = Start again
 calc.summary.warning.taxYear = Your total might be less accurate because you didn't sell or give away your property in this tax year
-calc.summary.ratesHelp = These rates are based on your Income Tax bands:
 
 ## Check Your Answers ##
 calc.checkYourAnswers.title = Check your answers
@@ -377,7 +376,7 @@ calc.summary.calculationDetails.totalDeductions = Total deductions
 calc.summary.calculationDetails.yourTaxableGain = Your taxable gain
 calc.summary.calculationDetails.minusDeductions = Minus deductions
 calc.summary.calculationDetails.taxableGain = Taxable gain
-calc.summary.calculationDetails.yourTaxRate = Your tax rate
+calc.summary.calculationDetails.yourTaxRate = Your tax rate based on your Income Tax bands
 calc.summary.calculationDetails.taxRate = £{0} taxable gain multiplied by {1}% tax rate
 calc.summary.calculationDetails.taxToPay = Tax to pay
 calc.summary.remainingDeductions.heading = Your remaining deductions

@@ -334,7 +334,7 @@ calc.summary.calculationDetails.totalGain = Cyfanswm enillion
 calc.summary.calculationDetails.totalLoss = Cyfanswm colledion
 calc.summary.calculationDetails.yourDeductions = Eich didyniadau
 calc.summary.calculationDetails.yourTaxableGain = Eich enillion trethadwy
-calc.summary.calculationDetails.yourTaxRate = Eich cyfradd dreth
+calc.summary.calculationDetails.yourTaxRate = Eich cyfradd dreth ar sail eich haenau Treth Incwm
 calc.summary.calculationDetails.yourTotalGain = Cyfanswm eich enillion
 calc.summary.calculationDetails.yourTotalLoss = Cyfanswm eich colledion
 
@@ -343,8 +343,6 @@ calc.summary.cgtToPay = Treth Enillion Cyfalaf i''w thalu ar gyfer y flwyddyn dr
 calc.summary.download = Lawrlwytho
 
 calc.summary.noticeSummary = Efallai na fydd eich canlyniad yn fanwl gywir oherwydd nad yw''r gyfrifiannell yn cefnogi''r dyddiadau a nodwyd gennych. Peidiwch â defnyddio''r ffigurau hyn i roi gwybod am eich Treth Enillion Cyfalaf.
-
-calc.summary.ratesHelp = Mae''r cyfraddau hyn yn seiliedig ar eich haenau Treth Incwm:
 
 calc.summary.remainingDeductions.aeaLeft = Swm Blynyddol sydd wedi''i Eithrio rhag Treth sy''n weddill ar gyfer y flwyddyn dreth {0} i {1}
 calc.summary.remainingDeductions.broughtForwardLossesRemaining = Colledion i''w cario ymlaen o flynyddoedd treth blaenorol

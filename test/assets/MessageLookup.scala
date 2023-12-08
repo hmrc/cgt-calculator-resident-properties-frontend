@@ -119,7 +119,6 @@ object MessageLookup {
 
     val whatToDoNextTextTwo = "You need to tell HMRC about the property"
     val whatToDoNextFurtherDetails = "Further details on how to tell HMRC about this property can be found at"
-    val ratesHelp = "These rates are based on your Income Tax bands:"
   }
 
   object NonResident extends Common {
@@ -1036,7 +1035,7 @@ object MessageLookup {
     val yourTaxableGain = "Your taxable gain"
     val minusDeductions = "Minus deductions"
     val taxableGain = "Taxable gain"
-    val yourTaxRate = "Your tax rate"
+    val yourTaxRate = "Your tax rate based on your Income Tax bands"
     def taxRate(amount: String, rate: String): String = s"$amount taxable gain multiplied by $rate% tax rate"
     val taxToPay = "Tax to pay"
     val remainingDeductions = "Your remaining deductions"
