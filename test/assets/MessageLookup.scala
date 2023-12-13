@@ -968,6 +968,7 @@ object MessageLookup {
   object PropertyLivedIn {
     val title = "Have you ever lived in the property since you became the owner?"
     val titleNew = "Have you ever lived in the property since you became the owner? - Calculate your Capital Gains Tax - GOV.UK"
+    val errorTitle = "Error: Have you ever lived in the property since you became the owner? - Calculate your Capital Gains Tax - GOV.UK"
     val errorNoSelect = "calc.resident.properties.propertyLivedIn.noSelectError"
   }
 
