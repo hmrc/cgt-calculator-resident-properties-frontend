@@ -139,7 +139,7 @@ class PropertyLivedInActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "render the Property Lived In page" in {
-        doc.title() shouldEqual messages.titleNew
+        doc.title() shouldEqual messages.errorTitle
       }
     }
   }
