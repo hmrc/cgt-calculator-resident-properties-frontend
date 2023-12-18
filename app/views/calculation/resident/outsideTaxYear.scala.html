@@ -41,6 +41,10 @@
         <a id="change-date-link" class="back-link" href="@navBackLink">@Messages("calc.resident.outsideTaxYears.changeDate")</a>
     }
 
-    <p><a class="govuk-button" href="@continueUrl" id="submit">@Messages("calc.base.button.continue")</a></p>
+    <p>
+        <a class="govuk-button" href="@continueUrl" id="submit" role="button" data-module="govuk-button">
+            @Messages("calc.base.button.continue")
+        </a>
+    </p>
 
 }
