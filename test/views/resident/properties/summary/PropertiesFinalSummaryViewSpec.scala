@@ -178,11 +178,11 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
 
           "has a row for acquisition value" which {
             s"has the text '${summaryMessages.acquisitionValue}'" in {
-              div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+              div.select("#acquisitionValue-WhenBought-text").text shouldBe summaryMessages.acquisitionValue
             }
 
             "has the value '£0'" in {
-              div.select("#acquisitionValue-amount").text shouldBe "£0"
+              div.select("#acquisitionValue-WhenBought-amount").text shouldBe "£0"
             }
           }
 
