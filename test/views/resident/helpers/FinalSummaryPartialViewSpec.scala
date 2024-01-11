@@ -146,11 +146,11 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
           "has a row for acquisition value" which {
             s"has the text '${summaryMessages.acquisitionValue}'" in {
-              div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+              div.select("#acquisitionValue-WhenBought-text").text shouldBe summaryMessages.acquisitionValue
             }
 
             "has the value '£0'" in {
-              div.select("#acquisitionValue-amount").text shouldBe "£0"
+              div.select("#acquisitionValue-WhenBought-amount").text shouldBe "£0"
             }
           }
 
@@ -667,11 +667,11 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
       "has a row for acquisition value" which {
         s"has the text '${summaryMessages.acquisitionValueBeforeLegislation}'" in {
-          doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValueBeforeLegislation
+          doc.select("#acquisitionValue-BeforeLegislationStart-text").text shouldBe summaryMessages.acquisitionValueBeforeLegislation
         }
 
         "has the value '£350,000'" in {
-          doc.select("#acquisitionValue-amount").text shouldBe "£350,000"
+          doc.select("#acquisitionValue-BeforeLegislationStart-amount").text shouldBe "£350,000"
         }
       }
 
@@ -731,11 +731,11 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
       "has a row for acquisition value" which {
         s"has the text '${summaryMessages.acquisitionValue}'" in {
-          doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+          doc.select("#acquisitionValue-WhenInherited-text").text shouldBe summaryMessages.acquisitionValue
         }
 
         "has the value '£300,000'" in {
-          doc.select("#acquisitionValue-amount").text shouldBe "£300,000"
+          doc.select("#acquisitionValue-WhenInherited-amount").text shouldBe "£300,000"
         }
       }
     }
@@ -794,11 +794,11 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
       "has a row for acquisition value" which {
         s"has the text '${summaryMessages.acquisitionValue}'" in {
-          doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+          doc.select("#acquisitionValue-WhenGifted-text").text shouldBe summaryMessages.acquisitionValue
         }
 
         "has the value '£300,000'" in {
-          doc.select("#acquisitionValue-amount").text shouldBe "£300,000"
+          doc.select("#acquisitionValue-WhenGifted-amount").text shouldBe "£300,000"
         }
       }
     }
@@ -857,11 +857,11 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
       "has a row for acquisition value" which {
         s"has the text '${summaryMessages.acquisitionValue}'" in {
-          doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+          doc.select("#acquisitionValue-WhenBoughtForLess-text").text shouldBe summaryMessages.acquisitionValue
         }
 
         "has the value '£350,000'" in {
-          doc.select("#acquisitionValue-amount").text shouldBe "£300,000"
+          doc.select("#acquisitionValue-WhenBoughtForLess-amount").text shouldBe "£300,000"
         }
       }
     }
