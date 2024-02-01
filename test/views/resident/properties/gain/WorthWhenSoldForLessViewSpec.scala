@@ -90,8 +90,8 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
             doc.select("#main-content > div > div > form > div > label").text() shouldEqual messages.question
           }
 
-          "has the class visually hidden" in {
-            doc.select("#main-content > div > div > form > div > label").hasClass("govuk-visually-hidden") shouldEqual true
+          "has the class govuk-label" in {
+            doc.select("#main-content > div > div > form > div > label").hasClass("govuk-label") shouldEqual true
           }
 
           "is tied to the input field" in {

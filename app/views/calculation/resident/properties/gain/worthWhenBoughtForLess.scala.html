@@ -49,8 +49,9 @@
     @form(action = controllers.routes.GainController.submitWorthWhenBoughtForLess) {
         @formInputMoney(
             field = worthWhenBoughtForLessForm("amount"),
-            question = title,
-            hideLabel = true
+            question = messages("calc.resident.properties.worthWhenBoughtForLess.question"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£150,000"))
         )
         @submitButton()
     }

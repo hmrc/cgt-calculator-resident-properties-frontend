@@ -21,7 +21,7 @@ import sbt.*
 object AppDependencies {
 
   val bootstrapVersion         = "7.22.0"
-  val playFrontendVersion      = "7.24.0-play-28"
+  val playFrontendVersion      = "7.29.0-play-28"
   val playPartialsVersion      = "8.4.0-play-28"
   val httpCachingClientVersion = "10.0.0-play-28"
   val hmrcMongoVersion         = "1.3.0"

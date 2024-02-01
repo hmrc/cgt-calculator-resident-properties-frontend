@@ -56,8 +56,9 @@
     @form(action = postAction) {
         @formInputMoney(
             field = worthWhenGiftedForm("amount"),
-            question = Messages("calc.resident.properties.worthWhenGifted.question"),
-            hideLabel = true
+            question = messages("calc.resident.properties.worthWhenGifted.question"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£150,000"))
         )
         @submitButton()
     }

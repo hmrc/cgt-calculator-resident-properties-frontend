@@ -93,8 +93,8 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
           label.text should include(messages.pageHeading)
         }
 
-        "have the class 'govuk-visually-hidden'" in {
-          label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
+        "have the class 'govuk-label'" in {
+          label.hasClass("govuk-label") shouldBe true
         }
 
         "have a div form-hint" which {

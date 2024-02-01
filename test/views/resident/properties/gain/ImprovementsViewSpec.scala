@@ -67,7 +67,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "have a hidden label" in {
       val label = doc.select("label")
-      label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
+      label.hasClass("govuk-label") shouldBe true
     }
 
     s"have a drop down link with the text ${messages.improvementsHelpButton}" in {
@@ -120,7 +120,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "have a hidden label" in {
       val label = doc.select("label")
-      label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
+      label.hasClass("govuk-label") shouldBe true
     }
   }
 

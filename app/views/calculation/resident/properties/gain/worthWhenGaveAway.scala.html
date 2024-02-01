@@ -54,8 +54,9 @@
 
         @formInputMoney(
             worthWhenGaveAwayForm("amount"),
-            Messages("calc.resident.properties.worthWhenGaveAway.title"),
-            hideLabel = true
+            question = messages("calc.resident.properties.worthWhenGaveAway.title"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£150,000"))
         )
 
         @submitButton()

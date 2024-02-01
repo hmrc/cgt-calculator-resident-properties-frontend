@@ -79,7 +79,7 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
 
     "have a visually hidden label for the question" in {
       val label = doc.select("label")
-      label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
+      label.hasClass("govuk-label") shouldBe true
     }
 
     s"have a label for an input with text ${messages.question}" in {

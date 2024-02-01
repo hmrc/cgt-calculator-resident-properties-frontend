@@ -97,8 +97,8 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
             label.text() shouldEqual messages.title
           }
 
-          "has the class visually hidden" in {
-            label.hasClass("govuk-visually-hidden") shouldEqual true
+          "has the class govuk-label--m" in {
+            label.hasClass("govuk-label--m") shouldEqual true
           }
 
           "is tied to the input field" in {

@@ -57,14 +57,14 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have a H1 tag that" should {
-      lazy val heading = doc.select("h1")
+      lazy val heading = doc.select("h1 > label")
 
       s"have the page heading '${messages.pageHeading}'" in {
         heading.text shouldBe messages.pageHeading
       }
 
-      "have the heading-large class" in {
-        heading.hasClass("govuk-heading-xl") shouldBe true
+      "contains an extra large label" in {
+        heading.hasClass("govuk-label--xl") shouldBe true
       }
     }
 
@@ -81,8 +81,8 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.attr("method") shouldBe "POST"
       }
 
-      s"has a paragraph with the text ${messages.jointOwnership}" in {
-        doc.body().select("p.govuk-inset-text").text shouldBe messages.jointOwnership
+      s"contains help text '${messages.jointOwnership}'" in {
+        doc.getElementsByClass("govuk-hint").text should include(messages.jointOwnership)
       }
 
       "has a label that" should {
@@ -94,7 +94,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         }
 
         "have the class 'visuallyhidden'" in {
-          label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
+          label.hasClass("govuk-label") shouldBe true
         }
       }
 

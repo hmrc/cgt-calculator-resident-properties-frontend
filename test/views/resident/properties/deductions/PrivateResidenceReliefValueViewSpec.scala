@@ -59,7 +59,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a hidden label with the text ${messages.question}" in {
-      doc.getElementsByClass("govuk-label govuk-visually-hidden").text shouldEqual messages.question
+      doc.getElementsByClass("govuk-label").text shouldEqual messages.question
     }
 
     s"have an Indented Panel with the help text ${messages.help("1,000")}" in {
@@ -104,7 +104,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a hidden legend with the text ${messages.question}" in {
-      doc.getElementsByClass("govuk-label govuk-visually-hidden").text shouldEqual messages.question
+      doc.getElementsByClass("govuk-label").text shouldEqual messages.question
     }
 
     "display the value of the form" in {
@@ -135,7 +135,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a hidden legend with the text ${messages.question}" in {
-      doc.getElementsByClass("govuk-label govuk-visually-hidden").text shouldEqual messages.question
+      doc.getElementsByClass("govuk-label").text shouldEqual messages.question
     }
 
     "display an error summary message for the amount" in {

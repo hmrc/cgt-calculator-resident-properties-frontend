@@ -46,8 +46,9 @@
 
         @formInputMoney(
             field = lettingsReliefValueForm("amount"),
-            question = Messages("calc.resident.lettingsReliefValue.question"),
-            hideLabel = true
+            question = messages("calc.resident.lettingsReliefValue.question"),
+labelClass = "govuk-label--m",
+hintText = Some(messages("calc.currencyHint", "£5,000.50"))
         )
 
         @submitButton()

@@ -90,8 +90,8 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           label.text should include(messages.pageHeading)
         }
 
-        "have the class 'govuk-visually-hidden'" in {
-          doc.body.select("label.govuk-visually-hidden").size shouldBe 1
+        "have the class 'govuk-label--m'" in {
+          doc.body.select("label.govuk-label--m").size shouldBe 1
         }
       }
 

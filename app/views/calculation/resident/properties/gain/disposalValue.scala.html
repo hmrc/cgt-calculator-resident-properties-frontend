@@ -39,15 +39,14 @@
 
     @errorSummary(disposalValueForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-xl">@Messages("calc.resident.disposal.value.question")</h1>
-
-    <div class="govuk-inset-text">
-        <p>@Messages("calc.resident.disposal.value.helpText")</p>
-    </div>
-
     @form(action = controllers.routes.GainController.submitDisposalValue) {
 
-        @formInputMoney(disposalValueForm("amount"), Messages("calc.resident.disposal.value.question"), hideLabel = true)
+        @formInputMoney(
+                field = disposalValueForm("amount"),
+                question = messages("calc.resident.disposal.value.question"),
+                labelClass = "govuk-label--xl",
+                hintText = Some(messages("calc.resident.disposal.value.helpText"))
+            )
 
         @submitButton()
     }

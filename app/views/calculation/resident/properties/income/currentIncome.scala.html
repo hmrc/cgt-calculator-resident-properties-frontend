@@ -51,8 +51,9 @@
         @formInputMoney(
             field = currentIncomeForm("amount"),
             question = title,
-            hideLabel = true
-        )
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£25,000.50"))
+            )
 
         @submitButton()
     }

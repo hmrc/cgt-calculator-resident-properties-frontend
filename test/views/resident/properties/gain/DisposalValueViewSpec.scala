@@ -56,7 +56,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     s"has the help text ${messages.helpText}" in {
-      doc.select("#main-content > div > div > div > p").text shouldEqual messages.helpText
+      doc.getElementsByClass("govuk-hint").text should include(messages.helpText)
     }
 
     "render a form tag with a submit action" in {

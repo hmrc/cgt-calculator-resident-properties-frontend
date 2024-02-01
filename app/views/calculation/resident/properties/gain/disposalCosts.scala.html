@@ -61,8 +61,9 @@
     @form(action = controllers.routes.GainController.submitDisposalCosts){
         @formInputMoney(
             disposalCostsForm("amount"),
-            Messages("calc.resident.disposalCosts.pageHeading"),
-            hideLabel = true,
+            question = messages("calc.resident.disposalCosts.pageHeading"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£5,000.50"))
         )
         @submitButton()
     }
