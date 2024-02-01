@@ -103,8 +103,8 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
             doc.select("#main-content > div > div > form > div > label").text() shouldEqual messages.question
           }
 
-          "has the class visually hidden" in {
-            doc.select("#main-content > div > div > form > div > label").hasClass("govuk-visually-hidden") shouldEqual true
+          "has the class govuk-label--m" in {
+            doc.select("#main-content > div > div > form > div > label").hasClass("govuk-label--m") shouldEqual true
           }
 
           "is tied to the input field" in {

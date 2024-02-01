@@ -38,24 +38,25 @@
 
     @errorSummary(acquisitionCostsForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-xl">@Messages("calc.resident.acquisitionCosts.question")</h1>
+    <h1 class="govuk-heading-xl">@messages("calc.resident.acquisitionCosts.question")</h1>
 
     @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
         <div class="govuk-body">
-            <p id="listTitle">@Messages("calc.resident.acquisitionCosts.listTitle")</p>
+            <p id="listTitle">@messages("calc.resident.acquisitionCosts.listTitle")</p>
             <ul class="govuk-list govuk-list--bullet">
-                <li>@Messages("calc.resident.acquisitionCosts.bulletOne")</li>
-                <li>@Messages("calc.resident.acquisitionCosts.bulletTwo")</li>
-                <li>@Messages("calc.resident.acquisitionCosts.bulletThree")</li>
+                <li>@messages("calc.resident.acquisitionCosts.bulletOne")</li>
+                <li>@messages("calc.resident.acquisitionCosts.bulletTwo")</li>
+                <li>@messages("calc.resident.acquisitionCosts.bulletThree")</li>
             </ul>
         </div>
 
-        <p class="govuk-inset-text">@Messages("calc.resident.acquisitionCosts.panelText")</p>
+        <p class="govuk-inset-text">@messages("calc.resident.acquisitionCosts.panelText")</p>
 
         @formInputMoney(
             field = acquisitionCostsForm("amount"),
-            question = Messages("calc.resident.acquisitionCosts.question"),
-            hideLabel = true
+            question = messages("calc.resident.acquisitionCosts.question"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£5,000.50"))
         )
 
         @submitButton()

@@ -39,16 +39,12 @@
 
     @errorSummary(acquisitionValueForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-xl">@Messages("calc.resident.acquisitionValue.question")</h1>
-
     @form(action = controllers.routes.GainController.submitAcquisitionValue) {
 
-        <p class="govuk-inset-text">@Messages("calc.resident.acquisitionValue.jointOwnership")</p>
-
         @formInputMoney(
-            field = acquisitionValueForm("amount"),
-            question = Messages("calc.resident.acquisitionValue.question"),
-            hideLabel = true
+        field = acquisitionValueForm("amount"),
+        question = messages("calc.resident.acquisitionValue.question"),
+        hintText = Some(messages("calc.resident.acquisitionValue.helpText"))
         )
 
         @submitButton()

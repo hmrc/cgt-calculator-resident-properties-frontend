@@ -89,7 +89,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have a label for an input with text ${messages.question}" in {
-      doc.select("label.govuk-label.govuk-visually-hidden").text() shouldEqual messages.question
+      doc.select("label.govuk-label").text() shouldEqual messages.question
     }
 
     s"have an input field with id amount " in {

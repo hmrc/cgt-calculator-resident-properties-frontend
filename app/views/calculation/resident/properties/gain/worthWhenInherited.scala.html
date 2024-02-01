@@ -49,8 +49,9 @@
 
         @formInputMoney(
             field = worthWhenInheritedForm("amount"),
-            question = Messages("calc.resident.properties.worthWhenInherited.question"),
-            hideLabel = true
+            question = messages("calc.resident.properties.worthWhenInherited.question"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£150,000"))
         )
 
         @submitButton()

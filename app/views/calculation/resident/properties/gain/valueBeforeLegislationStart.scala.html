@@ -55,7 +55,12 @@
 
     @form(action = controllers.routes.GainController.submitValueBeforeLegislationStart){
 
-        @formInputMoney(valueBeforeLegislationStartForm("amount"), Messages("calc.resident.properties.valueBeforeLegislationStart.question"), hideLabel = true)
+        @formInputMoney(
+            field =valueBeforeLegislationStartForm("amount"),
+            question = messages("calc.resident.properties.valueBeforeLegislationStart.question"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£150,000.50"))
+        )
 
     @submitButton()
 

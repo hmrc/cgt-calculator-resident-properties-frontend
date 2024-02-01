@@ -47,7 +47,12 @@
 
         <p class="govuk-inset-text">@Messages("calc.resident.properties.worthWhenSoldForLess.hintText")</p>
 
-        @formInputMoney(worthWhenSoldForLessForm("amount"), Messages("calc.resident.properties.worthWhenSoldForLess.question"), hideLabel = true)
+        @formInputMoney(
+            worthWhenSoldForLessForm("amount"),
+            question = messages("calc.resident.properties.worthWhenSoldForLess.question"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£150,000"))
+        )
 
         @submitButton()
 

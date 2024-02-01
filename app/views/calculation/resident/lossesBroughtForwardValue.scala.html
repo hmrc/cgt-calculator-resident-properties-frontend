@@ -49,7 +49,8 @@
         @formInputMoney(
             field = lossesBroughtForwardValueForm("amount"),
             question = Messages("calc.resident.lossesBroughtForwardValue.pageHeading", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)(1)),
-            hideLabel = false
+            labelClass = "govuk-label--xl",
+            hintText = Some(messages("calc.currencyHint", "£10,000"))
         )
 
         @submitButton()

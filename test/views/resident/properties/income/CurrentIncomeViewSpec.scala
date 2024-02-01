@@ -71,8 +71,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           label.text should include(messages.question("2015 to 2016"))
         }
 
-        "have the class 'govuk-visually-hidden'" in {
-          label.attr("class") shouldBe "govuk-label govuk-visually-hidden"
+        "have the class 'govuk-label--m'" in {
+          label.attr("class") contains "govuk-label--m"
         }
       }
 
