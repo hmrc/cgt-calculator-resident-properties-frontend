@@ -195,7 +195,7 @@ calc.resident.privateResidenceReliefValue.title = Faint o Ryddhad Preswylfan Pre
 calc.resident.properties.boughtForLessThanWorth.noSelectError = Rhowch wybod i ni a ydych wedi prynu''r eiddo am lai na''i werth
 calc.resident.properties.boughtForLessThanWorth.title = A wnaethoch brynu''r eiddo am lai na''i werth oherwydd bod y gwerthwr eisiau''ch helpu?
 
-calc.resident.properties.gaveItAway.hintText = Os oeddech yn berchen ar yr eiddo gyda rhywun arall, dylech ond nodi''ch cyfran chi o werth yr eiddo. Er enghraifft, £150,000
+calc.resident.properties.gaveItAway.hintText = Os oeddech yn berchen ar yr eiddo gyda rhywun arall, dylech ond nodi''ch cyfran chi o werth yr eiddo.
 calc.resident.properties.gaveItAway.paragraphText = Gallwch ddefnyddio prisiad gan syrfëwr. Os nad ydych yn gwybod yr union werth, mae''n rhaid i chi roi amcangyfrif realistig. Efallai y bydd yn rhaid i chi dalu rhagor os ydym o''r farn nad yw''ch amcangyfrif yn realistig.
 
 calc.resident.properties.improvements.additionalContent.one = Fel rheol, mae gosod cegin neu ystafell ymolchi foethus yn lle un sylfaenol yn cael ei ystyried fel gwelliant.

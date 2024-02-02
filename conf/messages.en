@@ -69,7 +69,7 @@ calc.personalAllowance.link.text = Find out more about
 calc.personalAllowance.link = Income tax rates and Personal Allowances (opens in new tab)
 
 ## Market Value ##
-calc.resident.properties.gaveItAway.hintText = If you owned the property with someone else, only enter your share of the property value. For example, £150,000
+calc.resident.properties.gaveItAway.hintText = If you owned the property with someone else, only enter your share of the property value.
 calc.resident.properties.gaveItAway.paragraphText = You can use a valuation from a surveyor. If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 
 ## Who did you give the property to ##
