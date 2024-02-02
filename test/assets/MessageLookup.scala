@@ -561,7 +561,7 @@ object MessageLookup {
         val title = "What was the property worth when you gave it away?"
         val paragraphText = "You can use a valuation from a surveyor. If you don’t know the exact value, " +
           "you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
-        val extraText = "If you owned the property with someone else, only enter your share of the property value. For example, £150,000"
+        val extraText = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object ValueBeforeLegislationStart {
