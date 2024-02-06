@@ -43,7 +43,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     s"have a back link with text ${commonMessages.back}" in {
-      doc.select("#back-link").text() shouldEqual "Back"
+      doc.select(".govuk-back-link").text() shouldEqual "Back"
     }
 
     s"have the question of the page ${messages.question("2015 to 2016")}" in {

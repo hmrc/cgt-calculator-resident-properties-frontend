@@ -142,7 +142,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
       }
 
       s"has a link to '${controllers.routes.ReviewAnswersController.reviewGainAnswers}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewGainAnswers.url
+        doc.select(".govuk-back-link").attr("href") shouldBe "#"
       }
 
     }
@@ -196,7 +196,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
       }
 
       s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
+        doc.select(".govuk-back-link").attr("href") shouldBe "#"
       }
     }
 
@@ -250,7 +250,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
       }
 
       s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
+        doc.select(".govuk-back-link").attr("href") shouldBe "#"
       }
     }
 
@@ -308,7 +308,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
       }
 
       s"has a link to '${controllers.routes.ReviewAnswersController.reviewFinalAnswers.url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewFinalAnswers.url
+        doc.select(".govuk-back-link").attr("href") shouldBe "#"
       }
     }
   }

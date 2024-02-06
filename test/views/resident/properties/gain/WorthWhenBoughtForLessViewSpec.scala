@@ -37,7 +37,7 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
     }
 
     s"have a back link to back-link" in {
-      doc.select("#back-link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/bought-for-less-than-worth"
+      doc.select(".govuk-back-link").attr("href") shouldBe "#"
     }
 
     s"have a title of ${messages.question}" in {

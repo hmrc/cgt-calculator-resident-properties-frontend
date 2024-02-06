@@ -68,11 +68,11 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a back link" in {
-      doc.body.getElementById("back-link").text shouldBe commonMessages.back
+      doc.body.select(".govuk-back-link").text shouldBe commonMessages.back
     }
 
     "have a back link to the introduction page" in {
-      doc.body.getElementById("back-link").attr("href") shouldBe controllers.routes.PropertiesController.introduction.toString
+      doc.body.select(".govuk-back-link").attr("href") shouldBe "#"
     }
   }
 

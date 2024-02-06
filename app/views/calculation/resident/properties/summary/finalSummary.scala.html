@@ -45,7 +45,6 @@
 
 @layout(
     pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*),
-    backLinkHref = Some(backUrl),
     isUserResearchBannerVisible = showUserResearchPanel,
     scripts = Some(scripts)
 ) {

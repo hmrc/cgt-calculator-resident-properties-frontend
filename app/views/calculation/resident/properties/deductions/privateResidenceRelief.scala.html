@@ -41,8 +41,7 @@
     if(privateResidenceReliefForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.privateResidenceRelief.title")) else Messages("calc.resident.properties.privateResidenceRelief.title")
 }
 @layout(
-    pageTitle = title,
-    backLinkHref = Some(controllers.routes.DeductionsController.propertyLivedIn.url)
+    pageTitle = title
 ) {
 
     @errorSummary(privateResidenceReliefForm.errors, Some("isClaiming"))

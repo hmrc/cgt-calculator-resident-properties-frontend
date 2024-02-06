@@ -33,7 +33,6 @@
 
 @layout(
     pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied): _*),
-    backLinkHref = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers.url),
     isUserResearchBannerVisible = showUserResearchPanel,
     scripts = Some(scripts)
 ) {

@@ -50,7 +50,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a back link to the owner before April 1982 with text ${commonMessages.back}" in {
-      doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/owner-before-legislation-start"
+      doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
     "have a H1 tag that" should {

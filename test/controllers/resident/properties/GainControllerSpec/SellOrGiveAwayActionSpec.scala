@@ -63,7 +63,7 @@ class SellOrGiveAwayActionSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have a back link to Disposal Date" in {
-        doc.body().select("a#back-link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/disposal-date"
+        doc.body().select(".govuk-back-link").attr("href") shouldBe "#"
       }
 
       "have a home link to 'homeLink'" in {

@@ -82,7 +82,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       s"have a back link to '${controllers.routes.GainController.disposalValue.url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenGaveAway.url
+        doc.select(".govuk-back-link").attr("href") shouldBe "#"
       }
     }
 
@@ -105,7 +105,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       s"have a back link to '${controllers.routes.GainController.worthWhenSoldForLess.url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.worthWhenSoldForLess.url
+        doc.select(".govuk-back-link").attr("href") shouldBe "#"
       }
     }
 
@@ -128,7 +128,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       s"have a back link to '${controllers.routes.GainController.disposalValue.url}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalValue.url
+        doc.select(".govuk-back-link").attr("href") shouldBe "#"
       }
     }
   }

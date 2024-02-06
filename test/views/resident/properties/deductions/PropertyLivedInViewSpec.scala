@@ -55,7 +55,7 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "have a back button" which {
 
-      lazy val backLink = doc.select("a#back-link")
+      lazy val backLink = doc.select(".govuk-back-link")
 
       "has the correct back link text" in {
         backLink.text shouldBe commonMessages.back
@@ -66,7 +66,7 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "has a back link to 'back'" in {
-        backLink.attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/improvements"
+        backLink.attr("href") shouldBe "#"
       }
     }
 

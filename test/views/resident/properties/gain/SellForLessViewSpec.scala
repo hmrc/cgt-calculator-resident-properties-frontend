@@ -71,7 +71,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
       }
 
       "has a back link to 'back'" in {
-        backLink.attr("href") shouldBe "back-link"
+        backLink.attr("href") shouldBe "#"
       }
     }
 

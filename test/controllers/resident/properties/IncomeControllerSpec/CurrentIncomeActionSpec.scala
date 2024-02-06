@@ -146,7 +146,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "have a back link with the address /calculate-your-capital-gains/resident/properties/losses-brought-forward" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/losses-brought-forward"
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 
@@ -162,7 +162,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "have a back link with the address /calculate-your-capital-gains/resident/properties/losses-brought-forward-value" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/losses-brought-forward-value"
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
   }

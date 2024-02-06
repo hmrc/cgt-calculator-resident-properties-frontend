@@ -35,8 +35,12 @@ class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeA
       doc.title() shouldBe commonMessages.newTitle
     }
 
-    "have a back link to 'back-link'" in {
-      doc.select("a#back-link").attr("href") shouldBe "back-link"
+    "have a back link" which {
+      lazy val backLink = doc.select(".govuk-back-link")
+
+      s"should have the text ${commonMessages.back}" in {
+        backLink.text() shouldBe commonMessages.back
+      }
     }
 
     "have the correct heading" in {

@@ -38,7 +38,7 @@ class NoTaxToPayViewSpec extends CommonPlaySpec with WithCommonFakeApplication w
     }
 
     "have a back link to back-link" in {
-      doc.body().select("a#back-link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/who-did-you-give-it-to"
+      doc.body().select(".govuk-back-link").attr("href") shouldBe "#"
     }
 
     "have a home link to home-link" in {

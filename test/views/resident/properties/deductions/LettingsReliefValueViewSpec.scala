@@ -42,7 +42,7 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
     }
 
     s"have a back link to the Reliefs Page with text ${commonMessages.back}" in {
-      doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/lettings-relief"
+      doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
     s"have the text ${messages.question} as the h1 tag" in {

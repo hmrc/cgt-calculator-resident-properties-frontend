@@ -42,11 +42,11 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
 
     s"have a back link to Private Residence Relief" which {
       s"has the text ${commonMessages.back}" in {
-        doc.select("#back-link").text shouldEqual commonMessages.back
+        doc.select(".govuk-back-link").text shouldEqual commonMessages.back
       }
 
       s"has a link to /calculate-your-capital-gains/resident/properties/private-residence-relief" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/private-residence-relief"
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 

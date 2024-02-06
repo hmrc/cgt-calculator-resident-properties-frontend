@@ -94,18 +94,14 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
 
     s"have a back button" which {
 
-      lazy val backLink = doc.getElementById("back-link")
-
-      "has the id 'back-link'" in {
-        backLink.attr("id") shouldBe "back-link"
-      }
+      lazy val backLink = doc.select(".govuk-back-link")
 
       s"has the text '${residentMessages.back}'" in {
         backLink.text shouldBe residentMessages.back
       }
 
       s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url}'" in {
-        backLink.attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
+        backLink.attr("href") shouldBe "#"
       }
     }
 

@@ -44,8 +44,7 @@
 }
 
 @layout(
-    pageTitle = titleWithError,
-    backLinkHref = Some(controllers.routes.GainController.acquisitionCosts.toString)
+    pageTitle = titleWithError
 ) {
 
     @errorSummary(improvementsForm.errors, Some("improvements"))

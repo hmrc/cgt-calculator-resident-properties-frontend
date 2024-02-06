@@ -51,15 +51,15 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
     "have a back link" which {
 
       s"should have text ${commonMessages.back}" in {
-        doc.select("#back-link").text() shouldEqual "Back"
+        doc.select(".govuk-back-link").text() shouldEqual "Back"
       }
 
       "has the back-link class" in {
-        doc.select("#back-link").hasClass("govuk-back-link") shouldBe true
+        doc.select(".govuk-back-link").hasClass("govuk-back-link") shouldBe true
       }
 
       "and link back to the property lived in page" in {
-        doc.select("#back-link").attr("href") shouldEqual s"${controllers.routes.DeductionsController.propertyLivedIn.url}"
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 

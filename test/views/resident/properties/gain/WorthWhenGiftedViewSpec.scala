@@ -40,7 +40,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have a back link to back-link" in {
-      doc.select("#back-link").attr("href") shouldBe "back-link"
+      doc.select(".govuk-back-link").attr("href") shouldBe "#"
     }
 
     s"have a nav title of 'navTitle'" in {

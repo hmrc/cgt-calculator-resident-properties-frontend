@@ -140,7 +140,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       s"have a back link with the address ${controllers.routes.DeductionsController.propertyLivedIn.url}" in {
-        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.propertyLivedIn.url
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 
@@ -156,7 +156,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       s"have a back link with the address ${controllers.routes.DeductionsController.privateResidenceRelief.url}" in {
-        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.privateResidenceRelief.url
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 
@@ -172,7 +172,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       s"have a back link with the address ${controllers.routes.DeductionsController.lettingsRelief.url}" in {
-        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.lettingsRelief.url
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 
@@ -188,7 +188,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       s"have a back link with the address ${controllers.routes.DeductionsController.lettingsReliefValue.url}" in {
-        doc.select("#back-link").attr("href") shouldEqual controllers.routes.DeductionsController.lettingsReliefValue.url
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
   }

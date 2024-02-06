@@ -39,7 +39,7 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     s"have a back link to the Disposal Date Page" in {
-      doc.select("#back-link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/disposal-date"
+      doc.select(".govuk-back-link").attr("href") shouldBe "#"
     }
 
     s"have a nav title of 'navTitle'" in {

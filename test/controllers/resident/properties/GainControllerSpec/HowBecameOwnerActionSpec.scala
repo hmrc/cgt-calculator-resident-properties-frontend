@@ -61,7 +61,7 @@ class HowBecameOwnerActionSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have a back link to owner-before" in {
-        doc.body().select("a#back-link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/owner-before-legislation-start"
+        doc.body().select(".govuk-back-link").attr("href") shouldBe "#"
       }
 
       "have a home link to 'homeLink'" in {

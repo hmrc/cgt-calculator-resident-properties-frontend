@@ -66,7 +66,7 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
       }
 
       "have a back link to how-became-owner" in {
-        doc.body().select("a#back-link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/how-became-owner"
+        doc.body().select(".govuk-back-link").attr("href") shouldBe "#"
       }
 
       "have a home link to 'homeLink'" in {

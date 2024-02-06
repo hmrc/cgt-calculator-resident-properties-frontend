@@ -69,7 +69,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       }
 
       s"has a back link to '${controllers.routes.GainController.disposalCosts.toString}'" in {
-        backLink.attr("href") shouldBe controllers.routes.GainController.disposalCosts.toString
+        backLink.attr("href") shouldBe "#"
       }
     }
 

@@ -43,11 +43,11 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     "have a back link" which {
 
       s"has text ${commonMessages.back}" in {
-        doc.select("#back-link").text shouldEqual commonMessages.back
+        doc.select(".govuk-back-link").text shouldEqual commonMessages.back
       }
 
       "has a link to 'back-link'" in {
-        doc.select("#back-link").attr("href") shouldEqual "back-link"
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 

@@ -33,8 +33,7 @@
     if (lettingsReliefValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.lettingsReliefValue.title")) else Messages("calc.resident.lettingsReliefValue.title")
 }
 @layout(
-    pageTitle = Messages("calc.resident.lettingsReliefValue.title"),
-    backLinkHref = Some(controllers.routes.DeductionsController.lettingsRelief.toString)
+    pageTitle = Messages("calc.resident.lettingsReliefValue.title")
 ){
     @errorSummary(lettingsReliefValueForm.errors, Some("lettings-relief-value"))
 
