@@ -42,7 +42,7 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     "have a back link to back-link" in {
-      doc.select("a#back-link").attr("href") shouldBe "back-link"
+      doc.select(".govuk-back-link").attr("href") shouldBe "#"
     }
 
     "have a home link to /calculate-your-capital-gains/resident/properties/" in {

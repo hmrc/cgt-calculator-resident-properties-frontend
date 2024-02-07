@@ -32,8 +32,7 @@
     if (acquisitionCostsForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.acquisitionCosts.title")) else Messages("calc.resident.acquisitionCosts.title")
 }
 @layout(
-    pageTitle = title,
-    backLinkHref = backLink
+    pageTitle = title
 ) {
 
     @errorSummary(acquisitionCostsForm.errors, Some("amount"))

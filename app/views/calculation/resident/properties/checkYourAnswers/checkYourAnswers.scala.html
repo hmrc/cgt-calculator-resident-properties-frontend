@@ -29,8 +29,7 @@
 @(postAction: Call, backUrl: String, gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @layout(
-    pageTitle = Messages("calc.checkYourAnswers.title"),
-    backLinkHref = Some(backUrl)
+    pageTitle = Messages("calc.checkYourAnswers.title")
 ) {
 
     <h1 class="govuk-heading-xl">@Messages("calc.checkYourAnswers.title")</h1>

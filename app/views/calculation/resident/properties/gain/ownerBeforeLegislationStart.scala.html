@@ -32,8 +32,7 @@
     if (ownerBeforeLegislationStartForm.errors.nonEmpty) messages("site.title.error", Messages("calc.resident.properties.ownedBeforeLegislationStart.title")) else Messages("calc.resident.properties.ownedBeforeLegislationStart.title")
 }
 @layout(
-    pageTitle = title,
-    backLinkHref = Some(controllers.routes.GainController.disposalCosts.toString)
+    pageTitle = title
 ) {
 
     @errorSummary(ownerBeforeLegislationStartForm.errors, Some("ownedBeforeLegislationStart"))

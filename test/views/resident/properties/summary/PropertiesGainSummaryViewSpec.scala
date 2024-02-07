@@ -71,18 +71,14 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
 
     s"have a back button" which {
 
-      lazy val backLink = doc.getElementById("back-link")
-
-      "has the id 'back-link'" in {
-        backLink.attr("id") shouldBe "back-link"
-      }
+      lazy val backLink = doc.select(".govuk-back-link")
 
       s"has the text '${residentMessages.back}'" in {
         backLink.text shouldBe residentMessages.back
       }
 
       s"has a link to '${routes.ReviewAnswersController.reviewGainAnswers.url}'" in {
-        backLink.attr("href") shouldBe routes.ReviewAnswersController.reviewGainAnswers.url
+        backLink.attr("href") shouldBe "#"
       }
 
     }

@@ -37,8 +37,7 @@
     if (currentIncomeForm.errors.nonEmpty) Messages("site.title.error",  title) else title
 }
 @layout(
-    pageTitle = titleWithError,
-    backLinkHref = Some(backUrl)
+    pageTitle = titleWithError
 ) {
 
     @errorSummary(currentIncomeForm.errors, Some("current-income"))

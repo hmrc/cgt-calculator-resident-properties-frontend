@@ -1054,7 +1054,7 @@ object MessageLookup {
     val bannerPanelCloseVisibleText = "No thanks"
   }
 
-  object WhatNextPages {
+  object WhatNextPages extends Common{
 
     val title = "What happens next"
     val newTitle = "What happens next - Calculate your Capital Gains Tax - GOV.UK"

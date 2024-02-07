@@ -68,7 +68,7 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have a back link to the PRR value page" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/private-residence-relief-value"
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 
@@ -88,7 +88,7 @@ class LettingsReliefActionSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have a back link to PRR value page" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/private-residence-relief-value"
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
   }

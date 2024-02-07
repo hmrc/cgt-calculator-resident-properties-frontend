@@ -51,7 +51,7 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     }
 
     s"have a back link to the Who did you give it to Page with text ${commonMessages.back}" in {
-      doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/who-did-you-give-it-to"
+      doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
     "have a H1 tag that" should {

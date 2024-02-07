@@ -38,8 +38,7 @@
             ){ titleWithError =>
 
             @layout(
-                pageTitle = titleWithError,
-                backLinkHref = backLink
+                pageTitle = titleWithError
             ) {
 
             @errorSummary(personalAllowanceForm.errors, Some("amount"))

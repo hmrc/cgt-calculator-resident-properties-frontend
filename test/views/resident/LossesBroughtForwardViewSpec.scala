@@ -55,7 +55,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     s"have a back link with text ${commonMessages.back}" in {
-      doc.select("#back-link").text shouldEqual commonMessages.back
+      doc.select(".govuk-back-link").text shouldEqual commonMessages.back
     }
 
     s"have the question of the page ${messages.question("2017 to 2018")}" in {
