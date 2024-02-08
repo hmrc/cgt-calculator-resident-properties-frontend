@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import play.api.mvc.Results.Redirect
 import repositories.SessionRepository
 import uk.gov.hmrc.mongo.cache.DataKey
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
+import uk.gov.hmrc.play.http.logging.Mdc.preservingMdc
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -36,13 +37,15 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository,
                                     appConfig: AppConfig
                                    )(implicit val ec: ExecutionContext) {
 
-  def saveFormData[T](key: String, data: T)(implicit request: Request[_], formats: Format[T]): Future[(String, String)] = {
-    sessionRepository.putSession[T](DataKey(key), data)
-  }
+  def saveFormData[T](key: String, data: T)(implicit request: Request[_], formats: Format[T]): Future[(String, String)] =
+    preservingMdc {
+      sessionRepository.putSession[T](DataKey(key), data)
+    }
 
-  def fetchAndGetFormData[T](key: String)(implicit request: Request[_], formats: Format[T]): Future[Option[T]] = {
-    sessionRepository.getFromSession[T](DataKey(key))
-  }
+  def fetchAndGetFormData[T](key: String)(implicit request: Request[_], formats: Format[T]): Future[Option[T]] =
+    preservingMdc {
+      sessionRepository.getFromSession[T](DataKey(key))
+    }
 
   def getPropertyGainAnswers(implicit request: Request[_]): Future[YourAnswersSummaryModel] = {
     val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>

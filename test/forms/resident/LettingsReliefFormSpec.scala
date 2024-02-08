@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
 package forms.resident
 
 import assets.MessageLookup.{LettingsRelief => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.LettingsReliefForm._
 import models.resident.properties.LettingsReliefModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class LettingsReliefFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

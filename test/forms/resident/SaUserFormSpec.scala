@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package forms.resident
 
 import assets.MessageLookup.{SaUser => messages}
+import common.CommonPlaySpec
 import forms.resident.SaUserForm._
 import models.resident.SaUserModel
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import common.CommonPlaySpec
 
 class SaUserFormSpec extends CommonPlaySpec with GuiceOneAppPerSuite {
 

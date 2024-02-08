@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 package forms.resident.properties
 
+import common.Formatters.text
 import common.Transformers._
 import common.Validation._
+import common.resident.MoneyPounds
 import models.resident.properties.PrivateResidenceReliefValueModel
 import play.api.data.Forms._
 import play.api.data._
-import common.resident.MoneyPounds
-import common.Formatters.text
 
 object PrivateResidenceReliefValueForm {
 

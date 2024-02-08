@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 package forms.resident.properties
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.SellForLessForm._
 import models.resident.SellForLessModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class SellForLessFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

@@ -1,7 +1,6 @@
 
 import com.typesafe.sbt.digest.Import.digest
-import com.typesafe.sbt.web.Import.pipelineStages
-import com.typesafe.sbt.web.Import.Assets
+import com.typesafe.sbt.web.Import.{Assets, pipelineStages}
 import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, integrationTestSettings, scalaSettings}
 
 lazy val appName = "cgt-calculator-resident-properties-frontend"

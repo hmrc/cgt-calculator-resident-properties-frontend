@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package forms.resident.properties.gain
 
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.gain.WorthWhenGiftedForm._
 import models.resident.properties.gain.WorthWhenGiftedModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class WorthWhenGiftedFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 

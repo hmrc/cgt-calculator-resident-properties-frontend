@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ package forms.resident.deductions
 
 import assets.MessageLookup
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.PrivateResidenceReliefValueForm._
 import models.resident.properties.PrivateResidenceReliefValueModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class PrivateResidenceReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 package constructors.resident.properties
 
+import common.resident.MoneyPounds
 import models.resident._
 import models.resident.properties._
-import common.resident.MoneyPounds
 
 import scala.math.BigDecimal.RoundingMode
 
