@@ -16,11 +16,12 @@
 
 package config
 
-import java.time.LocalDate
 import common.Dates.formatter
-import javax.inject.Inject
 import play.api.Environment
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+
+import java.time.LocalDate
+import javax.inject.Inject
 
 trait AppConfig {
   val assetsPrefix: String

@@ -17,10 +17,10 @@
 package forms.resident
 
 import assets.MessageLookup.{SaUser => messages}
+import common.CommonPlaySpec
 import forms.resident.SaUserForm._
 import models.resident.SaUserModel
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import common.CommonPlaySpec
 
 class SaUserFormSpec extends CommonPlaySpec with GuiceOneAppPerSuite {
 

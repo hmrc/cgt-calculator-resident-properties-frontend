@@ -17,10 +17,10 @@
 package forms.resident.income
 
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.income.PreviousTaxableGainsForm._
 import models.resident.income.PreviousTaxableGainsModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class PreviousTaxableGainsFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 

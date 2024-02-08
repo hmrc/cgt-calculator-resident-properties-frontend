@@ -17,9 +17,9 @@
 package forms.resident.properties
 
 import assets.MessageLookup.{PropertiesSellOrGiveAway => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.SellOrGiveAwayForm._
 import models.resident.properties.SellOrGiveAwayModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class SellOrGiveAwayFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

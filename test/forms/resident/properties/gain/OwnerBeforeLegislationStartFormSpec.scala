@@ -17,9 +17,9 @@
 package forms.resident.properties.gain
 
 import assets.MessageLookup.Resident.Properties.{OwnerBeforeLegislationStart => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.gain.OwnerBeforeLegislationStartForm._
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class OwnerBeforeLegislationStartFormSpec  extends CommonPlaySpec with WithCommonFakeApplication {
 

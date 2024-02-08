@@ -16,11 +16,11 @@
 
 package forms.resident.properties.gain
 
+import common.Formatters.text
 import common.Validation._
 import models.resident.properties.gain.WhoDidYouGiveItToModel
 import play.api.data.Forms._
 import play.api.data._
-import common.Formatters.text
 
 object WhoDidYouGiveItToForm {
   val whoDidYouGiveItToForm = Form(

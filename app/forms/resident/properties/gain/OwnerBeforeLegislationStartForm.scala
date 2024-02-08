@@ -16,12 +16,12 @@
 
 package forms.resident.properties.gain
 
-import play.api.data.Form
-import play.api.data.Forms._
+import common.Formatters.text
 import common.Transformers._
 import common.Validation._
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
-import common.Formatters.text
+import play.api.data.Form
+import play.api.data.Forms._
 
 object OwnerBeforeLegislationStartForm {
 

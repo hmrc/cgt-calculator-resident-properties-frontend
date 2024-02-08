@@ -16,9 +16,9 @@
 
 package forms.resident
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.BoughtForLessThanWorthForm._
 import models.resident.properties.BoughtForLessThanWorthModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class BoughtForLessThanWorthFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

@@ -17,13 +17,14 @@
 package forms.resident.properties
 
 import common.Constants._
+import common.Formatters.text
 import common.Transformers._
 import common.Validation._
+import common.resident.MoneyPounds
 import models.resident.properties.LettingsReliefValueModel
 import play.api.data.Forms._
 import play.api.data._
-import common.resident.MoneyPounds
-import common.Formatters.text
+
 import scala.math._
 
 object LettingsReliefValueForm {

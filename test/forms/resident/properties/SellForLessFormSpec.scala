@@ -16,9 +16,9 @@
 
 package forms.resident.properties
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.SellForLessForm._
 import models.resident.SellForLessModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class SellForLessFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

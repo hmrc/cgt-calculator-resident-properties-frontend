@@ -22,7 +22,6 @@ import constructors.resident.properties.CalculateRequestConstructor
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.resident.SaUserForm
-import javax.inject.{Inject, Singleton}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import play.api.data.Form
@@ -33,6 +32,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.resident.properties.whatNext.saUser
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton

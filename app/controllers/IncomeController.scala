@@ -24,8 +24,6 @@ import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.resident.income.CurrentIncomeForm._
 import forms.resident.income.PersonalAllowanceForm._
-
-import javax.inject.{Inject, Singleton}
 import models.resident._
 import models.resident.income._
 import play.api.data.Form
@@ -34,9 +32,10 @@ import play.api.mvc._
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.resident.properties.income.currentIncome
 import views.html.calculation.resident.personalAllowance
+import views.html.calculation.resident.properties.income.currentIncome
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton

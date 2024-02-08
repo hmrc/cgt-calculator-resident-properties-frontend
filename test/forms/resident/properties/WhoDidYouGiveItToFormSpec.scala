@@ -17,9 +17,9 @@
 package forms.resident.properties
 
 import assets.MessageLookup.WhoDidYouGiveItTo
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.gain.WhoDidYouGiveItToForm._
 import models.resident.properties.gain.WhoDidYouGiveItToModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class WhoDidYouGiveItToFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
   "Creating the form from an empty model" should {

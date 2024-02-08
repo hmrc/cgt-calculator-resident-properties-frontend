@@ -18,13 +18,14 @@ package controllers
 
 import config.AppConfig
 import controllers.predicates.ValidActiveSession
-import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionCacheService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import scala.concurrent.ExecutionContext
 import views.html.calculation.resident.properties.whatNext._
+
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.ExecutionContext
 
 @Singleton
 class WhatNextNonSaController @Inject()(

@@ -17,13 +17,13 @@
 package forms.resident
 
 import common.Constants
+import common.Formatters.text
 import common.Transformers._
 import common.Validation._
+import common.resident.MoneyPounds
 import models.resident.AcquisitionValueModel
 import play.api.data.Form
 import play.api.data.Forms._
-import common.Formatters.text
-import common.resident.MoneyPounds
 
 object AcquisitionValueForm {
 

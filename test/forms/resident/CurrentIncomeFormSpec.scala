@@ -17,10 +17,10 @@
 package forms.resident
 
 import assets.MessageLookup.{Resident => messages}
-import forms.resident.income.CurrentIncomeForm._
-import models.resident.income.CurrentIncomeModel
 import common.{CommonPlaySpec, WithCommonFakeApplication}
+import forms.resident.income.CurrentIncomeForm._
 import models.resident.TaxYearModel
+import models.resident.income.CurrentIncomeModel
 
 class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

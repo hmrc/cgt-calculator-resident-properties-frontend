@@ -17,9 +17,9 @@
 package forms.resident
 
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.DisposalValueForm._
 import models.resident.DisposalValueModel
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 
 class DisposalValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

@@ -17,9 +17,9 @@
 package forms.resident.properties
 
 import assets.MessageLookup.{HowBecameOwner => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.HowBecameOwnerForm._
 import models.resident.properties.HowBecameOwnerModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class HowBecameOwnerFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

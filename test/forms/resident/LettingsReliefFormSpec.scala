@@ -17,9 +17,9 @@
 package forms.resident
 
 import assets.MessageLookup.{LettingsRelief => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.LettingsReliefForm._
 import models.resident.properties.LettingsReliefModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class LettingsReliefFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

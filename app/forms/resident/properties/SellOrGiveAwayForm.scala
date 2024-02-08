@@ -16,12 +16,12 @@
 
 package forms.resident.properties
 
+import common.Formatters.text
+import common.Transformers._
+import common.Validation._
 import models.resident.properties.SellOrGiveAwayModel
 import play.api.data.Form
 import play.api.data.Forms._
-import common.Transformers._
-import common.Validation._
-import common.Formatters.text
 
 
 object SellOrGiveAwayForm {

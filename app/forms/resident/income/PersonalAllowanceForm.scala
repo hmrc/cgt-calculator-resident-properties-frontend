@@ -16,14 +16,14 @@
 
 package forms.resident.income
 
+import common.Formatters.text
 import common.Transformers._
 import common.Validation._
+import common.resident.MoneyPounds
+import models.resident.TaxYearModel
 import models.resident.income.PersonalAllowanceModel
 import play.api.data.Forms._
 import play.api.data._
-import common.Formatters.text
-import common.resident.MoneyPounds
-import models.resident.TaxYearModel
 
 object PersonalAllowanceForm {
 

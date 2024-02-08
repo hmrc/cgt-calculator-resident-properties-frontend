@@ -17,10 +17,10 @@
 package forms.resident.properties.gain
 
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.gain.WorthWhenGiftedForm._
 import models.resident.properties.gain.WorthWhenGiftedModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class WorthWhenGiftedFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 

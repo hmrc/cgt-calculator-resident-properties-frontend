@@ -16,16 +16,15 @@
 
 package connectors
 
-import java.time.LocalDate
-
 import constructors.resident.{properties => propertyConstructor}
-import javax.inject.{Inject, Singleton}
 import models.resident._
 import models.resident.properties._
+import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import uk.gov.hmrc.http.HttpReads.Implicits._
 
+import java.time.LocalDate
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton

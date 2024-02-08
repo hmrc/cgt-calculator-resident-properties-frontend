@@ -17,13 +17,13 @@
 package forms.resident.properties
 
 import common.Constants
-import common.Validation._
+import common.Formatters.text
 import common.Transformers._
+import common.Validation._
+import common.resident.MoneyPounds
 import models.resident.properties.WorthWhenBoughtForLessModel
 import play.api.data.Form
 import play.api.data.Forms._
-import common.Formatters.text
-import common.resident.MoneyPounds
 
 object WorthWhenBoughtForLessForm {
 

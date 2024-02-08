@@ -17,9 +17,9 @@
 package forms.resident.deductions
 
 import assets.MessageLookup.{PropertyLivedIn => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.PropertyLivedInForm._
 import models.resident.properties.PropertyLivedInModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class PropertyLivedInFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

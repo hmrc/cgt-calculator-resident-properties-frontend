@@ -18,10 +18,10 @@ package forms.resident.deductions
 
 import assets.MessageLookup
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.PrivateResidenceReliefValueForm._
 import models.resident.properties.PrivateResidenceReliefValueModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class PrivateResidenceReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 

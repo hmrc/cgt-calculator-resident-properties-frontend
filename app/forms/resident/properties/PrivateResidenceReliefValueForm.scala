@@ -16,13 +16,13 @@
 
 package forms.resident.properties
 
+import common.Formatters.text
 import common.Transformers._
 import common.Validation._
+import common.resident.MoneyPounds
 import models.resident.properties.PrivateResidenceReliefValueModel
 import play.api.data.Forms._
 import play.api.data._
-import common.resident.MoneyPounds
-import common.Formatters.text
 
 object PrivateResidenceReliefValueForm {
 

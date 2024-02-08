@@ -16,9 +16,9 @@
 
 package constructors.resident.properties
 
+import common.resident.MoneyPounds
 import models.resident._
 import models.resident.properties._
-import common.resident.MoneyPounds
 
 import scala.math.BigDecimal.RoundingMode
 

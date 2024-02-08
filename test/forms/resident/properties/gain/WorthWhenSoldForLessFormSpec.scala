@@ -17,9 +17,9 @@
 package forms.resident.properties.gain
 
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.WorthWhenSoldForLessForm._
 import models.resident.WorthWhenSoldForLessModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class WorthWhenSoldForLessFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

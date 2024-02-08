@@ -16,12 +16,12 @@
 
 package forms.resident.income
 
+import common.Formatters.text
 import common.Transformers._
 import common.Validation._
 import models.resident.income.PreviousTaxableGainsModel
 import play.api.data.Forms._
 import play.api.data._
-import common.Formatters.text
 
 object PreviousTaxableGainsForm {
 

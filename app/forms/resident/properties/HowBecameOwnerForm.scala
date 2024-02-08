@@ -16,11 +16,11 @@
 
 package forms.resident.properties
 
+import common.Formatters.text
 import common.Validation._
 import models.resident.properties.HowBecameOwnerModel
 import play.api.data.Form
 import play.api.data.Forms._
-import common.Formatters.text
 
 object HowBecameOwnerForm {
 
