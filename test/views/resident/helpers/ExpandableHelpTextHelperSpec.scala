@@ -16,9 +16,9 @@
 
 package views.resident.helpers
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
 import play.twirl.api.Html
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.playHelpers.expandableHelpTextHelper
 
 class ExpandableHelpTextHelperSpec extends CommonPlaySpec with WithCommonFakeApplication {

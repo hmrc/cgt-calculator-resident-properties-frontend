@@ -17,10 +17,10 @@
 package views.resident.properties.gain
 
 import assets.MessageLookup.{BoughtForLessThanWorth => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.BoughtForLessThanWorthForm._
 import models.resident.properties.BoughtForLessThanWorthModel
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.buyForLess
 

@@ -20,6 +20,7 @@ import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.Resident.Properties.{WorthWhenBoughtForLess => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
@@ -29,7 +30,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
 

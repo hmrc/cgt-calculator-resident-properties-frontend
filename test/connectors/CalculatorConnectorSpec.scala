@@ -16,22 +16,20 @@
 
 package connectors
 
-import java.time.LocalDate
-import java.util.UUID
-
-import common.Dates
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import constructors.resident.{properties => propertyConstructor}
 import controllers.helpers.CommonMocks
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
 import models.resident.{IncomeAnswersModel, TaxYearModel}
-import org.mockito.ArgumentMatchers.{any, eq => equalTo, contains}
+import org.mockito.ArgumentMatchers.{any, contains, eq => equalTo}
 import org.mockito.Mockito._
 import org.mockito.stubbing.OngoingStubbing
 import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 
+import java.time.LocalDate
+import java.util.UUID
 import scala.concurrent.Future
 
 class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with CommonMocks with WithCommonFakeApplication {

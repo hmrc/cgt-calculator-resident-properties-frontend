@@ -17,10 +17,10 @@
 package forms.resident
 
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.LossesBroughtForwardValueForm._
 import models.resident.{LossesBroughtForwardValueModel, TaxYearModel}
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 
 class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 

@@ -17,9 +17,9 @@
 package views.resident.properties.deductions
 
 import assets.MessageLookup.{PrivateResidenceReliefValue => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.PrivateResidenceReliefValueForm._
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.deductions.privateResidenceReliefValue
 

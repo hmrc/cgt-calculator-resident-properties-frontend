@@ -19,8 +19,8 @@ package controllers.IncomeControllerSpec
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{CurrentIncome => messages}
-import common.Dates
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import connectors.CalculatorConnector
 import controllers.IncomeController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -31,10 +31,9 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import services.SessionCacheService
-import views.html.calculation.resident.properties.income.currentIncome
 import views.html.calculation.resident.personalAllowance
+import views.html.calculation.resident.properties.income.currentIncome
 
 import scala.concurrent.Future
 

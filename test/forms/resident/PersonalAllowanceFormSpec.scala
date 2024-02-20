@@ -17,12 +17,12 @@
 package forms.resident
 
 import assets.MessageLookup.{Resident => messages}
+import common.resident.MoneyPounds
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.income.PersonalAllowanceForm._
-import models.resident.income.PersonalAllowanceModel
-import common.{CommonPlaySpec, WithCommonFakeApplication}
-import common.resident.MoneyPounds
 import models.resident.TaxYearModel
+import models.resident.income.PersonalAllowanceModel
 
 class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   lazy val testTaxYear = TaxYearModel("2016/17", isValidYear = true, "2016/17")

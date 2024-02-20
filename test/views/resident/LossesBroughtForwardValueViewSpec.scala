@@ -17,11 +17,11 @@
 package views.resident
 
 import assets.MessageLookup.{LossesBroughtForwardValue => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.routes
 import forms.resident.LossesBroughtForwardValueForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.lossesBroughtForwardValue
 

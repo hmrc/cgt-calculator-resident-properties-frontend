@@ -18,10 +18,10 @@ package views.resident.properties.gain
 
 import assets.MessageLookup.Resident.Properties.{PropertiesWorthWhenGaveAway => messages}
 import assets.MessageLookup.{Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.routes
 import forms.resident.properties.WorthWhenGaveAwayForm._
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.worthWhenGaveAway
 

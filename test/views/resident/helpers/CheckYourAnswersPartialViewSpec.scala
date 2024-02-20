@@ -16,7 +16,6 @@
 
 package views.resident.helpers
 
-import assets.MessageLookup.NonResident.{ReviewAnswers => messages}
 import assets.MessageLookup.Resident.{Properties => propertiesMessages}
 import assets.MessageLookup.{Resident => residentMessages}
 import assets.ModelsAsset._
@@ -25,7 +24,6 @@ import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.routes
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import play.api.i18n.Lang
 import play.twirl.api.HtmlFormat
 import views.BaseViewSpec
 import views.html.playHelpers.checkYourAnswersPartial

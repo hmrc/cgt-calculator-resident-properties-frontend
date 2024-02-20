@@ -16,11 +16,11 @@
 
 package config
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.FakeRequest
 import uk.gov.hmrc.http.SessionKeys
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class FrontendGlobalSpec extends CommonPlaySpec with WithCommonFakeApplication with MockitoSugar {
 

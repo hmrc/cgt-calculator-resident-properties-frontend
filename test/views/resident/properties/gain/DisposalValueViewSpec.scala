@@ -17,10 +17,10 @@
 package views.resident.properties.gain
 
 import assets.MessageLookup.{DisposalValue => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.DisposalValueForm._
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.disposalValue
 

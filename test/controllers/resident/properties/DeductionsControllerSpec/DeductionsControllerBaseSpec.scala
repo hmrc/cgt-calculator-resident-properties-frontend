@@ -16,11 +16,11 @@
 
 package controllers.resident.properties.DeductionsControllerSpec
 
+import common.WithCommonFakeApplication
 import controllers.DeductionsController
 import controllers.helpers.CommonMocks
-import views.html.calculation.resident.properties.deductions._
 import views.html.calculation.resident._
-import common.WithCommonFakeApplication
+import views.html.calculation.resident.properties.deductions._
 
 
 trait DeductionsControllerBaseSpec  {

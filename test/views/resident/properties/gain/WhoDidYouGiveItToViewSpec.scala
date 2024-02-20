@@ -17,9 +17,9 @@
 package views.resident.properties.gain
 
 import assets.MessageLookup.{Resident => commonMessages, WhoDidYouGiveItTo => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.gain.WhoDidYouGiveItToForm._
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.whoDidYouGiveItTo
 

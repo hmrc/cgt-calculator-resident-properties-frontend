@@ -17,8 +17,8 @@
 package forms.resident
 
 import assets.MessageLookup.{PrivateResidenceRelief => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.PrivateResidenceReliefForm._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class PrivateResidenceReliefFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

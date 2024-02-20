@@ -17,8 +17,8 @@
 package views.resident.properties
 
 import assets.MessageLookup.{IntroductionView => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.introduction
 
