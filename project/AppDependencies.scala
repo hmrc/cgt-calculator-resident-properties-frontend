@@ -21,17 +21,16 @@ import sbt.*
 object AppDependencies {
 
   val bootstrapVersion         = "7.22.0"
-  val playFrontendVersion      = "7.29.0-play-28"
-  val playPartialsVersion      = "8.4.0-play-28"
-  val httpCachingClientVersion = "10.0.0-play-28"
+  val playVersion               = "play-28"
+  val playPartialsVersion      = s"8.4.0-$playVersion"
   val hmrcMongoVersion         = "1.3.0"
 
   val compile: Seq[ModuleID] = Seq(
     ws,
-    "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"           % hmrcMongoVersion,
-    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"    % bootstrapVersion,
-    "uk.gov.hmrc"       %% "play-frontend-hmrc"   % playFrontendVersion,
-    "uk.gov.hmrc"       %% "play-partials"        % playPartialsVersion
+    "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion"           % hmrcMongoVersion,
+    "uk.gov.hmrc"       %% s"bootstrap-frontend-$playVersion"   % bootstrapVersion,
+    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "8.5.0",
+    "uk.gov.hmrc"       %% "play-partials"                      % playPartialsVersion
   )
 
   trait TestDependencies {
@@ -42,8 +41,8 @@ object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
-        "uk.gov.hmrc.mongo"       %%  "hmrc-mongo-test-play-28" % hmrcMongoVersion    % scope,
-        "uk.gov.hmrc"             %% "bootstrap-test-play-28"   % bootstrapVersion    % scope,
+        "uk.gov.hmrc.mongo"       %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion    % scope,
+        "uk.gov.hmrc"             %% s"bootstrap-test-$playVersion"   % bootstrapVersion    % scope,
         "org.pegdown"             %  "pegdown"                  % "1.6.0"             % scope,
         "org.jsoup"               %  "jsoup"                    % "1.16.1"            % scope,
         "com.typesafe.play"       %% "play-test"                % PlayVersion.current % scope,
