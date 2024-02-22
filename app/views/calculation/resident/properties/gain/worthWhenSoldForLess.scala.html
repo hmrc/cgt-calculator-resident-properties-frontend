@@ -35,9 +35,10 @@
         pageTitle = title
     ) {
 
-    <h1 class="govuk-heading-xl">@Messages("calc.resident.properties.worthWhenSoldForLess.question")</h1>
+     @errorSummary(worthWhenSoldForLessForm.errors, Some("amount"))
 
-    @errorSummary(worthWhenSoldForLessForm.errors, Some("amount"))
+     <h1 class="govuk-heading-xl">@Messages("calc.resident.properties.worthWhenSoldForLess.question")</h1>
+
 
     @form(action = controllers.routes.GainController.submitWorthWhenSoldForLess) {
 
