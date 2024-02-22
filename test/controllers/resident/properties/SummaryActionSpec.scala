@@ -19,7 +19,7 @@ package controllers.resident.properties
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{SummaryPage => messages}
-import common.Dates
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import connectors.CalculatorConnector
 import controllers.SummaryController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -33,7 +33,6 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import views.html.calculation.resident.properties.summary.{deductionsSummary, finalSummary, gainSummary}
 
 import scala.concurrent.Future

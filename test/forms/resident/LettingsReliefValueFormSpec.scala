@@ -17,10 +17,10 @@
 package forms.resident
 
 import assets.MessageLookup.{LettingsReliefValue => Messages, Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.properties.LettingsReliefValueForm._
 import models.resident.properties.LettingsReliefValueModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class LettingsReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 

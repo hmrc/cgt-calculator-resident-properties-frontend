@@ -16,12 +16,11 @@
 
 package common
 
-import java.time.LocalDate
-
 import common.Dates.formatter
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.i18n.{Lang, Messages, MessagesApi}
 
+import java.time.LocalDate
 import scala.concurrent.ExecutionContext
 
 class DatesSpec extends CommonPlaySpec with GuiceOneAppPerSuite {

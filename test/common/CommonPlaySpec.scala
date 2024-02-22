@@ -16,15 +16,14 @@
 
 package common
 
-import java.nio.charset.Charset
-
 import akka.stream.Materializer
 import akka.util.ByteString
-import org.scalatest.wordspec.AnyWordSpecLike
 import org.scalatest.OptionValues
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpecLike
 import play.api.mvc.Result
 
+import java.nio.charset.Charset
 import scala.language.{implicitConversions, postfixOps}
 
 trait CommonPlaySpec extends AnyWordSpecLike with Matchers with OptionValues {

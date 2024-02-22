@@ -18,7 +18,6 @@ package views
 
 import common.WithCommonFakeApplication
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
-import org.mockito.Mockito.when
 import org.scalatest.Suite
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages

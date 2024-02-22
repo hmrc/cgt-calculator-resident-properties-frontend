@@ -18,11 +18,10 @@ package views.resident.helpers
 
 import _root_.views.BaseViewSpec
 import assets.MessageLookup.{SummaryDetails => summaryMessages}
-import common.Dates
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel, YourAnswersSummaryModel}
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.playHelpers.deductionsSummaryPartial
 
 class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {

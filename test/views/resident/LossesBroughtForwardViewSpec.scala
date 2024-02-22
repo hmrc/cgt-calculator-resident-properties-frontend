@@ -17,10 +17,10 @@
 package views.resident
 
 import assets.MessageLookup.{LossesBroughtForward => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.lossesBroughtForward
 

@@ -20,6 +20,7 @@ import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.DeductionsController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
@@ -29,9 +30,8 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import common.{CommonPlaySpec, WithCommonFakeApplication}
+import views.html.calculation.resident.properties.deductions._
 import views.html.calculation.resident.{lossesBroughtForward, lossesBroughtForwardValue}
-import views.html.calculation.resident.properties.deductions.{lettingsRelief, lettingsReliefValue, privateResidenceRelief, privateResidenceReliefValue, propertyLivedIn}
 
 import scala.concurrent.Future
 

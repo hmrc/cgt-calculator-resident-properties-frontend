@@ -17,8 +17,8 @@
 package views.resident.properties.whatNext
 
 import assets.MessageLookup.{WhatNextNonSaLoss => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.whatNext.whatNextNonSaLoss
 

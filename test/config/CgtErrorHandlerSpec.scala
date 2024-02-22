@@ -16,11 +16,11 @@
 
 package config
 
+import common.WithCommonFakeApplication
 import org.scalatest.matchers.must.Matchers
+import org.scalatest.wordspec.AnyWordSpecLike
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import common.WithCommonFakeApplication
-import org.scalatest.wordspec.AnyWordSpecLike
 
 class CgtErrorHandlerSpec extends AnyWordSpecLike with WithCommonFakeApplication with Matchers {
 

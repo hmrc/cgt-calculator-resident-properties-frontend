@@ -17,10 +17,10 @@
 package views.resident.helpers
 
 import assets.MessageLookup.{Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.twirl.api.HtmlFormat
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.playHelpers.resident.summaryOptionRowHelper
 

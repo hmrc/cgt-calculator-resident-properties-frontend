@@ -17,9 +17,9 @@
 package views.resident
 
 import assets.MessageLookup.{OutsideTaxYears => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.outsideTaxYear
 

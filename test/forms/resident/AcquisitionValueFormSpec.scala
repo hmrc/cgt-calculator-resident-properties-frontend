@@ -17,9 +17,9 @@
 package forms.resident
 
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.AcquisitionValueForm._
 import models.resident.AcquisitionValueModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

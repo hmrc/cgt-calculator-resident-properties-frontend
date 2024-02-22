@@ -17,10 +17,10 @@
 package forms.resident
 
 import assets.MessageLookup.{Resident => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.resident.AcquisitionCostsForm._
 import models.resident.AcquisitionCostsModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class AcquisitionCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 

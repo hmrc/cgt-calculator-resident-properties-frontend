@@ -19,12 +19,12 @@ package views.resident.properties.summary
 import _root_.views.BaseViewSpec
 import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates._
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.routes
 import models.resident.TaxYearModel
 import models.resident.properties.YourAnswersSummaryModel
 import org.jsoup.Jsoup
 import org.mockito.Mockito._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.calculation.resident.properties.summary.gainSummary
 
 class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {

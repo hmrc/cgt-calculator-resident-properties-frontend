@@ -17,10 +17,10 @@
 package views.resident.properties.income
 
 import assets.MessageLookup.{CurrentIncome => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.income.CurrentIncomeForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.income.currentIncome
 

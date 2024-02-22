@@ -17,10 +17,10 @@
 package views.resident.properties.gain
 
 import assets.MessageLookup.{PropertiesSellOrGiveAway => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.properties.SellOrGiveAwayForm._
 import org.jsoup.Jsoup
 import play.api.mvc.Call
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.sellOrGiveAway
 

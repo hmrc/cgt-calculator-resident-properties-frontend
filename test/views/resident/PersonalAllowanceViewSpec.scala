@@ -19,12 +19,11 @@ package views.resident
 
 import assets.DateAsset
 import assets.MessageLookup.{PersonalAllowance => messages, Resident => commonMessages}
-import common.Dates
 import common.resident.JourneyKeys
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import forms.resident.income.PersonalAllowanceForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.personalAllowance
 

@@ -19,8 +19,8 @@ package controllers.resident.properties.GainControllerSpec
 import common.WithCommonFakeApplication
 import controllers.GainController
 import controllers.helpers.CommonMocks
-import views.html.calculation.resident.properties.gain._
 import views.html.calculation.resident.outsideTaxYear
+import views.html.calculation.resident.properties.gain._
 
 trait GainControllerBaseSpec {
   self: CommonMocks with WithCommonFakeApplication =>

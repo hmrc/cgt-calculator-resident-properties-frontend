@@ -18,10 +18,9 @@ package views.resident.properties.whatNext
 
 import _root_.views.BaseViewSpec
 import assets.MessageLookup.WhatNextPages.{WhatNextNoGain => pageMessages}
-import assets.MessageLookup.{WhatNextPages => commonMessages}
-import assets.MessageLookup.{Resident => serviceMessages}
+import assets.MessageLookup.{Resident => serviceMessages, WhatNextPages => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.calculation.resident.properties.whatNext.whatNextSaNoGain
 
 class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {

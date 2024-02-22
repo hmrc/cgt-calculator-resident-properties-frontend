@@ -20,6 +20,7 @@ import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{PrivateResidenceReliefValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.DeductionsController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident.properties.{PrivateResidenceReliefValueModel, YourAnswersSummaryModel}
@@ -28,7 +29,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
 

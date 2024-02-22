@@ -17,9 +17,9 @@
 package forms.resident
 
 import assets.MessageLookup.{LossesBroughtForward => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class LossesBroughtForwardFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

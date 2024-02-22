@@ -20,6 +20,7 @@ import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.resident.properties.DeductionsControllerSpec.DeductionsControllerBaseSpec
 import controllers.{DeductionsController, routes}
@@ -30,7 +31,6 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 import scala.concurrent.Future
 

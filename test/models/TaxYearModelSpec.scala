@@ -16,8 +16,8 @@
 
 package models
 
-import models.resident.TaxYearModel
 import common.CommonPlaySpec
+import models.resident.TaxYearModel
 
 class TaxYearModelSpec extends CommonPlaySpec {
 

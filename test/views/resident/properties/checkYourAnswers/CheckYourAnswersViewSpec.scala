@@ -19,12 +19,12 @@ package views.resident.properties.checkYourAnswers
 import assets.MessageLookup.NonResident.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.ModelsAsset._
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.i18n.Lang
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.checkYourAnswers.checkYourAnswers
 

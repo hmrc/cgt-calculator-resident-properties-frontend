@@ -17,8 +17,8 @@
 package views.resident.properties.gain
 
 import assets.MessageLookup.{NoTaxToPay => messages, Resident => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.noTaxToPay
 
