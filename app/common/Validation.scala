@@ -87,20 +87,6 @@ object Validation {
 
   val decimalPlacesCheck: BigDecimal => Boolean = input => input.scale < 3
 
-  def decimalPlaceConstraint(errMsgKey: String, decimalPlace: Int = 3): Constraint[BigDecimal] = Constraint{
-    case input if input.scale < decimalPlace =>
-      Valid
-    case _ =>
-      Invalid(errMsgKey)
-  }
-
-  def stopOnFirstFail[T](constraints: Constraint[T]*): Constraint[T] = Constraint { field: T =>
-    constraints.toList.dropWhile(constraint => constraint(field) == Valid) match {
-      case Nil => Valid
-      case constraint :: _ => constraint(field)
-    }
-  }
-
   val decimalPlacesCheckNoDecimal: BigDecimal => Boolean = input => input.scale < 1
 
   val validYearRangeCheck: Int => Boolean = input => input >= 1900 && input <= 9999

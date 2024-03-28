@@ -172,6 +172,7 @@ calc.resident.properties.worthWhenSoldForLess.mandatoryAmount = Enter what the p
 calc.resident.properties.worthWhenSoldForLess.invalidAmount = What the property was worth when you sold it must be an amount of money in pounds
 calc.resident.properties.worthWhenSoldForLess.maximumAmount = What the property was worth when you sold it must be £{0} or less
 calc.resident.properties.worthWhenSoldForLess.minimumAmount = What the property was worth when you sold it must be £0 or more
+calc.resident.properties.worthWhenSoldForLess.error.decimalPlaces = What the property was worth when you sold it has too many numbers after the decimal point
 
 ## Disposal Costs messages
 calc.resident.disposalCosts.title = How much did you pay in costs when you stopped owning the property?

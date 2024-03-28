@@ -285,6 +285,7 @@ calc.resident.properties.worthWhenSoldForLess.mandatoryAmount = Nodwch beth oedd
 calc.resident.properties.worthWhenSoldForLess.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei werthu fod yn swm o arian mewn punnoedd
 calc.resident.properties.worthWhenSoldForLess.maximumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei werthu fod yn £{0} neu lai
 calc.resident.properties.worthWhenSoldForLess.minimumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei werthu fod yn £0 neu fwy
+calc.resident.properties.worthWhenSoldForLess.error.decimalPlaces = Mae beth oedd gwerth yr eiddo pan wnaethoch ei werthu yn cynnwys gormod o rifau ar ôl y pwynt degol
 
 calc.resident.saUser.errorSelect = Dewiswch a ydych chi''n rhan o''r drefn Hunanasesiad ar hyn o bryd
 calc.resident.saUser.title = Ydych chi''n rhan o''r drefn Hunanasesiad ar hyn o bryd?
