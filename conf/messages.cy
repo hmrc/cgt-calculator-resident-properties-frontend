@@ -75,7 +75,7 @@ calc.resident.acquisitionCosts.panelText = Os oeddech yn berchen ar yr eiddo gyd
 calc.resident.acquisitionCosts.question = Faint y gwnaethoch ei dalu o ran costau pan ddaethoch yn berchennog yr eiddo?
 calc.resident.acquisitionCosts.title = Faint y gwnaethoch ei dalu o ran costau pan ddaethoch yn berchennog yr eiddo?
 calc.resident.acquisitionCosts.mandatoryAmount = Nodwch faint y gwnaethoch ei dalu o ran costau pan ddaethoch yn berchennog ar yr eiddo
-calc.resident.acquisitionCosts.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei dalu o ran costau fod yn y fformat cywir
+calc.resident.acquisitionCosts.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei dalu o ran costau pan ddaethoch yn berchennog fod yn swm o arian mewn punnoedd
 calc.resident.acquisitionCosts.maximumAmount = Mae’n rhaid i faint y gwnaethoch ei dalu o ran costau fod yn £{0} neu lai
 calc.resident.acquisitionCosts.minimumAmount = Mae’n rhaid i faint y gwnaethoch ei dalu o ran costau fod yn £0 neu fwy
 
@@ -83,7 +83,7 @@ calc.resident.acquisitionValue.helpText = Os oeddech yn berchen ar yr eiddo gyda
 calc.resident.acquisitionValue.question = Faint y gwnaethoch ei dalu am yr eiddo?
 calc.resident.acquisitionValue.title = Faint y gwnaethoch ei dalu am yr eiddo?
 calc.resident.acquisitionValue.mandatoryAmount = Nodwch faint y gwnaethoch ei dalu am yr eiddo
-calc.resident.acquisitionValue.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei dalu am yr eiddo fod yn y fformat cywir
+calc.resident.acquisitionValue.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei dalu am yr eiddo fod yn swm o arian mewn punnoedd
 calc.resident.acquisitionValue.maximumAmount = Mae’n rhaid i faint y gwnaethoch ei dalu am yr eiddo fod yn £{0} neu lai
 calc.resident.acquisitionValue.minimumAmount = Mae’n rhaid i faint y gwnaethoch ei dalu am yr eiddo fod yn £0 neu fwy
 
@@ -91,14 +91,14 @@ calc.resident.currentIncome.helpText = Dylech gynnwys eich cyflog cyn treth, ac 
 calc.resident.currentIncome.question = Beth oedd eich incwm ar gyfer blwyddyn dreth {0} i {1}?
 calc.resident.currentIncome.questionCurrentYear = Faint ydych yn disgwyl i''ch incwm fod yn y flwyddyn dreth hon?
 calc.resident.currentIncome.mandatoryAmount = Nodwch eich incwm ar gyfer blwyddyn dreth {0} i {1}
-calc.resident.currentIncome.invalidAmount = Mae’n rhaid i’r incwm ar gyfer blwyddyn dreth {0} i {1} fod yn y fformat cywir
+calc.resident.currentIncome.invalidAmount = Mae’n rhaid i’r incwm am flwyddyn dreth {0} i {1} fod yn swm o arian mewn punnoedd
 calc.resident.currentIncome.maximumAmount = Mae’n rhaid i’r incwm ar gyfer blwyddyn dreth {0} i {1} fod yn £{2} neu lai
 calc.resident.currentIncome.minimumAmount = Mae’n rhaid i’r incwm ar gyfer blwyddyn dreth {0} i {1} fod yn £0 neu fwy
 
 calc.resident.disposal.value.helpText = Os oeddech yn berchen ar yr eiddo gyda rhywun arall, dylech ond nodi''ch cyfran chi o''r pris gwerthu. Er enghraifft, £150,000
 calc.resident.disposal.value.question = Am faint y gwnaethoch werthu''r eiddo?
 calc.resident.disposal.value.mandatoryAmount = Nodwch faint y gwnaethoch werthu’r eiddo amdano
-calc.resident.disposal.value.invalidAmount = Mae’n rhaid i faint y gwnaethoch werthu’r eiddo amdano fod yn y fformat cywir
+calc.resident.disposal.value.invalidAmount = Mae’n rhaid i faint y gwnaethoch werthu’r eiddo amdano fod yn swm o arian mewn punnoedd
 calc.resident.disposal.value.maximumAmount = Mae’n rhaid i faint y gwnaethoch werthu’r eiddo amdano fod yn £{0} neu lai
 calc.resident.disposal.value.minimumAmount = Mae’n rhaid i faint y gwnaethoch werthu’r eiddo amdano fod yn £0 neu fwy
 
@@ -111,7 +111,7 @@ calc.resident.disposalCosts.helpText = Os oeddech yn berchen ar yr eiddo gyda rh
 calc.resident.disposalCosts.pageHeading = Faint y gwnaethoch ei dalu o ran costau pan wnaethoch beidio â bod yn berchen ar yr eiddo?
 calc.resident.disposalCosts.title = Faint y gwnaethoch ei dalu o ran costau pan wnaethoch beidio â bod yn berchen ar yr eiddo?
 calc.resident.disposalCosts.mandatoryAmount = Nodwch faint y gwnaethoch ei dalu o ran costau pan wnaethoch beidio â bod yn berchen ar yr eiddo
-calc.resident.disposalCosts.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei dalu o ran costau pan wnaethoch beidio â bod yn berchen ar yr eiddo fod yn y fformat cywir
+calc.resident.disposalCosts.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei dalu o ran costau pan wnaethoch roi’r gorau i fod yn berchen ar yr eiddo fod yn swm o arian mewn punnoedd
 calc.resident.disposalCosts.maximumAmount = Mae’n rhaid i faint y gwnaethoch ei dalu o ran costau pan wnaethoch beidio â bod yn berchen ar yr eiddo fod yn £{0} neu lai
 calc.resident.disposalCosts.minimumAmount = Mae’n rhaid i faint y gwnaethoch ei dalu o ran costau fod yn £0 neu fwy
 
@@ -154,7 +154,7 @@ calc.resident.lettingsReliefValue.error.moreThanRemainingGain = Mae''r Rhyddhad 
 calc.resident.lettingsReliefValue.question = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 calc.resident.lettingsReliefValue.title = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 calc.resident.lettingsReliefValue.mandatoryAmount = Nodwch faint o Ryddhad Gosod sydd gennych hawl iddo
-calc.resident.lettingsReliefValue.invalidAmount = Mae’n rhaid i faint o Ryddhad Gosod sydd gennych hawl iddo fod yn y fformat cywir
+calc.resident.lettingsReliefValue.invalidAmount = Mae’n rhaid i faint o Ryddhad Gosod y mae gennych hawl iddo fod yn swm o arian mewn punnoedd
 calc.resident.lettingsReliefValue.maximumAmount = Ni all faint o Ryddhad Gosod sydd gennych hawl iddo fod yn fwy na’ch Rhyddhad Preswylfa Breifat
 calc.resident.lettingsReliefValue.minimumAmount = Mae’n rhaid i faint o Ryddhad Gosod sydd gennych hawl iddo fod yn £0 neu fwy
 
@@ -166,7 +166,7 @@ calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth E
 calc.resident.lossesBroughtForwardValue.pageHeading = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} i {1}?
 calc.resident.lossesBroughtForwardValue.title = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} i {1}?
 calc.resident.lossesBroughtForwardValue.mandatoryAmount = Nodwch gyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} i {1}
-calc.resident.lossesBroughtForwardValue.invalidAmount = Mae’n rhaid i gyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} i {1} fod yn y fformat cywir
+calc.resident.lossesBroughtForwardValue.invalidAmount = Mae’n rhaid i gyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} i {1} fod yn swm o arian mewn punnoedd
 calc.resident.lossesBroughtForwardValue.maximumAmount = Mae’n rhaid i gyfanswm eich colledion Treth Enillion Cyfalaf fod yn £{0} neu lai
 calc.resident.lossesBroughtForwardValue.minimumAmount = Mae’n rhaid i gyfanswm eich colledion Treth Enillion Cyfalaf fod yn £0 neu fwy
 
@@ -182,7 +182,7 @@ calc.resident.outsideTaxYears.title = Gallwch fynd yn eich blaen ond nid yw''r d
 calc.resident.personalAllowance.currentYearQuestion = Faint yw''ch Lwfans Personol?
 calc.resident.personalAllowance.question = Beth oedd eich Lwfans Personol ar gyfer blwyddyn dreth {0} i {1}?
 calc.resident.personalAllowance.mandatoryAmount = Nodwch eich Lwfans Personol ar gyfer blwyddyn dreth {0} i {1}
-calc.resident.personalAllowance.invalidAmount = Mae’n rhaid i’ch Lwfans Personol ar gyfer blwyddyn dreth {0} i {1} fod yn y fformat cywir
+calc.resident.personalAllowance.invalidAmount = Mae’n rhaid i’ch Lwfans Personol am flwyddyn dreth {0} i {1} fod yn swm o arian mewn punnoedd
 calc.resident.personalAllowance.maximumAmount = Mae’n rhaid i’r Lwfans Personol ar gyfer blwyddyn dreth {0} i {1} fod yn £{2} neu lai
 calc.resident.personalAllowance.minimumAmount = Mae’n rhaid i’r Lwfans Personol ar gyfer blwyddyn dreth {0} i {1} fod yn £0 neu fwy
 calc.resident.privateResidenceRelief.errorSelect = Rhowch wybod i ni a ydych am hawlio Rhyddhad Preswylfan Preifat
@@ -206,7 +206,7 @@ calc.resident.properties.improvements.jointOwner = Os oeddech yn berchen ar yr e
 calc.resident.properties.improvements.question = Faint ydych wedi''i wario ar welliannau ers i chi ddod yn berchennog yr eiddo?
 calc.resident.properties.improvements.questionBefore = Faint ydych wedi''i wario ar welliannau ers 31 Mawrth 1982?
 calc.resident.properties.improvements.mandatoryAmount = Nodwch faint y gwnaethoch ei wario ar welliannau ers 31 Mawrth 1982
-calc.resident.properties.improvements.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei wario ar welliannau fod yn y fformat cywir
+calc.resident.properties.improvements.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei wario ar welliannau fod yn swm o arian mewn punnoedd
 calc.resident.properties.improvements.maximumAmount = Mae’n rhaid i faint y gwnaethoch ei wario ar welliannau fod yn £{0} neu lai
 calc.resident.properties.improvements.minimumAmount = Mae’n rhaid i faint y gwnaethoch ei wario ar welliannau fod yn £0 neu fwy
 
@@ -225,7 +225,7 @@ calc.resident.properties.privateResidenceRelief.title = A oes gennych hawl i Ryd
 
 calc.resident.properties.privateResidenceReliefValue.gainExceededError = Mae’n rhaid i’r Rhyddhad Preswylfa Breifat fod yn llai na’ch enillion, sef £{0}
 calc.resident.properties.privateResidenceReliefValue.mandatoryAmount = Nodwch faint o Ryddhad Preswylfa Breifat y mae gennych hawl iddo
-calc.resident.properties.privateResidenceReliefValue.invalidAmount = Mae’n rhaid i’r Rhyddhad Preswylfa Breifat fod yn y fformat cywir
+calc.resident.properties.privateResidenceReliefValue.invalidAmount = Mae’n rhaid i faint o Ryddhad Preswylfa Breifat y mae gennych hawl iddo fod yn swm o arian mewn punnoedd
 calc.resident.properties.privateResidenceReliefValue.minimumAmount = Mae’n rhaid i’r Rhyddhad Preswylfa Breifat fod yn £0 neu fwy
 
 calc.resident.properties.propertyLivedIn.noSelectError = Rhowch wybod i ni a ydych wedi byw yn yr eiddo ar ryw adeg ers i chi ddod yn berchennog
@@ -239,7 +239,7 @@ calc.resident.properties.valueBeforeLegislationStart.information = Os cawsoch ei
 calc.resident.properties.valueBeforeLegislationStart.jointOwnership = Os oeddech yn berchen ar yr eiddo gyda rhywun arall, dylech ond nodi''ch cyfran chi o werth yr eiddo.
 calc.resident.properties.valueBeforeLegislationStart.question = Beth oedd gwerth yr eiddo ar 31 Mawrth 1982?
 calc.resident.properties.valueBeforeLegislationStart.mandatoryAmount = Nodwch beth oedd gwerth yr eiddo ar 31 Mawrth 1982
-calc.resident.properties.valueBeforeLegislationStart.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo ar 31 Mawrth 1982 fod yn y fformat cywir
+calc.resident.properties.valueBeforeLegislationStart.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo ar 31 Mawrth 1982 fod yn swm o arian mewn punnoedd
 calc.resident.properties.valueBeforeLegislationStart.maximumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo ar 31 Mawrth 1982 fod yn £{0} neu lai
 calc.resident.properties.valueBeforeLegislationStart.minimumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo ar 31 Mawrth 1982 fod yn £0 neu fwy
 
@@ -248,13 +248,13 @@ calc.resident.properties.worthWhenBoughtForLess.hintTwo = Os nad ydych yn gwybod
 calc.resident.properties.worthWhenBoughtForLess.jointOwner = Os oeddech yn berchen ar yr eiddo gyda rhywun arall, dylech ond nodi''ch cyfran chi o werth yr eiddo.
 calc.resident.properties.worthWhenBoughtForLess.question = Beth oedd gwerth yr eiddo pan wnaethoch ei brynu?
 calc.resident.properties.worthWhenBoughtForLess.mandatoryAmount = Nodwch beth oedd gwerth yr eiddo pan wnaethoch ei brynu
-calc.resident.properties.worthWhenBoughtForLess.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei brynu fod yn y fformat cywir
+calc.resident.properties.worthWhenBoughtForLess.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei brynu fod yn swm o arian mewn punnoedd
 calc.resident.properties.worthWhenBoughtForLess.maximumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei brynu fod yn £{0} neu lai
 calc.resident.properties.worthWhenBoughtForLess.minimumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei brynu fod yn £0 neu fwy
 
 calc.resident.properties.worthWhenGaveAway.title = Beth oedd gwerth yr eiddo pan roddoch e i ffwrdd?
 calc.resident.properties.worthWhenGaveAway.mandatoryAmount = Nodwch beth oedd gwerth yr eiddo pan roddoch e i ffwrdd
-calc.resident.properties.worthWhenGaveAway.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan roddoch e i ffwrdd fod yn y fformat cywir
+calc.resident.properties.worthWhenGaveAway.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei roi i ffwrdd fod yn swm o arian mewn punnoedd
 calc.resident.properties.worthWhenGaveAway.maximumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan roddoch e i ffwrdd fod yn £{0} neu lai
 calc.resident.properties.worthWhenGaveAway.minimumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan roddoch e i ffwrdd fod yn £0 neu fwy
 
@@ -263,7 +263,7 @@ calc.resident.properties.worthWhenGifted.hintTwo = Os nad ydych yn gwybod yr uni
 calc.resident.properties.worthWhenGifted.jointOwner = Os oeddech yn berchen ar yr eiddo gyda rhywun arall, dylech ond nodi''ch cyfran chi o werth yr eiddo.
 calc.resident.properties.worthWhenGifted.question = Beth oedd gwerth yr eiddo pan gawsoch e fel rhodd?
 calc.resident.properties.worthWhenGifted.mandatoryAmount = Nodwch beth oedd gwerth yr eiddo pan gawsoch e fel rhodd
-calc.resident.properties.worthWhenGifted.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan gawsoch e fel rhodd fod yn y fformat cywir
+calc.resident.properties.worthWhenGifted.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan gawsoch ef yn rhodd fod yn swm o arian mewn punnoedd
 calc.resident.properties.worthWhenGifted.maximumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan gawsoch e fel rhodd fod yn £{0} neu lai
 calc.resident.properties.worthWhenGifted.minimumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan gawsoch e fel rhodd fod yn £0 neu fwy
 
@@ -271,7 +271,7 @@ calc.resident.properties.worthWhenInherited.help = Dyma werth yr eiddo ar y dydd
 calc.resident.properties.worthWhenInherited.jointOwner = Os oeddech yn berchen ar yr eiddo gyda rhywun arall, dylech ond nodi''ch cyfran chi o werth yr eiddo.
 calc.resident.properties.worthWhenInherited.question = Beth oedd gwerth yr eiddo pan wnaethoch ei etifeddu?
 calc.resident.properties.worthWhenInherited.mandatoryAmount = Nodwch beth oedd gwerth yr eiddo pan wnaethoch ei etifeddu
-calc.resident.properties.worthWhenInherited.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei etifeddu fod yn y fformat cywir
+calc.resident.properties.worthWhenInherited.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei etifeddu fod yn swm o arian mewn punnoedd
 calc.resident.properties.worthWhenInherited.maximumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei etifeddu fod yn £{0} neu lai
 calc.resident.properties.worthWhenInherited.minimumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei etifeddu fod yn £0 neu fwy
 
@@ -279,7 +279,7 @@ calc.resident.properties.worthWhenSoldForLess.hintText = Os oeddech yn berchen a
 calc.resident.properties.worthWhenSoldForLess.paragraphText = Gallwch ddefnyddio prisiad gan syrfëwr. Os nad ydych yn gwybod yr union werth, mae''n rhaid i chi roi amcangyfrif realistig. Efallai y bydd yn rhaid i chi dalu rhagor os ydym o''r farn nad yw''ch amcangyfrif yn realistig.
 calc.resident.properties.worthWhenSoldForLess.question = Beth oedd gwerth yr eiddo pan wnaethoch ei werthu?
 calc.resident.properties.worthWhenSoldForLess.mandatoryAmount = Nodwch beth oedd gwerth yr eiddo pan wnaethoch ei werthu
-calc.resident.properties.worthWhenSoldForLess.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei werthu fod yn y fformat cywir
+calc.resident.properties.worthWhenSoldForLess.invalidAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei werthu fod yn swm o arian mewn punnoedd
 calc.resident.properties.worthWhenSoldForLess.maximumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei werthu fod yn £{0} neu lai
 calc.resident.properties.worthWhenSoldForLess.minimumAmount = Mae’n rhaid i beth oedd gwerth yr eiddo pan wnaethoch ei werthu fod yn £0 neu fwy
 
