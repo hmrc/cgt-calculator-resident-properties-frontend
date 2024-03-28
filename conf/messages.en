@@ -268,10 +268,13 @@ calc.resident.properties.improvements.jointOwner = If you owned the property wit
 calc.resident.properties.improvements.helpButton = Show me an example
 calc.resident.properties.improvements.additionalContent.one = Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement.
 calc.resident.properties.improvements.additionalContent.two = But replacing them with something of a similar standard is normally not an improvement.
+calc.resident.properties.improvements.before.mandatoryAmount = Enter how much you spent on improvements since 31 March 1982
 calc.resident.properties.improvements.mandatoryAmount = Enter how much you spent on improvements since 31 March 1982
-calc.resident.properties.improvements.invalidAmount = How much you spent on improvements since 31 March 1982 must be an amount of money in pounds
+calc.resident.properties.improvements.invalidAmount = How much you spent on improvements must be an amount of money in pounds
+calc.resident.properties.improvements.before.invalidAmount = How much you spent on improvements since 31 March 1982 must be an amount of money in pounds
 calc.resident.properties.improvements.maximumAmount = How much you spent on improvements must be £{0} or less
-calc.resident.properties.improvements.minimumAmount =How much you spent on improvements must be £0 or more
+calc.resident.properties.improvements.minimumAmount = How much you spent on improvements must be £0 or more
+calc.resident.properties.improvements.error.decimalPlaces = How much you spent on improvements has too many numbers after the decimal point
 
 ## Summary messages
 calc.resident.summary.title = Summary

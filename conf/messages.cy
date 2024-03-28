@@ -205,10 +205,13 @@ calc.resident.properties.improvements.hint = Newidiadau parhaol yw gwelliannau, 
 calc.resident.properties.improvements.jointOwner = Os oeddech yn berchen ar yr eiddo gyda rhywun arall, dylech ond nodi''ch cyfran chi o gostau''r gwelliannau, fel y cytunwyd gyda''ch cydberchennog.
 calc.resident.properties.improvements.question = Faint ydych wedi''i wario ar welliannau ers i chi ddod yn berchennog yr eiddo?
 calc.resident.properties.improvements.questionBefore = Faint ydych wedi''i wario ar welliannau ers 31 Mawrth 1982?
-calc.resident.properties.improvements.mandatoryAmount = Nodwch faint y gwnaethoch ei wario ar welliannau ers 31 Mawrth 1982
-calc.resident.properties.improvements.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei wario ar welliannau fod yn swm o arian mewn punnoedd
+calc.resident.properties.improvements.before.mandatoryAmount = Nodwch faint y gwnaethoch ei wario ar welliannau ers 31 Mawrth 1982
+calc.resident.properties.improvements.mandatoryAmount = Nodwch faint y gwnaethoch ei wario ar welliannau ers i chi ddod yn berchennog yr eiddo
+calc.resident.properties.improvements.before.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei wario ar welliannau fod yn swm o arian mewn punnoedd
+calc.resident.properties.improvements.invalidAmount = Mae’n rhaid i faint y gwnaethoch ei wario ar welliannau ers 31 Mawrth 1982 fod yn swm o arian mewn punnoedd
 calc.resident.properties.improvements.maximumAmount = Mae’n rhaid i faint y gwnaethoch ei wario ar welliannau fod yn £{0} neu lai
 calc.resident.properties.improvements.minimumAmount = Mae’n rhaid i faint y gwnaethoch ei wario ar welliannau fod yn £0 neu fwy
+calc.resident.properties.improvements.error.decimalPlaces = Mae faint y gwnaethoch ei wario ar welliannau yn cynnwys gormod o rifau ar ôl y pwynt degol
 
 calc.resident.properties.introduction.continuationInstructions = Parhewch i ddefnyddio''r gyfrifiannell hon os nad ydych erioed wedi byw yn yr eiddo, neu os oes gennych hawl i rywfaint o Lwfans Preswylfan Preifat yn unig neu os nad oes gennych hawl i Lwfans Preswylfan Preifat o gwbl.
 calc.resident.properties.introduction.entitledLinkText = Cael gwybod a oes hawl gennych i Ryddhad Preswylfan Preifat (yn agor tab newydd).

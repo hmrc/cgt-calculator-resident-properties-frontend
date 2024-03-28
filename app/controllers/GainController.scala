@@ -589,22 +589,22 @@ class GainController @Inject()(
   }
 
   //################# Improvements Actions ########################
-  private def getOwnerBeforeAprilNineteenEightyTwo()(implicit request: Request [_]): Future[Boolean] = {
+  private def getOwnerBeforeAprilNineteenEightyTwo()(implicit request: Request[_]): Future[Boolean] = {
     sessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
       .map(_.get.ownedBeforeLegislationStart)
   }
 
-  private def getImprovementsForm()(implicit request: Request [_]): Future[Form[ImprovementsModel]] = {
+  private def getImprovementsForm(ownerBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_]): Future[Form[ImprovementsModel]] = {
     sessionCacheService.fetchAndGetFormData[ImprovementsModel](keystoreKeys.improvements).map {
-      case Some(data) => improvementsForm.fill(data)
-      case _ => improvementsForm
+      case Some(data) => improvementsForm(ownerBeforeAprilNineteenEightyTwo).fill(data)
+      case _ => improvementsForm(ownerBeforeAprilNineteenEightyTwo)
     }
   }
 
   val improvements: Action[AnyContent] = ValidateSession.async { implicit request =>
     (for{
       ownerBeforeAprilNineteenEightyTwo <- getOwnerBeforeAprilNineteenEightyTwo()
-      improvementsForm <- getImprovementsForm()
+      improvementsForm <- getImprovementsForm(ownerBeforeAprilNineteenEightyTwo)
     } yield Ok(improvementsView(improvementsForm, ownerBeforeAprilNineteenEightyTwo))).recoverToStart()
   }
 
@@ -616,20 +616,23 @@ class GainController @Inject()(
     }
 
     def errorAction(form: Form[ImprovementsModel]): Future[Result] = {
-      getOwnerBeforeAprilNineteenEightyTwo().map(ownerBeforeAprilNineteenEightyTwo =>
-        BadRequest(improvementsView(form, ownerBeforeAprilNineteenEightyTwo))
-      )
+      for {
+        ownerBeforeAprilNineteenEightyTwo <- getOwnerBeforeAprilNineteenEightyTwo()
+      } yield BadRequest(improvementsView(form, ownerBeforeAprilNineteenEightyTwo))
     }
 
     def successAction(model: ImprovementsModel): Future[Result] = {
       (for {
-        save <- sessionCacheService.saveFormData(keystoreKeys.improvements, model)
+        _ <- sessionCacheService.saveFormData(keystoreKeys.improvements, model)
         answers <- sessionCacheService.getPropertyGainAnswers
         grossGain <- calcConnector.calculateRttPropertyGrossGain(answers)
         route <- routeRequest(grossGain)
       } yield route).recoverToStart()
     }
 
-    improvementsForm.bindFromRequest().fold(errorAction, successAction)
+    for {
+      ownerBeforeAprilNineteenEightyTwo <- getOwnerBeforeAprilNineteenEightyTwo()
+      result <- improvementsForm(ownerBeforeAprilNineteenEightyTwo).bindFromRequest().fold(errorAction, successAction)
+    } yield result
   }
 }

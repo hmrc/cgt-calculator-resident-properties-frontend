@@ -27,16 +27,32 @@ import play.api.data._
 
 object ImprovementsForm {
 
-  val improvementsForm = Form(
-    mapping(
-      "amount" -> text("calc.resident.properties.improvements.mandatoryAmount")
-        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
-        .verifying("calc.resident.properties.improvements.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.resident.properties.improvements.invalidAmount", bigDecimalCheck)
-        .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(constraintBuilder("calc.resident.properties.improvements.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
-        .verifying("calc.resident.properties.improvements.minimumAmount", isPositive)
-        .verifying("calc.resident.properties.improvements.invalidAmount", decimalPlacesCheck)
-    )(ImprovementsModel.apply)(ImprovementsModel.unapply)
-  )
+  def improvementsForm(beforeLegislationStarts: Boolean): Form[ImprovementsModel] =
+    if(beforeLegislationStarts) {
+      Form(
+        mapping(
+          "amount" -> text("calc.resident.properties.improvements.before.mandatoryAmount")
+            .transform(stripCurrencyCharacters, stripCurrencyCharacters)
+            .verifying("calc.resident.properties.improvements.before.mandatoryAmount", mandatoryCheck)
+            .verifying("calc.resident.properties.improvements.before.invalidAmount", bigDecimalCheck)
+            .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
+            .verifying(constraintBuilder("calc.resident.properties.improvements.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
+            .verifying("calc.resident.properties.improvements.minimumAmount", isPositive)
+            .verifying("calc.resident.properties.improvements.error.decimalPlaces", decimalPlacesCheck)
+        )(ImprovementsModel.apply)(ImprovementsModel.unapply)
+      )
+    } else {
+      Form(
+        mapping(
+          "amount" -> text("calc.resident.properties.improvements.mandatoryAmount")
+            .transform(stripCurrencyCharacters, stripCurrencyCharacters)
+            .verifying("calc.resident.properties.improvements.mandatoryAmount", mandatoryCheck)
+            .verifying("calc.resident.properties.improvements.invalidAmount", bigDecimalCheck)
+            .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
+            .verifying(constraintBuilder("calc.resident.properties.improvements.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
+            .verifying("calc.resident.properties.improvements.minimumAmount", isPositive)
+            .verifying("calc.resident.properties.improvements.error.decimalPlaces", decimalPlacesCheck)
+        )(ImprovementsModel.apply)(ImprovementsModel.unapply)
+      )
+    }
 }
