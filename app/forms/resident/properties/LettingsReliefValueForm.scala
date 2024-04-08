@@ -50,8 +50,9 @@ object LettingsReliefValueForm {
         .verifying(constraintBuilder[BigDecimal]("calc.resident.lettingsReliefValue.error.moreThanCappedAmount", MoneyPounds(maxLettingsRelief, 0).quantity) { x =>
           displayMaxLettingsRelief(x, prrValue, gain - prrValue)
         })
-        .verifying("calc.resident.lettingsReliefValue.error.moreThanPrr", x =>
-          displayGreaterThanPrr(x, prrValue, gain - prrValue))
+        .verifying(constraintBuilder[BigDecimal]("calc.resident.lettingsReliefValue.error.moreThanPrr", MoneyPounds(prrValue, 0).quantity) { x =>
+          displayGreaterThanPrr(x, prrValue, gain - prrValue)
+        })
         .verifying(constraintBuilder[BigDecimal]("calc.resident.lettingsReliefValue.error.moreThanRemainingGain", MoneyPounds(gain - prrValue, 0).quantity) { x =>
           displayGreaterThanRemainingGain(x, prrValue, gain - prrValue)
         })
