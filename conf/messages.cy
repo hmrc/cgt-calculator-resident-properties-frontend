@@ -149,7 +149,7 @@ calc.resident.lettingsRelief.title = A oes gennych hawl i Ryddhad Gosod?
 
 calc.resident.lettingsReliefValue.additionalContent = Rydym wedi cyfrifo eich bod wedi gwneud enillion o £{0} ar eich eiddo. Bydd angen y ffigur hwn arnoch i gyfrifo''ch Rhyddhad Gosod.
 calc.resident.lettingsReliefValue.error.moreThanCappedAmount = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''r uchafswm, sef £{0}
-calc.resident.lettingsReliefValue.error.moreThanPrr = Mae''r swm a nodwyd gennych ar gyfer Rhyddhad Gosod yn fwy na''ch Rhyddhad Preswylfan Preifat
+calc.resident.lettingsReliefValue.error.moreThanPrr = Ni ddylai’r Rhyddhad Gosod a nodwyd gennych fod yn fwy na’ch Rhyddhad Preswylfa Breifat o £{0}
 calc.resident.lettingsReliefValue.error.moreThanRemainingGain = Mae''r Rhyddhad Gosod a nodwyd gennych yn fwy na''ch enillion sy''n weddill, sef £{0}
 calc.resident.lettingsReliefValue.question = Faint o Ryddhad Gosod sydd gennych hawl iddo?
 calc.resident.lettingsReliefValue.title = Faint o Ryddhad Gosod sydd gennych hawl iddo?
