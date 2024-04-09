@@ -36,7 +36,7 @@ object ValueBeforeLegislationStartForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(constraintBuilder("calc.resident.properties.valueBeforeLegislationStart.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
         .verifying("calc.resident.properties.valueBeforeLegislationStart.minimumAmount", isPositive)
-        .verifying("calc.resident.properties.valueBeforeLegislationStart.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.properties.valueBeforeLegislationStart.error.decimalPlaces", decimalPlacesCheck)
     )(ValueBeforeLegislationStartModel.apply)(ValueBeforeLegislationStartModel.unapply)
   )
 }

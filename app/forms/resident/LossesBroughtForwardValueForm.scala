@@ -40,7 +40,7 @@ object LossesBroughtForwardValueForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(constraintBuilder("calc.resident.lossesBroughtForwardValue.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
         .verifying("calc.resident.lossesBroughtForwardValue.minimumAmount", isPositive)
-        .verifying(constraintBuilder("calc.resident.lossesBroughtForwardValue.invalidAmount", taxYear.startYear, taxYear.endYear) {
+        .verifying(constraintBuilder("calc.resident.lossesBroughtForwardValue.error.decimalPlaces", taxYear.startYear, taxYear.endYear) {
           decimalPlacesCheck
         })
     )(LossesBroughtForwardValueModel.apply)(LossesBroughtForwardValueModel.unapply)

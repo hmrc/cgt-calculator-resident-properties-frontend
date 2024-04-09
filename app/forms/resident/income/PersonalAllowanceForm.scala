@@ -48,7 +48,7 @@ object PersonalAllowanceForm {
         .verifying(constraintBuilder("calc.resident.personalAllowance.minimumAmount", taxYear.startYear, taxYear.endYear) {
           isPositive
         })
-        .verifying(constraintBuilder("calc.resident.personalAllowance.invalidAmount", taxYear.startYear, taxYear.endYear) {
+        .verifying(constraintBuilder("calc.resident.personalAllowance.error.decimalPlaces", taxYear.startYear, taxYear.endYear) {
           decimalPlacesCheckNoDecimal
         })
     )(PersonalAllowanceModel.apply)(PersonalAllowanceModel.unapply)

@@ -46,7 +46,7 @@ object LettingsReliefValueForm {
         .verifying("calc.resident.lettingsReliefValue.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying("calc.resident.lettingsReliefValue.minimumAmount", isPositive)
-        .verifying("calc.resident.lettingsReliefValue.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.lettingsReliefValue.error.decimalPlaces", decimalPlacesCheck)
         .verifying(constraintBuilder[BigDecimal]("calc.resident.lettingsReliefValue.error.moreThanCappedAmount", MoneyPounds(maxLettingsRelief, 0).quantity) { x =>
           displayMaxLettingsRelief(x, prrValue, gain - prrValue)
         })

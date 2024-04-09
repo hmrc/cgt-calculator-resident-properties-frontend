@@ -36,7 +36,7 @@ object WorthWhenGaveAwayForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(constraintBuilder("calc.resident.properties.worthWhenGaveAway.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
         .verifying("calc.resident.properties.worthWhenGaveAway.minimumAmount", isPositive)
-        .verifying("calc.resident.properties.worthWhenGaveAway.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.properties.worthWhenGaveAway.error.decimalPlaces", decimalPlacesCheck)
     )(WorthWhenGaveAwayModel.apply)(WorthWhenGaveAwayModel.unapply)
   )
 }

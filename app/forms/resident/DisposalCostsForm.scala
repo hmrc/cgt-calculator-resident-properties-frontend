@@ -38,7 +38,7 @@ object DisposalCostsForm {
           maxCheck
         })
         .verifying("calc.resident.disposalCosts.minimumAmount", isPositive)
-        .verifying("calc.resident.disposalCosts.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.disposalCosts.error.decimalPlaces", decimalPlacesCheck)
     )(DisposalCostsModel.apply)(DisposalCostsModel.unapply)
   )
 }

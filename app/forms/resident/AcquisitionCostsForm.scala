@@ -38,7 +38,7 @@ object AcquisitionCostsForm {
           maxCheck
         })
         .verifying("calc.resident.acquisitionCosts.minimumAmount", isPositive)
-        .verifying("calc.resident.acquisitionCosts.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.acquisitionCosts.error.decimalPlaces", decimalPlacesCheck)
     )(AcquisitionCostsModel.apply)(AcquisitionCostsModel.unapply)
   )
 }

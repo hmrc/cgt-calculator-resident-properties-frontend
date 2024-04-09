@@ -38,7 +38,7 @@ object ImprovementsForm {
             .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
             .verifying(constraintBuilder("calc.resident.properties.improvements.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
             .verifying("calc.resident.properties.improvements.minimumAmount", isPositive)
-            .verifying("calc.resident.properties.improvements.error.decimalPlaces", decimalPlacesCheck)
+            .verifying("calc.resident.properties.improvements.before.error.decimalPlaces", decimalPlacesCheck)
         )(ImprovementsModel.apply)(ImprovementsModel.unapply)
       )
     } else {

@@ -36,7 +36,7 @@ object WorthWhenBoughtForLessForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(constraintBuilder("calc.resident.properties.worthWhenBoughtForLess.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
         .verifying("calc.resident.properties.worthWhenBoughtForLess.minimumAmount", isPositive)
-        .verifying("calc.resident.properties.worthWhenBoughtForLess.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.properties.worthWhenBoughtForLess.error.decimalPlaces", decimalPlacesCheck)
     )(WorthWhenBoughtForLessModel.apply)(WorthWhenBoughtForLessModel.unapply)
   )
 }
