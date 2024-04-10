@@ -20,7 +20,7 @@ import sbt.*
 
 object AppDependencies {
 
-  val bootstrapVersion         = "7.22.0"
+  val bootstrapVersion         = "8.4.0"
   val playVersion               = "play-28"
   val playPartialsVersion      = s"8.4.0-$playVersion"
   val hmrcMongoVersion         = "1.3.0"
