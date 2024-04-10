@@ -92,8 +92,9 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.Errors.personalAllowanceInvalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.Errors.personalAllowanceInvalidAmount
+      s"error with message '${messages.Errors.personalAllowanceDecimalError}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.personalAllowanceDecimalError
+
       }
     }
 

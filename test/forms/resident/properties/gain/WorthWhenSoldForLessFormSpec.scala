@@ -126,8 +126,8 @@ class WorthWhenSoldForLessFormSpec extends CommonPlaySpec with WithCommonFakeApp
         form.errors.length shouldEqual 1
       }
 
-      s"error with message '${messages.Errors.worthWhenSoldForLessInvalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.Errors.worthWhenSoldForLessInvalidAmount
+      s"error with message '${messages.Errors.worthWhenSoldForLessDecimalError}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenSoldForLessDecimalError
       }
     }
   }

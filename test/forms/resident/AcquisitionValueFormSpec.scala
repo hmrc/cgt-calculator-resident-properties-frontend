@@ -93,8 +93,8 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"return a form with the error message ${messages.Errors.acquisitionValueInvalidAmount}" in {
-        form.error("amount").get.message shouldBe messages.Errors.acquisitionValueInvalidAmount
+      s"return a form with the error message ${messages.Errors.acquisitionValueDecimalError}" in {
+        form.error("amount").get.message shouldBe messages.Errors.acquisitionValueDecimalError
       }
     }
   }
