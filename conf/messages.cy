@@ -104,7 +104,7 @@ calc.resident.disposal.value.mandatoryAmount = Nodwch faint y gwnaethoch werthu�
 calc.resident.disposal.value.invalidAmount = Mae’n rhaid i faint y gwnaethoch werthu’r eiddo amdano fod yn swm o arian mewn punnoedd
 calc.resident.disposal.value.maximumAmount = Mae’n rhaid i faint y gwnaethoch werthu’r eiddo amdano fod yn £{0} neu lai
 calc.resident.disposal.value.minimumAmount = Mae’n rhaid i faint y gwnaethoch werthu’r eiddo amdano fod yn £0 neu fwy
-calc.resident.disposal.value.error.decimalPlaces = Mae ''Am faint y gwnaethoch werthu’r eiddo?' yn cynnwys gormod o rifau ar ôl y pwynt degol
+calc.resident.disposal.value.error.decimalPlaces = Mae ''Am faint y gwnaethoch werthu’r eiddo?'' yn cynnwys gormod o rifau ar ôl y pwynt degol
 
 calc.resident.disposalCosts.bulletFour = hysbysebu i ddod o hyd i brynwr
 calc.resident.disposalCosts.bulletOne = asiantau tai neu arwerthwyr
@@ -172,7 +172,7 @@ calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth E
 calc.resident.lossesBroughtForwardValue.pageHeading = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} i {1}?
 calc.resident.lossesBroughtForwardValue.title = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} i {1}?
 calc.resident.lossesBroughtForwardValue.mandatoryAmount = Nodwch gyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} i {1}
-calc.resident.lossesBroughtForwardValue.invalidAmount = Mae’n rhaid i gyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} i {1} fod yn swm o arian mewn punnoedd
+calc.resident.lossesBroughtForwardValue.invalidAmount = Mae’n rhaid i gyfanswm gwerth eich colledion Treth Enillion Cyfalaf cyn {0} i {1} fod yn swm o arian mewn punnoedd
 calc.resident.lossesBroughtForwardValue.maximumAmount = Mae’n rhaid i gyfanswm eich colledion Treth Enillion Cyfalaf fod yn £{0} neu lai
 calc.resident.lossesBroughtForwardValue.minimumAmount = Mae’n rhaid i gyfanswm eich colledion Treth Enillion Cyfalaf fod yn £0 neu fwy
 calc.resident.lossesBroughtForwardValue.error.decimalPlaces = Mae cyfanswm gwerth eich colledion Treth Enillion Cyfalaf yn cynnwys gormod o rifau ar ôl y pwynt degol
@@ -239,6 +239,7 @@ calc.resident.properties.privateResidenceReliefValue.gainExceededError = Mae’n
 calc.resident.properties.privateResidenceReliefValue.mandatoryAmount = Nodwch faint o Ryddhad Preswylfa Breifat y mae gennych hawl iddo
 calc.resident.properties.privateResidenceReliefValue.invalidAmount = Mae’n rhaid i faint o Ryddhad Preswylfa Breifat y mae gennych hawl iddo fod yn swm o arian mewn punnoedd
 calc.resident.properties.privateResidenceReliefValue.minimumAmount = Mae’n rhaid i’r Rhyddhad Preswylfa Breifat fod yn £0 neu fwy
+calc.resident.properties.privateResidenceReliefValue.error.decimalPlaces = Mae faint o Ryddhad Preswylfa Breifat y mae gennych hawl iddo yn cynnwys gormod o rifau ar ôl y pwynt degol
 
 calc.resident.properties.propertyLivedIn.noSelectError = Rhowch wybod i ni a ydych wedi byw yn yr eiddo ar ryw adeg ers i chi ddod yn berchennog
 calc.resident.properties.propertyLivedIn.title = Ydych chi wedi byw yn yr eiddo ar ryw adeg ers i chi ddod yn berchennog?

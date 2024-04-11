@@ -304,6 +304,7 @@ calc.resident.properties.privateResidenceReliefValue.gainExceededError = Private
 calc.resident.properties.privateResidenceReliefValue.mandatoryAmount = Enter how much Private Residence Relief you are entitled to
 calc.resident.properties.privateResidenceReliefValue.invalidAmount = How much Private Residence Relief you are entitled to must be an amount of money in pounds
 calc.resident.properties.privateResidenceReliefValue.minimumAmount = Private Residence Relief must be £0 or more
+calc.resident.properties.privateResidenceReliefValue.error.decimalPlaces = How much Private Residence Relief you are entitled to has too many numbers after the decimal point
 
 ## Reliefs messages
 ## Lettings Relief Value messages

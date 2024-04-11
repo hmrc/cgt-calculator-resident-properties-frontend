@@ -111,7 +111,7 @@ class PrivateResidenceReliefValueFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.Errors.privateResidenceReliefValueInvalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.privateResidenceReliefValueDecimalError
       }
     }
 

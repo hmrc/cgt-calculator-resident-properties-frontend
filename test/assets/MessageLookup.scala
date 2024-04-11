@@ -82,6 +82,7 @@ object MessageLookup {
       val improvementsInvalidAmount = "calc.resident.properties.improvements.invalidAmount"
       val improvementsDecimalError = "calc.resident.properties.improvements.error.decimalPlaces"
       val privateResidenceReliefValueInvalidAmount = "calc.resident.properties.privateResidenceReliefValue.invalidAmount"
+      val privateResidenceReliefValueDecimalError = "calc.resident.properties.privateResidenceReliefValue.error.decimalPlaces"
       val lettingsReliefValueInvalidAmount = "calc.resident.lettingsReliefValue.invalidAmount"
       val lettingsReliefValueDecimalError = "calc.resident.lettingsReliefValue.error.decimalPlaces"
       val lossesBroughtForwardValueInvalidAmount = "calc.resident.lossesBroughtForwardValue.invalidAmount"
