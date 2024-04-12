@@ -16,7 +16,7 @@
 
 import com.typesafe.sbt.digest.Import.digest
 import com.typesafe.sbt.web.Import.{Assets, pipelineStages}
-import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, integrationTestSettings, scalaSettings}
+import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, scalaSettings}
 
 lazy val appName = "cgt-calculator-resident-properties-frontend"
 lazy val plugins : Seq[Plugins] = Seq(play.sbt.PlayScala)
@@ -42,8 +42,6 @@ lazy val microservice = Project(appName, file("."))
     scalacOptions += "-Wconf:cat=unused-imports&src=routes/.*:s",
     scalacOptions += "-feature",
   )
-  .configs(IntegrationTest)
-  .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(TwirlKeys.templateImports ++= Seq(
     "uk.gov.hmrc.govukfrontend.views.html.components._",
@@ -54,5 +52,4 @@ lazy val microservice = Project(appName, file("."))
   .settings(
     isPublicArtefact := true
   )
-
 fork in run := true
