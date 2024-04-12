@@ -32,7 +32,7 @@ lazy val microservice = Project(appName, file("."))
   .settings(scalaSettings: _*)
   .settings(defaultSettings(): _*)
   .settings(
-    scalaVersion := "2.13.8",
+    scalaVersion := "2.13.12",
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
     evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
