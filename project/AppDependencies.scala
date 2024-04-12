@@ -40,16 +40,16 @@ object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
-        "uk.gov.hmrc.mongo"       %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion    % scope,
-        "uk.gov.hmrc"             %% s"bootstrap-test-$playVersion"   % bootstrapVersion    % scope,
-        "org.pegdown"             %  "pegdown"                        % "1.6.0"             % scope,
-        "org.jsoup"               %  "jsoup"                          % "1.17.2"            % scope,
-        "com.typesafe.play"       %% "play-test"                      % "2.9.2"             % scope,
-        "com.vladsch.flexmark"    %  "flexmark-all"                   % "0.64.8"            % scope,
-        "org.scalatestplus"       %% "scalatestplus-mockito"          % "1.0.0-M2"          % scope,
-        "org.scalatestplus"       %% "scalatestplus-scalacheck"       % "3.1.0.0-RC2"       % scope,
-        "org.scalatestplus.play"  %% "scalatestplus-play"             % "7.0.1"             % scope,
-        "org.mockito"             %% "mockito-scala-scalatest"        % "1.17.31"           % scope
+        "uk.gov.hmrc.mongo"       %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion                 % scope,
+        "uk.gov.hmrc"             %% s"bootstrap-test-$playVersion"   % bootstrapVersion                 % scope,
+        "org.pegdown"             %  "pegdown"                        % "1.6.0"                          % scope,
+        "org.jsoup"               %  "jsoup"                          % "1.17.2"                         % scope,
+        "com.typesafe.play"       %% "play-test"                      % "2.9.2"                          % scope,
+        "com.vladsch.flexmark"    %  "flexmark-all"                   % "0.64.8"                         % scope,
+        "org.scalatestplus"       %% "scalatestplus-mockito"          % "1.0.0-M2"                       % scope,
+        "org.scalatestplus"       %% "scalatestplus-scalacheck"       % "3.1.0.0-RC2"                    % scope,
+        "org.scalatestplus.play"  %% "scalatestplus-play"             % "7.0.1"                          % scope,
+        "org.mockito"             %% "mockito-scala-scalatest"        % "1.17.31"                        % scope
       )
     }.test
   }
