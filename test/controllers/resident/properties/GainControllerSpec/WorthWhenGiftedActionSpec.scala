@@ -16,8 +16,8 @@
 
 package controllers.GainControllerSpec
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import assets.MessageLookup.Resident.Properties.{WorthWhenGifted => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}

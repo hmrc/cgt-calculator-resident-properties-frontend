@@ -16,8 +16,8 @@
 
 package controllers.PropertiesControllerSpec
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import assets.MessageLookup.{IntroductionView => messages}
 import controllers.PropertiesController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}

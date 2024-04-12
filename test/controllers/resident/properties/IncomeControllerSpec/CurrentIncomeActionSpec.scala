@@ -16,8 +16,8 @@
 
 package controllers.IncomeControllerSpec
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import assets.MessageLookup.{CurrentIncome => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}

@@ -16,8 +16,8 @@
 
 package controllers.resident.properties.DeductionsControllerSpec
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import assets.MessageLookup.{PropertyLivedIn => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}

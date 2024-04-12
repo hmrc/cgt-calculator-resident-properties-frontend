@@ -16,8 +16,8 @@
 
 package controllers.resident.properties
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import assets.MessageLookup.{SummaryPage => messages}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import connectors.CalculatorConnector
