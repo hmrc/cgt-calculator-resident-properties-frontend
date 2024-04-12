@@ -16,8 +16,6 @@
 
 package controllers.DeductionsControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.stream.Materializer
 import assets.MessageLookup.{LettingsReliefValue => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -25,6 +23,8 @@ import controllers.DeductionsController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.resident.properties.DeductionsControllerSpec.DeductionsControllerBaseSpec
 import models.resident.properties.{LettingsReliefValueModel, PrivateResidenceReliefValueModel, YourAnswersSummaryModel}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

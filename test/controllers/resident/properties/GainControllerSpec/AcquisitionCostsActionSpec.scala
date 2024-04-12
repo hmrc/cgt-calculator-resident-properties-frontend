@@ -16,8 +16,6 @@
 
 package controllers.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.stream.Materializer
 import assets.MessageLookup.{AcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -27,6 +25,8 @@ import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.AcquisitionCostsModel
 import models.resident.properties.gain.OwnerBeforeLegislationStartModel
 import models.resident.properties.{BoughtForLessThanWorthModel, HowBecameOwnerModel}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

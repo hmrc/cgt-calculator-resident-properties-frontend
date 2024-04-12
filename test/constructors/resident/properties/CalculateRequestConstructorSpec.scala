@@ -16,11 +16,10 @@
 
 package constructors.resident.properties
 
-import common.Dates
+import common.{CommonPlaySpec, Dates}
 import common.resident.HowYouBecameTheOwnerKeys._
 import models.resident._
 import models.resident.properties._
-import common.CommonPlaySpec
 
 class CalculateRequestConstructorSpec extends CommonPlaySpec {
 

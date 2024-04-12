@@ -16,8 +16,6 @@
 
 package controllers.resident.properties.IncomeControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.stream.Materializer
 import assets.MessageLookup.{PersonalAllowance => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -26,6 +24,8 @@ import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.{IncomeController, routes}
 import models.resident.income.PersonalAllowanceModel
 import models.resident.{DisposalDateModel, TaxYearModel}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

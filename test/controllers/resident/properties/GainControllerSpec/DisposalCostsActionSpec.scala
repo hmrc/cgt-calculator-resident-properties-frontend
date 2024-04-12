@@ -16,8 +16,6 @@
 
 package controllers.resident.properties.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.stream.Materializer
 import assets.MessageLookup.{DisposalCosts => messages, Resident => commonMessages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -25,6 +23,8 @@ import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident.properties.SellOrGiveAwayModel
 import models.resident.{DisposalCostsModel, SellForLessModel}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

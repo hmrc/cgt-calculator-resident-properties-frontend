@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import play.core.PlayVersion
 import play.sbt.PlayImport.*
 import sbt.*
 

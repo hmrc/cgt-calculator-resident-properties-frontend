@@ -16,22 +16,21 @@
 
 package controllers.resident.properties
 
-import java.time._
-
-import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.stream.Materializer
 import assets.MessageLookup
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.WhatNextSAController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident.DisposalDateModel
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import views.html.calculation.resident.properties.whatNext.{whatNextSAFourTimesAEA, whatNextSaGain, whatNextSaNoGain}
 
+import java.time._
 import scala.concurrent.Future
 
 class WhatNextSaControllerSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar with CommonMocks {

@@ -16,9 +16,9 @@
 
 package constructors.resident.properties
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, PropertyLivedInModel}
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class SummaryConstructorSpec extends CommonPlaySpec with WithCommonFakeApplication {
   "Calling the .broughtForwardLossesUsed function" when {
