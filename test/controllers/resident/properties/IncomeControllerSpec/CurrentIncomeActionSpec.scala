@@ -16,8 +16,6 @@
 
 package controllers.IncomeControllerSpec
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{CurrentIncome => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
@@ -26,6 +24,8 @@ import controllers.IncomeController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
 import models.resident.income._
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

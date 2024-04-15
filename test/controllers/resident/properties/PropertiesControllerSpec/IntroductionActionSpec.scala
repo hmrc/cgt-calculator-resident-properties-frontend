@@ -16,16 +16,16 @@
 
 package controllers.PropertiesControllerSpec
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{IntroductionView => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.PropertiesController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Result
 import play.api.test.Helpers._
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 import views.html.calculation.resident.properties.introduction
 
 import scala.concurrent.Future

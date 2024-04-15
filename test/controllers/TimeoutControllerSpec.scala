@@ -16,15 +16,15 @@
 
 package controllers
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent}
 import play.api.test.FakeRequest
-import common.{CommonPlaySpec,WithCommonFakeApplication}
 
 class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar {
 

@@ -16,8 +16,6 @@
 
 package controllers.DeductionsControllerSpec
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -26,6 +24,8 @@ import controllers.resident.properties.DeductionsControllerSpec.DeductionsContro
 import controllers.{DeductionsController, routes}
 import models.resident._
 import models.resident.properties.{ChargeableGainAnswers, LettingsReliefModel, PropertyLivedInModel, YourAnswersSummaryModel}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

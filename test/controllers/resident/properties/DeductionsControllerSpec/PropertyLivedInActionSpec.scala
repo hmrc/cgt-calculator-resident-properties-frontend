@@ -16,14 +16,14 @@
 
 package controllers.resident.properties.DeductionsControllerSpec
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{PropertyLivedIn => messages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.DeductionsController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident.properties.PropertyLivedInModel
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

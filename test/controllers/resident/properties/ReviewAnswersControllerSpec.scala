@@ -16,19 +16,18 @@
 
 package controllers.resident.properties
 
-import java.time.LocalDate
-
-import akka.actor.ActorSystem
-import akka.stream.Materializer
-import akka.util.Timeout
 import assets.MessageLookup
 import common.resident.HowYouBecameTheOwnerKeys
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import connectors.CalculatorConnector
 import controllers.ReviewAnswersController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties._
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
+import org.apache.pekko.util.Timeout
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -36,9 +35,9 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import views.html.calculation.resident.properties.checkYourAnswers.checkYourAnswers
 
+import java.time.LocalDate
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 

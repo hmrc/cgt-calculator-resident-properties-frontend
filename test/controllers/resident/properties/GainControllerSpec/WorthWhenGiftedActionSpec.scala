@@ -16,8 +16,6 @@
 
 package controllers.GainControllerSpec
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.Resident.Properties.{WorthWhenGifted => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import common.KeystoreKeys.{ResidentPropertyKeys => keyStoreKeys}
@@ -26,6 +24,8 @@ import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
 import models.resident.properties.gain.WorthWhenGiftedModel
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

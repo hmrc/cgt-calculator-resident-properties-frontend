@@ -16,19 +16,19 @@
 
 package controllers.resident.properties
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.{MessageLookup, ModelsAsset}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.SaUserController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import models.resident.properties.YourAnswersSummaryModel
 import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import views.html.calculation.resident.properties.whatNext.saUser
 
 import scala.concurrent.Future

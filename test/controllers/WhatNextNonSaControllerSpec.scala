@@ -16,17 +16,17 @@
 
 package controllers
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
-import akka.util.Timeout
 import assets.MessageLookup
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
+import org.apache.pekko.util.Timeout
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers.redirectLocation
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import views.html.calculation.resident.properties.whatNext.{whatNextNonSaGain, whatNextNonSaLoss}
 
 import scala.concurrent.Future
