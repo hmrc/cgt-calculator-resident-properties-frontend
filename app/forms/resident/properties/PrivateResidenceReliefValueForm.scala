@@ -37,7 +37,7 @@ object PrivateResidenceReliefValueForm {
           maxPRRCheck(gain)
         })
         .verifying("calc.resident.properties.privateResidenceReliefValue.minimumAmount", isPositive)
-        .verifying("calc.resident.properties.privateResidenceReliefValue.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.properties.privateResidenceReliefValue.error.decimalPlaces", decimalPlacesCheck)
     )(PrivateResidenceReliefValueModel.apply)(PrivateResidenceReliefValueModel.unapply)
   )
 }

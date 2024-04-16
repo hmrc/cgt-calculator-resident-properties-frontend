@@ -122,7 +122,7 @@ class WorthWhenInheritedFormSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.Errors.worthWhenInheritedInvalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenInheritedDecimalError
       }
     }
 

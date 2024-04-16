@@ -45,7 +45,7 @@ object CurrentIncomeForm {
         .verifying(constraintBuilder[BigDecimal]("calc.resident.currentIncome.minimumAmount", taxYear.startYear, taxYear.endYear){
           isPositive
         })
-        .verifying(constraintBuilder[BigDecimal]("calc.resident.currentIncome.invalidAmount", taxYear.startYear, taxYear.endYear){
+        .verifying(constraintBuilder[BigDecimal]("calc.resident.currentIncome.error.decimalPlaces", taxYear.startYear, taxYear.endYear){
           decimalPlacesCheck
         })
     )(CurrentIncomeModel.apply)(CurrentIncomeModel.unapply)

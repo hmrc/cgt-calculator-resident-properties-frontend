@@ -122,7 +122,7 @@ class WorthWhenBoughtForLessFormSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.Errors.worthWhenBoughtForLessInvalidAmount
+         form.error("amount").get.message shouldBe messages.Errors.worthWhenBoughtForLessDecimalError
       }
     }
 

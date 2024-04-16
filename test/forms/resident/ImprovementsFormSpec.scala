@@ -26,7 +26,7 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
   "Creating a form using an empty model" should {
 
-    lazy val form = improvementsForm
+    lazy val form = improvementsForm(true)
 
     "return an empty string for amount" in {
       form.data.isEmpty shouldBe true
@@ -37,7 +37,7 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "return a form with the data specified in the model" in {
       val model = ImprovementsModel(1)
-      val form = improvementsForm.fill(model)
+      val form = improvementsForm(true).fill(model)
       form.data("amount") shouldBe "1"
     }
 
@@ -47,7 +47,7 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "supplied with no data for amount" should {
 
-      lazy val form = improvementsForm.bind(Map("amount" -> ""))
+      lazy val form = improvementsForm(false).bind(Map("amount" -> ""))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -64,7 +64,7 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "supplied with empty space for amount" should {
 
-      lazy val form = improvementsForm.bind(Map("amount" -> "  "))
+      lazy val form = improvementsForm(false).bind(Map("amount" -> "  "))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -82,7 +82,7 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "supplied with non numeric input for amount" should {
 
-      lazy val form = improvementsForm.bind(Map("amount" -> "a"))
+      lazy val form = improvementsForm(false).bind(Map("amount" -> "a"))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -99,7 +99,7 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "supplied with an amount with 3 numbers after the decimal" should {
 
-      lazy val form = improvementsForm.bind(Map("amount" -> "1.000"))
+      lazy val form = improvementsForm(false).bind(Map("amount" -> "1.000"))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -110,13 +110,13 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.Errors.improvementsInvalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.improvementsDecimalError
       }
     }
 
     "supplied with an amount that's greater than the max" should {
 
-      lazy val form = improvementsForm.bind(Map("amount" -> "1000000000.01"))
+      lazy val form = improvementsForm(true).bind(Map("amount" -> "1000000000.01"))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -133,7 +133,7 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "supplied with an amount that's less than the zero" should {
 
-      lazy val form = improvementsForm.bind(Map("amount" -> "-0.01"))
+      lazy val form = improvementsForm(true).bind(Map("amount" -> "-0.01"))
 
       "raise form error" in {
         form.hasErrors shouldBe true
@@ -153,7 +153,7 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "supplied with valid amount" should {
 
-      lazy val form = improvementsForm.bind(Map("amount" -> "1"))
+      lazy val form = improvementsForm(true).bind(Map("amount" -> "1"))
 
       "build a model with the correct amount" in {
         form.value.get shouldBe ImprovementsModel(BigDecimal(1))
@@ -166,28 +166,28 @@ class ImprovementsFormSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "supplied with an amount with 1 number after the decimal" should {
       "not raise form error" in {
-        val form = improvementsForm.bind(Map("amount" -> "1.1"))
+        val form = improvementsForm(true).bind(Map("amount" -> "1.1"))
         form.hasErrors shouldBe false
       }
     }
 
     "supplied with an amount with 2 numbers after the decimal" should {
       "not raise form error" in {
-        val form = improvementsForm.bind(Map("amount" -> "1.11"))
+        val form = improvementsForm(true).bind(Map("amount" -> "1.11"))
         form.hasErrors shouldBe false
       }
     }
 
     "supplied with an amount that's equal to the max" should {
       "not raise form error" in {
-        val form = improvementsForm.bind(Map("amount" -> "1000000000"))
+        val form = improvementsForm(true).bind(Map("amount" -> "1000000000"))
         form.hasErrors shouldBe false
       }
     }
 
     "supplied with an amount that's equal to the min" should {
       "not raise form error" in {
-        val form = improvementsForm.bind(Map("amount" -> "0"))
+        val form = improvementsForm(true).bind(Map("amount" -> "0"))
         form.hasErrors shouldBe false
       }
     }

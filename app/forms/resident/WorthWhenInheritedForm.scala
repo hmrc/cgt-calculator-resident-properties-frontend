@@ -36,7 +36,7 @@ object WorthWhenInheritedForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(constraintBuilder("calc.resident.properties.worthWhenInherited.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
         .verifying("calc.resident.properties.worthWhenInherited.minimumAmount", isPositive)
-        .verifying("calc.resident.properties.worthWhenInherited.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.properties.worthWhenInherited.error.decimalPlaces", decimalPlacesCheck)
     )(WorthWhenInheritedModel.apply)(WorthWhenInheritedModel.unapply)
   )
 }

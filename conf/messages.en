@@ -147,9 +147,10 @@ calc.resident.sellOrGiveAway.sold = Sold it
 ##Worth When Gave Away messages
 calc.resident.properties.worthWhenGaveAway.title = What was the property worth when you gave it away?
 calc.resident.properties.worthWhenGaveAway.mandatoryAmount = Enter how much the property was worth when you gave it away
-calc.resident.properties.worthWhenGaveAway.invalidAmount = How much the property was worth when you gave it away must be in the correct format
+calc.resident.properties.worthWhenGaveAway.invalidAmount = What the property was worth when you gave it away must be an amount of money in pounds
 calc.resident.properties.worthWhenGaveAway.maximumAmount = How much the property was worth when you gave it away must be £{0} or less
 calc.resident.properties.worthWhenGaveAway.minimumAmount = How much the property was worth when you gave it away must be £0 or more
+calc.resident.properties.worthWhenGaveAway.error.decimalPlaces = What the property was worth when you gave it away has too many numbers after the decimal point
 
 ## No Tax To Pay messages
 calc.resident.noTaxToPay.title = You have no tax to pay
@@ -160,18 +161,20 @@ calc.resident.noTaxToPay.charityText = This is because Capital Gains Tax doesn''
 calc.resident.disposal.value.question = How much did you sell the property for?
 calc.resident.disposal.value.helpText = If you owned the property with someone else, only enter your share of the sale value. For example, £150,000
 calc.resident.disposal.value.mandatoryAmount = Enter how much you sold the property for
-calc.resident.disposal.value.invalidAmount = How much you sold the property for must be in the correct format
+calc.resident.disposal.value.invalidAmount = How much you sold the property for must be an amount of money in pounds
 calc.resident.disposal.value.maximumAmount = How much you sold the property for must be £{0} or less
 calc.resident.disposal.value.minimumAmount = How much you sold the property for must be £0 or more
+calc.resident.disposal.value.error.decimalPlaces = How much you sold the property for has too many numbers after the decimal point
 
 ## Property Worth when you sold it messages
 calc.resident.properties.worthWhenSoldForLess.question = What was the property worth when you sold it?
 calc.resident.properties.worthWhenSoldForLess.hintText = If you owned the property with someone else, only enter your share of the property value.
 calc.resident.properties.worthWhenSoldForLess.paragraphText = You can use a valuation from a surveyor. If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 calc.resident.properties.worthWhenSoldForLess.mandatoryAmount = Enter what the property was worth when you sold it
-calc.resident.properties.worthWhenSoldForLess.invalidAmount = What the property was worth when you sold it must be in the correct format
+calc.resident.properties.worthWhenSoldForLess.invalidAmount = What the property was worth when you sold it must be an amount of money in pounds
 calc.resident.properties.worthWhenSoldForLess.maximumAmount = What the property was worth when you sold it must be £{0} or less
 calc.resident.properties.worthWhenSoldForLess.minimumAmount = What the property was worth when you sold it must be £0 or more
+calc.resident.properties.worthWhenSoldForLess.error.decimalPlaces = What the property was worth when you sold it has too many numbers after the decimal point
 
 ## Disposal Costs messages
 calc.resident.disposalCosts.title = How much did you pay in costs when you stopped owning the property?
@@ -183,9 +186,10 @@ calc.resident.disposalCosts.bulletThree = any professional help to value your pr
 calc.resident.disposalCosts.bulletFour = advertising to find a buyer
 calc.resident.disposalCosts.helpText = If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner.
 calc.resident.disposalCosts.mandatoryAmount = Enter how much you paid in costs when you stopped owning the property
-calc.resident.disposalCosts.invalidAmount = How much you paid in costs when you stopped owning the property must be in the correct format
+calc.resident.disposalCosts.invalidAmount = How much you paid in costs when you stopped owning the property must be an amount of money in pounds
 calc.resident.disposalCosts.maximumAmount = How much you paid in costs when you stopped owning the property must be £{0} or less
 calc.resident.disposalCosts.minimumAmount = How much you paid in costs must be £0 or more
+calc.resident.disposalCosts.error.decimalPlaces = How much you paid in costs when you stopped owning the property has too many numbers after the decimal point
 
 ## Owner Before 1st April 1982 messages
 calc.resident.properties.ownedBeforeLegislationStart.title = Did you become the property owner before 1 April 1982?
@@ -205,18 +209,20 @@ calc.resident.properties.valueBeforeLegislationStart.information = If you had yo
 calc.resident.properties.valueBeforeLegislationStart.help = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 calc.resident.properties.valueBeforeLegislationStart.jointOwnership = If you owned the property with someone else, only enter your share of the property value.
 calc.resident.properties.valueBeforeLegislationStart.mandatoryAmount = Enter what the property was worth on 31 March 1982
-calc.resident.properties.valueBeforeLegislationStart.invalidAmount = What the property was worth on 31 March 1982 must be in the correct format
+calc.resident.properties.valueBeforeLegislationStart.invalidAmount = What the property was worth on 31 March 1982 must be an amount of money in pounds
 calc.resident.properties.valueBeforeLegislationStart.maximumAmount = What the property was worth on 31 March 1982 must be £{0} or less
 calc.resident.properties.valueBeforeLegislationStart.minimumAmount = What the property was worth on 31 March 1982 must be £0 or more
+calc.resident.properties.valueBeforeLegislationStart.error.decimalPlaces = What the property was worth on 31 March 1982 has too many numbers after the decimal point
 
 ## Worth When Inherited messages
 calc.resident.properties.worthWhenInherited.question = What was the property worth when you inherited it?
 calc.resident.properties.worthWhenInherited.help = This is the value of the property on the date the previous owner died.
 calc.resident.properties.worthWhenInherited.jointOwner = If you owned the property with someone else, only enter your share of the property value.
 calc.resident.properties.worthWhenInherited.mandatoryAmount = Enter how much the property was worth when you inherited it
-calc.resident.properties.worthWhenInherited.invalidAmount = How much the property was worth when you inherited it must be in the correct format
+calc.resident.properties.worthWhenInherited.invalidAmount = What the property was worth when you inherited it must be an amount of money in pounds
 calc.resident.properties.worthWhenInherited.maximumAmount = How much the property was worth when you inherited it must be £{0} or less
 calc.resident.properties.worthWhenInherited.minimumAmount = How much the property was worth when you inherited it must be £0 or more
+calc.resident.properties.worthWhenInherited.error.decimalPlaces = What the property was worth when you inherited it has too many numbers after the decimal point
 
 ## Worth When Bought messages
 calc.resident.properties.worthWhenBoughtForLess.question = What was the property worth when you bought it?
@@ -224,9 +230,10 @@ calc.resident.properties.worthWhenBoughtForLess.hintOne = You can use a valuatio
 calc.resident.properties.worthWhenBoughtForLess.hintTwo = If you don’t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 calc.resident.properties.worthWhenBoughtForLess.jointOwner = If you owned the property with someone else, only enter your share of the property value.
 calc.resident.properties.worthWhenBoughtForLess.mandatoryAmount = Enter what the property was worth when you bought it
-calc.resident.properties.worthWhenBoughtForLess.invalidAmount = What the property was worth when you bought it must be in the correct format
+calc.resident.properties.worthWhenBoughtForLess.invalidAmount = What the property was worth when you bought it must be an amount of money in pounds
 calc.resident.properties.worthWhenBoughtForLess.maximumAmount = What the property was worth when you bought it must be £{0} or less
 calc.resident.properties.worthWhenBoughtForLess.minimumAmount = What the property was worth when you bought it must be £0 or more
+calc.resident.properties.worthWhenBoughtForLess.error.decimalPlaces = What the property was worth when you bought it has too many numbers after the decimal point
 
 ## Worth When Gifted messages
 calc.resident.properties.worthWhenGifted.question = What was the property worth when you got it as a gift?
@@ -234,18 +241,20 @@ calc.resident.properties.worthWhenGifted.hintOne = You can use a valuation from 
 calc.resident.properties.worthWhenGifted.hintTwo = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
 calc.resident.properties.worthWhenGifted.jointOwner = If you owned the property with someone else, only enter your share of the property value.
 calc.resident.properties.worthWhenGifted.mandatoryAmount = Enter how much the property was worth when you got it as a gift
-calc.resident.properties.worthWhenGifted.invalidAmount = How much the property was worth when you got it as a gift must be in the correct format
+calc.resident.properties.worthWhenGifted.invalidAmount = What the property was worth when you got it as a gift must be an amount of money in pounds
 calc.resident.properties.worthWhenGifted.maximumAmount = How much the property was worth when you got it as a gift must be £{0} or less
 calc.resident.properties.worthWhenGifted.minimumAmount = How much the property was worth when you got it as a gift must be £0 or more
+calc.resident.properties.worthWhenGifted.error.decimalPlaces = What the property was worth when you got it as a gift has too many numbers after the decimal point
 
 ## Acquisition Value messages
 calc.resident.acquisitionValue.title = How much did you pay for the property?
 calc.resident.acquisitionValue.question = How much did you pay for the property?
 calc.resident.acquisitionValue.helpText = If you owned the property with someone else, only enter your share of the purchase value. For example, £150,000
 calc.resident.acquisitionValue.mandatoryAmount = Enter how much you paid for the property
-calc.resident.acquisitionValue.invalidAmount = How much you paid for the property must be in the correct format
+calc.resident.acquisitionValue.invalidAmount = How much you paid for the property must be an amount of money in pounds
 calc.resident.acquisitionValue.maximumAmount = How much you paid for the property must be £{0} or less
 calc.resident.acquisitionValue.minimumAmount = How much you paid for the  property must be £0 or more
+calc.resident.acquisitionValue.error.decimalPlaces = How much you paid for the property has too many numbers after the decimal point
 
 ## Acquisition Costs messages
 calc.resident.acquisitionCosts.title = How much did you pay in costs when you became the property owner?
@@ -256,9 +265,10 @@ calc.resident.acquisitionCosts.bulletTwo = solicitors or conveyancers, including
 calc.resident.acquisitionCosts.bulletThree = any professional help to value your property, for example a surveyor or valuer
 calc.resident.acquisitionCosts.panelText = If you owned the property with someone else, only enter your share of the costs as agreed with your co-owner.
 calc.resident.acquisitionCosts.mandatoryAmount = Enter how much you paid in costs  when you became the property owner
-calc.resident.acquisitionCosts.invalidAmount = How much you paid in costs must be in the correct format
+calc.resident.acquisitionCosts.invalidAmount = How much you paid in costs when you became the owner must be an amount of money in pounds
 calc.resident.acquisitionCosts.maximumAmount = How much you paid in costs must be £{0} or less
 calc.resident.acquisitionCosts.minimumAmount = How much you paid in costs must be £0 or more
+calc.resident.acquisitionCosts.error.decimalPlaces = How much you paid in costs when you became the owner has too many numbers after the decimal point
 
 ## Improvements messages
 calc.resident.properties.improvements.question = How much have you spent on improvements since you became the property owner?
@@ -268,10 +278,14 @@ calc.resident.properties.improvements.jointOwner = If you owned the property wit
 calc.resident.properties.improvements.helpButton = Show me an example
 calc.resident.properties.improvements.additionalContent.one = Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement.
 calc.resident.properties.improvements.additionalContent.two = But replacing them with something of a similar standard is normally not an improvement.
-calc.resident.properties.improvements.mandatoryAmount = Enter how much you spent on improvements since 31 March 1982
-calc.resident.properties.improvements.invalidAmount = How much you spent on improvements must be in the correct format
+calc.resident.properties.improvements.before.mandatoryAmount = Enter how much you spent on improvements since 31 March 1982
+calc.resident.properties.improvements.mandatoryAmount = Enter how much you spent on improvements since you became the property owner
+calc.resident.properties.improvements.invalidAmount = How much you spent on improvements must be an amount of money in pounds
+calc.resident.properties.improvements.before.invalidAmount = How much you spent on improvements since 31 March 1982 must be an amount of money in pounds
 calc.resident.properties.improvements.maximumAmount = How much you spent on improvements must be £{0} or less
-calc.resident.properties.improvements.minimumAmount =How much you spent on improvements must be £0 or more
+calc.resident.properties.improvements.minimumAmount = How much you spent on improvements must be £0 or more
+calc.resident.properties.improvements.error.decimalPlaces = How much you spent on improvements has too many numbers after the decimal point
+calc.resident.properties.improvements.before.error.decimalPlaces = How much you spent on improvements since 31 March 1982 has too many numbers after the decimal point
 
 ## Summary messages
 calc.resident.summary.title = Summary
@@ -288,8 +302,9 @@ calc.resident.privateResidenceReliefValue.help = We''ve calculated that you''ve 
 calc.resident.privateResidenceReliefValue.link = Find out how much you''re entitled to
 calc.resident.properties.privateResidenceReliefValue.gainExceededError = Private Residence Relief must be less than your gain of £{0}
 calc.resident.properties.privateResidenceReliefValue.mandatoryAmount = Enter how much Private Residence Relief you are entitled to
-calc.resident.properties.privateResidenceReliefValue.invalidAmount = Private Residence Relief must be in the correct format
+calc.resident.properties.privateResidenceReliefValue.invalidAmount = How much Private Residence Relief you are entitled to must be an amount of money in pounds
 calc.resident.properties.privateResidenceReliefValue.minimumAmount = Private Residence Relief must be £0 or more
+calc.resident.properties.privateResidenceReliefValue.error.decimalPlaces = How much Private Residence Relief you are entitled to has too many numbers after the decimal point
 
 ## Reliefs messages
 ## Lettings Relief Value messages
@@ -297,12 +312,13 @@ calc.resident.lettingsReliefValue.title = How much Letting Relief are you entitl
 calc.resident.lettingsReliefValue.question = How much Letting Relief are you entitled to?
 calc.resident.lettingsReliefValue.additionalContent = We''ve calculated that you''ve made a gain of £{0} on your property. You''ll need this figure to calculate your Letting Relief.
 calc.resident.lettingsReliefValue.error.moreThanCappedAmount = The Letting Relief you''ve entered is more than the maximum amount of £{0}
-calc.resident.lettingsReliefValue.error.moreThanPrr = The Letting Relief amount you''ve entered is more than your Private Residence Relief
+calc.resident.lettingsReliefValue.error.moreThanPrr = The Letting Relief entered must not be more than your Private Residence Relief of £{0}
 calc.resident.lettingsReliefValue.error.moreThanRemainingGain = The Letting Relief you''ve entered is more than your remaining gain of £{0}
 calc.resident.lettingsReliefValue.mandatoryAmount = Enter how much Letting Relief you are entitled to
-calc.resident.lettingsReliefValue.invalidAmount = How much Letting Relief you are entitled to must be in the correct format
+calc.resident.lettingsReliefValue.invalidAmount = How much Letting Relief you are entitled to must be an amount of money in pounds
 calc.resident.lettingsReliefValue.maximumAmount = How much Letting Relief you are entitled cannot be more than your Private Residence Relief
 calc.resident.lettingsReliefValue.minimumAmount = How much Letting Relief you are entitled to must be £0 or more
+calc.resident.lettingsReliefValue.error.decimalPlaces = How much Letting Relief you are entitled to has too many numbers after the decimal point
 
 ## Reliefs Value messages
 ## Lettings Relief messages
@@ -324,26 +340,29 @@ calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any
 calc.resident.lossesBroughtForwardValue.title = What is the total value of your Capital Gains Tax losses from tax years before {0} to {1}?
 calc.resident.lossesBroughtForwardValue.pageHeading = What is the total value of your Capital Gains Tax losses from tax years before {0} to {1}?
 calc.resident.lossesBroughtForwardValue.mandatoryAmount = Enter the total value of your Capital Gains Tax losses from tax years before {0} to {1}
-calc.resident.lossesBroughtForwardValue.invalidAmount = The total value of your Capital Gains Tax losses from tax years before {0} to {1} must be in the correct format
+calc.resident.lossesBroughtForwardValue.invalidAmount = The total value of your Capital Gains Tax losses from tax years before {0} to {1} must be an amount of money in pounds
 calc.resident.lossesBroughtForwardValue.maximumAmount = Total value of your Capital Gains Tax losses must be £{0} or less
 calc.resident.lossesBroughtForwardValue.minimumAmount = Total value of your Capital Gains Tax losses must be £0 or more
+calc.resident.lossesBroughtForwardValue.error.decimalPlaces = The total value of your Capital Gains Tax losses has too many numbers after the decimal point
 
 ## Current Income messages
 calc.resident.currentIncome.question = What was your income for the {0} to {1} tax year?
 calc.resident.currentIncome.questionCurrentYear = How much do you expect your income to be in this tax year?
 calc.resident.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the property.
 calc.resident.currentIncome.mandatoryAmount = Enter your income for the {0} to {1} tax year
-calc.resident.currentIncome.invalidAmount = Income for the {0} to {1} tax year must be in the correct format
+calc.resident.currentIncome.invalidAmount = Income for the {0} to {1} tax year must be an amount of money in pounds
 calc.resident.currentIncome.maximumAmount = Income for the {0} to {1} tax year must be £{2} or less
 calc.resident.currentIncome.minimumAmount = Income for the {0} to {1} tax year must be £0 or more
+calc.resident.currentIncome.error.decimalPlaces = Income for the {0} to {1} tax year has too many numbers after the decimal point
 
 ## Personal Allowance messages
 calc.resident.personalAllowance.question = What was your Personal Allowance for the {0} to {1} tax year?
 calc.resident.personalAllowance.currentYearQuestion = How much is your Personal Allowance?
 calc.resident.personalAllowance.mandatoryAmount = Enter your Personal Allowance for the {0} to {1} tax year
-calc.resident.personalAllowance.invalidAmount = Your Personal Allowance for the {0} to {1} tax year must be in the correct format
+calc.resident.personalAllowance.invalidAmount = Your Personal Allowance for the {0} to {1} tax year must be an amount of money in pounds
 calc.resident.personalAllowance.maximumAmount = Personal Allowance for the {0} to {1} tax year must be £{2} or less
 calc.resident.personalAllowance.minimumAmount = Personal Allowance for the {0} to {1} tax year must be £0 or more
+calc.resident.personalAllowance.error.decimalPlaces = Your Personal Allowance for the {0} to {1} tax year has too many numbers after the decimal point
 
 ###############################################################################################
 ## Private Residence Relief messages ##

@@ -109,7 +109,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.Errors.valueBeforeLegislationStartInvalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.valueBeforeLegislationStartDecimalError
       }
     }
 

@@ -109,7 +109,7 @@ class WorthWhenGaveAwayFormSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.Errors.worthWhenGaveAwayInvalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.worthWhenGaveAwayDecimalError
       }
     }
 

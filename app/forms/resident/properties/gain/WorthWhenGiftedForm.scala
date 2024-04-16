@@ -36,7 +36,7 @@ object WorthWhenGiftedForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(constraintBuilder("calc.resident.properties.worthWhenGifted.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
         .verifying("calc.resident.properties.worthWhenGifted.minimumAmount", isPositive)
-        .verifying("calc.resident.properties.worthWhenGifted.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.properties.worthWhenGifted.error.decimalPlaces", decimalPlacesCheck)
     )(WorthWhenGiftedModel.apply)(WorthWhenGiftedModel.unapply)
   )
 }

@@ -105,8 +105,8 @@ class DisposalCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.Errors.disposalCostsInvalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.Errors.disposalCostsInvalidAmount
+      s"error with message '${messages.Errors.disposalCostsDecimalError}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.disposalCostsDecimalError
       }
     }
   }

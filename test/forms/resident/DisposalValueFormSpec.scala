@@ -109,7 +109,7 @@ class DisposalValueFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.Errors.disposalValueInvalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.disposalValueDecimalError
       }
     }
 

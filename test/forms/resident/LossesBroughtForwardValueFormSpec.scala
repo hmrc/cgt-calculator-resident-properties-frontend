@@ -104,8 +104,8 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
         form.hasErrors shouldBe true
       }
 
-      s"have an error with message '${messages.Errors.lossesBroughtForwardValueInvalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.Errors.lossesBroughtForwardValueInvalidAmount
+      s"have an error with message '${messages.Errors.lossesBroughtForwardValueDecimalError}'" in {
+        form.error("amount").get.message shouldBe messages.Errors.lossesBroughtForwardValueDecimalError
       }
     }
   }

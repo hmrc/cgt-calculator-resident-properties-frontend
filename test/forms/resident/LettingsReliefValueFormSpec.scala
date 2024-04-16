@@ -110,7 +110,7 @@ class LettingsReliefValueFormSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messages.Errors.lettingsReliefValueInvalidAmount
+        form.error("amount").get.message shouldBe messages.Errors.lettingsReliefValueDecimalError
       }
     }
 
