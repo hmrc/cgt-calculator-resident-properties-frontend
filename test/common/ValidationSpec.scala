@@ -39,128 +39,128 @@ class ValidationSpec extends CommonPlaySpec {
 
   "calling common.Validation.isPositive(amount)" in {
     val table = Table(
-      ("input", "expected"),
-      (1, true),
-      (0, true),
-      (-1, false),
+      "input" -> "expected",
+      1 -> true,
+      0 -> true,
+      -1 -> false,
     )
     forAll(table) { (input, expected) => Validation.isPositive(input) shouldBe expected }
   }
 
   "calling common.Validation.decimalPlacesCheck(amount)" in {
     val table = Table(
-      ("input", "expected"),
-      (1.0, true),
-      (1.1, true),
-      (1.11, true),
-      (1.1111, false),
+      "input" -> "expected",
+      1.0 -> true,
+      1.1 -> true,
+      1.11 -> true,
+      1.1111 -> false,
     )
     forAll(table) { (input, expected) => Validation.decimalPlacesCheck(input) shouldBe expected }
   }
 
   "calling common.Validation.isGreaterThanMaxNumeric(amount)" in {
     val table = Table(
-      ("input", "expected"),
-      (1000000000.0, true),
-      (1000000000.01, false),
-      (999999999.99, true),
+      "input" -> "expected",
+      1000000000.0 -> true,
+      1000000000.01 -> false,
+      999999999.99 -> true,
     )
     forAll(table) { (input, expected) => Validation.maxCheck(input) shouldBe expected }
   }
 
   "calling common.Validation.yesNoCheck" in {
     val table = Table(
-      ("input", "expected"),
-      ("a", false),
-      ("Yes", true),
-      ("No", true),
+      "input" -> "expected",
+      "a" -> false,
+      "Yes" -> true,
+      "No" -> true,
     )
     forAll(table) { (input, expected) => Validation.yesNoCheck(input) shouldBe expected }
   }
 
   "calling bigDecimalCheck" in {
     val table = Table(
-      ("input", "expected"),
-      ("abc", false),
-      ("", true),
-      ("   ", true),
-      ("123", true),
+      "input" -> "expected",
+      "abc" -> false,
+      "" -> true,
+      "   " -> true,
+      "123" -> true,
     )
     forAll(table) { (input, expected) => Validation.bigDecimalCheck(input) shouldBe expected }
   }
 
   "calling mandatoryCheck" in {
     val table = Table(
-      ("input", "expected"),
-      ("", false),
-      ("    ", false),
-      ("123", true),
+      "input" -> "expected",
+      "" -> false,
+      "    " -> false,
+      "123" -> true,
     )
     forAll(table) { (input, expected) => Validation.mandatoryCheck(input) shouldBe expected }
   }
 
   "calling decimalPlacesCheck" in {
     val table = Table(
-      ("input", "expected"),
-      (1.0, true),
-      (1.1, true),
-      (1.11, true),
-      (1.111, false),
+      "input" -> "expected",
+      1.0 -> true,
+      1.1 -> true,
+      1.11 -> true,
+      1.111 -> false,
     )
     forAll(table) { (input, expected) => Validation.decimalPlacesCheck(BigDecimal(input)) shouldBe expected }
   }
 
   "calling maxCheck" in {
     val table = Table(
-      ("input", "expected"),
-      (900000000.99999, true),
-      (1000000000.0, true),
-      (1000000001.0, false),
+      "input" -> "expected",
+      900000000.99999 -> true,
+      1000000000.0 -> true,
+      1000000001.0 -> false,
     )
     forAll(table) { (input, expected) => Validation.maxCheck(BigDecimal(input)) shouldBe expected }
   }
 
   "calling isPositive" in {
     val table = Table(
-      ("input", "expected"),
-      (0.01, true),
-      (0.0, true),
-      (-0.01, false),
+      "input" -> "expected",
+      0.01 -> true,
+      0.0 -> true,
+      -0.01 -> false,
     )
     forAll(table) { (input, expected) => Validation.isPositive(BigDecimal(input)) shouldBe expected }
   }
   
   "calling yesNoCheck" in {
     val table = Table(
-      ("input", "expected"),
-      ("Yes", true),
-      ("No", true),
-      ("", true),
-      ("yEs", false),
-      ("nO", false),
-      ("    ", false),
+      "input" -> "expected",
+      "Yes" -> true,
+      "No" -> true,
+      "" -> true,
+      "yEs" -> false,
+      "nO" -> false,
+      "    " -> false,
     )
     forAll(table) { (input, expected) => Validation.yesNoCheck(input) shouldBe expected }
   }
 
   "Calling .optionalMandatoryCheck" in {
     val table = Table(
-      ("input", "expected"),
-      (Some(" "), false),
-      (None, false),
-      (Some("test"), true),
+      "input" -> "expected",
+      Some(" ") -> false,
+      None -> false,
+      Some("test") -> true,
     )
     forAll(table) { (input, expected) => Validation.optionalMandatoryCheck(input) shouldBe expected }
   }
 
   "Calling .optionalYesNoCheck" in {
     val table: TableFor2[Option[String], Boolean] = Table(
-      ("input", "expected"),
-      (None, true),
-      (Some(""), true),
-      (Some("Yes"), true),
-      (Some("No"), true),
-      (Some("test"), false),
+      "input" -> "expected",
+      None -> true,
+      Some("") -> true,
+      Some("Yes") -> true,
+      Some("No") -> true,
+      Some("test") -> false,
     )
     forAll(table) { (input, expected) => Validation.optionalYesNoCheck(input) shouldBe expected }
   }
