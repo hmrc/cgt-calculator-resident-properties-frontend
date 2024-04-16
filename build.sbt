@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,40 +16,28 @@
 
 import com.typesafe.sbt.digest.Import.digest
 import com.typesafe.sbt.web.Import.{Assets, pipelineStages}
-import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, scalaSettings}
 
 lazy val appName = "cgt-calculator-resident-properties-frontend"
-lazy val plugins : Seq[Plugins] = Seq(play.sbt.PlayScala)
-lazy val playSettings : Seq[Setting[_]] = Seq.empty
 
 lazy val microservice = Project(appName, file("."))
-  .enablePlugins(Seq(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin) ++ plugins : _*)
+  .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(CodeCoverageSettings.settings : _*)
   .settings(majorVersion := 1)
-  .settings(playSettings : _*)
   .settings(PlayKeys.playDefaultPort := 9702)
-  .settings(scalaSettings: _*)
-  .settings(defaultSettings(): _*)
   .settings(
+    onLoadMessage := "",
     scalaVersion := "2.13.12",
     libraryDependencies ++= AppDependencies(),
-    retrieveManaged := true,
-    evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
-    Global / lintUnusedKeysOnLoad := false,
-    pipelineStages in Assets := Seq(digest),
+    Assets / pipelineStages := Seq(digest),
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
     scalacOptions += "-Wconf:cat=unused-imports&src=routes/.*:s",
     scalacOptions += "-feature",
   )
-  .settings(resolvers += Resolver.jcenterRepo)
   .settings(TwirlKeys.templateImports ++= Seq(
     "uk.gov.hmrc.govukfrontend.views.html.components._",
     "uk.gov.hmrc.hmrcfrontend.views.html.components._",
     "uk.gov.hmrc.hmrcfrontend.views.html.helpers._",
     "uk.gov.hmrc.govukfrontend.views.html.components.implicits._"
   ))
-  .settings(
-    isPublicArtefact := true
-  )
-fork in run := true
+  .settings(isPublicArtefact := true)
