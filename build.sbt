@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-import com.typesafe.sbt.digest.Import.digest
-import com.typesafe.sbt.web.Import.{Assets, pipelineStages}
-
 lazy val appName = "cgt-calculator-resident-properties-frontend"
 
 lazy val microservice = Project(appName, file("."))
@@ -29,7 +26,6 @@ lazy val microservice = Project(appName, file("."))
     onLoadMessage := "",
     scalaVersion := "2.13.12",
     libraryDependencies ++= AppDependencies(),
-    Assets / pipelineStages := Seq(digest),
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
     scalacOptions += "-Wconf:cat=unused-imports&src=routes/.*:s",
     scalacOptions += "-feature",

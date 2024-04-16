@@ -11,6 +11,4 @@ addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.0.9")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.1.4")
-
 excludeDependencies += ("org.scala-lang.modules" % "scala-xml_2.12")
