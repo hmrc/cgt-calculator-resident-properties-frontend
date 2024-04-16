@@ -37,7 +37,7 @@ package object utils {
       future.recover {
         case e: NoSuchElementException =>
           throw ApplicationException(
-            Redirect(controllers.routes.TimeoutController.timeout),
+            Redirect(controllers.routes.TimeoutController.timeout()),
             "cgt-calculator-resident-properties-frontend" + e.getMessage
           )
       }

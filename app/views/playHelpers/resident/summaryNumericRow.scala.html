@@ -18,7 +18,7 @@
 
 @this()
 
-@(rowId: String, question: String, amount: BigDecimal, isTotal: Boolean = false, hintText: Boolean = true)(implicit messages: Messages)
+@(rowId: String, question: String, amount: BigDecimal, isTotal: Boolean = false, hintText: Boolean = true)
 
 @(isTotal, hintText) match {
     case (true, _) => {

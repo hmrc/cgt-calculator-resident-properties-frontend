@@ -16,10 +16,10 @@
 
 package models.resident
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class AcquisitionValueModel (amount: BigDecimal)
 
 object AcquisitionValueModel {
-  implicit val format = Json.format[AcquisitionValueModel]
+  implicit val format : Format[AcquisitionValueModel] = Json.format[AcquisitionValueModel]
 }

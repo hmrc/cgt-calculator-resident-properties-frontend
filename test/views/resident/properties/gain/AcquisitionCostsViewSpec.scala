@@ -98,7 +98,6 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         }
 
         "have a div form-hint" which {
-          lazy val formHint = form.select("div.form-hint")
           s"has a paragraph with the text ${messages.listTitle}" in {
             doc.getElementById("listTitle").text shouldBe messages.listTitle
           }

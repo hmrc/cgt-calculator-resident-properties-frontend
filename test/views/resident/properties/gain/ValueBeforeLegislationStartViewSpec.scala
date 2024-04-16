@@ -37,7 +37,6 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
   "Worth when gave away View" should {
 
-    lazy val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart.toString())
     lazy val view = valueBeforeLegislationStartView(valueBeforeLegislationStartForm)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -147,7 +146,6 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "Worth When Gave Away View with form without errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> "100"))
-    lazy val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart.toString())
     lazy val view = valueBeforeLegislationStartView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -167,7 +165,6 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "Worth When Gave Away View with form with errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> ""))
-    lazy val backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart.toString())
     lazy val view = valueBeforeLegislationStartView(form)(fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 

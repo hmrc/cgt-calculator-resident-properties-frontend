@@ -58,7 +58,7 @@ class ReviewAnswersController @Inject()(
     body(messagesControllerComponents.messagesApi.preferred(request).lang)
 
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async { implicit request =>
-    languageRequest { implicit lang =>
+    languageRequest { _ =>
       getGainAnswers.map { answers =>
         Ok(checkYourAnswersView(
           routes.SummaryController.summary,
@@ -80,7 +80,7 @@ class ReviewAnswersController @Inject()(
     }
 
     implicit request =>
-      languageRequest { implicit lang =>
+      languageRequest { _ =>
         (for {
           gainAnswers <- getGainAnswers
           deductionsAnswers <- getDeductionsAnswers
@@ -98,7 +98,7 @@ class ReviewAnswersController @Inject()(
 
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
-      languageRequest { implicit lang =>
+      languageRequest { _ =>
         val getCurrentTaxYear = Dates.getCurrentTaxYear
         val getIncomeAnswers = sessionCacheService.getPropertyIncomeAnswers
 

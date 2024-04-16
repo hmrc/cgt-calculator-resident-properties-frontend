@@ -33,13 +33,14 @@ class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers 
 
 
       val future: Future[Result] = Future.failed(new NoSuchElementException("test message")).recoverToStart()
-      val url = controllers.routes.TimeoutController.timeout.url
+      val url = controllers.routes.TimeoutController.timeout().url
 
       whenReady(future.failed) {
         case ApplicationException(result, message) =>
           result.header.headers should contain("Location" -> url)
           result.header.status shouldBe SEE_OTHER
           message should equal("cgt-calculator-resident-properties-frontendtest message")
+        case e => throw e
       }
     }
 

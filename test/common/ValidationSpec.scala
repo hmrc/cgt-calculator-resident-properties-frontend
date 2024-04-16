@@ -16,7 +16,7 @@
 
 package common
 
-import common.Validation._
+import common.Validation.{isValidDate, isPositive, decimalPlacesCheck, maxCheck, yesNoCheck, optionalMandatoryCheck, optionalYesNoCheck, bigDecimalCheck, mandatoryCheck}
 import play.api.data.validation.{Invalid, Valid, ValidationError}
 
 import java.time.LocalDate

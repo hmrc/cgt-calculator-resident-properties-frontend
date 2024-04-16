@@ -18,16 +18,18 @@ package views.resident.helpers
 
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
+import org.jsoup.select.Elements
+import play.api.i18n.Messages
+import play.twirl.api.Html
 import views.BaseViewSpec
 import views.html.playHelpers.resident.summarySectionHeaderHelper
 
 class SummarySectionHeaderHelperSpec extends CommonPlaySpec with WithCommonFakeApplication  with BaseViewSpec {
 
-  implicit val messages = testingMessages
-  implicit val lang = messages.lang
-  lazy val summarySectionHeaderHelperView = fakeApplication.injector.instanceOf[summarySectionHeaderHelper]
-  lazy val TestObject = summarySectionHeaderHelperView("Heading")
-  lazy val h2 = Jsoup.parse(TestObject.body).select("H2")
+  implicit val messages: Messages = testingMessages
+  lazy val summarySectionHeaderHelperView: summarySectionHeaderHelper = fakeApplication.injector.instanceOf[summarySectionHeaderHelper]
+  lazy val TestObject: Html = summarySectionHeaderHelperView("Heading")
+  lazy val h2: Elements = Jsoup.parse(TestObject.body).select("H2")
 
   "The Summary Section Header Helper" should {
 

@@ -80,8 +80,6 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
       "have an input for the amount" which {
 
-        lazy val input = doc.getElementById("#amount")
-
         "has a label" which {
 
           lazy val label = doc.select("label")

@@ -21,13 +21,7 @@
 
 @(backLink: String)(implicit request : Request[_], messages: Messages)
 
-    @title = @{
-        Messages("calc.whatToDoNext.title")
-    }
-
-    @layout(
-        pageTitle = Messages("calc.whatToDoNext.title")
-    ) {
+@layout(pageTitle = Messages("calc.whatToDoNext.title")) {
 
     <h1 class="govuk-heading-xl">@Messages("calc.whatToDoNext.title")</h1>
 

@@ -16,10 +16,10 @@
 
 package models.resident.properties.gain
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class WorthWhenGiftedModel (amount: BigDecimal)
 
 object WorthWhenGiftedModel {
-  implicit val format = Json.format[WorthWhenGiftedModel]
+  implicit val format : Format[WorthWhenGiftedModel] = Json.format[WorthWhenGiftedModel]
 }

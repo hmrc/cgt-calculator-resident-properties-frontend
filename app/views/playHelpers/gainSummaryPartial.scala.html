@@ -28,7 +28,7 @@
     taxYear: TaxYearModel,
     gain: BigDecimal,
     totalCosts: BigDecimal,
-    maxAEA: BigDecimal = 0)(implicit request: Request[_], messages: Messages)
+    maxAEA: BigDecimal = 0)(implicit messages: Messages)
 
 <div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
     <h1 class="govuk-panel__title">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*)</h1>

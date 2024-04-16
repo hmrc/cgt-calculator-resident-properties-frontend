@@ -18,21 +18,21 @@ package views.resident.helpers
 
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import views.BaseViewSpec
 import views.html.playHelpers.resident.summaryGainAndRateHelper
 
 class SummaryGainAndRateHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
-  implicit val messages = testingMessages
-  implicit val lang = messages.lang
+  implicit val messages: Messages = testingMessages
 
-  lazy val summaryGainAndRateHelperView = fakeApplication.injector.instanceOf[summaryGainAndRateHelper]
+  private lazy val summaryGainAndRateHelperView = fakeApplication.injector.instanceOf[summaryGainAndRateHelper]
 
-  lazy val rowSingle = summaryGainAndRateHelperView("testID","testQ", 1000, 18, None, None)
-  lazy val docSingle = Jsoup.parse(rowSingle.body)
+  private lazy val rowSingle = summaryGainAndRateHelperView("testID","testQ", 1000, 18, None, None)
+  private lazy val docSingle = Jsoup.parse(rowSingle.body)
 
-  lazy val rowDouble = summaryGainAndRateHelperView("testID","testQ", 1000, 18, Some(2000), Some(28))
-  lazy val docDouble = Jsoup.parse(rowDouble.body)
+  private lazy val rowDouble = summaryGainAndRateHelperView("testID","testQ", 1000, 18, Some(2000), Some(28))
+  private lazy val docDouble = Jsoup.parse(rowDouble.body)
 
   "The Summary Gain and Rate Row Helper" should {
 

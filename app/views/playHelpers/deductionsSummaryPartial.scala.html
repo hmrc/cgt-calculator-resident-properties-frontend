@@ -28,7 +28,7 @@
     deductionAnswers: ChargeableGainAnswers,
     result: ChargeableGainResultModel,
     taxYear: TaxYearModel,
-    totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
+    totalCosts: BigDecimal)(implicit messages: Messages)
 
 <div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
     <h1 class="govuk-panel__title">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*)</h1>

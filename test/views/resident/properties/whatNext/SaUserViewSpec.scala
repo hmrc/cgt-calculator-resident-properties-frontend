@@ -26,10 +26,8 @@ import views.html.calculation.resident.properties.whatNext.saUser
 
 class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
-  lazy val saUserView = fakeApplication.injector.instanceOf[saUser]
+  private lazy val saUserView = fakeApplication.injector.instanceOf[saUser]
   "SaUserView" when {
-    implicit lazy val fakeApp = fakeApplication
-
     "no errors are present" should {
       lazy val view = saUserView(SaUserForm.saUserForm)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)

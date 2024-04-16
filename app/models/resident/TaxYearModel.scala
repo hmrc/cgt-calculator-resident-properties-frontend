@@ -16,7 +16,7 @@
 
 package models.resident
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class TaxYearModel (taxYearSupplied: String, isValidYear: Boolean, calculationTaxYear: String) {
   val startYear: String = TaxYearModel.convertToSummaryFormat(taxYearSupplied)(0)
@@ -24,7 +24,7 @@ case class TaxYearModel (taxYearSupplied: String, isValidYear: Boolean, calculat
 }
 
 object TaxYearModel {
-  implicit val formats = Json.format[TaxYearModel]
+  implicit val formats : Format[TaxYearModel] = Json.format[TaxYearModel]
 
   def convertToSummaryFormat(taxYear: String): Seq[String] = {
     val startYear = taxYear.take(4)

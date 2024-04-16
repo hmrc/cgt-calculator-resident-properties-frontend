@@ -16,10 +16,10 @@
 
 package models
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, Format}
 
 case class SummaryDataItemModel (question: String, answer: String, link: Option[String] = None)
 
 object SummaryDataItemModel {
-  implicit val format = Json.format[SummaryDataItemModel]
+  implicit val format: Format[SummaryDataItemModel] = Json.format[SummaryDataItemModel]
 }
