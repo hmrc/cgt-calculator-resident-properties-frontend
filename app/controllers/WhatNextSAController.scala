@@ -55,17 +55,17 @@ class WhatNextSAController @Inject()(
     }
   }
 
-  val whatNextSAOverFourTimesAEA: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def whatNextSAOverFourTimesAEA: Action[AnyContent] = ValidateSession.async { implicit request =>
     Future.successful(Ok(whatNextSAFourTimesAEAView(backLink)))
   }
 
-  val whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate().map {
       date => Ok(whatNextSaNoGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }.recoverToStart()
   }
 
-  val whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate().map {
       date => Ok(whatNextSaGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }.recoverToStart()

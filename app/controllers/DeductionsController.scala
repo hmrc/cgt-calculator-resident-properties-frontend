@@ -73,7 +73,7 @@ class DeductionsController @Inject()(
   def answerSummary(implicit request: Request [_]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers(request)
 
   //################# Property Lived In Actions #############################
-  val propertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def propertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     val backLink = Some(controllers.routes.GainController.improvements.toString)
 
@@ -83,7 +83,7 @@ class DeductionsController @Inject()(
     }
   }
 
-  val submitPropertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitPropertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     lazy val backLink = Some(routes.GainController.improvements.url)
 
@@ -108,14 +108,14 @@ class DeductionsController @Inject()(
 
 
   //########## Private Residence Relief Actions ##############
-  val privateResidenceRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def privateResidenceRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
     sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefModel](keystoreKeys.privateResidenceRelief).map {
       case Some(data) => Ok(privateResidenceReliefView(privateResidenceReliefForm.fill(data)))
       case _ => Ok(privateResidenceReliefView(privateResidenceReliefForm))
     }
   }
 
-  val submitPrivateResidenceRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitPrivateResidenceRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def errorAction(errors: Form[PrivateResidenceReliefModel]) = Future.successful(BadRequest(privateResidenceReliefView(errors)))
 
@@ -136,7 +136,7 @@ class DeductionsController @Inject()(
 
 
   //########## Private Residence Relief Value Actions ##############
-  val privateResidenceReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def privateResidenceReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(totalGain: BigDecimal) = {
       sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue).map {
@@ -152,7 +152,7 @@ class DeductionsController @Inject()(
     } yield route
   }
 
-  val submitPrivateResidenceReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitPrivateResidenceReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def successAction(model: PrivateResidenceReliefValueModel) = {
       sessionCacheService.saveFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue, model).map (_ =>
@@ -176,14 +176,14 @@ class DeductionsController @Inject()(
   //############## Lettings Relief Actions ##################
   private lazy val lettingsReliefBackUrl = routes.DeductionsController.privateResidenceReliefValue.url
 
-  val lettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def lettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
     sessionCacheService.fetchAndGetFormData[LettingsReliefModel](keystoreKeys.lettingsRelief).map {
       case Some(data) => Ok(lettingsReliefView(lettingsReliefForm.fill(data), Some(lettingsReliefBackUrl)))
       case None => Ok(lettingsReliefView(lettingsReliefForm, Some(lettingsReliefBackUrl)))
     }
   }
 
-  val submitLettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitLettingsRelief: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def errorAction(form: Form[LettingsReliefModel]) = {
       Future.successful(BadRequest(lettingsReliefView(form, Some(lettingsReliefBackUrl))))
@@ -222,7 +222,7 @@ class DeductionsController @Inject()(
   }
 
   //################# Lettings Relief Value Input Actions ########################
-  val lettingsReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def lettingsReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(totalGain: BigDecimal, prrValue: BigDecimal): Future[Result] = {
       sessionCacheService.fetchAndGetFormData[LettingsReliefValueModel](keystoreKeys.lettingsReliefValue).map {
@@ -239,7 +239,7 @@ class DeductionsController @Inject()(
     } yield route).recoverToStart()
   }
 
-  val submitLettingsReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitLettingsReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(totalGain: BigDecimal, prrValue: BigDecimal) = {
       lettingsReliefValueForm(totalGain, prrValue).bindFromRequest().fold(
@@ -272,7 +272,7 @@ class DeductionsController @Inject()(
     } yield backUrl
   }
 
-  val lossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def lossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
       sessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
@@ -315,7 +315,7 @@ class DeductionsController @Inject()(
     }
   }
 
-  val submitLossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitLossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       lossesBroughtForwardForm(taxYearModel).bindFromRequest().fold(
@@ -350,7 +350,7 @@ class DeductionsController @Inject()(
   private lazy val lossesBroughtForwardValueBackLink = routes.DeductionsController.lossesBroughtForward.url
   private lazy val lossesBroughtForwardValuePostAction = routes.DeductionsController.submitLossesBroughtForwardValue
 
-  val lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def retrieveKeystoreData(taxYear: TaxYearModel): Future[Form[LossesBroughtForwardValueModel]] = {
       sessionCacheService.fetchAndGetFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue).map {
@@ -378,7 +378,7 @@ class DeductionsController @Inject()(
     } yield route).recoverToStart()
   }
 
-  val submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(taxYear: TaxYearModel): Future[Result] = {
       lossesBroughtForwardValueForm(taxYear).bindFromRequest().fold(

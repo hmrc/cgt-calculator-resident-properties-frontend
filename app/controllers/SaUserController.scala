@@ -45,7 +45,7 @@ class SaUserController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  val saUser: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def saUser: Action[AnyContent] = ValidateSession.async { implicit request =>
     for {
       assessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
       whereToNext <- {
@@ -58,7 +58,7 @@ class SaUserController @Inject()(
     } yield whereToNext
   }
 
-  val submitSaUser: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitSaUser: Action[AnyContent] = ValidateSession.async { implicit request =>
     submitSaUserImpl(true)
   }
 

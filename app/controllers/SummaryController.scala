@@ -47,7 +47,7 @@ class SummaryController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  val summary = ValidateSession.async { implicit request =>
+  def summary = ValidateSession.async { implicit request =>
 
     def chargeableGain(grossGain: BigDecimal,
                        yourAnswersSummaryModel: YourAnswersSummaryModel,
