@@ -22,10 +22,6 @@
 
 @(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Html] = None)(implicit messages: Messages)
 
-@additionalDetails(additionalText: String, additionalAmount: String) = {
-<span class="form-hint font-small">@additionalText &pound;@additionalAmount</span>
-}
-
 <div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
     <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
         @question

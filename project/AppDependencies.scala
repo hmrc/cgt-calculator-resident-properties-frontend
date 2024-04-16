@@ -20,16 +20,14 @@ import sbt.*
 object AppDependencies {
 
   val bootstrapVersion         = "8.4.0"
-  val playVersion               = "play-30"
-  val playPartialsVersion      = "9.1.0"
+  val playVersion              = "play-30"
   val hmrcMongoVersion         = "1.8.0"
 
   val compile: Seq[ModuleID] = Seq(
     ws,
     "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion"           % hmrcMongoVersion,
     "uk.gov.hmrc"       %% s"bootstrap-frontend-$playVersion"   % bootstrapVersion,
-    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "8.5.0",
-    "uk.gov.hmrc"       %% s"play-partials-$playVersion"        % playPartialsVersion
+    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "8.5.0"
   )
 
   trait TestDependencies {
@@ -42,10 +40,7 @@ object AppDependencies {
       override lazy val test = Seq(
         "uk.gov.hmrc.mongo"       %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion                 % scope,
         "uk.gov.hmrc"             %% s"bootstrap-test-$playVersion"   % bootstrapVersion                 % scope,
-        "org.pegdown"             %  "pegdown"                        % "1.6.0"                          % scope,
         "org.jsoup"               %  "jsoup"                          % "1.17.2"                         % scope,
-        "com.typesafe.play"       %% "play-test"                      % "2.9.2"                          % scope,
-        "com.vladsch.flexmark"    %  "flexmark-all"                   % "0.64.8"                         % scope,
         "org.scalatestplus"       %% "scalatestplus-mockito"          % "1.0.0-M2"                       % scope,
         "org.scalatestplus"       %% "scalatestplus-scalacheck"       % "3.1.0.0-RC2"                    % scope,
         "org.scalatestplus.play"  %% "scalatestplus-play"             % "7.0.1"                          % scope,

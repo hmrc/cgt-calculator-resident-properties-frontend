@@ -20,14 +20,14 @@ import assets.MessageLookup.{Resident => commonMessages}
 import common.CommonPlaySpec
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import views.BaseViewSpec
 import views.html.playHelpers.resident.summaryTextRowHelper
 
 class SummaryTextRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
 
-  implicit val messages = testingMessages
-  implicit val lang = messages.lang
+  implicit val messages: Messages = testingMessages
 
   "The Summary Text Row Helper" when {
     lazy val summaryTextRowHelperView = fakeApplication.injector.instanceOf[summaryTextRowHelper]

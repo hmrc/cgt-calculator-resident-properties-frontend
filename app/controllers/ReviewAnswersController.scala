@@ -57,8 +57,8 @@ class ReviewAnswersController @Inject()(
   private def languageRequest(body : Lang => Future[Result])(implicit request: Request[_]): Future[Result] =
     body(messagesControllerComponents.messagesApi.preferred(request).lang)
 
-  val reviewGainAnswers: Action[AnyContent] = ValidateSession.async { implicit request =>
-    languageRequest { implicit lang =>
+  def reviewGainAnswers: Action[AnyContent] = ValidateSession.async { implicit request =>
+    languageRequest { _ =>
       getGainAnswers.map { answers =>
         Ok(checkYourAnswersView(
           routes.SummaryController.summary,
@@ -70,7 +70,7 @@ class ReviewAnswersController @Inject()(
     }
   }
 
-  val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
+  def reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
     def generateBackUrl(chargeableGainAnswers: ChargeableGainAnswers): Future[String] = {
       if (chargeableGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option) {
         Future.successful(routes.DeductionsController.lossesBroughtForwardValue.url)
@@ -80,7 +80,7 @@ class ReviewAnswersController @Inject()(
     }
 
     implicit request =>
-      languageRequest { implicit lang =>
+      languageRequest { _ =>
         (for {
           gainAnswers <- getGainAnswers
           deductionsAnswers <- getDeductionsAnswers
@@ -96,9 +96,9 @@ class ReviewAnswersController @Inject()(
       }
   }
 
-  val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
+  def reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
-      languageRequest { implicit lang =>
+      languageRequest { _ =>
         val getCurrentTaxYear = Dates.getCurrentTaxYear
         val getIncomeAnswers = sessionCacheService.getPropertyIncomeAnswers
 

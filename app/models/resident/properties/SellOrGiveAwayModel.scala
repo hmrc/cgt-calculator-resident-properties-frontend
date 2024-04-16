@@ -16,10 +16,10 @@
 
 package models.resident.properties
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class SellOrGiveAwayModel (givenAway: Boolean)
 
 object SellOrGiveAwayModel {
-  implicit val format = Json.format[SellOrGiveAwayModel]
+  implicit val format : Format[SellOrGiveAwayModel] = Json.format[SellOrGiveAwayModel]
 }

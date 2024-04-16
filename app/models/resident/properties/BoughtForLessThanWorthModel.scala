@@ -16,10 +16,10 @@
 
 package models.resident.properties
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, Format}
 
 case class BoughtForLessThanWorthModel(boughtForLessThanWorth: Boolean)
 
 object BoughtForLessThanWorthModel {
-  implicit val format = Json.format[BoughtForLessThanWorthModel]
+  implicit val format : Format[BoughtForLessThanWorthModel] = Json.format[BoughtForLessThanWorthModel]
 }

@@ -22,7 +22,6 @@ import assets.ModelsAsset._
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import play.api.i18n.Lang
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
 import views.BaseViewSpec
@@ -30,13 +29,12 @@ import views.html.calculation.resident.properties.checkYourAnswers.checkYourAnsw
 
 class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
-  val dummyBackLink = "#"
-  val dummyPostCall: Call = Call("POST", "/dummy-url")
-  val fakeLang: Lang = Lang("en")
-  lazy val checkYourAnswersView = fakeApplication.injector.instanceOf[checkYourAnswers]
-  lazy val view: HtmlFormat.Appendable = checkYourAnswersView(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
-    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, testingMessages, fakeLang)
-  lazy val doc: Document = Jsoup.parse(view.body)
+  private val dummyBackLink = "#"
+  private val dummyPostCall: Call = Call("POST", "/dummy-url")
+  private lazy val checkYourAnswersView = fakeApplication.injector.instanceOf[checkYourAnswers]
+  private lazy val view: HtmlFormat.Appendable = checkYourAnswersView(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, testingMessages)
+  private lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {
     doc.charset().toString shouldBe "UTF-8"

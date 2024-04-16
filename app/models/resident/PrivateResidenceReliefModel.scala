@@ -16,10 +16,10 @@
 
 package models.resident
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class PrivateResidenceReliefModel (isClaiming: Boolean)
 
 object PrivateResidenceReliefModel {
-  implicit val format = Json.format[PrivateResidenceReliefModel]
+  implicit val format : Format[PrivateResidenceReliefModel] = Json.format[PrivateResidenceReliefModel]
 }

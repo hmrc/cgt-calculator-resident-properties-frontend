@@ -24,7 +24,7 @@
         link: playHelpers.link
 )
 
-@(postAction: Call, backUrl: String, gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages, lang: Lang)
+@(postAction: Call, backUrl: String, gainAnswers: YourAnswersSummaryModel, deductionsAnswers: Option[ChargeableGainAnswers], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages)
 
 @layout(
     pageTitle = Messages("calc.checkYourAnswers.title")

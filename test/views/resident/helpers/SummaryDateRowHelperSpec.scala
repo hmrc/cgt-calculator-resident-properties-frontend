@@ -20,13 +20,13 @@ import assets.MessageLookup.{Resident => commonMessages}
 import common.CommonPlaySpec
 import common.Dates._
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import views.BaseViewSpec
 import views.html.playHelpers.resident.summaryDateRowHelper
 
 class SummaryDateRowHelperSpec extends CommonPlaySpec with BaseViewSpec {
 
-  implicit val messages = testingMessages
-  implicit val lang = messages.lang
+  implicit val messages: Messages = testingMessages
 
   "The Summary Date Row Helper" when {
     lazy val summaryDateRowHelperView = fakeApplication.injector.instanceOf[summaryDateRowHelper]

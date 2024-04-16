@@ -196,8 +196,6 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         Some("back-link"), JourneyKeys.properties, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
-      lazy val header = doc.getElementsByClass("govuk-heading-xl")
-      val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
 
       s"have the page heading '${messages.currentYearTitle}'" in {
         h1Tag.text shouldBe messages.currentYearTitle

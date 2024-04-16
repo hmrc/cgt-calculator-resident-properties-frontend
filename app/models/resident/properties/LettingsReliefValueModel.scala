@@ -16,10 +16,10 @@
 
 package models.resident.properties
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class LettingsReliefValueModel(amount: BigDecimal)
 
 object LettingsReliefValueModel {
-  implicit val format = Json.format[LettingsReliefValueModel]
+  implicit val format : Format[LettingsReliefValueModel] = Json.format[LettingsReliefValueModel]
 }

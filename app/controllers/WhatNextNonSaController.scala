@@ -38,7 +38,7 @@ class WhatNextNonSaController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  val whatNextNonSaGain: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def whatNextNonSaGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     for {
       selfAssessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
     } yield {
@@ -53,7 +53,7 @@ class WhatNextNonSaController @Inject()(
     }
   }
 
-  val whatNextNonSaLoss: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def whatNextNonSaLoss: Action[AnyContent] = ValidateSession.async { implicit request =>
     for {
       selfAssessmentRequired <- sessionCacheService.shouldSelfAssessmentBeConsidered()
     } yield {

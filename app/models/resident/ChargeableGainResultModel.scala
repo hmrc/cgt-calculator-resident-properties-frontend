@@ -16,7 +16,7 @@
 
 package models.resident
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class ChargeableGainResultModel (
                                        gain: BigDecimal,
@@ -33,5 +33,5 @@ case class ChargeableGainResultModel (
                                      )
 
 object ChargeableGainResultModel {
-  implicit val format = Json.format[ChargeableGainResultModel]
+  implicit val format : Format[ChargeableGainResultModel] = Json.format[ChargeableGainResultModel]
 }

@@ -73,7 +73,7 @@ class IncomeController @Inject()(
     }
   }
 
-  val currentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def currentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYear: TaxYearModel, currentTaxYear: String): Future[Result] = {
 
@@ -95,7 +95,7 @@ class IncomeController @Inject()(
     } yield finalResult).recoverToStart()
   }
 
-  val submitCurrentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitCurrentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
 
@@ -130,7 +130,7 @@ class IncomeController @Inject()(
   lazy private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome.toString)
   lazy private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance
 
-  val personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def fetchKeystorePersonalAllowance(taxYear: TaxYearModel): Future[Form[PersonalAllowanceModel]] = {
       sessionCacheService.fetchAndGetFormData[PersonalAllowanceModel](keystoreKeys.personalAllowance).map {
@@ -156,7 +156,7 @@ class IncomeController @Inject()(
     } yield route).recoverToStart()
   }
 
-  val submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def getMaxPA(year: Int): Future[Option[BigDecimal]] = {
       calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true, isEligibleMarriageAllowance = true)(hc)

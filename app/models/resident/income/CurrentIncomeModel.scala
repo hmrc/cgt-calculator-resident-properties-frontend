@@ -16,10 +16,10 @@
 
 package models.resident.income
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class CurrentIncomeModel(amount: BigDecimal)
 
 object CurrentIncomeModel {
-  implicit val format = Json.format[CurrentIncomeModel]
+  implicit val format : Format[CurrentIncomeModel] = Json.format[CurrentIncomeModel]
 }

@@ -15,6 +15,9 @@
  *@
 
 @import config.ApplicationConfig
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+@import uk.gov.hmrc.hmrcfrontend.views.html.components._
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers._
 @import uk.gov.hmrc.hmrcfrontend.views.viewmodels.hmrcstandardpage._
 
 @this(
@@ -42,14 +45,10 @@
     messages: Messages
 )
 
-@accountMenu = {
-    @hmrcLanguageSelectHelper()
-}
-
 @head = {
     @if(timeoutEnabled) {
         @hmrcTimeoutDialogHelper(
-            signOutUrl = controllers.routes.TimeoutController.timeout.url
+            signOutUrl = controllers.routes.TimeoutController.timeout().url
         )
     }
     <link rel="stylesheet" type="text/css" href ='@routes.Assets.versioned("stylesheets/cgt-calculator-resident-properties.css")'>

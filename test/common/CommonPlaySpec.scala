@@ -43,7 +43,7 @@ trait CommonPlaySpec extends AnyWordSpecLike with Matchers with OptionValues {
   def status(of: Result): Int = of.header.status
 
   def bodyOf(result: Result)(implicit mat: Materializer): String = {
-    val bodyBytes: ByteString = await(result.body.consumeData)
+    val bodyBytes: ByteString = await(result.body.consumeData(mat))
     bodyBytes.decodeString(Charset.defaultCharset().name)
   }
 }

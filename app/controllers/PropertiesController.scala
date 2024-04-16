@@ -30,7 +30,7 @@ class PropertiesController @Inject()(
                                       introductionView: introduction
                                     ) extends FrontendController(messagesControllerComponents) with I18nSupport {
 
-  val introduction: Action[AnyContent] = Action.async { implicit request =>
+  def introduction: Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok(introductionView()))
   }
 }

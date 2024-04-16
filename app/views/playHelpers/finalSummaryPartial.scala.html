@@ -17,6 +17,7 @@
 @import common.resident.MoneyPounds
 @import models.resident._
 @import models.resident.properties._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 @import views.html.playHelpers.resident._
 
 @this(
@@ -32,7 +33,7 @@
     prrUsed: Option[Boolean] = None,
     lettingsReliefUsed: Option[Boolean] = None,
     totalCosts: BigDecimal,
-    totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
+    totalDeductions: BigDecimal)(implicit messages: Messages)
 
 <div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
     <h1 class="govuk-panel__title">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*)</h1>

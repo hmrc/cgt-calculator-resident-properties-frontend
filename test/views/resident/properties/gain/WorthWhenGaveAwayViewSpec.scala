@@ -67,12 +67,6 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
     }
 
-    "have a help paragraph" should {
-      lazy val helpText = doc.select("#help")
-
-    }
-
-
     "have a form that" should {
 
       lazy val form = doc.select("form")

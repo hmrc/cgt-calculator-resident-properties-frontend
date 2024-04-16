@@ -16,10 +16,10 @@
 
 package models.resident.properties.gain
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class WhoDidYouGiveItToModel(option: String)
 
 object WhoDidYouGiveItToModel {
-  implicit val format = Json.format[WhoDidYouGiveItToModel]
+  implicit val format : Format[WhoDidYouGiveItToModel] = Json.format[WhoDidYouGiveItToModel]
 }

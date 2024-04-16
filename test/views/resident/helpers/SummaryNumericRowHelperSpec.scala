@@ -19,13 +19,13 @@ package views.resident.helpers
 import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import views.BaseViewSpec
 import views.html.playHelpers.resident.summaryNumericRowHelper
 
 class SummaryNumericRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
-  implicit val messages = testingMessages
-  implicit val lang = messages.lang
+  implicit val messages: Messages = testingMessages
 
   "The Summary Numeric Row Helper" when {
     lazy val summaryNumericRowHelperView = fakeApplication.injector.instanceOf[summaryNumericRowHelper]

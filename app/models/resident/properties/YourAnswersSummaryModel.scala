@@ -52,10 +52,10 @@ case class YourAnswersSummaryModel(
 
 object YourAnswersSummaryModel {
 
-  implicit val localDateFormat = new Format[LocalDate] {
+  implicit val localDateFormat: Format[LocalDate] = new Format[LocalDate] {
     override def reads(json: JsValue): JsResult[LocalDate] = json.validate[String].map(LocalDate.parse(_,formatter))
     override def writes(o: LocalDate): JsValue = Json.toJson(o.toString)
   }
 
-  implicit val format = Json.format[YourAnswersSummaryModel]
+  implicit val format: Format[YourAnswersSummaryModel] = Json.format[YourAnswersSummaryModel]
 }

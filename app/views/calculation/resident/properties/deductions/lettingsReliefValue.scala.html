@@ -28,9 +28,6 @@
 
 @(lettingsReliefValueForm : Form[LettingsReliefValueModel], totalGain: BigDecimal)(implicit request: Request[_], messages: Messages)
 
-@title = @{
-    if (lettingsReliefValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.lettingsReliefValue.title")) else Messages("calc.resident.lettingsReliefValue.title")
-}
 @layout(
     pageTitle = Messages("calc.resident.lettingsReliefValue.title")
 ){

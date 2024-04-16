@@ -16,10 +16,10 @@
 
 package models.resident.properties
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class HowBecameOwnerModel(gainedBy: String)
 
 object HowBecameOwnerModel {
-  implicit val format = Json.format[HowBecameOwnerModel]
+  implicit val format : Format[HowBecameOwnerModel] = Json.format[HowBecameOwnerModel]
 }
