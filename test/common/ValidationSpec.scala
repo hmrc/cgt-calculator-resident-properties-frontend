@@ -16,335 +16,164 @@
 
 package common
 
-import common.Validation.{isValidDate, isPositive, decimalPlacesCheck, maxCheck, yesNoCheck, optionalMandatoryCheck, optionalYesNoCheck, bigDecimalCheck, mandatoryCheck}
+import org.scalatest.prop.TableDrivenPropertyChecks._
+import org.scalatest.prop.TableFor2
 import play.api.data.validation.{Invalid, Valid, ValidationError}
 
 import java.time.LocalDate
 
 class ValidationSpec extends CommonPlaySpec {
 
-  //############# Tests for isValidDate function ##########################################
-  "calling common.Validation.isValidDate(day, month, year) " should {
-
-    "with no day value supplied 'isValidDate(0,1,2016)' return false" in {
-      isValidDate(0, 1, 2016) shouldBe false
-    }
-
-    "with no month value supplied 'isValidDate(1,0,2016)' return false" in {
-      isValidDate(1, 0, 2016) shouldBe false
-    }
-
-    "with no year value supplied 'isValidDate(0,1,2016)' return false" in {
-      isValidDate(1, 1, 0) shouldBe false
-    }
-
-    "with invalid date 'isValidDate(32,1,2016)' return false" in {
-      isValidDate(32, 1, 2016) shouldBe false
-    }
-
-    "with invalid leap year date 'isValidDate(29,2,2017)' return false" in {
-      isValidDate(29, 2, 2017) shouldBe false
-    }
-
-    "with valid leap year date 'isValidDate(29,2,2016)' return true" in {
-      isValidDate(29, 2, 2016) shouldBe true
-    }
-
-    "with valid  date 'isValidDate(12,09,1990)' return true" in {
-      isValidDate(12, 9, 1990) shouldBe true
-    }
+  "calling common.Validation.isValidDate(day, month, year)" in {
+    val table = Table(
+      ("day", "month", "year", "expected"),
+      (0, 1, 2016, false),
+      (1, 0, 2016, false),
+      (32, 1, 2016, false),
+      (29, 2, 2017, false),
+      (29, 2, 2016, true),
+      (12, 9, 1990, true),
+    )
+    forAll(table) { (day, month, year, expected) => Validation.isValidDate(day, month, year) shouldBe expected }
   }
 
-
-  //############# Tests for isPositive function ##########################################
-  "calling common.Validation.isPositive(amount) " should {
-
-    "with a positive numeric supplied isPositive(1) return true" in {
-      isPositive(1) shouldBe true
-    }
-
-    "with Zero supplied return true" in {
-      isPositive(0) shouldBe true
-    }
-
-    "with Negative supplied return false" in {
-      isPositive(-1) shouldBe false
-    }
+  "calling common.Validation.isPositive(amount)" in {
+    val table = Table(
+      ("input", "expected"),
+      (1, true),
+      (0, true),
+      (-1, false),
+    )
+    forAll(table) { (input, expected) => Validation.isPositive(input) shouldBe expected }
   }
 
-
-  //############# Tests for decimalPlacesCheck ##########################################
-  "calling common.Validation.decimalPlacesCheck(amount) " should {
-
-    "with no decimals supplied decimalPlacesCheck(1) return true" in {
-      decimalPlacesCheck(1) shouldBe true
-    }
-
-    "with one decimal place supplied decimalPlacesCheck(1.1) return true" in {
-      decimalPlacesCheck(1.1) shouldBe true
-    }
-
-    "with two decimal places supplied decimalPlacesCheck(1.11) return true" in {
-      decimalPlacesCheck(1.11) shouldBe true
-    }
-
-    "with three decimal places supplied decimalPlacesCheck(1.111) return false" in {
-      decimalPlacesCheck(1.111) shouldBe false
-    }
+  "calling common.Validation.decimalPlacesCheck(amount)" in {
+    val table = Table(
+      ("input", "expected"),
+      (1.0, true),
+      (1.1, true),
+      (1.11, true),
+      (1.1111, false),
+    )
+    forAll(table) { (input, expected) => Validation.decimalPlacesCheck(input) shouldBe expected }
   }
 
-  //############# Tests for isLessThanMaxNumber ##########################################
-  "calling common.Validation.isGreaterThanMaxNumeric(amount) " should {
-
-    "with a value of 1000000000" in {
-      maxCheck(1000000000) shouldBe true
-    }
-
-    "with a value of 1000000000.01" in {
-      maxCheck(1000000000.01) shouldBe false
-    }
-
-    "with a value of 999999999.99" in {
-      maxCheck(999999999.99) shouldBe true
-    }
+  "calling common.Validation.isGreaterThanMaxNumeric(amount)" in {
+    val table = Table(
+      ("input", "expected"),
+      (1000000000.0, true),
+      (1000000000.01, false),
+      (999999999.99, true),
+    )
+    forAll(table) { (input, expected) => Validation.maxCheck(input) shouldBe expected }
   }
 
-  //############# Tests for yesNoCheck ##########################################
-  "calling common.Validation.yesNoCheck" should {
-
-    "return false with a non yes/no value" in {
-      yesNoCheck("a") shouldBe false
-    }
-
-    "return true with a yes value" in {
-      yesNoCheck("Yes") shouldBe true
-    }
-
-    "return true with a no value" in {
-      yesNoCheck("No") shouldBe true
-    }
+  "calling common.Validation.yesNoCheck" in {
+    val table = Table(
+      ("input", "expected"),
+      ("a", false),
+      ("Yes", true),
+      ("No", true),
+    )
+    forAll(table) { (input, expected) => Validation.yesNoCheck(input) shouldBe expected }
   }
 
-  "calling bigDecimalCheck" when {
-
-    "input contains non-numeric characters" should {
-      "fail" in {
-        bigDecimalCheck("abc") shouldBe false
-      }
-    }
-
-    "empty input" should {
-      "pass" in {
-        bigDecimalCheck("") shouldBe true
-      }
-    }
-
-    "empty space" should {
-      "pass" in {
-        bigDecimalCheck("   ") shouldBe true
-      }
-    }
-
-    "input only contains numeric characters" should {
-      "pass" in {
-        bigDecimalCheck("123") shouldBe true
-      }
-    }
+  "calling bigDecimalCheck" in {
+    val table = Table(
+      ("input", "expected"),
+      ("abc", false),
+      ("", true),
+      ("   ", true),
+      ("123", true),
+    )
+    forAll(table) { (input, expected) => Validation.bigDecimalCheck(input) shouldBe expected }
   }
 
-  "calling mandatoryCheck" when {
-
-    "input contains no data" should {
-      "fail" in {
-        mandatoryCheck("") shouldBe false
-      }
-    }
-
-    "input contains only empty space" should {
-      "fail" in {
-        mandatoryCheck("    ") shouldBe false
-      }
-    }
-
-    "input contains data" should {
-      "pass" in {
-        mandatoryCheck("123") shouldBe true
-      }
-    }
+  "calling mandatoryCheck" in {
+    val table = Table(
+      ("input", "expected"),
+      ("", false),
+      ("    ", false),
+      ("123", true),
+    )
+    forAll(table) { (input, expected) => Validation.mandatoryCheck(input) shouldBe expected }
   }
 
-  "calling decimalPlacesCheck" when {
-
-    "input has no decimal places" should {
-      "pass" in {
-        decimalPlacesCheck(BigDecimal(1)) shouldBe true
-      }
-    }
-
-    "input has 1 decimal place" should {
-      "pass" in {
-        decimalPlacesCheck(BigDecimal(1.1)) shouldBe true
-      }
-    }
-
-    "input has 2 decimal places" should {
-      "pass" in {
-        decimalPlacesCheck(BigDecimal(1.11)) shouldBe true
-      }
-    }
-
-    "input has 3 decimal places" should {
-      "fail" in {
-        decimalPlacesCheck(BigDecimal(1.111)) shouldBe false
-      }
-    }
+  "calling decimalPlacesCheck" in {
+    val table = Table(
+      ("input", "expected"),
+      (1.0, true),
+      (1.1, true),
+      (1.11, true),
+      (1.111, false),
+    )
+    forAll(table) { (input, expected) => Validation.decimalPlacesCheck(BigDecimal(input)) shouldBe expected }
   }
 
-  "calling maxCheck" when {
-
-    "input is less than max value" should {
-      "pass" in {
-        maxCheck(BigDecimal(900000000.99999)) shouldBe true
-      }
-    }
-
-    "input is equal to max value" should {
-      "pass" in {
-        maxCheck(BigDecimal(1000000000)) shouldBe true
-      }
-    }
-
-    "input is greater than max value" should {
-      "fail" in {
-        maxCheck(BigDecimal(1000000001)) shouldBe false
-      }
-    }
+  "calling maxCheck" in {
+    val table = Table(
+      ("input", "expected"),
+      (900000000.99999, true),
+      (1000000000.0, true),
+      (1000000001.0, false),
+    )
+    forAll(table) { (input, expected) => Validation.maxCheck(BigDecimal(input)) shouldBe expected }
   }
 
-  "calling isPositive" when {
-
-    "input is more than min value" should {
-      "pass" in {
-        isPositive(BigDecimal(0.01)) shouldBe true
-      }
-    }
-
-    "input is equal to min value" should {
-      "pass" in {
-        isPositive(BigDecimal(0)) shouldBe true
-      }
-    }
-
-    "input is less than min value" should {
-      "fail" in {
-        isPositive(BigDecimal(-0.01)) shouldBe false
-      }
-    }
+  "calling isPositive" in {
+    val table = Table(
+      ("input", "expected"),
+      (0.01, true),
+      (0.0, true),
+      (-0.01, false),
+    )
+    forAll(table) { (input, expected) => Validation.isPositive(BigDecimal(input)) shouldBe expected }
   }
   
-  "calling yesNoCheck" when {
-
-    "input is 'Yes'" should {
-      "pass" in {
-        yesNoCheck("Yes") shouldBe true
-      }
-    }
-
-    "input is 'No'" should {
-      "pass" in {
-        yesNoCheck("No") shouldBe true
-      }
-    }
-
-    "input is empty" should {
-      "pass" in {
-        yesNoCheck("") shouldBe true
-      }
-    }
-
-    "input is 'yEs'" should {
-      "fail" in {
-        yesNoCheck("yEs") shouldBe false
-      }
-    }
-
-    "input is 'nO'" should {
-      "fail" in {
-        yesNoCheck("nO") shouldBe false
-      }
-    }
-
-    "input is empty space" should {
-      "fail" in {
-        yesNoCheck("    ") shouldBe false
-      }
-    }
+  "calling yesNoCheck" in {
+    val table = Table(
+      ("input", "expected"),
+      ("Yes", true),
+      ("No", true),
+      ("", true),
+      ("yEs", false),
+      ("nO", false),
+      ("    ", false),
+    )
+    forAll(table) { (input, expected) => Validation.yesNoCheck(input) shouldBe expected }
   }
 
-  "Calling .optionalMandatoryCheck" should {
-
-    "return a false when an empty value is provided" in {
-      optionalMandatoryCheck(Some(" ")) shouldBe false
-    }
-
-    "return a false when no value is provided" in {
-      optionalMandatoryCheck(None) shouldBe false
-    }
-
-    "return a true when a value is provided" in {
-      optionalMandatoryCheck(Some("test")) shouldBe true
-    }
+  "Calling .optionalMandatoryCheck" in {
+    val table = Table(
+      ("input", "expected"),
+      (Some(" "), false),
+      (None, false),
+      (Some("test"), true),
+    )
+    forAll(table) { (input, expected) => Validation.optionalMandatoryCheck(input) shouldBe expected }
   }
 
-  "Calling .optionalYesNoCheck" should {
-
-    "return a true when no value is provided" in {
-      optionalYesNoCheck(None) shouldBe true
-    }
-
-    "return a true when an empty value is provided" in {
-      optionalYesNoCheck(Some("")) shouldBe true
-    }
-
-    "return a true when a Yes is provided" in {
-      optionalYesNoCheck(Some("Yes")) shouldBe true
-    }
-
-    "return a true when a No is provided" in {
-      optionalYesNoCheck(Some("No")) shouldBe true
-    }
-
-    "return a false when any other value is provided" in {
-      optionalYesNoCheck(Some("test")) shouldBe false
-    }
+  "Calling .optionalYesNoCheck" in {
+    val table: TableFor2[Option[String], Boolean] = Table(
+      ("input", "expected"),
+      (None, true),
+      (Some(""), true),
+      (Some("Yes"), true),
+      (Some("No"), true),
+      (Some("test"), false),
+    )
+    forAll(table) { (input, expected) => Validation.optionalYesNoCheck(input) shouldBe expected }
   }
 
-  "Calling .dateNotBeforeMinimum" should {
-
-    "return a true" when {
-
-      "provided with form data after the supplied minimum date" in {
-        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe Valid
-      }
-
-      "provided with an invalid date" in {
-        Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"5 4 2015")))
-      }
-    }
-
-    "return a false" when {
-
-      "provided with form data for the supplied minimum date" in {
-        Validation.dateAfterMinimum(5, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"5 4 2015")))
-      }
-
-      "provided with form data before the supplied minimum date" in {
-        Validation.dateAfterMinimum(4, 4, 2015, LocalDate.parse("2015-04-05")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"5 4 2015")))
-      }
-
-      "provided with a different minimum date making the form date invalid" in {
-        Validation.dateAfterMinimum(6, 4, 2015, LocalDate.parse("2015-04-08")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"8 4 2015")))
-      }
-    }
+  "Calling .dateNotBeforeMinimum" in {
+    val table = Table(
+      ("day", "month", "year", "date", "expected"),
+      (6, 4, 2015, LocalDate.parse("2015-04-05"), Valid),
+      (100, 4, 2015, LocalDate.parse("2015-04-05"), Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"5 4 2015")))),
+      (5, 4, 2015, LocalDate.parse("2015-04-05"), Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"5 4 2015")))),
+      (4, 4, 2015, LocalDate.parse("2015-04-05"), Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"5 4 2015")))),
+      (6, 4, 2015, LocalDate.parse("2015-04-08"), Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"8 4 2015")))),
+    )
+    forAll(table) { (day, month, year, date, expected) => Validation.dateAfterMinimum(day, month, year, date) shouldBe expected }
   }
 }
