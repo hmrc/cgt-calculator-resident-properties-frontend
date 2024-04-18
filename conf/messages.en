@@ -27,6 +27,12 @@ site.title.error = Error: {0}
 
 calc.currencyHint = For example, {0}
 
+## Sign out banner
+signOut.title = For your security
+signOut.message = We will delete your answers in
+signOut.keepAliveButtonText = Continue calculating your Capital Gains Tax
+signOut.signOutButtonText = Delete your answers
+
 ## Common date Messages ##
 ## Use common messages if some but not all pages use these messages. ##
 calc.common.date.fields.day = Day
@@ -43,7 +49,7 @@ calc.common.error.invalidAmount = Enter an amount in the correct format e.g. 100
 calc.common.error.invalidAmountNoDecimal = Enter an amount in the correct format e.g. 10000
 
 ## Session Timeout message ##
-session.timeout.message = Your session has ended
+session.timeout.message = For your security, we deleted your answers
 
 ##Month Names##
 calc.month.1 = January
