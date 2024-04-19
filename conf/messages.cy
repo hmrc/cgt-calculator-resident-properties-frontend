@@ -25,6 +25,12 @@ site.title.error = Gwall: {0}
 
 calc.currencyHint = Er enghraifft, {0}
 
+## Sign out banner
+signOut.title = Rydych ar fin cael eich allgofnodi
+signOut.message = Er eich diogelwch, byddwn yn eich allgofnodi cyn pen
+signOut.keepAliveButtonText = Ewch ati i gyfrifo eich Treth Enillion Cyfalaf
+signOut.signOutButtonText = Dileu''ch atebion
+
 calc.calculationElection.based = Yn seiliedig ar
 
 calc.checkYourAnswers.tableHeading = Rydych wedi rhoi gwybod i ni am:
@@ -398,4 +404,4 @@ calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifianne
 
 calc.yourOptions.title = Eich opsiynau ar gyfer rhoi gwybod am eich Treth Enillion Cyfalaf
 
-session.timeout.message = Mae''ch sesiwn wedi dod i ben
+session.timeout.message = Er eich diogelwch, gwnaethom ddileu’ch atebion Dechrau eto
