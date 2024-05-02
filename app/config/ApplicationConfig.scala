@@ -60,5 +60,6 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
 
   def isWelshEnabled: Boolean = servicesConfig.getBoolean("features.welsh-translation")
 
+  def userRecruitmentBannerEnabled: Boolean = servicesConfig.getBoolean(("user-recruitment-banner.enabled"))
 
 }
