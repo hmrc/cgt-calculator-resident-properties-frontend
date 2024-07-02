@@ -62,6 +62,7 @@
         case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
         case (false, Some(true)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
         case (false, Some(false)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
+        case (_ , _) => {throw new Exception("failed to substantiate table body")}
         }
 
         @{if(gainAnswers.ownerBeforeLegislationStart)
