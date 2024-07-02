@@ -22,6 +22,7 @@ lazy val microservice = Project(appName, file("."))
   .settings(CodeCoverageSettings.settings : _*)
   .settings(majorVersion := 1)
   .settings(PlayKeys.playDefaultPort := 9702)
+  .settings(scalacOptions.+=("-Wconf:src=routes/.*:s")) //suppresses warnings of default prexix in routes not used
   .settings(
     onLoadMessage := "",
     scalaVersion := "2.13.12",
