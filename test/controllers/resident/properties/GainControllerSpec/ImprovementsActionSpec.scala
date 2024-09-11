@@ -30,7 +30,9 @@ import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.mvc.Results.Redirect
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.Future
 
@@ -132,7 +134,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     "return you to the session timeout page" in {
-      redirectLocation(result).get should include ("/calculate-your-capital-gains/resident/properties/session-timeout")
+      redirectLocation(result).get should include("/calculate-your-capital-gains/resident/properties/session-timeout")
     }
   }
 
@@ -192,6 +194,18 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
       "render the Improvements page" in {
         doc.title() shouldEqual s"Error: ${messages.title}"
+      }
+    }
+
+    "a NoSuchElementException is thrown" should {
+      "return an ApplicationException" in {
+        when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))
+          (ArgumentMatchers.any(), ArgumentMatchers.any()))
+          .thenReturn(Future.successful(None))
+        val result = intercept[ApplicationException](await(testingGainController.submitImprovements(fakeRequestWithSession)))
+
+        result.message shouldBe "cgt-calculator-resident-properties-frontendNone.get"
+        result.result shouldBe Redirect("/calculate-your-capital-gains/resident/properties/session-timeout", 303)
       }
     }
   }

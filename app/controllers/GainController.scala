@@ -630,9 +630,9 @@ class GainController @Inject()(
       } yield route).recoverToStart()
     }
 
-    for {
+    (for {
       ownerBeforeAprilNineteenEightyTwo <- getOwnerBeforeAprilNineteenEightyTwo()
       result <- improvementsForm(ownerBeforeAprilNineteenEightyTwo).bindFromRequest().fold(errorAction, successAction)
-    } yield result
+    } yield result).recoverToStart()
   }
 }
