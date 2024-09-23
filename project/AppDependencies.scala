@@ -40,11 +40,12 @@ object AppDependencies {
       override lazy val test = Seq(
         "uk.gov.hmrc.mongo"       %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion                 % scope,
         "uk.gov.hmrc"             %% s"bootstrap-test-$playVersion"   % bootstrapVersion                 % scope,
-        "org.jsoup"               %  "jsoup"                          % "1.17.2"                         % scope,
+        "org.jsoup"               %  "jsoup"                          % "1.18.1"                         % scope,
         "org.scalatestplus"       %% "scalatestplus-mockito"          % "1.0.0-M2"                       % scope,
         "org.scalatestplus"       %% "scalatestplus-scalacheck"       % "3.1.0.0-RC2"                    % scope,
         "org.scalatestplus.play"  %% "scalatestplus-play"             % "7.0.1"                          % scope,
-        "org.mockito"             %% "mockito-scala-scalatest"        % "1.17.31"                        % scope
+        "org.mockito"             %% "mockito-scala-scalatest"        % "1.17.37"                        % scope,
+        "com.github.tomakehurst"  % "wiremock"                        % "3.0.0-beta-7"                   % scope
       )
     }.test
   }
