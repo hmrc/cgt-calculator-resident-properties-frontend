@@ -23,6 +23,7 @@ import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+
 import java.time.LocalDate
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -36,18 +37,20 @@ class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
   private val serviceUrl: String = servicesConfig.baseUrl("capital-gains-calculator")
 
   def getMinimumDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
-    http.get(url"$serviceUrl/capital-gains-calculator/minimum-date").setHeader("Accept" -> "application/vnd.hmrc.1.0+json")
+    http.get(url"$serviceUrl/capital-gains-calculator/minimum-date")
+      .transform(_.addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json"))
       .execute[LocalDate]
   }
 
   def getFullAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
     http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=$taxYear")
-      .setHeader("Accept" -> "application/vnd.hmrc.1.0+json")
+      .transform(_.addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json"))
       .execute[Option[BigDecimal]]
   }
 
   def getPartialAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
-    http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=$taxYear").setHeader("Accept" -> "application/vnd.hmrc.1.0+json")
+    http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=$taxYear")
+      .transform(_.addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json"))
       .execute[Option[BigDecimal]]
   }
 
@@ -63,13 +66,13 @@ class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
     }
 
     http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=$taxYear+$param1+$param2")
-      .setHeader("Accept" -> "application/vnd.hmrc.1.0+json")
+      .transform(_.addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json"))
       .execute[Option[BigDecimal]]
   }
 
   def getTaxYear(taxYear: String)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] = {
     http.get(url"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear")
-      .setHeader("Accept" -> "application/vnd.hmrc.1.0+json")
+      .transform(_.addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json"))
       .execute[Option[TaxYearModel]]
   }
 
@@ -77,7 +80,9 @@ class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
   //Rtt property calculation methods
   def calculateRttPropertyGrossGain(input: YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     val totalGainReqStr = propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
-    http.get(url"$serviceUrl/capital-gains-calculator/calculate-total-gain?$totalGainReqStr").setHeader("Accept" -> "application/vnd.hmrc.1.0+json").execute[BigDecimal]
+    http.get(url"$serviceUrl/capital-gains-calculator/calculate-total-gain?$totalGainReqStr")
+      .transform(_.addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json"))
+      .execute[BigDecimal]
   }
 
   def calculateRttPropertyChargeableGain(totalGainInput: YourAnswersSummaryModel,
@@ -85,7 +90,8 @@ class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
                                          maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[ChargeableGainResultModel]] = {
     val totalGainReqStr = propertyConstructor.CalculateRequestConstructor.totalGainRequestString(totalGainInput)
     val chargeableGainReqStr = propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
-    http.get(url"$serviceUrl/capital-gains-calculator/calculate-chargeable-gain?$totalGainReqStr+$chargeableGainReqStr").setHeader("Accept" -> "application/vnd.hmrc.1.0+json")
+    http.get(url"$serviceUrl/capital-gains-calculator/calculate-chargeable-gain?$totalGainReqStr+$chargeableGainReqStr")
+      .transform(_.addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json"))
       .execute[Option[ChargeableGainResultModel]]
   }
 
@@ -97,14 +103,14 @@ class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
     val chargeableGainReqStr = propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
     val incomeAnsReqStr = propertyConstructor.CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
     http.get(url"$serviceUrl/capital-gains-calculator/calculate-resident-capital-gains-tax?$totalGainReqStr+$chargeableGainReqStr+$incomeAnsReqStr")
-      .setHeader("Accept" -> "application/vnd.hmrc.1.0+json")
+      .transform(_.addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json"))
       .execute[Option[TotalGainAndTaxOwedModel]]
   }
 
   def getPropertyTotalCosts(input: YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     val totalGainReqStr = propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
     http.get(url"$serviceUrl/capital-gains-calculator/calculate-total-costs?$totalGainReqStr")
-      .setHeader("Accept" -> "application/vnd.hmrc.1.0+json")
+      .transform(_.addHttpHeaders("Accept" -> "application/vnd.hmrc.1.0+json"))
       .execute[BigDecimal]
   }
 }
