@@ -20,7 +20,8 @@ import constructors.resident.{properties => propertyConstructor}
 import models.resident._
 import models.resident.properties._
 import uk.gov.hmrc.http.HttpReads.Implicits._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.time.LocalDate
@@ -29,75 +30,86 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class CalculatorConnector @Inject()(val servicesConfig: ServicesConfig,
-                          val http: HttpClient)(implicit val ec: ExecutionContext) {
-
-  val serviceUrl: String = servicesConfig.baseUrl("capital-gains-calculator")
-
+                                    val http: HttpClientV2)(implicit val ec: ExecutionContext) {
+  val headers: (String, String) = "Accept" -> "application/vnd.hmrc.1.0+json"
   implicit val hc: HeaderCarrier = HeaderCarrier()
+  private val serviceUrl: String = servicesConfig.baseUrl("capital-gains-calculator")
 
-  val headers = Seq("Accept" -> "application/vnd.hmrc.1.0+json")
-
-  def getMinimumDate()(implicit hc : HeaderCarrier): Future[LocalDate] = {
-    http.GET[LocalDate](s"$serviceUrl/capital-gains-calculator/minimum-date", headers = headers)
+  def getMinimumDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
+    http.get(url"$serviceUrl/capital-gains-calculator/minimum-date")
+      .transform(_.addHttpHeaders(headers))
+      .execute[LocalDate]
   }
 
   def getFullAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
-    http.GET[Option[BigDecimal]](s"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=$taxYear", headers = headers)
+    http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=$taxYear")
+      .transform(_.addHttpHeaders(headers))
+      .execute[Option[BigDecimal]]
   }
 
   def getPartialAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
-    http.GET[Option[BigDecimal]](s"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=$taxYear", headers = headers)
+    http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=$taxYear")
+      .transform(_.addHttpHeaders(headers))
+      .execute[Option[BigDecimal]]
   }
 
   def getPA(taxYear: Int, isEligibleBlindPersonsAllowance: Boolean = false,
             isEligibleMarriageAllowance: Boolean = false)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
-    http.GET[Option[BigDecimal]](s"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=$taxYear" +
-      s"${
-        if (isEligibleBlindPersonsAllowance) s"&isEligibleBlindPersonsAllowance=true"
-        else ""
-      }" +
-      s"${
-        if (isEligibleMarriageAllowance) s"&isEligibleMarriageAllowance=true"
-        else ""
-      }"
-      , headers = headers)
+    val param1 = {
+      if (isEligibleBlindPersonsAllowance) s"&isEligibleBlindPersonsAllowance=true"
+      else ""
+    }
+    val param2 = {
+      if (isEligibleMarriageAllowance) s"&isEligibleMarriageAllowance=true"
+      else ""
+    }
+
+    http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=$taxYear+$param1+$param2")
+      .transform(_.addHttpHeaders(headers))
+      .execute[Option[BigDecimal]]
   }
 
   def getTaxYear(taxYear: String)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] = {
-    http.GET[Option[TaxYearModel]](s"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear", headers = headers)
+    http.get(url"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear")
+      .transform(_.addHttpHeaders(headers))
+      .execute[Option[TaxYearModel]]
   }
 
 
   //Rtt property calculation methods
   def calculateRttPropertyGrossGain(input: YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
-    http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/calculate-total-gain" +
-      propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
-      , headers = headers)
+    val totalGainReqStr = propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
+    http.get(url"$serviceUrl/capital-gains-calculator/calculate-total-gain?$totalGainReqStr")
+      .transform(_.addHttpHeaders(headers))
+      .execute[BigDecimal]
   }
 
   def calculateRttPropertyChargeableGain(totalGainInput: YourAnswersSummaryModel,
                                          chargeableGainInput: ChargeableGainAnswers,
                                          maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[ChargeableGainResultModel]] = {
-    http.GET[Option[ChargeableGainResultModel]](s"$serviceUrl/capital-gains-calculator/calculate-chargeable-gain" +
-      propertyConstructor.CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
-      propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
-      , headers = headers)
+    val totalGainReqStr = propertyConstructor.CalculateRequestConstructor.totalGainRequestString(totalGainInput)
+    val chargeableGainReqStr = propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
+    http.get(url"$serviceUrl/capital-gains-calculator/calculate-chargeable-gain?$totalGainReqStr+$chargeableGainReqStr")
+      .transform(_.addHttpHeaders(headers))
+      .execute[Option[ChargeableGainResultModel]]
   }
 
   def calculateRttPropertyTotalGainAndTax(totalGainInput: YourAnswersSummaryModel,
                                           chargeableGainInput: ChargeableGainAnswers,
                                           maxAEA: BigDecimal,
                                           incomeAnswers: IncomeAnswersModel)(implicit hc: HeaderCarrier): Future[Option[TotalGainAndTaxOwedModel]] = {
-    http.GET[Option[TotalGainAndTaxOwedModel]](s"$serviceUrl/capital-gains-calculator/calculate-resident-capital-gains-tax" +
-      propertyConstructor.CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
-      propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA) +
-      propertyConstructor.CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
-      , headers = headers)
+    val totalGainReqStr = propertyConstructor.CalculateRequestConstructor.totalGainRequestString(totalGainInput)
+    val chargeableGainReqStr = propertyConstructor.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
+    val incomeAnsReqStr = propertyConstructor.CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
+    http.get(url"$serviceUrl/capital-gains-calculator/calculate-resident-capital-gains-tax?$totalGainReqStr+$chargeableGainReqStr+$incomeAnsReqStr")
+      .transform(_.addHttpHeaders(headers))
+      .execute[Option[TotalGainAndTaxOwedModel]]
   }
 
   def getPropertyTotalCosts(input: YourAnswersSummaryModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
-    http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/calculate-total-costs" +
-      propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
-      , headers = headers)
+    val totalGainReqStr = propertyConstructor.CalculateRequestConstructor.totalGainRequestString(input)
+    http.get(url"$serviceUrl/capital-gains-calculator/calculate-total-costs?$totalGainReqStr")
+      .transform(_.addHttpHeaders(headers))
+      .execute[BigDecimal]
   }
 }
