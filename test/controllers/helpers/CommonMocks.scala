@@ -25,7 +25,7 @@ import play.api.mvc._
 import play.api.test.Helpers._
 import repositories.SessionRepository
 import services.SessionCacheService
-import uk.gov.hmrc.http.HttpClient
+import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import scala.concurrent.ExecutionContext
@@ -37,7 +37,7 @@ trait CommonMocks {
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
   val mockSessionRepository: SessionRepository = mock[SessionRepository]
   val mockAppConfig: AppConfig = mock[AppConfig]
-  val mockHttpClient: HttpClient = mock[HttpClient]
+  val mockHttpClient: HttpClientV2 = mock[HttpClientV2]
   val mockServiceConfig: ServicesConfig = mock[ServicesConfig]
   implicit val ec: ExecutionContext = fakeApplication.injector.instanceOf[ExecutionContext]
 
