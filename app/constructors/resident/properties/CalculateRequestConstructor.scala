@@ -37,13 +37,15 @@ object CalculateRequestConstructor {
     case x => x.acquisitionValue.get
   }
 
-  def totalGainRequestString (answers: YourAnswersSummaryModel): String = {
-      s"?disposalValue=${determineDisposalValueToUse(answers).toDouble}" +
-      s"&disposalCosts=${answers.disposalCosts.toDouble}" +
-      s"&acquisitionValue=${determineAcquisitionValueToUse(answers).toDouble}" +
-      s"&acquisitionCosts=${answers.acquisitionCosts.toDouble}" +
-      s"&improvements=${answers.improvements.toDouble}" +
-      s"&disposalDate=${answers.disposalDate.format(requestFormatter)}"
+  def totalGainRequest(answers: YourAnswersSummaryModel): Map[String, String] = {
+    Map(
+      "disposalValue" -> determineDisposalValueToUse(answers).toDouble.toString,
+      "disposalCosts" -> answers.disposalCosts.toDouble.toString,
+      "acquisitionValue" -> determineAcquisitionValueToUse(answers).toDouble.toString,
+      "acquisitionCosts" -> answers.acquisitionCosts.toDouble.toString,
+      "improvements" -> answers.improvements.toDouble.toString,
+      "disposalDate" -> answers.disposalDate.format(requestFormatter)
+    )
   }
 
   def prrValue(answers: ChargeableGainAnswers): Map[String, String] = {
@@ -66,24 +68,21 @@ object CalculateRequestConstructor {
 
   def broughtForwardLosses(answers: ChargeableGainAnswers): Map[String, String] = {
     answers.broughtForwardModel match {
-      case (Some(x)) if x.option =>
+      case Some(x) if x.option =>
         Map("broughtForwardLosses" -> answers.broughtForwardValueModel.get.amount.toDouble.toString)
       case _ =>
         Map.empty
     }
   }
 
-  def toQS(map: Map[String, String]): String =
-    map.foldRight("") { (pair: (String, String), queryString: String) =>
-      s"${queryString}&${pair._1}=${pair._2}"
-    }
-
-  def chargeableGainRequestString(answers: ChargeableGainAnswers, maxAEA: BigDecimal): String = {
-    s"${toQS(prrValue(answers) ++ lettingReliefs(answers) ++ broughtForwardLosses(answers)) + "&annualExemptAmount=" + maxAEA.toDouble}"
+  def chargeableGainRequest(answers: ChargeableGainAnswers, maxAEA: BigDecimal): Map[String, Any] = {
+    prrValue(answers) ++ lettingReliefs(answers) ++ broughtForwardLosses(answers) ++ Map("annualExemptAmount" -> maxAEA.toDouble.toString)
   }
 
-  def incomeAnswersRequestString (deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): String = {
-    s"&previousIncome=${answers.currentIncomeModel.get.amount.toDouble}" +
-    s"&personalAllowance=${answers.personalAllowanceModel.get.amount.toDouble}"
+  def incomeAnswersRequest(deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): Map[String, Any] = {
+    Map(
+      "previousIncome" -> answers.currentIncomeModel.get.amount.toDouble,
+      "personalAllowance" -> answers.personalAllowanceModel.get.amount.toDouble
+    )
   }
 }
