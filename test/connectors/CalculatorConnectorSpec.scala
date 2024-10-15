@@ -72,7 +72,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/minimum-date"
-      )thenReturn (Status.OK,expectedResult)
+      ).thenReturn(Status.OK,expectedResult)
       await(connector.getMinimumDate()) shouldBe expectedResult
     }
 
@@ -90,7 +90,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/tax-rates-and-bands/max-full-aea",
-      )thenReturn(Status.OK,expectedResult)
+      ).thenReturn(Status.OK,expectedResult)
 
       val result = await(connector.getFullAEA(2017))
       result shouldBe expectedResult
@@ -101,7 +101,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/tax-rates-and-bands/max-full-aea"
-      )thenReturn (Status.OK, None)
+      ).thenReturn(Status.OK, None)
 
       val result = connector.getFullAEA(0)
       await(result) shouldBe None
@@ -115,7 +115,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea"
-      )thenReturn (Status.OK,expectedResult)
+      ).thenReturn(Status.OK,expectedResult)
 
       val result = connector.getPartialAEA(2017)
       await(result) shouldBe expectedResult
@@ -125,7 +125,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea"
-      )thenReturn (Status.OK,None)
+      ).thenReturn(Status.OK,None)
 
       val result = connector.getPartialAEA(1)
       await(result) shouldBe None
@@ -139,7 +139,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         req
-      )thenReturn (Status.OK,expectedResult)
+      ).thenReturn(Status.OK,expectedResult)
 
       val result = connector.getPA(2017,isEligibleBlindPersonsAllowance = true)
       await(result) shouldBe expectedResult
@@ -151,7 +151,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         req
-      )thenReturn (Status.OK,expectedResult)
+      ).thenReturn(Status.OK,expectedResult)
 
       val result = connector.getPA(2017,isEligibleBlindPersonsAllowance = false)
       await(result) shouldBe expectedResult
@@ -161,7 +161,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=2"
-      )thenReturn (Status.OK,None)
+      ).thenReturn(Status.OK,None)
 
       val result = connector.getPA(2, isEligibleBlindPersonsAllowance = true)
       await(result) shouldBe None
@@ -175,7 +175,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/tax-year"
-      )thenReturn (Status.OK,Some(model))
+      ).thenReturn(Status.OK,Some(model))
 
 
       val result = connector.getTaxYear("2017")
@@ -187,7 +187,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/tax-year"
-      )thenReturn (Status.OK,None)
+      ).thenReturn(Status.OK,None)
 
 
       val result = connector.getTaxYear("3")
@@ -241,7 +241,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/calculate-total-gain"
-      )thenReturn (Status.OK,expectedResult)
+      ).thenReturn(Status.OK,expectedResult)
 
       val result = connector.calculateRttPropertyGrossGain(testYourAnswersSummaryModel)
       await(result) shouldBe expectedResult
@@ -255,7 +255,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/calculate-chargeable-gain"
-      )thenReturn (Status.OK,expectedResult)
+      ).thenReturn(Status.OK,expectedResult)
 
 
       val result = connector.calculateRttPropertyChargeableGain(testYourAnswersSummaryModel, testChargeableGainAnswersModel, BigDecimal(123.45))
@@ -272,7 +272,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/calculate-resident-capital-gains-tax",
-      )thenReturn (Status.OK,expectedResult)
+      ).thenReturn(Status.OK,expectedResult)
 
       val result = connector.calculateRttPropertyTotalGainAndTax(testYourAnswersSummaryModel,
                                                                                  testChargeableGainAnswersModel,
@@ -291,7 +291,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       when(
         GET,
         "/capital-gains-calculator/calculate-total-costs"
-      )thenReturn (Status.OK,expectedResult)
+      ).thenReturn(Status.OK,expectedResult)
 
       val result = connector.getPropertyTotalCosts(testYourAnswersSummaryModel)
 
