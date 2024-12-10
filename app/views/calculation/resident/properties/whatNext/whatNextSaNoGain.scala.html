@@ -43,7 +43,7 @@
     @govukButton(Button(
         href = Some(iFormUrl),
         content = Text(Messages("calc.whatToDoNext.reportNow")),
-        attributes = Map("id" -> "report-now-button")
+        attributes = Map("id" -> "report-now-button","data-prevent-double-click" -> "true")
     ))
 
     <p id="exit-survey-message" class="govuk-body">@Messages("calc.whatToDoNext.exitSurveyMessage") <a id="exit-survey-link" class="govuk-link govuk-body" rel="noreferrer noopener" target="_blank" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>

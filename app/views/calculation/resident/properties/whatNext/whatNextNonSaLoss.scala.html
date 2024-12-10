@@ -39,7 +39,7 @@
     @govukButton(Button(
         href = Some(iFormUrl),
         content = Text(Messages("calc.whatToDoNext.reportNow")),
-        attributes = Map("id" -> "report-now-button")
+        attributes = Map("id" -> "report-now-button","data-prevent-double-click" -> "true")
     ))
     <p>
         <a class="govuk-link govuk-body" href="http://www.gov.uk" id="govUK">@Messages("calc.resident.whatNextNonSa.loss.govUk")</a>

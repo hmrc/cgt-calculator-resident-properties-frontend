@@ -34,7 +34,7 @@
 
     @govukButton(Button(
         href = Some(iFormUrl),
-        attributes = Map("id" -> "report-now-button"),
+        attributes = Map("id" -> "report-now-button","data-prevent-double-click" -> "true"),
         content = Text(Messages("calc.resident.whatNextNonSa.gain.reportNow"))
     ))
 
