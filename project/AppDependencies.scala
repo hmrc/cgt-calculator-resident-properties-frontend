@@ -21,7 +21,7 @@ object AppDependencies {
 
   val bootstrapVersion         = "8.4.0"
   val playVersion              = "play-30"
-  val hmrcMongoVersion         = "1.8.0"
+  val hmrcMongoVersion         = "2.4.0"
 
   val compile: Seq[ModuleID] = Seq(
     ws,
@@ -40,8 +40,8 @@ object AppDependencies {
       override lazy val test = Seq(
         "uk.gov.hmrc.mongo"       %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion                 % scope,
         "uk.gov.hmrc"             %% s"bootstrap-test-$playVersion"   % bootstrapVersion                 % scope,
-        "org.jsoup"               %  "jsoup"                          % "1.18.1"                         % scope,
-        "org.scalatestplus"       %% "scalatestplus-mockito"          % "1.0.0-M2"                       % scope,
+        "org.jsoup"               %  "jsoup"                          % "1.18.3"                         % scope,
+        "org.scalatestplus"       %% "scalatestplus-mockito"          % "1.0.0-SNAP5"                       % scope,
         "org.scalatestplus"       %% "scalatestplus-scalacheck"       % "3.1.0.0-RC2"                    % scope,
         "org.scalatestplus.play"  %% "scalatestplus-play"             % "7.0.1"                          % scope,
         "org.mockito"             %% "mockito-scala-scalatest"        % "1.17.37"                        % scope,
