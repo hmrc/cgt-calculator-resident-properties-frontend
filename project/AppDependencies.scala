@@ -27,7 +27,7 @@ object AppDependencies {
     ws,
     "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion"           % hmrcMongoVersion,
     "uk.gov.hmrc"       %% s"bootstrap-frontend-$playVersion"   % bootstrapVersion,
-    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "11.9.0"
+    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "10.0.0"
   )
 
   trait TestDependencies {
