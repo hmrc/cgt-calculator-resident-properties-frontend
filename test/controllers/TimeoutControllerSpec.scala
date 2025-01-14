@@ -61,7 +61,7 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "have the title" in {
-        timeoutTestDataItem.jsoupDoc.getElementsByTag("title").text shouldEqual s"${Messages("session.timeout.message")} - Calculate your Capital Gains Tax - GOV.UK"
+        timeoutTestDataItem.jsoupDoc.title() shouldEqual s"${Messages("session.timeout.message")} - Calculate your Capital Gains Tax - GOV.UK"
       }
 
       "contain the heading 'Your session has timeed out." in {

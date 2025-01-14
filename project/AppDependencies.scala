@@ -19,7 +19,7 @@ import sbt.*
 
 object AppDependencies {
 
-  val bootstrapVersion         = "8.4.0"
+  val bootstrapVersion         = "9.6.0"
   val playVersion              = "play-30"
   val hmrcMongoVersion         = "2.4.0"
 
@@ -27,7 +27,7 @@ object AppDependencies {
     ws,
     "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion"           % hmrcMongoVersion,
     "uk.gov.hmrc"       %% s"bootstrap-frontend-$playVersion"   % bootstrapVersion,
-    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "8.5.0"
+    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "11.9.0"
   )
 
   trait TestDependencies {
@@ -40,6 +40,11 @@ object AppDependencies {
       override lazy val test = Seq(
         "uk.gov.hmrc.mongo"       %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion                 % scope,
         "uk.gov.hmrc"             %% s"bootstrap-test-$playVersion"   % bootstrapVersion                 % scope,
+        "org.jsoup"               %  "jsoup"                          % "1.18.3"                         % scope,
+        "org.scalatestplus"       %% "scalatestplus-mockito"          % "1.0.0-SNAP5"                    % scope,
+        "org.scalatestplus"       %% "scalatestplus-scalacheck"       % "3.1.0.0-RC2"                    % scope,
+        "org.scalatestplus.play"  %% "scalatestplus-play"             % "7.0.1"                          % scope,
+        "org.mockito"             %% "mockito-scala-scalatest"        % "1.17.37"                        % scope,
       )
     }.test
   }
