@@ -29,7 +29,7 @@ lazy val microservice = Project(appName, file("."))
   .settings(
     onLoadMessage := "",
     scalaVersion := "2.13.12",
-    libraryDependencies ++= AppDependencies(),
+    libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test(),
     scalacOptions += "-feature",
     Test / testOptions -= Tests.Argument("-o", "-u", "target/test-reports", "-h", "target/test-reports/html-report"),
     // Suppress successful events in Scalatest in standard output (-o)
