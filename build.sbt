@@ -19,16 +19,17 @@ lazy val appName = "cgt-calculator-resident-properties-frontend"
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(play.sbt.PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-  .settings(CodeCoverageSettings.settings : _*)
+  .settings(CodeCoverageSettings.settings *)
   .settings(majorVersion := 1)
   .settings(PlayKeys.playDefaultPort := 9702)
-  .settings(scalacOptions.+=("-Wconf:src=routes/.*:s")) //suppresses warnings of default prexix in routes not used
+  .settings(
+      scalacOptions += "-Wconf:src=routes/.*:s",
+      scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s"
+  )
   .settings(
     onLoadMessage := "",
     scalaVersion := "2.13.12",
     libraryDependencies ++= AppDependencies(),
-    scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
-    scalacOptions += "-Wconf:cat=unused-imports&src=routes/.*:s",
     scalacOptions += "-feature",
     Test / testOptions -= Tests.Argument("-o", "-u", "target/test-reports", "-h", "target/test-reports/html-report"),
     // Suppress successful events in Scalatest in standard output (-o)
@@ -39,4 +40,3 @@ lazy val microservice = Project(appName, file("."))
         "-u", "target/test-reports",
         "-h", "target/test-reports/html-report")
   )
-  .settings(isPublicArtefact := true)
