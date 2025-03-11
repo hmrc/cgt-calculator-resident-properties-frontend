@@ -18,10 +18,9 @@ import play.sbt.PlayImport.*
 import sbt.*
 
 object AppDependencies {
-
   val bootstrapVersion         = "8.4.0"
   val playVersion              = "play-30"
-  val hmrcMongoVersion         = "2.4.0"
+  val hmrcMongoVersion         = "2.5.0"
 
   val compile: Seq[ModuleID] = Seq(
     ws,
@@ -30,19 +29,8 @@ object AppDependencies {
     "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "8.5.0"
   )
 
-  trait TestDependencies {
-    lazy val scope: String = "test"
-    lazy val test: Seq[ModuleID] = ???
-  }
-
-  object Test {
-    def apply(): Seq[ModuleID] = new TestDependencies {
-      override lazy val test = Seq(
-        "uk.gov.hmrc.mongo"       %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion                 % scope,
-        "uk.gov.hmrc"             %% s"bootstrap-test-$playVersion"   % bootstrapVersion                 % scope,
-      )
-    }.test
-  }
-
-  def apply(): Seq[ModuleID] = compile ++ Test()
+  def test(scope: String = "test"): Seq[ModuleID] = Seq(
+    "uk.gov.hmrc.mongo"       %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion                 % scope,
+    "uk.gov.hmrc"             %% s"bootstrap-test-$playVersion"   % bootstrapVersion                 % scope
+  )
 }
