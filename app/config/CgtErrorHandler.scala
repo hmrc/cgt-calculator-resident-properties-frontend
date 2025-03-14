@@ -19,18 +19,18 @@ package config
 import play.api.Logging
 import play.api.http.HeaderNames.CACHE_CONTROL
 import play.api.i18n.MessagesApi
-import play.api.mvc.{Request, RequestHeader, Result}
+import play.api.mvc.{RequestHeader, Result}
 import play.twirl.api.Html
 import uk.gov.hmrc.play.bootstrap.frontend.http.{ApplicationException, FrontendErrorHandler}
 
 import javax.inject.Inject
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
-                                errorTemplateView: views.html.error_template) extends FrontendErrorHandler with Logging {
-
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
-    errorTemplateView(pageTitle, heading, message)
+                                errorTemplateView: views.html.error_template,
+                               val ec: ExecutionContext) extends FrontendErrorHandler with Logging {
+  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: RequestHeader): Future[Html] = {
+    Future.successful(errorTemplateView(pageTitle, heading, message))
   }
 
   override def onServerError(request: RequestHeader, exception: Throwable): Future[Result] = {
@@ -41,5 +41,4 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
       case _ => super.onServerError(request, exception)
     }
   }
-
 }
