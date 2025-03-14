@@ -27,11 +27,9 @@ import play.api.mvc.{Action, AnyContent}
 import play.api.test.FakeRequest
 
 class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar {
-
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = Materializer(system)
   val homeLink = controllers.routes.PropertiesController.introduction.url
-
 
   class fakeRequestTo(url : String, controllerAction : Action[AnyContent]) {
     val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/" + url)
@@ -44,10 +42,7 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     fakeApplication.injector.instanceOf[views.html.warnings.sessionTimeout])
 
   "TimeoutController.timeout" should {
-
     "when called with no session" should {
-
-
       object timeoutTestDataItem extends fakeRequestTo("", timeoutController.timeout())
 
       implicit lazy val messages: Messages = mockMessagesControllerComponents.messagesApi.preferred(fakeRequest).messages
@@ -61,10 +56,10 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "have the title" in {
-        timeoutTestDataItem.jsoupDoc.getElementsByTag("title").text shouldEqual s"${Messages("session.timeout.message")} - Calculate your Capital Gains Tax - GOV.UK"
+        timeoutTestDataItem.jsoupDoc.title shouldEqual s"${Messages("session.timeout.message")} - Calculate your Capital Gains Tax - GOV.UK"
       }
 
-      "contain the heading 'Your session has timeed out." in {
+      "contain the heading 'Your session has timed out." in {
         timeoutTestDataItem.jsoupDoc.select("h1").text shouldEqual Messages("session.timeout.message")
       }
 
