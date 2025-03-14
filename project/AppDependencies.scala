@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import play.sbt.PlayImport.*
 import sbt.*
 
 object AppDependencies {
@@ -23,10 +22,9 @@ object AppDependencies {
   val hmrcMongoVersion         = "2.5.0"
 
   val compile: Seq[ModuleID] = Seq(
-    ws,
     "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion"           % hmrcMongoVersion,
     "uk.gov.hmrc"       %% s"bootstrap-frontend-$playVersion"   % bootstrapVersion,
-    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "8.5.0"
+    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "11.12.0"
   )
 
   def test(scope: String = "test"): Seq[ModuleID] = Seq(

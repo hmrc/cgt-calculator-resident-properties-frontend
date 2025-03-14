@@ -28,10 +28,9 @@ import views.html.calculation.resident.lossesBroughtForwardValue
 class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
   lazy val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
   lazy val testTaxYear = TaxYearModel("2016/17", isValidYear = true, "2016/17")
+
   "Losses Brought Forward Value view" when {
-
     "provided with a date in the 2015/16 tax year" should {
-
       lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm(testTaxYear), taxYear, "back-link",
         routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, testingMessages)
@@ -46,11 +45,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       }
 
       "have a dynamic navTitle with text Calculate your Capital Gains Tax" in {
-        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text shouldEqual "Calculate your Capital Gains Tax"
+        doc.getElementsByClass("govuk-header__link govuk-header__service-name").text shouldEqual "Calculate your Capital Gains Tax"
       }
 
       "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+        doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a back button that" should {

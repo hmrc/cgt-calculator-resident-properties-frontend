@@ -57,7 +57,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual controllers.routes.PropertiesController.introduction.toString
+      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual controllers.routes.PropertiesController.introduction.toString
     }
 
     "have a H1 tag that" should {
