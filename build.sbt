@@ -28,7 +28,7 @@ lazy val microservice = Project(appName, file("."))
   )
   .settings(
     onLoadMessage := "",
-    scalaVersion := "2.13.12",
+    scalaVersion := "2.13.16",
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test(),
     scalacOptions += "-feature",
     Test / testOptions -= Tests.Argument("-o", "-u", "target/test-reports", "-h", "target/test-reports/html-report"),
