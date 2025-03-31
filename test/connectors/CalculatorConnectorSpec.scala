@@ -20,17 +20,19 @@ import com.typesafe.config.ConfigFactory
 import common.{CommonPlaySpec, Dates}
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
-import models.resident.{IncomeAnswersModel, TaxYearModel}
+import models.resident.{ChargeableGainResultModel, IncomeAnswersModel, TaxYearModel, TotalGainAndTaxOwedModel}
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.Status
 import play.api.inject.guice.GuiceApplicationBuilder
+import play.api.libs.json.Json
 import play.api.{Application, Configuration}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.test.WireMockSupport
 import util.WireMockMethods
 
 import java.time.LocalDate
+import scala.Option.option2Iterable
 import scala.concurrent.ExecutionContext
 
 
@@ -38,7 +40,7 @@ import scala.concurrent.ExecutionContext
 class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with WireMockSupport with WireMockMethods with GuiceOneAppPerSuite{
 
 
-//todo need to fix ignored tests while upgrading to HttpV2
+
 
   private val config = Configuration(
     ConfigFactory.parseString(
@@ -96,16 +98,16 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       result shouldBe expectedResult
     }
 
-    "return None" ignore  {
 
+    "return None" in {
       when(
         GET,
-        "/capital-gains-calculator/tax-rates-and-bands/max-full-aea"
-      ).thenReturn(Status.OK, None)
-
+        "/capital-gains-calculator/tax-rates-and-bands/max-full-aea",
+      ).thenReturn(Status.OK,None)
       val result = connector.getFullAEA(0)
-      await(result) shouldBe None
+      await(result.value) shouldBe None
     }
+
   }
 
   "Calling .getPartialAEA" should{
@@ -121,14 +123,14 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       await(result) shouldBe expectedResult
     }
 
-    "return None" ignore {
+    "return None" in {
       when(
         GET,
         "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea"
       ).thenReturn(Status.OK,None)
 
       val result = connector.getPartialAEA(1)
-      await(result) shouldBe None
+      await(result.value) shouldBe None
     }
   }
 
@@ -157,14 +159,24 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       await(result) shouldBe expectedResult
     }
 
-    "return None" ignore {
+    "return None when isEligibleMarriageAllowance = true" in {
       when(
         GET,
         "/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=2"
       ).thenReturn(Status.OK,None)
 
-      val result = connector.getPA(2, isEligibleBlindPersonsAllowance = true)
-      await(result) shouldBe None
+      val result = connector.getPA(2, isEligibleMarriageAllowance= true)
+      await(result.value) shouldBe None
+    }
+
+    "return None when isEligibleMarriageAllowance = false" in {
+      when(
+        GET,
+        "/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=2"
+      ).thenReturn(Status.OK,None)
+
+      val result = connector.getPA(2, isEligibleMarriageAllowance = false)
+      await(result.value) shouldBe None
     }
   }
 
@@ -182,7 +194,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       await(result) shouldBe Some(model)
     }
 
-    "return None" ignore {
+    "return None" in {
 
       when(
         GET,
@@ -191,7 +203,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
 
 
       val result = connector.getTaxYear("3")
-      await(result) shouldBe None
+      await(result.value) shouldBe None
     }
   }
 
@@ -248,9 +260,22 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
     }
   }
 
-  "Calling .calculateRttPropertyChargeableGain" ignore {
-    "return BigDecimal(500.0)" in{
-      val expectedResult = Some(BigDecimal(500.0))
+  "Calling .calculateRttPropertyChargeableGain" should {
+    "return ChargeableGainResultModel" in{
+
+      val expectedResult = Some(ChargeableGainResultModel(
+        gain = BigDecimal(-45000),
+        chargeableGain=BigDecimal(-45000),
+        aeaUsed = BigDecimal(0),
+        aeaRemaining = BigDecimal(124),
+        deductions= BigDecimal(-45000),
+        allowableLossesRemaining= BigDecimal(0),
+        broughtForwardLossesRemaining= BigDecimal(0),
+        lettingReliefsUsed = Option[BigDecimal](45000),
+        prrUsed= Option[BigDecimal](0),
+        broughtForwardLossesUsed= BigDecimal(0),
+        allowableLossesUsed= BigDecimal(0)
+      ))
 
       when(
         GET,
@@ -263,10 +288,25 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
     }
   }
 
-  "Calling .calculateRttPropertyTotalGainAndTax" ignore {
-    "return BigDecimal(600.0)" in{
+  "Calling .calculateRttPropertyTotalGainAndTax" should {
+    "return TotalGainAndTaxOwedModel" in{
 
-      val expectedResult = Some(BigDecimal(600.0))
+      val expectedResult = Some(TotalGainAndTaxOwedModel(
+        gain = BigDecimal(-45000),
+        chargeableGain=BigDecimal(-45000),
+        aeaUsed = BigDecimal(0),
+        deductions= BigDecimal(-45000),
+        taxOwed = -8100,
+        firstBand= 0,
+        firstRate= 0,
+        lettingReliefsUsed = Option[BigDecimal](45000),
+        prrUsed= Option[BigDecimal](0),
+        broughtForwardLossesUsed= BigDecimal(0),
+        allowableLossesUsed= BigDecimal(0),
+        baseRateTotal = -8100,
+        secondBand = Option[BigDecimal](0),
+        secondRate = Option[Int](0)
+      ))
 
 
       when(
