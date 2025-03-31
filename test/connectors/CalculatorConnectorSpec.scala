@@ -40,7 +40,7 @@ import scala.concurrent.ExecutionContext
 class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with WireMockSupport with WireMockMethods with GuiceOneAppPerSuite{
 
 
-//todo need to fix ignored tests while upgrading to HttpV2
+
 
   private val config = Configuration(
     ConfigFactory.parseString(
@@ -159,13 +159,23 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       await(result) shouldBe expectedResult
     }
 
-    "return None" in {
+    "return None when isEligibleMarriageAllowance = true" in {
       when(
         GET,
         "/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=2"
       ).thenReturn(Status.OK,None)
 
-      val result = connector.getPA(2, isEligibleBlindPersonsAllowance = true)
+      val result = connector.getPA(2, isEligibleMarriageAllowance= true)
+      await(result.value) shouldBe None
+    }
+
+    "return None when isEligibleMarriageAllowance = false" in {
+      when(
+        GET,
+        "/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=2"
+      ).thenReturn(Status.OK,None)
+
+      val result = connector.getPA(2, isEligibleMarriageAllowance = false)
       await(result.value) shouldBe None
     }
   }
