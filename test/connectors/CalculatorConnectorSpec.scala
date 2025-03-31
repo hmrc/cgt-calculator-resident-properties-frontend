@@ -251,7 +251,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
   }
 
   "Calling .calculateRttPropertyChargeableGain" should {
-    "return BigDecimal(500.0)" in{
+    "return ChargeableGainResultModel" in{
 
       val expectedResult = Some(ChargeableGainResultModel(
         gain = BigDecimal(-45000),
@@ -279,7 +279,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
   }
 
   "Calling .calculateRttPropertyTotalGainAndTax" should {
-    "return BigDecimal(600.0)" in{
+    "return TotalGainAndTaxOwedModel" in{
 
       val expectedResult = Some(TotalGainAndTaxOwedModel(
         gain = BigDecimal(-45000),
