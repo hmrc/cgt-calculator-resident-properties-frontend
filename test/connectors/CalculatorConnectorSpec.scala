@@ -59,6 +59,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
   )
 
 
+
   override def fakeApplication(): Application = new GuiceApplicationBuilder().configure(config).build()
 
   val connector: CalculatorConnector = app.injector.instanceOf[CalculatorConnector]
