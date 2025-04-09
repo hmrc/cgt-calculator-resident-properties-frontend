@@ -16,6 +16,7 @@
 
 package connectors
 
+import com.github.tomakehurst.wiremock.client.WireMock._
 import com.typesafe.config.ConfigFactory
 import common.{CommonPlaySpec, Dates}
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
@@ -32,7 +33,6 @@ import uk.gov.hmrc.http.test.WireMockSupport
 import util.WireMockMethods
 
 import java.time.LocalDate
-import scala.Option.option2Iterable
 import scala.concurrent.ExecutionContext
 
 
@@ -70,13 +70,19 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
   "Calling .getMinimumDate" must {
 
     "return a DateTime which matches the returned LocalDate" in {
+      val req = "/capital-gains-calculator/minimum-date"
+      val date = "\"2015-04-05\"\n"
+      val expectedResponse = LocalDate.parse("2015-04-05")
 
-      val expectedResult = LocalDate.parse("2015-06-04")
-      when(
-        GET,
-        "/capital-gains-calculator/minimum-date"
-      ).thenReturn(Status.OK,expectedResult)
-      await(connector.getMinimumDate()) shouldBe expectedResult
+      stubFor(get(urlPathEqualTo(req))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(date)
+        )
+      )
+
+      val result = await(connector.getMinimumDate())
+      await(result) shouldBe expectedResponse
     }
 
    "return a failure if one occurs" in {
@@ -88,124 +94,143 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
 
   "Calling .getFullAEA" should{
 
-    "return Some(BigDecimal(100.0))" in{
-      val expectedResult = Some(BigDecimal(100.0))
-      when(
-        GET,
-        "/capital-gains-calculator/tax-rates-and-bands/max-full-aea",
-      ).thenReturn(Status.OK,expectedResult)
+    "return Some(BigDecimal(11100)) when taxYear = 2017" in {
+      val req = "/capital-gains-calculator/tax-rates-and-bands/max-full-aea"
+      val expectedResponse = Some(BigDecimal(11100))
+      stubFor(get(urlPathEqualTo(req))
+        .withQueryParam("taxYear", equalTo("2017"))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(expectedResponse.get.toString)
+        )
+      )
 
-      val result = await(connector.getFullAEA(2017))
-      result shouldBe expectedResult
+      val result = connector.getFullAEA(2017)
+      await(result) shouldBe expectedResponse
     }
 
 
-    "return None" in {
-      when(
-        GET,
-        "/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=0",
-      ).thenReturn(Status.OK,None)
+
+    "return None when taxYear = 0" in {
+      val req = "/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=0"
+      val expectedResponse = "\"This tax year is not valid\""
+
+      stubFor(get(urlPathEqualTo(req))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(expectedResponse)
+        )
+      )
+
       val result = connector.getFullAEA(0)
-      await(result.value) shouldBe None
-    }
-
-  }
-
-  "Calling .getPartialAEA" should{
-    "return Some(BigDecimal(200.0))" in{
-      val expectedResult = Some(BigDecimal(200.0))
-
-      when(
-        GET,
-        "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea"
-      ).thenReturn(Status.OK,expectedResult)
-
-      val result = connector.getPartialAEA(2017)
-      await(result) shouldBe expectedResult
-    }
-
-    "return None" in {
-      when(
-        GET,
-        "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=1"
-      ).thenReturn(Status.OK,None)
-
-      val result = connector.getPartialAEA(1)
-      await(result.value) shouldBe None
+      await(result) shouldBe None
     }
   }
+
 
   "Calling .getPA" should{
-    "return Some(BigDecimal(300.0)) when isEligibleBlindPersonsAllowance = true" in{
+
+
+    "return Some(BigDecimal(13290)) when isEligibleBlindPersonsAllowance = true and taxYear = 2017" in {
       val req = "/capital-gains-calculator/tax-rates-and-bands/max-pa"
-      val expectedResult = Some(BigDecimal(300.0))
-      when(
-        GET,
-        req
-      ).thenReturn(Status.OK,expectedResult)
+      val expectedResponse = Some(BigDecimal(13290))
+      stubFor(get(urlPathEqualTo(req))
+        .withQueryParam("taxYear", equalTo("2017"))
+        .withQueryParam("isEligibleBlindPersonsAllowance", equalTo("true"))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(expectedResponse.get.toString)
+        )
+      )
 
-      val result = connector.getPA(2017,isEligibleBlindPersonsAllowance = true)
-      await(result) shouldBe expectedResult
+      val result = connector.getPA(taxYear = 2017, isEligibleBlindPersonsAllowance = true)
+      await(result) shouldBe expectedResponse
     }
 
-    "return Some(BigDecimal(350.0)) when isEligibleBlindPersonsAllowance = false" in{
+    "return Some(BigDecimal(11000)) when taxYear=2017" in {
       val req = "/capital-gains-calculator/tax-rates-and-bands/max-pa"
-      val expectedResult = Some(BigDecimal(350.0))
-      when(
-        GET,
-        req
-      ).thenReturn(Status.OK,expectedResult)
+      val expectedResponse = Some(BigDecimal(11000))
+      stubFor(get(urlPathEqualTo(req))
+        .withQueryParam("taxYear", equalTo("2017"))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(expectedResponse.get.toString)
+        )
+      )
 
-      val result = connector.getPA(2017,isEligibleBlindPersonsAllowance = false)
-      await(result) shouldBe expectedResult
+      val result = connector.getPA(taxYear = 2017)
+      await(result) shouldBe expectedResponse
     }
 
-    "return None when isEligibleMarriageAllowance = true" in {
-      when(
-        GET,
-        "/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=2"
-      ).thenReturn(Status.OK,None)
+    "return None when taxYear = 2 and isEligibleBlindPersonsAllowance = true" in {
 
-      val result = connector.getPA(2, isEligibleMarriageAllowance= true)
-      await(result.value) shouldBe None
+      val req = "/capital-gains-calculator/tax-rates-and-bands/max-pa"
+      val expectedResponse = "\"This tax year is not valid\""
+
+      stubFor(get(urlPathEqualTo(req))
+        .withQueryParam("taxYear", equalTo("2"))
+        .withQueryParam("isEligibleBlindPersonsAllowance", equalTo("true"))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(expectedResponse)
+        )
+      )
+
+      val result = connector.getPA(taxYear = 2017, isEligibleBlindPersonsAllowance = true)
+      await(result) shouldBe None
     }
 
-    "return None when isEligibleMarriageAllowance = false" in {
-      when(
-        GET,
-        "/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=2"
-      ).thenReturn(Status.OK,None)
+    "return None when taxYear = 2 and isEligibleBlindPersonsAllowance = false" in {
+      val req = "/capital-gains-calculator/tax-rates-and-bands/max-pa"
+      val expectedResponse = "\"This tax year is not valid\""
+      val expectedResponseBigDecimal = None
 
-      val result = connector.getPA(2, isEligibleMarriageAllowance = false)
-      await(result.value) shouldBe None
+      stubFor(get(urlPathEqualTo(req))
+        .withQueryParam("taxYear", equalTo("2"))
+        .withQueryParam("isEligibleBlindPersonsAllowance", equalTo("false"))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(expectedResponse)
+        )
+      )
+
+      val result = await(connector.getPA(taxYear = 2, isEligibleBlindPersonsAllowance = false))
+      result shouldBe expectedResponseBigDecimal
     }
+
   }
 
   "Calling .getTaxYear" should{
-    "return Some(TaxYearModel)" in{
+
+    "return Some(TaxYearModel)" in {
+      val req = "/capital-gains-calculator/tax-year"
       val model = TaxYearModel(taxYearSupplied = "2017/18", isValidYear = true, calculationTaxYear = "testCalcTaxYear")
+      val modelJson = Json.toJson(model).toString()
 
-      when(
-        GET,
-        "/capital-gains-calculator/tax-year"
-      ).thenReturn(Status.OK,Some(model))
+      stubFor(get(urlPathEqualTo(req))
+        .withQueryParam("date", equalTo("2017-01-01"))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(modelJson)
+        )
+      )
 
-
-      val result = connector.getTaxYear("2017")
-      await(result) shouldBe Some(model)
+      val result = await(connector.getTaxYear("2017-01-01"))
+      result shouldBe Some(model)
     }
 
-    "return None" in {
+    "return None when taxYear = 3" in {
 
       when(
         GET,
-        "/capital-gains-calculator/tax-year"
+        "/capital-gains-calculator/tax-year?taxYear=3"
       ).thenReturn(Status.OK,None)
 
 
       val result = connector.getTaxYear("3")
       await(result.value) shouldBe None
     }
+
   }
 
   val testYourAnswersSummaryModel: YourAnswersSummaryModel = YourAnswersSummaryModel(
@@ -246,24 +271,32 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
     personalAllowanceModel = Some(testPersonalAllowanceModel)
   )
 
-  "Calling .calculateRttPropertyGrossGain" should{
-    "return BigDecimal(400.0)" in{
+  "return BigDecimal(400.0)" in {
+    val req = "/capital-gains-calculator/calculate-total-gain"
+    val expectedResult = BigDecimal(400.0)
+    val expectedResultJson = Json.toJson(expectedResult).toString()
 
+    stubFor(get(urlPathEqualTo(req))
+      .withQueryParam("disposalValue", equalTo("10000.0"))
+      .withQueryParam("disposalDate", equalTo("2018-10-10"))
+      .withQueryParam("improvements", equalTo("30000.0"))
+      .withQueryParam("acquisitionValue", equalTo("5000.0"))
+      .withQueryParam("disposalCosts", equalTo("10000.0"))
+      .withQueryParam("acquisitionCosts", equalTo("10000.0"))
+      .willReturn(aResponse()
+        .withStatus(200)
+        .withBody(expectedResultJson)
+      )
+    )
 
-      val expectedResult = BigDecimal(400.0)
-      when(
-        GET,
-        "/capital-gains-calculator/calculate-total-gain"
-      ).thenReturn(Status.OK,expectedResult)
-
-      val result = connector.calculateRttPropertyGrossGain(testYourAnswersSummaryModel)
-      await(result) shouldBe expectedResult
-    }
+    val result = await(connector.calculateRttPropertyGrossGain(testYourAnswersSummaryModel))
+    result shouldBe expectedResult
   }
 
   "Calling .calculateRttPropertyChargeableGain" should {
-    "return ChargeableGainResultModel" in{
+    "return ChargeableGainResultModel" in {
 
+      val req = "/capital-gains-calculator/calculate-chargeable-gain"
       val expectedResult = Some(ChargeableGainResultModel(
         gain = BigDecimal(-45000),
         chargeableGain=BigDecimal(-45000),
@@ -277,20 +310,30 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
         broughtForwardLossesUsed= BigDecimal(0),
         allowableLossesUsed= BigDecimal(0)
       ))
+      val expectedResultJson = Json.toJson(expectedResult).toString()
 
-      when(
-        GET,
-        "/capital-gains-calculator/calculate-chargeable-gain"
-      ).thenReturn(Status.OK,expectedResult)
+      stubFor(get(urlPathEqualTo(req))
+        .withQueryParam("disposalValue", equalTo("10000.0"))
+        .withQueryParam("disposalDate", equalTo("2018-10-10"))
+        .withQueryParam("improvements", equalTo("30000.0"))
+        .withQueryParam("acquisitionValue", equalTo("5000.0"))
+        .withQueryParam("disposalCosts", equalTo("10000.0"))
+        .withQueryParam("acquisitionCosts", equalTo("10000.0"))
+        .withQueryParam("annualExemptAmount", equalTo("123.45"))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(expectedResultJson)
+        )
+      )
 
-
-      val result = connector.calculateRttPropertyChargeableGain(testYourAnswersSummaryModel, testChargeableGainAnswersModel, BigDecimal(123.45))
-      await(result) shouldBe expectedResult
+      val result = await(connector.calculateRttPropertyChargeableGain(testYourAnswersSummaryModel, testChargeableGainAnswersModel, BigDecimal(123.45)))
+      result shouldBe expectedResult
     }
   }
 
   "Calling .calculateRttPropertyTotalGainAndTax" should {
     "return TotalGainAndTaxOwedModel" in{
+
 
       val expectedResult = Some(TotalGainAndTaxOwedModel(
         gain = BigDecimal(-45000),
@@ -309,30 +352,55 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
         secondRate = Option[Int](0)
       ))
 
+      val req = "/capital-gains-calculator/calculate-resident-capital-gains-tax"
 
-      when(
-        GET,
-        "/capital-gains-calculator/calculate-resident-capital-gains-tax",
-      ).thenReturn(Status.OK,expectedResult)
+      val expectedResultJson = Json.toJson(expectedResult).toString()
 
-      val result = connector.calculateRttPropertyTotalGainAndTax(testYourAnswersSummaryModel,
-                                                                                 testChargeableGainAnswersModel,
-                                                                                 BigDecimal(123.45),
-                                                                                 testIncomeAnswersModel)
-      await(result) shouldBe expectedResult
+      stubFor(get(urlPathEqualTo(req))
+        .withQueryParam("disposalValue", equalTo("10000.0"))
+        .withQueryParam("disposalDate", equalTo("2018-10-10"))
+        .withQueryParam("improvements", equalTo("30000.0"))
+        .withQueryParam("acquisitionValue", equalTo("5000.0"))
+        .withQueryParam("disposalCosts", equalTo("10000.0"))
+        .withQueryParam("acquisitionCosts", equalTo("10000.0"))
+        .withQueryParam("annualExemptAmount", equalTo("123.45"))
+        .withQueryParam("previousIncome", equalTo("999.0"))
+        .withQueryParam("personalAllowance", equalTo("999.0"))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(expectedResultJson)
+        )
+      )
+
+      val result = await(connector.calculateRttPropertyTotalGainAndTax(testYourAnswersSummaryModel,
+                                                                  testChargeableGainAnswersModel,
+                                                                  BigDecimal(123.45),
+                                                                  testIncomeAnswersModel))
+
+      result shouldBe expectedResult
     }
   }
 
   "Calling .getPropertyTotalCosts" should {
 
 
-    "return 1000" in {
-      val expectedResult = 1000
+    "return BigDecimal(1000.0)" in {
+      val req = "/capital-gains-calculator/calculate-total-costs"
+      val expectedResult = BigDecimal(1000.0)
 
-      when(
-        GET,
-        "/capital-gains-calculator/calculate-total-costs"
-      ).thenReturn(Status.OK,expectedResult)
+
+      stubFor(get(urlPathEqualTo(req))
+        .withQueryParam("disposalValue",equalTo("10000.0"))
+        .withQueryParam("disposalDate",equalTo("2018-10-10"))
+        .withQueryParam("improvements",equalTo("30000.0"))
+        .withQueryParam("acquisitionValue",equalTo("5000.0"))
+        .withQueryParam("disposalCosts",equalTo("10000.0"))
+        .withQueryParam("acquisitionCosts",equalTo("10000.0"))
+        .willReturn(aResponse()
+          .withStatus(200)
+          .withBody(expectedResult.toString())
+        )
+      )
 
       val result = connector.getPropertyTotalCosts(testYourAnswersSummaryModel)
 
