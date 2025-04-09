@@ -125,7 +125,6 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       val result = connector.getFullAEA(0)
       await(result) shouldBe None
     }
-
   }
 
 
