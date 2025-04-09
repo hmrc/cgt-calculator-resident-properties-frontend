@@ -59,6 +59,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
   )
 
 
+
   override def fakeApplication(): Application = new GuiceApplicationBuilder().configure(config).build()
 
   val connector: CalculatorConnector = app.injector.instanceOf[CalculatorConnector]
@@ -102,7 +103,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
     "return None" in {
       when(
         GET,
-        "/capital-gains-calculator/tax-rates-and-bands/max-full-aea",
+        "/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=0",
       ).thenReturn(Status.OK,None)
       val result = connector.getFullAEA(0)
       await(result.value) shouldBe None
@@ -126,7 +127,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
     "return None" in {
       when(
         GET,
-        "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea"
+        "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=1"
       ).thenReturn(Status.OK,None)
 
       val result = connector.getPartialAEA(1)
