@@ -221,14 +221,18 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
 
     "return None when taxYear = 3" in {
 
-      when(
-        GET,
-        "/capital-gains-calculator/tax-year?taxYear=3"
-      ).thenReturn(Status.OK,None)
+      val expectedResult = "Cannot parse input as LocalDate: For input string: \"3\""
+      val req = "/capital-gains-calculator/tax-year?date=3"
 
+      stubFor(get(urlPathEqualTo(req))
+        .willReturn(aResponse()
+          .withStatus(400)
+          .withBody(expectedResult)
+        )
+      )
 
-      val result = connector.getTaxYear("3")
-      await(result.value) shouldBe None
+      val result = await(connector.getTaxYear("3"))
+      result shouldBe None
     }
 
   }
