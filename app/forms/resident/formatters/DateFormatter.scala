@@ -63,9 +63,9 @@ case class DateFormatter(key: String,
 
   override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = {
     // Replaces Some("") with None
-    val optDay = data.get(s"$key.day").filter(_.nonEmpty)
-    val optMonth = data.get(s"$key.month").filter(_.nonEmpty)
-    val optYear = data.get(s"$key.year").filter(_.nonEmpty)
+    val optDay = data.get(s"$key.day").map(_.trim).filter(_.nonEmpty)
+    val optMonth = data.get(s"$key.month").map(_.trim).filter(_.nonEmpty)
+    val optYear = data.get(s"$key.year").map(_.trim).filter(_.nonEmpty)
 
     for {
       fields <- nonEmptyFields(optDay, optMonth, optYear)
