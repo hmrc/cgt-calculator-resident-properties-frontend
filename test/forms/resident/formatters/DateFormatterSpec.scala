@@ -395,6 +395,16 @@ class DateFormatterSpec extends CommonPlaySpec with WithCommonFakeApplication wi
           )
         ) shouldBe Right(LocalDate.of(1999, 1, 30))
       }
+      "return the date when date fields have spaces and are trimmed to valid date" in {
+        formatter.bind(
+          testKey,
+          Map(
+            dayKey -> " 2",
+            monthKey -> "2 ",
+            yearKey -> " 2001 "
+          )
+        ) shouldBe Right(LocalDate.of(2001, 2, 2))
+      }
     }
   }
 
