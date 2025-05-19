@@ -61,5 +61,7 @@ class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
   def isWelshEnabled: Boolean = servicesConfig.getBoolean("features.welsh-translation")
 
   def userResearchBannerEnabled: Boolean = servicesConfig.getBoolean(("user-research-banner.enabled"))
-
+  private val basGatewayFrontendUrl: String = loadConfig("bas-gateway-frontend.url")
+  private val signOutUri: String            = loadConfig("sign-out.uri")
+  val signOutUrl: String                              = s"$basGatewayFrontendUrl$signOutUri"
 }
