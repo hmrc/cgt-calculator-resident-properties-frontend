@@ -31,7 +31,9 @@ object CodeCoverageSettings {
     "res.*",
     "prod.*",
     "config.*",
-    "controllers.SessionCacheController"
+    "controllers.SessionCacheController",
+    "controllers.javascript.*",
+    ".*models.*"
   )
 
   val settings: Seq[Def.Setting[_ >: String with Double with Boolean]] = Seq(
