@@ -69,25 +69,25 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
 
     when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(disposalDate)
+      .thenReturn(Future.successful(disposalDate))
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
-      .thenReturn(taxYear)
+      .thenReturn(Future.successful(taxYear))
 
     when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(6000))))
 
     when(mockSessionCacheService.fetchAndGetFormData[PropertyLivedInModel](ArgumentMatchers.eq(keystoreKeys.propertyLivedIn))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(propertyLivedInModel)
+      .thenReturn(Future.successful(propertyLivedInModel))
 
     when(mockSessionCacheService.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keystoreKeys.privateResidenceRelief))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(privateResidenceReliefModel)
+      .thenReturn(Future.successful(privateResidenceReliefModel))
 
     when(mockSessionCacheService.fetchAndGetFormData[LettingsReliefModel](ArgumentMatchers.eq(keystoreKeys.lettingsRelief))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(lettingsReliefModel)
+      .thenReturn(Future.successful(lettingsReliefModel))
 
     when(mockSessionCacheService.saveFormData[LossesBroughtForwardValueModel]
       (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward),ArgumentMatchers.any())

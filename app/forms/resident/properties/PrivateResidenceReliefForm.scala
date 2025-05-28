@@ -31,6 +31,6 @@ object PrivateResidenceReliefForm {
         .verifying("calc.resident.privateResidenceRelief.errorSelect", mandatoryCheck)
         .verifying("calc.resident.privateResidenceRelief.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
-    )(PrivateResidenceReliefModel.apply)(PrivateResidenceReliefModel.unapply)
+    )(PrivateResidenceReliefModel.apply)(o=>Some(o.isClaiming))
   )
 }

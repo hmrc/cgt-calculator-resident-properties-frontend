@@ -83,7 +83,7 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
       .thenReturn(Future.successful(taxYearModel))
 
     when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
-      .thenReturn(incomeAnswersModel)
+      .thenReturn(Future.successful(incomeAnswersModel))
 
 
     new ReviewAnswersController(

@@ -69,7 +69,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
 
     when(mockCalculatorConnector.calculateRttPropertyChargeableGain
     (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
-      .thenReturn(chargeableGainResultModel)
+      .thenReturn(Future.successful(chargeableGainResultModel))
 
     when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswers))

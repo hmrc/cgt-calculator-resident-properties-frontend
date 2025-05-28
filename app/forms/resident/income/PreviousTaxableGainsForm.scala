@@ -35,6 +35,6 @@ object PreviousTaxableGainsForm {
         .verifying(maxMonetaryValueConstraint())
         .verifying("calc.common.error.minimumAmount", isPositive)
         .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
-    )(PreviousTaxableGainsModel.apply)(PreviousTaxableGainsModel.unapply)
+    )(PreviousTaxableGainsModel.apply)(o=>Some(o.amount))
   )
 }

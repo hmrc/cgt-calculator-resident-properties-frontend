@@ -128,7 +128,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
           "has a h3 tag" which {
 
             s"has the text '${summaryMessages.yourTotalGain}'" in {
-              doc.getElementsByClass("govuk-table__caption govuk-table__caption--m").text contains summaryMessages.yourTotalGain
+              doc.getElementsByClass("govuk-table__caption govuk-table__caption--m").text `contains` summaryMessages.yourTotalGain
             }
           }
 

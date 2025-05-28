@@ -55,12 +55,12 @@ class DeductionsController @Inject()(
                                       lossesBroughtForwardValueView: lossesBroughtForwardValue
                                     ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
-  private def navTitle(implicit request : Request[_]): String =
+  private def navTitle(implicit request : Request[?]): String =
     Messages("calc.base.resident.properties.home")(messagesControllerComponents.messagesApi.preferred(request))
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  def getDisposalDate(implicit request: Request[_]): Future[Option[DisposalDateModel]] = {
+  def getDisposalDate(implicit request: Request[?]): Future[Option[DisposalDateModel]] = {
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
   }
 
@@ -70,7 +70,7 @@ class DeductionsController @Inject()(
 
   def totalGain(answerSummary: YourAnswersSummaryModel, hc: HeaderCarrier): Future[BigDecimal] = calcConnector.calculateRttPropertyGrossGain(answerSummary)(hc)
 
-  def answerSummary(implicit request: Request [_]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers(request)
+  def answerSummary(implicit request: Request [?]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers(request)
 
   //################# Property Lived In Actions #############################
   def propertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -146,7 +146,7 @@ class DeductionsController @Inject()(
     }
 
     for {
-      answerSummary <- answerSummary(request: Request[_])
+      answerSummary <- answerSummary(request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       route <- routeRequest(totalGain)
     } yield route
@@ -167,7 +167,7 @@ class DeductionsController @Inject()(
       )
     }
     for {
-      answerSummary <- answerSummary(request: Request[_])
+      answerSummary <- answerSummary(request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       route <- routeRequest(totalGain)
     } yield route
@@ -232,7 +232,7 @@ class DeductionsController @Inject()(
     }
 
     (for {
-      answerSummary <- answerSummary(request: Request[_])
+      answerSummary <- answerSummary(request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       prrValue <- sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue)
       route <- routeRequest(totalGain, prrValue.fold(BigDecimal(0))(_.amount))
@@ -251,7 +251,7 @@ class DeductionsController @Inject()(
     }
 
     (for {
-      answerSummary <- answerSummary(request: Request[_])
+      answerSummary <- answerSummary(request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       prrValue <- sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue)
       route <- routeRequest(totalGain, prrValue.fold(BigDecimal(0))(_.amount))
@@ -263,7 +263,7 @@ class DeductionsController @Inject()(
   //################# Brought Forward Losses Actions ############################
   private lazy val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward
 
-  def lossesBroughtForwardBackUrl(implicit request: Request [_]): Future[String] = {
+  def lossesBroughtForwardBackUrl(implicit request: Request [?]): Future[String] = {
     for {
       livedInProperty <- sessionCacheService.fetchAndGetFormData[PropertyLivedInModel](keystoreKeys.propertyLivedIn)
       privateResidenceRelief <- sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefModel](keystoreKeys.privateResidenceRelief)
@@ -297,7 +297,7 @@ class DeductionsController @Inject()(
     Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
   }
 
-  def positiveChargeableGainCheck(implicit request: Request [_]): Future[Boolean] = {
+  def positiveChargeableGainCheck(implicit request: Request [?]): Future[Boolean] = {
     for {
       gainAnswers <- sessionCacheService.getPropertyGainAnswers
       chargeableGainAnswers <- sessionCacheService.getPropertyDeductionAnswers

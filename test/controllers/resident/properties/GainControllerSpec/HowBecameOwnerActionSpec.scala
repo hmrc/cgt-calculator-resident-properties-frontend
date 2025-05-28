@@ -16,7 +16,7 @@
 
 package controllers.GainControllerSpec
 
-import assets.MessageLookup.{HowBecameOwner => messages}
+import assets.MessageLookup.HowBecameOwner as messages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -26,9 +26,11 @@ import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito._
+import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
+
+import scala.concurrent.Future
 
 class HowBecameOwnerActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
@@ -37,10 +39,10 @@ class HowBecameOwnerActionSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   def setupTarget(getData: Option[HowBecameOwnerModel]): GainController = {
     when(mockSessionCacheService.fetchAndGetFormData[HowBecameOwnerModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(getData)
+      .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[HowBecameOwnerModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn("" -> "")
+      .thenReturn(Future.successful("" -> ""))
 
     testingGainController
   }

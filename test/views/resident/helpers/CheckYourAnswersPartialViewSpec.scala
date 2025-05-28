@@ -32,8 +32,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
   lazy val checkYourAnswersPartialView = fakeApplication.injector.instanceOf[checkYourAnswersPartial]
   "The check your answers partial with as much filled in as possible" should {
 
-    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(testingMessages)
+    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles, Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(testingMessages)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     s"have a section for Your answers" which {

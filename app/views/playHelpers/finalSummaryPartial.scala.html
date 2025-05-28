@@ -40,13 +40,12 @@
     <p class="govuk-panel__body">&pound;@MoneyPounds(result.taxOwed, 2).quantity</p>
 </div>
 
-@{if (!taxYear.isValidYear) {
-    govukWarningText(WarningText(
+@if(!taxYear.isValidYear) {
+    (@govukWarningText(WarningText(
         iconFallbackText = Some("Warning"),
         content = Text(Messages("calc.summary.noticeSummary"))
-    ))
+    )))
     }
-}
 
 <!-- Calculation Details Section -->
 <section id="calcDetails">
@@ -63,24 +62,24 @@
                 case (_ , _) => {throw new Exception("failed to substantiate table body")}
             }
 
-            @{if(gainAnswers.ownerBeforeLegislationStart)
-                summaryNumericRow("acquisitionValue-BeforeLegislationStart", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+            @if(gainAnswers.ownerBeforeLegislationStart){
+                (@summaryNumericRow("acquisitionValue-BeforeLegislationStart", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get))
             }
 
-            @{if(gainAnswers.displayWorthWhenBought)
-                summaryNumericRow("acquisitionValue-WhenBought",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
+            @if(gainAnswers.displayWorthWhenBought){
+                (@summaryNumericRow("acquisitionValue-WhenBought",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get))
             }
 
-            @{if(gainAnswers.displayWorthWhenBoughtForLess)
-                summaryNumericRow("acquisitionValue-WhenBoughtForLess", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get)
+            @if(gainAnswers.displayWorthWhenBoughtForLess){
+                (@summaryNumericRow("acquisitionValue-WhenBoughtForLess", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get))
             }
 
-            @{if(gainAnswers.displayWorthWhenGifted)
-                summaryNumericRow("acquisitionValue-WhenGifted", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get)
+            @if(gainAnswers.displayWorthWhenGifted){
+                (@summaryNumericRow("acquisitionValue-WhenGifted", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get))
             }
 
-            @{if(gainAnswers.displayWorthWhenInherited)
-                summaryNumericRow("acquisitionValue-WhenInherited", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
+            @if(gainAnswers.displayWorthWhenInherited){
+               (@summaryNumericRow("acquisitionValue-WhenInherited", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get))
             }
 
             @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)

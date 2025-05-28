@@ -31,6 +31,6 @@ object BoughtForLessThanWorthForm {
         .verifying("calc.resident.properties.boughtForLessThanWorth.noSelectError", mandatoryCheck)
         .verifying("calc.resident.properties.boughtForLessThanWorth.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)
-    )(BoughtForLessThanWorthModel.apply)(BoughtForLessThanWorthModel.unapply)
+    )(BoughtForLessThanWorthModel.apply)(o=>Some(o.boughtForLessThanWorth))
   )
 }

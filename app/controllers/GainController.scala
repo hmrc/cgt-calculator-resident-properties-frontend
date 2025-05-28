@@ -536,7 +536,7 @@ class GainController @Inject()(
 
   //################# Acquisition Costs Actions ########################
 
-  private def acquisitionCostsBackLink()(implicit request: Request [_]): Future[Option[String]] = {
+  private def acquisitionCostsBackLink()(implicit request: Request [?]): Future[Option[String]] = {
     val ownerOn = sessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
     val howBecameOwner = sessionCacheService.fetchAndGetFormData[HowBecameOwnerModel](keystoreKeys.howBecameOwner)
     val boughtForLess = sessionCacheService.fetchAndGetFormData[BoughtForLessThanWorthModel](keystoreKeys.boughtForLessThanWorth)
@@ -561,7 +561,7 @@ class GainController @Inject()(
     } yield backLink
   }
 
-  private def createAcquisitionCostsForm()(implicit request: Request [_]): Future[Form[AcquisitionCostsModel]] = {
+  private def createAcquisitionCostsForm()(implicit request: Request [?]): Future[Form[AcquisitionCostsModel]] = {
     sessionCacheService.fetchAndGetFormData[AcquisitionCostsModel](keystoreKeys.acquisitionCosts).map {
       case Some(data) => acquisitionCostsForm.fill(data)
       case None => acquisitionCostsForm
@@ -589,12 +589,12 @@ class GainController @Inject()(
   }
 
   //################# Improvements Actions ########################
-  private def getOwnerBeforeAprilNineteenEightyTwo()(implicit request: Request[_]): Future[Boolean] = {
+  private def getOwnerBeforeAprilNineteenEightyTwo()(implicit request: Request[?]): Future[Boolean] = {
     sessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
       .map(_.get.ownedBeforeLegislationStart)
   }
 
-  private def getImprovementsForm(ownerBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[_]): Future[Form[ImprovementsModel]] = {
+  private def getImprovementsForm(ownerBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[?]): Future[Form[ImprovementsModel]] = {
     sessionCacheService.fetchAndGetFormData[ImprovementsModel](keystoreKeys.improvements).map {
       case Some(data) => improvementsForm(ownerBeforeAprilNineteenEightyTwo).fill(data)
       case _ => improvementsForm(ownerBeforeAprilNineteenEightyTwo)

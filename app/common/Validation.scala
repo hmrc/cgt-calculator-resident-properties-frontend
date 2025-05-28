@@ -49,7 +49,7 @@ object Validation {
     Constraint(input => if (condition(input)) {
       Valid
     } else {
-      Invalid(ValidationError(key, args:_*))
+      Invalid(ValidationError(key, args*))
     })
   }
 

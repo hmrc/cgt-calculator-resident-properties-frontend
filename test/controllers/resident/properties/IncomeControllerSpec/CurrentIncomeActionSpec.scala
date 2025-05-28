@@ -62,10 +62,10 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(disposalDate)
+      .thenReturn(Future.successful(disposalDate))
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
-      .thenReturn(taxYear)
+      .thenReturn(Future.successful(taxYear))
 
     when(mockSessionCacheConnector.saveFormData[LossesBroughtForwardValueModel]
       (ArgumentMatchers.eq(keystoreKeys.currentIncome),ArgumentMatchers.any())

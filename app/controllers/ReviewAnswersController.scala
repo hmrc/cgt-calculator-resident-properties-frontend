@@ -50,11 +50,11 @@ class ReviewAnswersController @Inject()(
       _.get
     }
 
-  def getGainAnswers(implicit request: Request [_]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers
+  def getGainAnswers(implicit request: Request [?]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers
 
-  def getDeductionsAnswers(implicit request: Request [_]): Future[ChargeableGainAnswers] = sessionCacheService.getPropertyDeductionAnswers
+  def getDeductionsAnswers(implicit request: Request [?]): Future[ChargeableGainAnswers] = sessionCacheService.getPropertyDeductionAnswers
 
-  private def languageRequest(body : Lang => Future[Result])(implicit request: Request[_]): Future[Result] =
+  private def languageRequest(body : Lang => Future[Result])(implicit request: Request[?]): Future[Result] =
     body(messagesControllerComponents.messagesApi.preferred(request).lang)
 
   def reviewGainAnswers: Action[AnyContent] = ValidateSession.async { implicit request =>

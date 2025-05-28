@@ -22,7 +22,7 @@ import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.play.bootstrap.http.HttpClientV2Provider
 
 class ServicesBindings extends Module {
-  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
+  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[?]] = {
     bindDeps()
   }
 

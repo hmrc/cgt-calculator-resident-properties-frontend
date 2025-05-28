@@ -16,7 +16,7 @@
 
 package controllers.GainControllerSpec
 
-import assets.MessageLookup.{OutsideTaxYears => messages}
+import assets.MessageLookup.OutsideTaxYears as messages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.GainController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -26,22 +26,23 @@ import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito._
+import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 
-class OutsideTaxYearsActionSpec extends CommonPlaySpec with
-  WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
+import scala.concurrent.Future
+
+class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with GainControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = Materializer(system)
 
   def setupTarget(disposalDateModel: Option[DisposalDateModel], taxYearModel: Option[TaxYearModel]): GainController = {
     when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(disposalDateModel)
+      .thenReturn(Future.successful(disposalDateModel))
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
-      .thenReturn(taxYearModel)
+      .thenReturn(Future.successful(taxYearModel))
 
     testingGainController
   }

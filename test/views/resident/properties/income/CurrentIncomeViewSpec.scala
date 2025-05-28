@@ -72,7 +72,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         }
 
         "have the class 'govuk-label--m'" in {
-          label.attr("class") contains "govuk-label--m"
+          label.attr("class") `contains` "govuk-label--m"
         }
       }
 

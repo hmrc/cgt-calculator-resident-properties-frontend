@@ -31,7 +31,7 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import scala.concurrent.ExecutionContext
 
 trait CommonMocks {
-  self: MockitoSugar with WithCommonFakeApplication =>
+  self: MockitoSugar & WithCommonFakeApplication =>
 
   val mockCalcConnector: CalculatorConnector = mock[CalculatorConnector]
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]

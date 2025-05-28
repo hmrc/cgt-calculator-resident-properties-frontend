@@ -37,6 +37,6 @@ object WorthWhenGaveAwayForm {
         .verifying(constraintBuilder("calc.resident.properties.worthWhenGaveAway.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
         .verifying("calc.resident.properties.worthWhenGaveAway.minimumAmount", isPositive)
         .verifying("calc.resident.properties.worthWhenGaveAway.error.decimalPlaces", decimalPlacesCheck)
-    )(WorthWhenGaveAwayModel.apply)(WorthWhenGaveAwayModel.unapply)
+    )(WorthWhenGaveAwayModel.apply)(o=>Some(o.amount))
   )
 }

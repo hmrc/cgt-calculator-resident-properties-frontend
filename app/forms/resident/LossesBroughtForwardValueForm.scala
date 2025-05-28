@@ -43,7 +43,7 @@ object LossesBroughtForwardValueForm {
         .verifying(constraintBuilder("calc.resident.lossesBroughtForwardValue.error.decimalPlaces", taxYear.startYear, taxYear.endYear) {
           decimalPlacesCheck
         })
-    )(LossesBroughtForwardValueModel.apply)(LossesBroughtForwardValueModel.unapply)
+    )(LossesBroughtForwardValueModel.apply)(o=>Some(o.amount))
   )
 
 }

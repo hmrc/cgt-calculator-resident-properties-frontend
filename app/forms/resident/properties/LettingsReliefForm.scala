@@ -31,6 +31,6 @@ object LettingsReliefForm {
         .verifying("calc.resident.lettingsRelief.errorSelect", mandatoryCheck)
         .verifying("calc.resident.lettingsRelief.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
-    )(LettingsReliefModel.apply)(LettingsReliefModel.unapply)
+    )(LettingsReliefModel.apply)(o=>Some(o.isClaiming))
   )
 }
