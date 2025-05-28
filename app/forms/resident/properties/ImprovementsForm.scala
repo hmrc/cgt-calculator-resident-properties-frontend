@@ -39,7 +39,7 @@ object ImprovementsForm {
             .verifying(constraintBuilder("calc.resident.properties.improvements.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
             .verifying("calc.resident.properties.improvements.minimumAmount", isPositive)
             .verifying("calc.resident.properties.improvements.before.error.decimalPlaces", decimalPlacesCheck)
-        )(ImprovementsModel.apply)(ImprovementsModel.unapply)
+        )(ImprovementsModel.apply)(o=>Some(o.amount))
       )
     } else {
       Form(
@@ -52,7 +52,7 @@ object ImprovementsForm {
             .verifying(constraintBuilder("calc.resident.properties.improvements.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
             .verifying("calc.resident.properties.improvements.minimumAmount", isPositive)
             .verifying("calc.resident.properties.improvements.error.decimalPlaces", decimalPlacesCheck)
-        )(ImprovementsModel.apply)(ImprovementsModel.unapply)
+        )(ImprovementsModel.apply)(o=>Some(o.amount))
       )
     }
 }

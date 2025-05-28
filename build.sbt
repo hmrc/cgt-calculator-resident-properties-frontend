@@ -26,7 +26,11 @@ lazy val microservice = Project(appName, file("."))
       scalacOptions.+=("-Wconf:src=html/.*:s"),
       scalacOptions += "-Wconf:src=routes/.*:s",
       scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s",
-      scalacOptions += "-Wconf:msg=Flag.*repeatedly:s"
+      scalacOptions += "-Wconf:msg=Flag.*repeatedly:s",
+      scalacOptions ++= Seq(
+      "-rewrite",
+      "-source:3.4-migration"
+    )
   )
   .settings(
     onLoadMessage := "",

@@ -38,6 +38,6 @@ object PrivateResidenceReliefValueForm {
         })
         .verifying("calc.resident.properties.privateResidenceReliefValue.minimumAmount", isPositive)
         .verifying("calc.resident.properties.privateResidenceReliefValue.error.decimalPlaces", decimalPlacesCheck)
-    )(PrivateResidenceReliefValueModel.apply)(PrivateResidenceReliefValueModel.unapply)
+    )(PrivateResidenceReliefValueModel.apply)(o=>Some(o.amount))
   )
 }

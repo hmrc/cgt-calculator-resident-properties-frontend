@@ -195,7 +195,7 @@ object MessageLookup {
       val question = "Which method of calculation would you like?"
       val moreInformation = "How this affects your tax"
       val moreInfoFirstP = "We can work out your tax in a number of ways. Before we give you a final total you have a choice about what to base it on."
-      val moreInfoSecondP = "Because the options take different things into account they'll usually give you different totals. " +
+      val moreInfoSecondP: String = "Because the options take different things into account they'll usually give you different totals. " +
         "Some totals may be much larger than others."
       val moreInfoThirdP = "Unless you want to add more tax reliefs, the total you choose is the amount of tax you'll pay."
       val legend = "Tax you'll owe"
@@ -371,13 +371,13 @@ object MessageLookup {
       val disposalGaveAwayQuestion = "What was the property worth when you gave it away?"
       val disposalSoldQuestion = "What was the market value of the property when you sold it?"
 
-      val disposalHelpText = "You can use a valuation from a surveyor. " +
+      val disposalHelpText : String= "You can use a valuation from a surveyor. " +
         "If you don't know the exact value, you must provide a realistic estimate."
       val disposalHelpTextAdditional = "You might have to pay more if we think your estimate is unrealistic."
 
-      val disposalErrorDecimalPlacesGaveAway = "There are too many numbers after the decimal point in your market value" +
+      val disposalErrorDecimalPlacesGaveAway : String= "There are too many numbers after the decimal point in your market value" +
         " at the point of giving away"
-      val disposalErrorDecimalPlacesSold = "There are too many numbers after the decimal point in your market value" +
+      val disposalErrorDecimalPlacesSold : String= "There are too many numbers after the decimal point in your market value" +
         " at the point of being sold"
 
       val errorNegativeGaveAway = "Enter a positive number for the market value at the point of being given away"
@@ -422,7 +422,7 @@ object MessageLookup {
 
       val questionOptionalText = "Only tell us if you owned the property on that date"
 
-      val inputHintText = "If you don't know the exact value, you must provide a realistic estimate. " +
+      val inputHintText : String= "If you don't know the exact value, you must provide a realistic estimate. " +
         "You might have to pay more if we think your estimate is unrealistic."
       val additionalContentTitle = "Why we're asking for this"
       val helpHiddenContent = "This value lets us calculate your tax in different ways, which means you may have less tax to pay."
@@ -454,7 +454,7 @@ object MessageLookup {
       val errorNegativeNumber = "Enter a positive number for the market value of the property"
       val errorDecimalPlaces = "The market value of the property has too many numbers after the decimal point"
       val hintOne = "You can use a valuation from a surveyor."
-      val hintTwo = "If you don't know the exact value, you must provide a realistic estimate. " +
+      val hintTwo : String= "If you don't know the exact value, you must provide a realistic estimate. " +
         "You might have to pay more if we think your estimate is unrealistic."
     }
 
@@ -562,7 +562,7 @@ object MessageLookup {
       object WorthWhenSoldForLess {
         val question = "What was the property worth when you sold it?"
         val title = "What was the property worth when you sold it? - Calculate your Capital Gains Tax - GOV.UK"
-        val paragraphText = "You can use a valuation from a surveyor. If you don’t know the exact value, " +
+        val paragraphText : String= "You can use a valuation from a surveyor. If you don’t know the exact value, " +
           "you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
         val extraText = "If you owned the property with someone else, only enter your share of the property value."
       }
@@ -575,7 +575,7 @@ object MessageLookup {
 
       object PropertiesWorthWhenGaveAway {
         val title = "What was the property worth when you gave it away?"
-        val paragraphText = "You can use a valuation from a surveyor. If you don’t know the exact value, " +
+        val paragraphText : String= "You can use a valuation from a surveyor. If you don’t know the exact value, " +
           "you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
         val extraText = "If you owned the property with someone else, only enter your share of the property value."
       }
@@ -584,7 +584,7 @@ object MessageLookup {
         val question = "What was the property worth on 31 March 1982?"
         val title = "What was the property worth on 31 March 1982? - Calculate your Capital Gains Tax - GOV.UK"
         val information = "If you had your property before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax. After this date, use the original cost."
-        val hintText = "If you don't know the exact value, you must provide a realistic estimate. " +
+        val hintText : String= "If you don't know the exact value, you must provide a realistic estimate. " +
           "You might have to pay more if we think your estimate is unrealistic."
         val jointOwnership = "If you owned the property with someone else, only enter your share of the property value."
       }
@@ -617,7 +617,7 @@ object MessageLookup {
         val label = "How much have you spent on improvements since you became the property owner?"
         val titleBefore = "How much have you spent on improvements since 31 March 1982? - Calculate your Capital Gains Tax - GOV.UK"
         val questionBefore = "How much have you spent on improvements since 31 March 1982?"
-        val hint = "Improvements are permanent changes that raise the value of a property, like adding " +
+        val hint : String= "Improvements are permanent changes that raise the value of a property, like adding " +
           "extensions or garages. Normal maintenance costs don't count."
         val jointOwner = "If you owned the property with someone else, only enter your share of the improvement costs as agreed with your co-owner."
         val improvementsHelpButton = "Show me an example"
@@ -862,7 +862,7 @@ object MessageLookup {
     val title = "How much Private Residence Relief are you entitled to?"
     val newTitle = "How much Private Residence Relief are you entitled to? - Calculate your Capital Gains Tax - GOV.UK"
     val errorTitle= "Error: How much Private Residence Relief are you entitled to? - Calculate your Capital Gains Tax - GOV.UK"
-    val question = title
+    val question : String= title
     val link = "Find out how much you're entitled to"
     def help(value: String): String = s"We've calculated that you've made a gain of £$value on your property. " +
       s"You'll need this figure to calculate your Private Residence Relief."
@@ -974,7 +974,7 @@ object MessageLookup {
   object PrivateResidenceRelief {
     val title = "Are you entitled to Private Residence Relief? - Calculate your Capital Gains Tax - GOV.UK"
     val heading = "Are you entitled to Private Residence Relief?"
-    val helpTextOne = "You'll be entitled to Private Residence Relief if you've lived in the property as your main home " +
+    val helpTextOne : String= "You'll be entitled to Private Residence Relief if you've lived in the property as your main home " +
       "at some point while you owned it. Find out more about"
     val helpTextLink = "You may be entitled to Private Residence Relief if you've lived in the property as your main home at some point while you owned it. Find out more about Private Residence Relief"
     val errorSelect = "calc.resident.privateResidenceRelief.errorSelect"

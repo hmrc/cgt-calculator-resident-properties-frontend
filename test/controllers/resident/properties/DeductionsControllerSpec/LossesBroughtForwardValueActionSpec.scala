@@ -27,7 +27,7 @@ import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito._
+import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.Helpers._
 import views.html.calculation.resident.properties.deductions._
@@ -35,8 +35,7 @@ import views.html.calculation.resident.{lossesBroughtForward, lossesBroughtForwa
 
 import scala.concurrent.Future
 
-class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with
-  FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
+class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with CommonMocks with MockitoSugar with DeductionsControllerBaseSpec {
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = Materializer(system)
@@ -49,11 +48,11 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
 
       when(mockSessionCacheService.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(getData)
+        .thenReturn(Future.successful(getData))
 
       when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Some(disposalDateModel))
+        .thenReturn(Future.successful(Some(disposalDateModel)))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
@@ -140,7 +139,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         .thenReturn(Future.successful(Some(chargeableGain)))
 
       when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Some(disposalDateModel))
+        .thenReturn(Future.successful(Some(disposalDateModel)))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))

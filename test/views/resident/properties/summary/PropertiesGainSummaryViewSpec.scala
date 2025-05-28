@@ -58,7 +58,7 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
     when(mockAppConfig.urBannerLink)
       .thenReturn(summaryMessages.bannerPanelLinkURL)
 
-    lazy val view = gainSummaryView(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = true)(fakeRequest, testingMessages)
+    lazy val view = gainSummaryView(testModel, -2000, 1000, taxYearModel, 11000, showUserResearchPanel = true)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {

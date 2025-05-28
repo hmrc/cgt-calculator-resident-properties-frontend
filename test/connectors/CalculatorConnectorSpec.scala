@@ -24,7 +24,6 @@ import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryMode
 import models.resident.{ChargeableGainResultModel, IncomeAnswersModel, TaxYearModel, TotalGainAndTaxOwedModel}
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.http.Status
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.Json
 import play.api.{Application, Configuration}

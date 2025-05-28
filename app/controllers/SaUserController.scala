@@ -62,7 +62,7 @@ class SaUserController @Inject()(
     submitSaUserImpl(true)
   }
 
-  private def submitSaUserImpl(selfAssessmentRequired: Boolean)(implicit request: play.api.mvc.Request[_]): Future[Result] = {
+  private def submitSaUserImpl(selfAssessmentRequired: Boolean)(implicit request: play.api.mvc.Request[?]): Future[Result] = {
     def chargeableGain(grossGain: BigDecimal,
                        yourAnswersSummaryModel: YourAnswersSummaryModel,
                        chargeableGainAnswers: ChargeableGainAnswers,

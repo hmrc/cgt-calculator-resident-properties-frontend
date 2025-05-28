@@ -23,7 +23,7 @@ import views.html.calculation.resident.outsideTaxYear
 import views.html.calculation.resident.properties.gain._
 
 trait GainControllerBaseSpec {
-  self: CommonMocks with WithCommonFakeApplication =>
+  self: CommonMocks & WithCommonFakeApplication =>
 
   lazy val testingGainController: GainController = new GainController(
     mockCalcConnector,

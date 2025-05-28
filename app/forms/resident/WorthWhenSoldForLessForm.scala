@@ -37,6 +37,6 @@ object WorthWhenSoldForLessForm {
         .verifying(constraintBuilder("calc.resident.properties.worthWhenSoldForLess.maximumAmount", MoneyPounds(Constants.maxNumeric, 0).quantity) { maxCheck })
         .verifying("calc.resident.properties.worthWhenSoldForLess.minimumAmount", isPositive)
         .verifying("calc.resident.properties.worthWhenSoldForLess.error.decimalPlaces", decimalPlacesCheck)
-    )(WorthWhenSoldForLessModel.apply)(WorthWhenSoldForLessModel.unapply)
+    )(WorthWhenSoldForLessModel.apply)(o=>Some(o.amount))
   )
 }

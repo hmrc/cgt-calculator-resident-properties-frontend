@@ -24,14 +24,14 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 trait AppConfig {
-  val assetsPrefix: String
-  val contactFormServiceIdentifier: String
-  val reportAProblemPartialUrl: String
-  val reportAProblemNonJSUrl: String
-  val residentIFormUrl: String
-  val capitalGainsReportingFormUrl: String
-  val urBannerLink: String
-  val feedbackSurvey: String
+  lazy val assetsPrefix: String
+  lazy val contactFormServiceIdentifier: String
+  lazy val reportAProblemPartialUrl: String
+  lazy val reportAProblemNonJSUrl: String
+  lazy val residentIFormUrl: String
+  lazy val capitalGainsReportingFormUrl: String
+  lazy val urBannerLink: String
+  lazy val feedbackSurvey: String
   val selfAssessmentActivateDate: LocalDate
   def isWelshEnabled: Boolean
 }

@@ -51,7 +51,7 @@ object PersonalAllowanceForm {
         .verifying(constraintBuilder("calc.resident.personalAllowance.error.decimalPlaces", taxYear.startYear, taxYear.endYear) {
           decimalPlacesCheckNoDecimal
         })
-    )(PersonalAllowanceModel.apply)(PersonalAllowanceModel.unapply)
+    )(PersonalAllowanceModel.apply)(o=>Some(o.amount))
   )
 
 }

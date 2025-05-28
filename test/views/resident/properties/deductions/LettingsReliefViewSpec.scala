@@ -88,7 +88,7 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "rel has the value of external" in {
-        link.attr("rel") contains "external"
+        link.attr("rel") `contains` "external"
       }
 
       "has a target attribute" in {

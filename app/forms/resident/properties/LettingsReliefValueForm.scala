@@ -56,5 +56,5 @@ object LettingsReliefValueForm {
         .verifying(constraintBuilder[BigDecimal]("calc.resident.lettingsReliefValue.error.moreThanRemainingGain", MoneyPounds(gain - prrValue, 0).quantity) { x =>
           displayGreaterThanRemainingGain(x, prrValue, gain - prrValue)
         })
-    )(LettingsReliefValueModel.apply)(LettingsReliefValueModel.unapply))
+    )(LettingsReliefValueModel.apply)(o=>Some(o.amount)))
 }

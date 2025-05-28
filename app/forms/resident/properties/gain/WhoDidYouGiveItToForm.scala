@@ -27,6 +27,6 @@ object WhoDidYouGiveItToForm {
     mapping("whoDidYouGiveItTo" -> text("calc.resident.whoDidYouGiveThePropertyTo.errormandatory")
         .verifying("calc.resident.whoDidYouGiveThePropertyTo.errormandatory", mandatoryCheck)
         .verifying("calc.resident.whoDidYouGiveThePropertyTo.errormandatory", whoDidYouGiveItToCheck)
-    )(WhoDidYouGiveItToModel.apply)(WhoDidYouGiveItToModel.unapply)
+    )(WhoDidYouGiveItToModel.apply)(o=>Some(o.option))
   )
 }
