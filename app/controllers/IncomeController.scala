@@ -120,7 +120,7 @@ class IncomeController @Inject()(
 
   //################################# Personal Allowance Actions ##########################################
   def getStandardPA(year: Int, hc: HeaderCarrier): Future[Option[BigDecimal]] = {
-    calcConnector.getPA(year)(hc)
+    calcConnector.getPA(year)(using hc)
   }
 
   def taxYearValue(taxYear: String): Future[Int] = {
@@ -159,7 +159,7 @@ class IncomeController @Inject()(
   def submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def getMaxPA(year: Int): Future[Option[BigDecimal]] = {
-      calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true, isEligibleMarriageAllowance = true)(hc)
+      calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true, isEligibleMarriageAllowance = true)(using hc)
     }
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {

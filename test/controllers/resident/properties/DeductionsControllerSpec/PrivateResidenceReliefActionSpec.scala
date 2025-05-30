@@ -39,11 +39,11 @@ class PrivateResidenceReliefActionSpec extends CommonPlaySpec with WithCommonFak
 
   def setupTarget(getData: Option[PrivateResidenceReliefModel]): DeductionsController= {
     when(mockSessionCacheService.fetchAndGetFormData[PrivateResidenceReliefModel](ArgumentMatchers.eq(keyStoreKeys.privateResidenceRelief))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[PrivateResidenceReliefModel](ArgumentMatchers.any(), ArgumentMatchers.any())
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     testingDeductionsController

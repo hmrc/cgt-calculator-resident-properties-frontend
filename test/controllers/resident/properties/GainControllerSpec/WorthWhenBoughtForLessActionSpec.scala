@@ -40,11 +40,11 @@ class WorthWhenBoughtForLessActionSpec extends CommonPlaySpec with WithCommonFak
 
   def setupTarget(getData: Option[WorthWhenBoughtForLessModel]): GainController= {
     when(mockSessionCacheService.fetchAndGetFormData[WorthWhenBoughtForLessModel](ArgumentMatchers.eq(keyStoreKeys.worthWhenBoughtForLess))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[WorthWhenBoughtForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     testingGainController

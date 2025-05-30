@@ -27,7 +27,7 @@ class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   lazy val whatNextNonSaLossView = fakeApplication.injector.instanceOf[whatNextNonSaLoss]
   "whatNextNonSaLoss view" should {
 
-    lazy val view = whatNextNonSaLossView("iFormUrl", "BackLinkUrl")(fakeRequest, testingMessages)
+    lazy val view = whatNextNonSaLossView("iFormUrl", "BackLinkUrl")(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {

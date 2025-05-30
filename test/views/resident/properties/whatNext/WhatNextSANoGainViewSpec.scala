@@ -29,7 +29,7 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
   lazy val pageTitle = s"${commonMessages.title} - ${serviceMessages.homeText} - GOV.UK"
   "The whatNextSaNoGain view" should {
 
-    lazy val view = whatNextSaNoGainView("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, testingMessages)
+    lazy val view = whatNextSaNoGainView("back-link", "iFormUrl", "2016 to 2017")(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title $pageTitle" in {

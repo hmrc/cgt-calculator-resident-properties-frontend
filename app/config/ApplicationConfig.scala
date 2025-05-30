@@ -17,7 +17,6 @@
 package config
 
 import common.Dates.formatter
-import play.api.Environment
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.time.LocalDate
@@ -37,7 +36,7 @@ trait AppConfig {
 }
 
 class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
-                                  environment: Environment) extends AppConfig {
+                                  ) extends AppConfig {
 
   private def loadConfig(key: String) = servicesConfig.getString(key)
 

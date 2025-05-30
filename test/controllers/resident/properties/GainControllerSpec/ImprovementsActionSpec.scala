@@ -41,29 +41,28 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
   implicit val system: ActorSystem = ActorSystem()
   implicit val mat: Materializer = Materializer(system)
 
-  val summaryModel = mock[YourAnswersSummaryModel]
+  val summaryModel: YourAnswersSummaryModel = mock[YourAnswersSummaryModel]
 
   def setupTarget(getData: Option[ImprovementsModel],
                   gainAnswers: YourAnswersSummaryModel,
                   totalGain: BigDecimal,
-                  prrEnabled: Boolean = true,
                   ownerBeforeAprilNineteenEightyTwo: Boolean = false): GainController = {
 
     when(mockSessionCacheService.fetchAndGetFormData[ImprovementsModel](ArgumentMatchers.eq(keystoreKeys.improvements))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
-      (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(OwnerBeforeLegislationStartModel(ownerBeforeAprilNineteenEightyTwo))))
 
-    when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswers))
 
-    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    when(mockSessionCacheService.saveFormData[ImprovementsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheService.saveFormData[ImprovementsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     testingGainController
@@ -200,7 +199,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     "a NoSuchElementException is thrown" should {
       "return an ApplicationException" in {
         when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))
-          (ArgumentMatchers.any(), ArgumentMatchers.any()))
+          (using ArgumentMatchers.any(), ArgumentMatchers.any()))
           .thenReturn(Future.successful(None))
         val result = intercept[ApplicationException](await(testingGainController.submitImprovements(fakeRequestWithSession)))
 

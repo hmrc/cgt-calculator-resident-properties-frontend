@@ -85,7 +85,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a banner" which {
@@ -380,7 +380,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for worth when sold for less" which {
@@ -446,7 +446,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
-        None, None, 100, 100)(testingMessages)
+        None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a numeric output row and a tax rate" which {
@@ -526,7 +526,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
 
@@ -592,7 +592,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for brought forward losses used" which {
@@ -661,7 +661,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -725,7 +725,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -788,7 +788,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -851,7 +851,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -916,7 +916,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for value when the property was given away" which {
@@ -982,7 +982,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"display a notice summary with text ${summaryMessages.noticeSummary}" in {
@@ -1041,7 +1041,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
 
       lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, incomeAnswers, results,
-        taxYearModel, None, None, 100, 100)(testingMessages)
+        taxYearModel, None, None, 100, 100)(using testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have no taxable rate section" in {

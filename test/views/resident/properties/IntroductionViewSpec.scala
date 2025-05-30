@@ -26,7 +26,7 @@ class IntroductionViewSpec extends CommonPlaySpec with WithCommonFakeApplication
 
   "Introduction view" should {
     lazy val introductionView = fakeApplication.injector.instanceOf[introduction]
-    lazy val view = introductionView()(fakeRequest, testingMessages)
+    lazy val view = introductionView()(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the correct title" in {

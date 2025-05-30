@@ -49,23 +49,22 @@
     else {Messages("calc.resident.sellOrGiveAway.sold")}, Some(gainRoutes.sellOrGiveAway.toString), displayLink = displayLinks)
 
     @if(gainAnswers.givenAway){
-        (@summaryTextRowHelper("whoDidYouGiveItTo", Messages("calc.resident.whoDidYouGiveThePropertyTo.title"), Messages("calc.resident.whoDidYouGiveThePropertyTo.other"), Some(gainRoutes.whoDidYouGiveItTo.toString), displayLink = displayLinks))
+        @summaryTextRowHelper("whoDidYouGiveItTo", Messages("calc.resident.whoDidYouGiveThePropertyTo.title"), Messages("calc.resident.whoDidYouGiveThePropertyTo.other"), Some(gainRoutes.whoDidYouGiveItTo.toString), displayLink = displayLinks)
     }
 
     @if(gainAnswers.givenAway){
-        (@summaryNumericRowHelper("worthWhenGaveAway", Messages("calc.resident.properties.worthWhenGaveAway.title"), gainAnswers.worthWhenGaveAway.get, Some(gainRoutes.worthWhenGaveAway.toString), displayLink = displayLinks))
+        @summaryNumericRowHelper("worthWhenGaveAway", Messages("calc.resident.properties.worthWhenGaveAway.title"), gainAnswers.worthWhenGaveAway.get, Some(gainRoutes.worthWhenGaveAway.toString), displayLink = displayLinks)
     }
 
     @if(!gainAnswers.givenAway){
-        (@summaryOptionRowHelper("sellForLess", Messages("calc.resident.properties.sellForLess.title"), gainAnswers.sellForLess.get, Some(gainRoutes.sellForLess.toString), displayLink = displayLinks))
-    }
+        @summaryOptionRowHelper("sellForLess", Messages("calc.resident.properties.sellForLess.title"), gainAnswers.sellForLess.get, Some(gainRoutes.sellForLess.toString), displayLink = displayLinks)    }
 
     @if(gainAnswers.displayWorthWhenSold){
-        (@summaryNumericRowHelper("disposalValue",Messages("calc.resident.disposal.value.question"),gainAnswers.disposalValue.get,Some(gainRoutes.disposalValue.toString), displayLink = displayLinks))
+        @summaryNumericRowHelper("disposalValue",Messages("calc.resident.disposal.value.question"),gainAnswers.disposalValue.get,Some(gainRoutes.disposalValue.toString), displayLink = displayLinks)
     }
 
     @if(gainAnswers.displayWorthWhenSoldForLess){
-        (@summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.properties.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, Some(gainRoutes.worthWhenSoldForLess.toString), displayLink = displayLinks))
+        @summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.properties.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, Some(gainRoutes.worthWhenSoldForLess.toString), displayLink = displayLinks)
     }
 
     @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.disposalCosts.title"),gainAnswers.disposalCosts,Some(gainRoutes.disposalCosts.toString), displayLink = displayLinks)
@@ -73,31 +72,31 @@
     @summaryOptionRowHelper("ownerBeforeLegislationStart", Messages("calc.resident.properties.ownedBeforeLegislationStart.title"), gainAnswers.ownerBeforeLegislationStart, Some(gainRoutes.ownerBeforeLegislationStart.toString), displayLink = displayLinks)
 
     @if(gainAnswers.ownerBeforeLegislationStart){
-        (@summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.properties.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,Some(gainRoutes.valueBeforeLegislationStart.toString), displayLink = displayLinks))
+        @summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.properties.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,Some(gainRoutes.valueBeforeLegislationStart.toString), displayLink = displayLinks)
     }
 
     @if(!gainAnswers.ownerBeforeLegislationStart){
-        (@summaryTextRowHelper("howBecameOwner", Messages("calc.resident.howBecameOwner.title"), Messages(s"calc.resident.howBecameOwner.${gainAnswers.howBecameOwner.get.toLowerCase}"), Some(gainRoutes.howBecameOwner.toString), displayLink = displayLinks))
+        @summaryTextRowHelper("howBecameOwner", Messages("calc.resident.howBecameOwner.title"), Messages(s"calc.resident.howBecameOwner.${gainAnswers.howBecameOwner.get.toLowerCase}"), Some(gainRoutes.howBecameOwner.toString), displayLink = displayLinks)
     }
 
     @if(gainAnswers.displayBoughtForLessThanWorth){
-        (@summaryOptionRowHelper("boughtForLessThanWorth", Messages("calc.resident.properties.boughtForLessThanWorth.title"), gainAnswers.boughtForLessThanWorth.get, Some(gainRoutes.boughtForLessThanWorth.toString), displayLink = displayLinks))
+        @summaryOptionRowHelper("boughtForLessThanWorth", Messages("calc.resident.properties.boughtForLessThanWorth.title"), gainAnswers.boughtForLessThanWorth.get, Some(gainRoutes.boughtForLessThanWorth.toString), displayLink = displayLinks)
     }
 
     @if(gainAnswers.displayWorthWhenBought){
-        (@summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.acquisitionValue.title"),gainAnswers.acquisitionValue.get,Some(gainRoutes.acquisitionValue.toString), displayLink = displayLinks))
+        @summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.acquisitionValue.title"),gainAnswers.acquisitionValue.get,Some(gainRoutes.acquisitionValue.toString), displayLink = displayLinks)
     }
 
     @if(gainAnswers.displayWorthWhenBoughtForLess){
-        (@summaryNumericRowHelper("worthWhenBoughtForLess", Messages("calc.resident.properties.worthWhenBoughtForLess.question"), gainAnswers.worthWhenBoughtForLess.get, Some(gainRoutes.worthWhenBoughtForLess.toString), displayLink = displayLinks))
+        @summaryNumericRowHelper("worthWhenBoughtForLess", Messages("calc.resident.properties.worthWhenBoughtForLess.question"), gainAnswers.worthWhenBoughtForLess.get, Some(gainRoutes.worthWhenBoughtForLess.toString), displayLink = displayLinks)
     }
 
     @if(gainAnswers.displayWorthWhenGifted){
-        (@summaryNumericRowHelper("worthWhenGifted", Messages("calc.resident.properties.worthWhenGifted.question"), gainAnswers.worthWhenGifted.get, Some(gainRoutes.worthWhenGifted.toString), displayLink = displayLinks))
+        @summaryNumericRowHelper("worthWhenGifted", Messages("calc.resident.properties.worthWhenGifted.question"), gainAnswers.worthWhenGifted.get, Some(gainRoutes.worthWhenGifted.toString), displayLink = displayLinks)
     }
 
     @if(gainAnswers.displayWorthWhenInherited){
-        (@summaryNumericRowHelper("worthWhenInherited", Messages("calc.resident.properties.worthWhenInherited.question"), gainAnswers.worthWhenInherited.get, Some(gainRoutes.worthWhenInherited.toString), displayLink = displayLinks))
+        @summaryNumericRowHelper("worthWhenInherited", Messages("calc.resident.properties.worthWhenInherited.question"), gainAnswers.worthWhenInherited.get, Some(gainRoutes.worthWhenInherited.toString), displayLink = displayLinks)
     }
 
     @summaryNumericRowHelper("acquisitionCosts", Messages("calc.resident.acquisitionCosts.title"), gainAnswers.acquisitionCosts, Some(gainRoutes.acquisitionCosts.toString), displayLink = displayLinks)
@@ -113,25 +112,25 @@
         @summaryOptionRowHelper("propertyLivedIn", Messages("calc.resident.properties.propertyLivedIn.title"), deductionsAnswers.get.propertyLivedInModel.get.livedInProperty, Some(deductionRoutes.propertyLivedIn.toString), displayLink = displayLinks)
 
         @if(deductionsAnswers.get.propertyLivedInModel.get.livedInProperty){
-            (@summaryOptionRowHelper("privateResidenceRelief", Messages("calc.resident.properties.privateResidenceRelief.title"), deductionsAnswers.get.privateResidenceReliefModel.get.isClaiming, Some(deductionRoutes.privateResidenceRelief.toString), displayLink = displayLinks))
+            @summaryOptionRowHelper("privateResidenceRelief", Messages("calc.resident.properties.privateResidenceRelief.title"), deductionsAnswers.get.privateResidenceReliefModel.get.isClaiming, Some(deductionRoutes.privateResidenceRelief.toString), displayLink = displayLinks)
         }
 
         @if(deductionsAnswers.get.displayPRRValueAndLettingsRelief){
-            (@summaryNumericRowHelper("privateResidenceReliefValue", Messages("calc.resident.privateResidenceReliefValue.title"), deductionsAnswers.get.privateResidenceReliefValueModel.get.amount, Some(deductionRoutes.privateResidenceReliefValue.toString), displayLink = displayLinks))
+            @summaryNumericRowHelper("privateResidenceReliefValue", Messages("calc.resident.privateResidenceReliefValue.title"), deductionsAnswers.get.privateResidenceReliefValueModel.get.amount, Some(deductionRoutes.privateResidenceReliefValue.toString), displayLink = displayLinks)
         }
 
         @if(deductionsAnswers.get.displayPRRValueAndLettingsRelief){
-            (@summaryOptionRowHelper("lettingsRelief", Messages("calc.resident.lettingsRelief.title"), deductionsAnswers.get.lettingsReliefModel.get.isClaiming, Some(deductionRoutes.lettingsRelief.toString), displayLink = displayLinks))
+            @summaryOptionRowHelper("lettingsRelief", Messages("calc.resident.lettingsRelief.title"), deductionsAnswers.get.lettingsReliefModel.get.isClaiming, Some(deductionRoutes.lettingsRelief.toString), displayLink = displayLinks)
         }
 
         @if(deductionsAnswers.get.displayLettingsReliefValue){
-            (@summaryNumericRowHelper("lettingsReliefValue", Messages("calc.resident.lettingsReliefValue.title"), deductionsAnswers.get.lettingsReliefValueModel.get.amount, Some(deductionRoutes.lettingsReliefValue.toString), displayLink = displayLinks))
+            @summaryNumericRowHelper("lettingsReliefValue", Messages("calc.resident.lettingsReliefValue.title"), deductionsAnswers.get.lettingsReliefValueModel.get.amount, Some(deductionRoutes.lettingsReliefValue.toString), displayLink = displayLinks)
         }
 
         @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(1)), deductionsAnswers.get.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward.toString), displayLink = displayLinks)
 
         @if(deductionsAnswers.get.broughtForwardModel.get.option){
-            (@summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(1)), deductionsAnswers.get.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue.toString), displayLink = displayLinks))
+            @summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(1)), deductionsAnswers.get.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue.toString), displayLink = displayLinks)
         }
     }
     <!-- Deductions Answers End --->

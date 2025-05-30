@@ -28,7 +28,7 @@ class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeA
   lazy val whatNextSAFourTimesAEAView = fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA]
   "The whatNextSAFourTimesAEA view" should {
 
-    lazy val view = whatNextSAFourTimesAEAView("back-link")(fakeRequest, testingMessages)
+    lazy val view = whatNextSAFourTimesAEAView("back-link")(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {
