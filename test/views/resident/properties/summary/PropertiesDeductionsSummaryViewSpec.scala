@@ -79,7 +79,7 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
       .thenReturn(summaryMessages.bannerPanelLinkURL)
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, None, None, 100, showUserResearchPanel = true)(fakeRequest, testingMessages)
+      taxYearModel, None, None, 100, showUserResearchPanel = true)(using fakeRequest, testingMessages)
 
     lazy val doc = Jsoup.parse(view.body)
 
@@ -379,7 +379,7 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
     val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, None, None, 100, showUserResearchPanel = false)(fakeRequest, testingMessages)
+      taxYearModel, None, None, 100, showUserResearchPanel = false)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "does not have ur panel" in {

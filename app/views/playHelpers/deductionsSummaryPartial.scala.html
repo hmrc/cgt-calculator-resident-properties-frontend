@@ -36,10 +36,10 @@
 </div>
 
 @if(!taxYear.isValidYear) {
-    (@govukWarningText(WarningText(
+    @govukWarningText(WarningText(
         iconFallbackText = Some("Warning"),
         content = Text(Messages("calc.summary.noticeSummary"))
-    )))
+    ))
     }
 
 <!-- Calculation Details Section -->
@@ -58,23 +58,23 @@
         }
 
         @if(gainAnswers.ownerBeforeLegislationStart){
-        (@summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get))
+            @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
         }
 
         @if(gainAnswers.displayWorthWhenBought){
-        (@summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get))
+            @summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
         }
 
         @if(gainAnswers.displayWorthWhenBoughtForLess){
-        (@summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get))
+            @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get)
         }
 
         @if(gainAnswers.displayWorthWhenGifted){
-        (@summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get))
+            @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get)
         }
 
         @if(gainAnswers.displayWorthWhenInherited){
-        (@summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get))
+            @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
         }
 
         @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
@@ -86,11 +86,11 @@
         <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourDeductions")</caption>
         <tbody class="govuk-table__body">
         @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
-        @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
+            @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
         }
         @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
         @if(result.broughtForwardLossesUsed > 0) {
-        @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
+            @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
         }
         @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), result.deductions, isTotal = true)
         </tbody>
@@ -122,11 +122,11 @@
         @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*), result.aeaRemaining, hintText = false)
 
         @if(result.broughtForwardLossesRemaining > 0) {
-        @summaryNumericRow("broughtForwardLossesRemaining",
-        Messages("calc.summary.remainingDeductions.broughtForwardLossesRemaining",
-        TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)),
-        result.broughtForwardLossesRemaining,
-        hintText = false)
+            @summaryNumericRow("broughtForwardLossesRemaining",
+            Messages("calc.summary.remainingDeductions.broughtForwardLossesRemaining",
+                TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)),
+            result.broughtForwardLossesRemaining,
+            hintText = false)
         }
     </table>
 </section>

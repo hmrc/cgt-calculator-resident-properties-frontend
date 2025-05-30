@@ -26,11 +26,12 @@ import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito._
+import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.calculation.resident.properties.whatNext.saUser
 
+import scala.annotation.unused
 import scala.concurrent.Future
 
 class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with CommonMocks with WithCommonFakeApplication {
@@ -39,33 +40,33 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
   implicit val mat: Materializer = Materializer(system)
 
   def setupController(yourAnswersSummaryModel: YourAnswersSummaryModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
-                      taxOwed: BigDecimal, assessmentRequired: Boolean = true): SaUserController = {
-    when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
+                      @unused taxOwed: BigDecimal =0 , assessmentRequired: Boolean = true): SaUserController = {
+    when(mockSessionCacheService.getPropertyGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
-    when(mockSessionCacheService.getPropertyDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyDeductionAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(ModelsAsset.deductionAnswersLeastPossibles))
 
-    when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyIncomeAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(ModelsAsset.incomeAnswers))
 
-    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    when(mockCalcConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.calculateRttPropertyChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(ChargeableGainResultModel(totalGain, chargeableGain, 0, 0, 0, 0, 0, None, None, 0, 0))))
 
     when(mockCalcConnector.calculateRttPropertyTotalGainAndTax(ArgumentMatchers.any(), ArgumentMatchers.any(),
-      ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+      ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any()))
     .thenReturn(Future.successful(Some(TotalGainAndTaxOwedModel(totalGain, chargeableGain, 11000, 0, 5000, 10000, 5, None, None, None, None, 0, 0))))
 
-    when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(using ArgumentMatchers.any()))
     .thenReturn(Future.successful(Some(BigDecimal(11000))))
 
-    when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
     .thenReturn(Future.successful(Some(ModelsAsset.taxYearModel)))
 
-    when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(ArgumentMatchers.any()))
+    when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(assessmentRequired))
 
     new SaUserController(mockCalcConnector, mockSessionCacheService, mockMessagesControllerComponents,
@@ -75,7 +76,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
   "Calling .saUser" when {
 
     "no session is provided" should {
-      lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+      lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000)
       lazy val result = controller.saUser(fakeRequest)
 
       "return a status of 303" in {
@@ -88,7 +89,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
     }
 
     "a session is provided" should {
-      lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+      lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000)
       lazy val result = controller.saUser(fakeRequestWithSession)
 
       "return a status of 200" in {
@@ -100,7 +101,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "a session is provided" should {
-        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000)
         lazy val result = controller.saUser(fakeRequestWithSession)
 
         "return a status of 200" in {
@@ -112,7 +113,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
         }
 
         "should jump to what next when self assessment not required and no tax liability" should {
-          lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0, false)
+          lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000,assessmentRequired =  false)
           lazy val result = controller.saUser(fakeRequestWithSession)
 
           "return a status of 303" in {
@@ -125,7 +126,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
         }
 
         "should jump to what next when self assessment not required and a tax liability" should {
-          lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000, false)
+          lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, taxOwed =  2000, assessmentRequired = false)
           lazy val result = controller.saUser(fakeRequestWithSession)
 
           "return a status of 303" in {
@@ -143,7 +144,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
   "Calling .submitSaUser" when {
 
     "no session is provided" should {
-      lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+      lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000)
       lazy val result = controller.submitSaUser(fakeRequest)
 
       "return a status of 303" in {
@@ -159,7 +160,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       val form = "isInSa" -> "No"
 
       "there is no tax liability" should {
-        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
@@ -172,7 +173,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "there is a tax liability" should {
-        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, taxOwed =  2000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
@@ -189,7 +190,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       val form = "isInSa" -> "Yes"
 
       "there is a tax liability" should {
-        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, taxOwed =  2000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
@@ -202,7 +203,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "there is no tax liability and a disposal value less than 4*AEA" should {
-        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
@@ -215,7 +216,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "there is no tax liability and a disposal value greater than 4*AEA" should {
-        lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+        lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {

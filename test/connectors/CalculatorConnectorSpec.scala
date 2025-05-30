@@ -84,7 +84,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       await(result) shouldBe expectedResponse
     }
 
-   "return a failure if one occurs" in {
+    "return a failure if one occurs" in {
       wireMockServer.stop()
       (the[Exception] thrownBy await(connector.getMinimumDate())).getMessage  should include ("Connection refused")
       wireMockServer.start()

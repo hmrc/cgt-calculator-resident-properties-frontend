@@ -43,7 +43,7 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
 
     when(mockAppConfig.residentIFormUrl).thenReturn("iform-url")
 
-    when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(ArgumentMatchers.any()))
+    when(mockSessionCacheService.shouldSelfAssessmentBeConsidered()(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(true))
 
     new WhatNextNonSaController(mockMessagesControllerComponents,

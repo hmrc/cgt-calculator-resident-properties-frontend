@@ -31,7 +31,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
   "Current Income view" should {
 
-    lazy val view = currentIncomeView(currentIncomeForm(taxYearModel), "", taxYearModel, false)(fakeRequest, testingMessages)
+    lazy val view = currentIncomeView(currentIncomeForm(taxYearModel), "", taxYearModel, false)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -122,7 +122,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val form = currentIncomeForm(taxYearModel).bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = currentIncomeView(form, "", taxYearModel, false)(fakeRequest, testingMessages)
+      lazy val view = currentIncomeView(form, "", taxYearModel, false)(using fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

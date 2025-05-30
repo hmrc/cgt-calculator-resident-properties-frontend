@@ -56,7 +56,7 @@ class DeductionsController @Inject()(
                                     ) extends FrontendController(messagesControllerComponents) with ValidActiveSession with I18nSupport {
 
   private def navTitle(implicit request : Request[?]): String =
-    Messages("calc.base.resident.properties.home")(messagesControllerComponents.messagesApi.preferred(request))
+    Messages("calc.base.resident.properties.home")(using messagesControllerComponents.messagesApi.preferred(request))
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
@@ -68,9 +68,9 @@ class DeductionsController @Inject()(
     Future.successful(s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}")
   }
 
-  def totalGain(answerSummary: YourAnswersSummaryModel, hc: HeaderCarrier): Future[BigDecimal] = calcConnector.calculateRttPropertyGrossGain(answerSummary)(hc)
+  def totalGain(answerSummary: YourAnswersSummaryModel, hc: HeaderCarrier): Future[BigDecimal] = calcConnector.calculateRttPropertyGrossGain(answerSummary)(using hc)
 
-  def answerSummary(implicit request: Request [?]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers(request)
+  def answerSummary(implicit request: Request [?]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers(using request)
 
   //################# Property Lived In Actions #############################
   def propertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -98,7 +98,7 @@ class DeductionsController @Inject()(
 
     def successAction(model: PropertyLivedInModel) = {
       for {
-        save <- sessionCacheService.saveFormData(keystoreKeys.propertyLivedIn, model)
+        _ <- sessionCacheService.saveFormData(keystoreKeys.propertyLivedIn, model)
         route <- routeRequest(model)
       } yield route
     }
@@ -126,7 +126,7 @@ class DeductionsController @Inject()(
 
     def successAction(model: PrivateResidenceReliefModel) = {
       for {
-        save <- sessionCacheService.saveFormData(keystoreKeys.privateResidenceRelief, model)
+        _ <- sessionCacheService.saveFormData(keystoreKeys.privateResidenceRelief, model)
         route <- routeRequest(model)
       } yield route
     }
@@ -146,7 +146,7 @@ class DeductionsController @Inject()(
     }
 
     for {
-      answerSummary <- answerSummary(request: Request[?])
+      answerSummary <- answerSummary(using request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       route <- routeRequest(totalGain)
     } yield route
@@ -167,7 +167,7 @@ class DeductionsController @Inject()(
       )
     }
     for {
-      answerSummary <- answerSummary(request: Request[?])
+      answerSummary <- answerSummary(using request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       route <- routeRequest(totalGain)
     } yield route
@@ -198,7 +198,7 @@ class DeductionsController @Inject()(
 
     def successAction(model: LettingsReliefModel) = {
       for {
-        save <- sessionCacheService.saveFormData[LettingsReliefModel](keystoreKeys.lettingsRelief, model)
+        _ <- sessionCacheService.saveFormData[LettingsReliefModel](keystoreKeys.lettingsRelief, model)
         route <- routeRequest(model)
       } yield route
     }
@@ -232,7 +232,7 @@ class DeductionsController @Inject()(
     }
 
     (for {
-      answerSummary <- answerSummary(request: Request[?])
+      answerSummary <- answerSummary(using request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       prrValue <- sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue)
       route <- routeRequest(totalGain, prrValue.fold(BigDecimal(0))(_.amount))
@@ -251,7 +251,7 @@ class DeductionsController @Inject()(
     }
 
     (for {
-      answerSummary <- answerSummary(request: Request[?])
+      answerSummary <- answerSummary(using request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       prrValue <- sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](keystoreKeys.prrValue)
       route <- routeRequest(totalGain, prrValue.fold(BigDecimal(0))(_.amount))
@@ -305,7 +305,7 @@ class DeductionsController @Inject()(
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
-      maxAEA <- calcConnector.getFullAEA(taxYearInt)(hc)
+      maxAEA <- calcConnector.getFullAEA(taxYearInt)(using hc)
       chargeableGain <- calcConnector.calculateRttPropertyChargeableGain(gainAnswers, chargeableGainAnswers, maxAEA.get).map(_.get.chargeableGain)
     } yield chargeableGain
 

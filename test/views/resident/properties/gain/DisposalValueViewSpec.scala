@@ -30,13 +30,13 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   case class FakePOST(value: String) {
     lazy val request = fakeRequestToPOSTWithSession(("amount", value))
     lazy val form = disposalValueForm.bind(Map(("amount", value)))
-    lazy val view = disposalValueView(form)(request, testingMessages)
+    lazy val view = disposalValueView(form)(using request, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
   }
 
   "Disposal Value View" should {
 
-    lazy val view = disposalValueView(disposalValueForm)(fakeRequest, testingMessages)
+    lazy val view = disposalValueView(disposalValueForm)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -79,7 +79,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   "Disposal Value View with form without errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> "100"))
-    lazy val view = disposalValueView(form)(fakeRequest, testingMessages)
+    lazy val view = disposalValueView(form)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -98,7 +98,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   "Disposal Value View with form with errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> ""))
-    lazy val view = disposalValueView(form)(fakeRequest, testingMessages)
+    lazy val view = disposalValueView(form)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

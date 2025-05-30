@@ -124,7 +124,7 @@ class GainController @Inject()(
         )},
         success => {
           (for {
-            save <- sessionCacheService.saveFormData(keystoreKeys.disposalDate, success)
+            _ <- sessionCacheService.saveFormData(keystoreKeys.disposalDate, success)
             taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
             route <- routeRequest(taxYearResult)
           } yield route).recoverToStart()
@@ -267,7 +267,7 @@ class GainController @Inject()(
 
     def successAction(model: SellForLessModel) = {
       for {
-        save <- sessionCacheService.saveFormData(keystoreKeys.sellForLess, model)
+        _ <- sessionCacheService.saveFormData(keystoreKeys.sellForLess, model)
         route <- routeRequest(model)
       } yield route
     }
@@ -372,7 +372,7 @@ class GainController @Inject()(
 
     def successAction(model: OwnerBeforeLegislationStartModel) = {
       for {
-        save <- sessionCacheService.saveFormData(keystoreKeys.ownerBeforeLegislationStart, model)
+        _ <- sessionCacheService.saveFormData(keystoreKeys.ownerBeforeLegislationStart, model)
         route <- routeRequest(model)
       } yield route
     }
@@ -446,7 +446,7 @@ class GainController @Inject()(
 
     def successAction(model: BoughtForLessThanWorthModel) = {
       for {
-        save <- sessionCacheService.saveFormData(keystoreKeys.boughtForLessThanWorth, model)
+        _ <- sessionCacheService.saveFormData(keystoreKeys.boughtForLessThanWorth, model)
         route <- routeRequest(model)
       } yield route
     }

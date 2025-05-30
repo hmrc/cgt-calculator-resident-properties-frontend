@@ -139,21 +139,21 @@ class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar with Comm
     "should Self Assessment be Considered before self assessment cut off date" in new Setup(initializeCache = false) {
       await(testCacheService.saveFormData(Keys.disposalDate, DisposalDateModel(5, 4, 2020)))
 
-      val result = testCacheService.shouldSelfAssessmentBeConsidered()(request)
+      val result = testCacheService.shouldSelfAssessmentBeConsidered()(using request)
       await(result) shouldBe true
     }
 
     "should Self Assessment be Considered on self assessment cut off date" in new Setup(initializeCache = false) {
       await(testCacheService.saveFormData(Keys.disposalDate, DisposalDateModel(6, 4, 2020)))
 
-      val result = testCacheService.shouldSelfAssessmentBeConsidered()(request)
+      val result = testCacheService.shouldSelfAssessmentBeConsidered()(using request)
       await(result) shouldBe false
     }
 
     "should Self Assessment be Considered after self assessment cut off date" in new Setup(initializeCache = false) {
       await(testCacheService.saveFormData(Keys.disposalDate, DisposalDateModel(7, 4, 2020)))
 
-      val result = testCacheService.shouldSelfAssessmentBeConsidered()(request)
+      val result = testCacheService.shouldSelfAssessmentBeConsidered()(using request)
       await(result) shouldBe false
     }
   }

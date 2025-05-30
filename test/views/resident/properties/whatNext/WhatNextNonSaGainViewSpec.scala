@@ -27,7 +27,7 @@ class WhatNextNonSaGainViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   lazy val whatNextNonSaGainView = fakeApplication.injector.instanceOf[whatNextNonSaGain]
   "whatNextNonSaGain view" should {
 
-    lazy val view = whatNextNonSaGainView("iFormUrl", "BackLinkUrl")(fakeRequest, testingMessages)
+    lazy val view = whatNextNonSaGainView("iFormUrl", "BackLinkUrl")(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {

@@ -28,7 +28,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
   lazy val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]
   "Acquisition Value view" should {
 
-    lazy val view = acquisitionValueView(acquisitionValueForm)(fakeRequest, testingMessages)
+    lazy val view = acquisitionValueView(acquisitionValueForm)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -136,7 +136,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   "Acquisition Value View with form with errors" should {
     lazy val form = acquisitionValueForm.bind(Map("amount" -> ""))
-    lazy val view = acquisitionValueView(form)(fakeRequest, testingMessages)
+    lazy val view = acquisitionValueView(form)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
