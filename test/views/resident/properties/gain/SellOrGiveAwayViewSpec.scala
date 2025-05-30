@@ -31,7 +31,7 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
     val call = new Call("POST", "postAction")
     lazy val form = sellOrGiveAwayForm
-    lazy val view = sellOrGiveAwayView(form, backLink, call)(fakeRequest, testingMessages)
+    lazy val view = sellOrGiveAwayView(form, backLink, call)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -93,7 +93,7 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       val backLink = Some("/calculate-your-capital-gains/resident/properties/disposal-date")
       val call = new Call("POST", "postAction")
       lazy val form = sellOrGiveAwayForm.bind(Map("givenAway" -> ""))
-      lazy val view = sellOrGiveAwayView(form, backLink, call)(fakeRequest, testingMessages)
+      lazy val view = sellOrGiveAwayView(form, backLink, call)(using fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

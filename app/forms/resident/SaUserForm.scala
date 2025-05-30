@@ -30,7 +30,7 @@ object SaUserForm {
         .verifying("calc.resident.saUser.errorSelect", optionalMandatoryCheck)
         .verifying("calc.resident.saUser.errorSelect", optionalYesNoCheck)
         .transform[Boolean](optionStringToBoolean, booleanToOptionString)
-    )(SaUserModel.apply)(SaUserModel.unapply)
+    )(SaUserModel.apply)(o=>Some(o.isInSa))
   )
 
   val optionalsaUserForm = Form(
@@ -39,7 +39,7 @@ object SaUserForm {
         .verifying("calc.resident.saUser.errorSelect", optionalYesNoCheck)
         .verifying("calc.resident.saUser.errorSelect", optionalYesNoCheck)
         .transform[Boolean](optionStringToBoolean, booleanToOptionString)
-    )(SaUserModel.apply)(SaUserModel.unapply)
+    )(SaUserModel.apply)(o=>Some(o.isInSa))
   )
 
 }

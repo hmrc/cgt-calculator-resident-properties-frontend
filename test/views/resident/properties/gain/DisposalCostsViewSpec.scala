@@ -29,7 +29,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   lazy val disposalCostsView = fakeApplication.injector.instanceOf[disposalCosts]
   "Disposal Costs view" should {
 
-    lazy val view = disposalCostsView(disposalCostsForm,"backlink")(fakeRequest, testingMessages)
+    lazy val view = disposalCostsView(disposalCostsForm,"backlink")(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -156,7 +156,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     "is due to mandatory field error" should {
 
       lazy val form = disposalCostsForm.bind(Map("amount" -> ""))
-      lazy val view = disposalCostsView(form, "backlink")(fakeRequest, testingMessages)
+      lazy val view = disposalCostsView(form, "backlink")(using fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

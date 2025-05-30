@@ -75,14 +75,13 @@ class WhoDidYouGiveItToFormSpec extends CommonPlaySpec with WithCommonFakeApplic
     }
 
     s"error with message '${WhoDidYouGiveItTo.errormandatory}" in {
-    form.error("whoDidYouGiveItTo").get.message shouldBe WhoDidYouGiveItTo.errormandatory
+      form.error("whoDidYouGiveItTo").get.message shouldBe WhoDidYouGiveItTo.errormandatory
     }
 
-   "throw an error when supplied with incorrect mappings" in {
-     lazy val form = whoDidYouGiveItToForm.bind(Map(("whoDidYouGiveItTo", "Something")))
-
-     form.hasErrors shouldBe true
-   }
+    "throw an error when supplied with incorrect mappings" in {
+      lazy val form = whoDidYouGiveItToForm.bind(Map(("whoDidYouGiveItTo", "Something")))
+      form.hasErrors shouldBe true
+    }
 }
 
     "throw an error when supplied with an empty value" in {

@@ -58,33 +58,33 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
     val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
-    when(mockCalculatorConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
 
-    when(mockSessionCacheService.getPropertyDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyDeductionAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
     when(mockCalculatorConnector.calculateRttPropertyChargeableGain
-    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
-      .thenReturn(chargeableGainResultModel)
+    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any()))
+      .thenReturn(Future.successful(chargeableGainResultModel))
 
-    when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyIncomeAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswers))
 
     when(mockCalculatorConnector.calculateRttPropertyTotalGainAndTax
-    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGainAndTaxOwedModel))
 
-    when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
-    when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
-    when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.getPropertyTotalCosts(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000)))
 
     new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockMessagesControllerComponents,

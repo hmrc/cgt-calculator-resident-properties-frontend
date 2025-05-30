@@ -16,10 +16,12 @@
 
 package constructors.resident.properties
 
-import common.Dates._
-import common.resident.HowYouBecameTheOwnerKeys._
-import models.resident._
+import common.Dates.*
+import common.resident.HowYouBecameTheOwnerKeys.*
+import models.resident.*
 import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryModel}
+
+import scala.annotation.unused
 
 object CalculateRequestConstructor {
 
@@ -79,7 +81,7 @@ object CalculateRequestConstructor {
     prrValue(answers) ++ lettingReliefs(answers) ++ broughtForwardLosses(answers) ++ Map("annualExemptAmount" -> maxAEA.toDouble.toString)
   }
 
-  def incomeAnswersRequest(deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): Map[String, Any] = {
+  def incomeAnswersRequest(@unused deductionsAnswers: ChargeableGainAnswers, answers: IncomeAnswersModel): Map[String, Any] = {
     Map(
       "previousIncome" -> answers.currentIncomeModel.get.amount.toDouble,
       "personalAllowance" -> answers.personalAllowanceModel.get.amount.toDouble

@@ -37,17 +37,17 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository,
                                     appConfig: AppConfig
                                    )(implicit val ec: ExecutionContext) {
 
-  def saveFormData[T](key: String, data: T)(implicit request: Request[_], formats: Format[T]): Future[(String, String)] =
+  def saveFormData[T](key: String, data: T)(implicit request: Request[?], formats: Format[T]): Future[(String, String)] =
     preservingMdc {
       sessionRepository.putSession[T](DataKey(key), data)
     }
 
-  def fetchAndGetFormData[T](key: String)(implicit request: Request[_], formats: Format[T]): Future[Option[T]] =
+  def fetchAndGetFormData[T](key: String)(implicit request: Request[?], formats: Format[T]): Future[Option[T]] =
     preservingMdc {
       sessionRepository.getFromSession[T](DataKey(key))
     }
 
-  def getPropertyGainAnswers(implicit request: Request[_]): Future[YourAnswersSummaryModel] = {
+  def getPropertyGainAnswers(implicit request: Request[?]): Future[YourAnswersSummaryModel] = {
     val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
       constructDate(formData.get.day, formData.get.month, formData.get.year))
 
@@ -132,7 +132,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository,
       )
   }
 
-  def getPropertyDeductionAnswers(implicit request: Request[_]): Future[ChargeableGainAnswers] = {
+  def getPropertyDeductionAnswers(implicit request: Request[?]): Future[ChargeableGainAnswers] = {
     val broughtForwardModel = fetchAndGetFormData[LossesBroughtForwardModel](ResidentPropertyKeys.lossesBroughtForward)
     val broughtForwardValueModel = fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentPropertyKeys.lossesBroughtForwardValue)
     val propertyLivedInModel = fetchAndGetFormData[PropertyLivedInModel](ResidentPropertyKeys.propertyLivedIn)
@@ -168,7 +168,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository,
       )
   }
 
-  def getPropertyIncomeAnswers(implicit request: Request[_]): Future[IncomeAnswersModel] = {
+  def getPropertyIncomeAnswers(implicit request: Request[?]): Future[IncomeAnswersModel] = {
     val currentIncomeModel = fetchAndGetFormData[income.CurrentIncomeModel](ResidentPropertyKeys.currentIncome)
     val personalAllowanceModel = fetchAndGetFormData[income.PersonalAllowanceModel](ResidentPropertyKeys.personalAllowance)
 
@@ -186,7 +186,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository,
       )
   }
 
-  def shouldSelfAssessmentBeConsidered()(implicit request: Request[_]): Future[Boolean] = {
+  def shouldSelfAssessmentBeConsidered()(implicit request: Request[?]): Future[Boolean] = {
     val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentPropertyKeys.disposalDate).map(formData =>
       constructDate(formData.get.day, formData.get.month, formData.get.year))
     val selfAssessmentActivateDate = appConfig.selfAssessmentActivateDate

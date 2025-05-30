@@ -30,7 +30,7 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
   "howBecameOwner view" should {
     val backLink = Some("back-link")
     val postAction = new Call("POST", "post-action")
-    lazy val view = howBecameOwnerView(howBecameOwnerForm, backLink, postAction)(fakeRequest, testingMessages)
+    lazy val view = howBecameOwnerView(howBecameOwnerForm, backLink, postAction)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -99,7 +99,7 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     val backLink = Some("back-link")
     val postAction = new Call("POST", "post-action")
     lazy val form = howBecameOwnerForm.bind(Map(("gainedBy", "")))
-    lazy val view = howBecameOwnerView(form, backLink, postAction)(fakeRequest, testingMessages)
+    lazy val view = howBecameOwnerView(form, backLink, postAction)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

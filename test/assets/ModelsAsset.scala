@@ -26,7 +26,7 @@ import models.resident.properties._
   */
 object ModelsAsset {
 
-  val gainAnswersMostPossibles = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
+  val gainAnswersMostPossibles :YourAnswersSummaryModel= YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
     None,
     None,
     whoDidYouGiveItTo = Some("Other"),
@@ -46,7 +46,7 @@ object ModelsAsset {
     None
   )
 
-  val gainLargeDisposalValue = YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
+  val gainLargeDisposalValue :YourAnswersSummaryModel= YourAnswersSummaryModel(Dates.constructDate(10, 10, 2016),
     None,
     None,
     whoDidYouGiveItTo = Some("Other"),

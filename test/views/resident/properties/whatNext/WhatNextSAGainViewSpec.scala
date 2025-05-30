@@ -28,7 +28,7 @@ class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
   lazy val whatNextSaGainView = fakeApplication.injector.instanceOf[whatNextSaGain]
   "The whatNextSAGain view" should {
 
-    lazy val view = whatNextSaGainView("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, testingMessages)
+    lazy val view = whatNextSaGainView("back-link", "iFormUrl", "2016 to 2017")(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.yourOptionsTitle}" in {

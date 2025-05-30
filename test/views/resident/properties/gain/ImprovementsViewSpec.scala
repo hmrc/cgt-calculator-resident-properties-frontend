@@ -28,7 +28,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   lazy val improvementsView = fakeApplication.injector.instanceOf[improvements]
   "Improvements view" should {
 
-    lazy val view = improvementsView(improvementsForm(false), false)(fakeRequest, testingMessages)
+    lazy val view = improvementsView(improvementsForm(false), false)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -93,7 +93,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   }
 
   "Improvements View with a property acquired before April 1982" should {
-    lazy val view = improvementsView(improvementsForm(true), true)(fakeRequest, testingMessages)
+    lazy val view = improvementsView(improvementsForm(true), true)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title of ${messages.titleBefore}" in {
@@ -127,7 +127,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   "Improvements View with form without errors" should {
 
     lazy val form = improvementsForm(false).bind(Map("amount" -> "100"))
-    lazy val view = improvementsView(form, false)(fakeRequest, testingMessages)
+    lazy val view = improvementsView(form, false)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -146,7 +146,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   "Improvements View with form with errors" should {
 
     lazy val form = improvementsForm(true).bind(Map("amount" -> ""))
-    lazy val view = improvementsView(form, false)(fakeRequest, testingMessages)
+    lazy val view = improvementsView(form, false)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

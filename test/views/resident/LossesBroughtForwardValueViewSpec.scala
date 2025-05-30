@@ -33,7 +33,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     "provided with a date in the 2015/16 tax year" should {
       lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm(testTaxYear), taxYear, "back-link",
-        routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, testingMessages)
+        routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(using fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -143,7 +143,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
       lazy val taxYear = TaxYearModel("2014/15", false, "2015/16")
       lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm(testTaxYear), taxYear, "back-link",
-        routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, testingMessages)
+        routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(using fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title("2014 to 2015")}" in {
@@ -179,7 +179,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map(("amount", "1000")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
-      routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, testingMessages)
+      routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the value of 1000 auto-filled in the input" in {
@@ -192,7 +192,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     lazy val form = lossesBroughtForwardValueForm(testTaxYear).bind(Map(("amount", "")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
-      routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, testingMessages)
+      routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

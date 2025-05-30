@@ -28,7 +28,7 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
   lazy val privateResidenceReliefView = fakeApplication.injector.instanceOf[privateResidenceRelief]
   "Private Residence Relief view" should {
 
-    lazy val view = privateResidenceReliefView(privateResidenceReliefForm)(fakeRequest, testingMessages)
+    lazy val view = privateResidenceReliefView(privateResidenceReliefForm)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -217,7 +217,7 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
     "is due to mandatory field error" should {
 
       lazy val form = privateResidenceReliefForm.bind(Map("amount" -> ""))
-      lazy val view = privateResidenceReliefView(form)(fakeRequest, testingMessages)
+      lazy val view = privateResidenceReliefView(form)(using fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

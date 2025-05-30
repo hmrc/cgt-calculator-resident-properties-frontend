@@ -49,7 +49,7 @@ class WhatNextSAController @Inject()(
   lazy val backLink: String = routes.SaUserController.saUser.url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
-  def fetchAndParseDateToLocalDate()(implicit request: Request [_]): Future[LocalDate] = {
+  def fetchAndParseDateToLocalDate()(implicit request: Request [?]): Future[LocalDate] = {
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentPropertyKeys.disposalDate).map {
       data => LocalDate.of(data.get.year, data.get.month, data.get.day)
     }

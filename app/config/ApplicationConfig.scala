@@ -17,27 +17,26 @@
 package config
 
 import common.Dates.formatter
-import play.api.Environment
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.time.LocalDate
 import javax.inject.Inject
 
 trait AppConfig {
-  val assetsPrefix: String
-  val contactFormServiceIdentifier: String
-  val reportAProblemPartialUrl: String
-  val reportAProblemNonJSUrl: String
-  val residentIFormUrl: String
-  val capitalGainsReportingFormUrl: String
-  val urBannerLink: String
-  val feedbackSurvey: String
+  lazy val assetsPrefix: String
+  lazy val contactFormServiceIdentifier: String
+  lazy val reportAProblemPartialUrl: String
+  lazy val reportAProblemNonJSUrl: String
+  lazy val residentIFormUrl: String
+  lazy val capitalGainsReportingFormUrl: String
+  lazy val urBannerLink: String
+  lazy val feedbackSurvey: String
   val selfAssessmentActivateDate: LocalDate
   def isWelshEnabled: Boolean
 }
 
 class ApplicationConfig @Inject()(servicesConfig: ServicesConfig,
-                                  environment: Environment) extends AppConfig {
+                                  ) extends AppConfig {
 
   private def loadConfig(key: String) = servicesConfig.getString(key)
 

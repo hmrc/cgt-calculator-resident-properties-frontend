@@ -35,6 +35,8 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
 
+import scala.annotation.unused
+
 @Singleton
 class SummaryController @Inject()(
                                    val calculatorConnector: CalculatorConnector,
@@ -78,7 +80,7 @@ class SummaryController @Inject()(
                      incomeAnswers: IncomeAnswersModel,
                      totalGainAndTax: Option[TotalGainAndTaxOwedModel],
                      taxYear: Option[TaxYearModel],
-                     currentTaxYear: String,
+                     @unused currentTaxYear: String,
                      totalCosts: BigDecimal,
                      maxAEA: BigDecimal,
                      showUserResearchPanel: Boolean): Future[Result] = {
