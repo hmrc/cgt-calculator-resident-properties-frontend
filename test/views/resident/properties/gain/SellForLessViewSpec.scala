@@ -26,7 +26,7 @@ import views.html.calculation.resident.properties.gain.sellForLess
 
 class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
-  lazy val sellForLessView = fakeApplication.injector.instanceOf[sellForLess]
+  lazy val sellForLessView: sellForLess = fakeApplication.injector.instanceOf[sellForLess]
   "Sell for less view with an empty form" should {
 
     lazy val view = sellForLessView(sellForLessForm, Some("back-link"))(fakeRequest, testingMessages)
@@ -92,7 +92,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
       }
 
       "that has class govuk-fieldset__legend govuk-label--xl" in {
-        legend.hasClass("govuk-fieldset__legend govuk-label--xl") shouldEqual true
+        legend.hasClass("govuk-fieldset__legend--xl") shouldEqual true
       }
     }
 
