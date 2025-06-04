@@ -42,7 +42,8 @@
             content = Messages("calc.resident.disposalDate.question"),
             hintContent = Some(Messages("calc.common.date.hint")),
             field = disposalDateForm("disposalDate"),
-            pageHeading = true
+            pageHeading = true,
+            labelClass = Some("govuk-fieldset__legend--xl")
         )
 
         @submitButton()

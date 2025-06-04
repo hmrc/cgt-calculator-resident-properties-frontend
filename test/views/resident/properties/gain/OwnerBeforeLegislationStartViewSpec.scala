@@ -26,7 +26,7 @@ import views.html.calculation.resident.properties.gain.ownerBeforeLegislationSta
 
 class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
-  lazy val ownerBeforeLegislationStartView = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
+  lazy val ownerBeforeLegislationStartView: ownerBeforeLegislationStart = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
   "The Owner Before Legislation Start view" should {
 
 
@@ -89,7 +89,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       }
 
       "that has class govuk-fieldset__legend govuk-label--xl" in {
-        legend.hasClass("govuk-fieldset__legend govuk-label--xl") shouldEqual true
+        legend.hasClass("govuk-fieldset__legend--xl") shouldEqual true
       }
     }
 
