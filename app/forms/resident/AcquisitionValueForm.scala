@@ -39,6 +39,6 @@ object AcquisitionValueForm {
         })
         .verifying("calc.resident.acquisitionValue.minimumAmount", isPositive)
         .verifying("calc.resident.acquisitionValue.error.decimalPlaces", decimalPlacesCheck)
-    )(AcquisitionValueModel.apply)(AcquisitionValueModel.unapply)
+    )(AcquisitionValueModel.apply)(o=>Some(o.amount))
   )
 }

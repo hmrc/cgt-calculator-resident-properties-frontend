@@ -30,7 +30,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "The Owner Before Legislation Start view" should {
 
 
-    lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm)(fakeRequest, testingMessages)
+    lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -181,7 +181,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "ownedBeforeLegislationStart view with form errors" should {
 
     lazy val form = ownerBeforeLegislationStartForm.bind(Map("ownedBeforeLegislationStart" -> ""))
-    lazy val view = ownerBeforeLegislationStartView(form)(fakeRequest, testingMessages)
+    lazy val view = ownerBeforeLegislationStartView(form)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

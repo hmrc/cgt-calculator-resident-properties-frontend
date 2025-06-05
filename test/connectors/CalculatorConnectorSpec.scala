@@ -24,7 +24,6 @@ import models.resident.properties.{ChargeableGainAnswers, YourAnswersSummaryMode
 import models.resident.{ChargeableGainResultModel, IncomeAnswersModel, TaxYearModel, TotalGainAndTaxOwedModel}
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.http.Status
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.Json
 import play.api.{Application, Configuration}
@@ -85,7 +84,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar with Wire
       await(result) shouldBe expectedResponse
     }
 
-   "return a failure if one occurs" in {
+    "return a failure if one occurs" in {
       wireMockServer.stop()
       (the[Exception] thrownBy await(connector.getMinimumDate())).getMessage  should include ("Connection refused")
       wireMockServer.start()

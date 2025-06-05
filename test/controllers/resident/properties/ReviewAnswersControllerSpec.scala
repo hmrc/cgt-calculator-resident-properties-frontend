@@ -73,17 +73,17 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with FakeRequestHelper
     val mockConnector = mock[CalculatorConnector]
     val mockSessionCacheService = mock[SessionCacheService]
 
-    when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainResponse))
 
-    when(mockSessionCacheService.getPropertyDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyDeductionAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(deductionsResponse))
 
-    when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
-    when(mockSessionCacheService.getPropertyIncomeAnswers(ArgumentMatchers.any()))
-      .thenReturn(incomeAnswersModel)
+    when(mockSessionCacheService.getPropertyIncomeAnswers(using ArgumentMatchers.any()))
+      .thenReturn(Future.successful(incomeAnswersModel))
 
 
     new ReviewAnswersController(

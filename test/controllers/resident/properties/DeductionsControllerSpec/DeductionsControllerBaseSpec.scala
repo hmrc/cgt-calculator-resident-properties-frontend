@@ -24,7 +24,7 @@ import views.html.calculation.resident.properties.deductions._
 
 
 trait DeductionsControllerBaseSpec  {
-  self: CommonMocks with WithCommonFakeApplication =>
+  self: CommonMocks & WithCommonFakeApplication =>
 
   lazy val testingDeductionsController: DeductionsController = new DeductionsController(
     mockCalcConnector,

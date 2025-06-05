@@ -31,13 +31,13 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     lazy val request = fakeRequestToPOSTWithSession(("amount", value))
     lazy val form = valueBeforeLegislationStartForm.bind(Map(("amount", value)))
     lazy val backLink = Some(controllers.routes.GainController.whoDidYouGiveItTo.toString())
-    lazy val view = valueBeforeLegislationStartView(valueBeforeLegislationStartForm)(fakeRequest, testingMessages)
+    lazy val view = valueBeforeLegislationStartView(valueBeforeLegislationStartForm)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
   }
 
   "Worth when gave away View" should {
 
-    lazy val view = valueBeforeLegislationStartView(valueBeforeLegislationStartForm)(fakeRequest, testingMessages)
+    lazy val view = valueBeforeLegislationStartView(valueBeforeLegislationStartForm)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -146,7 +146,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "Worth When Gave Away View with form without errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> "100"))
-    lazy val view = valueBeforeLegislationStartView(form)(fakeRequest, testingMessages)
+    lazy val view = valueBeforeLegislationStartView(form)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -165,7 +165,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "Worth When Gave Away View with form with errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> ""))
-    lazy val view = valueBeforeLegislationStartView(form)(fakeRequest, testingMessages)
+    lazy val view = valueBeforeLegislationStartView(form)(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

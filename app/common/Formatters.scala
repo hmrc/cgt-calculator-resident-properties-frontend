@@ -21,7 +21,7 @@ import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError}
 
 object Formatters {
-  def text(errorKey: String, args: String*): FieldMapping[String] = of(stringFormatter(errorKey, args:_*))
+  def text(errorKey: String, args: String*): FieldMapping[String] = of(using stringFormatter(errorKey, args*))
 
   def stringFormatter(errorKey: String, args: String*): Formatter[String] = new Formatter[String] {
     def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] =

@@ -41,10 +41,10 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
 
   def setupTarget(getData: Option[WorthWhenGiftedModel]): GainController= {
     when(mockSessionCacheService.fetchAndGetFormData[WorthWhenGiftedModel](ArgumentMatchers.eq(keyStoreKeys.worthWhenGifted))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheService.saveFormData[WorthWhenGiftedModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheService.saveFormData[WorthWhenGiftedModel](ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     testingGainController

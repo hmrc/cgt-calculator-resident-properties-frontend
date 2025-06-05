@@ -28,7 +28,7 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
   lazy val lettingsReliefView = fakeApplication.injector.instanceOf[lettingsRelief]
   "Lettings Relief view" should {
 
-    lazy val view = lettingsReliefView(lettingsReliefForm, Some("back-link"))(fakeRequest, testingMessages)
+    lazy val view = lettingsReliefView(lettingsReliefForm, Some("back-link"))(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
     lazy val title = s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
 
@@ -88,7 +88,7 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "rel has the value of external" in {
-        link.attr("rel") contains "external"
+        link.attr("rel") `contains` "external"
       }
 
       "has a target attribute" in {
@@ -128,7 +128,7 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
   "Lettings Relief view with pre-selected values" should {
     lazy val form = lettingsReliefForm.bind(Map(("isClaiming", "Yes")))
-    lazy val view = lettingsReliefView(form, Some("back-link"))(fakeRequest, testingMessages)
+    lazy val view = lettingsReliefView(form, Some("back-link"))(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
@@ -138,7 +138,7 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
   "Lettings Relief view with errors" should {
     lazy val form = lettingsReliefForm.bind(Map(("isClaiming", "")))
-    lazy val view = lettingsReliefView(form, Some("back-link"))(fakeRequest, testingMessages)
+    lazy val view = lettingsReliefView(form, Some("back-link"))(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

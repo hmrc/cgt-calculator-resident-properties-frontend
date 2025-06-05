@@ -48,6 +48,6 @@ object CurrentIncomeForm {
         .verifying(constraintBuilder[BigDecimal]("calc.resident.currentIncome.error.decimalPlaces", taxYear.startYear, taxYear.endYear){
           decimalPlacesCheck
         })
-    )(CurrentIncomeModel.apply)(CurrentIncomeModel.unapply)
+    )(CurrentIncomeModel.apply)(o=>Some(o.amount))
   )
 }

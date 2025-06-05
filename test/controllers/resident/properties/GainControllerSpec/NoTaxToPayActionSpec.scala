@@ -40,7 +40,7 @@ class NoTaxToPayActionSpec extends CommonPlaySpec with WithCommonFakeApplication
 
   def setupTarget(givenTo: String): GainController = {
     when(mockSessionCacheService.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(ResidentPropertyKeys.whoDidYouGiveItTo))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(WhoDidYouGiveItToModel(givenTo))))
 
     testingGainController

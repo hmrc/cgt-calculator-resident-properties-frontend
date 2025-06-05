@@ -41,11 +41,11 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
   def setupTarget(getData: Option[OwnerBeforeLegislationStartModel]): GainController = {
     when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(
-      keyStoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      keyStoreKeys.ownerBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.any(), ArgumentMatchers.any())
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     testingGainController

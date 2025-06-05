@@ -40,10 +40,10 @@ class WhoDidYouGiveItToActionSpec extends CommonPlaySpec with WithCommonFakeAppl
 
   def setupTarget(getData: Option[WhoDidYouGiveItToModel]) : GainController = {
     when(mockSessionCacheService.fetchAndGetFormData[WhoDidYouGiveItToModel](ArgumentMatchers.eq(keystoreKeys.whoDidYouGiveItTo))
-      (ArgumentMatchers.any(), ArgumentMatchers.any())).
+      (using ArgumentMatchers.any(), ArgumentMatchers.any())).
       thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheService.saveFormData[WhoDidYouGiveItToModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheService.saveFormData[WhoDidYouGiveItToModel](ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful("" -> ""))
 
     testingGainController

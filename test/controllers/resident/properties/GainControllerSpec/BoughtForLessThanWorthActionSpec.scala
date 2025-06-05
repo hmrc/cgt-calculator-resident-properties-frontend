@@ -41,11 +41,11 @@ class BoughtForLessThanWorthActionSpec extends CommonPlaySpec with FakeRequestHe
 
   def setupTarget(getData: Option[BoughtForLessThanWorthModel]): GainController= {
     when(mockSessionCacheService.fetchAndGetFormData[BoughtForLessThanWorthModel](ArgumentMatchers.eq(keyStoreKeys.boughtForLessThanWorth))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[BoughtForLessThanWorthModel](ArgumentMatchers.any(), ArgumentMatchers.any())
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     testingGainController

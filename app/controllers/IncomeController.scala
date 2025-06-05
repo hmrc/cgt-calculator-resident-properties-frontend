@@ -49,14 +49,14 @@ class IncomeController @Inject()(
 
   implicit val ec: ExecutionContext = messagesControllerComponents.executionContext
 
-  def lossesBroughtForwardResponse(implicit request: Request [_]): Future[Boolean] = {
+  def lossesBroughtForwardResponse(implicit request: Request [?]): Future[Boolean] = {
     sessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
       case Some(LossesBroughtForwardModel(response)) => response
       case None => false
     }
   }
 
-  def getDisposalDate(implicit request: Request [_]): Future[Option[DisposalDateModel]] = {
+  def getDisposalDate(implicit request: Request [?]): Future[Option[DisposalDateModel]] = {
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
   }
 
@@ -66,7 +66,7 @@ class IncomeController @Inject()(
 
   //################################# Current Income Actions ##########################################
 
-  def buildCurrentIncomeBackUrl(implicit request: Request [_]): Future[String] = {
+  def buildCurrentIncomeBackUrl(implicit request: Request [?]): Future[String] = {
     lossesBroughtForwardResponse.map { response =>
       if (response) controllers.routes.DeductionsController.lossesBroughtForwardValue.url
       else controllers.routes.DeductionsController.lossesBroughtForward.url
@@ -120,7 +120,7 @@ class IncomeController @Inject()(
 
   //################################# Personal Allowance Actions ##########################################
   def getStandardPA(year: Int, hc: HeaderCarrier): Future[Option[BigDecimal]] = {
-    calcConnector.getPA(year)(hc)
+    calcConnector.getPA(year)(using hc)
   }
 
   def taxYearValue(taxYear: String): Future[Int] = {
@@ -159,7 +159,7 @@ class IncomeController @Inject()(
   def submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def getMaxPA(year: Int): Future[Option[BigDecimal]] = {
-      calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true, isEligibleMarriageAllowance = true)(hc)
+      calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true, isEligibleMarriageAllowance = true)(using hc)
     }
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {

@@ -40,11 +40,11 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
 
   def setupTarget(getData: Option[WorthWhenInheritedModel]): GainController= {
     when(mockSessionCacheService.fetchAndGetFormData[WorthWhenInheritedModel](ArgumentMatchers.eq(keyStoreKeys.worthWhenInherited))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[WorthWhenInheritedModel](ArgumentMatchers.any(), ArgumentMatchers.any())
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     testingGainController

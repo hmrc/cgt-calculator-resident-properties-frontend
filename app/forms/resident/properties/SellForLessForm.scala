@@ -32,6 +32,6 @@ object SellForLessForm {
         .verifying("calc.resident.properties.sellForLess.noSelectError", mandatoryCheck)
         .verifying("calc.resident.properties.sellForLess.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)
-    )(SellForLessModel.apply)(SellForLessModel.unapply)
+    )(SellForLessModel.apply)(o=>Some(o.sellForLess))
   )
 }

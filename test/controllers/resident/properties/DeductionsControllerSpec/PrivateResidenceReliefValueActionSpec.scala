@@ -39,17 +39,17 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
 
   def setupTarget(getData: Option[PrivateResidenceReliefValueModel], totalGain: BigDecimal): DeductionsController = {
     when(mockSessionCacheService.fetchAndGetFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.eq(keystoreKeys.prrValue))
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[PrivateResidenceReliefValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())
-      (ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
-    when(mockSessionCacheService.getPropertyGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getPropertyGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[YourAnswersSummaryModel]))
 
-    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any())).thenReturn(Future.successful(totalGain))
+    when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any())).thenReturn(Future.successful(totalGain))
 
     testingDeductionsController
   }

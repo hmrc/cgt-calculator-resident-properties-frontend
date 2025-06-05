@@ -104,8 +104,8 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
             "raise form error" in {
               form.hasErrors shouldBe true
             }
-           s"error with message '${messages.maximumLimit(MoneyPounds(limit, 0).quantity)}'" in {
-                form.error("amount").get.message shouldBe messages.Errors.personalAllowanceMaximumAmount
+            s"error with message '${messages.maximumLimit(MoneyPounds(limit, 0).quantity)}'" in {
+              form.error("amount").get.message shouldBe messages.Errors.personalAllowanceMaximumAmount
            }
           }
   }

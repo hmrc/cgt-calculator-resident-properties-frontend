@@ -39,6 +39,6 @@ object DisposalValueForm {
         })
         .verifying("calc.resident.disposal.value.minimumAmount", isPositive)
         .verifying("calc.resident.disposal.value.error.decimalPlaces", decimalPlacesCheck)
-    )(DisposalValueModel.apply)(DisposalValueModel.unapply)
+    )(DisposalValueModel.apply)(o=>Some(o.amount))
   )
 }

@@ -29,7 +29,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
   lazy val sellForLessView: sellForLess = fakeApplication.injector.instanceOf[sellForLess]
   "Sell for less view with an empty form" should {
 
-    lazy val view = sellForLessView(sellForLessForm, Some("back-link"))(fakeRequest, testingMessages)
+    lazy val view = sellForLessView(sellForLessForm, Some("back-link"))(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -188,7 +188,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
   "Sell for less view with form errors" should {
 
     lazy val form = sellForLessForm.bind(Map("sellForLess" -> ""))
-    lazy val view = sellForLessView(form, Some("back"))(fakeRequest, testingMessages)
+    lazy val view = sellForLessView(form, Some("back"))(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {
