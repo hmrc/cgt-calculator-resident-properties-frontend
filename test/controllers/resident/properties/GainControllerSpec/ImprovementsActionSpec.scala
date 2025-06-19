@@ -16,8 +16,8 @@
 
 package controllers.GainControllerSpec
 
-import assets.MessageLookup.Resident.Properties.{ImprovementsView => messages}
-import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
+import assets.MessageLookup.Resident.Properties.ImprovementsView as messages
+import common.KeystoreKeys.ResidentPropertyKeys as keystoreKeys
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
@@ -28,11 +28,9 @@ import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito._
+import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.mvc.Results.Redirect
-import play.api.test.Helpers._
-import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
+import play.api.test.Helpers.*
 
 import scala.concurrent.Future
 
