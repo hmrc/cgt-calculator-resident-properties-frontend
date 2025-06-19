@@ -49,10 +49,15 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     when(mockSessionCacheService.fetchAndGetFormData[ImprovementsModel](ArgumentMatchers.eq(keystoreKeys.improvements))
       (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
-
-    when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
-      (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(OwnerBeforeLegislationStartModel(ownerBeforeAprilNineteenEightyTwo))))
+    if(ownerBeforeAprilNineteenEightyTwo) {
+      when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
+        (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
+        .thenReturn(Future.successful(Some(OwnerBeforeLegislationStartModel(ownerBeforeAprilNineteenEightyTwo))))
+    }else{
+      when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
+        (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
+        .thenReturn(Future.successful(None))
+    }
 
     when(mockSessionCacheService.getPropertyGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswers))
@@ -166,7 +171,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     "a valid form is submitted with a positive gain result" should {
-      lazy val target = setupTarget(None, summaryModel, BigDecimal(1000), false)
+      lazy val target = setupTarget(None, summaryModel, BigDecimal(1000), true)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
       lazy val result = target.submitImprovements(request.withMethod("POST"))
 
@@ -193,6 +198,5 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
         doc.title() shouldEqual s"Error: ${messages.title}"
       }
     }
-
   }
 }
