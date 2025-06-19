@@ -196,16 +196,5 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
     }
 
-    "a NoSuchElementException is thrown" should {
-      "return an ApplicationException" in {
-        when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))
-          (using ArgumentMatchers.any(), ArgumentMatchers.any()))
-          .thenReturn(Future.successful(None))
-        val result = intercept[ApplicationException](await(testingGainController.submitImprovements(fakeRequestWithSession)))
-
-        result.message shouldBe "cgt-calculator-resident-properties-frontendNone.get"
-        result.result shouldBe Redirect("/calculate-your-capital-gains/resident/properties/session-timeout", 303)
-      }
-    }
   }
 }
