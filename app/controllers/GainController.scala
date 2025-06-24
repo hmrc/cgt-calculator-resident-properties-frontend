@@ -591,7 +591,7 @@ class GainController @Inject()(
   //################# Improvements Actions ########################
   private def getOwnerBeforeAprilNineteenEightyTwo()(implicit request: Request[?]): Future[Boolean] = {
     sessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
-      .map(_.exists(_.ownedBeforeLegislationStart))
+      .map(_.get.ownedBeforeLegislationStart)
   }
 
   private def getImprovementsForm(ownerBeforeAprilNineteenEightyTwo: Boolean)(implicit request: Request[?]): Future[Form[ImprovementsModel]] = {

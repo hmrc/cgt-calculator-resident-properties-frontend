@@ -16,8 +16,8 @@
 
 package controllers.GainControllerSpec
 
-import assets.MessageLookup.Resident.Properties.ImprovementsView as messages
-import common.KeystoreKeys.ResidentPropertyKeys as keystoreKeys
+import assets.MessageLookup.Resident.Properties.{ImprovementsView => messages}
+import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
 import controllers.resident.properties.GainControllerSpec.GainControllerBaseSpec
@@ -28,9 +28,11 @@ import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito.*
+import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.test.Helpers.*
+import play.api.mvc.Results.Redirect
+import play.api.test.Helpers._
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.Future
 
@@ -49,15 +51,10 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     when(mockSessionCacheService.fetchAndGetFormData[ImprovementsModel](ArgumentMatchers.eq(keystoreKeys.improvements))
       (using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
-    if(ownerBeforeAprilNineteenEightyTwo) {
-      when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
-        (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(Some(OwnerBeforeLegislationStartModel(ownerBeforeAprilNineteenEightyTwo))))
-    }else{
-      when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
-        (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(None))
-    }
+
+    when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
+      (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful(Some(OwnerBeforeLegislationStartModel(ownerBeforeAprilNineteenEightyTwo))))
 
     when(mockSessionCacheService.getPropertyGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswers))
@@ -171,7 +168,7 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     "a valid form is submitted with a positive gain result" should {
-      lazy val target = setupTarget(None, summaryModel, BigDecimal(1000), true)
+      lazy val target = setupTarget(None, summaryModel, BigDecimal(1000), false)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
       lazy val result = target.submitImprovements(request.withMethod("POST"))
 
@@ -196,6 +193,18 @@ class ImprovementsActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
       "render the Improvements page" in {
         doc.title() shouldEqual s"Error: ${messages.title}"
+      }
+    }
+
+    "a NoSuchElementException is thrown" should {
+      "return an ApplicationException" in {
+        when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))
+          (using ArgumentMatchers.any(), ArgumentMatchers.any()))
+          .thenReturn(Future.successful(None))
+        val result = intercept[ApplicationException](await(testingGainController.submitImprovements(fakeRequestWithSession)))
+
+        result.message shouldBe "cgt-calculator-resident-properties-frontendNone.get"
+        result.result shouldBe Redirect("/calculate-your-capital-gains/resident/properties/session-timeout", 303)
       }
     }
   }
