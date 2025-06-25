@@ -16,8 +16,8 @@
 
 package controllers.resident.properties.DeductionsControllerSpec
 
-import assets.MessageLookup.{PrivateResidenceReliefValue => messages}
-import common.KeystoreKeys.{ResidentPropertyKeys => keystoreKeys}
+import assets.MessageLookup.PrivateResidenceReliefValue as messages
+import common.KeystoreKeys.ResidentPropertyKeys as keystoreKeys
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.DeductionsController
 import controllers.helpers.{CommonMocks, FakeRequestHelper}
@@ -26,9 +26,11 @@ import org.apache.pekko.actor.ActorSystem
 import org.apache.pekko.stream.Materializer
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito._
+import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.test.Helpers._
+import play.api.mvc.Results.Redirect
+import play.api.test.Helpers.*
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.Future
 
@@ -107,6 +109,15 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
     }
   }
 
+  "a NoSuchElementException is thrown" should {
+    "return an ApplicationException and redirect to session timeout page" in {
+      when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any())).thenReturn(Future.failed(new NoSuchElementException("test message")))
+      val result = intercept[ApplicationException](await(testingDeductionsController.privateResidenceReliefValue(fakeRequestWithSession)))
+
+      result.result shouldBe Redirect("/calculate-your-capital-gains/resident/properties/session-timeout", 303)
+    }
+  }
+
   "Calling .submitPrivateResidenceReliefValue from the GainCalculationController" when {
 
     "a valid form is submitted" should {
@@ -135,6 +146,15 @@ class PrivateResidenceReliefValueActionSpec extends CommonPlaySpec with WithComm
 
       "render the Reliefs Value page" in {
         doc.title() shouldEqual messages.errorTitle
+      }
+    }
+
+    "NoSuchElementException is thrown" should {
+      "return an ApplicationException and redirect to timeout page" in {
+        when(mockCalcConnector.calculateRttPropertyGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any())).thenReturn(Future.failed(new NoSuchElementException("test message")))
+        val result = intercept[ApplicationException](await(testingDeductionsController.submitPrivateResidenceReliefValue(fakeRequestWithSession)))
+
+        result.result shouldBe Redirect("/calculate-your-capital-gains/resident/properties/session-timeout", 303)
       }
     }
   }
