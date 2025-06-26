@@ -70,7 +70,7 @@ class DeductionsController @Inject()(
 
   def totalGain(answerSummary: YourAnswersSummaryModel, hc: HeaderCarrier): Future[BigDecimal] = calcConnector.calculateRttPropertyGrossGain(answerSummary)(using hc)
 
-  def answerSummary(implicit request: Request [?]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers(using request)
+  private def answerSummary(implicit request: Request [?]): Future[YourAnswersSummaryModel] = sessionCacheService.getPropertyGainAnswers(using request)
 
   //################# Property Lived In Actions #############################
   def propertyLivedIn: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -145,11 +145,11 @@ class DeductionsController @Inject()(
       }
     }
 
-    for {
+    (for {
       answerSummary <- answerSummary(using request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       route <- routeRequest(totalGain)
-    } yield route
+    } yield route).recoverToStart()
   }
 
   def submitPrivateResidenceReliefValue: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -166,11 +166,11 @@ class DeductionsController @Inject()(
         success => successAction(success)
       )
     }
-    for {
+    (for {
       answerSummary <- answerSummary(using request: Request[?])
       totalGain <- totalGain(answerSummary, hc)
       route <- routeRequest(totalGain)
-    } yield route
+    } yield route).recoverToStart()
   }
 
   //############## Lettings Relief Actions ##################
@@ -263,7 +263,7 @@ class DeductionsController @Inject()(
   //################# Brought Forward Losses Actions ############################
   private lazy val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward
 
-  def lossesBroughtForwardBackUrl(implicit request: Request [?]): Future[String] = {
+  private def lossesBroughtForwardBackUrl(implicit request: Request [?]): Future[String] = {
     for {
       livedInProperty <- sessionCacheService.fetchAndGetFormData[PropertyLivedInModel](keystoreKeys.propertyLivedIn)
       privateResidenceRelief <- sessionCacheService.fetchAndGetFormData[PrivateResidenceReliefModel](keystoreKeys.privateResidenceRelief)
@@ -297,7 +297,7 @@ class DeductionsController @Inject()(
     Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
   }
 
-  def positiveChargeableGainCheck(implicit request: Request [?]): Future[Boolean] = {
+  private def positiveChargeableGainCheck(implicit request: Request [?]): Future[Boolean] = {
     for {
       gainAnswers <- sessionCacheService.getPropertyGainAnswers
       chargeableGainAnswers <- sessionCacheService.getPropertyDeductionAnswers
