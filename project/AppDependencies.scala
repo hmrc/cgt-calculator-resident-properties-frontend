@@ -17,14 +17,14 @@
 import sbt.*
 
 object AppDependencies {
-  val bootstrapVersion         = "9.16.0"
+  val bootstrapVersion         = "10.1.0"
   val playVersion              = "play-30"
-  val hmrcMongoVersion         = "2.6.0"
+  val hmrcMongoVersion         = "2.7.0"
 
   val compile: Seq[ModuleID] = Seq(
     "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion"           % hmrcMongoVersion,
     "uk.gov.hmrc"       %% s"bootstrap-frontend-$playVersion"   % bootstrapVersion,
-    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "12.7.0"
+    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"   % "12.12.0"
   )
 
   def test(scope: String = "test"): Seq[ModuleID] = Seq(

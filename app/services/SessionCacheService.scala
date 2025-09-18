@@ -28,7 +28,7 @@ import play.api.mvc.Results.Redirect
 import repositories.SessionRepository
 import uk.gov.hmrc.mongo.cache.DataKey
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
-import uk.gov.hmrc.play.http.logging.Mdc.preservingMdc
+import uk.gov.hmrc.mdc.Mdc.preservingMdc
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
