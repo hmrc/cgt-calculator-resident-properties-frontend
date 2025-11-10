@@ -109,13 +109,6 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
 
     "have a section for the Calculation details" which {
 
-      "has a h2 tag" which {
-
-        s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-          doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
-        }
-      }
-
       "has a div for total loss" which {
 
         lazy val div = doc.select("#yourTotalLoss").get(0)
