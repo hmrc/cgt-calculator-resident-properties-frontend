@@ -33,7 +33,7 @@ class FrontendGlobalSpec extends CommonPlaySpec with WithCommonFakeApplication w
         val result = cgtErrorHandler.standardErrorTemplate("test", "teat-heading", "test-message")(using fakeRequest)
         val doc = Jsoup.parse(result.body)
 
-        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe controllers.routes.PropertiesController.introduction.url
+        doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").attr("href") shouldBe controllers.routes.PropertiesController.introduction.url
       }
     }
   }

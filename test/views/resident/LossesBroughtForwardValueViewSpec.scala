@@ -45,11 +45,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       }
 
       "have a dynamic navTitle with text Calculate your Capital Gains Tax" in {
-        doc.getElementsByClass("govuk-header__link govuk-header__service-name").text shouldEqual "Calculate your Capital Gains Tax"
+        doc.getElementsByClass("govuk-service-navigation__service-name").text shouldEqual "Calculate your Capital Gains Tax"
       }
 
       "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-        doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+        doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a back button that" should {

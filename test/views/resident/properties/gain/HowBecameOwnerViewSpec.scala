@@ -38,7 +38,7 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     "have a navTitle for properties" in {
-      doc.select("body > header > div > div > div.govuk-header__content > a").text() shouldBe commonMessages.homeText
+      doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").text() shouldBe commonMessages.homeText
     }
 
     "have a back link to back-link" in {
@@ -46,7 +46,7 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     "have a home link to /calculate-your-capital-gains/resident/properties/" in {
-      doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     s"have a title of ${messages.title}" in {
