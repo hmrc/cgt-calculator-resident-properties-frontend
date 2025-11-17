@@ -16,11 +16,12 @@
 
 package views.resident
 
-import assets.MessageLookup.{LossesBroughtForward => messages, Resident => commonMessages}
+import assets.MessageLookup.{LossesBroughtForward as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.LossesBroughtForwardForm._
+import forms.resident.LossesBroughtForwardForm.*
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
+import play.api.mvc.Call
 import views.BaseViewSpec
 import views.html.calculation.resident.lossesBroughtForward
 
@@ -28,8 +29,8 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
   val taxYearModel = TaxYearModel(taxYearSupplied = "2017/18", isValidYear = true, calculationTaxYear = "2017/18" )
 
-  lazy val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
-  lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward
+  lazy val lossesBroughtForwardView: lossesBroughtForward = fakeApplication.injector.instanceOf[lossesBroughtForward]
+  lazy val postAction: Call = controllers.routes.DeductionsController.submitLossesBroughtForward
 
   "Reliefs view" should {
 
@@ -46,7 +47,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a hidden legend" in {
