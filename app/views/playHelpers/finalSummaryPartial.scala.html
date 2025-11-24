@@ -35,7 +35,7 @@
     totalCosts: BigDecimal,
     totalDeductions: BigDecimal)(implicit messages: Messages)
 
-<div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
+<div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation" xmlns="http://www.w3.org/1999/html">
     <h1 class="govuk-panel__title">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*)</h1>
     <p class="govuk-panel__body">&pound;@MoneyPounds(result.taxOwed, 2).quantity</p>
 </div>
@@ -49,10 +49,15 @@
 
 <!-- Calculation Details Section -->
 <section id="calcDetails">
-
-    <table id="yourTotalGain" class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTotalGain")</caption>
-        <tbody class="govuk-table__body">
+    <!-- Header -->
+    <h2 class="govuk-heading-m">@Messages("calc.summary.calculationDetails.heading")</h2>
+    <div id="yourTotalGain" class="govuk-summary-list">
+        <div class="govuk-summary-list-row">
+            <h2 class="govuk-heading-m">
+                @Messages("calc.summary.calculationDetails.yourTotalGain")
+            </h2>
+        </div>
+        <div>
             @(gainAnswers.givenAway, gainAnswers.sellForLess) match {
                 case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
                 case (false, Some(true)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
@@ -82,12 +87,16 @@
 
             @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
             @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
-        </tbody>
-    </table>
+        </div>
+    </div>
 
-    <table id="yourDeductions" class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourDeductions")</caption>
-        <tbody class="govuk-table__body">
+    <div id="yourDeductions" class="govuk-summary-list">
+        <div class="govuk-summary-list-row">
+            <h2 class="govuk-heading-m">
+                @Messages("calc.summary.calculationDetails.yourDeductions")
+            </h2>
+        </div>
+        <div>
             @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
                 @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
             }
@@ -96,22 +105,30 @@
                 @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
             }
             @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
-        </tbody>
-    </table>
+        </div>
+    </div>
 
-    <table id="yourTaxableGain" class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTaxableGain")</caption>
-        <tbody class="govuk-table__body">
+    <div id="yourTaxableGain" class="govuk-summary-list">
+        <div class="govuk-summary-list-row">
+            <h2 class="govuk-heading-m">
+                @Messages("calc.summary.calculationDetails.yourTaxableGain")
+            </h2>
+        </div>
+        <div>
             @summaryNumericRow("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
             @summaryNumericRow("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
             @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
-        </tbody>
-    </table>
+        </div>
+    </div>
 
 
-    <table id="yourTaxRate" class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTaxRate")</caption>
-        <tbody class="govuk-table__body">
+    <div id="yourTaxRate" class="govuk-summary-list">
+        <div class="govuk-summary-list-row">
+            <h2 class="govuk-heading-m">
+                @Messages("calc.summary.calculationDetails.yourTaxRate")
+            </h2>
+        </div>
+        <div>
             @if(result.firstBand != 0 && result.firstRate !=0) {
                 @summaryNumericRow("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
                     result.baseRateTotal)
@@ -122,20 +139,24 @@
                     result.upperRateTotal)
             }
             @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), result.taxOwed, isTotal = true)
-        </tbody>
-    </table>
+        </div>
+    </div>
 
 </section>
 
 <!--Remaining Details Section-->
-<section id="remainingDeductions" class="summary-end-block">
+<section id="remainingDeductions" class="govuk-summary-list">
 
-    <table class="govuk-table">
+    <div class="govuk-summary-list">
 
         <!-- Header -->
-        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.remainingDeductions.heading")</caption>
-        <tbody class="govuk-table__body">
+        <div class="govuk-summary-list-row">
+            <h2 class="govuk-heading-m">
+                @Messages("calc.summary.remainingDeductions.heading")
+            </h2>
+        </div>
+        <div>
             @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*), 0, hintText = false)
-        </tbody>
-    </table>
+        </div>
+    </div>
 </section>
