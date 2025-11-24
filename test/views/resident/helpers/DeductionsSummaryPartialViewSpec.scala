@@ -104,7 +104,12 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       }
 
       "have a section for the Calculation details" which {
+        "has a h2 tag" which {
 
+          s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
+            doc.select("section#calcDetails h2").first().text shouldBe summaryMessages.howWeWorkedThisOut
+          }
+        }
         "has a div for total gain" which {
 
           lazy val div = doc.select("#yourTotalGain")
@@ -165,7 +170,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
           "has a h3 tag" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("#yourDeductions > caption").text shouldBe summaryMessages.yourDeductions
+              div.select("div > h2").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -207,7 +212,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
           "has a h3 tag" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.getElementsByClass("govuk-table__caption govuk-table__caption--m").text shouldBe summaryMessages.yourTaxableGain
+              div.select("div > h2").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -266,7 +271,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
           "has a h2 tag" which {
 
             s"has the text ${summaryMessages.remainingDeductions}" in {
-              div.select("#remainingDeductions > table > caption").text shouldBe summaryMessages.remainingDeductions
+              div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
             }
           }
 
