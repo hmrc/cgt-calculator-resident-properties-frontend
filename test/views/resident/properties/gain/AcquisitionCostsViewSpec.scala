@@ -69,7 +69,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have the heading-large class" in {
-        h1Tag.hasClass("govuk-heading-xl") shouldBe true
+        h1Tag.hasClass("govuk-heading-l") shouldBe true
       }
     }
 

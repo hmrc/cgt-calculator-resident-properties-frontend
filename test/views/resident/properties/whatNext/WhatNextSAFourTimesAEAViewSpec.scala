@@ -16,14 +16,15 @@
 
 package views.resident.properties.whatNext
 
-import assets.MessageLookup.WhatNextPages.{FourTimesAEA => pageMessages}
-import assets.MessageLookup.{WhatNextPages => commonMessages}
+import assets.MessageLookup.WhatNextPages.FourTimesAEA as pageMessages
+import assets.MessageLookup.WhatNextPages as commonMessages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.whatNext.whatNextSAFourTimesAEA
 
-class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val whatNextSAFourTimesAEAView = fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA]
   "The whatNextSAFourTimesAEA view" should {
@@ -43,8 +44,8 @@ class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeA
       }
     }
 
-    "have the correct heading" in {
-      doc.select("h1").text shouldBe commonMessages.title
+    s"have the question of the page ${commonMessages.title}" should {
+      pageWithExpectedMessage(headingStyle, commonMessages.title)(using doc)
     }
 
     s"have the first paragraph of ${pageMessages.paragraphOne}" in {

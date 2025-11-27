@@ -16,15 +16,16 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{DisposalValue => messages, Resident => commonMessages}
+import assets.MessageLookup.{DisposalValue as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.DisposalValueForm._
+import forms.resident.DisposalValueForm.*
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.disposalValue
 
-class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with BaseViewSpec {
+class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with BaseViewSpec with GovUkStylingHelper {
 
   lazy val disposalValueView = fakeApplication.injector.instanceOf[disposalValue]
   case class FakePOST(value: String) {
@@ -43,7 +44,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       doc.charset.toString shouldBe "UTF-8"
     }
 
-    s"have the title of the page ${messages.question}" in {
+    s"have the title of the page ${messages.title}" in {
       doc.title shouldEqual messages.title
     }
 
@@ -51,8 +52,8 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
-    s"have the question of the page ${messages.question}" in {
-      doc.select("h1").text shouldEqual messages.question
+    s"have the question of the page ${messages.question}" should {
+      pageWithExpectedMessage(labelStyle, messages.question)(using doc)
     }
 
     s"has the help text ${messages.helpText}" in {

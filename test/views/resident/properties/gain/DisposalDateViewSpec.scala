@@ -16,18 +16,19 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{DisposalDate => messages, Resident => commonMessages}
+import assets.MessageLookup.{DisposalDate as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.DisposalDateForm._
+import forms.resident.DisposalDateForm.*
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.disposalDate
 
 import java.time.LocalDate
 
-class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with BaseViewSpec {
+class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with BaseViewSpec with GovUkStylingHelper {
 
   lazy val disposalDateView = fakeApplication.injector.instanceOf[disposalDate]
   "Disposal Date view" should {
@@ -39,12 +40,12 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    "have the title 'When did you sign the contract that made someone else the owner?'" in {
+    s"have the title ${messages.title}" in {
       doc.title() shouldBe messages.title
     }
 
-    "have the heading question 'When did you sign the contract that made someone else the owner?'" in {
-      doc.body.getElementsByTag("h1").text should include(messages.question)
+    s"have the heading question ${messages.question}" should {
+      pageWithExpectedMessage(legendHeadingStyle, messages.question)(using doc)
     }
 
     "have the helptext 'For example, 4 9 2016'" in {

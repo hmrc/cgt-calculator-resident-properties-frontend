@@ -40,7 +40,7 @@
     @form(action = controllers.routes.DeductionsController.submitPropertyLivedIn) {
          @inputRadio(
                 legend = Messages("calc.resident.properties.propertyLivedIn.title"),
-                legendClass = Some("govuk-fieldset__legend--xl"),
+                legendClass = Some("govuk-fieldset__legend--l"),
                 items = Seq(
                     RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
                     RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))

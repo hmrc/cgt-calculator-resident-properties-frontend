@@ -17,14 +17,15 @@
 package views.resident.properties.whatNext
 
 import assets.MessageLookup
-import assets.MessageLookup.{SaUser => messages}
+import assets.MessageLookup.SaUser as messages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.resident.SaUserForm
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.whatNext.saUser
 
-class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   private lazy val saUserView = fakeApplication.injector.instanceOf[saUser]
   "SaUserView" when {
@@ -32,12 +33,16 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
       lazy val view = saUserView(SaUserForm.saUserForm)(using fakeRequest, testingMessages)
       lazy val doc = Jsoup.parse(view.body)
 
-      s"have a title of ${messages.question}" in {
+      s"have a title of ${messages.title}" in {
         doc.title shouldBe messages.title
       }
 
       s"have a heading with the text ${messages.title}" in {
         doc.select("head > title").text() shouldBe messages.title
+      }
+
+      s"have the question of the page ${messages.question}" should {
+        pageWithExpectedMessage(legendHeadingStyle, messages.question)(using doc)
       }
 
       "have a form" which {

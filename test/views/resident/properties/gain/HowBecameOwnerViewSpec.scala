@@ -16,15 +16,16 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{HowBecameOwner => messages, Resident => commonMessages}
+import assets.MessageLookup.{HowBecameOwner as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.properties.HowBecameOwnerForm._
+import forms.resident.properties.HowBecameOwnerForm.*
 import org.jsoup.Jsoup
 import play.api.mvc.Call
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.howBecameOwner
 
-class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val howBecameOwnerView = fakeApplication.injector.instanceOf[howBecameOwner]
   "howBecameOwner view" should {
@@ -53,8 +54,8 @@ class HowBecameOwnerViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       doc.title() shouldBe messages.title
     }
 
-    s"have a header of ${messages.heading}" in {
-      doc.select("h1.govuk-fieldset__heading").text() shouldBe messages.heading
+    s"have the question of the page ${messages.heading}" should {
+      pageWithExpectedMessage(legendHeadingStyle, messages.heading)(using doc)
     }
 
     "have a form tag" in {

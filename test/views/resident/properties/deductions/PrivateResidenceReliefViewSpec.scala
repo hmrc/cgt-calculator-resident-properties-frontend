@@ -16,14 +16,15 @@
 
 package views.resident.properties.deductions
 
-import assets.MessageLookup.{PrivateResidenceRelief => messages, Resident => commonMessages}
+import assets.MessageLookup.{PrivateResidenceRelief as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.properties.PrivateResidenceReliefForm._
+import forms.resident.properties.PrivateResidenceReliefForm.*
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.deductions.privateResidenceRelief
 
-class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val privateResidenceReliefView = fakeApplication.injector.instanceOf[privateResidenceRelief]
   "Private Residence Relief view" should {
@@ -35,17 +36,12 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    "have a H1 tag that" should {
+    "have a h1 tag that" should {
 
-      lazy val h1Tag = doc.select("h1")
-
-      s"have the page heading '${messages.heading}'" in {
-        h1Tag.text shouldBe messages.heading
+      s"have the page heading '${messages.heading}'" should {
+        pageWithExpectedMessage(headingStyle, messages.heading)(using doc)
       }
 
-      "have the heading-large class" in {
-        h1Tag.hasClass("govuk-heading-xl") shouldBe true
-      }
     }
 
     "have a back link" which {
@@ -65,6 +61,10 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
 
     s"have the question of the page ${messages.heading}" in {
       doc.select("h1").text shouldEqual messages.heading
+    }
+
+    s"have a h1 tag of size l ${messages.heading}" in {
+      doc.select("h1.govuk-heading-l").text() shouldBe messages.heading
     }
 
     "have a help text with the link that" should {

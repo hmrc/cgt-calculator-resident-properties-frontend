@@ -16,15 +16,16 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{PropertiesSellOrGiveAway => messages, Resident => commonMessages}
+import assets.MessageLookup.{PropertiesSellOrGiveAway as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.properties.SellOrGiveAwayForm._
+import forms.resident.properties.SellOrGiveAwayForm.*
 import org.jsoup.Jsoup
 import play.api.mvc.Call
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.sellOrGiveAway
 
-class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val sellOrGiveAwayView = fakeApplication.injector.instanceOf[sellOrGiveAway]
   "sellOrGiveAway view" should {
@@ -54,8 +55,8 @@ class SellOrGiveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       doc.title() shouldBe messages.title
     }
 
-    s"have a question of ${messages.title}" in {
-      doc.select(".govuk-fieldset__heading").text() shouldBe messages.heading
+    s"have the question of the page ${messages.heading}" should {
+      pageWithExpectedMessage(legendHeadingStyle, messages.heading)(using doc)
     }
 
     "have a form tag" in {

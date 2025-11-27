@@ -16,13 +16,14 @@
 
 package views.resident.properties.whatNext
 
-import assets.MessageLookup.{WhatNextNonSaLoss => messages}
+import assets.MessageLookup.WhatNextNonSaLoss as messages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.whatNext.whatNextNonSaLoss
 
-class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val whatNextNonSaLossView = fakeApplication.injector.instanceOf[whatNextNonSaLoss]
   "whatNextNonSaLoss view" should {
@@ -38,8 +39,8 @@ class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       doc.title shouldBe messages.title
     }
 
-    s"have a heading of ${messages.heading}" in {
-      doc.select("h1").text shouldBe messages.heading
+    s"have the question of the page ${messages.heading}" should {
+      pageWithExpectedMessage(headingStyle, messages.heading)(using doc)
     }
 
     s"have a first paragraph with text ${messages.detailsOne}" in {

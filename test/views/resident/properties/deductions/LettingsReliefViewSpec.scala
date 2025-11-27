@@ -16,14 +16,15 @@
 
 package views.resident.properties.deductions
 
-import assets.MessageLookup.{LettingsRelief => messages, Resident => commonMessages}
+import assets.MessageLookup.{LettingsRelief as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.properties.LettingsReliefForm._
+import forms.resident.properties.LettingsReliefForm.*
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.deductions.lettingsRelief
 
-class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val lettingsReliefView = fakeApplication.injector.instanceOf[lettingsRelief]
   "Lettings Relief view" should {
@@ -51,9 +52,10 @@ class LettingsReliefViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
     }
 
-    s"have the question of the page ${messages.title}" in {
-      doc.select("h1").text() shouldEqual messages.title
+    s"have the question of the page ${messages.title}" should {
+      behave like pageWithExpectedMessage(headingStyle, messages.title)(using doc)
     }
+
 
     "render a form tag with a submit action" in {
       doc.select("form").attr("action") shouldEqual "/calculate-your-capital-gains/resident/properties/lettings-relief"

@@ -56,7 +56,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have a question of ${messages.question}" in {
-      doc.select("h1.govuk-heading-xl").text() shouldBe messages.question
+      doc.select("h1.govuk-heading-l").text() shouldBe messages.question
     }
 
     "has a form hint" which {
