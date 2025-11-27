@@ -77,14 +77,12 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
     }
 
     "have a section for the Calculation details" which {
-
       "has a h2 tag" which {
 
         s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-          doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
+          doc.select("section#calcDetails h2").first().text shouldBe summaryMessages.howWeWorkedThisOut
         }
       }
-
       "has a div for total loss" which {
 
         lazy val div = doc.getElementById("yourTotalLoss")
@@ -92,7 +90,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
         "has a table tag" which {
 
           s"has the text '${summaryMessages.yourTotalLoss}'" in {
-            div.getElementsByClass("govuk-table__caption govuk-table__caption--m").text shouldBe summaryMessages.yourTotalLoss
+            div.select("div > h2").text shouldBe summaryMessages.yourTotalLoss
           }
         }
 
@@ -144,7 +142,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
         "has a h3 tag" which {
 
           s"has the text '${summaryMessages.yourDeductions}'" in {
-            div.getElementsByClass("govuk-table__caption govuk-table__caption--m").text shouldBe summaryMessages.yourDeductions
+            div.select("div > h2").text shouldBe summaryMessages.yourDeductions
           }
         }
 
@@ -244,7 +242,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
         "has a h2 tag" which {
 
           s"has the text ${summaryMessages.remainingDeductions}" in {
-            div.getElementsByClass("govuk-table__caption govuk-table__caption--m").text shouldBe summaryMessages.remainingDeductions
+            div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
           }
         }
 

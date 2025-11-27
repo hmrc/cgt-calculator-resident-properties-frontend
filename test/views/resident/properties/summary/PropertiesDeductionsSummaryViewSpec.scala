@@ -129,14 +129,12 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
     }
 
     "have a section for the Calculation details" which {
-
       "has a h2 tag" which {
 
         s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-          doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
+          doc.select("section#calcDetails h2").first().text shouldBe summaryMessages.howWeWorkedThisOut
         }
       }
-
       "has a div for total gain" which {
 
         lazy val div = doc.select("#yourTotalGain")
@@ -144,7 +142,7 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
         "has a caption" which {
 
           s"has the text '${summaryMessages.yourTotalGain}'" in {
-            div.select("#yourTotalGain > caption").text shouldBe summaryMessages.yourTotalGain
+            div.select("div > h2").text shouldBe summaryMessages.yourTotalGain
           }
         }
 
@@ -197,7 +195,7 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
         "has a h3 tag" which {
 
           s"has the text '${summaryMessages.yourDeductions}'" in {
-            div.select("#yourDeductions > caption").text shouldBe summaryMessages.yourDeductions
+            div.select("div > h2").text shouldBe summaryMessages.yourDeductions
           }
         }
 
@@ -239,7 +237,7 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
         "has a h3 tag" which {
 
           s"has the text '${summaryMessages.yourTaxableGain}'" in {
-            div.select("#yourTaxableGain > caption").text shouldBe summaryMessages.yourTaxableGain
+            div.select("div > h2").text shouldBe summaryMessages.yourTaxableGain
           }
         }
 
@@ -298,7 +296,7 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
         "has a caption" which {
 
           s"has the text ${summaryMessages.remainingDeductions}" in {
-            div.select("#remainingDeductions > table > caption").text shouldBe summaryMessages.remainingDeductions
+            div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
           }
         }
 

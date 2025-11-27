@@ -16,14 +16,15 @@
 
 package views.resident.properties.deductions
 
-import assets.MessageLookup.{LettingsReliefValue => messages, Resident => commonMessages}
+import assets.MessageLookup.{LettingsReliefValue as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.properties.LettingsReliefValueForm._
+import forms.resident.properties.LettingsReliefValueForm.*
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.deductions.lettingsReliefValue
 
-class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val lettingsReliefValueView = fakeApplication.injector.instanceOf[lettingsReliefValue]
 
@@ -45,8 +46,8 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
-    s"have the text ${messages.question} as the h1 tag" in {
-      doc.select("h1").text shouldEqual messages.question
+    s"have the question of the page ${messages.question}" should {
+      behave like pageWithExpectedMessage(headingStyle, messages.question)(using doc)
     }
 
     "render a form element" in {
@@ -90,6 +91,10 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
     s"have the text ${messages.question} as the h1 tag" in {
       doc.select("h1").text shouldEqual messages.question
+    }
+
+    s"have a h1 tag of size l ${messages.question}" in {
+      doc.select("h1.govuk-heading-l").text() shouldBe messages.question
     }
 
     s"have a hidden legend with the text ${messages.question}" in {

@@ -27,7 +27,7 @@ import views.html.calculation.resident.properties.gain.worthWhenGifted
 
 class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
-  lazy val worthWhenGiftedView = fakeApplication.injector.instanceOf[worthWhenGifted]
+  lazy val worthWhenGiftedView: worthWhenGifted = fakeApplication.injector.instanceOf[worthWhenGifted]
   "worthWhenGifted view" should {
     val backLink = Some("back-link")
     val call = new Call("POST", "postAction")
@@ -44,11 +44,11 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have a nav title of 'navTitle'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__service-name").text() shouldBe commonMessages.homeText
+      doc.getElementsByClass("govuk-service-navigation__service-name").text() shouldBe commonMessages.homeText
     }
 
     s"have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     s"have a title of ${messages.question} - ${commonMessages.homeText} - GOV.UK" in {
@@ -56,7 +56,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"have a question of ${messages.question}" in {
-      doc.select("h1.govuk-heading-xl").text() shouldBe messages.question
+      doc.select("h1.govuk-heading-l").text() shouldBe messages.question
     }
 
     "has a form hint" which {

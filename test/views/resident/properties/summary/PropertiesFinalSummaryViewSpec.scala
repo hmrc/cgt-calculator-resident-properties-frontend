@@ -141,14 +141,12 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "have a section for the Calculation details" which {
-
         "has a h2 tag" which {
 
           s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-            doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
+            doc.select("section#calcDetails h2").first().text shouldBe summaryMessages.howWeWorkedThisOut
           }
         }
-
         "has a div for total gain" which {
 
           lazy val div = doc.select("#yourTotalGain")
@@ -156,7 +154,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           "has a caption" which {
 
             s"has the text '${summaryMessages.yourTotalGain}'" in {
-              div.select("#yourTotalGain > caption").text shouldBe summaryMessages.yourTotalGain
+              div.select("div > h2").text shouldBe summaryMessages.yourTotalGain
             }
           }
 
@@ -209,7 +207,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           "has a caption" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("#yourDeductions > caption").text shouldBe summaryMessages.yourDeductions
+              div.select("div > h2").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -263,7 +261,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           "has a caption" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.select("#yourTaxableGain > caption").text shouldBe summaryMessages.yourTaxableGain
+              div.select("div > h2").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -305,7 +303,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           "has a caption" which {
 
             s"has the text ${summaryMessages.yourTaxRate}" in {
-              div.select("#yourTaxRate > caption.govuk-table__caption.govuk-table__caption--m").text shouldBe summaryMessages.yourTaxRate
+              div.select("div > h2").text shouldBe summaryMessages.yourTaxRate
             }
           }
 
@@ -352,7 +350,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           "has a caption" which {
 
             s"has the text ${summaryMessages.remainingDeductions}" in {
-              div.select("table > caption").text shouldBe summaryMessages.remainingDeductions
+              div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
             }
           }
 

@@ -16,16 +16,17 @@
 
 package views.resident
 
-import assets.MessageLookup.{LossesBroughtForwardValue => messages, Resident => commonMessages}
+import assets.MessageLookup.{LossesBroughtForwardValue as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.routes
-import forms.resident.LossesBroughtForwardValueForm._
+import forms.resident.LossesBroughtForwardValueForm.*
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.lossesBroughtForwardValue
 
-class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
   lazy val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
   lazy val testTaxYear = TaxYearModel("2016/17", isValidYear = true, "2016/17")
 
@@ -45,11 +46,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       }
 
       "have a dynamic navTitle with text Calculate your Capital Gains Tax" in {
-        doc.getElementsByClass("govuk-header__link govuk-header__service-name").text shouldEqual "Calculate your Capital Gains Tax"
+        doc.getElementsByClass("govuk-service-navigation__service-name").text shouldEqual "Calculate your Capital Gains Tax"
       }
 
       "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-        doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+        doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
       "have a back button that" should {
@@ -69,16 +70,10 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
         }
       }
 
-      "have a H1 tag that" should {
+      "have a h1 tag that" should {
 
-        lazy val h1Tag = doc.select("H1")
-
-        s"have the page heading '${messages.question("2015 to 2016")}'" in {
-          h1Tag.text shouldBe messages.question("2015 to 2016")
-        }
-
-        "have the govuk-label-wrapper class" in {
-          h1Tag.hasClass("govuk-label-wrapper") shouldBe true
+        s"have the question of the page '${messages.question("2015 to 2016")}'" should {
+          pageWithExpectedMessage(labelStyle, messages.question("2015 to 2016"))(using doc)
         }
       }
 

@@ -25,7 +25,7 @@ import views.html.calculation.resident.properties.gain.acquisitionCosts
 
 class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
-  lazy val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
+  lazy val acquisitionCostsView: acquisitionCosts = fakeApplication.injector.instanceOf[acquisitionCosts]
   "Acquisition Costs view" should {
 
     lazy val view = acquisitionCostsView(acquisitionCostsForm, Some("back-link"))(using fakeRequest, testingMessages)
@@ -57,7 +57,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual controllers.routes.PropertiesController.introduction.toString
+      doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldEqual controllers.routes.PropertiesController.introduction.toString
     }
 
     "have a H1 tag that" should {
@@ -69,7 +69,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have the heading-large class" in {
-        h1Tag.hasClass("govuk-heading-xl") shouldBe true
+        h1Tag.hasClass("govuk-heading-l") shouldBe true
       }
     }
 

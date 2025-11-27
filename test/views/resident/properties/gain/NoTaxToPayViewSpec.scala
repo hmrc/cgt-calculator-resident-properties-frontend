@@ -24,7 +24,7 @@ import views.html.calculation.resident.properties.gain.noTaxToPay
 
 class NoTaxToPayViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
 
-  lazy val noTaxToPayView = fakeApplication.injector.instanceOf[noTaxToPay]
+  lazy val noTaxToPayView: noTaxToPay = fakeApplication.injector.instanceOf[noTaxToPay]
   "No Tax to Pay View when gifted to spouse" should {
     lazy val view = noTaxToPayView(forCharity = false, "/calculate-your-capital-gains/resident/properties/who-did-you-give-it-to")(using fakeRequest, testingMessages)
     lazy val doc = Jsoup.parse(view.body)
@@ -42,15 +42,15 @@ class NoTaxToPayViewSpec extends CommonPlaySpec with WithCommonFakeApplication w
     }
 
     "have a home link to home-link" in {
-      doc.body().getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.body().getElementsByClass("govuk-service-navigation__link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a navTitle for resident properties" in {
-      doc.body().getElementsByClass("govuk-header__link govuk-header__service-name").text() shouldBe commonMessages.homeText
+      doc.body().getElementsByClass("govuk-service-navigation__service-name").text() shouldBe commonMessages.homeText
     }
 
     s"have a header of ${messages.title}" in {
-      doc.body().select("h1.govuk-heading-xl").text() shouldBe messages.title
+      doc.body().select("h1.govuk-heading-l").text() shouldBe messages.title
     }
 
     "have text explaining why tax is not owed" in {

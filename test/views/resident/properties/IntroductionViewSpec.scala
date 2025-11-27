@@ -34,7 +34,7 @@ class IntroductionViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have the correct heading" in {
-      doc.select(".govuk-heading-xl").text shouldBe messages.heading
+      doc.select(".govuk-heading-l").text shouldBe messages.heading
     }
 
     "have the correct sub-heading" in {

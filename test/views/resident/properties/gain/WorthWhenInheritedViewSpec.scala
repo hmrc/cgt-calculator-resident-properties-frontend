@@ -44,11 +44,11 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     }
 
     s"have a nav title of 'navTitle'" in {
-      doc.select("body > header > div > div > div.govuk-header__content > a").text() shouldBe commonMessages.homeText
+      doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").text() shouldBe commonMessages.homeText
     }
 
     s"have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
+      doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
     s"have a title of ${messages.question}" in {
@@ -56,7 +56,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     }
 
     s"have a question of ${messages.question}" in {
-      doc.select("h1.govuk-heading-xl").text() shouldBe messages.question
+      doc.select("h1.govuk-heading-l").text() shouldBe messages.question
     }
 
     "have additional content regarding valuations" in {

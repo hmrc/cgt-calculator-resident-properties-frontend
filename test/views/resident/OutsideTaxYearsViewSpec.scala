@@ -16,14 +16,15 @@
 
 package views.resident
 
-import assets.MessageLookup.{OutsideTaxYears => messages, Resident => commonMessages}
+import assets.MessageLookup.{OutsideTaxYears as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.outsideTaxYear
 
-class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   "Outside tax years views" when {
     lazy val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
@@ -41,11 +42,11 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "have a home link to '/calculate-your-capital-gains/resident/properties/'" in {
-        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+        doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
       }
 
-      s"have a heading of ${messages.heading}" in {
-        doc.select("h1").text() shouldBe messages.heading
+      s"have a heading of ${messages.heading}" should {
+        pageWithExpectedMessage(headingStyle, messages.heading)(using doc)
       }
 
       s"have a message of ${messages.tooEarly}" in {

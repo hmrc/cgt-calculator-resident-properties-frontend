@@ -55,7 +55,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
     }
 
     s"have the home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+      doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a back button" which {
@@ -91,8 +91,8 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
         legend.text should include(s"${messages.heading}")
       }
 
-      "that has class govuk-fieldset__legend govuk-label--xl" in {
-        legend.hasClass("govuk-fieldset__legend--xl") shouldEqual true
+      "that has class govuk-fieldset__legend govuk-label--l" in {
+        legend.hasClass("govuk-fieldset__legend--l") shouldEqual true
       }
     }
 

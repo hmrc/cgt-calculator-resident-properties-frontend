@@ -16,14 +16,15 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{Resident => commonMessages, WhoDidYouGiveItTo => messages}
+import assets.MessageLookup.{Resident as commonMessages, WhoDidYouGiveItTo as messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.properties.gain.WhoDidYouGiveItToForm._
+import forms.resident.properties.gain.WhoDidYouGiveItToForm.*
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.whoDidYouGiveItTo
 
-class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
   lazy val whoDidYouGiveItToView = fakeApplication.injector.instanceOf[whoDidYouGiveItTo]
 
   "Property Recipient view" should {
@@ -54,14 +55,10 @@ class WhoDidYouGiveItToViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         backLink.attr("href") shouldBe "#"
       }
     }
-    "have a H1 tag that" should {
-      lazy val heading = doc.select("h1")
+    "have a h1 tag that" should {
 
-      s"have the page heading '${messages.title}'" in {
-        heading.text shouldBe messages.title
-      }
-      "have the heading-large class" in {
-        heading.hasClass("govuk-fieldset__heading") shouldBe true
+      s"have the page heading '${messages.title}'" should {
+        pageWithExpectedMessage(legendHeadingStyle, messages.title)(using doc)
       }
     }
 

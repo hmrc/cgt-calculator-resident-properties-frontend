@@ -16,15 +16,16 @@
 
 package views.resident.properties.gain
 
-import assets.MessageLookup.{BoughtForLessThanWorth => messages, Resident => commonMessages}
+import assets.MessageLookup.{BoughtForLessThanWorth as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.properties.BoughtForLessThanWorthForm._
+import forms.resident.properties.BoughtForLessThanWorthForm.*
 import models.resident.properties.BoughtForLessThanWorthModel
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.gain.buyForLess
 
-class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val boughtForLessThanWorthView = fakeApplication.injector.instanceOf[buyForLess]
   "Sell for less view with an empty form" should {
@@ -41,21 +42,16 @@ class BoughtForLessThanWorthViewSpec extends CommonPlaySpec with WithCommonFakeA
       doc.title shouldBe s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
     }
 
-    "have a H1 tag that" should {
+    "have a h1 tag that" should {
 
-      lazy val h1Tag = doc.select("h1")
-
-      s"have the page heading '${messages.title}'" in {
-        h1Tag.text shouldBe messages.title
+      s"have the page heading '${messages.title}'" should {
+        pageWithExpectedMessage(legendHeadingStyle, messages.title)(using doc)
       }
-
-      "have the govuk-fieldset__heading class" in {
-        h1Tag.hasClass("govuk-fieldset__heading") shouldBe true
-      }
+      
     }
 
     s"have the home link to '/calculate-your-capital-gains/resident/properties/'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
+      doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/properties/"
     }
 
     "have a back button" which {

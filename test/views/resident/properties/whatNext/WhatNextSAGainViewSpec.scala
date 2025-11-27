@@ -17,13 +17,14 @@
 package views.resident.properties.whatNext
 
 import _root_.views.BaseViewSpec
-import assets.MessageLookup.WhatNextPages.{WhatNextGain => pageMessages}
-import assets.MessageLookup.{WhatNextPages => commonMessages}
+import assets.MessageLookup.WhatNextPages.WhatNextGain as pageMessages
+import assets.MessageLookup.WhatNextPages as commonMessages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.html.calculation.resident.properties.whatNext.whatNextSaGain
 
-class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val whatNextSaGainView = fakeApplication.injector.instanceOf[whatNextSaGain]
   "The whatNextSAGain view" should {
@@ -39,8 +40,8 @@ class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       doc.select(".govuk-back-link").attr("href") shouldBe "#"
     }
 
-    "have the correct heading" in {
-      doc.select("h1").text shouldBe commonMessages.yourOptions
+    s"have the question of the page ${commonMessages.yourOptions}" should {
+      pageWithExpectedMessage(headingStyle, commonMessages.yourOptions)(using doc)
     }
 
     "have a bullet point list" which {

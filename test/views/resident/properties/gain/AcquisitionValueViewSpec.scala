@@ -63,8 +63,8 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         heading.text shouldBe messages.pageHeading
       }
 
-      "contains an extra large label" in {
-        heading.hasClass("govuk-label--xl") shouldBe true
+      "contains large label" in {
+        heading.hasClass("govuk-label--l") shouldBe true
       }
     }
 
