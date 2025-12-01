@@ -17,13 +17,14 @@
 package views.resident.properties.whatNext
 
 import _root_.views.BaseViewSpec
-import assets.MessageLookup.WhatNextPages.{WhatNextNoGain => pageMessages}
-import assets.MessageLookup.{Resident => serviceMessages, WhatNextPages => commonMessages}
+import assets.MessageLookup.WhatNextPages.WhatNextNoGain as pageMessages
+import assets.MessageLookup.{Resident as serviceMessages, WhatNextPages as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.html.calculation.resident.properties.whatNext.whatNextSaNoGain
 
-class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val whatNextSaNoGainView = fakeApplication.injector.instanceOf[whatNextSaNoGain]
   lazy val pageTitle = s"${commonMessages.title} - ${serviceMessages.homeText} - GOV.UK"
@@ -40,8 +41,8 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       doc.select(".govuk-back-link").attr("href") shouldBe "#"
     }
 
-    "have the correct heading" in {
-      doc.select("h1").text shouldBe commonMessages.title
+    "have the question of the page" should {
+      pageWithExpectedMessage(headingStyle, commonMessages.title)(using doc)
     }
 
     "have a bullet point list" which {

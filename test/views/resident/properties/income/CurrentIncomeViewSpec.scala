@@ -16,15 +16,16 @@
 
 package views.resident.properties.income
 
-import assets.MessageLookup.{CurrentIncome => messages, Resident => commonMessages}
+import assets.MessageLookup.{CurrentIncome as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.income.CurrentIncomeForm._
+import forms.resident.income.CurrentIncomeForm.*
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.income.currentIncome
 
-class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
   lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
@@ -46,8 +47,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       doc.select(".govuk-back-link").text() shouldEqual "Back"
     }
 
-    s"have the question of the page ${messages.question("2015 to 2016")}" in {
-      doc.select("h1").text shouldEqual messages.question("2015 to 2016")
+    s"have the question of the page ${messages.question("2015 to 2016")}" should {
+      pageWithExpectedMessage(headingStyle, messages.question("2015 to 2016"))(using doc)
     }
 
     "have a form" which {

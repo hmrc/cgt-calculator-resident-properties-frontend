@@ -16,15 +16,16 @@
 
 package views.resident.properties.deductions
 
-import assets.MessageLookup.{PropertyLivedIn => messages, Resident => commonMessages}
+import assets.MessageLookup.{PropertyLivedIn as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.properties.PropertyLivedInForm._
+import forms.resident.properties.PropertyLivedInForm.*
 import models.resident.properties.PropertyLivedInModel
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.deductions.propertyLivedIn
 
-class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val propertyLivedInView = fakeApplication.injector.instanceOf[propertyLivedIn]
   "Property lived in view with an empty form" should {
@@ -40,13 +41,12 @@ class PropertyLivedInViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       doc.title shouldBe messages.titleNew
     }
 
-    "have a H1 tag that" should {
+    "have a h1 tag that" should {
 
-      lazy val h1Tag = doc.getElementsByClass("govuk-fieldset__heading")
-
-      s"have the page heading '${messages.title}'" in {
-        h1Tag.text shouldBe messages.title
+      s"have the page heading '${messages.title}'" should {
+        pageWithExpectedMessage(legendHeadingStyle, messages.title)(using doc)
       }
+
     }
 
     s"have the home link to '/calculate-your-capital-gains/resident/properties/'" in {

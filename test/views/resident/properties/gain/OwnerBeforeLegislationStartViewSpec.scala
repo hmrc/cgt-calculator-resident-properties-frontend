@@ -88,8 +88,8 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
         legend.text should include(s"${messages.heading}")
       }
 
-      "that has class govuk-fieldset__legend govuk-label--xl" in {
-        legend.hasClass("govuk-fieldset__legend--xl") shouldEqual true
+      "that has class govuk-fieldset__legend govuk-label--l" in {
+        legend.hasClass("govuk-fieldset__legend--l") shouldEqual true
       }
     }
 

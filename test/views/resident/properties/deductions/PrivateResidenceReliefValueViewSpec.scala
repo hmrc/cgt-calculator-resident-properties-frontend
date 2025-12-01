@@ -16,14 +16,15 @@
 
 package views.resident.properties.deductions
 
-import assets.MessageLookup.{PrivateResidenceReliefValue => messages, Resident => commonMessages}
+import assets.MessageLookup.{PrivateResidenceReliefValue as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.resident.properties.PrivateResidenceReliefValueForm._
+import forms.resident.properties.PrivateResidenceReliefValueForm.*
 import org.jsoup.Jsoup
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.properties.deductions.privateResidenceReliefValue
 
-class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   lazy val privateResidenceReliefValueView = fakeApplication.injector.instanceOf[privateResidenceReliefValue]
   "Reliefs Value view" should {
@@ -50,8 +51,8 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
       }
     }
 
-    s"have the text ${messages.question} as the h1 tag" in {
-      doc.select("h1").text shouldEqual messages.question
+    s"have the question of the page ${messages.question}" should {
+      behave like pageWithExpectedMessage(headingStyle, messages.question)(using doc)
     }
 
     "render a form element with POST action to /calculate-your-capital-gains/resident/properties/private-residence-relief-value" in {

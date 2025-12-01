@@ -143,7 +143,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         s"have a legend for an input with text ${messages.question("2015 to 2016")}" in {
-          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015 to 2016")
+          doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question("2015 to 2016")
         }
       }
 
@@ -202,7 +202,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"have a legend for an input with text ${messages.currentYearTitle}" in {
-        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.currentYearTitle
+        doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.currentYearTitle
       }
     }
 
@@ -228,7 +228,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
-        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question(nextYearString)
+        doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question(nextYearString)
       }
     }
 

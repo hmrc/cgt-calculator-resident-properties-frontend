@@ -50,7 +50,7 @@ class NoTaxToPayViewSpec extends CommonPlaySpec with WithCommonFakeApplication w
     }
 
     s"have a header of ${messages.title}" in {
-      doc.body().select("h1.govuk-heading-xl").text() shouldBe messages.title
+      doc.body().select("h1.govuk-heading-l").text() shouldBe messages.title
     }
 
     "have text explaining why tax is not owed" in {

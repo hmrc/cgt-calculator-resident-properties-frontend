@@ -22,10 +22,11 @@ import forms.resident.LossesBroughtForwardForm.*
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import play.api.mvc.Call
+import util.GovUkStylingHelper
 import views.BaseViewSpec
 import views.html.calculation.resident.lossesBroughtForward
 
-class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec {
+class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApplication with BaseViewSpec with GovUkStylingHelper {
 
   val taxYearModel = TaxYearModel(taxYearSupplied = "2017/18", isValidYear = true, calculationTaxYear = "2017/18" )
 
@@ -59,8 +60,8 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.select(".govuk-back-link").text shouldEqual commonMessages.back
     }
 
-    s"have the question of the page ${messages.question("2017 to 2018")}" in {
-      doc.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2017 to 2018")
+    s"have the question of the page ${messages.question("2017 to 2018")}" should {
+      pageWithExpectedMessage(headingStyle, messages.question("2017 to 2018"))(using doc)
     }
 
     s"render a form tag with a POST action" in {

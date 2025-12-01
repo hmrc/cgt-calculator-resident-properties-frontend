@@ -48,7 +48,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       }
 
       "have the heading-large class" in {
-        heading.hasClass("govuk-heading-xl") shouldBe true
+        heading.hasClass("govuk-heading-l") shouldBe true
       }
     }
 
@@ -109,7 +109,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       }
 
       "have the heading-large class" in {
-        heading.hasClass("govuk-heading-xl") shouldBe true
+        heading.hasClass("govuk-heading-l") shouldBe true
       }
     }
 
