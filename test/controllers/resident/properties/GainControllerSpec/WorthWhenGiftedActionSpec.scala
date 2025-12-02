@@ -61,8 +61,8 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
         status(result) shouldBe 200
       }
 
-      s"return some html with title of ${messages.question}" in {
-        doc.title shouldEqual s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
+      s"return some html with title of ${messages.heading}" in {
+        doc.title shouldEqual s"${messages.heading} - ${commonMessages.homeText} - GOV.UK"
       }
 
       "have a back link to how-became-owner" in {
@@ -90,8 +90,8 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
         status(result) shouldBe 200
       }
 
-      s"return some html with title of ${messages.question} - ${commonMessages.homeText} - GOV.UK" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
+      s"return some html with title of ${messages.heading} - ${commonMessages.homeText} - GOV.UK" in {
+        Jsoup.parse(bodyOf(result)).title shouldEqual s"${messages.heading} - ${commonMessages.homeText} - GOV.UK"
       }
     }
 
@@ -134,7 +134,7 @@ class WorthWhenGiftedActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "return to the page" in {
-        doc.title shouldEqual s"Error: ${messages.question} - ${commonMessages.homeText} - GOV.UK"
+        doc.title shouldEqual s"Error: ${messages.heading} - ${commonMessages.homeText} - GOV.UK"
       }
 
       "raise an error on the page" in {

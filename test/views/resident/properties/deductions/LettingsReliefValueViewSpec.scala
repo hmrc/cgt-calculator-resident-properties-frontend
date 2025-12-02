@@ -46,8 +46,8 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
-    s"have the question of the page ${messages.question}" should {
-      behave like pageWithExpectedMessage(headingStyle, messages.question)(using doc)
+    s"have the question of the page ${messages.summaryTitle}" should {
+      behave like pageWithExpectedMessage(headingStyle, messages.summaryTitle)(using doc)
     }
 
     "render a form element" in {
@@ -89,12 +89,12 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       doc.title shouldBe messages.title
     }
 
-    s"have the text ${messages.question} as the h1 tag" in {
-      doc.select("h1").text shouldEqual messages.question
+    s"have the text ${messages.summaryTitle} as the h1 tag" in {
+      doc.select("h1").text shouldEqual messages.summaryTitle
     }
 
-    s"have a h1 tag of size l ${messages.question}" in {
-      doc.select("h1.govuk-heading-l").text() shouldBe messages.question
+    s"have a h1 tag of size l ${messages.summaryTitle}" in {
+      doc.select("h1.govuk-heading-l").text() shouldBe messages.summaryTitle
     }
 
     s"have a hidden legend with the text ${messages.question}" in {
@@ -124,8 +124,8 @@ class LettingsReliefValueViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       doc.title shouldBe messages.title
     }
 
-    s"have the text ${messages.question} as the h1 tag" in {
-      doc.select("h1").text shouldEqual messages.question
+    s"have the text ${messages.summaryTitle} as the h1 tag" in {
+      doc.select("h1").text shouldEqual messages.summaryTitle
     }
 
     s"have a hidden legend with the text ${messages.question}" in {

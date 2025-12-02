@@ -28,7 +28,7 @@
 @(worthWhenInheritedForm: Form[WorthWhenInheritedModel], backLink: Option[String], postAction: Call)(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if (worthWhenInheritedForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.worthWhenInherited.question")) else Messages("calc.resident.properties.worthWhenInherited.question")
+    if (worthWhenInheritedForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.worthWhenInherited.title")) else Messages("calc.resident.properties.worthWhenInherited.title")
 }
 
 @layout(
@@ -37,7 +37,7 @@
 
     @errorSummary(worthWhenInheritedForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenInherited.question")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenInherited.title")</h1>
 
     <p class="govuk-body">@Messages("calc.resident.properties.worthWhenInherited.help")</p>
 

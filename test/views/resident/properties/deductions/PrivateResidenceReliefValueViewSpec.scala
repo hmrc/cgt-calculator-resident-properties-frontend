@@ -51,8 +51,8 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
       }
     }
 
-    s"have the question of the page ${messages.question}" should {
-      behave like pageWithExpectedMessage(headingStyle, messages.question)(using doc)
+    s"have the question of the page ${messages.title}" should {
+      behave like pageWithExpectedMessage(headingStyle, messages.title)(using doc)
     }
 
     "render a form element with POST action to /calculate-your-capital-gains/resident/properties/private-residence-relief-value" in {
@@ -100,8 +100,8 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
       doc.title shouldBe messages.newTitle
     }
 
-    s"have the text ${messages.question} as the h1 tag" in {
-      doc.select("h1").text shouldEqual messages.question
+    s"have the text ${messages.title} as the h1 tag" in {
+      doc.select("h1").text shouldEqual messages.title
     }
 
     s"have a hidden legend with the text ${messages.question}" in {
@@ -131,8 +131,8 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
       doc.title shouldBe messages.errorTitle
     }
 
-    s"have the text ${messages.question} as the h1 tag" in {
-      doc.select("h1").text shouldEqual messages.question
+    s"have the text ${messages.title} as the h1 tag" in {
+      doc.select("h1").text shouldEqual messages.title
     }
 
     s"have a hidden legend with the text ${messages.question}" in {

@@ -87,8 +87,8 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
           lazy val label = doc.select("label")
 
-          s"has the text ${messages.title}" in {
-            label.text() shouldEqual messages.title
+          s"has the text ${messages.question}" in {
+            label.text() shouldEqual messages.question
           }
 
           "has the class govuk-label--m" in {

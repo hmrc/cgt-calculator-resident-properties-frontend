@@ -51,12 +51,12 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldBe "/calculate-your-capital-gains/resident/properties/"
     }
 
-    s"have a title of ${messages.question} - ${commonMessages.homeText} - GOV.UK" in {
-      doc.title() shouldBe s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
+    s"have a title of ${messages.heading} - ${commonMessages.homeText} - GOV.UK" in {
+      doc.title() shouldBe s"${messages.heading} - ${commonMessages.homeText} - GOV.UK"
     }
 
-    s"have a question of ${messages.question}" in {
-      doc.select("h1.govuk-heading-l").text() shouldBe messages.question
+    s"have a question of ${messages.heading}" in {
+      doc.select("h1.govuk-heading-l").text() shouldBe messages.heading
     }
 
     "has a form hint" which {

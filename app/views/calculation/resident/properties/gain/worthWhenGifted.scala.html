@@ -29,8 +29,8 @@
 @(worthWhenGiftedForm: Form[WorthWhenGiftedModel], backLink: Option[String], postAction: Call)(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if(worthWhenGiftedForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.worthWhenGifted.question"))
-    else Messages("calc.resident.properties.worthWhenGifted.question")
+    if(worthWhenGiftedForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.worthWhenGifted.title"))
+    else Messages("calc.resident.properties.worthWhenGifted.title")
 }
 
 @layout(
@@ -39,7 +39,7 @@
 
     @errorSummary(worthWhenGiftedForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenGifted.question")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenGifted.title")</h1>
 
     <div class="govuk-body">
         <p>@Messages("calc.resident.properties.worthWhenGifted.hintOne")</p>

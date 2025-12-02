@@ -560,7 +560,8 @@ object MessageLookup {
     object Properties {
 
       object WorthWhenSoldForLess {
-        val question = "Market value of the property when sold"
+        val question = "What was the market value of the property when you sold it?"
+        val heading = "Market value of the property when sold"
         val title = "Market value of the property when sold - Calculate your Capital Gains Tax - GOV.UK"
         val paragraphText : String= "You can use a valuation from a surveyor. If you do not know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
         val extraText = "If you owned the property with someone else, only enter your share of the property value."
@@ -574,12 +575,14 @@ object MessageLookup {
 
       object PropertiesWorthWhenGaveAway {
         val title = "Market value of the property when given away"
+        val question = "What was the property worth when you gave it away?"
         val paragraphText : String= "You can use a valuation from a surveyor. If you do not know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
         val extraText = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object ValueBeforeLegislationStart {
-        val question = "Market value of the property on 31 March 1982"
+        val heading = "Market value of the property on 31 March 1982"
+        val question = "What was the property worth on 31 March 1982?"
         val title = "Market value of the property on 31 March 1982 - Calculate your Capital Gains Tax - GOV.UK"
         val information = "If you had your property before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax. After this date, use the original cost."
         val hintText : String= "If you do not know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
@@ -588,13 +591,15 @@ object MessageLookup {
 
       object WorthWhenInherited {
         val title = "Market value of the property when inherited - Calculate your Capital Gains Tax - GOV.UK"
-        val question = "Market value of the property when inherited"
+        val question = "What was the property worth when you inherited it?"
+        val heading = "Market value of the property when inherited"
         val help = "This is the value of the property on the date the previous owner died."
         val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
       }
 
       object WorthWhenGifted {
-        val question = "Market value of the property when received as a gift"
+        val heading = "Market value of the property when received as a gift"
+        val question = "What was the property worth when you got it as a gift?"
         val hintOne = "You can use a valuation from a surveyor."
         val hintTwo = "If you do not know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
         val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
@@ -602,7 +607,8 @@ object MessageLookup {
 
       object WorthWhenBoughtForLess {
         val title = "Market value of the property when bought - Calculate your Capital Gains Tax - GOV.UK"
-        val question = "Market value of the property when bought"
+        val heading = "Market value of the property when bought"
+        val question = "What was the property worth when you bought it?"
         val helpOne = "You can use a valuation from a surveyor."
         val helpTwo = "If you do not know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic."
         val jointOwner = "If you owned the property with someone else, only enter your share of the property value."
@@ -610,10 +616,11 @@ object MessageLookup {
 
       object ImprovementsView {
         val title = "Improvements to the property - Calculate your Capital Gains Tax - GOV.UK"
-        val question = "Improvements to the property"
+        val question = "How much have you spent on improvements since you became the property owner?"
         val label = "Improvements to the property"
         val titleBefore = "Improvements to the property after 31 March 1982 - Calculate your Capital Gains Tax - GOV.UK"
-        val questionBefore = "Improvements to the property after 31 March 1982"
+        val questionBefore = "How much have you spent on improvements since 31 March 1982?"
+        val labelBefore = "Improvements to the property after 31 March 1982"
         val hint : String= "Improvements are permanent changes that raise the value of a property, like adding extensions or garages. Normal maintenance costs do not count."
         val jointOwner = "If you owned the property with someone else, only enter your share of the improvement costs as agreed with your co-owner."
         val improvementsHelpButton = "Show me an example"
@@ -791,8 +798,9 @@ object MessageLookup {
 
   //Acquisition Costs messages
   object AcquisitionCosts {
-    val title = "How much did you pay in costs when you became the property owner? - Calculate your Capital Gains Tax - GOV.UK"
+    val title = "Costs of getting the property - Calculate your Capital Gains Tax - GOV.UK"
     val pageHeading = "Costs of getting the property"
+    val question = "How much did you pay in costs when you became the property owner?"
     val summaryPageHeading = "How much did you pay in costs when you became the property owner?"
     val listTitle = "This is what you paid for:"
     val bulletOne = "estate agents or auctioneers"
@@ -857,9 +865,9 @@ object MessageLookup {
   //Private Residence Relief Value messages
   object PrivateResidenceReliefValue {
     val title = "Private Residence Relief"
-    val newTitle = "How much Private Residence Relief are you entitled to? - Calculate your Capital Gains Tax - GOV.UK"
-    val errorTitle= "Error: How much Private Residence Relief are you entitled to? - Calculate your Capital Gains Tax - GOV.UK"
-    val question : String= title
+    val newTitle = "Private Residence Relief - Calculate your Capital Gains Tax - GOV.UK"
+    val errorTitle= "Error: Private Residence Relief - Calculate your Capital Gains Tax - GOV.UK"
+    val question = "How much Private Residence Relief are you entitled to?"
     val link = "Find out how much you're entitled to"
     def help(value: String): String = s"We've calculated that you've made a gain of £$value on your property. " +
       s"You'll need this figure to calculate your Private Residence Relief."
@@ -893,9 +901,9 @@ object MessageLookup {
 
   //Lettings Relief Value messages
   object LettingsReliefValue {
-    val title = s"How much Letting Relief are you entitled to? - Calculate your Capital Gains Tax - GOV.UK"
-    val question = s"Letting Relief"
-    val summaryTitle = s"How much Letting Relief are you entitled to?"
+    val title = s"Letting Relief - Calculate your Capital Gains Tax - GOV.UK"
+    val summaryTitle = s"Letting Relief"
+    val question = s"How much Letting Relief are you entitled to?"
     def additionalContent(input: String): String = s"We've calculated that you've made a gain of £$input on your property. " +
       s"You'll need this figure to calculate your Letting Relief."
     val maxLettingsReliefExceeded = "calc.resident.lettingsReliefValue.error.moreThanCappedAmount"
@@ -941,9 +949,10 @@ object MessageLookup {
   //Current Income messages
   object CurrentIncome {
     def title(input: String): String = s"Income for $input tax year - Calculate your Capital Gains Tax - GOV.UK"
-    def question(input: String): String = s"Income for $input tax year"
+    def question(input: String): String = s"What was your income for the $input tax year?"
+    def heading(input: String): String = s"Income for $input tax year"
     val currentYearTitle = "Expected income for this tax year - Calculate your Capital Gains Tax - GOV.UK"
-    val currentYearQuestion = "Expected income for this tax year"
+    val currentYearQuestion = "How much do you expect your income to be in this tax year?"
     val helpText = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the property."
     val helpTextShares = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares."
     val linkText = "Income tax"
@@ -951,7 +960,8 @@ object MessageLookup {
 
   //Personal Allowance messages
   object PersonalAllowance {
-    def question(taxYear: String = "2016/17"): String = s"Personal Allowance for $taxYear tax year"
+    def heading(taxYear: String = "2016/17"): String = s"Personal Allowance for $taxYear tax year"
+    def question(taxYear: String = "2016/17"): String = s"What was your Personal Allowance for the $taxYear tax year?"
     def title(taxYear: String = "2016 to 2017"): String = s"Personal Allowance for $taxYear tax year - Calculate your Capital Gains Tax - GOV.UK"
     val currentYearQuestion = "Personal Allowance for this tax year - Calculate your Capital Gains Tax - GOV.UK?"
     val currentYearTitle = "Personal Allowance for this tax year"

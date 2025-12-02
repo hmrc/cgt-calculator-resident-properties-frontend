@@ -34,8 +34,13 @@
 }
 
 @title = @{
-    if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
-    else Messages("calc.resident.properties.improvements.question")
+    if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.titleBefore")
+    else Messages("calc.resident.properties.improvements.title")
+}
+
+@question = @{
+if(ownedBeforeAprilNineteenEightyTwo) Messages("calc.resident.properties.improvements.questionBefore")
+else Messages("calc.resident.properties.improvements.question")
 }
 
 @titleWithError = @{
@@ -63,7 +68,7 @@
 
         @formInputMoney(
             field = improvementsForm("amount"),
-            question = title,
+            question = question,
             labelClass = "govuk-label--m",
             hintText = Some(messages("calc.currencyHint", "£5,000.50"))
         )

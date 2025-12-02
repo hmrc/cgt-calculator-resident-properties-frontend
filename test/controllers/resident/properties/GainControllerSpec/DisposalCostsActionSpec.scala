@@ -78,7 +78,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "display the Disposal Costs view" in {
-        doc.title shouldBe s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
+        doc.title shouldBe s"${messages.pageHeading} - ${commonMessages.homeText} - GOV.UK"
       }
 
       s"have a back link to '${controllers.routes.GainController.disposalValue.url}'" in {

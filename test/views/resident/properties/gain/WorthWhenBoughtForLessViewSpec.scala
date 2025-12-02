@@ -44,8 +44,8 @@ class WorthWhenBoughtForLessViewSpec extends CommonPlaySpec with WithCommonFakeA
       doc.title() shouldBe messages.title
     }
 
-    s"have a question of ${messages.question}" in {
-      doc.getElementsByClass("govuk-heading-l").text() shouldBe messages.question
+    s"have a question of ${messages.heading}" in {
+      doc.getElementsByClass("govuk-heading-l").text() shouldBe messages.heading
     }
 
     "has a form hint" which {

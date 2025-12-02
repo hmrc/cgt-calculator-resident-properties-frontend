@@ -43,8 +43,8 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
 
       lazy val heading = doc.select("H1")
 
-      s"have the page heading '${messages.question}'" in {
-        heading.text shouldBe messages.question
+      s"have the page heading '${messages.label}'" in {
+        heading.text shouldBe messages.label
       }
 
       "have the heading-large class" in {
@@ -62,7 +62,7 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
 
     "have the correct label" in {
       val label = doc.select("label")
-      label.text should startWith(messages.label)
+      label.text should startWith(messages.question)
     }
 
     "have a hidden label" in {
@@ -104,8 +104,8 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
 
       lazy val heading = doc.select("H1")
 
-      s"have the page heading '${messages.questionBefore}'" in {
-        heading.text shouldBe messages.questionBefore
+      s"have the page heading '${messages.labelBefore}'" in {
+        heading.text shouldBe messages.labelBefore
       }
 
       "have the heading-large class" in {

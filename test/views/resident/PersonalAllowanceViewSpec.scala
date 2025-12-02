@@ -64,8 +64,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
       }
 
-      s"have the page heading '${messages.question("2015 to 2016")}'" in {
-        doc.select("h1").text shouldBe messages.question("2015 to 2016")
+      s"have the page heading '${messages.heading("2015 to 2016")}'" in {
+        doc.select("h1").text shouldBe messages.heading("2015 to 2016")
       }
 
       s"have the help text ${messages.help}" in {
@@ -142,8 +142,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           form.attr("method") shouldBe "POST"
         }
 
-        s"have a legend for an input with text ${messages.question("2015 to 2016")}" in {
-          doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question("2015 to 2016")
+        s"have a legend for an input with text ${messages.heading("2015 to 2016")}" in {
+          doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.heading("2015 to 2016")
         }
       }
 
@@ -223,12 +223,12 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.title() shouldBe messages.title(nextYearString)
       }
 
-      s"have the page heading '${messages.question(s"$nextTaxYear")}'" in {
-        h1Tag.text shouldBe messages.question(nextYearString)
+      s"have the page heading '${messages.heading(s"$nextTaxYear")}'" in {
+        h1Tag.text shouldBe messages.heading(nextYearString)
       }
 
-      s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
-        doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.question(nextYearString)
+      s"have a legend for an input with text ${messages.heading(s"$nextTaxYear")}" in {
+        doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.heading(nextYearString)
       }
     }
 

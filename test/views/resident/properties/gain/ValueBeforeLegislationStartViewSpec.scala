@@ -56,8 +56,8 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
       lazy val heading = doc.select("H1")
 
-      s"have the page heading '${messages.question}'" in {
-        heading.text shouldBe messages.question
+      s"have the page heading '${messages.heading}'" in {
+        heading.text shouldBe messages.heading
       }
 
       "have the heading-large class" in {
