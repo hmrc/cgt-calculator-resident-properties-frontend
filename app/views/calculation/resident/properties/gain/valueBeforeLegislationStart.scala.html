@@ -28,7 +28,7 @@
 @(valueBeforeLegislationStartForm: Form[ValueBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if (valueBeforeLegislationStartForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.valueBeforeLegislationStart.question")) else Messages("calc.resident.properties.valueBeforeLegislationStart.question")
+    if (valueBeforeLegislationStartForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.valueBeforeLegislationStart.title")) else Messages("calc.resident.properties.valueBeforeLegislationStart.title")
 }
 
 @layout(
@@ -38,7 +38,7 @@
 
     @errorSummary(valueBeforeLegislationStartForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.valueBeforeLegislationStart.question")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.valueBeforeLegislationStart.title")</h1>
 
     <p class="govuk-body">@Messages("calc.resident.properties.valueBeforeLegislationStart.information")</p>
 

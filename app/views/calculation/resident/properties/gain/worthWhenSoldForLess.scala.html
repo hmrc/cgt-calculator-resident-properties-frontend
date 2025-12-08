@@ -28,7 +28,7 @@
 @(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-        if (worthWhenSoldForLessForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.worthWhenSoldForLess.question")) else Messages("calc.resident.properties.worthWhenSoldForLess.question")
+        if (worthWhenSoldForLessForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.properties.worthWhenSoldForLess.heading")) else Messages("calc.resident.properties.worthWhenSoldForLess.heading")
     }
 
     @layout(
@@ -37,7 +37,7 @@
 
      @errorSummary(worthWhenSoldForLessForm.errors, Some("amount"))
 
-     <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenSoldForLess.question")</h1>
+     <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenSoldForLess.heading")</h1>
 
 
     @form(action = controllers.routes.GainController.submitWorthWhenSoldForLess) {

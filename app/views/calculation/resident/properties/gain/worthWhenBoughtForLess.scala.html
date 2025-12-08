@@ -28,15 +28,15 @@
 @(worthWhenBoughtForLessForm: Form[WorthWhenBoughtForLessModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if(worthWhenBoughtForLessForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.worthWhenBoughtForLess.question"))
-    else Messages("calc.resident.properties.worthWhenBoughtForLess.question")
+    if(worthWhenBoughtForLessForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.properties.worthWhenBoughtForLess.title"))
+    else Messages("calc.resident.properties.worthWhenBoughtForLess.title")
 }
 @layout(
     pageTitle = title
 ) {
     @errorSummary(worthWhenBoughtForLessForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenBoughtForLess.question")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.properties.worthWhenBoughtForLess.title")</h1>
 
     <div class="govuk-body">
         <p>@Messages("calc.resident.properties.worthWhenBoughtForLess.hintOne")</p>

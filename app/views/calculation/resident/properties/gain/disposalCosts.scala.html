@@ -29,8 +29,8 @@
 @(disposalCostsForm: Form[DisposalCostsModel], navBackLink: String)(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if(disposalCostsForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.disposalCosts.title"))
-    else Messages("calc.resident.disposalCosts.title")
+    if(disposalCostsForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.disposalCosts.pageHeading"))
+    else Messages("calc.resident.disposalCosts.pageHeading")
 }
 
 @layout(
@@ -59,7 +59,7 @@
     @form(action = controllers.routes.GainController.submitDisposalCosts){
         @formInputMoney(
             disposalCostsForm("amount"),
-            question = messages("calc.resident.disposalCosts.pageHeading"),
+            question = messages("calc.resident.disposalCosts.question"),
             labelClass = "govuk-label--m",
             hintText = Some(messages("calc.currencyHint", "£5,000.50"))
         )

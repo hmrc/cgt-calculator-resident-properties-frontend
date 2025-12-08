@@ -99,7 +99,7 @@
         @summaryNumericRowHelper("worthWhenInherited", Messages("calc.resident.properties.worthWhenInherited.question"), gainAnswers.worthWhenInherited.get, Some(gainRoutes.worthWhenInherited.toString), displayLink = displayLinks)
     }
 
-    @summaryNumericRowHelper("acquisitionCosts", Messages("calc.resident.acquisitionCosts.title"), gainAnswers.acquisitionCosts, Some(gainRoutes.acquisitionCosts.toString), displayLink = displayLinks)
+    @summaryNumericRowHelper("acquisitionCosts", Messages("calc.resident.acquisitionCosts.question"), gainAnswers.acquisitionCosts, Some(gainRoutes.acquisitionCosts.toString), displayLink = displayLinks)
 
     @summaryNumericRowHelper("improvements",
     if(gainAnswers.ownerBeforeLegislationStart) Messages("calc.resident.properties.improvements.questionBefore")
@@ -124,7 +124,7 @@
         }
 
         @if(deductionsAnswers.get.displayLettingsReliefValue){
-            @summaryNumericRowHelper("lettingsReliefValue", Messages("calc.resident.lettingsReliefValue.title"), deductionsAnswers.get.lettingsReliefValueModel.get.amount, Some(deductionRoutes.lettingsReliefValue.toString), displayLink = displayLinks)
+            @summaryNumericRowHelper("lettingsReliefValue", Messages("calc.resident.lettingsReliefValue.question"), deductionsAnswers.get.lettingsReliefValueModel.get.amount, Some(deductionRoutes.lettingsReliefValue.toString), displayLink = displayLinks)
         }
 
         @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(0), TaxYearModel.convertToSummaryFormat(taxYear.get.taxYearSupplied)(1)), deductionsAnswers.get.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward.toString), displayLink = displayLinks)

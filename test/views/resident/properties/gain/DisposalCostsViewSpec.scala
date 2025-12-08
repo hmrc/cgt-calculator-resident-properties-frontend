@@ -37,7 +37,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     "have the correct page title" in {
-      doc.title shouldBe s"${messages.title} - ${commonMessages.homeText} - GOV.UK"
+      doc.title shouldBe s"${messages.pageHeading} - ${commonMessages.homeText} - GOV.UK"
     }
 
     "have a back button that" should {
@@ -86,8 +86,8 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
         lazy val label = doc.body.getElementsByTag("label")
 
-        s"have the question ${messages.pageHeading}" in {
-          label.text should include(messages.pageHeading)
+        s"have the question ${messages.title}" in {
+          label.text should include(messages.title)
         }
 
         "have the class 'govuk-label--m'" in {

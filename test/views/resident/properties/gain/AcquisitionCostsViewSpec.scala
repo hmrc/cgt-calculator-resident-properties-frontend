@@ -89,8 +89,8 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
         lazy val label = form.select("label")
 
-        s"have the question ${messages.pageHeading}" in {
-          label.text should include(messages.pageHeading)
+        s"have the question ${messages.question}" in {
+          label.text should include(messages.question)
         }
 
         "have the class 'govuk-label'" in {
