@@ -26,7 +26,7 @@
  backLinkEnabled = false,
  timeoutEnabled = false
 ) {
-    <h1 class="govuk-heading-l">@Messages("session.timeout.message")</h1>
+    <h1 class="govuk-heading-l" role="alert" aria-live="assertive">@Messages("session.timeout.message")</h1>
 
  <a class="govuk-button" href="@controllers.routes.PropertiesController.introduction.url" id="startAgain">@Messages("calc.summary.startAgain") </a>
 
