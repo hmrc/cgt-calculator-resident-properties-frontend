@@ -121,7 +121,7 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
         "has a h3 tag" which {
 
           s"has the text '${summaryMessages.yourTotalLoss}'" in {
-            div.select("div > h2").text shouldBe summaryMessages.yourTotalLoss
+            div.select("div > h3").text shouldBe summaryMessages.yourTotalLoss
           }
         }
 
@@ -173,7 +173,7 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
         "has a h3 tag" which {
 
           s"has the text '${summaryMessages.yourDeductions}'" in {
-            div.select("div > h2").text shouldBe summaryMessages.yourDeductions
+            div.select("div > h3").text shouldBe summaryMessages.yourDeductions
           }
         }
 
@@ -192,10 +192,6 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
           }
         }
 
-        "not have a row for brought forward losses used" in {
-          div.select("#lossesUsed-text") shouldBe empty
-        }
-
         "has a row for total deductions" which {
 
           s"has the text '${summaryMessages.totalDeductions}'" in {
@@ -205,6 +201,31 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
           "has the value '£0'" in {
             div.select("#totalDeductions-amount").text shouldBe "£0"
           }
+        }
+
+        "has a row for taxable gain" which {
+          s"has the text '${summaryMessages.taxableGain}'" in {
+            div.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
+          }
+
+          "has the value '£0'" in {
+            div.select("#taxableGain-amount").text shouldBe "£0"
+          }
+        }
+
+        "has a row for tax to pay" which {
+
+          s"has the text ${summaryMessages.taxToPay}" in {
+            div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
+          }
+
+          "has the value '£0'" in {
+            div.select("#taxToPay-amount").text shouldBe "£0"
+          }
+        }
+
+        "not have a row for brought forward losses used" in {
+          div.select("#lossesUsed-text") shouldBe empty
         }
       }
 
@@ -224,15 +245,7 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
           div.select("#minusDeductions-text") shouldBe empty
         }
 
-        "has a row for taxable gain" which {
-          s"has the text '${summaryMessages.taxableGain}'" in {
-            div.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
-          }
 
-          "has the value '£0'" in {
-            div.select("#taxableGain-amount").text shouldBe "£0"
-          }
-        }
       }
 
       "has a div for tax rate" which {
@@ -250,17 +263,6 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
         "does not have a row for second band" in {
           div.select("#secondBand-text") shouldBe empty
         }
-
-        "has a row for tax to pay" which {
-
-          s"has the text ${summaryMessages.taxToPay}" in {
-            div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
-          }
-
-          "has the value '£0'" in {
-            div.select("#taxToPay-amount").text shouldBe "£0"
-          }
-        }
       }
     }
 
@@ -270,10 +272,10 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
 
         lazy val div = doc.select("#remainingDeductions")
 
-        "has a h2 tag" which {
+        "has a h3 tag" which {
 
           s"has the text ${summaryMessages.remainingDeductions}" in {
-            div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
+            div.select("div > h3").text shouldBe summaryMessages.remainingDeductions
           }
         }
 
@@ -306,9 +308,9 @@ class PropertiesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAp
     "have a section for What happens next" which {
       lazy val section = doc.select("#whatToDoNext")
 
-      "has a h2 tag" which {
+      "has a h3 tag" which {
         s"has the text ${summaryMessages.whatToDoNext}" in {
-          section.select("h2").text shouldBe summaryMessages.whatToDoNext
+          section.select("h3").text shouldBe summaryMessages.whatToDoNext
         }
       }
 
