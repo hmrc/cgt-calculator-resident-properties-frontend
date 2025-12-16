@@ -154,7 +154,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           "has a caption" which {
 
             s"has the text '${summaryMessages.yourTotalGain}'" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourTotalGain
+              div.select("div > h3").text shouldBe summaryMessages.yourTotalGain
             }
           }
 
@@ -207,7 +207,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           "has a caption" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourDeductions
+              div.select("div > h3").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -261,7 +261,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           "has a caption" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourTaxableGain
+              div.select("div > h3").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -303,7 +303,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           "has a caption" which {
 
             s"has the text ${summaryMessages.yourTaxRate}" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourTaxRate
+              div.select("div > h3").text shouldBe summaryMessages.yourTaxRate
             }
           }
 

@@ -179,7 +179,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
           "has a h3 tag" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourDeductions
+              div.select("div > h3").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -221,7 +221,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
           "has a h3 tag" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourTaxableGain
+              div.select("div > h3").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -263,7 +263,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
           "has a h3 tag" which {
 
             s"has the text ${summaryMessages.yourTaxRate}" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourTaxRate
+              div.select("div > h3").text shouldBe summaryMessages.yourTaxRate
             }
           }
 
