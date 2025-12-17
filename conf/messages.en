@@ -398,7 +398,7 @@ calc.resident.properties.propertyLivedIn.noSelectError = Tell us if you have eve
 ###############################################################################################
 ## Final Summary messages
 calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} to {1} tax year
-calc.summary.calculationDetails.heading = How we''ve worked this out
+calc.summary.calculationDetails.heading = How we have worked this out
 calc.summary.calculationDetails.yourTotalGain = Your total gain
 calc.summary.calculationDetails.yourTotalLoss = Your total loss
 calc.summary.calculationDetails.disposalValue = Value when you sold the property
