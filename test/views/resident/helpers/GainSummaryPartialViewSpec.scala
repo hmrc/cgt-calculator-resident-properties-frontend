@@ -90,7 +90,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
         "has a table tag" which {
 
           s"has the text '${summaryMessages.yourTotalLoss}'" in {
-            div.select("div > h2").text shouldBe summaryMessages.yourTotalLoss
+            div.select("div > h3").text shouldBe summaryMessages.yourTotalLoss
           }
         }
 
@@ -142,7 +142,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
         "has a h3 tag" which {
 
           s"has the text '${summaryMessages.yourDeductions}'" in {
-            div.select("div > h2").text shouldBe summaryMessages.yourDeductions
+            div.select("div > h3").text shouldBe summaryMessages.yourDeductions
           }
         }
 
@@ -175,6 +175,25 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
             div.select("#totalDeductions-amount").text shouldBe "£0"
           }
         }
+        "has a row for taxable gain" which {
+          s"has the text '${summaryMessages.taxableGain}'" in {
+            div.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
+          }
+
+          "has the value '£0'" in {
+            div.select("#taxableGain-amount").text shouldBe "£0"
+          }
+        }
+        "has a row for tax to pay" which {
+
+          s"has the text ${summaryMessages.taxToPay}" in {
+            div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
+          }
+
+          "has the value '£0'" in {
+            div.select("#taxToPay-amount").text shouldBe "£0"
+          }
+        }
       }
 
       "has a div for Taxable Gain" which {
@@ -191,16 +210,6 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
 
         "does not have a row for minus deductions" in {
           div.select("#minusDeductions-text") shouldBe empty
-        }
-
-        "has a row for taxable gain" which {
-          s"has the text '${summaryMessages.taxableGain}'" in {
-            div.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
-          }
-
-          "has the value '£0'" in {
-            div.select("#taxableGain-amount").text shouldBe "£0"
-          }
         }
       }
 
@@ -219,17 +228,6 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
         "does not have a row for second band" in {
           div.select("#secondBand-text") shouldBe empty
         }
-
-        "has a row for tax to pay" which {
-
-          s"has the text ${summaryMessages.taxToPay}" in {
-            div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
-          }
-
-          "has the value '£0'" in {
-            div.select("#taxToPay-amount").text shouldBe "£0"
-          }
-        }
       }
     }
 
@@ -239,10 +237,10 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with  WithCommonFakeAppl
 
         lazy val div = doc.getElementById("remainingDeductions")
 
-        "has a h2 tag" which {
+        "has a h3 tag" which {
 
           s"has the text ${summaryMessages.remainingDeductions}" in {
-            div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
+            div.select("div > h3").text shouldBe summaryMessages.remainingDeductions
           }
         }
 
