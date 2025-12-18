@@ -1042,7 +1042,7 @@ object MessageLookup {
   object SummaryDetails extends Common {
     val title = "Summary"
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
-    val howWeWorkedThisOut = "How we've worked this out"
+    val howWeWorkedThisOut = "How we have worked this out"
     val yourTotalGain = "Your total gain"
     val yourTotalLoss = "Your total loss"
     val disposalValue = "Value when you sold the property"
