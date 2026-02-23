@@ -32,8 +32,9 @@
 
     <h1 class="govuk-heading-xl">@Messages("calc.checkYourAnswers.title")</h1>
 
+   <section id="yourAnswers">
     @checkYourAnswersPartial(gainAnswers, deductionsAnswers, taxYear, incomeAnswers, isCurrentTaxYear)
-
+   </section>
     @link(
         href = postAction.url,
         messageKey = "calc.base.button.continue",

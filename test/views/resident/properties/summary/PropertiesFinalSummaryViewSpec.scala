@@ -374,7 +374,7 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
         }
       }
 
-      "have a section for What happens next" which {
+      "have a section for What to do next" which {
         lazy val section = doc.select("#whatToDoNext")
 
         "has a h3 tag" which {
@@ -387,6 +387,16 @@ class PropertiesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeA
           s"has the text ${summaryMessages.whatToDoNextDetails}" in {
             section.select("p").text shouldBe summaryMessages.whatToDoNextDetails
           }
+        }
+      }
+
+      "have a section for Your answers" which {
+        lazy val section = doc.select("#yourAnswers > details")
+        "has govuk-details class" in {
+          section.hasClass("govuk-details") shouldBe true
+        }
+        s"has a span for ${messages.yourAnswers}" in {
+          section.select("summary > span").text() shouldBe messages.yourAnswers
         }
       }
 

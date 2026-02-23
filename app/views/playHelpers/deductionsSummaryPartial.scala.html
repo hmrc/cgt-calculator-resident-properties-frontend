@@ -91,7 +91,7 @@
                 @Messages("calc.summary.calculationDetails.yourDeductions")
             </h2>
         </div>
-        <div>
+        <dl  class="govuk-summary-list">
         @if(result.lettingReliefsUsed.get + result.prrUsed.get > 0) {
             @summaryNumericRow("reliefsUsed", Messages("calc.summary.calculationDetails.reliefsUsed"), result.lettingReliefsUsed.get + result.prrUsed.get)
         }
@@ -100,7 +100,7 @@
             @summaryNumericRow("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
         }
         @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), result.deductions, isTotal = true)
-        </div>
+        </dl>
     </div>
 
     <div id="yourTaxableGain" class="govuk-summary-list">
@@ -109,17 +109,17 @@
                 @Messages("calc.summary.calculationDetails.yourTaxableGain")
             </h2>
         </div>
-        <div>
+        <dl  class="govuk-summary-list">
         @summaryNumericRow("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
         @summaryNumericRow("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), result.deductions)
         @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), 0, isTotal = true)
-        </div>
+        </dl>
     </div>
 
     <div id="yourTaxRate" class="govuk-summary-list">
-        <div>
+        <dl  class="govuk-summary-list">
         @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), 0, isTotal = true)
-        </div>
+        </dl>
     </div>
 
 </section>
@@ -134,6 +134,7 @@
                 @Messages("calc.summary.remainingDeductions.heading")
             </h2>
         </div>
+        <dl  class="govuk-summary-list">
         @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*), result.aeaRemaining, hintText = false)
 
         @if(result.broughtForwardLossesRemaining > 0) {
@@ -143,5 +144,6 @@
             result.broughtForwardLossesRemaining,
             hintText = false)
         }
+        </dl>
     </div>
 </section>

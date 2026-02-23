@@ -33,7 +33,7 @@ signOut.signOutButtonText = Dileu''ch atebion
 
 calc.calculationElection.based = Yn seiliedig ar
 
-calc.checkYourAnswers.tableHeading = Rydych wedi rhoi gwybod i ni am:
+calc.checkYourAnswers.tableHeading = eich atebion
 calc.checkYourAnswers.title = Gwirio''ch atebion
 
 calc.common.date.error.beforeMinimum = Nodwch ddyddiad sydd ar ôl 6 4 2015
@@ -394,7 +394,7 @@ calc.summary.startAgain = Dechrau eto
 calc.summary.warning.taxYear = Efallai y bydd eich cyfanswm yn llai cywir oherwydd na wnaethoch werthu''ch eiddo na''i roi i ffwrdd yn y flwyddyn dreth hon
 
 calc.summary.whatToDoNext.details = Cyn i chi fynd yn eich blaen, cadwch gopi o''ch cyfrifiad. Bydd angen hwn arnoch pan fyddwch yn rhoi gwybod am eich Treth Enillion Cyfalaf.
-calc.summary.whatToDoNext.heading = Yr hyn sy’n digwydd nesaf
+calc.summary.whatToDoNext.heading = Yr hyn i''w wneud nesaf
 
 calc.whatToDoNext.finish = Yn ôl i GOV.UK
 calc.whatToDoNext.fourAEA.information = Bydd yn rhaid i chi roi gwybod am eich ffigurau Treth Enillion Cyfalaf drwy Hunanasesiad.
