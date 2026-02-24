@@ -33,7 +33,7 @@ signOut.signOutButtonText = Dileu''ch atebion
 
 calc.calculationElection.based = Yn seiliedig ar
 
-calc.checkYourAnswers.tableHeading = eich atebion
+calc.checkYourAnswers.tableHeading = Eich atebion
 calc.checkYourAnswers.title = Gwirio''ch atebion
 
 calc.common.date.error.beforeMinimum = Nodwch ddyddiad sydd ar ôl 6 4 2015
