@@ -320,6 +320,16 @@ class PropertiesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommon
       }
     }
 
+    "have a section for Your answers" which {
+      lazy val section = doc.select("#yourAnswers > details")
+      "has govuk-details class" in {
+        section.hasClass("govuk-details") shouldBe true
+      }
+      s"has a span for ${messages.yourAnswers}" in {
+        section.select("summary > span").text() shouldBe messages.yourAnswers
+      }
+    }
+
     "does have ur panel" in {
       doc.toString.contains(summaryMessages.bannerPanelTitle)
       doc.toString.contains(summaryMessages.bannerPanelLinkText)

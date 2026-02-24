@@ -33,8 +33,12 @@
             </dd>
         </div>
     } else {
-        <tr id="@rowId" class="govuk-table__row">
-            <th id="@{rowId}-question" scope="row" class="govuk-table__header">@question</th>
-            <td id="@{rowId}-option" class="govuk-table__cell">@answer</td>
-        </tr>
+        <div id="@rowId" class="govuk-summary-list__row">
+            <div id="@{rowId}-question" class="govuk-summary-list__key govuk-!-width-one-half">
+                @question
+            </div>
+            <div id="@{rowId}-option" class="govuk-summary-list__value">
+                @answer
+            </div>
+        </div>
     }
