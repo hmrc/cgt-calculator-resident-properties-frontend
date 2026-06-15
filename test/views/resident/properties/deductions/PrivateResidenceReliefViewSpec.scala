@@ -141,8 +141,8 @@ class PrivateResidenceReliefViewSpec extends CommonPlaySpec with WithCommonFakeA
             radioButtons.select("legend").size() shouldEqual 1
           }
 
-          "has the class 'govuk-visually-hidden'" in {
-            radioButtons.select("legend").hasClass("govuk-visually-hidden") shouldEqual true
+          "has the class 'govuk-!-display-block'" in {
+            radioButtons.select("legend").hasClass("govuk-!-display-block") shouldEqual true
           }
 
           s"has the text '${messages.heading}'" in {
