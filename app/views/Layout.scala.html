@@ -35,7 +35,8 @@
     backLinkEnabled: Boolean = true,
     timeoutEnabled: Boolean = true,
     fullGrid: Boolean = false,
-    scripts: Option[Html] = None
+    scripts: Option[Html] = None,
+    pageHeadBlock: Option[Html] = None
 )(
     contentBlock: Html
 )(
@@ -54,6 +55,7 @@
         )
     }
     <link rel="stylesheet" type="text/css" href ='@routes.Assets.versioned("stylesheets/cgt-calculator-resident-properties.css")'>
+    @pageHeadBlock.getOrElse(Html(""))
 }
 
 @scriptsBlock = {
