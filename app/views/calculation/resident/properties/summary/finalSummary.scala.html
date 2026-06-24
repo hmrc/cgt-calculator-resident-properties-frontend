@@ -47,13 +47,17 @@
 @cyaContent = {
 @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), displayLinks = false)
     }
+@pageHead  = {
+    <link href='@routes.Assets.versioned("stylesheets/cgt-print.css")' media="print" rel="stylesheet" type="text/css" />
+}
+
 
 @layout(
     pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied):_*),
+    pageHeadBlock = Some(pageHead),
     scripts = Some(scripts)
 ) {
 
-    <link href='@routes.Assets.versioned("stylesheets/cgt-print.css")' media="print" rel="stylesheet" type="text/css" />
 
         <!-- Google Analytics -->
     <div id="ga-reporting" class="govuk-visually-hidden">
