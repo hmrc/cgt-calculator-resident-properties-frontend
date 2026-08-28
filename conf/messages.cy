@@ -71,7 +71,8 @@ calc.personalAllowance.link = Gyfraddau Treth Incwm a Lwfansau Personol (yn agor
 calc.personalAllowance.list.one = ennill mwy na £100,000
 calc.personalAllowance.list.title = Yn y flwyddyn dreth {0} i {1}, £{2} oedd Lwfans Personol y DU, oni bai eich bod wedi gwneud y canlynol:
 calc.personalAllowance.list.two = hawlio Lwfans Person Dall
-calc.personalAllowance.list.three = hawlio Lwfans Priodasol
+calc.personalAllowance.list.three = Trosglwyddo Lwfans Priodasol i’ch partner. Dysgwch am y ffordd
+calc.personalAllowance.list.three.link = mae Lwfans Priodasol yn gweithio (yn agor tab newydd)
 
 calc.resident.acquisitionCosts.bulletOne = asiantau tai neu arwerthwyr
 calc.resident.acquisitionCosts.bulletThree = cymorth proffesiynol i brisio''ch eiddo, er enghraifft syrfëwr neu brisiwr

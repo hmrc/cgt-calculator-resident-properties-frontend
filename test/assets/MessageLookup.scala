@@ -971,12 +971,13 @@ object MessageLookup {
     val help = "This is the amount of your income that you don't pay tax on."
     def listTitle(yearOne: String, yearTwo: String, value: String): String =
       s"In the tax year $yearOne to $yearTwo the UK Personal Allowance was $value unless you:"
-    val listOne = "earned more than £100,000"
-    val listTwo = "claimed Blind Person's Allowance"
+    val listOne = "Earned more than £100,000"
+    val listTwo = "Claimed Blind Person's Allowance"
     val errorNegative = "Enter a positive number for your Personal Allowance"
     val errorDecimalPlaces = "Enter a whole number for your Personal Allowance"
     val errorMaxLimit = "Enter a Personal Allowance that's £"
     val errorMaxLimitEnd = "or less"
+    val marriageAllowanceLink = "Marriage Allowance works (opens in new tab)"
   }
 
   //############ Private Residence Relief messages #################//

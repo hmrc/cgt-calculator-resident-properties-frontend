@@ -87,6 +87,14 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "have a link" which {
         lazy val link = doc.select("form div").first()
 
+        s"has the href to the new marriage allowance page" in {
+          doc.getElementsByClass("govuk-link").get(1).attr("href") shouldBe "https://www.gov.uk/marriage-allowance"
+        }
+
+        s"has the link text ${messages.marriageAllowanceLink}" in {
+          doc.getElementsByClass("govuk-link").get(1).text() shouldBe messages.marriageAllowanceLink
+        }
+
         s"has the initial text ${messages.linkText}" in {
           link.select("span").text() shouldBe messages.linkText
         }
