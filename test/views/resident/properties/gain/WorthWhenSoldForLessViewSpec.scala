@@ -104,7 +104,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
           "have a p tag" which {
             s"with the extra text ${messages.extraText}" in {
-              doc.getElementsByClass("govuk-inset-text").text shouldBe messages.extraText
+              doc.select("p.govuk-body").last.text shouldBe messages.extraText
             }
           }
         }

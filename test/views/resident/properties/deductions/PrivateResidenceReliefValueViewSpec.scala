@@ -64,7 +64,7 @@ class PrivateResidenceReliefValueViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have an Indented Panel with the help text ${messages.help("1,000")}" in {
-      doc.getElementsByClass("govuk-inset-text").text shouldEqual messages.help("1,000")
+      doc.select("p.govuk-body").text shouldEqual messages.help("1,000")
     }
 
     s"have a help link" which {

@@ -37,7 +37,7 @@
 
     @form(action = controllers.routes.DeductionsController.submitLettingsReliefValue) {
 
-        <p class="govuk-inset-text">@Messages("calc.resident.lettingsReliefValue.additionalContent", MoneyPounds(totalGain, 0).quantity)</p>
+        <p class="govuk-body">@Messages("calc.resident.lettingsReliefValue.additionalContent", MoneyPounds(totalGain, 0).quantity)</p>
 
         @formInputMoney(
             field = lettingsReliefValueForm("amount"),

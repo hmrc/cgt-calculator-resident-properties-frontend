@@ -22,7 +22,6 @@
     layout: Layout,
     errorSummary: playHelpers.errorSummary,
     formInputMoney: playHelpers.formInputMoney,
-    govukInsetText : GovukInsetText,
     submitButton: playHelpers.submitButton
 )
 
@@ -52,9 +51,11 @@
         </ul>
     </div>
 
-    @govukInsetText(InsetText(
-        content = Text(Messages("calc.resident.disposalCosts.helpText"))
-    ))
+    <div>
+        <p class="govuk-body">
+            @Messages("calc.resident.disposalCosts.helpText")
+        </p>
+    </div>
 
     @form(action = controllers.routes.GainController.submitDisposalCosts){
         @formInputMoney(

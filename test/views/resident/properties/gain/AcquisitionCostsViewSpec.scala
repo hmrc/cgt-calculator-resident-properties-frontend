@@ -118,7 +118,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
             }
 
           s"has panel text ${messages.panelText}" in {
-            doc.getElementsByClass("govuk-inset-text").text shouldBe messages.panelText
+            doc.select("p.govuk-body").text shouldBe messages.panelText
           }
           }
         }
