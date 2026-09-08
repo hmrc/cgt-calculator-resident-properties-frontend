@@ -73,7 +73,7 @@ class WorthWhenGiftedViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
     }
 
     s"has the joint ownership text ${messages.jointOwner}" in {
-      doc.select("div.govuk-inset-text").text shouldEqual messages.jointOwner
+      doc.select("p.govuk-body").last().text shouldEqual messages.jointOwner
     }
 
     "have a form tag" in {

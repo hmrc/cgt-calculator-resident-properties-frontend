@@ -53,11 +53,11 @@ class ImprovementsViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have the correct body" in {
-      doc.select(".govuk-body").text shouldBe messages.hint
+      doc.select("p.govuk-body").get(0).text shouldBe messages.hint
     }
 
     s"has the joint ownership text ${messages.jointOwner}" in {
-      doc.select(".govuk-inset-text").text shouldEqual messages.jointOwner
+      doc.select("p.govuk-body").get(1).text shouldEqual messages.jointOwner
     }
 
     "have the correct label" in {

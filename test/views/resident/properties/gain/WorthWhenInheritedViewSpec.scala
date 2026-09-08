@@ -60,11 +60,11 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     }
 
     "have additional content regarding valuations" in {
-      doc.select(".govuk-body").text() shouldBe messages.help
+      doc.select("p.govuk-body").get(0).text() shouldBe messages.help
     }
 
     s"have a joint ownership section with the text ${messages.jointOwner}" in {
-      doc.select(".govuk-inset-text").text shouldEqual messages.jointOwner
+      doc.select("p.govuk-body").get(1).text() shouldEqual messages.jointOwner
     }
 
     "have a form tag" in {

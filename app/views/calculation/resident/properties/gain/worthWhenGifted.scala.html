@@ -18,7 +18,6 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.{FormWithCSRF, _}
 
 @this(
-    govukInsetText : GovukInsetText,
     form: FormWithCSRF,
     layout: Layout,
     errorSummary: playHelpers.errorSummary,
@@ -47,9 +46,11 @@
     </div>
 
 
-    @govukInsetText(InsetText(
-        content = Text(Messages("calc.resident.properties.worthWhenGifted.jointOwner"))
-    ))
+    <div>
+        <p class="govuk-body">
+            @Messages("calc.resident.properties.worthWhenGifted.jointOwner")
+        </p>
+    </div>
 
     @form(action = postAction) {
         @formInputMoney(

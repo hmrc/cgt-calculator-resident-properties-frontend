@@ -22,7 +22,6 @@
     layout: Layout,
     errorSummary: playHelpers.errorSummary,
     formInputMoney: playHelpers.formInputMoney,
-    govukInsetText : GovukInsetText,
     submitButton: playHelpers.submitButton
 )
 
@@ -45,9 +44,11 @@
 
         <p class="govuk-body" id="guideText">@Messages("calc.resident.properties.gaveItAway.paragraphText")</p>
 
-        @govukInsetText(InsetText(
-            content = Text(Messages("calc.resident.properties.gaveItAway.hintText"))
-        ))
+        <div>
+            <p class="govuk-body" id="hintText">
+                @Messages("calc.resident.properties.gaveItAway.hintText")
+            </p>
+        </div>
 
         @formInputMoney(
             worthWhenGaveAwayForm("amount"),

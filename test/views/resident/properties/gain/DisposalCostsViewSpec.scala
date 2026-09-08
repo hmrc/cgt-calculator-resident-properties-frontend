@@ -98,7 +98,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       "has a help list of bullet points that" should {
 
         s"have the title text ${messages.bulletTitle}" in {
-          doc.body.select("div p.govuk-body").text shouldBe messages.bulletTitle
+          doc.body.select("div p.govuk-body").get(0).text shouldBe messages.bulletTitle
         }
 
         s"have the first bullet of ${messages.bulletOne}" in {
@@ -119,7 +119,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       s"has the important text ${messages.helpText}" in {
-        doc.select("div.govuk-inset-text").text shouldEqual messages.helpText
+        doc.body.select("div p.govuk-body").last.text shouldEqual messages.helpText
       }
 
       "has a numeric input field" which {

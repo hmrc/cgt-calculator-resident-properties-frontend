@@ -115,7 +115,7 @@ class WorthWhenGaveAwayViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
           "have a p tag" which {
             s"with the extra text ${messages.extraText}" in {
-              form.select(".govuk-inset-text").text shouldBe messages.extraText
+              form.select("p.govuk-body").get(1).text shouldBe messages.extraText
             }
           }
         }
